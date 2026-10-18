@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marquee Promo Banner (1400x560)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1400px;
+      height: 560px;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #080c14;
+      color: #ffffff;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 70px;
+    }
+
+    /* Ambient glow */
+    .glow-red {
+      position: absolute;
+      width: 700px;
+      height: 500px;
+      top: -100px;
+      left: -100px;
+      background: radial-gradient(circle, rgba(230, 33, 23, 0.25) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(80px);
+      z-index: 0;
+    }
+    .glow-blue {
+      position: absolute;
+      width: 700px;
+      height: 500px;
+      bottom: -100px;
+      right: 100px;
+      background: radial-gradient(circle, rgba(31, 111, 235, 0.25) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(80px);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 50px;
+    }
+
+    /* Left Column */
+    .left-col {
+      flex: 1;
+      max-width: 580px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(230, 33, 23, 0.15);
+      border: 1px solid rgba(230, 33, 23, 0.4);
+      color: #ff7b72;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      width: fit-content;
+    }
+
+    .headline {
+      font-size: 42px;
+      font-weight: 850;
+      line-height: 1.15;
+      letter-spacing: -1px;
+    }
+    .headline span {
+      background: linear-gradient(135deg, #ff4d4d, #f78166);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sub-headline {
+      font-size: 15.5px;
+      color: #8b949e;
+      line-height: 1.5;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-top: 4px;
+    }
+    .pill-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      color: #c9d1d9;
+    }
+    .pill-check {
+      color: #3fb950;
+      font-weight: bold;
+    }
+
+    /* Right Mockup */
+    .right-col {
+      flex: 1.2;
+      perspective: 1000px;
+    }
+
+    .floating-card {
+      background: #0f141c;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      transform: rotateY(-6deg) rotateX(4deg);
+      transition: transform 0.3s ease;
+    }
+
+    .yt-ai-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      height: 40px;
+      background: linear-gradient(180deg, #161b22, #12161f);
+      border-bottom: 1px solid #21262d;
+    }
+    .yt-ai-brand { display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 12px; }
+    .yt-ai-badge {
+      background: rgba(35, 134, 54, 0.15); border: 1px solid rgba(46, 160, 67, 0.4);
+      color: #3fb950; font-size: 9.5px; font-weight: 600; padding: 2px 6px; border-radius: 10px;
+    }
+    .yt-ai-model-pill {
+      background: #21262d; border: 1px solid #30363d; border-radius: 12px;
+      padding: 2px 8px; font-size: 10.5px; color: #58a6ff; font-weight: 600;
+    }
+
+    .format-pills {
+      display: inline-flex; background: #161b22; border: 1px solid #30363d; border-radius: 14px; padding: 2px; gap: 2px;
+    }
+    .pill-btn { padding: 2px 8px; font-size: 10px; font-weight: 600; border-radius: 10px; color: #8b949e; }
+    .pill-btn.active { background: #1f6feb; color: #fff; }
+    .summarize-btn {
+      background: linear-gradient(135deg, #e62117, #c4120a); color: #fff; font-size: 11px;
+      font-weight: 700; border-radius: 5px; padding: 4px 10px;
+    }
+
+    .card-body {
+      padding: 14px 16px;
+      background: #0d1117;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 4px;
+    }
+
+    .bullet { display: flex; gap: 6px; color: #c9d1d9; }
+    .timestamp {
+      background: #1f6feb; color: #fff; font-size: 10px; font-weight: 700;
+      padding: 1px 5px; border-radius: 3px; display: inline-block; margin-right: 4px;
+    }
+
+    .chat-peek {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 4px;
+    }
+    .chat-bubble {
+      background: rgba(31, 111, 235, 0.15);
+      border: 1px solid rgba(31, 111, 235, 0.3);
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: 10.5px;
+      color: #a5d6ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-red"></div>
+  <div class="glow-blue"></div>
+
+  <div class="container">
+    <!-- Left Column -->
+    <div class="left-col">
+      <div class="badge-pill">✨ The Ultimate YouTube AI Assistant</div>
+      <h1 class="headline">Summarize Any Video in <span>Seconds</span></h1>
+      <p class="sub-headline">Instant key takeaways, interactive timestamps, conversational Q&A and hands-free voice dictation powered by your favorite AI models.</p>
+      
+      <div class="pill-list">
+        <div class="pill-item"><span class="pill-check">✔</span> <strong>100% Private Offline Mode</strong> with LM Studio & Ollama</div>
+        <div class="pill-item"><span class="pill-check">✔</span> <strong>Cloud AI Ready :</strong> Google Gemini (1M ctx), Groq, OpenAI & DeepSeek</div>
+        <div class="pill-item"><span class="pill-check">✔</span> <strong>Voice Dictation & Audio Readout :</strong> Local Whisper STT + TTS</div>
+        <div class="pill-item"><span class="pill-check">✔</span> <strong>8 Languages & 1-Click Export :</strong> Markdown (.md), TXT & JSON</div>
+      </div>
+    </div>
+
+    <!-- Right Column: 3D Floating Mockup -->
+    <div class="right-col">
+      <div class="floating-card">
+        <!-- Header Bar -->
+        <div class="yt-ai-header-bar">
+          <div class="yt-ai-brand">
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/></svg>
+            <span>YT Summarizer AI</span>
+          </div>
+          <div class="yt-ai-badge">Connected</div>
+          <div class="yt-ai-model-pill">🤖 Qwen 2.5 14B</div>
+
+          <div class="format-pills">
+            <span class="pill-btn">⚡ Quick</span>
+            <span class="pill-btn active">📌 Standard</span>
+            <span class="pill-btn">📝 Deep</span>
+          </div>
+
+          <div class="summarize-btn">✨ Summarize video</div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body">
+          <div class="section-title">🎯 Core Takeaways & Insights</div>
+          <div class="bullet">
+            <span>•</span>
+            <div><strong>Agentic Workflows :</strong> Why reactive tool execution beats single-prompt LLM generations.</div>
+          </div>
+          <div class="bullet">
+            <span>•</span>
+            <div><strong>Privacy Guarantee :</strong> Complete offline capability with LM Studio and local Whisper.</div>
+          </div>
+
+          <div class="section-title" style="margin-top: 4px;">⏱️ Key Timestamps</div>
+          <div class="bullet">
+            <span class="timestamp">01:42</span>
+            <div>Architectural foundation and tool integration.</div>
+          </div>
+          <div class="bullet">
+            <span class="timestamp">08:15</span>
+            <div>Context condensation & multi-agent benchmarks.</div>
+          </div>
+
+          <!-- Interactive Q&A peek -->
+          <div class="chat-peek">
+            <div style="font-size: 10px; color: #8b949e; font-weight: 600;">💬 Interactive Q&A with Voice Dictation</div>
+            <div class="chat-bubble">
+              "The speaker confirms offline local inference matches cloud accuracy on transcript summarization."
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

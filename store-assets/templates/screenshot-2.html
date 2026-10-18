@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Screenshot 2 - Interactive Video Q&A & Voice Dictation</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1280px;
+      height: 800px;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #080c14;
+      color: #f0f6fc;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Ambient background glow */
+    .glow-1 {
+      position: absolute;
+      width: 650px;
+      height: 450px;
+      top: -120px;
+      left: 100px;
+      background: radial-gradient(circle, rgba(163, 113, 247, 0.18) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(70px);
+      z-index: 0;
+    }
+    .glow-2 {
+      position: absolute;
+      width: 600px;
+      height: 400px;
+      top: -100px;
+      right: -80px;
+      background: radial-gradient(circle, rgba(230, 33, 23, 0.18) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(70px);
+      z-index: 0;
+    }
+
+    /* Marketing Header */
+    .marketing-header {
+      position: relative;
+      z-index: 1;
+      padding: 30px 48px 18px 48px;
+      text-align: center;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(163, 113, 247, 0.14);
+      border: 1px solid rgba(163, 113, 247, 0.4);
+      color: #d2a8ff;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .marketing-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+    .marketing-title span {
+      background: linear-gradient(135deg, #d2a8ff, #ff7b72);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .marketing-sub {
+      font-size: 14.5px;
+      color: #8b949e;
+      max-width: 720px;
+      margin: 0 auto 12px auto;
+    }
+    .feature-chips {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+    .feature-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11.5px;
+      color: #c9d1d9;
+      font-weight: 500;
+    }
+
+    /* Mockup Container */
+    .mockup-container {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      margin: 0 44px 34px 44px;
+      background: #0f141c;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .yt-ai-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 42px;
+      background: linear-gradient(180deg, #161b22, #12161f);
+      border-bottom: 1px solid #21262d;
+    }
+    .yt-ai-header-left { display: flex; align-items: center; gap: 10px; }
+    .yt-ai-brand { display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 12.5px; color: #fff; }
+    .yt-ai-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(35, 134, 54, 0.15); border: 1px solid rgba(46, 160, 67, 0.4);
+      color: #3fb950; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px;
+    }
+    .yt-ai-badge-dot { width: 5px; height: 5px; background: #3fb950; border-radius: 50%; }
+    .yt-ai-model-pill {
+      background: #21262d; border: 1px solid #30363d; border-radius: 14px;
+      padding: 3px 9px; font-size: 11px; color: #58a6ff; font-weight: 600;
+    }
+
+    .yt-ai-header-center { display: flex; align-items: center; gap: 10px; }
+    .yt-ai-format-pills {
+      display: inline-flex; background: #161b22; border: 1px solid #30363d; border-radius: 16px; padding: 2px; gap: 2px;
+    }
+    .format-pill { padding: 2px 9px; font-size: 10.5px; font-weight: 600; border-radius: 12px; color: #8b949e; }
+    .format-pill.active { background: #1f6feb; color: #fff; }
+    .yt-ai-summarize-cta {
+      background: linear-gradient(135deg, #e62117, #c4120a); color: #fff; font-size: 11.5px;
+      font-weight: 700; border-radius: 6px; padding: 4px 12px; box-shadow: 0 2px 8px rgba(230, 33, 23, 0.4);
+    }
+    .yt-ai-header-right { display: flex; align-items: center; gap: 8px; }
+    .utility-pill {
+      background: #21262d; border: 1px solid #30363d; border-radius: 6px; padding: 3px 8px; font-size: 11px; color: #c9d1d9;
+    }
+
+    /* Expanded Content */
+    .yt-ai-expanded-content {
+      flex: 1;
+      padding: 14px 20px 16px 20px;
+      background: #0d1117;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .yt-ai-tabs-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    .yt-ai-tabs-left { display: flex; gap: 14px; }
+    .tab-btn { font-size: 12px; font-weight: 600; color: #8b949e; padding-bottom: 6px; border-bottom: 2px solid transparent; }
+    .tab-btn.active { color: #fff; border-bottom: 2px solid #e62117; }
+
+    /* Chat Messages Container */
+    .chat-messages {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .chat-bubble {
+      display: flex;
+      gap: 10px;
+      max-width: 90%;
+    }
+    .chat-bubble.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+    .chat-bubble.assistant {
+      align-self: flex-start;
+    }
+
+    .bubble-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #21262d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      border: 1px solid #30363d;
+    }
+    .bubble-content {
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .chat-bubble.user .bubble-content {
+      background: linear-gradient(135deg, #1f6feb, #1a56b4);
+      color: #ffffff;
+      border-bottom-right-radius: 2px;
+    }
+    .chat-bubble.assistant .bubble-content {
+      background: #161b22;
+      border: 1px solid #30363d;
+      color: #e6edf3;
+      border-bottom-left-radius: 2px;
+    }
+
+    .timestamp-link {
+      background: rgba(88, 166, 255, 0.15);
+      color: #58a6ff;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    /* Chat Suggestions */
+    .chat-suggestions {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .suggestion-chip {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 14px;
+      padding: 3px 10px;
+      font-size: 11px;
+      color: #8b949e;
+      cursor: pointer;
+    }
+
+    /* Chat Input Bar */
+    .chat-input-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 5px 8px;
+    }
+    .chat-input-text {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #f0f6fc;
+      font-size: 12px;
+      outline: none;
+      padding: 4px;
+    }
+    .mic-btn-active {
+      background: rgba(230, 33, 23, 0.2);
+      border: 1px solid rgba(230, 33, 23, 0.6);
+      color: #ff7b72;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 0 10px rgba(230, 33, 23, 0.3);
+    }
+    .send-btn {
+      background: #238636;
+      border: none;
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 600;
+      border-radius: 6px;
+      padding: 6px 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+
+  <!-- Marketing Header -->
+  <div class="marketing-header">
+    <div class="badge-pill">💬 Interactive Video Intelligence</div>
+    <h1 class="marketing-title">Ask Anything & Dictate with <span>Voice</span></h1>
+    <p class="marketing-sub">Chat directly with the video content. Ask questions, clarify technical points, and dictate seamlessly with local Whisper or Web Speech.</p>
+    <div class="feature-chips">
+      <div class="feature-chip">🎙️ Voice Dictation (Whisper STT)</div>
+      <div class="feature-chip">📜 100% Transcript Grounded</div>
+      <div class="feature-chip">💡 Smart Suggestion Chips</div>
+      <div class="feature-chip">⚡ Streaming Real-time Replies</div>
+      <div class="feature-chip">🔒 Zero Hallucinations</div>
+    </div>
+  </div>
+
+  <!-- Mockup Container -->
+  <div class="mockup-container">
+    <!-- Extension Header Bar -->
+    <div class="yt-ai-header-bar">
+      <div class="yt-ai-header-left">
+        <div class="yt-ai-brand">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/></svg>
+          <span>YT Summarizer AI</span>
+        </div>
+        <div class="yt-ai-badge">
+          <span class="yt-ai-badge-dot"></span>
+          <span>Connected</span>
+        </div>
+        <div class="yt-ai-model-pill">🤖 Model: Qwen 2.5 14B (Local) ▾</div>
+      </div>
+
+      <div class="yt-ai-header-center">
+        <div class="yt-ai-format-pills">
+          <span class="format-pill">⚡ Quick</span>
+          <span class="format-pill active">📌 Standard</span>
+          <span class="format-pill">📝 Deep</span>
+        </div>
+        <div class="yt-ai-summarize-cta">✨ Summarize video</div>
+      </div>
+
+      <div class="yt-ai-header-right">
+        <span class="utility-pill">🇬🇧 English ▾</span>
+        <span class="utility-pill">⚙️ Settings</span>
+        <span class="utility-pill">Collapse ▲</span>
+        <span class="utility-pill" style="color: #58a6ff;">v1.3.0</span>
+      </div>
+    </div>
+
+    <!-- Expanded Content -->
+    <div class="yt-ai-expanded-content">
+      <div class="yt-ai-tabs-nav">
+        <div class="yt-ai-tabs-left">
+          <span class="tab-btn">📝 AI Summary</span>
+          <span class="tab-btn active">💬 Ask a question (2)</span>
+          <span class="tab-btn">📜 Full Transcript (4,280 words)</span>
+        </div>
+        <div style="font-size: 11px; color: #8b949e;">
+          Grounded on full video transcript
+        </div>
+      </div>
+
+      <!-- Chat Messages Container -->
+      <div class="chat-messages">
+        <!-- Q1 User -->
+        <div class="chat-bubble user">
+          <div class="bubble-avatar">👤</div>
+          <div class="bubble-content">
+            At what point in the video does the speaker explain why subagent delegation outperforms monolithic prompts?
+          </div>
+        </div>
+
+        <!-- A1 Assistant -->
+        <div class="chat-bubble assistant">
+          <div class="bubble-avatar">🤖</div>
+          <div class="bubble-content">
+            The speaker addresses this specifically at <span class="timestamp-link">⏱️ 08:15</span>. He explains that isolating subagents with bounded tool sets prevents <strong>context drift</strong> and attention degradation. Rather than forcing a single model to juggle planning, file reading, and test execution simultaneously, routing discrete subtasks yields a <strong>45% higher benchmark completion rate</strong> on long-horizon coding tasks.
+          </div>
+        </div>
+
+        <!-- Q2 User -->
+        <div class="chat-bubble user">
+          <div class="bubble-avatar">👤</div>
+          <div class="bubble-content">
+            Can I run this fully offline on my own computer without cloud API keys?
+          </div>
+        </div>
+
+        <!-- A2 Assistant -->
+        <div class="chat-bubble assistant">
+          <div class="bubble-avatar">🤖</div>
+          <div class="bubble-content">
+            Yes, 100%! You can connect YouTube Summarizer AI to local inference engines like <strong>LM Studio</strong> or <strong>Ollama</strong> running on your machine. All transcripts, prompts, and summaries remain strictly local and private with zero data sent to external cloud servers.
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick suggestions -->
+      <div class="chat-suggestions">
+        <span class="suggestion-chip">💡 Key takeaways</span>
+        <span class="suggestion-chip">⏱️ Timestamps & chapters</span>
+        <span class="suggestion-chip">📊 Data & figures</span>
+        <span class="suggestion-chip">🎯 Actionable advice</span>
+      </div>
+
+      <!-- Chat input bar with active voice dictation -->
+      <div class="chat-input-bar">
+        <span class="mic-btn-active">🎙️ Listening...</span>
+        <div class="chat-input-text" style="color: #a5d6ff;">"Which specific benchmark demonstrated the highest reliability gains?"</div>
+        <button class="send-btn">Send ➤</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

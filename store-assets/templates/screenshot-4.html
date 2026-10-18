@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Screenshot 4 - 8 Languages & 1-Click Export</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1280px;
+      height: 800px;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #080c14;
+      color: #f0f6fc;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Ambient background glow */
+    .glow-1 {
+      position: absolute;
+      width: 650px;
+      height: 450px;
+      top: -120px;
+      left: 100px;
+      background: radial-gradient(circle, rgba(230, 33, 23, 0.16) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(70px);
+      z-index: 0;
+    }
+    .glow-2 {
+      position: absolute;
+      width: 600px;
+      height: 400px;
+      top: -100px;
+      right: -80px;
+      background: radial-gradient(circle, rgba(31, 111, 235, 0.18) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(70px);
+      z-index: 0;
+    }
+
+    /* Marketing Header */
+    .marketing-header {
+      position: relative;
+      z-index: 1;
+      padding: 30px 48px 18px 48px;
+      text-align: center;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(46, 160, 67, 0.15);
+      border: 1px solid rgba(46, 160, 67, 0.4);
+      color: #3fb950;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .marketing-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+    .marketing-title span {
+      background: linear-gradient(135deg, #3fb950, #58a6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .marketing-sub {
+      font-size: 14.5px;
+      color: #8b949e;
+      max-width: 740px;
+      margin: 0 auto 12px auto;
+    }
+    .feature-chips {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+    .feature-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11.5px;
+      color: #c9d1d9;
+      font-weight: 500;
+    }
+
+    /* Mockup Container */
+    .mockup-container {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      margin: 0 44px 34px 44px;
+      background: #0f141c;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .yt-ai-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 42px;
+      background: linear-gradient(180deg, #161b22, #12161f);
+      border-bottom: 1px solid #21262d;
+    }
+    .yt-ai-header-left { display: flex; align-items: center; gap: 10px; }
+    .yt-ai-brand { display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 12.5px; color: #fff; }
+    .yt-ai-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(35, 134, 54, 0.15); border: 1px solid rgba(46, 160, 67, 0.4);
+      color: #3fb950; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px;
+    }
+    .yt-ai-badge-dot { width: 5px; height: 5px; background: #3fb950; border-radius: 50%; }
+    .yt-ai-model-pill {
+      background: #21262d; border: 1px solid #30363d; border-radius: 14px;
+      padding: 3px 9px; font-size: 11px; color: #58a6ff; font-weight: 600;
+    }
+
+    .yt-ai-header-center { display: flex; align-items: center; gap: 10px; }
+    .yt-ai-format-pills {
+      display: inline-flex; background: #161b22; border: 1px solid #30363d; border-radius: 16px; padding: 2px; gap: 2px;
+    }
+    .format-pill { padding: 2px 9px; font-size: 10.5px; font-weight: 600; border-radius: 12px; color: #8b949e; }
+    .format-pill.active { background: #1f6feb; color: #fff; }
+    .yt-ai-summarize-cta {
+      background: linear-gradient(135deg, #e62117, #c4120a); color: #fff; font-size: 11.5px;
+      font-weight: 700; border-radius: 6px; padding: 4px 12px; box-shadow: 0 2px 8px rgba(230, 33, 23, 0.4);
+    }
+    .yt-ai-header-right { display: flex; align-items: center; gap: 8px; }
+    .utility-pill {
+      background: #21262d; border: 1px solid #30363d; border-radius: 6px; padding: 3px 8px; font-size: 11px; color: #c9d1d9;
+    }
+
+    /* Content Area */
+    .content-area {
+      flex: 1;
+      padding: 16px 20px;
+      background: #0d1117;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Audio Player Bar */
+    .audio-player-banner {
+      background: linear-gradient(135deg, rgba(31, 111, 235, 0.15), rgba(46, 160, 67, 0.15));
+      border: 1px solid rgba(88, 166, 255, 0.35);
+      border-radius: 8px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .audio-player-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .audio-play-circle {
+      width: 32px;
+      height: 32px;
+      background: #1f6feb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      box-shadow: 0 0 10px rgba(31, 111, 235, 0.5);
+    }
+    .audio-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .audio-sub {
+      font-size: 11px;
+      color: #8b949e;
+    }
+    .audio-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .speed-badge {
+      background: #21262d;
+      border: 1px solid #30363d;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      color: #58a6ff;
+      font-weight: 600;
+    }
+
+    /* Language Pills Strip */
+    .lang-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 8px 12px;
+    }
+    .lang-strip-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-right: 6px;
+    }
+    .lang-pill {
+      background: #21262d;
+      border: 1px solid #30363d;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      color: #c9d1d9;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .lang-pill.active {
+      background: #1f6feb;
+      border-color: #388bfd;
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 0 8px rgba(31, 111, 235, 0.4);
+    }
+
+    /* 3 Export Cards Grid */
+    .export-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      flex: 1;
+    }
+    .export-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .export-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 6px;
+    }
+    .export-card-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #f0f6fc;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .export-card-code {
+      flex: 1;
+      background: #0d1117;
+      border: 1px solid #21262d;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 10.5px;
+      line-height: 1.5;
+      color: #8b949e;
+      overflow: hidden;
+    }
+    .code-hl-blue { color: #58a6ff; }
+    .code-hl-green { color: #7ee787; }
+    .code-hl-orange { color: #ffa657; }
+  </style>
+</head>
+<body>
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+
+  <!-- Marketing Header -->
+  <div class="marketing-header">
+    <div class="badge-pill">🌐 Global Accessibility</div>
+    <h1 class="marketing-title">8 Languages & <span>1-Click Export</span></h1>
+    <p class="marketing-sub">Native dynamic translation across 8 languages, hands-free text-to-speech audio, and clean export to Markdown, Plain Text, or structured JSON.</p>
+    <div class="feature-chips">
+      <div class="feature-chip">🌐 8 Languages (EN, FR, ES, DE, IT, RU, JA, ZH)</div>
+      <div class="feature-chip">🔊 Natural Text-to-Speech (TTS)</div>
+      <div class="feature-chip">💾 Obsidian & Notion Ready (.md)</div>
+      <div class="feature-chip">📦 Structured JSON for Automation</div>
+      <div class="feature-chip">📋 Instant Full Transcript Copy</div>
+    </div>
+  </div>
+
+  <!-- Mockup Container -->
+  <div class="mockup-container">
+    <!-- Extension Header Bar -->
+    <div class="yt-ai-header-bar">
+      <div class="yt-ai-header-left">
+        <div class="yt-ai-brand">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/></svg>
+          <span>YT Summarizer AI</span>
+        </div>
+        <div class="yt-ai-badge">
+          <span class="yt-ai-badge-dot"></span>
+          <span>Connected</span>
+        </div>
+        <div class="yt-ai-model-pill">🤖 Model: Gemini 1.5 Flash ▾</div>
+      </div>
+
+      <div class="yt-ai-header-center">
+        <div class="yt-ai-format-pills">
+          <span class="format-pill">⚡ Quick</span>
+          <span class="format-pill active">📌 Standard</span>
+          <span class="format-pill">📝 Deep</span>
+        </div>
+        <div class="yt-ai-summarize-cta">✨ Summarize video</div>
+      </div>
+
+      <div class="yt-ai-header-right">
+        <span class="utility-pill" style="border-color: #58a6ff; color: #fff;">🌐 8 Languages ▾</span>
+        <span class="utility-pill">⚙️ Settings</span>
+        <span class="utility-pill">Collapse ▲</span>
+        <span class="utility-pill" style="color: #58a6ff;">v1.3.0</span>
+      </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <!-- Audio Player Banner -->
+      <div class="audio-player-banner">
+        <div class="audio-player-left">
+          <div class="audio-play-circle">🔊</div>
+          <div>
+            <div class="audio-title">Reading AI Summary aloud...</div>
+            <div class="audio-sub">Natural Web Speech synthesis • Section: Core Takeaways & Chapters</div>
+          </div>
+        </div>
+        <div class="audio-controls">
+          <span class="speed-badge">Speed: 1.0x (Normal)</span>
+          <span class="speed-badge" style="background: rgba(248,81,73,0.15); border-color: rgba(248,81,73,0.4); color: #ff7b72;">⏹️ Stop audio</span>
+        </div>
+      </div>
+
+      <!-- Language Pills Strip -->
+      <div class="lang-strip">
+        <span class="lang-strip-title">Instant Interface & Summary Language:</span>
+        <span class="lang-pill active">🇬🇧 English</span>
+        <span class="lang-pill">🇫🇷 Français</span>
+        <span class="lang-pill">🇪🇸 Español</span>
+        <span class="lang-pill">🇩🇪 Deutsch</span>
+        <span class="lang-pill">🇮🇹 Italiano</span>
+        <span class="lang-pill">🇷🇺 Русский</span>
+        <span class="lang-pill">🇯🇵 日本語</span>
+        <span class="lang-pill">🇨🇳 中文</span>
+      </div>
+
+      <!-- 3 Export Cards Grid -->
+      <div class="export-grid">
+        <!-- Card 1: Markdown -->
+        <div class="export-card">
+          <div class="export-card-header">
+            <span class="export-card-title">💾 Markdown Export (.md)</span>
+            <span style="font-size: 10px; color: #58a6ff;">Obsidian & Notion ready</span>
+          </div>
+          <div class="export-card-code">
+            <span class="code-hl-blue"># Autonomous Agents 2026</span><br>
+            <span class="code-hl-green">**Video:**</span> https://youtube.com/...<br><br>
+            <span class="code-hl-blue">### 🎯 Core Takeaways</span><br>
+            - Agent loops vs single prompts<br>
+            - Subagent delegation (+45% reliability)<br><br>
+            <span class="code-hl-blue">### ⏱️ Key Timestamps</span><br>
+            - <span class="code-hl-orange">[01:42]</span> Paradigm Shift<br>
+            - <span class="code-hl-orange">[08:15]</span> Memory & Subagents
+          </div>
+        </div>
+
+        <!-- Card 2: Plain Text -->
+        <div class="export-card">
+          <div class="export-card-header">
+            <span class="export-card-title">📄 Plain Text (.txt)</span>
+            <span style="font-size: 10px; color: #7ee787;">Clean, unformatted text</span>
+          </div>
+          <div class="export-card-code">
+            YOUTUBE SUMMARY - 2026<br>
+            Title: Autonomous Agents in 2026<br>
+            --------------------------------<br>
+            KEY POINTS:<br>
+            1. Transitioning to reactive loops<br>
+            2. Isolating tools to prevent drift<br>
+            3. Local quantized models parity<br><br>
+            TIMESTAMPS:<br>
+            01:42 - System overview<br>
+            08:15 - Memory condensation
+          </div>
+        </div>
+
+        <!-- Card 3: JSON -->
+        <div class="export-card">
+          <div class="export-card-header">
+            <span class="export-card-title">📦 Structured JSON (.json)</span>
+            <span style="font-size: 10px; color: #ffa657;">For automations & workflows</span>
+          </div>
+          <div class="export-card-code">
+            {<br>
+            &nbsp;&nbsp;<span class="code-hl-blue">"title"</span>: <span class="code-hl-green">"Agents 2026"</span>,<br>
+            &nbsp;&nbsp;<span class="code-hl-blue">"duration"</span>: <span class="code-hl-orange">2280</span>,<br>
+            &nbsp;&nbsp;<span class="code-hl-blue">"chapters"</span>: [<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{ <span class="code-hl-blue">"time"</span>: <span class="code-hl-green">"01:42"</span>, <span class="code-hl-blue">"title"</span>: <span class="code-hl-green">"Shift"</span> },<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{ <span class="code-hl-blue">"time"</span>: <span class="code-hl-green">"08:15"</span>, <span class="code-hl-blue">"title"</span>: <span class="code-hl-green">"Subagents"</span> }<br>
+            &nbsp;&nbsp;],<br>
+            &nbsp;&nbsp;<span class="code-hl-blue">"model"</span>: <span class="code-hl-green">"gemini-1.5-flash"</span><br>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

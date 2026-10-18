@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Small Promo Tile (440x280)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 440px;
+      height: 280px;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #090d16;
+      color: #ffffff;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* Ambient glow */
+    .glow-red {
+      position: absolute;
+      width: 260px;
+      height: 200px;
+      top: -40px;
+      left: -40px;
+      background: radial-gradient(circle, rgba(230, 33, 23, 0.35) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(40px);
+    }
+    .glow-blue {
+      position: absolute;
+      width: 260px;
+      height: 200px;
+      bottom: -40px;
+      right: -40px;
+      background: radial-gradient(circle, rgba(31, 111, 235, 0.35) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(40px);
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-badge {
+      width: 58px;
+      height: 58px;
+      background: linear-gradient(135deg, #21262d, #161b22);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(230, 33, 23, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      margin-bottom: 12px;
+    }
+
+    .title {
+      font-size: 21px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.4px;
+      margin-bottom: 4px;
+    }
+    .title span {
+      background: linear-gradient(135deg, #ff4d4d, #f78166);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .tagline {
+      font-size: 12px;
+      color: #8b949e;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      max-width: 380px;
+      margin-bottom: 14px;
+    }
+    .pill {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 3px 9px;
+      font-size: 10px;
+      color: #c9d1d9;
+      font-weight: 600;
+    }
+    .pill.highlight {
+      background: rgba(230, 33, 23, 0.18);
+      border-color: rgba(230, 33, 23, 0.5);
+      color: #ff7b72;
+    }
+    .pill.blue {
+      background: rgba(31, 111, 235, 0.18);
+      border-color: rgba(31, 111, 235, 0.5);
+      color: #58a6ff;
+    }
+
+    .bottom-tag {
+      font-size: 10px;
+      color: #6e7681;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-red"></div>
+  <div class="glow-blue"></div>
+
+  <div class="card-content">
+    <div class="logo-badge">
+      <svg viewBox="0 0 24 24" width="34" height="34">
+        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000"/>
+        <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/>
+      </svg>
+    </div>
+
+    <div class="title">YouTube <span>Summarizer AI</span></div>
+    <div class="tagline">Instant Video Summaries & Interactive Q&A</div>
+
+    <div class="pill-group">
+      <span class="pill highlight">🏠 100% Private Local AI</span>
+      <span class="pill blue">⚡ LM Studio & Ollama</span>
+      <span class="pill">☁️ Gemini • GPT-4o</span>
+      <span class="pill">🎙️ Voice Q&A</span>
+      <span class="pill">🌐 8 Languages</span>
+    </div>
+
+    <div class="bottom-tag">Free & Open Source • Privacy-First</div>
+  </div>
+</body>
+</html>

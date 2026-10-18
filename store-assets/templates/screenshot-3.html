@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Screenshot 3 - Total AI Freedom: Local & Cloud</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1280px;
+      height: 800px;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #080c14;
+      color: #f0f6fc;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Ambient background glow */
+    .glow-1 {
+      position: absolute;
+      width: 650px;
+      height: 450px;
+      top: -120px;
+      left: 100px;
+      background: radial-gradient(circle, rgba(31, 111, 235, 0.18) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(70px);
+      z-index: 0;
+    }
+    .glow-2 {
+      position: absolute;
+      width: 600px;
+      height: 400px;
+      top: -100px;
+      right: -80px;
+      background: radial-gradient(circle, rgba(46, 160, 67, 0.16) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(70px);
+      z-index: 0;
+    }
+
+    /* Marketing Header */
+    .marketing-header {
+      position: relative;
+      z-index: 1;
+      padding: 30px 48px 18px 48px;
+      text-align: center;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(31, 111, 235, 0.14);
+      border: 1px solid rgba(31, 111, 235, 0.4);
+      color: #58a6ff;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .marketing-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+    .marketing-title span {
+      background: linear-gradient(135deg, #58a6ff, #3fb950);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .marketing-sub {
+      font-size: 14.5px;
+      color: #8b949e;
+      max-width: 740px;
+      margin: 0 auto 12px auto;
+    }
+    .feature-chips {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+    .feature-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11.5px;
+      color: #c9d1d9;
+      font-weight: 500;
+    }
+
+    /* Mockup Container */
+    .mockup-container {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      margin: 0 44px 34px 44px;
+      background: #0f141c;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .yt-ai-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 42px;
+      background: linear-gradient(180deg, #161b22, #12161f);
+      border-bottom: 1px solid #21262d;
+    }
+    .yt-ai-header-left { display: flex; align-items: center; gap: 10px; }
+    .yt-ai-brand { display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 12.5px; color: #fff; }
+    .yt-ai-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(35, 134, 54, 0.15); border: 1px solid rgba(46, 160, 67, 0.4);
+      color: #3fb950; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px;
+    }
+    .yt-ai-badge-dot { width: 5px; height: 5px; background: #3fb950; border-radius: 50%; }
+    .yt-ai-model-pill {
+      background: #21262d; border: 1px solid #30363d; border-radius: 14px;
+      padding: 3px 9px; font-size: 11px; color: #58a6ff; font-weight: 600;
+    }
+
+    .yt-ai-header-center { display: flex; align-items: center; gap: 10px; }
+    .yt-ai-format-pills {
+      display: inline-flex; background: #161b22; border: 1px solid #30363d; border-radius: 16px; padding: 2px; gap: 2px;
+    }
+    .format-pill { padding: 2px 9px; font-size: 10.5px; font-weight: 600; border-radius: 12px; color: #8b949e; }
+    .format-pill.active { background: #1f6feb; color: #fff; }
+    .yt-ai-summarize-cta {
+      background: linear-gradient(135deg, #e62117, #c4120a); color: #fff; font-size: 11.5px;
+      font-weight: 700; border-radius: 6px; padding: 4px 12px; box-shadow: 0 2px 8px rgba(230, 33, 23, 0.4);
+    }
+    .yt-ai-header-right { display: flex; align-items: center; gap: 8px; }
+    .utility-pill {
+      background: #21262d; border: 1px solid #30363d; border-radius: 6px; padding: 3px 8px; font-size: 11px; color: #c9d1d9;
+    }
+    .utility-pill.active {
+      background: #1f6feb; border-color: #388bfd; color: #fff; box-shadow: 0 0 10px rgba(31, 111, 235, 0.5);
+    }
+
+    /* Settings Drawer Container */
+    .drawer-content {
+      flex: 1;
+      padding: 18px 24px;
+      background: #0d1117;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .settings-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .settings-subnav {
+      display: flex;
+      background: #11151c;
+      border-bottom: 1px solid #30363d;
+      padding: 0 12px;
+    }
+    .subnav-btn {
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #8b949e;
+      border-bottom: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .subnav-btn.active {
+      color: #58a6ff;
+      border-bottom-color: #58a6ff;
+      background: rgba(88, 166, 255, 0.05);
+    }
+
+    .settings-body {
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .setting-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .setting-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #c9d1d9;
+    }
+    .setting-input-wrapper {
+      display: flex;
+      gap: 8px;
+    }
+    .setting-control {
+      flex: 1;
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 12px;
+      color: #f0f6fc;
+      font-family: inherit;
+    }
+
+    .action-badge-btn {
+      background: #238636;
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      font-size: 11.5px;
+      border-radius: 6px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Lower Feature Showcase Grid */
+    .feature-showcase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+    .feature-box {
+      background: rgba(22, 27, 34, 0.6);
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .feature-box-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #f0f6fc;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .feature-box-desc {
+      font-size: 11px;
+      color: #8b949e;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+
+  <!-- Marketing Header -->
+  <div class="marketing-header">
+    <div class="badge-pill">🔒 Complete Privacy & Freedom</div>
+    <h1 class="marketing-title">100% Private Local LLMs & <span>Cloud AI</span></h1>
+    <p class="marketing-sub">Run completely offline with LM Studio or Ollama with zero data leaving your machine. Or connect to Google Gemini, Groq, OpenAI, Claude & DeepSeek.</p>
+    <div class="feature-chips">
+      <div class="feature-chip">🏠 LM Studio & Ollama (Local & Free)</div>
+      <div class="feature-chip">⚡ Groq (Llama 3.3 70B @ 300 t/s)</div>
+      <div class="feature-chip">🔵 Google Gemini (1M Free Context)</div>
+      <div class="feature-chip">🐋 DeepSeek R1 & V3</div>
+      <div class="feature-chip">🎙️ Whisper Local STT</div>
+    </div>
+  </div>
+
+  <!-- Mockup Container -->
+  <div class="mockup-container">
+    <!-- Extension Header Bar -->
+    <div class="yt-ai-header-bar">
+      <div class="yt-ai-header-left">
+        <div class="yt-ai-brand">
+          <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/></svg>
+          <span>YT Summarizer AI</span>
+        </div>
+        <div class="yt-ai-badge">
+          <span class="yt-ai-badge-dot"></span>
+          <span>Connected</span>
+        </div>
+        <div class="yt-ai-model-pill">🤖 Model: Qwen 2.5 14B (Local) ▾</div>
+      </div>
+
+      <div class="yt-ai-header-center">
+        <div class="yt-ai-format-pills">
+          <span class="format-pill">⚡ Quick</span>
+          <span class="format-pill active">📌 Standard</span>
+          <span class="format-pill">📝 Deep</span>
+        </div>
+        <div class="yt-ai-summarize-cta">✨ Summarize video</div>
+      </div>
+
+      <div class="yt-ai-header-right">
+        <span class="utility-pill">🇬🇧 English ▾</span>
+        <span class="utility-pill active">⚙️ Settings (Open)</span>
+        <span class="utility-pill">Collapse ▲</span>
+        <span class="utility-pill" style="color: #58a6ff;">v1.3.0</span>
+      </div>
+    </div>
+
+    <!-- Drawer Content -->
+    <div class="drawer-content">
+      <!-- Settings Card -->
+      <div class="settings-card">
+        <div class="settings-subnav">
+          <div class="subnav-btn active">🤖 AI Model & Server</div>
+          <div class="subnav-btn">🎙️ Voice & Audio (TTS / STT)</div>
+          <div class="subnav-btn">⚙️ Parameters & Custom Prompt</div>
+        </div>
+
+        <div class="settings-body">
+          <div class="setting-group">
+            <label class="setting-label">AI Provider:</label>
+            <div class="setting-input-wrapper">
+              <select class="setting-control" style="font-weight: 600;">
+                <option>🏠 LM Studio (Local / Offline)</option>
+                <option>🦙 Ollama (Local / Cloud)</option>
+                <option>🔵 Google Gemini (1M Context, Free)</option>
+                <option>⚡ Groq (Llama 3.3, Ultra-Fast)</option>
+                <option>🟢 OpenAI (GPT-4o / o3-mini)</option>
+                <option>🟣 Anthropic (Claude 3.5 Sonnet)</option>
+                <option>🐋 DeepSeek (R1 & V3)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label class="setting-label">Local Server Address:</label>
+            <div class="setting-input-wrapper">
+              <input class="setting-control" value="http://localhost:1234/v1" />
+              <button class="action-badge-btn">⚡ Test</button>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label class="setting-label">Active Loaded Model:</label>
+            <div class="setting-input-wrapper">
+              <select class="setting-control">
+                <option>qwen2.5-coder-14b-instruct (Loaded in VRAM)</option>
+                <option>llama-3.3-70b-instruct</option>
+                <option>deepseek-r1-distill-qwen-14b</option>
+                <option>mistral-nemo-12b</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label class="setting-label">Local Whisper Audio STT Server:</label>
+            <div class="setting-input-wrapper">
+              <input class="setting-control" value="http://localhost:8000/v1/audio/transcriptions" />
+              <button class="action-badge-btn" style="background: #1f6feb;">⚡ Test STT</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Showcase Grid -->
+      <div class="feature-showcase-grid">
+        <div class="feature-box">
+          <div class="feature-box-title">🔒 100% Privacy & Zero Telemetry</div>
+          <div class="feature-box-desc">Transcripts, prompts, and audio stay strictly on your localhost. No third-party tracking, no telemetry.</div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-box-title">⚡ High-Speed Cloud Inference</div>
+          <div class="feature-box-desc">Optional instant access to Google Gemini (1M context), Groq (300 tok/s), DeepSeek R1, and OpenAI.</div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-box-title">🎙️ Audio Dictation & Readout</div>
+          <div class="feature-box-desc">Speak questions directly via Whisper and listen to full summaries with natural text-to-speech audio.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
