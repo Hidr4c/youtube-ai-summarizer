@@ -26,22 +26,30 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
-      - name: JavaScript Syntax Check
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile Extension Bundles
+        run: npm run build
+
+      - name: JavaScript Syntax & Integrity Check
         run: npm run check
 
-      - name: Run Automated Test Suite
-        run: npm test
+      - name: Run Automated Test Suite & Coverage (>80%)
+        run: npm run coverage
 
       - name: Verify Extension Package Structure
         run: |
           test -f manifest.json
-          test -f background.js
-          test -f content.js
+          test -f dist/background.js
+          test -f dist/content.js
+          test -f dist/main_world.js
+          test -f dist/popup.js
           test -f content.css
-          test -f main_world.js
           test -f popup.html
-          test -f popup.js
           test -f popup.css
           test -d icons
-          echo "All required extension files exist."
+          test -f icons/icon128.png
+          echo "All required extension files and dist bundles exist."

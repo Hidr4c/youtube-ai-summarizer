@@ -46,6 +46,16 @@ ${end}`;
    * @returns {{ systemPrompt: string, userPrompt: string }}
    */
   buildSummaryPrompts(title, author, safeTranscript, lang, mode, customDirectives = '') {
+    if (typeof title === 'object' && title !== null) {
+      const opts = title;
+      title = opts.title;
+      author = opts.author;
+      safeTranscript = opts.safeTranscript || opts.transcript;
+      lang = opts.lang || opts.targetLang;
+      mode = opts.mode || opts.formatMode;
+      customDirectives = opts.customDirectives || '';
+    }
+
     let systemPrompt = '';
     let userPrompt = '';
 

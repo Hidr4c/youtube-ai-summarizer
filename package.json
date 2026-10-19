@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "node build.js",
-    "test": "node --test tests/**/*.test.js",
+    "test": "node --test --experimental-test-coverage tests/**/*.test.js",
+    "coverage": "node --test --experimental-test-coverage tests/**/*.test.js",
     "check": "node --check dist/content.js dist/background.js dist/main_world.js dist/popup.js",
     "package": "node build.js && powershell -Command \"Compress-Archive -Path manifest.json, dist, content.css, popup.html, popup.css, README.md, LICENSE, PRIVACY.md, icons -DestinationPath youtube-summarizer-ai-v1.3.0.zip -Force\""
   },
