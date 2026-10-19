@@ -47,6 +47,21 @@ export class BaseAIProvider extends IAIProvider {
       throw err;
     }
   }
+
+  /**
+   * Normalizes server URL by ensuring scheme and removing trailing slashes
+   * @param {string} url
+   * @param {string} defaultUrl
+   * @returns {string}
+   */
+  normalizeUrl(url, defaultUrl = '') {
+    let clean = (url || defaultUrl || '').trim().replace(/\/+$/, '');
+    if (!clean) return defaultUrl || '';
+    if (!/^https?:\/\//i.test(clean)) {
+      clean = 'http://' + clean;
+    }
+    return clean;
+  }
 }
 
 export default BaseAIProvider;

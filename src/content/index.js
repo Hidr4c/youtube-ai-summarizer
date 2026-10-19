@@ -2269,13 +2269,19 @@ import { I18N } from '../locales/index.js';
       provider: currentProvider,
       serverUrl: currentUrl
     }, (response) => {
-      if (chrome.runtime.lastError || !response || !response.success) {
+      if (chrome.runtime.lastError || !response || (!response.success && !response.ok)) {
         tryFallbackUrls();
         return;
       }
 
       const data = response.data;
-      const models = Array.isArray(data.data) ? data.data : (Array.isArray(data.models) ? data.models : []);
+      const models = Array.isArray(data?.data)
+        ? data.data
+        : (Array.isArray(data?.models)
+          ? data.models
+          : (Array.isArray(data)
+            ? data
+            : (Array.isArray(response.models) ? response.models : [])));
       availableLocalModels[currentProvider] = models;
 
       const providerLabel = isOllama ? 'Ollama' : 'LM Studio';
@@ -2317,12 +2323,18 @@ import { I18N } from '../locales/index.js';
       provider: currentProvider,
       serverUrl: candidate
     }, (res) => {
-      if (res && res.success) {
+      if (res && (res.success || res.ok)) {
         serverUrls[currentProvider] = candidate;
         savePreference(`serverUrl_${currentProvider}`, candidate);
         updateServerUrlUI();
         const data = res.data;
-        const models = Array.isArray(data.data) ? data.data : (Array.isArray(data.models) ? data.models : []);
+        const models = Array.isArray(data?.data)
+          ? data.data
+          : (Array.isArray(data?.models)
+            ? data.models
+            : (Array.isArray(data)
+              ? data
+              : (Array.isArray(res.models) ? res.models : [])));
         availableLocalModels[currentProvider] = models;
         if (badge) badge.className = 'yt-ai-badge online';
         if (badgeText) badgeText.textContent = `${providerLabel} (${candidate.replace(/https?:\/\//, '')})`;
@@ -2415,8 +2427,8 @@ import { I18N } from '../locales/index.js';
       apiKey: key,
       model: selectedModel
     }, (res) => {
-      if (res && res.success) {
-        showStatusBanner(`✅ Model "${selectedModel}" ready (${res.latency}ms)!`, false);
+      if (res && (res.success || res.ok)) {
+        showStatusBanner(`✅ Model "${selectedModel}" ready (${res.latency || res.latencyMs || 0}ms)!`, false);
       } else {
         showStatusBanner(`❌ Failed: ${res?.error || 'Connection error'}`, true);
       }
@@ -3063,7 +3075,11 @@ ${end}`;
       const wordsCount = fullText.trim().split(/\s+/).length;
 
       const modelDisplayName = activeModel.split('/').pop();
-      if (summarizeBtn) summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${modelDisplayName} (${wordsCount.toLocaleString()} ${t.wordsBadge || 'words'})...`;
+      const shortModel = modelDisplayName.length > 14 ? modelDisplayName.slice(0, 14) + '…' : modelDisplayName;
+      if (summarizeBtn) {
+        summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${shortModel} (${wordsCount.toLocaleString()} ${t.wordsBadge || 'words'})...`;
+        summarizeBtn.title = `${modelDisplayName} (${wordsCount.toLocaleString()} words)`;
+      }
       if (summaryBody) {
         summaryBody.innerHTML = '';
         summaryBody.classList.add('yt-ai-typing');

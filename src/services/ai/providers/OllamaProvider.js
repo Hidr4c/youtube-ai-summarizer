@@ -14,7 +14,7 @@ export class OllamaProvider extends BaseAIProvider {
    * @returns {Promise<Array<{ id: string, name?: string }>>}
    */
   async fetchModels(serverUrl = 'http://localhost:11434') {
-    const cleanUrl = serverUrl.replace(/\/+$/, '');
+    const cleanUrl = this.normalizeUrl(serverUrl, 'http://localhost:11434');
     try {
       const res = await this.fetchWithTimeout(`${cleanUrl}/api/tags`);
       if (res.ok) {
@@ -37,7 +37,7 @@ export class OllamaProvider extends BaseAIProvider {
   async testConnection(serverUrl = 'http://localhost:11434') {
     const start = performance.now();
     try {
-      const cleanUrl = serverUrl.replace(/\/+$/, '');
+      const cleanUrl = this.normalizeUrl(serverUrl, 'http://localhost:11434');
       const res = await this.fetchWithTimeout(`${cleanUrl}/api/tags`, {}, 3000);
       const latencyMs = Math.round(performance.now() - start);
       return { ok: res.ok, latencyMs };

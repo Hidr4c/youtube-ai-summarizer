@@ -14,7 +14,7 @@ export class LMStudioProvider extends BaseAIProvider {
    * @returns {Promise<Array<{ id: string, name?: string }>>}
    */
   async fetchModels(serverUrl = 'http://192.168.56.1:1234') {
-    const cleanUrl = serverUrl.replace(/\/+$/, '');
+    const cleanUrl = this.normalizeUrl(serverUrl, 'http://192.168.56.1:1234');
     const res = await this.fetchWithTimeout(`${cleanUrl}/v1/models`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
@@ -29,7 +29,7 @@ export class LMStudioProvider extends BaseAIProvider {
   async testConnection(serverUrl = 'http://192.168.56.1:1234') {
     const start = performance.now();
     try {
-      const cleanUrl = serverUrl.replace(/\/+$/, '');
+      const cleanUrl = this.normalizeUrl(serverUrl, 'http://192.168.56.1:1234');
       const res = await this.fetchWithTimeout(`${cleanUrl}/v1/models`, {}, 3000);
       const latencyMs = Math.round(performance.now() - start);
       return { ok: res.ok, latencyMs };
