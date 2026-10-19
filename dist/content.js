@@ -1205,6 +1205,256 @@
       perplexity: "Perplexity AI",
       together: "Together AI"
     };
+    const SPEECH_LANG_MAP = {
+      fr: "fr-FR",
+      en: "en-US",
+      es: "es-ES",
+      de: "de-DE",
+      it: "it-IT",
+      ru: "ru-RU",
+      ja: "ja-JP",
+      zh: "zh-CN"
+    };
+    let currentLang = "fr";
+    let currentProvider = "lmstudio";
+    let serverUrls = {
+      lmstudio: "http://192.168.56.1:1234",
+      ollama: "http://localhost:11434"
+    };
+    let availableLocalModels = {
+      lmstudio: [],
+      ollama: []
+    };
+    let selectedModels = {
+      lmstudio: "",
+      ollama: "",
+      gemini: "gemini-1.5-flash",
+      groq: "llama-3.3-70b-versatile",
+      openai: "gpt-4o-mini",
+      claude: "claude-3-5-haiku-20241022",
+      deepseek: "deepseek-chat",
+      grok: "grok-2-latest",
+      qwen: "qwen-plus",
+      mistral: "mistral-small-latest",
+      openrouter: "deepseek/deepseek-r1",
+      perplexity: "sonar",
+      together: "meta-llama/Llama-3.3-70B-Instruct-Turbo"
+    };
+    let selectedModel = "";
+    function getActiveModel() {
+      return selectedModels[currentProvider] || selectedModel || "";
+    }
+    function setActiveModel(model) {
+      selectedModels[currentProvider] = model || "";
+      selectedModel = model || "";
+    }
+    let apiKeys = {
+      gemini: "",
+      groq: "",
+      openai: "",
+      claude: "",
+      deepseek: "",
+      grok: "",
+      qwen: "",
+      mistral: "",
+      openrouter: "",
+      perplexity: "",
+      together: "",
+      ollama: ""
+    };
+    let isExpanded = false;
+    let isGenerating = false;
+    let activePort = null;
+    let chatPort = null;
+    let fullSummaryMarkdown = "";
+    let fullReasoningText = "";
+    let lastVideoId = "";
+    let lastObservedUrl = window.location.href;
+    let availableVoices = [];
+    let selectedVoiceURI = "";
+    let activeSpeakingButton = null;
+    let speechRecognition = null;
+    let isDictating = false;
+    let isWhisperRecording = false;
+    let activeMediaRecorder = null;
+    let recordedAudioChunks = [];
+    let selectedMicDeviceId = "";
+    let availableMicrophones = [];
+    let isBraveBrowser = false;
+    try {
+      if (navigator.brave && typeof navigator.brave.isBrave === "function") {
+        navigator.brave.isBrave().then((val) => {
+          isBraveBrowser = !!val;
+        }).catch(() => {
+        });
+      }
+    } catch (e) {
+    }
+    let cachedTranscript = {
+      videoId: "",
+      segments: [],
+      fullText: ""
+    };
+    let localWhisperUrl = "";
+    let temperature = "0.3";
+    let maxTokens = "auto";
+    let ttsSpeed = "1.0";
+    let autoSummarize = false;
+    let customPrompt = "";
+    let currentMode = "standard";
+    let lastProcessedVideoId = "";
+    let chatHistory = [];
+    function safeSetInnerHTML(element, html) {
+      if (!element) return;
+      try {
+        if (window.trustedTypes && window.trustedTypes.defaultPolicy) {
+          element.innerHTML = window.trustedTypes.defaultPolicy.createHTML(html);
+          return;
+        }
+        if (window.trustedTypes && window.trustedTypes.createPolicy) {
+          if (!window.__ytAiPolicy) {
+            try {
+              window.__ytAiPolicy = window.trustedTypes.createPolicy("yt-ai-policy", {
+                createHTML: (s) => s
+              });
+            } catch (e) {
+            }
+          }
+          if (window.__ytAiPolicy) {
+            element.innerHTML = window.__ytAiPolicy.createHTML(html);
+            return;
+          }
+        }
+        element.innerHTML = html;
+      } catch (e) {
+        try {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+          element.replaceChildren(...doc.body.childNodes);
+        } catch (err) {
+          element.textContent = (html || "").replace(/<[^>]*>/g, "");
+        }
+      }
+    }
+    init();
+    function init() {
+      loadPreferences();
+      initSpeechSynthesis();
+      initMicrophoneDevices();
+      observeNavigation();
+      tryInjectBanner();
+    }
+    function loadPreferences() {
+      if (chrome.storage && chrome.storage.local) {
+        const keysToLoad = [
+          "aiProvider",
+          "serverUrl_lmstudio",
+          "serverUrl_ollama",
+          "serverUrl",
+          "selectedModel",
+          "targetLang",
+          "summaryMode",
+          "selectedVoiceURI",
+          "selectedMicDeviceId",
+          "localWhisperUrl",
+          "temperature",
+          "maxTokens",
+          "ttsSpeed",
+          "autoSummarize",
+          "customPrompt",
+          "apiKey_gemini",
+          "apiKey_groq",
+          "apiKey_openai",
+          "apiKey_claude",
+          "apiKey_deepseek",
+          "apiKey_grok",
+          "apiKey_qwen",
+          "apiKey_mistral",
+          "apiKey_openrouter",
+          "apiKey_perplexity",
+          "apiKey_together",
+          "apiKey_ollama"
+        ];
+        Object.keys(PROVIDER_NAMES).forEach((p) => {
+          keysToLoad.push(`selectedModel_${p}`);
+        });
+        chrome.storage.local.get(keysToLoad, (data) => {
+          if (data.aiProvider) currentProvider = data.aiProvider;
+          if (data.serverUrl_lmstudio) serverUrls.lmstudio = data.serverUrl_lmstudio;
+          else if (data.serverUrl) serverUrls.lmstudio = data.serverUrl;
+          if (!serverUrls.lmstudio) serverUrls.lmstudio = "http://192.168.56.1:1234";
+          if (data.serverUrl_ollama) serverUrls.ollama = data.serverUrl_ollama;
+          Object.keys(PROVIDER_NAMES).forEach((p) => {
+            if (data[`selectedModel_${p}`]) {
+              selectedModels[p] = data[`selectedModel_${p}`];
+            }
+          });
+          if (data.selectedModel) {
+            const hasSlash = data.selectedModel.includes("/");
+            const isCloud = !hasSlash && ["claude", "gpt", "gemini", "deepseek-chat", "deepseek-coder", "grok", "qwen-plus", "qwen-max", "qwen-turbo", "mistral", "sonar"].some((p) => data.selectedModel.startsWith(p));
+            if (currentProvider === "lmstudio" || currentProvider === "ollama") {
+              if (!isCloud && !selectedModels[currentProvider]) {
+                selectedModels[currentProvider] = data.selectedModel;
+              }
+            } else if (!selectedModels[currentProvider]) {
+              selectedModels[currentProvider] = data.selectedModel;
+            }
+          }
+          selectedModel = getActiveModel();
+          if (data.selectedVoiceURI) selectedVoiceURI = data.selectedVoiceURI;
+          if (data.selectedMicDeviceId) selectedMicDeviceId = data.selectedMicDeviceId;
+          if (data.localWhisperUrl) localWhisperUrl = data.localWhisperUrl;
+          if (data.temperature) temperature = data.temperature;
+          if (data.maxTokens) maxTokens = data.maxTokens;
+          if (data.ttsSpeed) ttsSpeed = data.ttsSpeed;
+          if (data.autoSummarize !== void 0) autoSummarize = !!data.autoSummarize;
+          if (data.customPrompt) customPrompt = data.customPrompt;
+          if (data.summaryMode) currentMode = data.summaryMode;
+          syncSettingsUI();
+          if (data.targetLang) {
+            currentLang = data.targetLang;
+          } else {
+            currentLang = "fr";
+          }
+          const langSelect = document.getElementById("ytAiLangSelect");
+          if (langSelect) langSelect.value = currentLang;
+          applyLanguage(currentLang);
+          Object.keys(apiKeys).forEach((k) => {
+            if (data[`apiKey_${k}`]) apiKeys[k] = data[`apiKey_${k}`];
+          });
+          syncProviderUI();
+          if (currentProvider === "lmstudio" || currentProvider === "ollama") {
+            refreshModelsList();
+          } else {
+            updateHeaderBadge();
+          }
+        });
+      } else {
+        syncProviderUI();
+        syncSettingsUI();
+        refreshModelsList();
+      }
+    }
+    function syncSettingsUI() {
+      const whisperInput = document.getElementById("ytAiWhisperUrlInput");
+      if (whisperInput) whisperInput.value = localWhisperUrl;
+      const tempSelect = document.getElementById("ytAiTemperatureSelect");
+      if (tempSelect) tempSelect.value = temperature;
+      const maxTokensSelect = document.getElementById("ytAiMaxTokensSelect");
+      if (maxTokensSelect) maxTokensSelect.value = maxTokens;
+      const ttsSpeedSelect = document.getElementById("ytAiTtsSpeedSelect");
+      if (ttsSpeedSelect) ttsSpeedSelect.value = ttsSpeed;
+      const autoSumCheck = document.getElementById("ytAiAutoSummarizeCheck");
+      if (autoSumCheck) autoSumCheck.checked = autoSummarize;
+      const customPromptInput = document.getElementById("ytAiCustomPromptInput");
+      if (customPromptInput) customPromptInput.value = customPrompt;
+      setSummaryMode(currentMode);
+    }
+    function savePreference(key, val) {
+      if (chrome.storage && chrome.storage.local) {
+        chrome.storage.local.set({ [key]: val });
+      }
+    }
     function observeNavigation() {
       window.addEventListener("yt-navigate-finish", handleUrlChange);
       window.addEventListener("yt-page-data-updated", handleUrlChange);
@@ -1301,7 +1551,7 @@
       const select = document.getElementById("ytAiVoiceSelect");
       if (!select) return;
       const currentLang2 = document.getElementById("ytAiLangSelect")?.value || "en";
-      select.innerHTML = "";
+      select.replaceChildren();
       const matching = availableVoices.filter((v) => v.lang.toLowerCase().startsWith(currentLang2));
       const listToDisplay = matching.length > 0 ? matching : availableVoices;
       listToDisplay.forEach((v) => {
@@ -1467,16 +1717,26 @@
       const customPromptInput = document.getElementById("ytAiCustomPromptInput");
       if (customPromptInput) customPromptInput.placeholder = t.customPromptPlaceholder;
       const tabSummaryBtn = document.getElementById("ytAiTabSummaryBtn");
-      if (tabSummaryBtn) tabSummaryBtn.innerHTML = t.tabSummary;
+      if (tabSummaryBtn) tabSummaryBtn.textContent = t.tabSummary;
       const tabChatBtn = document.getElementById("ytAiTabChatBtn");
       if (tabChatBtn) {
         const chatCount = document.getElementById("ytAiChatCount")?.textContent || "0";
-        tabChatBtn.innerHTML = `${t.tabChat} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${chatCount}</span>`;
+        tabChatBtn.textContent = `${t.tabChat} `;
+        const badge = document.createElement("span");
+        badge.id = "ytAiChatCount";
+        badge.className = "yt-ai-tab-count-badge";
+        badge.textContent = chatCount;
+        tabChatBtn.appendChild(badge);
       }
       const tabTranscriptBtn = document.getElementById("ytAiTabTranscriptBtn");
       if (tabTranscriptBtn) {
         const numWords = cachedTranscript.segments && cachedTranscript.segments.length > 0 ? cachedTranscript.fullText.split(/\s+/).filter(Boolean).length : 0;
-        tabTranscriptBtn.innerHTML = `${t.tabTranscript} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">${numWords.toLocaleString()} ${t.wordsBadge}</span>`;
+        tabTranscriptBtn.textContent = `${t.tabTranscript} `;
+        const badge = document.createElement("span");
+        badge.id = "ytAiWordCountTab";
+        badge.className = "yt-ai-tab-count-badge";
+        badge.textContent = `${numWords.toLocaleString()} ${t.wordsBadge}`;
+        tabTranscriptBtn.appendChild(badge);
       }
       const summaryHeaderTitle = document.getElementById("ytAiSummaryHeaderTitle");
       if (summaryHeaderTitle) {
@@ -1503,24 +1763,26 @@
       if (clearChatBtn) clearChatBtn.textContent = t.clearChatBtn;
       const suggestionsContainer = document.querySelector(".yt-ai-chat-suggestions");
       if (suggestionsContainer && t.suggestions) {
-        suggestionsContainer.innerHTML = t.suggestions.map(
-          (s) => `<span class="yt-ai-suggestion-chip" data-question="${escapeHtml(s.question)}">${escapeHtml(s.label)}</span>`
-        ).join("");
-        suggestionsContainer.querySelectorAll(".yt-ai-suggestion-chip").forEach((chip) => {
+        suggestionsContainer.textContent = "";
+        t.suggestions.forEach((s) => {
+          const chip = document.createElement("span");
+          chip.className = "yt-ai-suggestion-chip";
+          chip.setAttribute("data-question", s.question);
+          chip.textContent = s.label;
           chip.addEventListener("click", () => {
-            const q = chip.getAttribute("data-question");
-            if (q) handleSendChatMessage(q);
+            handleSendChatMessage(s.question);
           });
+          suggestionsContainer.appendChild(chip);
         });
       }
       if (chatHistory.length === 0) {
         const chatMessages = document.getElementById("ytAiChatMessages");
         if (chatMessages) {
-          chatMessages.innerHTML = `
-          <div class="yt-ai-chat-bubble ai">
-            ${t.chatWelcome}
-          </div>
-        `;
+          chatMessages.textContent = "";
+          const welcomeBubble = document.createElement("div");
+          welcomeBubble.className = "yt-ai-chat-bubble ai";
+          welcomeBubble.textContent = t.chatWelcome;
+          chatMessages.appendChild(welcomeBubble);
         }
       }
       const chatInput = document.getElementById("ytAiChatInput");
@@ -1536,7 +1798,12 @@
       const transcriptPaneTitle = document.querySelector("#ytAiPaneTranscript .yt-ai-pane-title span");
       if (transcriptPaneTitle) {
         const count = document.getElementById("ytAiWordCount")?.textContent || "0";
-        transcriptPaneTitle.innerHTML = `${t.transcriptTitle} (<span id="ytAiWordCount">${count}</span> ${t.wordsBadge})`;
+        transcriptPaneTitle.textContent = `${t.transcriptTitle} (`;
+        const countSpan = document.createElement("span");
+        countSpan.id = "ytAiWordCount";
+        countSpan.textContent = count;
+        transcriptPaneTitle.appendChild(countSpan);
+        transcriptPaneTitle.appendChild(document.createTextNode(` ${t.wordsBadge})`));
       }
       const copyTranscriptBtn = document.getElementById("ytAiCopyTranscriptBtn");
       if (copyTranscriptBtn) copyTranscriptBtn.textContent = t.copyRawBtn;
@@ -1546,7 +1813,7 @@
       }
       const footerAuthor = document.getElementById("ytAiFooterAuthor");
       if (footerAuthor) {
-        footerAuthor.innerHTML = `YouTube Summarizer AI <strong>v1.3.0</strong> ${t.footerBy} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
+        safeSetInnerHTML(footerAuthor, `YouTube Summarizer AI <strong>v1.3.0</strong> ${t.footerBy} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`);
       }
       const bugLink = document.getElementById("ytAiFooterBugLink");
       if (bugLink) bugLink.textContent = `\u{1F41B} ${t.footerReportBug}`;
@@ -1908,7 +2175,7 @@
       const currentSavedModel = getActiveModel();
       const initialModelLabel = currentSavedModel ? `Model: ${currentSavedModel}` : "Model: Loading...";
       const initialOptionHtml = currentSavedModel ? `<option value="${escapeHtml(currentSavedModel)}" selected>${escapeHtml(currentSavedModel)}</option>` : '<option value="">Loading...</option>';
-      banner.innerHTML = `
+      safeSetInnerHTML(banner, `
       <!-- BARRE SUP\xC9RIEURE \xC9L\xC9GANTE (42px) -->
       <div class="yt-ai-header-bar">
         <div class="yt-ai-header-left">
@@ -2261,7 +2528,7 @@
         </div>
 
       </div>
-    `;
+    `);
       if (refChild) {
         parent.insertBefore(banner, refChild);
       } else {
@@ -2588,7 +2855,7 @@
       const t = I18N[currentLang] || I18N.en;
       const title = isNewVideo ? t.newVideoTitle || t.emptyTitle : t.emptyTitle;
       const subtitle = isNewVideo ? t.newVideoPlaceholder || t.emptySubtitle : t.emptySubtitle || t.summaryPlaceholder;
-      summaryBody.innerHTML = `
+      safeSetInnerHTML(summaryBody, `
       <div class="yt-ai-empty-state">
         <div class="yt-ai-empty-icon">\u2728</div>
         <div class="yt-ai-empty-title">${escapeHtml(title)}</div>
@@ -2597,7 +2864,7 @@
           ${escapeHtml(t.summarizeBtn || "\u2728 Summarize video")}
         </button>
       </div>
-    `;
+    `);
       const heroBtn = document.getElementById("ytAiSummaryHeroBtn");
       heroBtn?.addEventListener("click", () => {
         setExpanded(true);
