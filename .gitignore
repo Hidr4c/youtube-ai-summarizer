@@ -1,6 +1,6 @@
 # Archives & Packages
 *.zip
-!releases/*.zip
+releases/
 *.crx
 *.pem
 
