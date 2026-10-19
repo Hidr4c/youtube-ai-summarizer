@@ -97,8 +97,9 @@ npm run check
 
 ## 🤝 Contributing
 
-Contributions, bug reports, and suggestions are welcome! Please check our [Contributing Guide](docs/CONTRIBUTING.md) for details on code style and pull requests.
-
+Contributions, bug reports, and suggestions are welcome!
+- 📘 **[Contributing Guide](docs/CONTRIBUTING.md)** — Code style, development setup, and testing requirements.
+- 🌿 **[Git Release Workflow Guide](docs/GIT_WORKFLOW.md)** — Strict candidate branch methodology (`candidate/vX.Y.Z` -> 1 commit per release on `main`).
 - 🐛 **Report a bug** : [Open an Issue](https://github.com/Hidr4c/youtube-ai-summarizer/issues)
 - ⭐ **Star the repository** : If you find this extension useful, consider giving it a star on GitHub!
 

@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-10-19
+
+### Added
+- **Git Candidate & Release Methodology**: Implemented a strict candidate branching workflow (`candidate/vX.Y.Z` -> squash merge to `main`) ensuring `main` maintains a pristine history with exactly 1 commit per release tagged `vX.Y.Z`.
+- **Workflow Automation Tooling**: Added CLI commands `npm run candidate:start`, `candidate:status`, and `candidate:finish` backed by [`scripts/git_workflow.js`](../scripts/git_workflow.js) and [`scripts/git_workflow.ps1`](../scripts/git_workflow.ps1).
+- **Dynamic Cross-Platform Packager**: Added [`scripts/package.js`](../scripts/package.js) to dynamically package zip distribution archives based on `manifest.json` version without hardcoded paths.
+- **Dynamic CI Test & Coverage Reporting**: Integrated [`scripts/ci_reporter.js`](../scripts/ci_reporter.js) into GitHub Actions workflow to publish live test results and coverage breakdowns directly into `$GITHUB_STEP_SUMMARY`.
+- **Workflow Documentation**: Added [`docs/GIT_WORKFLOW.md`](GIT_WORKFLOW.md) and updated [`docs/CONTRIBUTING.md`](CONTRIBUTING.md).
+
+### Changed
+- **CI Trigger Scopes**: Updated GitHub Actions CI to automatically test pushes to candidate branches (`candidate/**`) and release tags (`v*`).
+- **Cleaned README**: Removed static hardcoded test counts and coverage tables from `README.md` to prevent maintenance toil, redirecting to live CI reports.
+
+### Removed
+- **Obsolete Legacy Scripts**: Purged legacy `.bat` files (`deploy-github.bat`, `deploy.bat`, `package-zip.bat`) and cleaned up unused `.gitignore` patterns.
+
 ---
 
 ## [1.3.0] - 2026-10-19
