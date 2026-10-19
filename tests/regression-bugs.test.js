@@ -5,6 +5,7 @@ import path from 'node:path';
 import { StreamRelay } from '../src/background/StreamRelay.js';
 import { AIProviderFactory } from '../src/services/ai/providers/AIProviderFactory.js';
 import { BaseAIProvider } from '../src/services/ai/providers/BaseAIProvider.js';
+import { InnerTubeParser } from '../src/parsers/InnerTubeParser.js';
 
 test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) => {
   const rootDir = path.resolve('.');
@@ -286,4 +287,76 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     // DOM fallback on summary body if fullSummaryMarkdown is empty
     assert.match(contentSrc, /document\.getElementById\('ytAiSummaryBody'\)/);
   });
+
+  // 9. REGRESSION: Complete Speech Transcript vs Video Chapters Separation
+  await suite.test('Speech Transcript vs Chapters: InnerTubeParser separation, DOM selectors, and quality guards', () => {
+    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+    const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8');
+
+    // 1. Fallback 2 in extractTranscriptFromActiveDOM must strictly exclude macro-markers
+    assert.equal(
+      contentSrc.includes('target-id*="transcript"]:not([target-id*="macro-markers"])'),
+      true,
+      'extractTranscriptFromActiveDOM must strictly exclude macro-markers'
+    );
+    assert.match(
+      contentSrc,
+      /\/\/ 2\. Fallback textuel STRICTEMENT sur les panneaux de transcription dédiés \(JAMAIS sur les panneaux de chapitres\)/,
+      'extractTranscriptFromActiveDOM must document strict chapter exclusion'
+    );
+
+    // 2. InnerTubeParser must prioritize speech segments over chapters and support allowChapters: false
+    const mixedJson = {
+      response: {
+        actions: [
+          {
+            macroMarkersListItemRenderer: {
+              timeDescription: { simpleText: '00:00' },
+              title: { simpleText: 'Chapter 1' }
+            }
+          },
+          {
+            transcriptSegmentViewModel: {
+              startTimeText: { content: '0:02' },
+              snippet: { content: 'This is real speech text.' }
+            }
+          }
+        ]
+      }
+    };
+    const speechOnly = InnerTubeParser.extractSegmentsFromInnerTubeJson(mixedJson);
+    assert.equal(speechOnly.length, 1);
+    assert.equal(speechOnly[0].timestamp, '0:02');
+    assert.equal(speechOnly[0].text, 'This is real speech text.');
+
+    // Chapters only with allowChapters: false must return null
+    const chaptersOnlyJson = {
+      macroMarkersListItemRenderer: {
+        timeDescription: { simpleText: '02:20' },
+        title: { simpleText: 'Why time dilates' }
+      }
+    };
+    assert.equal(InnerTubeParser.extractSegmentsFromInnerTubeJson(chaptersOnlyJson, { allowChapters: false }), null);
+    assert.equal(InnerTubeParser.extractSegmentsFromInnerTubeJson(chaptersOnlyJson, { allowChapters: true }).length, 1);
+
+    // 3. YouTubeContextExtractor must call extractSegmentsFromInnerTubeJson with allowChapters: false
+    assert.match(
+      extractorSrc,
+      /extractSegmentsFromInnerTubeJson\(window\.ytInitialData,\s*\{\s*allowChapters:\s*false\s*\}\)/,
+      'Main world extractor must reject chapters from ytInitialData'
+    );
+
+    // 4. YouTubeContextExtractor must have extractTranscript method implemented
+    assert.match(extractorSrc, /async extractTranscript\(requestedVideoId/);
+
+    // 5. YouTubeContextExtractor must differentiate get_transcript vs browse_continuation
+    assert.match(extractorSrc, /type:\s*['"]browse_continuation['"]/);
+    assert.match(extractorSrc, /https:\/\/www\.youtube\.com\/youtubei\/v1\/browse/);
+
+    // 6. Quality guards: isChapterOnly tracking and dynamic upgrade observer in content/index.js
+    assert.match(contentSrc, /isChapterOnly:\s*!!isChapterOnly/);
+    assert.match(contentSrc, /\(Chapitres\)/);
+    assert.match(contentSrc, /transcript-segment-view-model,\s*ytd-transcript-segment-renderer/);
+  });
 });
+

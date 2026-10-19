@@ -28,12 +28,17 @@
     /**
      * Extracts transcript segments from any InnerTube JSON response
      * @param {Object} json
+     * @param {Object} [options]
+     * @param {boolean} [options.allowChapters=true]
      * @returns {Array<{timestamp: string, text: string}>|null}
      */
-    static extractSegmentsFromInnerTubeJson(json) {
+    static extractSegmentsFromInnerTubeJson(json, options = {}) {
       if (!json || typeof json !== "object") return null;
-      const segments = [];
-      const seen = /* @__PURE__ */ new Set();
+      const { allowChapters = true } = options;
+      const speechSegments = [];
+      const chapterSegments = [];
+      const seenSpeech = /* @__PURE__ */ new Set();
+      const seenChapters = /* @__PURE__ */ new Set();
       function walk(node, depth = 0) {
         if (!node || depth > 14) return;
         if (typeof node !== "object") return;
@@ -44,9 +49,9 @@
           if (time && text) {
             const cleaned = TextCleaner.cleanTranscriptText(text);
             const key = `${time}|${cleaned.slice(0, 30)}`;
-            if (!seen.has(key)) {
-              seen.add(key);
-              segments.push({ timestamp: time.trim(), text: cleaned });
+            if (!seenSpeech.has(key)) {
+              seenSpeech.add(key);
+              speechSegments.push({ timestamp: time.trim(), text: cleaned });
             }
           }
         }
@@ -60,9 +65,9 @@
           if (time && text) {
             const cleaned = TextCleaner.cleanTranscriptText(text);
             const key = `${time}|${cleaned.slice(0, 30)}`;
-            if (!seen.has(key)) {
-              seen.add(key);
-              segments.push({ timestamp: time.trim(), text: cleaned });
+            if (!seenSpeech.has(key)) {
+              seenSpeech.add(key);
+              speechSegments.push({ timestamp: time.trim(), text: cleaned });
             }
           }
         }
@@ -73,9 +78,9 @@
           if (time && title) {
             const cleaned = TextCleaner.cleanTranscriptText(title);
             const key = `${time}|${cleaned.slice(0, 30)}`;
-            if (!seen.has(key)) {
-              seen.add(key);
-              segments.push({ timestamp: time.trim(), text: cleaned });
+            if (!seenChapters.has(key)) {
+              seenChapters.add(key);
+              chapterSegments.push({ timestamp: time.trim(), text: cleaned });
             }
           }
         }
@@ -91,7 +96,9 @@
         }
       }
       walk(json);
-      return segments.length > 0 ? segments : null;
+      if (speechSegments.length > 0) return speechSegments;
+      if (allowChapters && chapterSegments.length > 0) return chapterSegments;
+      return null;
     }
   };
 
@@ -260,7 +267,7 @@
         }
         if (event.data.type === "YT_AI_REQUEST_TRANSCRIPT") {
           const videoId = event.data.videoId;
-          const result = await this.extractTranscript(videoId);
+          const result = await this.extractTranscript(videoId, event.data.preferredLang || "en");
           window.postMessage({
             type: "YT_AI_TRANSCRIPT_RESULT",
             videoId,
@@ -270,6 +277,65 @@
           }, "*");
         }
       });
+    }
+    /**
+     * Directly extracts transcript in-memory (backward compatible implementation)
+     */
+    async extractTranscript(requestedVideoId, preferredLang = "en") {
+      try {
+        let playerResponse = null;
+        let player = document.getElementById("movie_player");
+        try {
+          player?.loadModule?.("captions");
+        } catch (_) {
+        }
+        if (player && typeof player.getPlayerResponse === "function") {
+          const resp = player.getPlayerResponse();
+          const activeId = player.getVideoData?.()?.video_id || resp?.videoDetails?.videoId;
+          if (!requestedVideoId || activeId === requestedVideoId) {
+            playerResponse = resp;
+          }
+        }
+        if (!playerResponse && window.ytInitialPlayerResponse) {
+          playerResponse = window.ytInitialPlayerResponse;
+        }
+        let captions = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || window.ytInitialPlayerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
+        if ((!captions || captions.length === 0) && player && typeof player.getOption === "function") {
+          try {
+            const pt = player.getOption("captions", "tracklist");
+            if (Array.isArray(pt) && pt.length > 0) captions = pt;
+          } catch (_) {
+          }
+        }
+        let directSegments = null;
+        if (captions && captions.length > 0) {
+          let track = captions.find((t) => t.languageCode === preferredLang);
+          if (!track) track = captions.find((t) => t.languageCode?.startsWith(preferredLang));
+          if (!track) track = captions.find((t) => t.languageCode === "en" || t.languageCode?.startsWith("en"));
+          if (!track) track = captions[0];
+          if (track && track.baseUrl) {
+            directSegments = await this.fetchTrackSegments(track.baseUrl);
+          }
+        }
+        if (!directSegments || directSegments.length === 0) {
+          const transcriptParams = this.findTranscriptParams(requestedVideoId);
+          if (transcriptParams) {
+            directSegments = await this.fetchTranscriptFromInnerTube(transcriptParams);
+          }
+        }
+        if (!directSegments || directSegments.length === 0) {
+          directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
+        }
+        if (directSegments && directSegments.length > 0) {
+          return {
+            segments: directSegments,
+            fullText: directSegments.map((s) => s.text).join(" ")
+          };
+        }
+        return null;
+      } catch (e) {
+        return { error: e.message };
+      }
     }
     /**
      * Handles in-memory player data and transcript extraction
@@ -333,7 +399,22 @@
           player = document.getElementById("movie_player");
           playerResponse = player && typeof player.getPlayerResponse === "function" ? player.getPlayerResponse() : window.ytInitialPlayerResponse;
         }
-        const captions = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || window.ytInitialPlayerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
+        let captions = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || window.ytInitialPlayerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
+        if ((!captions || captions.length === 0) && player && typeof player.getOption === "function") {
+          try {
+            const pt = player.getOption("captions", "tracklist");
+            if (Array.isArray(pt) && pt.length > 0) captions = pt;
+          } catch (_) {
+          }
+        }
+        if ((!captions || captions.length === 0) && window.ytplayer?.config?.args?.raw_player_response) {
+          try {
+            const raw = typeof window.ytplayer.config.args.raw_player_response === "string" ? JSON.parse(window.ytplayer.config.args.raw_player_response) : window.ytplayer.config.args.raw_player_response;
+            const rawTracks = raw?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
+            if (Array.isArray(rawTracks) && rawTracks.length > 0) captions = rawTracks;
+          } catch (_) {
+          }
+        }
         const videoDetails = playerResponse?.videoDetails || window.ytInitialPlayerResponse?.videoDetails || {};
         let directSegments = null;
         if (captions && captions.length > 0) {
@@ -352,7 +433,7 @@
           }
         }
         if (!directSegments || directSegments.length === 0) {
-          directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData);
+          directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
         }
         window.postMessage({
           type: "YT_AI_RES_PLAYER_DATA",
@@ -424,13 +505,13 @@
           if (!obj || depth > 10) return null;
           if (typeof obj !== "object") return null;
           if (obj.getTranscriptEndpoint && typeof obj.getTranscriptEndpoint.params === "string") {
-            return obj.getTranscriptEndpoint.params;
+            return { type: "get_transcript", params: obj.getTranscriptEndpoint.params };
           }
           if (obj.getTranscriptCommand && typeof obj.getTranscriptCommand.params === "string") {
-            return obj.getTranscriptCommand.params;
+            return { type: "get_transcript", params: obj.getTranscriptCommand.params };
           }
           if (obj.targetId === "engagement-panel-searchable-transcript" && obj.continuation && typeof obj.continuation === "string") {
-            return obj.continuation;
+            return { type: "browse_continuation", continuation: obj.continuation };
           }
           const keys = Array.isArray(obj) ? null : Object.keys(obj);
           const list = keys || obj;
@@ -472,8 +553,8 @@
     /**
      * Fetches transcript via YouTube InnerTube API 100% in background
      */
-    async fetchTranscriptFromInnerTube(params) {
-      if (!params) return null;
+    async fetchTranscriptFromInnerTube(paramObj) {
+      if (!paramObj) return null;
       try {
         const apiKey = window.ytcfg?.get?.("INNERTUBE_API_KEY");
         const context = window.ytcfg?.get?.("INNERTUBE_CONTEXT");
@@ -489,17 +570,32 @@
         if (visitorData) headers["X-Goog-Visitor-Id"] = visitorData;
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 4e3);
-        const res = await fetch(`https://www.youtube.com/youtubei/v1/get_transcript?key=${apiKey}`, {
+        let url = "";
+        let bodyData = { context };
+        if (typeof paramObj === "string") {
+          url = `https://www.youtube.com/youtubei/v1/get_transcript?key=${apiKey}`;
+          bodyData.params = paramObj;
+        } else if (paramObj.type === "get_transcript" && paramObj.params) {
+          url = `https://www.youtube.com/youtubei/v1/get_transcript?key=${apiKey}`;
+          bodyData.params = paramObj.params;
+        } else if (paramObj.type === "browse_continuation" && paramObj.continuation) {
+          url = `https://www.youtube.com/youtubei/v1/browse?key=${apiKey}`;
+          bodyData.continuation = paramObj.continuation;
+        } else {
+          clearTimeout(timer);
+          return null;
+        }
+        const res = await fetch(url, {
           method: "POST",
           headers,
-          body: JSON.stringify({ context, params }),
+          body: JSON.stringify(bodyData),
           credentials: "include",
           signal: controller.signal
         }).catch(() => null);
         clearTimeout(timer);
         if (!res || !res.ok) return null;
         const json = await res.json().catch(() => null);
-        return InnerTubeParser.extractSegmentsFromInnerTubeJson(json);
+        return InnerTubeParser.extractSegmentsFromInnerTubeJson(json, { allowChapters: false });
       } catch (_) {
       }
     }

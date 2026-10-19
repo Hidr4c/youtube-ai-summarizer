@@ -1321,7 +1321,8 @@
     let cachedTranscript = {
       videoId: "",
       segments: [],
-      fullText: ""
+      fullText: "",
+      isChapterOnly: false
     };
     let localWhisperUrl = "";
     let temperature = "0.3";
@@ -1507,6 +1508,16 @@
         if ((!banner || !banner.isConnected) && isWatchPage()) {
           tryInjectBanner();
         }
+        const currentId = getVideoId();
+        if (currentId && (!cachedTranscript.videoId || cachedTranscript.videoId !== currentId || cachedTranscript.isChapterOnly)) {
+          const segs = document.querySelectorAll("transcript-segment-view-model, ytd-transcript-segment-renderer");
+          if (segs && segs.length > 5) {
+            const domSegs = extractTranscriptFromActiveDOM();
+            if (domSegs && domSegs.length > 5) {
+              saveCachedTranscript(currentId, domSegs, false);
+            }
+          }
+        }
       });
       observer.observe(document.documentElement, { childList: true, subtree: true });
     }
@@ -1598,7 +1609,7 @@
         chatPort = null;
       }
       isGenerating = false;
-      cachedTranscript = { videoId: "", segments: [], fullText: "" };
+      cachedTranscript = { videoId: "", segments: [], fullText: "", isChapterOnly: false };
       chatHistory = [];
       resetSummaryOutput();
       resetChatOutput();
@@ -3533,28 +3544,50 @@
       }
     }
     async function ensureTranscriptTabActive(targetPanel) {
-      const panel = targetPanel || document.querySelector(
-        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"], ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
+      const panels = document.querySelectorAll(
+        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"], ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
       );
-      if (!panel) return false;
-      if (panel.querySelectorAll("transcript-segment-view-model, ytd-transcript-segment-renderer").length > 3) {
+      let activePanel = targetPanel;
+      if (!activePanel) {
+        for (const p of panels) {
+          const vis = p.getAttribute("visibility");
+          if (vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" || p.offsetParent !== null) {
+            activePanel = p;
+            break;
+          }
+        }
+        if (!activePanel && panels.length > 0) activePanel = panels[0];
+      }
+      if (!activePanel) return false;
+      if (document.querySelectorAll("transcript-segment-view-model, ytd-transcript-segment-renderer").length > 5) {
         return true;
       }
-      const candidates = panel.querySelectorAll(
+      const candidates = activePanel.querySelectorAll(
         'button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer, yt-formatted-string, yt-button-shape'
       );
       for (const el of candidates) {
         const text = (el.textContent || "").trim();
         const aria = (el.getAttribute("aria-label") || "").trim();
         if (TRANSCRIPT_LANG_REGEX.test(text) || TRANSCRIPT_LANG_REGEX.test(aria)) {
+          const isSelected = el.getAttribute("aria-selected") === "true" || el.classList.contains("selected") || el.classList.contains("iron-selected") || el.closest('[aria-selected="true"]');
+          if (isSelected) return true;
           const clickable = el.closest('button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer') || el;
+          const innerBtn = clickable.querySelector("button");
+          if (innerBtn) innerBtn.click();
           clickable.click();
+          clickable.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
           return true;
         }
       }
-      const tabList = panel.querySelectorAll('[role="tab"], yt-chip-cloud-chip-renderer, ytd-sub-feed-selector-renderer button');
+      const tabList = activePanel.querySelectorAll('[role="tab"], yt-chip-cloud-chip-renderer, ytd-sub-feed-selector-renderer button');
       if (tabList.length >= 2) {
-        tabList[1].click();
+        const secondTab = tabList[1];
+        const isSelected = secondTab.getAttribute("aria-selected") === "true" || secondTab.classList.contains("selected");
+        if (isSelected) return true;
+        const innerBtn = secondTab.querySelector("button");
+        if (innerBtn) innerBtn.click();
+        secondTab.click();
+        secondTab.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
         return true;
       }
       return false;
@@ -3587,7 +3620,8 @@
       wasDescExpanded = !expandDesc || expandDesc.offsetParent === null;
       if (wasPanelOpen) {
         await ensureTranscriptTabActive();
-        return extractTranscriptFromActiveDOM();
+        const direct = extractTranscriptFromActiveDOM();
+        if (direct && direct.length > 5) return direct;
       }
       let stealthStyle = document.getElementById("yt-ai-stealth-style");
       if (!stealthStyle) {
@@ -3624,7 +3658,7 @@
         }
         if (!directBtn && expandDesc && expandDesc.offsetParent !== null) {
           expandDesc.click();
-          await new Promise((r) => setTimeout(r, 150));
+          await new Promise((r) => setTimeout(r, 200));
           directBtn = document.querySelector("ytd-video-description-transcript-section-renderer button");
           if (!directBtn) {
             const allDescBtns = document.querySelectorAll("#description button, ytd-watch-metadata button");
@@ -3642,30 +3676,38 @@
           directBtn.click();
         } else {
           const markersBtn = document.querySelector(
-            'ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]'
+            'ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"], ytd-macro-markers-list-renderer [role="button"]'
           );
           if (markersBtn) {
             markersBtn.click();
-            await new Promise((r) => setTimeout(r, 150));
+            await new Promise((r) => setTimeout(r, 200));
             await ensureTranscriptTabActive();
           } else {
             const hiddenPanel = document.querySelector(
-              'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]'
+              'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]'
             );
             if (hiddenPanel) {
               hiddenPanel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED");
               if (typeof hiddenPanel.show === "function") hiddenPanel.show();
+              await ensureTranscriptTabActive(hiddenPanel);
             } else {
               return null;
             }
           }
         }
         let segments = null;
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 35; i++) {
           await new Promise((r) => setTimeout(r, 100));
-          await ensureTranscriptTabActive();
+          if (i % 3 === 0) {
+            await ensureTranscriptTabActive();
+          }
           segments = extractTranscriptFromActiveDOM();
-          if (segments && segments.length > 3) break;
+          if (segments && segments.length > 5) {
+            const words = segments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
+            if (segments.length >= 15 || words >= 100) {
+              break;
+            }
+          }
         }
         return segments;
       } catch (_) {
@@ -3690,18 +3732,24 @@
     }
     async function extractYouTubeTranscript(preferredLang = "en") {
       const currentVideoId = getVideoId();
-      if (cachedTranscript.videoId === currentVideoId && cachedTranscript.segments.length > 0) {
+      if (cachedTranscript.videoId === currentVideoId && cachedTranscript.segments.length > 0 && !cachedTranscript.isChapterOnly) {
         return cachedTranscript.segments;
       }
       let domSegments = extractTranscriptFromActiveDOM();
-      if (domSegments && domSegments.length > 3) {
-        saveCachedTranscript(currentVideoId, domSegments);
-        return domSegments;
+      if (domSegments && domSegments.length > 5) {
+        const words = domSegments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
+        if (domSegments.length >= 15 || words >= 150) {
+          saveCachedTranscript(currentVideoId, domSegments, false);
+          return domSegments;
+        }
       }
       const playerData = await requestPlayerDataFromMainWorld(currentVideoId, preferredLang);
       if (playerData && Array.isArray(playerData.segments) && playerData.segments.length > 3) {
-        saveCachedTranscript(currentVideoId, playerData.segments);
-        return playerData.segments;
+        const words = playerData.segments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
+        if (playerData.segments.length >= 15 || words >= 150) {
+          saveCachedTranscript(currentVideoId, playerData.segments, false);
+          return playerData.segments;
+        }
       }
       if (playerData && playerData.captions && playerData.captions.length > 0) {
         let track = playerData.captions.find((t) => t.languageCode === preferredLang);
@@ -3711,35 +3759,38 @@
         if (track && track.baseUrl) {
           const segments = await fetchTimedtextSegments(track.baseUrl);
           if (segments && segments.length > 3) {
-            saveCachedTranscript(currentVideoId, segments);
+            saveCachedTranscript(currentVideoId, segments, false);
             return segments;
           }
         }
       }
       const stealthSegments = await triggerStealthNativeTranscript();
       if (stealthSegments && stealthSegments.length > 3) {
-        saveCachedTranscript(currentVideoId, stealthSegments);
+        saveCachedTranscript(currentVideoId, stealthSegments, false);
         return stealthSegments;
       }
       const chapterSegments = extractChaptersFromDescription();
       if (chapterSegments && chapterSegments.length > 1) {
-        saveCachedTranscript(currentVideoId, chapterSegments);
+        saveCachedTranscript(currentVideoId, chapterSegments, true);
         return chapterSegments;
       }
       return null;
     }
-    function saveCachedTranscript(videoId, segments) {
+    function saveCachedTranscript(videoId, segments, isChapterOnly = false) {
       cachedTranscript = {
         videoId,
         segments,
-        fullText: segments.map((s) => s.text).join(" ")
+        fullText: segments.map((s) => s.text).join(" "),
+        isChapterOnly: !!isChapterOnly
       };
-      const wordsCount = cachedTranscript.fullText.trim().split(/\s+/).length;
+      const wordsCount = cachedTranscript.fullText.trim().split(/\s+/).filter(Boolean).length;
       const wordCountEl = document.getElementById("ytAiWordCount");
       const wordCountTab = document.getElementById("ytAiWordCountTab");
       const transcriptBody = document.getElementById("ytAiTranscriptBody");
       if (wordCountEl) wordCountEl.textContent = wordsCount.toLocaleString("fr-FR");
-      if (wordCountTab) wordCountTab.textContent = `${wordsCount.toLocaleString("fr-FR")} mots`;
+      if (wordCountTab) {
+        wordCountTab.textContent = isChapterOnly ? `${wordsCount.toLocaleString("fr-FR")} mots (Chapitres)` : `${wordsCount.toLocaleString("fr-FR")} mots`;
+      }
       if (transcriptBody) {
         transcriptBody.innerHTML = segments.map((s) => {
           let sec = 0;
@@ -3787,7 +3838,7 @@
         if (results.length > 3) return results;
       }
       const panel = document.querySelector(
-        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"], ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"], #panels ytd-engagement-panel-section-list-renderer'
+        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]:not([target-id*="macro-markers"])'
       );
       if (panel) {
         const panelText = panel.innerText || "";
@@ -3825,7 +3876,10 @@
         if (curTime && curText) {
           parsed.push({ timestamp: curTime, text: curText.trim() });
         }
-        if (parsed.length > 3) return parsed;
+        if (parsed.length >= 15) {
+          const totalWords = parsed.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
+          if (totalWords >= 120) return parsed;
+        }
       }
       return null;
     }
