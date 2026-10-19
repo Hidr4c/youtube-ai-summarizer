@@ -1,8 +1,6 @@
 # 🎬 YouTube Summarizer AI (LM Studio, Ollama & Cloud)
 
 [![CI Build](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml/badge.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml)
-[![Tests Passing](https://img.shields.io/badge/tests-55%20passed-brightgreen.svg?logo=node.js)](tests/)
-[![Coverage](https://img.shields.io/badge/coverage-%3E80%25%20(96.8%25%20lines)-brightgreen.svg?logo=jest)](#-automated-tests--coverage)
 [![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/releases)
 [![Manifest](https://img.shields.io/badge/manifest-v3-success.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -80,16 +78,11 @@ Works **100% locally and offline** with your own hardware (**LM Studio**, **Olla
 
 ---
 
-## 🧪 Automated Tests & Industrial Coverage (> 80%)
+## 🧪 Automated Tests & Quality Assurance
 
-The codebase is protected by continuous integration (GitHub Actions) and an extensive automated test suite strictly exceeding **80% coverage** across all criteria:
+The codebase is protected by Continuous Integration ([GitHub Actions CI](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml)). Every commit and pull request runs an automated test suite enforcing JavaScript syntax integrity, bundle compilation, and high code coverage thresholds (> 80%).
 
-| Metric | Target | Current Status |
-| :--- | :---: | :---: |
-| **Line Coverage** | `> 80%` | **96.8%** 🟢 |
-| **Branch Coverage** | `> 80%` | **83.2%** 🟢 |
-| **Function Coverage** | `> 80%` | **91.3%** 🟢 |
-| **Automated Tests** | `All pass` | **55 passed / 0 failed** 🟢 |
+Real-time test outcomes and detailed coverage metrics are generated dynamically on every CI run and can be inspected directly on the [GitHub Actions Run Summary](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml).
 
 ### Running Tests Locally
 ```bash
