@@ -9,198 +9,525 @@
       width: 1920px;
       height: 1080px;
       overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at 75% 30%, #151d2f 0%, #080c14 70%);
-      color: #f0f6fc;
+      font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #0f0f0f;
+      color: #f1f1f1;
+      position: relative;
+    }
+
+    /* Top Floating Promo Feature Callout */
+    .promo-header-callout {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-      padding: 0 100px;
+      align-items: center;
+      gap: 14px;
+      background: rgba(22, 27, 34, 0.95);
+      border: 1px solid rgba(56, 139, 253, 0.6);
+      padding: 8px 24px;
+      border-radius: 40px;
+      box-shadow: 0 8px 32px rgba(56, 139, 253, 0.25), 0 0 15px rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
+    }
+    .promo-callout-pill {
+      background: #1f6feb;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .promo-callout-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .promo-callout-text span {
+      color: #79c0ff;
     }
 
-    .glow-red {
-      position: absolute;
-      width: 800px;
-      height: 600px;
-      top: -100px;
-      left: 10%;
-      background: radial-gradient(circle, rgba(230, 33, 23, 0.22) 0%, rgba(0,0,0,0) 70%);
-      filter: blur(90px);
-      z-index: 0;
-    }
-    .glow-cyan {
-      position: absolute;
-      width: 800px;
-      height: 500px;
-      bottom: -100px;
-      right: 15%;
-      background: radial-gradient(circle, rgba(56, 139, 253, 0.2) 0%, rgba(0,0,0,0) 70%);
-      filter: blur(90px);
-      z-index: 0;
-    }
-
-    .container {
-      position: relative;
-      z-index: 1;
+    /* YouTube Top Navigation Bar */
+    .yt-navbar {
+      height: 56px;
+      background: #0f0f0f;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 70px;
-      width: 100%;
+      padding: 0 24px;
+      position: relative;
+      z-index: 50;
+    }
+    .yt-nav-left { display: flex; align-items: center; gap: 20px; }
+    .yt-nav-hamburger { width: 24px; height: 24px; display: flex; flex-direction: column; justify-content: space-around; }
+    .yt-nav-hamburger span { width: 100%; height: 2px; background: #fff; border-radius: 2px; }
+    .yt-logo { display: flex; align-items: center; gap: 4px; font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: #fff; }
+    .yt-logo-icon { width: 30px; height: 21px; background: #ff0000; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+    .yt-logo-icon svg { fill: #fff; width: 13px; height: 13px; margin-left: 2px; }
+
+    .yt-nav-center { display: flex; align-items: center; width: 620px; margin-left: -60px; }
+    .yt-search-box { display: flex; align-items: center; flex: 1; height: 40px; background: #121212; border: 1px solid #303030; border-radius: 40px 0 0 40px; padding: 0 16px; color: #f1f1f1; font-size: 14px; }
+    .yt-search-btn { width: 64px; height: 40px; background: #222; border: 1px solid #303030; border-left: none; border-radius: 0 40px 40px 0; display: flex; align-items: center; justify-content: center; }
+    .yt-search-btn svg { width: 18px; height: 18px; fill: #fff; }
+    .yt-mic-btn { width: 40px; height: 40px; background: #181818; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-left: 12px; }
+    .yt-mic-btn svg { width: 18px; height: 18px; fill: #fff; }
+
+    .yt-nav-right { display: flex; align-items: center; gap: 16px; }
+    .yt-nav-icon-btn { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .yt-nav-icon-btn svg { width: 20px; height: 20px; fill: #fff; }
+    /* Strictly generic sign in button - NO personal account */
+    .yt-signin-btn { display: flex; align-items: center; gap: 8px; border: 1px solid #3ea6ff; color: #3ea6ff; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+    .yt-signin-btn svg { width: 18px; height: 18px; fill: #3ea6ff; }
+
+    /* YouTube Layout Grid */
+    .yt-main-layout {
+      display: grid;
+      grid-template-columns: 1280px 1fr;
+      gap: 28px;
+      padding: 16px 40px 30px 40px;
+      max-width: 1920px;
+      margin: 0 auto;
     }
 
-    .text-column {
-      flex: 1;
-      max-width: 720px;
-    }
-
-    .badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(230, 33, 23, 0.16);
-      border: 1px solid rgba(230, 33, 23, 0.45);
-      color: #ff7b72;
-      font-size: 15px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      padding: 6px 20px;
-      border-radius: 24px;
-      margin-bottom: 20px;
-    }
-
-    .scene-title {
-      font-size: 56px;
-      font-weight: 900;
-      line-height: 1.15;
-      color: #ffffff;
-      letter-spacing: -1px;
-      margin-bottom: 18px;
-    }
-    .scene-title span {
-      background: linear-gradient(135deg, #ff4d4d, #f78166);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .scene-desc {
-      font-size: 22px;
-      line-height: 1.5;
-      color: #8b949e;
-      margin-bottom: 36px;
-    }
-
-    .feature-list {
+    .yt-primary-col {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 12px;
     }
 
-    .feature-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      background: rgba(22, 27, 34, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 16px 22px;
-      backdrop-filter: blur(10px);
-    }
-    .item-icon {
-      font-size: 24px;
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: rgba(230, 33, 23, 0.15);
-      color: #ff7b72;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .item-body h4 {
-      font-size: 19px;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 4px;
-    }
-    .item-body p {
-      font-size: 15px;
-      color: #8b949e;
-      line-height: 1.4;
-    }
-
-    .visual-column {
-      flex: 1.2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
-    .screenshot-card {
+    /* Video Player (Slightly more compact in scene 2 to let the rich summary shine) */
+    .yt-player {
       width: 100%;
-      border-radius: 20px;
+      height: 380px;
+      background: #000;
+      border-radius: 12px;
       overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(230, 33, 23, 0.2);
-      transform: perspective(1000px) rotateY(-4deg) rotateX(2deg);
-      transition: transform 0.3s ease;
+      position: relative;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .yt-player-visual {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #111827 0%, #1e1b4b 60%, #312e81 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .player-visual-badge {
+      background: rgba(56, 139, 253, 0.2);
+      border: 1px solid #58a6ff;
+      color: #58a6ff;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .player-visual-text {
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    /* Player Controls bar */
+    .yt-player-controls {
+      position: relative;
+      z-index: 10;
+      background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+      padding: 8px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .yt-scrub-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.25); border-radius: 2px; position: relative; }
+    .yt-scrub-progress { width: 28%; height: 100%; background: #ff0000; border-radius: 2px; position: relative; }
+    .yt-scrub-knob { width: 12px; height: 12px; border-radius: 50%; background: #ff0000; position: absolute; right: -6px; top: -4px; }
+    .yt-ctrl-row { display: flex; align-items: center; justify-content: space-between; }
+    .yt-ctrl-left { display: flex; align-items: center; gap: 16px; font-size: 13px; color: #ddd; }
+    .yt-ctrl-icon { width: 20px; height: 20px; fill: #fff; }
+
+    /* Video Title & Channel Row */
+    .yt-video-title { font-size: 18px; font-weight: 700; color: #f1f1f1; }
+    .yt-channel-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 8px;
+    }
+    .yt-channel-left { display: flex; align-items: center; gap: 12px; }
+    .yt-channel-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #2563eb, #7c3aed); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; color: #fff; }
+    .yt-channel-info h4 { font-size: 14px; font-weight: 600; color: #fff; }
+    .yt-channel-info p { font-size: 11px; color: #aaa; }
+    .yt-sub-btn { background: #fff; color: #0f0f0f; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px; border: none; margin-left: 10px; }
+    .yt-action-pill { display: flex; align-items: center; gap: 6px; background: #272727; color: #f1f1f1; padding: 6px 12px; border-radius: 20px; font-size: 12px; }
+    .yt-action-pill svg { width: 14px; height: 14px; fill: #fff; }
+
+    /* ========================================================= */
+    /* INJECTED EXTENSION BANNER - SUMMARY EXPANDED VIEW         */
+    /* ========================================================= */
+    .yt-ai-injected-banner {
+      width: 100%;
+      background: #0f1117;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7), 0 0 25px rgba(56, 139, 253, 0.15);
+      overflow: hidden;
+    }
+
+    .yt-ai-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      background: linear-gradient(180deg, #181d27, #11151e);
+      border-bottom: 1px solid #28303d;
+    }
+    .yt-ai-brand { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: #fff; }
+    .yt-ai-logo-icon { width: 26px; height: 26px; border-radius: 6px; background: linear-gradient(135deg, #e62117, #ff6b4a); display: flex; align-items: center; justify-content: center; }
+    .yt-ai-logo-icon svg { width: 15px; height: 15px; fill: #fff; }
+
+    .yt-ai-status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 14px; font-size: 11px; font-weight: 600; background: rgba(63, 185, 80, 0.15); border: 1px solid rgba(63, 185, 80, 0.5); color: #7ee787; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #7ee787; }
+    .yt-ai-model-pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 14px; font-size: 11px; font-weight: 600; background: rgba(56, 139, 253, 0.15); border: 1px solid rgba(56, 139, 253, 0.45); color: #58a6ff; }
+
+    /* Navigation Tabs inside Banner */
+    .yt-ai-nav-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      background: #141822;
+      border-bottom: 1px solid #21262d;
+    }
+    .tab-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #8b949e;
+      cursor: pointer;
+    }
+    .tab-pill.active {
+      background: #21262d;
+      color: #f0f6fc;
+      border: 1px solid #388bfd;
+      box-shadow: 0 0 10px rgba(56, 139, 253, 0.2);
+    }
+    .tab-pill svg { width: 14px; height: 14px; fill: currentColor; }
+
+    .tab-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mode-toggle-group {
+      display: flex;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 2px;
+    }
+    .mode-btn {
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 4px;
+      border: none;
+      color: #8b949e;
+      background: transparent;
+    }
+    .mode-btn.active {
+      background: #238636;
+      color: #fff;
+    }
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #21262d;
+      border: 1px solid #30363d;
+      color: #c9d1d9;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .action-btn svg { width: 12px; height: 12px; fill: currentColor; }
+
+    /* Summary Content Area */
+    .yt-ai-summary-body {
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       background: #0d1117;
     }
-    .screenshot-card img {
-      width: 100%;
-      height: auto;
-      display: block;
+
+    .summary-overview-box {
+      background: rgba(56, 139, 253, 0.08);
+      border-left: 3px solid #58a6ff;
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #c9d1d9;
+      line-height: 1.45;
     }
+
+    .timestamp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .timestamp-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: #161b22;
+      border: 1px solid #21262d;
+      padding: 10px 14px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .timestamp-item.highlighted {
+      border-color: #388bfd;
+      background: rgba(56, 139, 253, 0.1);
+      box-shadow: 0 0 15px rgba(56, 139, 253, 0.15);
+    }
+
+    .time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #1f6feb;
+      color: #fff;
+      font-family: monospace;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(31, 111, 235, 0.4);
+    }
+    .time-badge svg { width: 12px; height: 12px; fill: #fff; }
+
+    .item-content {
+      font-size: 13px;
+      line-height: 1.4;
+      color: #e6edf3;
+    }
+    .item-content b {
+      color: #58a6ff;
+      margin-right: 4px;
+    }
+
+    /* Right Sidebar */
+    .yt-sidebar { display: flex; flex-direction: column; gap: 14px; }
+    .yt-sidebar-title { font-size: 15px; font-weight: 700; color: #f1f1f1; }
+    .yt-rec-card { display: flex; gap: 12px; }
+    .yt-rec-thumb { width: 168px; height: 94px; border-radius: 8px; overflow: hidden; position: relative; background: #222; flex-shrink: 0; }
+    .yt-rec-thumb-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; text-align: center; padding: 6px; }
+    .thumb-1 { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+    .thumb-2 { background: linear-gradient(135deg, #14532d, #22c55e); }
+    .thumb-3 { background: linear-gradient(135deg, #581c87, #a855f7); }
+    .thumb-4 { background: linear-gradient(135deg, #7c2d12, #ea580c); }
+    .yt-rec-dur { position: absolute; bottom: 4px; right: 4px; background: rgba(0,0,0,0.85); color: #fff; font-size: 10px; font-weight: 600; padding: 2px 4px; border-radius: 4px; }
+    .yt-rec-details { display: flex; flex-direction: column; gap: 4px; }
+    .yt-rec-title { font-size: 13px; font-weight: 600; color: #f1f1f1; line-height: 1.3; }
+    .yt-rec-channel { font-size: 12px; color: #aaa; }
+    .yt-rec-meta { font-size: 11px; color: #888; }
   </style>
 </head>
 <body>
-  <div class="glow-red"></div>
-  <div class="glow-cyan"></div>
 
-  <div class="container">
-    <div class="text-column">
-      <div class="badge-pill">⚡ Instant AI Summaries</div>
-      <h1 class="scene-title">Summarize Any Video <span>in Seconds</span></h1>
-      <p class="scene-desc">
-        Save hours of watch time. Get clear, structured summaries delivered directly beside your YouTube video.
-      </p>
-
-      <div class="feature-list">
-        <div class="feature-item">
-          <div class="item-icon">⚡</div>
-          <div class="item-body">
-            <h4>3 Flexible Summary Depths</h4>
-            <p>Choose Quick (bullet points), Standard (balanced overview), or Detailed (in-depth analysis).</p>
-          </div>
-        </div>
-
-        <div class="feature-item">
-          <div class="item-icon">⏱️</div>
-          <div class="item-body">
-            <h4>Clickable Interactive Timestamps</h4>
-            <p>Every major topic has a timestamp link. Click any timestamp to jump straight to that moment.</p>
-          </div>
-        </div>
-
-        <div class="feature-item">
-          <div class="item-icon">🎯</div>
-          <div class="item-body">
-            <h4>Key Takeaways & TL;DR</h4>
-            <p>Immediate executive summary at the top so you absorb key concepts in under 10 seconds.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="visual-column">
-      <div class="screenshot-card">
-        <img src="../screenshot-1-instant-summary.png" alt="Instant AI Summary Preview" />
-      </div>
-    </div>
+  <!-- Floating Callout -->
+  <div class="promo-header-callout">
+    <div class="promo-callout-pill">SMART SUMMARIES</div>
+    <div class="promo-callout-text">Interactive Bullet Points &bull; <span>Clickable Timestamps</span> &bull; Instant Video Chapter Jumps</div>
   </div>
+
+  <!-- YouTube Top Navbar -->
+  <header class="yt-navbar">
+    <div class="yt-nav-left">
+      <div class="yt-nav-hamburger"><span></span><span></span><span></span></div>
+      <div class="yt-logo">
+        <div class="yt-logo-icon"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div>
+        YouTube
+      </div>
+    </div>
+    <div class="yt-nav-center">
+      <div class="yt-search-box">Building Autonomous AI Agents with Local LLMs & Function Calling</div>
+      <div class="yt-search-btn"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg></div>
+      <div class="yt-mic-btn"><svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"></path></svg></div>
+    </div>
+    <div class="yt-nav-right">
+      <div class="yt-nav-icon-btn"><svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"></path></svg></div>
+      <div class="yt-nav-icon-btn"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"></path></svg></div>
+      <!-- GENERIC SIGN IN - NO PERSONAL ACCOUNT -->
+      <div class="yt-signin-btn">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path></svg>
+        Sign in
+      </div>
+    </div>
+  </header>
+
+  <!-- YouTube Main Layout Grid -->
+  <main class="yt-main-layout">
+
+    <div class="yt-primary-col">
+
+      <!-- Video Player (Showing timestamp jump effect) -->
+      <div class="yt-player">
+        <div class="yt-player-visual">
+          <div class="player-visual-badge">🎯 Jumped to Chapter: Function Calling Engine</div>
+          <div class="player-visual-text">JSON Schema Enforcement on Local LLMs</div>
+        </div>
+
+        <div class="yt-player-controls">
+          <div class="yt-scrub-bar">
+            <div class="yt-scrub-progress" style="width: 29%;">
+              <div class="yt-scrub-knob"></div>
+            </div>
+          </div>
+          <div class="yt-ctrl-row">
+            <div class="yt-ctrl-left">
+              <svg class="yt-ctrl-icon" viewBox="0 0 24 24"><polygon points="6,4 18,12 6,20"></polygon></svg>
+              <svg class="yt-ctrl-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"></path></svg>
+              <span>05:20 / 18:35</span>
+            </div>
+            <div class="yt-ctrl-left">
+              <span style="background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 3px; font-size: 11px;">4K</span>
+              <svg class="yt-ctrl-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"></path></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Title & Channel Info -->
+      <h1 class="yt-video-title">Building Autonomous AI Agents with Local LLMs &amp; Function Calling (2026 Guide)</h1>
+      <div class="yt-channel-row">
+        <div class="yt-channel-left">
+          <div class="yt-channel-avatar">AI</div>
+          <div class="yt-channel-info">
+            <h4>AI Engineering Academy</h4>
+            <p>540K subscribers</p>
+          </div>
+          <button class="yt-sub-btn">Subscribe</button>
+        </div>
+        <div class="yt-channel-actions">
+          <div class="yt-action-pill"><svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"></path></svg> 18K</div>
+          <div class="yt-action-pill"><svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"></path></svg> Share</div>
+        </div>
+      </div>
+
+      <!-- INJECTED EXTENSION BANNER - EXPANDED SUMMARY VIEW -->
+      <section class="yt-ai-injected-banner">
+        <div class="yt-ai-header-bar">
+          <div class="yt-ai-brand">
+            <div class="yt-ai-logo-icon"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div>
+            <span>YouTube AI Summarizer</span>
+            <div class="yt-ai-status-pill"><span class="status-dot"></span> LM Studio Connected</div>
+            <div class="yt-ai-model-pill"><span>qwen2.5-coder-7b</span></div>
+          </div>
+          <div style="font-size: 11px; color: #8b949e;">Generated in 1.4s &bull; 4 key insights</div>
+        </div>
+
+        <!-- Banner Tabs -->
+        <div class="yt-ai-nav-tabs">
+          <div class="tab-pill active">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path></svg>
+            Summary
+          </div>
+          <div class="tab-pill">
+            <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"></path></svg>
+            Chat
+          </div>
+          <div class="tab-pill">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path></svg>
+            Transcript
+          </div>
+
+          <div class="tab-actions">
+            <div class="mode-toggle-group">
+              <button class="mode-btn active">⚡ Bullets</button>
+              <button class="mode-btn">📖 Deep Dive</button>
+            </div>
+            <button class="action-btn">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>
+              Copy
+            </button>
+            <button class="action-btn">
+              <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg>
+              Export
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary Body with Clickable Timestamps -->
+        <div class="yt-ai-summary-body">
+          <div class="summary-overview-box">
+            <b>Core Thesis:</b> Autonomous local AI agents can execute multi-step tools with zero cloud API costs using GGUF quantizations and strict JSON schema function calling.
+          </div>
+
+          <div class="timestamp-list">
+            <div class="timestamp-item">
+              <div class="time-badge"><svg viewBox="0 0 24 24"><polygon points="6,4 18,12 6,20"></polygon></svg> 01:45</div>
+              <div class="item-content"><b>Local LLM Quantization:</b> Comparing Q4_K_M vs Q8_0 weights in LM Studio to achieve maximum token throughput under 6GB VRAM.</div>
+            </div>
+
+            <div class="timestamp-item highlighted">
+              <div class="time-badge" style="background: #238636;"><svg viewBox="0 0 24 24"><polygon points="6,4 18,12 6,20"></polygon></svg> 05:20</div>
+              <div class="item-content"><b>Function Calling Architecture:</b> Defining explicit JSON schemas for tool arguments, eliminating hallucinations during execution. <span style="color: #7ee787; font-weight: 600;">(Currently Playing)</span></div>
+            </div>
+
+            <div class="timestamp-item">
+              <div class="time-badge"><svg viewBox="0 0 24 24"><polygon points="6,4 18,12 6,20"></polygon></svg> 09:15</div>
+              <div class="item-content"><b>Error Recovery Loop:</b> Feeding tool execution errors directly back to the model context to self-heal and retry gracefully.</div>
+            </div>
+
+            <div class="timestamp-item">
+              <div class="time-badge"><svg viewBox="0 0 24 24"><polygon points="6,4 18,12 6,20"></polygon></svg> 14:30</div>
+              <div class="item-content"><b>Production Benchmarks:</b> Sustained 85 tokens/sec local execution with complete data sovereignty and zero subscription fees.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Right Sidebar -->
+    <aside class="yt-sidebar">
+      <div class="yt-sidebar-title">Recommended Videos</div>
+      <div class="yt-rec-card">
+        <div class="yt-rec-thumb"><div class="yt-rec-thumb-inner thumb-1">LM Studio 2026: Setup</div><span class="yt-rec-dur">14:20</span></div>
+        <div class="yt-rec-details"><div class="yt-rec-title">LM Studio 2026: Run Local AI On Any GPU</div><div class="yt-rec-channel">OpenSource AI</div><div class="yt-rec-meta">98K views &bull; 3 days ago</div></div>
+      </div>
+      <div class="yt-rec-card">
+        <div class="yt-rec-thumb"><div class="yt-rec-thumb-inner thumb-2">Function Calling Deep Dive</div><span class="yt-rec-dur">22:15</span></div>
+        <div class="yt-rec-details"><div class="yt-rec-title">Mastering JSON Schema &amp; Function Calling</div><div class="yt-rec-channel">Neural Dev</div><div class="yt-rec-meta">45K views &bull; 1 week ago</div></div>
+      </div>
+      <div class="yt-rec-card">
+        <div class="yt-rec-thumb"><div class="yt-rec-thumb-inner thumb-3">Ollama vs vLLM Benchmark</div><span class="yt-rec-dur">18:40</span></div>
+        <div class="yt-rec-details"><div class="yt-rec-title">Ollama vs vLLM: Inference Speed Tested</div><div class="yt-rec-channel">Benchmark Lab</div><div class="yt-rec-meta">120K views &bull; 2 weeks ago</div></div>
+      </div>
+    </aside>
+
+  </main>
+
 </body>
 </html>

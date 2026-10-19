@@ -9,252 +9,856 @@
       width: 1920px;
       height: 1080px;
       overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at 50% 20%, #151f32 0%, #080c14 70%);
-      color: #f0f6fc;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #0f0f0f;
+      color: #f1f1f1;
       position: relative;
     }
 
-    /* Ambient Glows */
-    .glow-red {
+    /* Top Floating Promo Feature Callout */
+    .promo-header-callout {
       position: absolute;
-      width: 900px;
-      height: 600px;
-      top: 10%;
+      top: 14px;
       left: 50%;
       transform: translateX(-50%);
-      background: radial-gradient(circle, rgba(230, 33, 23, 0.28) 0%, rgba(0,0,0,0) 70%);
-      filter: blur(80px);
-      z-index: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(22, 27, 34, 0.95);
+      border: 1px solid rgba(230, 33, 23, 0.5);
+      padding: 8px 24px;
+      border-radius: 40px;
+      box-shadow: 0 8px 32px rgba(230, 33, 23, 0.25), 0 0 15px rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
     }
-    .glow-blue {
-      position: absolute;
-      width: 800px;
-      height: 400px;
-      bottom: -100px;
-      right: 10%;
-      background: radial-gradient(circle, rgba(56, 139, 253, 0.15) 0%, rgba(0,0,0,0) 70%);
-      filter: blur(90px);
-      z-index: 0;
+    .promo-callout-pill {
+      background: #e62117;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .promo-callout-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .promo-callout-text span {
+      color: #58a6ff;
     }
 
-    .content-box {
+    /* YouTube Top Navigation Bar */
+    .yt-navbar {
+      height: 56px;
+      background: #0f0f0f;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
       position: relative;
-      z-index: 1;
+      z-index: 50;
+    }
+    .yt-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .yt-nav-hamburger {
+      width: 24px;
+      height: 24px;
       display: flex;
       flex-direction: column;
+      justify-content: space-around;
+      cursor: pointer;
+    }
+    .yt-nav-hamburger span {
+      width: 100%;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+    }
+    .yt-logo {
+      display: flex;
       align-items: center;
-      text-align: center;
-      max-width: 1500px;
-      padding: 0 40px;
+      gap: 4px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #fff;
     }
-
-    .badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(230, 33, 23, 0.18);
-      border: 1px solid rgba(230, 33, 23, 0.45);
-      color: #ff7b72;
-      font-size: 16px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      padding: 8px 24px;
-      border-radius: 30px;
-      margin-bottom: 24px;
-      box-shadow: 0 0 20px rgba(230, 33, 23, 0.25);
-    }
-
-    .icon-container {
-      position: relative;
-      margin-bottom: 24px;
-    }
-    .icon-glow-ring {
-      position: absolute;
-      inset: -16px;
-      border-radius: 46px;
-      background: linear-gradient(135deg, #ff3b30, #ff8c00);
-      filter: blur(18px);
-      opacity: 0.75;
-      z-index: 0;
-    }
-    .main-icon {
-      position: relative;
-      width: 130px;
-      height: 130px;
-      border-radius: 32px;
-      background: #0d1117;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      z-index: 1;
+    .yt-logo-icon {
+      width: 30px;
+      height: 21px;
+      background: #ff0000;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .main-icon svg {
-      width: 80px;
-      height: 80px;
+    .yt-logo-icon svg {
+      fill: #fff;
+      width: 13px;
+      height: 13px;
+      margin-left: 2px;
     }
 
-    .hook-title {
-      font-size: 34px;
-      font-weight: 600;
-      color: #8b949e;
-      letter-spacing: -0.5px;
-      margin-bottom: 12px;
-    }
-
-    .hero-title {
-      font-size: 68px;
-      font-weight: 900;
-      letter-spacing: -1.5px;
-      line-height: 1.15;
-      margin-bottom: 18px;
-      color: #ffffff;
-    }
-    .hero-title .gradient-text {
-      background: linear-gradient(135deg, #ff3b30 0%, #ff7b72 50%, #ffa657 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-subtitle {
-      font-size: 26px;
-      color: #c9d1d9;
-      font-weight: 400;
-      max-width: 1100px;
-      line-height: 1.5;
-      margin-bottom: 44px;
-    }
-
-    .cards-row {
+    .yt-nav-center {
       display: flex;
-      gap: 28px;
-      margin-bottom: 40px;
+      align-items: center;
+      width: 620px;
+      margin-left: -60px;
+    }
+    .yt-search-box {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      height: 40px;
+      background: #121212;
+      border: 1px solid #303030;
+      border-radius: 40px 0 0 40px;
+      padding: 0 16px;
+      color: #f1f1f1;
+      font-size: 14px;
+    }
+    .yt-search-btn {
+      width: 64px;
+      height: 40px;
+      background: #222;
+      border: 1px solid #303030;
+      border-left: none;
+      border-radius: 0 40px 40px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .yt-search-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
+    }
+    .yt-mic-btn {
+      width: 40px;
+      height: 40px;
+      background: #181818;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 12px;
+    }
+    .yt-mic-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
     }
 
-    .feature-card {
-      background: rgba(22, 27, 34, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      padding: 24px 32px;
+    .yt-nav-right {
       display: flex;
       align-items: center;
       gap: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     }
-    .card-icon {
-      font-size: 32px;
-      background: rgba(255, 255, 255, 0.08);
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
+    .yt-nav-icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .yt-nav-icon-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+    }
+    /* Strictly generic sign in button - NO personal account */
+    .yt-signin-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #3ea6ff;
+      color: #3ea6ff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .yt-signin-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #3ea6ff;
+    }
+
+    /* Main YouTube 2-Column Grid Layout */
+    .yt-main-layout {
+      display: grid;
+      grid-template-columns: 1280px 1fr;
+      gap: 28px;
+      padding: 20px 40px 40px 40px;
+      max-width: 1920px;
+      margin: 0 auto;
+    }
+
+    /* Left Primary Column */
+    .yt-primary-col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Video Player */
+    .yt-player {
+      width: 100%;
+      height: 480px;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .yt-player-visual {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #0b132b 0%, #1c2541 60%, #3a506b 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    .player-code-frame {
+      background: rgba(10, 14, 23, 0.9);
+      border: 1px solid rgba(56, 139, 253, 0.4);
+      border-radius: 10px;
+      padding: 24px 32px;
+      width: 800px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    }
+    .code-top-dots {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .code-top-dots span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .code-top-dots .dot-r { background: #ff5f56; }
+    .code-top-dots .dot-y { background: #ffbd2e; }
+    .code-top-dots .dot-g { background: #27c93f; }
+    .player-code-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #58a6ff;
+      margin-bottom: 8px;
+      font-family: monospace;
+    }
+    .player-code-desc {
+      font-size: 15px;
+      color: #8b949e;
+      line-height: 1.5;
+      font-family: monospace;
+    }
+    .player-code-desc b {
+      color: #7ee787;
+    }
+
+    /* Player Controls bar */
+    .yt-player-controls {
+      position: relative;
+      z-index: 10;
+      background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+      padding: 10px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .yt-scrub-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 2px;
+      position: relative;
+    }
+    .yt-scrub-progress {
+      width: 32%;
+      height: 100%;
+      background: #ff0000;
+      border-radius: 2px;
+      position: relative;
+    }
+    .yt-scrub-knob {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff0000;
+      position: absolute;
+      right: -6px;
+      top: -4px;
+      box-shadow: 0 0 6px rgba(255,0,0,0.8);
+    }
+    .yt-ctrl-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .yt-ctrl-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+      color: #ddd;
+    }
+    .yt-ctrl-icon {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+    }
+
+    /* Video Title & Channel Row */
+    .yt-video-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #f1f1f1;
+      line-height: 1.3;
+    }
+    .yt-channel-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 12px;
+    }
+    .yt-channel-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .yt-channel-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: #fff;
+    }
+    .yt-channel-info h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .yt-channel-info p {
+      font-size: 12px;
+      color: #aaa;
+    }
+    .yt-sub-btn {
+      background: #fff;
+      color: #0f0f0f;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: none;
+      margin-left: 12px;
+      cursor: pointer;
+    }
+
+    .yt-channel-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .yt-action-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #272727;
+      color: #f1f1f1;
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .yt-action-pill svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+    }
+
+    /* ========================================================= */
+    /* INJECTED YOUTUBE AI SUMMARIZER BANNER                     */
+    /* ========================================================= */
+    .yt-ai-injected-banner {
+      width: 100%;
+      background: #0f1117;
+      border: 2px solid rgba(230, 33, 23, 0.7);
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(230, 33, 23, 0.25), 0 0 20px rgba(0,0,0,0.8);
+      overflow: hidden;
+      margin-top: 4px;
+      animation: pulseBorder 3s infinite alternate;
+    }
+    @keyframes pulseBorder {
+      0% { border-color: rgba(230, 33, 23, 0.5); box-shadow: 0 8px 30px rgba(230, 33, 23, 0.2); }
+      100% { border-color: rgba(230, 33, 23, 0.9); box-shadow: 0 10px 45px rgba(230, 33, 23, 0.35); }
+    }
+
+    .yt-ai-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: linear-gradient(180deg, #181d27, #11151e);
+      border-bottom: 1px solid #28303d;
+    }
+    .yt-ai-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .yt-ai-logo-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, #e62117, #ff6b4a);
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .card-text {
-      text-align: left;
-    }
-    .card-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 4px;
-    }
-    .card-desc {
-      font-size: 15px;
-      color: #8b949e;
+    .yt-ai-logo-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
     }
 
-    .bottom-bar {
+    .yt-ai-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(63, 185, 80, 0.15);
+      border: 1px solid rgba(63, 185, 80, 0.5);
+      color: #7ee787;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #7ee787;
+      box-shadow: 0 0 8px #7ee787;
+    }
+
+    .yt-ai-model-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(56, 139, 253, 0.15);
+      border: 1px solid rgba(56, 139, 253, 0.45);
+      color: #58a6ff;
+    }
+
+    .yt-ai-action-group {
       display: flex;
       align-items: center;
-      gap: 24px;
-      font-size: 17px;
-      color: #8b949e;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 10px 28px;
-      border-radius: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 8px;
     }
-    .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #58a6ff;
+    .yt-ai-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #21262d;
+      border: 1px solid #30363d;
+      color: #c9d1d9;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .yt-ai-btn.primary {
+      background: linear-gradient(135deg, #e62117, #c41810);
+      border: none;
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(230, 33, 23, 0.4);
+    }
+    .yt-ai-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    /* Banner Feature Preview Card */
+    .yt-ai-preview-body {
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      background: radial-gradient(circle at 10% 50%, rgba(230, 33, 23, 0.08) 0%, transparent 60%);
+    }
+    .preview-info {
+      flex: 1;
+    }
+    .preview-info h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #f0f6fc;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .preview-info p {
+      font-size: 13.5px;
+      color: #8b949e;
+      line-height: 1.5;
+    }
+    .preview-pills {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .feature-tag {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #c9d1d9;
+    }
+
+    /* Right Sidebar (YouTube Recommended Videos) */
+    .yt-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .yt-sidebar-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #f1f1f1;
+      margin-bottom: 4px;
+    }
+    .yt-rec-card {
+      display: flex;
+      gap: 12px;
+      background: transparent;
+      cursor: pointer;
+    }
+    .yt-rec-thumb {
+      width: 168px;
+      height: 94px;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      background: #222;
+      flex-shrink: 0;
+    }
+    .yt-rec-thumb-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      padding: 6px;
+    }
+    .thumb-1 { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+    .thumb-2 { background: linear-gradient(135deg, #14532d, #22c55e); }
+    .thumb-3 { background: linear-gradient(135deg, #581c87, #a855f7); }
+    .thumb-4 { background: linear-gradient(135deg, #7c2d12, #ea580c); }
+
+    .yt-rec-dur {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      background: rgba(0,0,0,0.85);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    .yt-rec-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .yt-rec-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #f1f1f1;
+      line-height: 1.3;
+    }
+    .yt-rec-channel {
+      font-size: 12px;
+      color: #aaa;
+    }
+    .yt-rec-meta {
+      font-size: 11px;
+      color: #888;
     }
   </style>
 </head>
 <body>
-  <div class="glow-red"></div>
-  <div class="glow-blue"></div>
 
-  <div class="content-box">
-    <div class="badge-pill">🔥 Official Chrome Extension</div>
-
-    <div class="icon-container">
-      <div class="icon-glow-ring"></div>
-      <div class="main-icon">
-        <svg viewBox="0 0 128 128" fill="none">
-          <circle cx="64" cy="64" r="56" fill="url(#grad1)"/>
-          <path d="M48 40L88 64L48 88V40Z" fill="#ffffff"/>
-          <path d="M84 40L88 32L92 40L100 44L92 48L88 56L84 48L76 44L84 40Z" fill="#ffdf5d"/>
-          <defs>
-            <linearGradient id="grad1" x1="12" y1="12" x2="116" y2="116" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#FF0000"/>
-              <stop offset="1" stop-color="#C40000"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-    </div>
-
-    <div class="hook-title">Tired of watching 40-minute videos to find one answer?</div>
-    <h1 class="hero-title">Meet <span class="gradient-text">YouTube AI Summarizer</span></h1>
-    <p class="hero-subtitle">
-      Your intelligent video companion right inside YouTube. Instant summaries, interactive transcript chat, and clickable timestamps — running 100% locally or with top cloud AI models.
-    </p>
-
-    <div class="cards-row">
-      <div class="feature-card">
-        <div class="card-icon">⚡</div>
-        <div class="card-text">
-          <div class="card-title">Instant Summaries</div>
-          <div class="card-desc">Quick, Standard & Detailed modes</div>
-        </div>
-      </div>
-
-      <div class="feature-card">
-        <div class="card-icon">💬</div>
-        <div class="card-text">
-          <div class="card-title">Interactive Q&A</div>
-          <div class="card-desc">Chat with the video transcript</div>
-        </div>
-      </div>
-
-      <div class="feature-card">
-        <div class="card-icon">🔒</div>
-        <div class="card-text">
-          <div class="card-title">100% Local & Private</div>
-          <div class="card-desc">Powered by LM Studio & Ollama</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="bottom-bar">
-      <span>Chrome & Brave Ready</span>
-      <span class="dot"></span>
-      <span>Manifest V3 Secure</span>
-      <span class="dot"></span>
-      <span>8 Languages Supported</span>
-    </div>
+  <!-- Floating Callout: Scene Hook -->
+  <div class="promo-header-callout">
+    <div class="promo-callout-pill">INTEGRATION</div>
+    <div class="promo-callout-text">Built Directly Into <span>YouTube</span> &bull; No Switching Tabs &bull; Clean In-Page UI</div>
   </div>
+
+  <!-- YouTube Top Navbar -->
+  <header class="yt-navbar">
+    <div class="yt-nav-left">
+      <div class="yt-nav-hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="yt-logo">
+        <div class="yt-logo-icon">
+          <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg>
+        </div>
+        YouTube
+      </div>
+    </div>
+
+    <div class="yt-nav-center">
+      <div class="yt-search-box">Building Autonomous AI Agents with Local LLMs & Function Calling</div>
+      <div class="yt-search-btn">
+        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+      </div>
+      <div class="yt-mic-btn">
+        <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"></path></svg>
+      </div>
+    </div>
+
+    <div class="yt-nav-right">
+      <div class="yt-nav-icon-btn">
+        <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"></path></svg>
+      </div>
+      <div class="yt-nav-icon-btn">
+        <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"></path></svg>
+      </div>
+      <!-- GENERIC SIGN IN - NO PERSONAL ACCOUNT -->
+      <div class="yt-signin-btn">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path></svg>
+        Sign in
+      </div>
+    </div>
+  </header>
+
+  <!-- YouTube Main Layout Grid -->
+  <main class="yt-main-layout">
+
+    <!-- Primary Video & Details Column -->
+    <div class="yt-primary-col">
+
+      <!-- Simulated Video Player -->
+      <div class="yt-player">
+        <div class="yt-player-visual">
+          <div class="player-code-frame">
+            <div class="code-top-dots">
+              <span class="dot-r"></span>
+              <span class="dot-y"></span>
+              <span class="dot-g"></span>
+            </div>
+            <div class="player-code-title">&gt; Autonomous AI Agent Loop (Local LLM)</div>
+            <div class="player-code-desc">
+              [Perception: Transcript Buffer] &rarr; [Planner: <b>LM Studio / qwen2.5-coder</b>]<br>
+              &darr;<br>
+              [Tool Call: <b>execute_code()</b>] &rarr; [Feedback Verification &amp; Result Output]
+            </div>
+          </div>
+        </div>
+
+        <div class="yt-player-controls">
+          <div class="yt-scrub-bar">
+            <div class="yt-scrub-progress">
+              <div class="yt-scrub-knob"></div>
+            </div>
+          </div>
+          <div class="yt-ctrl-row">
+            <div class="yt-ctrl-left">
+              <svg class="yt-ctrl-icon" viewBox="0 0 24 24"><polygon points="6,4 18,12 6,20"></polygon></svg>
+              <svg class="yt-ctrl-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"></path></svg>
+              <span>04:20 / 18:35</span>
+            </div>
+            <div class="yt-ctrl-left">
+              <span style="background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 3px; font-size: 11px;">4K</span>
+              <svg class="yt-ctrl-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"></path></svg>
+              <svg class="yt-ctrl-icon" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Title & Channel Info -->
+      <h1 class="yt-video-title">Building Autonomous AI Agents with Local LLMs &amp; Function Calling (2026 Guide)</h1>
+      <div class="yt-channel-row">
+        <div class="yt-channel-left">
+          <div class="yt-channel-avatar">AI</div>
+          <div class="yt-channel-info">
+            <h4>AI Engineering Academy</h4>
+            <p>540K subscribers</p>
+          </div>
+          <button class="yt-sub-btn">Subscribe</button>
+        </div>
+
+        <div class="yt-channel-actions">
+          <div class="yt-action-pill">
+            <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"></path></svg>
+            18K
+          </div>
+          <div class="yt-action-pill">
+            <svg viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"></path></svg>
+            Share
+          </div>
+          <div class="yt-action-pill">
+            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"></path></svg>
+            Download
+          </div>
+        </div>
+      </div>
+
+      <!-- INJECTED EXTENSION BANNER -->
+      <section class="yt-ai-injected-banner">
+        <div class="yt-ai-header-bar">
+          <div class="yt-ai-brand">
+            <div class="yt-ai-logo-icon">
+              <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg>
+            </div>
+            <span>YouTube AI Summarizer</span>
+            <div class="yt-ai-status-pill">
+              <span class="status-dot"></span>
+              LM Studio Connected
+            </div>
+            <div class="yt-ai-model-pill">
+              <span>qwen2.5-coder-7b</span>
+            </div>
+          </div>
+
+          <div class="yt-ai-action-group">
+            <button class="yt-ai-btn primary">
+              <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path></svg>
+              Summarize
+            </button>
+            <button class="yt-ai-btn">
+              <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"></path></svg>
+              Chat
+            </button>
+            <button class="yt-ai-btn">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"></path></svg>
+              Transcript
+            </button>
+            <button class="yt-ai-btn">
+              <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="yt-ai-preview-body">
+          <div class="preview-info">
+            <h3>⚡ Native YouTube Intelligence Companion</h3>
+            <p>Embedded seamlessly below the video player. Pushes the page content naturally without annoying popups or blocking your view. Ready to summarize or answer questions instantly.</p>
+            <div class="preview-pills">
+              <span class="feature-tag">✔ 100% In-Page</span>
+              <span class="feature-tag">✔ Non-Floating &amp; Responsive</span>
+              <span class="feature-tag">✔ Zero Context Switching</span>
+              <span class="feature-tag">✔ Instant Transcript Fetch</span>
+            </div>
+          </div>
+          <button class="yt-ai-btn primary" style="padding: 12px 24px; font-size: 14px; border-radius: 8px;">
+            ✨ Generate Smart Summary
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Right Sidebar (Up Next) -->
+    <aside class="yt-sidebar">
+      <div class="yt-sidebar-title">Recommended Videos</div>
+
+      <div class="yt-rec-card">
+        <div class="yt-rec-thumb">
+          <div class="yt-rec-thumb-inner thumb-1">LM Studio 2026: Setup Guide</div>
+          <span class="yt-rec-dur">14:20</span>
+        </div>
+        <div class="yt-rec-details">
+          <div class="yt-rec-title">LM Studio 2026: Run Local AI On Any GPU</div>
+          <div class="yt-rec-channel">OpenSource AI</div>
+          <div class="yt-rec-meta">98K views &bull; 3 days ago</div>
+        </div>
+      </div>
+
+      <div class="yt-rec-card">
+        <div class="yt-rec-thumb">
+          <div class="yt-rec-thumb-inner thumb-2">Function Calling Deep Dive</div>
+          <span class="yt-rec-dur">22:15</span>
+        </div>
+        <div class="yt-rec-details">
+          <div class="yt-rec-title">Mastering JSON Schema &amp; Function Calling</div>
+          <div class="yt-rec-channel">Neural Dev</div>
+          <div class="yt-rec-meta">45K views &bull; 1 week ago</div>
+        </div>
+      </div>
+
+      <div class="yt-rec-card">
+        <div class="yt-rec-thumb">
+          <div class="yt-rec-thumb-inner thumb-3">Ollama vs vLLM Benchmark</div>
+          <span class="yt-rec-dur">18:40</span>
+        </div>
+        <div class="yt-rec-details">
+          <div class="yt-rec-title">Ollama vs vLLM: Inference Speed Tested</div>
+          <div class="yt-rec-channel">Benchmark Lab</div>
+          <div class="yt-rec-meta">120K views &bull; 2 weeks ago</div>
+        </div>
+      </div>
+
+      <div class="yt-rec-card">
+        <div class="yt-rec-thumb">
+          <div class="yt-rec-thumb-inner thumb-4">Production RAG Systems</div>
+          <span class="yt-rec-dur">11:05</span>
+        </div>
+        <div class="yt-rec-details">
+          <div class="yt-rec-title">Building Hybrid Search with Vector DBs</div>
+          <div class="yt-rec-channel">CodeCraft</div>
+          <div class="yt-rec-meta">67K views &bull; 1 month ago</div>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
 </body>
 </html>

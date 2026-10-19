@@ -2,10 +2,11 @@
 .SYNOPSIS
   Generates the official 1080p English promotional video for YouTube AI Summarizer.
 .DESCRIPTION
-  1. Renders HTML5 scene slides to 1920x1080 PNG images via Microsoft Edge headless.
-  2. Synthesizes English voiceover narration tracks via System.Speech.Synthesis (Microsoft Zira).
-  3. Encodes synchronized video clips using FFmpeg (H.264 / AAC).
-  4. Concatenates all scenes into a final broadcast-ready MP4 video.
+  1. Generates studio-quality neural voiceover audio via Edge-TTS (en-US-ChristopherNeural).
+  2. Renders realistic YouTube interface HTML5 slides to 1920x1080 PNG via Microsoft Edge headless.
+  3. Pads audio with natural lead-in and lead-out timings.
+  4. Encodes synchronized 1080p video clips using FFmpeg (H.264 / AAC).
+  5. Concatenates all scenes into a final broadcast-ready MP4 promo video.
 #>
 
 $ErrorActionPreference = "Stop"
@@ -14,6 +15,7 @@ Set-Location $ScriptDir
 
 Write-Host "==========================================================" -ForegroundColor Cyan
 Write-Host "  YouTube AI Summarizer - Promo Video Generator" -ForegroundColor Cyan
+Write-Host "  Studio Neural Voiceover + Realistic YouTube UI" -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan
 
 # 1. Check prerequisites
@@ -30,66 +32,59 @@ if (-not $FfmpegCmd) {
     throw "FFmpeg command was not found in PATH."
 }
 
-# 2. Define Scene data
+# 2. Step 1: Generate Studio Neural Voiceovers via Python edge-tts
+Write-Host "`n>>> [Step 1/4] Generating Studio Neural Voiceovers (edge-tts)..." -ForegroundColor Yellow
+$PythonCmd = Get-Command "python" -ErrorAction SilentlyContinue
+if ($PythonCmd) {
+    & python "$ScriptDir\generate-audio.py"
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Warning: generate-audio.py returned code $LASTEXITCODE. Checking if audio files exist..." -ForegroundColor Yellow
+    }
+}
+
+# 3. Define Scene data
 $Scenes = @(
     @{
         Id = 1
         Html = "scene-1.html"
         Image = "scene-1.png"
-        AudioRaw = "audio-1-raw.wav"
-        AudioPadded = "audio-1.wav"
+        AudioSource = "audio-1.mp3"
+        AudioPadded = "audio-1-pad.wav"
         VideoClip = "clip-1.mp4"
-        Narration = "Tired of watching forty-minute videos just to find a single answer? Meet YouTube AI Summarizer - your intelligent video companion right inside YouTube."
     },
     @{
         Id = 2
         Html = "scene-2.html"
         Image = "scene-2.png"
-        AudioRaw = "audio-2-raw.wav"
-        AudioPadded = "audio-2.wav"
+        AudioSource = "audio-2.mp3"
+        AudioPadded = "audio-2-pad.wav"
         VideoClip = "clip-2.mp4"
-        Narration = "Generate comprehensive summaries in seconds. Choose between quick bullet points or detailed breakdowns, complete with clickable timestamps that jump straight to the key moments."
     },
     @{
         Id = 3
         Html = "scene-3.html"
         Image = "scene-3.png"
-        AudioRaw = "audio-3-raw.wav"
-        AudioPadded = "audio-3.wav"
+        AudioSource = "audio-3.mp3"
+        AudioPadded = "audio-3-pad.wav"
         VideoClip = "clip-3.mp4"
-        Narration = "Ask anything about the video in natural conversation. Search the transcript, extract code snippets, verify claims, and explore new ideas with smart suggestion chips."
     },
     @{
         Id = 4
         Html = "scene-4.html"
         Image = "scene-4.png"
-        AudioRaw = "audio-4-raw.wav"
-        AudioPadded = "audio-4.wav"
+        AudioSource = "audio-4.mp3"
+        AudioPadded = "audio-4-pad.wav"
         VideoClip = "clip-4.mp4"
-        Narration = "Your privacy comes first. Run models locally on your own machine with LM Studio or Ollama, or connect directly to Gemini, Groq, and OpenAI with your own API keys."
     },
     @{
         Id = 5
         Html = "scene-5.html"
         Image = "scene-5.png"
-        AudioRaw = "audio-5-raw.wav"
-        AudioPadded = "audio-5.wav"
+        AudioSource = "audio-5.mp3"
+        AudioPadded = "audio-5-pad.wav"
         VideoClip = "clip-5.mp4"
-        Narration = "Supporting eight languages with instant export to Markdown and JSON. Add YouTube AI Summarizer to Chrome today - fast, free, and open source!"
     }
 )
-
-# 3. Setup Speech Synthesizer
-Add-Type -AssemblyName System.Speech
-$Synth = New-Object System.Speech.Synthesis.SpeechSynthesizer
-$Voice = $Synth.GetInstalledVoices() | Where-Object { $_.VoiceInfo.Culture.Name -like "en*" } | Select-Object -First 1
-if ($Voice) {
-    $Synth.SelectVoice($Voice.VoiceInfo.Name)
-    Write-Host "[TTS] Selected English Voice: $($Voice.VoiceInfo.Name)" -ForegroundColor Green
-} else {
-    Write-Host "[TTS] Warning: English voice not found. Using default voice." -ForegroundColor Yellow
-}
-$Synth.Rate = 0  # Natural conversational pace
 
 # 4. Process Each Scene
 $ClipList = [System.Collections.Generic.List[string]]::new()
@@ -100,7 +95,7 @@ foreach ($Scene in $Scenes) {
     # Step A: Render HTML slide to 1080p PNG
     $HtmlUri = "file:///" + (Resolve-Path $Scene.Html).Path.Replace("\", "/")
     $ImgOut = (Resolve-Path .).Path + "\" + $Scene.Image
-    Write-Host "  [1/4] Rendering 1920x1080 Slide: $($Scene.Html) -> $($Scene.Image)" -ForegroundColor Gray
+    Write-Host "  [1/3] Rendering 1920x1080 Slide: $($Scene.Html) -> $($Scene.Image)" -ForegroundColor Gray
 
     $EdgeArgs = @(
         "--headless",
@@ -115,25 +110,22 @@ foreach ($Scene in $Scenes) {
         throw "Failed to render slide image for scene $($Scene.Id)"
     }
 
-    # Step B: Synthesize voiceover audio
-    $AudioRawPath = Join-Path $ScriptDir $Scene.AudioRaw
+    # Step B: Pad neural audio with 0.35s lead-in and 0.65s lead-out for natural breathing room
+    $AudioSrcPath = Join-Path $ScriptDir $Scene.AudioSource
+    if (-not (Test-Path $AudioSrcPath)) {
+        throw "Missing audio file: $AudioSrcPath"
+    }
     $AudioPadPath = Join-Path $ScriptDir $Scene.AudioPadded
-    Write-Host "  [2/4] Synthesizing Voiceover narration..." -ForegroundColor Gray
-    $Synth.SetOutputToWaveFile($AudioRawPath)
-    $Synth.Speak($Scene.Narration)
-    $Synth.SetOutputToNull()
-
-    # Step C: Pad audio with 0.35s lead-in and 0.65s lead-out for natural breathing room
-    Write-Host "  [3/4] Padding audio timeline with FFmpeg..." -ForegroundColor Gray
-    $FfPadArgs = "-y -i `"$AudioRawPath`" -af `"adelay=350|350,apad=pad_dur=0.65`" `"$AudioPadPath`""
+    Write-Host "  [2/3] Padding neural audio with FFmpeg..." -ForegroundColor Gray
+    $FfPadArgs = "-y -i `"$AudioSrcPath`" -af `"adelay=350|350,apad=pad_dur=0.65`" `"$AudioPadPath`""
     $padProc = Start-Process -FilePath "ffmpeg" -ArgumentList $FfPadArgs -Wait -NoNewWindow -PassThru
     if ($padProc.ExitCode -ne 0) {
         throw "FFmpeg audio padding failed for scene $($Scene.Id)"
     }
 
-    # Step D: Encode synchronized 1080p MP4 clip
+    # Step C: Encode synchronized 1080p MP4 clip
     $ClipPath = Join-Path $ScriptDir $Scene.VideoClip
-    Write-Host "  [4/4] Encoding Scene Video Clip: $($Scene.VideoClip)..." -ForegroundColor Gray
+    Write-Host "  [3/3] Encoding Scene Video Clip: $($Scene.VideoClip)..." -ForegroundColor Gray
     $FfEncArgs = "-y -loop 1 -i `"$ImgOut`" -i `"$AudioPadPath`" -c:v libx264 -tune stillimage -pix_fmt yuv420p -r 30 -c:a aac -b:a 192k -shortest `"$ClipPath`""
     $encProc = Start-Process -FilePath "ffmpeg" -ArgumentList $FfEncArgs -Wait -NoNewWindow -PassThru
     if ($encProc.ExitCode -ne 0) {
@@ -142,8 +134,6 @@ foreach ($Scene in $Scenes) {
 
     $ClipList.Add("file '$($Scene.VideoClip)'")
 }
-
-$Synth.Dispose()
 
 # 5. Concatenate all scenes into master promo video
 Write-Host "`n>>> Concatenating all scenes into master video..." -ForegroundColor Yellow
