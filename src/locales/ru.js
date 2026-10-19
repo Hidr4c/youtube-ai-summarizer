@@ -146,7 +146,8 @@ export const ru = {
   "braveMicNotice": "В Brave Browser убедитесь, что разрешения на микрофон включены.",
   "chapterBadge": "(Главы)",
   "transcriptExtracted": "Транскрипт извлечен",
-  "modelResponsive": "Отзывчивая модель: {model}"
+  "modelResponsive": "Отзывчивая модель: {model}",
+  "extractingTranscriptNotice": "Извлечение транскрипции видео..."
 };
 
 export default ru;

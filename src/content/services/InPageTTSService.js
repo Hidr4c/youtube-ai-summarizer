@@ -81,6 +81,21 @@ export class InPageTTSService {
       .trim();
   }
 
+  initSpeechSynthesis(onVoicesReady) {
+    if ('speechSynthesis' in window) {
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = () => {
+          this.availableVoices = window.speechSynthesis.getVoices();
+          if (typeof onVoicesReady === 'function') onVoicesReady(this.availableVoices);
+        };
+      }
+      this.availableVoices = window.speechSynthesis.getVoices();
+      if (typeof onVoicesReady === 'function' && this.availableVoices.length > 0) {
+        onVoicesReady(this.availableVoices);
+      }
+    }
+  }
+
   populateVoiceDropdown(targetLang = 'fr') {
     const select = document.getElementById('ytAiVoiceSelect');
     if (!select || !('speechSynthesis' in window)) return;

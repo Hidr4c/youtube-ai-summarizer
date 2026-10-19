@@ -146,7 +146,8 @@ export const fr = {
   "braveMicNotice": "Sous Brave Browser, assurez-vous que les permissions micro sont autorisées.",
   "chapterBadge": "(Chapitres)",
   "transcriptExtracted": "Transcription extraite",
-  "modelResponsive": "Modèle réactif : {model}"
+  "modelResponsive": "Modèle réactif : {model}",
+  "extractingTranscriptNotice": "Extraction de la transcription de la vidéo en cours..."
 };
 
 export default fr;

@@ -64,15 +64,6 @@ const chatViewController = new ChatViewController({
   audioController
 });
 
-function injectContextExtractorScript() {
-  if (document.getElementById('yt-ai-context-extractor-script')) return;
-  const script = document.createElement('script');
-  script.id = 'yt-ai-context-extractor-script';
-  script.src = chrome.runtime.getURL('src/injected/YouTubeContextExtractor.js');
-  script.async = false;
-  (document.head || document.documentElement).appendChild(script);
-}
-
 function bindBannerEvents(banner) {
   if (!banner) return;
 
@@ -80,7 +71,12 @@ function bindBannerEvents(banner) {
   banner.querySelectorAll('.yt-ai-tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const tab = btn.getAttribute('data-tab');
-      if (tab) bannerView.switchTab(tab);
+      if (tab) {
+        bannerView.switchTab(tab);
+        if (tab === 'transcript' && (!transcriptController.cachedTranscript.segments || transcriptController.cachedTranscript.segments.length === 0)) {
+          transcriptController.extractYouTubeTranscript(state.currentLang, false);
+        }
+      }
     });
   });
 

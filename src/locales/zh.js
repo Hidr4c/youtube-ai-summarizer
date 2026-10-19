@@ -146,7 +146,8 @@ export const zh = {
   "braveMicNotice": "在 Brave 浏览器上，请确保已授予麦克风权限。",
   "chapterBadge": "(章节)",
   "transcriptExtracted": "已提取文字记录",
-  "modelResponsive": "响应模型：{model}"
+  "modelResponsive": "响应模型：{model}",
+  "extractingTranscriptNotice": "正在提取视频字幕..."
 };
 
 export default zh;

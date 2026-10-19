@@ -146,7 +146,8 @@ export const en = {
   "braveMicNotice": "On Brave Browser, please make sure microphone permissions are allowed.",
   "chapterBadge": "(Chapters)",
   "transcriptExtracted": "Transcript extracted",
-  "modelResponsive": "Responsive model: {model}"
+  "modelResponsive": "Responsive model: {model}",
+  "extractingTranscriptNotice": "Extracting video transcript..."
 };
 
 export default en;

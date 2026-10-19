@@ -40,7 +40,9 @@ export class NavigationObserver {
     let lastObservedUrl = window.location.href;
 
     const handleNavigation = () => {
-      if (typeof handlers.onUrlChange === 'function') {
+      if (typeof handlers === 'function') {
+        handlers();
+      } else if (typeof handlers?.onUrlChange === 'function') {
         handlers.onUrlChange();
       }
     };

@@ -93,7 +93,7 @@ export class SummaryViewController {
     }
 
     try {
-      const segments = await this.transcriptController.extractYouTubeTranscript(lang);
+      const segments = await this.transcriptController.extractYouTubeTranscript(lang, true);
       if (!segments || segments.length === 0) {
         throw new Error(t.noTranscriptError || 'Unable to extract transcript.');
       }

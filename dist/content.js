@@ -145,7 +145,8 @@
     "braveMicNotice": "Sous Brave Browser, assurez-vous que les permissions micro sont autoris\xE9es.",
     "chapterBadge": "(Chapitres)",
     "transcriptExtracted": "Transcription extraite",
-    "modelResponsive": "Mod\xE8le r\xE9actif : {model}"
+    "modelResponsive": "Mod\xE8le r\xE9actif : {model}",
+    "extractingTranscriptNotice": "Extraction de la transcription de la vid\xE9o en cours..."
   };
   var fr_default = fr;
 
@@ -295,7 +296,8 @@
     "braveMicNotice": "On Brave Browser, please make sure microphone permissions are allowed.",
     "chapterBadge": "(Chapters)",
     "transcriptExtracted": "Transcript extracted",
-    "modelResponsive": "Responsive model: {model}"
+    "modelResponsive": "Responsive model: {model}",
+    "extractingTranscriptNotice": "Extracting video transcript..."
   };
   var en_default = en;
 
@@ -445,7 +447,8 @@
     "braveMicNotice": "En Brave Browser, aseg\xFArese de que los permisos de micr\xF3fono est\xE9n permitidos.",
     "chapterBadge": "(Cap\xEDtulos)",
     "transcriptExtracted": "Transcripci\xF3n extra\xEDda",
-    "modelResponsive": "Modelo responsivo: {model}"
+    "modelResponsive": "Modelo responsivo: {model}",
+    "extractingTranscriptNotice": "Extrayendo transcripci\xF3n del video..."
   };
   var es_default = es;
 
@@ -595,7 +598,8 @@
     "braveMicNotice": "Stellen Sie im Brave Browser sicher, dass Mikrofonberechtigungen erteilt sind.",
     "chapterBadge": "(Kapitel)",
     "transcriptExtracted": "Transkript extrahiert",
-    "modelResponsive": "Reaktionsschnelles Modell: {model}"
+    "modelResponsive": "Reaktionsschnelles Modell: {model}",
+    "extractingTranscriptNotice": "Video-Transkript wird extrahiert..."
   };
   var de_default = de;
 
@@ -745,7 +749,8 @@
     "braveMicNotice": "Su Brave Browser, assicurati che i permessi del microfono siano consentiti.",
     "chapterBadge": "(Capitoli)",
     "transcriptExtracted": "Trascrizione estratta",
-    "modelResponsive": "Modello reattivo: {model}"
+    "modelResponsive": "Modello reattivo: {model}",
+    "extractingTranscriptNotice": "Estrazione della trascrizione del video in corso..."
   };
   var it_default = it;
 
@@ -895,7 +900,8 @@
     "braveMicNotice": "\u0412 Brave Browser \u0443\u0431\u0435\u0434\u0438\u0442\u0435\u0441\u044C, \u0447\u0442\u043E \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043D\u0438\u044F \u043D\u0430 \u043C\u0438\u043A\u0440\u043E\u0444\u043E\u043D \u0432\u043A\u043B\u044E\u0447\u0435\u043D\u044B.",
     "chapterBadge": "(\u0413\u043B\u0430\u0432\u044B)",
     "transcriptExtracted": "\u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442 \u0438\u0437\u0432\u043B\u0435\u0447\u0435\u043D",
-    "modelResponsive": "\u041E\u0442\u0437\u044B\u0432\u0447\u0438\u0432\u0430\u044F \u043C\u043E\u0434\u0435\u043B\u044C: {model}"
+    "modelResponsive": "\u041E\u0442\u0437\u044B\u0432\u0447\u0438\u0432\u0430\u044F \u043C\u043E\u0434\u0435\u043B\u044C: {model}",
+    "extractingTranscriptNotice": "\u0418\u0437\u0432\u043B\u0435\u0447\u0435\u043D\u0438\u0435 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u0438 \u0432\u0438\u0434\u0435\u043E..."
   };
   var ru_default = ru;
 
@@ -1045,7 +1051,8 @@
     "braveMicNotice": "Brave\u30D6\u30E9\u30A6\u30B6\u306E\u5834\u5408\u3001\u30DE\u30A4\u30AF\u6A29\u9650\u304C\u8A31\u53EF\u3055\u308C\u3066\u3044\u308B\u3053\u3068\u3092\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
     "chapterBadge": "(\u30C1\u30E3\u30D7\u30BF\u30FC)",
     "transcriptExtracted": "\u6587\u5B57\u8D77\u3053\u3057\u3092\u62BD\u51FA\u3057\u307E\u3057\u305F",
-    "modelResponsive": "\u5FDC\u7B54\u30E2\u30C7\u30EB: {model}"
+    "modelResponsive": "\u5FDC\u7B54\u30E2\u30C7\u30EB: {model}",
+    "extractingTranscriptNotice": "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3092\u62BD\u51FA\u4E2D..."
   };
   var ja_default = ja;
 
@@ -1195,7 +1202,8 @@
     "braveMicNotice": "\u5728 Brave \u6D4F\u89C8\u5668\u4E0A\uFF0C\u8BF7\u786E\u4FDD\u5DF2\u6388\u4E88\u9EA6\u514B\u98CE\u6743\u9650\u3002",
     "chapterBadge": "(\u7AE0\u8282)",
     "transcriptExtracted": "\u5DF2\u63D0\u53D6\u6587\u5B57\u8BB0\u5F55",
-    "modelResponsive": "\u54CD\u5E94\u6A21\u578B\uFF1A{model}"
+    "modelResponsive": "\u54CD\u5E94\u6A21\u578B\uFF1A{model}",
+    "extractingTranscriptNotice": "\u6B63\u5728\u63D0\u53D6\u89C6\u9891\u5B57\u5E55..."
   };
   var zh_default = zh;
 
@@ -1962,7 +1970,9 @@
     static observeNavigation(handlers = {}) {
       let lastObservedUrl = window.location.href;
       const handleNavigation = () => {
-        if (typeof handlers.onUrlChange === "function") {
+        if (typeof handlers === "function") {
+          handlers();
+        } else if (typeof handlers?.onUrlChange === "function") {
           handlers.onUrlChange();
         }
       };
@@ -2671,7 +2681,7 @@
         heroBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || "Extracting transcript..."}`;
       }
       try {
-        const segments = await this.transcriptController.extractYouTubeTranscript(lang);
+        const segments = await this.transcriptController.extractYouTubeTranscript(lang, true);
         if (!segments || segments.length === 0) {
           throw new Error(t.noTranscriptError || "Unable to extract transcript.");
         }
@@ -2854,8 +2864,8 @@
       const t = I18N[lang] || I18N.en;
       this.appendChatBubble("user", escapeHtml(text));
       if (!this.transcriptController.cachedTranscript.segments || this.transcriptController.cachedTranscript.segments.length === 0) {
-        const waitBubble = this.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${lang === "fr" ? "Extraction de la transcription de la vid\xE9o en cours..." : "Extracting video transcript..."}`);
-        const segments = await this.transcriptController.extractYouTubeTranscript(lang);
+        const waitBubble = this.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${escapeHtml(t.extractingTranscriptNotice || "Extracting video transcript...")}`);
+        const segments = await this.transcriptController.extractYouTubeTranscript(lang, true);
         if (!segments || segments.length === 0) {
           waitBubble.innerHTML = `<span style="color: #ff7b72;">\u274C ${escapeHtml(t.noTranscriptError || "Unable to extract video transcript.")}</span>`;
           return;
@@ -3043,17 +3053,14 @@
     );
     if (segs && segs.length > 3) {
       for (const seg of segs) {
-        if (seg.offsetParent !== null && !document.getElementById("yt-ai-stealth-style")) {
-          return true;
-        }
+        if (seg.offsetParent !== null && !document.getElementById("yt-ai-stealth-style")) return true;
       }
     }
     const panels = document.querySelectorAll(ENGAGEMENT_SELECTORS);
     for (const panel of panels) {
       if (panel.style.display === "none" || panel.hasAttribute("hidden")) continue;
       const vis = panel.getAttribute("visibility");
-      if (vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" && panel.offsetParent !== null) return true;
-      if (vis !== "ENGAGEMENT_PANEL_VISIBILITY_HIDDEN" && !panel.hasAttribute("hidden") && panel.offsetParent !== null && panel.offsetHeight > 100) {
+      if (vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" && panel.offsetParent !== null && panel.offsetWidth > 100) {
         return true;
       }
     }
@@ -3067,12 +3074,12 @@
       if (header) {
         closeBtn = header.querySelector('#visibility-button button, [id="visibility-button"] button');
         if (!closeBtn) {
-          const headerBtns = header.querySelectorAll("button");
+          const headerBtns = header.querySelectorAll("button, yt-icon-button, tp-yt-paper-icon-button");
           for (const btn of headerBtns) {
             const aria = btn.getAttribute("aria-label") || "";
             const title = btn.getAttribute("title") || "";
             if (CLOSE_BTN_LANG_REGEX.test(aria) || CLOSE_BTN_LANG_REGEX.test(title)) {
-              closeBtn = btn;
+              closeBtn = btn.querySelector("button") || btn;
               break;
             }
           }
@@ -3082,16 +3089,14 @@
           for (const p of svgs) {
             const d = p.getAttribute("d") || "";
             if (d.includes("6.41") || d.includes("12.7") || d.includes("17.59") || d.includes("18.3 5.71")) {
-              closeBtn = p.closest("button");
+              closeBtn = p.closest("button, yt-icon-button") || p.closest('[role="button"]');
               if (closeBtn) break;
             }
           }
         }
         if (!closeBtn) {
-          const allHeaderBtns = header.querySelectorAll("button");
-          if (allHeaderBtns.length > 0) {
-            closeBtn = allHeaderBtns[allHeaderBtns.length - 1];
-          }
+          const allHeaderBtns = header.querySelectorAll("button, yt-icon-button button");
+          if (allHeaderBtns.length > 0) closeBtn = allHeaderBtns[allHeaderBtns.length - 1];
         }
       }
       if (closeBtn) {
@@ -3121,17 +3126,25 @@
     const collapseBtn = document.querySelector(
       "tp-yt-paper-button#collapse, #collapse.ytd-text-inline-expander, #description-inline-expander #collapse"
     );
-    if (collapseBtn && collapseBtn.offsetParent !== null) {
-      collapseBtn.click();
+    if (collapseBtn && collapseBtn.offsetParent !== null) collapseBtn.click();
+  }
+  function findTranscriptButtonInDOM() {
+    let btn = document.querySelector("ytd-video-description-transcript-section-renderer button");
+    if (btn) return btn;
+    const allBtns = document.querySelectorAll("#description button, ytd-watch-metadata button");
+    for (const b of allBtns) {
+      const aria = b.getAttribute("aria-label") || "";
+      const text = b.textContent || "";
+      if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) return b;
     }
+    return null;
   }
   async function ensureTranscriptTabActive(targetPanel) {
     const panels = document.querySelectorAll(ENGAGEMENT_SELECTORS);
     let activePanel = targetPanel;
     if (!activePanel) {
       for (const p of panels) {
-        const vis = p.getAttribute("visibility");
-        if (vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" || p.offsetParent !== null) {
+        if (p.getAttribute("visibility") === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" || p.offsetParent !== null) {
           activePanel = p;
           break;
         }
@@ -3139,21 +3152,15 @@
       if (!activePanel && panels.length > 0) activePanel = panels[0];
     }
     if (!activePanel) return false;
-    if (document.querySelectorAll("transcript-segment-view-model, ytd-transcript-segment-renderer").length > 5) {
-      return true;
-    }
-    const candidates = activePanel.querySelectorAll(
-      'button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer, yt-formatted-string, yt-button-shape'
-    );
+    if (document.querySelectorAll("transcript-segment-view-model, ytd-transcript-segment-renderer").length > 5) return true;
+    const candidates = activePanel.querySelectorAll('button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer');
     for (const el of candidates) {
       const text = (el.textContent || "").trim();
       const aria = (el.getAttribute("aria-label") || "").trim();
       if (TRANSCRIPT_LANG_REGEX.test(text) || TRANSCRIPT_LANG_REGEX.test(aria)) {
-        const isSelected = el.getAttribute("aria-selected") === "true" || el.classList.contains("selected") || el.classList.contains("iron-selected") || el.closest('[aria-selected="true"]');
-        if (isSelected) return true;
-        const clickable = el.closest('button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer') || el;
-        const innerBtn = clickable.querySelector("button");
-        if (innerBtn) innerBtn.click();
+        if (el.getAttribute("aria-selected") === "true" || el.classList.contains("selected")) return true;
+        const clickable = el.closest('button, [role="tab"], [role="button"]') || el;
+        clickable.querySelector("button")?.click();
         clickable.click();
         clickable.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
         return true;
@@ -3162,10 +3169,8 @@
     const tabList = activePanel.querySelectorAll('[role="tab"], yt-chip-cloud-chip-renderer, ytd-sub-feed-selector-renderer button');
     if (tabList.length >= 2) {
       const secondTab = tabList[1];
-      const isSelected = secondTab.getAttribute("aria-selected") === "true" || secondTab.classList.contains("selected");
-      if (isSelected) return true;
-      const innerBtn = secondTab.querySelector("button");
-      if (innerBtn) innerBtn.click();
+      if (secondTab.getAttribute("aria-selected") === "true" || secondTab.classList.contains("selected")) return true;
+      secondTab.querySelector("button")?.click();
       secondTab.click();
       secondTab.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
       return true;
@@ -3174,11 +3179,9 @@
   }
   async function triggerStealthNativeTranscript() {
     const wasPanelOpen = isNativeTranscriptPanelVisible();
-    let wasDescExpanded = false;
-    const expandDesc = document.querySelector(
-      "tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand"
-    );
-    wasDescExpanded = !expandDesc || expandDesc.offsetParent === null;
+    let didWeOpenPanel = false;
+    const expandDesc = document.querySelector("tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand");
+    const wasDescExpanded = !expandDesc || expandDesc.offsetParent === null;
     if (wasPanelOpen) {
       await ensureTranscriptTabActive();
       const direct = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
@@ -3191,62 +3194,34 @@
       stealthStyle.textContent = `
       ytd-engagement-panel-section-list-renderer[target-id*="transcript"],
       ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"] {
-        opacity: 0 !important;
-        pointer-events: none !important;
-        position: fixed !important;
-        left: -9999px !important;
-        top: -9999px !important;
-        width: 1px !important;
-        height: 1px !important;
-        z-index: -9999 !important;
+        display: none !important; opacity: 0 !important; visibility: hidden !important;
+        position: fixed !important; left: -99999px !important; top: -99999px !important;
+        width: 1px !important; height: 1px !important; z-index: -9999 !important;
       }
     `;
       document.head.appendChild(stealthStyle);
     }
     try {
-      let directBtn = document.querySelector("ytd-video-description-transcript-section-renderer button");
-      if (!directBtn) {
-        const allDescBtns = document.querySelectorAll("#description button, ytd-watch-metadata button");
-        for (const btn of allDescBtns) {
-          const aria = btn.getAttribute("aria-label") || "";
-          const text = btn.textContent || "";
-          if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) {
-            directBtn = btn;
-            break;
-          }
-        }
-      }
+      let directBtn = findTranscriptButtonInDOM();
       if (!directBtn && expandDesc && expandDesc.offsetParent !== null) {
         expandDesc.click();
         await new Promise((r) => setTimeout(r, 200));
-        directBtn = document.querySelector("ytd-video-description-transcript-section-renderer button");
-        if (!directBtn) {
-          const allDescBtns = document.querySelectorAll("#description button, ytd-watch-metadata button");
-          for (const btn of allDescBtns) {
-            const aria = btn.getAttribute("aria-label") || "";
-            const text = btn.textContent || "";
-            if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) {
-              directBtn = btn;
-              break;
-            }
-          }
-        }
+        directBtn = findTranscriptButtonInDOM();
       }
       if (directBtn) {
+        didWeOpenPanel = true;
         directBtn.click();
       } else {
-        const markersBtn = document.querySelector(
-          'ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"], ytd-macro-markers-list-renderer [role="button"]'
-        );
+        const markersBtn = document.querySelector('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]');
         if (markersBtn) {
+          didWeOpenPanel = true;
           markersBtn.click();
           await new Promise((r) => setTimeout(r, 200));
           await ensureTranscriptTabActive();
         } else {
-          const hiddenPanel = document.querySelector(
-            'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]'
-          );
+          const hiddenPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]');
           if (hiddenPanel) {
+            didWeOpenPanel = true;
             hiddenPanel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED");
             if (typeof hiddenPanel.show === "function") hiddenPanel.show();
             await ensureTranscriptTabActive(hiddenPanel);
@@ -3258,35 +3233,32 @@
       let segments = null;
       for (let i = 0; i < 35; i++) {
         await new Promise((r) => setTimeout(r, 100));
-        if (i % 3 === 0) {
-          await ensureTranscriptTabActive();
-        }
+        if (i % 3 === 0) await ensureTranscriptTabActive();
         segments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
         if (segments && segments.length > 5) {
           const words = segments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
-          if (segments.length >= 15 || words >= 100) {
-            break;
-          }
+          if (segments.length >= 15 || words >= 100) break;
         }
       }
       return segments;
     } catch (_) {
       return null;
     } finally {
+      const shouldClose = !wasPanelOpen || didWeOpenPanel;
       if (!wasPanelOpen) {
         closeNativeTranscriptPanel();
-        if (!wasDescExpanded) {
-          collapseDescription();
-        }
+        if (!wasDescExpanded) collapseDescription();
         setTimeout(() => {
-          if (stealthStyle && stealthStyle.parentNode) {
-            stealthStyle.parentNode.removeChild(stealthStyle);
-          }
+          if (stealthStyle?.parentNode) stealthStyle.parentNode.removeChild(stealthStyle);
+        }, 350);
+      } else if (didWeOpenPanel) {
+        closeNativeTranscriptPanel();
+        if (!wasDescExpanded) collapseDescription();
+        setTimeout(() => {
+          if (stealthStyle?.parentNode) stealthStyle.parentNode.removeChild(stealthStyle);
         }, 350);
       } else {
-        if (stealthStyle && stealthStyle.parentNode) {
-          stealthStyle.parentNode.removeChild(stealthStyle);
-        }
+        if (stealthStyle?.parentNode) stealthStyle.parentNode.removeChild(stealthStyle);
       }
     }
   }
@@ -3415,12 +3387,7 @@ ${lines.join("\n")}
   // src/content/services/InPageTranscriptController.js
   var InPageTranscriptController = class _InPageTranscriptController {
     constructor() {
-      this.cachedTranscript = {
-        videoId: "",
-        segments: [],
-        fullText: "",
-        isChapterOnly: false
-      };
+      this.cachedTranscript = { videoId: "", segments: [], fullText: "", isChapterOnly: false };
       this.cachedVideoMetadata = {
         videoId: "",
         title: "",
@@ -3439,7 +3406,7 @@ ${lines.join("\n")}
       return text.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\n/g, " ").replace(/\s+/g, " ").trim();
     }
     static parseTimedtextContent(bodyText) {
-      if (!bodyText || typeof bodyText !== "string" || bodyText.trim().length === 0) return null;
+      if (!bodyText || typeof bodyText !== "string" || !bodyText.trim()) return null;
       const trimmed = bodyText.trim();
       if (trimmed.startsWith("{")) {
         try {
@@ -3448,14 +3415,11 @@ ${lines.join("\n")}
             const segs = [];
             for (const ev of json.events) {
               if (!ev.segs) continue;
-              const startMs = ev.tStartMs || 0;
-              const sec = Math.floor(startMs / 1e3);
+              const sec = Math.floor((ev.tStartMs || 0) / 1e3);
               const m = Math.floor(sec / 60);
               const s = (sec % 60).toString().padStart(2, "0");
               const txt = _InPageTranscriptController.cleanTranscriptText(ev.segs.map((s2) => s2.utf8 || "").join(""));
-              if (txt && txt !== "\n") {
-                segs.push({ timestamp: `${m}:${s}`, text: txt });
-              }
+              if (txt && txt !== "\n") segs.push({ timestamp: `${m}:${s}`, text: txt });
             }
             if (segs.length > 5) return segs;
           }
@@ -3463,28 +3427,16 @@ ${lines.join("\n")}
         }
       }
       try {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(trimmed, "text/xml");
-        const textNodes = Array.from(doc.querySelectorAll("text"));
-        if (textNodes.length > 5) {
-          const segs = textNodes.map((n) => {
-            const sec = parseFloat(n.getAttribute("start") || "0");
-            const m = Math.floor(sec / 60);
-            const s = Math.floor(sec % 60).toString().padStart(2, "0");
-            return { timestamp: `${m}:${s}`, text: _InPageTranscriptController.cleanTranscriptText(n.textContent || "") };
-          }).filter((s) => s.text.length > 0);
-          if (segs.length > 5) return segs;
-        }
-        const pNodes = Array.from(doc.querySelectorAll("p"));
-        if (pNodes.length > 5) {
-          const segs = pNodes.map((p) => {
-            const tAttr = p.getAttribute("t");
-            const sec = tAttr ? Math.floor(parseInt(tAttr, 10) / 1e3) : Math.floor(parseFloat(p.getAttribute("begin") || "0"));
+        const doc = new DOMParser().parseFromString(trimmed, "text/xml");
+        const nodes = Array.from(doc.querySelectorAll("text, p"));
+        if (nodes.length > 5) {
+          return nodes.map((n) => {
+            const tAttr = n.getAttribute("t");
+            const sec = tAttr ? Math.floor(parseInt(tAttr, 10) / 1e3) : Math.floor(parseFloat(n.getAttribute("start") || n.getAttribute("begin") || "0"));
             const m = Math.floor(sec / 60);
             const s = (sec % 60).toString().padStart(2, "0");
-            return { timestamp: `${m}:${s}`, text: _InPageTranscriptController.cleanTranscriptText(p.textContent || "") };
+            return { timestamp: `${m}:${s}`, text: _InPageTranscriptController.cleanTranscriptText(n.textContent || "") };
           }).filter((s) => s.text.length > 0);
-          if (segs.length > 5) return segs;
         }
       } catch (_) {
       }
@@ -3496,8 +3448,7 @@ ${lines.join("\n")}
         const jsonUrl = baseUrl + (baseUrl.includes("?") ? "&" : "?") + "fmt=json3";
         const resp = await fetch(jsonUrl, { credentials: "include" });
         if (resp.ok) {
-          const text = await resp.text();
-          const segs = _InPageTranscriptController.parseTimedtextContent(text);
+          const segs = _InPageTranscriptController.parseTimedtextContent(await resp.text());
           if (segs) return segs;
         }
       } catch (_) {
@@ -3505,8 +3456,7 @@ ${lines.join("\n")}
       try {
         const resp = await fetch(baseUrl, { credentials: "include" });
         if (resp.ok) {
-          const bodyText = await resp.text();
-          const segs = _InPageTranscriptController.parseTimedtextContent(bodyText);
+          const segs = _InPageTranscriptController.parseTimedtextContent(await resp.text());
           if (segs) return segs;
         }
       } catch (_) {
@@ -3540,40 +3490,42 @@ ${lines.join("\n")}
         setTimeout(() => {
           window.removeEventListener("message", handler);
           resolve({});
-        }, 8e3);
+        }, 5e3);
       });
     }
-    async extractYouTubeTranscript(preferredLang = "en") {
+    fetchTranscriptFromBackground(videoId, lang = "fr") {
+      if (!chrome?.runtime?.sendMessage) return Promise.resolve(null);
+      return new Promise((resolve) => {
+        chrome.runtime.sendMessage({ action: "FETCH_WATCH_PAGE_TRANSCRIPT", videoId, lang }, (res) => {
+          if (chrome.runtime.lastError || !res || !res.success) resolve(null);
+          else resolve(res);
+        });
+      });
+    }
+    async extractYouTubeTranscript(preferredLang = "en", isUserInitiated = false) {
       const currentVideoId = getVideoId();
       if (this.cachedTranscript.videoId === currentVideoId && this.cachedTranscript.segments.length > 0 && !this.cachedTranscript.isChapterOnly) {
         return this.cachedTranscript.segments;
       }
-      let domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
+      const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
       if (domSegments && domSegments.length > 5) {
         const words = domSegments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
         if (domSegments.length >= 15 || words >= 150) {
           this.saveCachedTranscript(currentVideoId, domSegments, false);
-          if (!this.cachedVideoMetadata.description || this.cachedVideoMetadata.videoId !== currentVideoId) {
-            this.requestPlayerDataFromMainWorld(currentVideoId, preferredLang).catch(() => {
-            });
-          }
           return domSegments;
         }
       }
       const playerData = await this.requestPlayerDataFromMainWorld(currentVideoId, preferredLang);
-      if (playerData && Array.isArray(playerData.segments) && playerData.segments.length > 3) {
+      if (playerData?.segments?.length > 3) {
         const words = playerData.segments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
         if (playerData.segments.length >= 15 || words >= 150) {
           this.saveCachedTranscript(currentVideoId, playerData.segments, false);
           return playerData.segments;
         }
       }
-      if (playerData && playerData.captions && playerData.captions.length > 0) {
-        let track = playerData.captions.find((t) => t.languageCode === preferredLang);
-        if (!track) track = playerData.captions.find((t) => t.languageCode?.startsWith(preferredLang));
-        if (!track) track = playerData.captions.find((t) => t.languageCode === "en" || t.languageCode?.startsWith("en"));
-        if (!track) track = playerData.captions[0];
-        if (track && track.baseUrl) {
+      if (playerData?.captions?.length > 0) {
+        let track = playerData.captions.find((t) => t.languageCode === preferredLang) || playerData.captions.find((t) => t.languageCode?.startsWith(preferredLang)) || playerData.captions.find((t) => t.languageCode === "en" || t.languageCode?.startsWith("en")) || playerData.captions[0];
+        if (track?.baseUrl) {
           const segments = await this.fetchTimedtextSegments(track.baseUrl);
           if (segments && segments.length > 3) {
             this.saveCachedTranscript(currentVideoId, segments, false);
@@ -3581,15 +3533,22 @@ ${lines.join("\n")}
           }
         }
       }
-      const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
-      if (stealthSegments && stealthSegments.length > 3) {
-        this.saveCachedTranscript(currentVideoId, stealthSegments, false);
-        return stealthSegments;
+      const bgResult = await this.fetchTranscriptFromBackground(currentVideoId, preferredLang);
+      if (bgResult?.segments?.length > 3) {
+        this.saveCachedTranscript(currentVideoId, bgResult.segments, false);
+        return bgResult.segments;
       }
       const chapterSegments = YouTubeDOMContext.extractChaptersFromDescription();
       if (chapterSegments && chapterSegments.length > 1) {
         this.saveCachedTranscript(currentVideoId, chapterSegments, true);
         return chapterSegments;
+      }
+      if (isUserInitiated) {
+        const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
+        if (stealthSegments && stealthSegments.length > 3) {
+          this.saveCachedTranscript(currentVideoId, stealthSegments, false);
+          return stealthSegments;
+        }
       }
       return null;
     }
@@ -3696,6 +3655,20 @@ ${lines.join("\n")}
     static cleanMarkdownForSpeech(md) {
       if (!md) return "";
       return md.replace(/^#{1,6}\s+/gm, "").replace(/\*\*([^*]+)\*\*/g, "$1").replace(/\*([^*]+)\*/g, "$1").replace(/__([^_]+)__/g, "$1").replace(/_([^_]+)_/g, "$1").replace(/`([^`]+)`/g, "$1").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/^\s*[-*•]\s+/gm, "").replace(/^\s*\d+\.\s+/gm, "").replace(/[\n\r]+/g, ". ").replace(/\s+/g, " ").trim();
+    }
+    initSpeechSynthesis(onVoicesReady) {
+      if ("speechSynthesis" in window) {
+        if (window.speechSynthesis.onvoiceschanged !== void 0) {
+          window.speechSynthesis.onvoiceschanged = () => {
+            this.availableVoices = window.speechSynthesis.getVoices();
+            if (typeof onVoicesReady === "function") onVoicesReady(this.availableVoices);
+          };
+        }
+        this.availableVoices = window.speechSynthesis.getVoices();
+        if (typeof onVoicesReady === "function" && this.availableVoices.length > 0) {
+          onVoicesReady(this.availableVoices);
+        }
+      }
     }
     populateVoiceDropdown(targetLang = "fr") {
       const select = document.getElementById("ytAiVoiceSelect");
@@ -4694,20 +4667,17 @@ DIRECTIVES DE R\xC9DACTION (CONFORT VISUEL ET \xC9COUTE AUDIO) :
     promptService,
     audioController
   });
-  function injectContextExtractorScript() {
-    if (document.getElementById("yt-ai-context-extractor-script")) return;
-    const script = document.createElement("script");
-    script.id = "yt-ai-context-extractor-script";
-    script.src = chrome.runtime.getURL("src/injected/YouTubeContextExtractor.js");
-    script.async = false;
-    (document.head || document.documentElement).appendChild(script);
-  }
   function bindBannerEvents(banner) {
     if (!banner) return;
     banner.querySelectorAll(".yt-ai-tab-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         const tab = btn.getAttribute("data-tab");
-        if (tab) bannerView.switchTab(tab);
+        if (tab) {
+          bannerView.switchTab(tab);
+          if (tab === "transcript" && (!transcriptController.cachedTranscript.segments || transcriptController.cachedTranscript.segments.length === 0)) {
+            transcriptController.extractYouTubeTranscript(state.currentLang, false);
+          }
+        }
       });
     });
     document.getElementById("ytAiBrandToggle")?.addEventListener("click", () => bannerView.toggleExpand());

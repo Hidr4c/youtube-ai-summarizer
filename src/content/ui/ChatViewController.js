@@ -100,8 +100,8 @@ export class ChatViewController {
     this.appendChatBubble('user', escapeHtml(text));
 
     if (!this.transcriptController.cachedTranscript.segments || this.transcriptController.cachedTranscript.segments.length === 0) {
-      const waitBubble = this.appendChatBubble('ai', `<span class="yt-ai-spinner"></span> ${lang === 'fr' ? 'Extraction de la transcription de la vidéo en cours...' : 'Extracting video transcript...'}`);
-      const segments = await this.transcriptController.extractYouTubeTranscript(lang);
+      const waitBubble = this.appendChatBubble('ai', `<span class="yt-ai-spinner"></span> ${escapeHtml(t.extractingTranscriptNotice || 'Extracting video transcript...')}`);
+      const segments = await this.transcriptController.extractYouTubeTranscript(lang, true);
       if (!segments || segments.length === 0) {
         waitBubble.innerHTML = `<span style="color: #ff7b72;">❌ ${escapeHtml(t.noTranscriptError || 'Unable to extract video transcript.')}</span>`;
         return;

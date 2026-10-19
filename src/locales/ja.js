@@ -146,7 +146,8 @@ export const ja = {
   "braveMicNotice": "Braveブラウザの場合、マイク権限が許可されていることを確認してください。",
   "chapterBadge": "(チャプター)",
   "transcriptExtracted": "文字起こしを抽出しました",
-  "modelResponsive": "応答モデル: {model}"
+  "modelResponsive": "応答モデル: {model}",
+  "extractingTranscriptNotice": "動画の文字起こしを抽出中..."
 };
 
 export default ja;

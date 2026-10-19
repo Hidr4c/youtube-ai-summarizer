@@ -146,7 +146,8 @@ export const de = {
   "braveMicNotice": "Stellen Sie im Brave Browser sicher, dass Mikrofonberechtigungen erteilt sind.",
   "chapterBadge": "(Kapitel)",
   "transcriptExtracted": "Transkript extrahiert",
-  "modelResponsive": "Reaktionsschnelles Modell: {model}"
+  "modelResponsive": "Reaktionsschnelles Modell: {model}",
+  "extractingTranscriptNotice": "Video-Transkript wird extrahiert..."
 };
 
 export default de;

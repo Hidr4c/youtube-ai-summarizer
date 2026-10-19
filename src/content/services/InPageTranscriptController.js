@@ -5,47 +5,27 @@ import { getVideoId } from '../ui/NavigationObserver.js';
 import { escapeHtml } from '../ui/MarkdownRenderer.js';
 
 /**
- * Orchestrates multi-model transcript extraction, caching, and state management
+ * Orchestrates multi-strategy transparent transcript extraction, caching, and state management
  */
 export class InPageTranscriptController {
   constructor() {
-    this.cachedTranscript = {
-      videoId: '',
-      segments: [],
-      fullText: '',
-      isChapterOnly: false
-    };
-
+    this.cachedTranscript = { videoId: '', segments: [], fullText: '', isChapterOnly: false };
     this.cachedVideoMetadata = {
-      videoId: '',
-      title: '',
-      author: '',
-      channelId: '',
-      subscribers: '',
-      description: '',
-      keywords: [],
-      category: '',
-      publishDate: '',
-      viewCount: ''
+      videoId: '', title: '', author: '', channelId: '', subscribers: '',
+      description: '', keywords: [], category: '', publishDate: '', viewCount: ''
     };
   }
 
   static cleanTranscriptText(text) {
     if (!text) return '';
     return text
-      .replace(/&amp;/g, '&')
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;/g, "'")
-      .replace(/&apos;/g, "'")
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/\n/g, ' ')
-      .replace(/\s+/g, ' ')
+      .replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&apos;/g, "'")
+      .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\n/g, ' ').replace(/\s+/g, ' ')
       .trim();
   }
 
   static parseTimedtextContent(bodyText) {
-    if (!bodyText || typeof bodyText !== 'string' || bodyText.trim().length === 0) return null;
+    if (!bodyText || typeof bodyText !== 'string' || !bodyText.trim()) return null;
     const trimmed = bodyText.trim();
 
     if (trimmed.startsWith('{')) {
@@ -55,14 +35,11 @@ export class InPageTranscriptController {
           const segs = [];
           for (const ev of json.events) {
             if (!ev.segs) continue;
-            const startMs = ev.tStartMs || 0;
-            const sec = Math.floor(startMs / 1000);
+            const sec = Math.floor((ev.tStartMs || 0) / 1000);
             const m = Math.floor(sec / 60);
             const s = (sec % 60).toString().padStart(2, '0');
             const txt = InPageTranscriptController.cleanTranscriptText(ev.segs.map(s => s.utf8 || '').join(''));
-            if (txt && txt !== '\n') {
-              segs.push({ timestamp: `${m}:${s}`, text: txt });
-            }
+            if (txt && txt !== '\n') segs.push({ timestamp: `${m}:${s}`, text: txt });
           }
           if (segs.length > 5) return segs;
         }
@@ -70,32 +47,18 @@ export class InPageTranscriptController {
     }
 
     try {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(trimmed, 'text/xml');
-      const textNodes = Array.from(doc.querySelectorAll('text'));
-      if (textNodes.length > 5) {
-        const segs = textNodes.map(n => {
-          const sec = parseFloat(n.getAttribute('start') || '0');
-          const m = Math.floor(sec / 60);
-          const s = Math.floor(sec % 60).toString().padStart(2, '0');
-          return { timestamp: `${m}:${s}`, text: InPageTranscriptController.cleanTranscriptText(n.textContent || '') };
-        }).filter(s => s.text.length > 0);
-        if (segs.length > 5) return segs;
-      }
-
-      const pNodes = Array.from(doc.querySelectorAll('p'));
-      if (pNodes.length > 5) {
-        const segs = pNodes.map(p => {
-          const tAttr = p.getAttribute('t');
-          const sec = tAttr ? Math.floor(parseInt(tAttr, 10) / 1000) : Math.floor(parseFloat(p.getAttribute('begin') || '0'));
+      const doc = new DOMParser().parseFromString(trimmed, 'text/xml');
+      const nodes = Array.from(doc.querySelectorAll('text, p'));
+      if (nodes.length > 5) {
+        return nodes.map(n => {
+          const tAttr = n.getAttribute('t');
+          const sec = tAttr ? Math.floor(parseInt(tAttr, 10) / 1000) : Math.floor(parseFloat(n.getAttribute('start') || n.getAttribute('begin') || '0'));
           const m = Math.floor(sec / 60);
           const s = (sec % 60).toString().padStart(2, '0');
-          return { timestamp: `${m}:${s}`, text: InPageTranscriptController.cleanTranscriptText(p.textContent || '') };
+          return { timestamp: `${m}:${s}`, text: InPageTranscriptController.cleanTranscriptText(n.textContent || '') };
         }).filter(s => s.text.length > 0);
-        if (segs.length > 5) return segs;
       }
     } catch (_) {}
-
     return null;
   }
 
@@ -105,8 +68,7 @@ export class InPageTranscriptController {
       const jsonUrl = baseUrl + (baseUrl.includes('?') ? '&' : '?') + 'fmt=json3';
       const resp = await fetch(jsonUrl, { credentials: 'include' });
       if (resp.ok) {
-        const text = await resp.text();
-        const segs = InPageTranscriptController.parseTimedtextContent(text);
+        const segs = InPageTranscriptController.parseTimedtextContent(await resp.text());
         if (segs) return segs;
       }
     } catch (_) {}
@@ -114,12 +76,10 @@ export class InPageTranscriptController {
     try {
       const resp = await fetch(baseUrl, { credentials: 'include' });
       if (resp.ok) {
-        const bodyText = await resp.text();
-        const segs = InPageTranscriptController.parseTimedtextContent(bodyText);
+        const segs = InPageTranscriptController.parseTimedtextContent(await resp.text());
         if (segs) return segs;
       }
     } catch (_) {}
-
     return null;
   }
 
@@ -147,37 +107,42 @@ export class InPageTranscriptController {
       };
       window.addEventListener('message', handler);
       window.postMessage({ type: 'YT_AI_REQ_PLAYER_DATA', videoId, preferredLang }, '*');
-
       setTimeout(() => {
         window.removeEventListener('message', handler);
         resolve({});
-      }, 8000);
+      }, 5000);
     });
   }
 
-  async extractYouTubeTranscript(preferredLang = 'en') {
-    const currentVideoId = getVideoId();
+  fetchTranscriptFromBackground(videoId, lang = 'fr') {
+    if (!chrome?.runtime?.sendMessage) return Promise.resolve(null);
+    return new Promise((resolve) => {
+      chrome.runtime.sendMessage({ action: 'FETCH_WATCH_PAGE_TRANSCRIPT', videoId, lang }, (res) => {
+        if (chrome.runtime.lastError || !res || !res.success) resolve(null);
+        else resolve(res);
+      });
+    });
+  }
 
+  async extractYouTubeTranscript(preferredLang = 'en', isUserInitiated = false) {
+    const currentVideoId = getVideoId();
     if (this.cachedTranscript.videoId === currentVideoId && this.cachedTranscript.segments.length > 0 && !this.cachedTranscript.isChapterOnly) {
       return this.cachedTranscript.segments;
     }
 
-    // MODÈLE 1 : DOM actif
-    let domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
+    // STRATÉGIE 1 : Passive Active DOM (0 interaction, seulement si DÉJÀ ouvert par l'utilisateur)
+    const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
     if (domSegments && domSegments.length > 5) {
       const words = domSegments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
       if (domSegments.length >= 15 || words >= 150) {
         this.saveCachedTranscript(currentVideoId, domSegments, false);
-        if (!this.cachedVideoMetadata.description || this.cachedVideoMetadata.videoId !== currentVideoId) {
-          this.requestPlayerDataFromMainWorld(currentVideoId, preferredLang).catch(() => {});
-        }
         return domSegments;
       }
     }
 
-    // MODÈLE 2 : Main World in-memory
+    // STRATÉGIE 2 : Main World in-memory (Directement depuis ytInitialPlayerResponse ou movie_player)
     const playerData = await this.requestPlayerDataFromMainWorld(currentVideoId, preferredLang);
-    if (playerData && Array.isArray(playerData.segments) && playerData.segments.length > 3) {
+    if (playerData?.segments?.length > 3) {
       const words = playerData.segments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
       if (playerData.segments.length >= 15 || words >= 150) {
         this.saveCachedTranscript(currentVideoId, playerData.segments, false);
@@ -185,14 +150,13 @@ export class InPageTranscriptController {
       }
     }
 
-    // MODÈLE 3 : Timedtext stream
-    if (playerData && playerData.captions && playerData.captions.length > 0) {
-      let track = playerData.captions.find(t => t.languageCode === preferredLang);
-      if (!track) track = playerData.captions.find(t => t.languageCode?.startsWith(preferredLang));
-      if (!track) track = playerData.captions.find(t => t.languageCode === 'en' || t.languageCode?.startsWith('en'));
-      if (!track) track = playerData.captions[0];
-
-      if (track && track.baseUrl) {
+    // STRATÉGIE 3 : Timedtext Direct Streams (Depuis les URLs de sous-titres trouvées en mémoire)
+    if (playerData?.captions?.length > 0) {
+      let track = playerData.captions.find(t => t.languageCode === preferredLang) ||
+                  playerData.captions.find(t => t.languageCode?.startsWith(preferredLang)) ||
+                  playerData.captions.find(t => t.languageCode === 'en' || t.languageCode?.startsWith('en')) ||
+                  playerData.captions[0];
+      if (track?.baseUrl) {
         const segments = await this.fetchTimedtextSegments(track.baseUrl);
         if (segments && segments.length > 3) {
           this.saveCachedTranscript(currentVideoId, segments, false);
@@ -201,18 +165,27 @@ export class InPageTranscriptController {
       }
     }
 
-    // MODÈLE 4 : Stealth native panel
-    const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
-    if (stealthSegments && stealthSegments.length > 3) {
-      this.saveCachedTranscript(currentVideoId, stealthSegments, false);
-      return stealthSegments;
+    // STRATÉGIE 4 : Background Direct Fetch via Service Worker (100% transparent, 0 DOM touch)
+    const bgResult = await this.fetchTranscriptFromBackground(currentVideoId, preferredLang);
+    if (bgResult?.segments?.length > 3) {
+      this.saveCachedTranscript(currentVideoId, bgResult.segments, false);
+      return bgResult.segments;
     }
 
-    // MODÈLE 5 : Description chapters
+    // STRATÉGIE 5 : Description Chapters / Timestamps (Zéro clic, extrait du texte de description)
     const chapterSegments = YouTubeDOMContext.extractChaptersFromDescription();
     if (chapterSegments && chapterSegments.length > 1) {
       this.saveCachedTranscript(currentVideoId, chapterSegments, true);
       return chapterSegments;
+    }
+
+    // STRATÉGIE 6 : Stealth Native Panel (Seulement si l'utilisateur a explicitement demandé et que tout le reste a échoué)
+    if (isUserInitiated) {
+      const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
+      if (stealthSegments && stealthSegments.length > 3) {
+        this.saveCachedTranscript(currentVideoId, stealthSegments, false);
+        return stealthSegments;
+      }
     }
 
     return null;
