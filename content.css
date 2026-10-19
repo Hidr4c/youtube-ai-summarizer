@@ -3,19 +3,19 @@
 #yt-ai-summarizer-container {
   width: 100%;
   box-sizing: border-box;
-  position: relative; /* Intégré dans le flux de la page : pousse le contenu naturellement sans jamais le masquer */
-  background-color: #0f1117;
-  border-bottom: 1px solid #30363d;
+  position: relative; /* Intégré tout en haut de la page de lecture YouTube (pleine largeur) */
+  background-color: #0f0f0f;
+  border-bottom: 1px solid #21262d;
   color: #f0f6fc;
   font-family: "YouTube Sans", "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 13px;
-  margin-bottom: 12px;
+  margin: 0;
   display: block;
-  z-index: 100;
+  z-index: 999;
   transition: all 0.2s ease-in-out;
 }
 
-/* Version rétractée par défaut (Hauteur fixe 40px) */
+/* Version rétractée par défaut (Hauteur fixe 44px) */
 #yt-ai-summarizer-container.is-collapsed .yt-ai-expanded-content {
   display: none !important;
 }
@@ -24,10 +24,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-  height: 42px;
+  padding: 0 20px;
+  height: 44px;
   box-sizing: border-box;
-  background: linear-gradient(180deg, #161b22, #12161f);
+  background: #0f0f0f;
   border-bottom: 1px solid #21262d;
   gap: 12px;
 }
@@ -177,6 +177,7 @@
   transition: all 0.15s ease;
   user-select: none;
   outline: none;
+  white-space: nowrap;
 }
 
 .yt-ai-format-pill:hover {
@@ -1284,31 +1285,64 @@
   text-decoration: underline;
 }
 
-/* Responsive Breakpoints pour l'entête */
-@media (max-width: 1050px) {
+/* Container Query Support for In-Page Banner */
+#yt-ai-summarizer-container {
+  container-type: inline-size;
+  container-name: ytai;
+}
+
+/* Responsive Breakpoints & Container Queries pour l'entête */
+@container ytai (max-width: 1200px), (max-width: 1200px) {
   .yt-ai-header-left #ytAiBrandTitle {
     display: none;
   }
-}
-
-@media (max-width: 860px) {
+  .yt-ai-model-pill #ytAiHeaderModelText {
+    max-width: 110px;
+  }
   .yt-ai-help-btn span {
     display: none;
   }
-  .yt-ai-header-lang-wrapper {
-    max-width: 110px;
+}
+
+@container ytai (max-width: 980px), (max-width: 980px) {
+  .yt-ai-settings-toggle-btn #ytAiSettingsBtnText {
+    display: none;
+  }
+  .yt-ai-format-pill {
+    padding: 2px 7px;
+    font-size: 10px;
+  }
+  .yt-ai-header-bar {
+    gap: 8px;
+    padding: 0 10px;
   }
 }
 
-@media (max-width: 720px) {
+@container ytai (max-width: 820px), (max-width: 820px) {
   .yt-ai-header-bar {
-    padding: 0 10px;
-    gap: 8px;
-  }
-  .yt-ai-action-cluster {
+    height: auto;
+    min-height: 42px;
+    flex-wrap: wrap;
+    padding: 6px 10px;
     gap: 6px;
   }
-  .yt-ai-summarize-cta {
-    padding: 0 10px;
+  .yt-ai-header-center {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .yt-ai-header-lang-wrapper {
+    max-width: 95px;
   }
 }
+
+@container ytai (max-width: 640px), (max-width: 640px) {
+  .yt-ai-format-pills {
+    display: none;
+  }
+  .yt-ai-summarize-cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

@@ -1,393 +1,362 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Screenshot 3 - Total AI Freedom: Local & Cloud</title>
+  <title>Screenshot 3 - Réglages & Modèles Locaux 100% Privés (LM Studio & Ollama)</title>
+  <link rel="stylesheet" href="../../content.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       width: 1280px;
       height: 800px;
       overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #080c14;
-      color: #f0f6fc;
-      position: relative;
-      display: flex;
-      flex-direction: column;
+      font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #0f0f0f;
+      color: #f1f1f1;
     }
 
-    /* Ambient background glow */
-    .glow-1 {
-      position: absolute;
-      width: 650px;
-      height: 450px;
-      top: -120px;
-      left: 100px;
-      background: radial-gradient(circle, rgba(31, 111, 235, 0.18) 0%, rgba(0,0,0,0) 70%);
-      filter: blur(70px);
-      z-index: 0;
-    }
-    .glow-2 {
-      position: absolute;
-      width: 600px;
-      height: 400px;
-      top: -100px;
-      right: -80px;
-      background: radial-gradient(circle, rgba(46, 160, 67, 0.16) 0%, rgba(0,0,0,0) 70%);
-      filter: blur(70px);
-      z-index: 0;
-    }
-
-    /* Marketing Header */
-    .marketing-header {
-      position: relative;
-      z-index: 1;
-      padding: 30px 48px 18px 48px;
-      text-align: center;
-    }
-    .badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(31, 111, 235, 0.14);
-      border: 1px solid rgba(31, 111, 235, 0.4);
-      color: #58a6ff;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin-bottom: 10px;
-    }
-    .marketing-title {
-      font-size: 32px;
-      font-weight: 800;
-      color: #ffffff;
-      letter-spacing: -0.5px;
-      margin-bottom: 6px;
-    }
-    .marketing-title span {
-      background: linear-gradient(135deg, #58a6ff, #3fb950);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .marketing-sub {
-      font-size: 14.5px;
-      color: #8b949e;
-      max-width: 740px;
-      margin: 0 auto 12px auto;
-    }
-    .feature-chips {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-    }
-    .feature-chip {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 11.5px;
-      color: #c9d1d9;
-      font-weight: 500;
-    }
-
-    /* Mockup Container */
-    .mockup-container {
-      position: relative;
-      z-index: 1;
-      flex: 1;
-      margin: 0 44px 34px 44px;
-      background: #0f141c;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .yt-ai-header-bar {
+    /* Top YouTube Bar */
+    .yt-topbar {
+      height: 48px;
+      background: #0f0f0f;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 16px;
-      height: 42px;
-      background: linear-gradient(180deg, #161b22, #12161f);
-      border-bottom: 1px solid #21262d;
     }
-    .yt-ai-header-left { display: flex; align-items: center; gap: 10px; }
-    .yt-ai-brand { display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 12.5px; color: #fff; }
-    .yt-ai-badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      background: rgba(35, 134, 54, 0.15); border: 1px solid rgba(46, 160, 67, 0.4);
-      color: #3fb950; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px;
-    }
-    .yt-ai-badge-dot { width: 5px; height: 5px; background: #3fb950; border-radius: 50%; }
-    .yt-ai-model-pill {
-      background: #21262d; border: 1px solid #30363d; border-radius: 14px;
-      padding: 3px 9px; font-size: 11px; color: #58a6ff; font-weight: 600;
+    .yt-topbar-left { display: flex; align-items: center; gap: 14px; }
+    .yt-brand { display: flex; align-items: center; gap: 4px; font-size: 16px; font-weight: 700; color: #fff; }
+    .yt-icon { width: 26px; height: 18px; background: #ff0000; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+    .yt-icon svg { fill: #fff; width: 11px; height: 11px; margin-left: 2px; }
+
+    .yt-topbar-center { display: flex; align-items: center; width: 440px; }
+    .yt-search { flex: 1; height: 32px; background: #121212; border: 1px solid #303030; border-radius: 20px 0 0 20px; padding: 0 12px; color: #fff; font-size: 12px; }
+    .yt-search-btn { width: 44px; height: 32px; background: #222; border: 1px solid #303030; border-left: none; border-radius: 0 20px 20px 0; display: flex; align-items: center; justify-content: center; }
+    .yt-search-btn svg { width: 14px; height: 14px; fill: #fff; }
+
+    .yt-topbar-right { display: flex; align-items: center; gap: 12px; }
+    .yt-signin { display: flex; align-items: center; gap: 6px; border: 1px solid #3ea6ff; color: #3ea6ff; padding: 4px 12px; border-radius: 16px; font-size: 11.5px; font-weight: 500; }
+    .yt-signin svg { width: 15px; height: 15px; fill: #3ea6ff; }
+
+    /* Page Layout */
+    .yt-page {
+      display: grid;
+      grid-template-columns: 935px 1fr;
+      gap: 16px;
+      padding: 10px 16px;
     }
 
-    .yt-ai-header-center { display: flex; align-items: center; gap: 10px; }
-    .yt-ai-format-pills {
-      display: inline-flex; background: #161b22; border: 1px solid #30363d; border-radius: 16px; padding: 2px; gap: 2px;
-    }
-    .format-pill { padding: 2px 9px; font-size: 10.5px; font-weight: 600; border-radius: 12px; color: #8b949e; }
-    .format-pill.active { background: #1f6feb; color: #fff; }
-    .yt-ai-summarize-cta {
-      background: linear-gradient(135deg, #e62117, #c4120a); color: #fff; font-size: 11.5px;
-      font-weight: 700; border-radius: 6px; padding: 4px 12px; box-shadow: 0 2px 8px rgba(230, 33, 23, 0.4);
-    }
-    .yt-ai-header-right { display: flex; align-items: center; gap: 8px; }
-    .utility-pill {
-      background: #21262d; border: 1px solid #30363d; border-radius: 6px; padding: 3px 8px; font-size: 11px; color: #c9d1d9;
-    }
-    .utility-pill.active {
-      background: #1f6feb; border-color: #388bfd; color: #fff; box-shadow: 0 0 10px rgba(31, 111, 235, 0.5);
-    }
-
-    /* Settings Drawer Container */
-    .drawer-content {
-      flex: 1;
-      padding: 18px 24px;
-      background: #0d1117;
+    .yt-main-col {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 10px;
     }
 
-    .settings-card {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 10px;
+    /* Video Player */
+    .yt-video-frame {
+      width: 100%;
+      height: 220px;
+      background: #000;
+      border-radius: 8px;
+      position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      justify-content: flex-end;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
     }
-
-    .settings-subnav {
-      display: flex;
-      background: #11151c;
-      border-bottom: 1px solid #30363d;
-      padding: 0 12px;
-    }
-    .subnav-btn {
-      padding: 10px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #8b949e;
-      border-bottom: 2px solid transparent;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .subnav-btn.active {
-      color: #58a6ff;
-      border-bottom-color: #58a6ff;
-      background: rgba(88, 166, 255, 0.05);
-    }
-
-    .settings-body {
-      padding: 18px 20px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .setting-group {
+    .video-inner {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%);
       display: flex;
       flex-direction: column;
-      gap: 6px;
-    }
-    .setting-label {
-      font-size: 11.5px;
-      font-weight: 600;
-      color: #c9d1d9;
-    }
-    .setting-input-wrapper {
-      display: flex;
-      gap: 8px;
-    }
-    .setting-control {
-      flex: 1;
-      background: #21262d;
-      border: 1px solid #30363d;
-      border-radius: 6px;
-      padding: 7px 10px;
-      font-size: 12px;
-      color: #f0f6fc;
-      font-family: inherit;
-    }
-
-    .action-badge-btn {
-      background: #238636;
-      border: none;
-      color: #fff;
-      font-weight: 600;
-      font-size: 11.5px;
-      border-radius: 6px;
-      padding: 0 12px;
-      display: flex;
       align-items: center;
-      gap: 4px;
+      justify-content: center;
     }
-
-    /* Lower Feature Showcase Grid */
-    .feature-showcase-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
-    }
-    .feature-box {
-      background: rgba(22, 27, 34, 0.6);
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      padding: 12px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .feature-box-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: #f0f6fc;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .feature-box-desc {
+    .video-badge {
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid #22c55e;
+      color: #86efac;
+      padding: 4px 10px;
+      border-radius: 12px;
       font-size: 11px;
-      color: #8b949e;
-      line-height: 1.45;
+      font-weight: 600;
+      margin-bottom: 6px;
     }
+    .video-title-overlay { font-size: 18px; font-weight: 800; color: #fff; }
+
+    .video-controls {
+      position: relative;
+      z-index: 10;
+      background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);
+      padding: 6px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .video-scrub { width: 100%; height: 3px; background: rgba(255,255,255,0.25); border-radius: 2px; position: relative; }
+    .video-progress { width: 42%; height: 100%; background: #ff0000; border-radius: 2px; position: relative; }
+    .video-knob { width: 8px; height: 8px; border-radius: 50%; background: #ff0000; position: absolute; right: -4px; top: -3px; }
+    .video-ctrl-row { display: flex; align-items: center; justify-content: space-between; font-size: 10.5px; color: #ddd; }
+
+    .video-title-row { font-size: 15px; font-weight: 700; color: #f1f1f1; line-height: 1.25; }
+    .channel-row { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px; }
+    .channel-left { display: flex; align-items: center; gap: 8px; }
+    .channel-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #059669, #10b981); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; }
+    .channel-name { font-size: 12px; font-weight: 600; color: #fff; }
+    .channel-sub { font-size: 10.5px; color: #aaa; }
+    .sub-btn { background: #fff; color: #000; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 14px; border: none; margin-left: 6px; }
+
+    /* Right Sidebar */
+    .yt-sidebar-col { display: flex; flex-direction: column; gap: 8px; }
+    .rec-item { display: flex; gap: 8px; }
+    .rec-thumb { width: 115px; height: 64px; border-radius: 6px; overflow: hidden; position: relative; background: #222; flex-shrink: 0; }
+    .thumb-grad1 { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+    .thumb-grad2 { background: linear-gradient(135deg, #14532d, #22c55e); }
+    .thumb-grad3 { background: linear-gradient(135deg, #581c87, #a855f7); }
+    .thumb-grad4 { background: linear-gradient(135deg, #7c2d12, #ea580c); }
+    .thumb-label { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #fff; text-align: center; padding: 4px; }
+    .rec-dur { position: absolute; bottom: 2px; right: 2px; background: rgba(0,0,0,0.85); font-size: 8.5px; font-weight: 600; padding: 1px 3px; border-radius: 2px; color: #fff; }
+    .rec-info { display: flex; flex-direction: column; gap: 2px; }
+    .rec-title { font-size: 11px; font-weight: 600; color: #f1f1f1; line-height: 1.25; }
+    .rec-meta { font-size: 9.5px; color: #888; }
   </style>
 </head>
 <body>
-  <div class="glow-1"></div>
-  <div class="glow-2"></div>
 
-  <!-- Marketing Header -->
-  <div class="marketing-header">
-    <div class="badge-pill">🔒 Complete Privacy & Freedom</div>
-    <h1 class="marketing-title">100% Private Local LLMs & <span>Cloud AI</span></h1>
-    <p class="marketing-sub">Run completely offline with LM Studio or Ollama with zero data leaving your machine. Or connect to Google Gemini, Groq, OpenAI, Claude & DeepSeek.</p>
-    <div class="feature-chips">
-      <div class="feature-chip">🏠 LM Studio & Ollama (Local & Free)</div>
-      <div class="feature-chip">⚡ Groq (Llama 3.3 70B @ 300 t/s)</div>
-      <div class="feature-chip">🔵 Google Gemini (1M Free Context)</div>
-      <div class="feature-chip">🐋 DeepSeek R1 & V3</div>
-      <div class="feature-chip">🎙️ Whisper Local STT</div>
-    </div>
-  </div>
-
-  <!-- Mockup Container -->
-  <div class="mockup-container">
-    <!-- Extension Header Bar -->
-    <div class="yt-ai-header-bar">
-      <div class="yt-ai-header-left">
-        <div class="yt-ai-brand">
-          <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/></svg>
-          <span>YT Summarizer AI</span>
-        </div>
-        <div class="yt-ai-badge">
-          <span class="yt-ai-badge-dot"></span>
-          <span>Connected</span>
-        </div>
-        <div class="yt-ai-model-pill">🤖 Model: Qwen 2.5 14B (Local) ▾</div>
-      </div>
-
-      <div class="yt-ai-header-center">
-        <div class="yt-ai-format-pills">
-          <span class="format-pill">⚡ Quick</span>
-          <span class="format-pill active">📌 Standard</span>
-          <span class="format-pill">📝 Deep</span>
-        </div>
-        <div class="yt-ai-summarize-cta">✨ Summarize video</div>
-      </div>
-
-      <div class="yt-ai-header-right">
-        <span class="utility-pill">🇬🇧 English ▾</span>
-        <span class="utility-pill active">⚙️ Settings (Open)</span>
-        <span class="utility-pill">Collapse ▲</span>
-        <span class="utility-pill" style="color: #58a6ff;">v1.3.0</span>
+  <!-- YouTube Top Navbar (Zero personal account) -->
+  <header class="yt-topbar">
+    <div class="yt-topbar-left">
+      <div class="yt-brand">
+        <div class="yt-icon"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div>
+        YouTube <span style="font-size: 10px; color: #aaa; margin-left: 2px;">FR</span>
       </div>
     </div>
+    <div class="yt-topbar-center">
+      <input type="text" class="yt-search" value="Ce que j'ai vu au cœur des blocages des jeunes" readonly>
+      <div class="yt-search-btn"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg></div>
+    </div>
+    <div class="yt-topbar-right">
+      <div class="yt-signin">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path></svg>
+        Se connecter
+      </div>
+    </div>
+  </header>
 
-    <!-- Drawer Content -->
-    <div class="drawer-content">
-      <!-- Settings Card -->
-      <div class="settings-card">
-        <div class="settings-subnav">
-          <div class="subnav-btn active">🤖 AI Model & Server</div>
-          <div class="subnav-btn">🎙️ Voice & Audio (TTS / STT)</div>
-          <div class="subnav-btn">⚙️ Parameters & Custom Prompt</div>
-        </div>
+  <!-- YouTube Main Page -->
+  <main class="yt-page">
+    <div class="yt-main-col">
 
-        <div class="settings-body">
-          <div class="setting-group">
-            <label class="setting-label">AI Provider:</label>
-            <div class="setting-input-wrapper">
-              <select class="setting-control" style="font-weight: 600;">
-                <option>🏠 LM Studio (Local / Offline)</option>
-                <option>🦙 Ollama (Local / Cloud)</option>
-                <option>🔵 Google Gemini (1M Context, Free)</option>
-                <option>⚡ Groq (Llama 3.3, Ultra-Fast)</option>
-                <option>🟢 OpenAI (GPT-4o / o3-mini)</option>
-                <option>🟣 Anthropic (Claude 3.5 Sonnet)</option>
-                <option>🐋 DeepSeek (R1 & V3)</option>
+      <!-- THE REAL EXTENSION BANNER INJECTED DIRECTLY ABOVE THE VIDEO PLAYER -->
+      <div id="yt-ai-summarizer-container">
+        <!-- BARRE SUPÉRIEURE ÉLÉGANTE (42px) -->
+        <div class="yt-ai-header-bar">
+          <div class="yt-ai-header-left">
+            <div class="yt-ai-brand" id="ytAiBrandToggle">
+              <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000"/>
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/>
+              </svg>
+              <span id="ytAiBrandTitle">YT Summarizer AI</span>
+            </div>
+
+            <div id="ytAiBadge" class="yt-ai-badge online">
+              <span class="yt-ai-badge-dot"></span>
+              <span id="ytAiBadgeText">LM Studio (192.168.56.1:1234)</span>
+            </div>
+
+            <button id="ytAiHeaderModelPill" class="yt-ai-model-pill">
+              <span class="yt-ai-model-icon">🤖</span>
+              <span id="ytAiHeaderModelText">Modèle : qwen/qwen3.8-27b</span>
+              <span class="yt-ai-pill-arrow">▾</span>
+            </button>
+          </div>
+
+          <div class="yt-ai-header-center">
+            <div class="yt-ai-action-cluster">
+              <div class="yt-ai-format-pills" id="ytAiFormatPills">
+                <button class="yt-ai-format-pill" data-mode="quick">⚡ Courte &amp; concise</button>
+                <button class="yt-ai-format-pill active" data-mode="standard">📌 Naturelle &amp; équilibrée</button>
+                <button class="yt-ai-format-pill" data-mode="detailed">📄 Détaillée &amp; approfondie</button>
+              </div>
+
+              <button id="ytAiSummarizeBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-summarize-cta">
+                ✨ Résumer cette vidéo
+              </button>
+            </div>
+          </div>
+
+          <div class="yt-ai-header-right">
+            <div class="yt-ai-header-lang-wrapper">
+              <select id="ytAiLangSelect" class="yt-ai-select yt-ai-header-lang-select">
+                <option value="fr" selected>🇫🇷 Français</option>
+                <option value="en">🇬🇧 English</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="de">🇩🇪 Deutsch</option>
               </select>
             </div>
-          </div>
 
-          <div class="setting-group">
-            <label class="setting-label">Local Server Address:</label>
-            <div class="setting-input-wrapper">
-              <input class="setting-control" value="http://localhost:1234/v1" />
-              <button class="action-badge-btn">⚡ Test</button>
+            <!-- BOUTON RÉGLAGES ACTIF -->
+            <button id="ytAiSettingsToggleBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-settings-toggle-btn active" style="background: rgba(56, 139, 253, 0.2); border-color: #58a6ff; color: #58a6ff;">
+              <span class="yt-ai-settings-icon">⚙️</span>
+              <span id="ytAiSettingsBtnText">Réglages</span>
+            </button>
+
+            <button id="ytAiToggleBtn" class="yt-ai-toggle-btn">
+              <span id="ytAiToggleText">Réduire</span>
+              <span id="ytAiToggleIcon">▴</span>
+            </button>
+
+            <div class="yt-ai-header-links" style="font-size: 10px; color: #8b949e;">v1.3.0</div>
+          </div>
+        </div>
+
+        <!-- TIROIR RÉGLAGES OUVERT (EXACTEMENT COMME DANS L'EXTENSION) -->
+        <div id="ytAiSettingsDrawer" class="yt-ai-settings-drawer" style="display: block;">
+          <div class="yt-ai-settings-card">
+            <div class="yt-ai-settings-header">
+              <div class="yt-ai-settings-tabs-nav">
+                <button class="yt-ai-settings-tab-btn active" data-subtab="model" id="ytAiTabSettingsModelBtn">
+                  🤖 Modèle IA &amp; Serveur
+                </button>
+                <button class="yt-ai-settings-tab-btn" data-subtab="audio" id="ytAiTabSettingsAudioBtn">
+                  🎙️ Voix &amp; Synthèse Audio
+                </button>
+                <button class="yt-ai-settings-tab-btn" data-subtab="params" id="ytAiTabSettingsParamsBtn">
+                  ⚙️ Paramètres &amp; Prompt
+                </button>
+              </div>
+              <button id="ytAiSettingsCloseBtn" class="yt-ai-btn-icon-close" title="Fermer les réglages">✕</button>
             </div>
-          </div>
 
-          <div class="setting-group">
-            <label class="setting-label">Active Loaded Model:</label>
-            <div class="setting-input-wrapper">
-              <select class="setting-control">
-                <option>qwen2.5-coder-14b-instruct (Loaded in VRAM)</option>
-                <option>llama-3.3-70b-instruct</option>
-                <option>deepseek-r1-distill-qwen-14b</option>
-                <option>mistral-nemo-12b</option>
-              </select>
+            <div class="yt-ai-settings-body">
+              <!-- SOUS-ONGLET 1 : MODÈLE ET SERVEUR -->
+              <div id="ytAiSettingsSubpaneModel" class="yt-ai-settings-subpane active">
+                <div class="yt-ai-settings-grid">
+                  <div class="yt-ai-setting-item">
+                    <label id="ytAiProviderLabel" style="font-weight: 600; font-size: 11.5px; color: #c9d1d9;">Fournisseur d'IA :</label>
+                    <select id="ytAiProviderSelect" class="yt-ai-select" style="font-weight: 600;">
+                      <optgroup label="🏠 Modèles Locaux (Gratuits, Illimités &amp; 100% Privés)">
+                        <option value="lmstudio" selected>🏠 LM Studio (Local / Réseau LAN)</option>
+                        <option value="ollama">🦙 Ollama (Local / Serveur distant)</option>
+                      </optgroup>
+                      <optgroup label="⚡ Inférence Cloud Rapide / Gratuite">
+                        <option value="gemini">🔵 Google Gemini 1.5 Pro / Flash (Gratuit)</option>
+                        <option value="groq">⚡ Groq (Llama 3.3 - 500 tokens/s)</option>
+                      </optgroup>
+                      <optgroup label="☁️ Grands Fournisseurs Cloud">
+                        <option value="openai">🟢 OpenAI (GPT-4o / GPT-4o mini)</option>
+                        <option value="claude">🟣 Anthropic Claude 3.5 Sonnet</option>
+                        <option value="deepseek">🐋 DeepSeek (V3 &amp; R1 Raisonnement)</option>
+                        <option value="openrouter">🌐 OpenRouter (Tous modèles)</option>
+                      </optgroup>
+                    </select>
+                  </div>
+
+                  <!-- Zone Local (LM Studio / Ollama) -->
+                  <div id="ytAiLmStudioSettings" class="yt-ai-setting-item">
+                    <label id="ytAiServerLabel" style="font-weight: 600; font-size: 11.5px; color: #c9d1d9;">Adresse du serveur :</label>
+                    <div class="yt-ai-input-with-btn" style="display: flex; gap: 6px;">
+                      <select id="ytAiServerSelect" class="yt-ai-select" style="flex: 1;">
+                        <option value="http://192.168.56.1:1234" selected>http://192.168.56.1:1234 (Réseau local)</option>
+                        <option value="http://localhost:1234">http://localhost:1234 (Machine locale)</option>
+                        <option value="http://127.0.0.1:1234">http://127.0.0.1:1234</option>
+                        <option value="custom">IP personnalisée...</option>
+                      </select>
+                      <button id="ytAiRefreshModelsBtn" class="yt-ai-btn yt-ai-btn-secondary" title="Rafraîchir les modèles chargés">🔄 Actualiser</button>
+                    </div>
+                  </div>
+
+                  <div class="yt-ai-setting-item">
+                    <label style="font-weight: 600; font-size: 11.5px; color: #c9d1d9;">Modèle actif détecté :</label>
+                    <select class="yt-ai-select" style="font-weight: 600; color: #58a6ff;">
+                      <option selected>qwen/qwen3.8-27b (Chargé en VRAM)</option>
+                      <option>meta-llama-3.1-8b-instruct</option>
+                      <option>mistral-nemo-instruct-2407</option>
+                    </select>
+                  </div>
+
+                  <div class="yt-ai-setting-item">
+                    <label style="font-weight: 600; font-size: 11.5px; color: #c9d1d9;">Confidentialité &amp; Sécurité :</label>
+                    <div style="background: rgba(35, 134, 54, 0.15); border: 1px solid rgba(46, 160, 67, 0.4); padding: 7px 12px; border-radius: 6px; font-size: 11px; color: #7ee787; display: flex; align-items: center; gap: 8px;">
+                      <span style="font-size: 15px;">🔒</span>
+                      <span><strong>Mode 100% Local &amp; Souverain :</strong> Vos transcriptions et vos questions restent sur votre machine. Aucun compte requis, aucun frais d'API.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div class="setting-group">
-            <label class="setting-label">Local Whisper Audio STT Server:</label>
-            <div class="setting-input-wrapper">
-              <input class="setting-control" value="http://localhost:8000/v1/audio/transcriptions" />
-              <button class="action-badge-btn" style="background: #1f6feb;">⚡ Test STT</button>
+            <!-- Footer drawer -->
+            <div class="yt-ai-settings-footer" style="padding: 8px 14px; background: #161b22; border-top: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+              <span style="color: #8b949e;">Statut : <strong style="color: #7ee787;">● Connecté à LM Studio v0.3</strong></span>
+              <div style="display: flex; gap: 8px;">
+                <button class="yt-ai-btn yt-ai-btn-secondary" style="padding: 4px 10px; font-size: 11px;">Restaurer défauts</button>
+                <button class="yt-ai-btn yt-ai-btn-primary" style="padding: 4px 12px; font-size: 11px;">💾 Enregistrer</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Feature Showcase Grid -->
-      <div class="feature-showcase-grid">
-        <div class="feature-box">
-          <div class="feature-box-title">🔒 100% Privacy & Zero Telemetry</div>
-          <div class="feature-box-desc">Transcripts, prompts, and audio stay strictly on your localhost. No third-party tracking, no telemetry.</div>
+      <!-- Video Player -->
+      <div class="yt-video-frame">
+        <div class="video-inner">
+          <div class="video-badge">🔒 Inférence Locale Privée</div>
+          <div class="video-title-overlay">Ce que j'ai vu au cœur des blocages des jeunes</div>
         </div>
-        <div class="feature-box">
-          <div class="feature-box-title">⚡ High-Speed Cloud Inference</div>
-          <div class="feature-box-desc">Optional instant access to Google Gemini (1M context), Groq (300 tok/s), DeepSeek R1, and OpenAI.</div>
-        </div>
-        <div class="feature-box">
-          <div class="feature-box-title">🎙️ Audio Dictation & Readout</div>
-          <div class="feature-box-desc">Speak questions directly via Whisper and listen to full summaries with natural text-to-speech audio.</div>
+        <div class="video-controls">
+          <div class="video-scrub"><div class="video-progress"><div class="video-knob"></div></div></div>
+          <div class="video-ctrl-row">
+            <span>▶ &bull; 🔊 11:15 / 26:42</span>
+            <span>HD &bull; Sous-titres &bull; ⚙ &bull; Plein écran</span>
+          </div>
         </div>
       </div>
+
+      <!-- Title & Channel Row -->
+      <div class="video-title-row">Ce que j'ai vu au cœur des blocages des jeunes</div>
+      <div class="channel-row">
+        <div class="channel-left">
+          <div class="channel-avatar">HD</div>
+          <div>
+            <div class="channel-name">HugoDécrypte - Grands formats</div>
+            <div class="channel-sub">2,02 M d'abonnés</div>
+          </div>
+          <button class="sub-btn">S'abonner</button>
+        </div>
+        <div style="display:flex; gap:6px; font-size: 11px; color:#ddd;">
+          <span style="background:#272727; padding:4px 10px; border-radius:14px;">👍 14 k</span>
+          <span style="background:#272727; padding:4px 10px; border-radius:14px;">↗ Partager</span>
+        </div>
+      </div>
+
     </div>
-  </div>
+
+    <!-- Right Sidebar (Up Next) -->
+    <aside class="yt-sidebar-col">
+      <div style="font-size: 12px; font-weight: 700; color: #f1f1f1;">Vidéos recommandées</div>
+      <div class="rec-item">
+        <div class="rec-thumb thumb-grad1"><div class="thumb-label">Qui sème le chaos ?</div><span class="rec-dur">36:16</span></div>
+        <div class="rec-info"><div class="rec-title">QUI SÈME VRAIMENT LE CHAOS ?</div><div class="rec-meta">LIMIT &bull; 169 k vues</div></div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-thumb thumb-grad2"><div class="thumb-label">Nos élèves sont nuls ?</div><span class="rec-dur">56:53</span></div>
+        <div class="rec-info"><div class="rec-title">Une prof de prépa et un prof de primaire</div><div class="rec-meta">Le Crayon &bull; 291 k vues</div></div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-thumb thumb-grad3"><div class="thumb-label">L'abondance est finie</div><span class="rec-dur">1:30:20</span></div>
+        <div class="rec-info"><div class="rec-title">« On est déjà en décroissance »</div><div class="rec-meta">Le Crayon &bull; 55 k vues</div></div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-thumb thumb-grad4"><div class="thumb-label">VTECH : Gran Turismo</div><span class="rec-dur">59:38</span></div>
+        <div class="rec-info"><div class="rec-title">VTECH : Gran Turismo</div><div class="rec-meta">Sylvain Lyve &bull; 2,8 M vues</div></div>
+      </div>
+    </aside>
+  </main>
+
 </body>
 </html>
