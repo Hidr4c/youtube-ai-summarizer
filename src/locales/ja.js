@@ -132,7 +132,21 @@ export const ja = {
   "autoSummarizeLabel": "⚡ 動画を開いた時に自動要約",
   "customPromptLabel": "AIへのカスタム指示 (任意):",
   "saveTxtBtn": "📄 .txt",
-  "saveJsonBtn": "📦 .json"
+  "saveJsonBtn": "📦 .json",
+  "modelReady": "モデル「{model}」の準備完了 ({latency}ms)!",
+  "connectionFailed": "失敗: {error}",
+  "connectionError": "接続エラー",
+  "whisperReady": "ローカルWhisper STTの準備完了 ({latency}ms)!",
+  "whisperFailed": "Whisper STT失敗: {error}",
+  "whisperKeyRequired": "Whisper音声文字起こしにはAPIキーが必要です。",
+  "whisperRecording": "🎙️ Whisper録音中 (マイク)...",
+  "whisperTranscribing": "⏳ Whisperによる音声文字起こし中...",
+  "whisperNoAudio": "音声が録音されていません。マイクに向かって話してください。",
+  "micAccessError": "マイクにアクセスできません",
+  "braveMicNotice": "Braveブラウザの場合、マイク権限が許可されていることを確認してください。",
+  "chapterBadge": "(チャプター)",
+  "transcriptExtracted": "文字起こしを抽出しました",
+  "modelResponsive": "応答モデル: {model}"
 };
 
 export default ja;

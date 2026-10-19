@@ -132,7 +132,21 @@ export const de = {
   "autoSummarizeLabel": "⚡ Automatisch zusammenfassen beim Öffnen",
   "customPromptLabel": "Benutzerdefinierte KI-Anweisungen:",
   "saveTxtBtn": "📄 .txt",
-  "saveJsonBtn": "📦 .json"
+  "saveJsonBtn": "📦 .json",
+  "modelReady": "Modell \"{model}\" bereit ({latency}ms)!",
+  "connectionFailed": "Fehlgeschlagen: {error}",
+  "connectionError": "Verbindungsfehler",
+  "whisperReady": "Lokales Whisper STT bereit ({latency}ms)!",
+  "whisperFailed": "Whisper STT fehlgeschlagen: {error}",
+  "whisperKeyRequired": "API-Schlüssel für Whisper-Sprachtranskription erforderlich.",
+  "whisperRecording": "🎙️ Whisper-Aufnahme (Mikrofon)...",
+  "whisperTranscribing": "⏳ Audio wird mit Whisper transkribiert...",
+  "whisperNoAudio": "Kein Ton aufgenommen. Bitte ins Mikrofon sprechen.",
+  "micAccessError": "Kein Zugriff auf das Mikrofon",
+  "braveMicNotice": "Stellen Sie im Brave Browser sicher, dass Mikrofonberechtigungen erteilt sind.",
+  "chapterBadge": "(Kapitel)",
+  "transcriptExtracted": "Transkript extrahiert",
+  "modelResponsive": "Reaktionsschnelles Modell: {model}"
 };
 
 export default de;

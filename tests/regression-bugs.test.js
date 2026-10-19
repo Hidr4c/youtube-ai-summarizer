@@ -10,10 +10,17 @@ import { InnerTubeParser } from '../src/parsers/InnerTubeParser.js';
 test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) => {
   const rootDir = path.resolve('.');
 
+  // Helper to read all content script sources
+  const getAllContentSrc = () => {
+    const contentFiles = fs.readdirSync(path.join(rootDir, 'src/content'), { recursive: true }).filter(f => f.endsWith('.js'));
+    return contentFiles.map(f => fs.readFileSync(path.join(rootDir, 'src/content', f), 'utf-8')).join('\n');
+  };
+
   // 1. REGRESSION: Multi-Model Transcript Extraction & State Preservation
   await suite.test('Multi-Model Transcript: handles all YouTube layouts and preserves user panel state', () => {
-    const contextExtractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8');
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+    const contextExtractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8') +
+      (fs.existsSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js')) ? fs.readFileSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js'), 'utf-8') : '');
+    const contentSrc = getAllContentSrc();
 
     // ContextExtractor runs purely in memory without DOM clicks
     const forbiddenInMainWorld = [
@@ -128,7 +135,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
 
   // 4. REGRESSION: Minimalist Header UI Layout & Settings Tab Order
   await suite.test('Minimalist Header & Settings Order: Model -> Params -> Audio', () => {
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+    const contentSrc = getAllContentSrc();
     const headerBarMatch = contentSrc.match(/<div class="yt-ai-header-bar">([\s\S]*?)<\/div>\s*<!-- CONTENU DÉPLIABLE -->/);
     assert.ok(headerBarMatch, 'Header bar must exist in template');
     const headerBarHtml = headerBarMatch[1];
@@ -147,7 +154,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     assert.equal(headerBarHtml.includes('v1.3.0'), false, 'Duplicate version link must be removed from header bar');
 
     // Controls MUST be found inside the Settings Drawer:
-    const settingsDrawerMatch = contentSrc.match(/<div id="ytAiSettingsDrawer"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>\s*<!-- BANNIÈRE DE STATUT/);
+    const settingsDrawerMatch = contentSrc.match(/<div id="ytAiSettingsDrawer"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>\s*`;/);
     assert.ok(settingsDrawerMatch, 'Settings drawer must exist');
     const settingsDrawerHtml = settingsDrawerMatch[0];
 
@@ -189,7 +196,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
 
   // 6. REGRESSION: Header-Scoped Close, Stealth Timeout & Multilingual Regex
   await suite.test('Native Transcript Closing: strictly scoped to header, multilingual, and stealth delay preserved', () => {
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+    const contentSrc = getAllContentSrc();
 
     // Forbidden: unscoped yt-button-shape button search on panel that would match body tabs
     assert.equal(
@@ -235,7 +242,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   // 7. REGRESSION: YouTube Theme Adaptation (Dark & Light Mode Support)
   await suite.test('Theme Adaptation: CSS variables and dynamic observer for dark/light YouTube parity', () => {
     const cssSrc = fs.readFileSync(path.join(rootDir, 'src/content/content.css'), 'utf-8');
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+    const contentSrc = getAllContentSrc();
 
     // CSS Theme variables definitions
     assert.match(cssSrc, /html\[dark\]\s*#yt-ai-summarizer-container/);
@@ -268,10 +275,10 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
 
   // 8. REGRESSION: Speech Synthesis Reliability (LANG_LOCALES import, Chunking, Chrome 15s keepalive & DOM fallback)
   await suite.test('Speech Synthesis: LANG_LOCALES import, sentence chunking, Chrome keepalive & DOM fallback', () => {
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+    const contentSrc = getAllContentSrc();
 
     // LANG_LOCALES must be imported to prevent ReferenceError when clicking listen or mic
-    assert.match(contentSrc, /import\s*\{[^}]*LANG_LOCALES[^}]*\}\s*from\s*['"]\.\.\/config\/AIProviderPresets\.js['"]/);
+    assert.match(contentSrc, /import\s*\{[^}]*LANG_LOCALES[^}]*\}\s*from\s*['"](?:\.\.\/)+config\/AIProviderPresets\.js['"]/);
     assert.match(contentSrc, /DEFAULT_LANG_LOCALES/);
 
     // Sentence chunking must exist to prevent synthesis-failed buffer overflow on long summaries
@@ -290,8 +297,10 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
 
   // 9. REGRESSION: Complete Speech Transcript vs Video Chapters Separation
   await suite.test('Speech Transcript vs Chapters: InnerTubeParser separation, DOM selectors, and quality guards', () => {
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
-    const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8');
+    const contentFiles = fs.readdirSync(path.join(rootDir, 'src/content'), { recursive: true }).filter(f => f.endsWith('.js'));
+    const contentSrc = contentFiles.map(f => fs.readFileSync(path.join(rootDir, 'src/content', f), 'utf-8')).join('\n');
+    const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8') +
+      (fs.existsSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js')) ? fs.readFileSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js'), 'utf-8') : '');
 
     // 1. Fallback 2 in extractTranscriptFromActiveDOM must strictly exclude macro-markers
     assert.equal(
@@ -361,8 +370,10 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
 
   // 10. REGRESSION: Video and Channel Context (Description, Subscribers, Category, Tags)
   await suite.test('Video and Channel Context: In-memory extraction, DOM fallbacks, and prompt injection', () => {
-    const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8');
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+    const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8') +
+      (fs.existsSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js')) ? fs.readFileSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js'), 'utf-8') : '');
+    const contentFiles = fs.readdirSync(path.join(rootDir, 'src/content'), { recursive: true }).filter(f => f.endsWith('.js'));
+    const contentSrc = contentFiles.map(f => fs.readFileSync(path.join(rootDir, 'src/content', f), 'utf-8')).join('\n');
     const modelSrc = fs.readFileSync(path.join(rootDir, 'src/domain/models/VideoMetadata.js'), 'utf-8');
 
     // 1. YouTubeContextExtractor must extract description, keywords, category, publishDate, and channelId

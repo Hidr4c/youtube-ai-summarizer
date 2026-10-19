@@ -1,6 +1,7 @@
 import { InnerTubeParser } from '../parsers/InnerTubeParser.js';
-import { TimedtextParser } from '../parsers/TimedtextParser.js';
 import { SpeechRecognitionBridge } from './SpeechRecognitionBridge.js';
+import { InnerTubeBridge } from './InnerTubeBridge.js';
+import { TimedtextTrackFetcher } from './TimedtextTrackFetcher.js';
 
 /**
  * YouTube Main World context extractor
@@ -17,7 +18,6 @@ export class YouTubeContextExtractor {
     window.addEventListener('message', async (event) => {
       if (event.source !== window || !event.data) return;
 
-      // 1. Microphone speech recognition handling in Main World
       if (event.data.type === 'YT_AI_START_SPEECH') {
         this.speechBridge.start(event.data.lang || 'en-US');
         return;
@@ -28,7 +28,6 @@ export class YouTubeContextExtractor {
         return;
       }
 
-      // 2. Player data & transcript request (Primary flow)
       if (event.data.type === 'YT_AI_REQ_PLAYER_DATA') {
         const videoId = event.data.videoId || '';
         const preferredLang = event.data.preferredLang || 'en';
@@ -36,7 +35,6 @@ export class YouTubeContextExtractor {
         return;
       }
 
-      // 3. Backward compatible legacy transcript request
       if (event.data.type === 'YT_AI_REQUEST_TRANSCRIPT') {
         const videoId = event.data.videoId;
         const result = await this.extractTranscript(videoId, event.data.preferredLang || 'en');
@@ -56,41 +54,13 @@ export class YouTubeContextExtractor {
    */
   async extractTranscript(requestedVideoId, preferredLang = 'en') {
     try {
-      let playerResponse = null;
-      let player = document.getElementById('movie_player');
-      try { player?.loadModule?.('captions'); } catch (_) {}
-
-      if (player && typeof player.getPlayerResponse === 'function') {
-        const resp = player.getPlayerResponse();
-        const activeId = player.getVideoData?.()?.video_id || resp?.videoDetails?.videoId;
-        if (!requestedVideoId || activeId === requestedVideoId) {
-          playerResponse = resp;
-        }
-      }
-
-      if (!playerResponse && window.ytInitialPlayerResponse) {
-        playerResponse = window.ytInitialPlayerResponse;
-      }
-
-      let captions = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks ||
-                     window.ytInitialPlayerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks ||
-                     [];
-
-      if ((!captions || captions.length === 0) && player && typeof player.getOption === 'function') {
-        try {
-          const pt = player.getOption('captions', 'tracklist');
-          if (Array.isArray(pt) && pt.length > 0) captions = pt;
-        } catch (_) {}
-      }
-
+      const playerResponse = this.resolvePlayerResponse(requestedVideoId);
+      const captions = this.resolveCaptionTracks(playerResponse);
       let directSegments = null;
-      if (captions && captions.length > 0) {
-        let track = captions.find(t => t.languageCode === preferredLang);
-        if (!track) track = captions.find(t => t.languageCode?.startsWith(preferredLang));
-        if (!track) track = captions.find(t => t.languageCode === 'en' || t.languageCode?.startsWith('en'));
-        if (!track) track = captions[0];
 
-        if (track && track.baseUrl) {
+      if (captions && captions.length > 0) {
+        const track = this.pickCaptionTrack(captions, preferredLang);
+        if (track?.baseUrl) {
           directSegments = await this.fetchTrackSegments(track.baseUrl);
         }
       }
@@ -112,11 +82,62 @@ export class YouTubeContextExtractor {
           fullText: directSegments.map(s => s.text).join(' ')
         };
       }
-
       return null;
     } catch (e) {
       return { error: e.message };
     }
+  }
+
+  resolvePlayerResponse(requestedVideoId) {
+    let player = document.getElementById('movie_player');
+    try { player?.loadModule?.('captions'); } catch (_) {}
+    if (player && typeof player.getPlayerResponse === 'function') {
+      const resp = player.getPlayerResponse();
+      const activeId = player.getVideoData?.()?.video_id || resp?.videoDetails?.videoId;
+      if (!requestedVideoId || activeId === requestedVideoId) return resp;
+    }
+    if (window.ytInitialPlayerResponse) {
+      const initId = window.ytInitialPlayerResponse?.videoDetails?.videoId;
+      if (!requestedVideoId || initId === requestedVideoId) return window.ytInitialPlayerResponse;
+    }
+    const flexy = document.querySelector('ytd-watch-flexy');
+    const flexyData = flexy?.playerData || flexy?.data;
+    if (flexyData) {
+      const fId = flexyData?.videoDetails?.videoId;
+      if (!requestedVideoId || fId === requestedVideoId) return flexyData;
+    }
+    return window.ytInitialPlayerResponse || null;
+  }
+
+  resolveCaptionTracks(playerResponse) {
+    let captions = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks ||
+                   window.ytInitialPlayerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
+    if ((!captions || captions.length === 0)) {
+      const player = document.getElementById('movie_player');
+      if (player && typeof player.getOption === 'function') {
+        try {
+          const pt = player.getOption('captions', 'tracklist');
+          if (Array.isArray(pt) && pt.length > 0) captions = pt;
+        } catch (_) {}
+      }
+    }
+    if ((!captions || captions.length === 0) && window.ytplayer?.config?.args?.raw_player_response) {
+      try {
+        const raw = typeof window.ytplayer.config.args.raw_player_response === 'string'
+          ? JSON.parse(window.ytplayer.config.args.raw_player_response)
+          : window.ytplayer.config.args.raw_player_response;
+        const rawTracks = raw?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
+        if (Array.isArray(rawTracks) && rawTracks.length > 0) captions = rawTracks;
+      } catch (_) {}
+    }
+    return captions;
+  }
+
+  pickCaptionTrack(captions, preferredLang) {
+    let track = captions.find(t => t.languageCode === preferredLang);
+    if (!track) track = captions.find(t => t.languageCode?.startsWith(preferredLang));
+    if (!track) track = captions.find(t => t.languageCode === 'en' || t.languageCode?.startsWith('en'));
+    return track || captions[0] || null;
   }
 
   /**
@@ -125,107 +146,25 @@ export class YouTubeContextExtractor {
   async handlePlayerDataRequest(requestedVideoId, preferredLang) {
     try {
       let playerResponse = null;
-      let player = document.getElementById('movie_player');
-      try { player?.loadModule?.('captions'); } catch (_) {}
-
-      // Wait up to 5 attempts (500ms total) for player response to match current video ID
       for (let attempt = 0; attempt < 5; attempt++) {
-        player = document.getElementById('movie_player');
-        if (player && typeof player.getPlayerResponse === 'function') {
-          const resp = player.getPlayerResponse();
-          const activeId = player.getVideoData?.()?.video_id || resp?.videoDetails?.videoId;
-          if (!requestedVideoId || activeId === requestedVideoId) {
-            playerResponse = resp;
-            if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks) break;
-          }
-        }
-
-        if (window.ytInitialPlayerResponse) {
-          const initId = window.ytInitialPlayerResponse?.videoDetails?.videoId;
-          if (!requestedVideoId || initId === requestedVideoId) {
-            if (!playerResponse || (!playerResponse.captions && window.ytInitialPlayerResponse.captions)) {
-              playerResponse = window.ytInitialPlayerResponse;
-              if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks) break;
-            }
-          }
-        }
-
-        const flexy = document.querySelector('ytd-watch-flexy');
-        const flexyData = flexy?.playerData || flexy?.data;
-        if (flexyData) {
-          const fId = flexyData?.videoDetails?.videoId;
-          if (!requestedVideoId || fId === requestedVideoId) {
-            if (!playerResponse || (!playerResponse.captions && flexyData.captions)) {
-              playerResponse = flexyData;
-              if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks) break;
-            }
-          }
-        }
-
-        const grid = document.querySelector('ytd-watch-grid');
-        const gridData = grid?.playerData || grid?.data;
-        if (gridData) {
-          const gId = gridData?.videoDetails?.videoId;
-          if (!requestedVideoId || gId === requestedVideoId) {
-            if (!playerResponse || (!playerResponse.captions && gridData.captions)) {
-              playerResponse = gridData;
-              if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks) break;
-            }
-          }
-        }
-
+        playerResponse = this.resolvePlayerResponse(requestedVideoId);
+        if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks) break;
         await new Promise(r => setTimeout(r, 100));
       }
 
-      let activeId = '';
-      if (player && typeof player.getVideoData === 'function') {
-        activeId = player.getVideoData()?.video_id || '';
-      }
-
-      if (!playerResponse) {
-        player = document.getElementById('movie_player');
-        playerResponse = (player && typeof player.getPlayerResponse === 'function')
-          ? player.getPlayerResponse()
-          : window.ytInitialPlayerResponse;
-      }
-
-      let captions = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks ||
-                     window.ytInitialPlayerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks ||
-                     [];
-
-      if ((!captions || captions.length === 0) && player && typeof player.getOption === 'function') {
-        try {
-          const pt = player.getOption('captions', 'tracklist');
-          if (Array.isArray(pt) && pt.length > 0) captions = pt;
-        } catch (_) {}
-      }
-
-      if ((!captions || captions.length === 0) && window.ytplayer?.config?.args?.raw_player_response) {
-        try {
-          const raw = typeof window.ytplayer.config.args.raw_player_response === 'string'
-            ? JSON.parse(window.ytplayer.config.args.raw_player_response)
-            : window.ytplayer.config.args.raw_player_response;
-          const rawTracks = raw?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
-          if (Array.isArray(rawTracks) && rawTracks.length > 0) captions = rawTracks;
-        } catch (_) {}
-      }
-
+      const player = document.getElementById('movie_player');
+      const activeId = player?.getVideoData?.()?.video_id || '';
+      const captions = this.resolveCaptionTracks(playerResponse);
       const videoDetails = playerResponse?.videoDetails || window.ytInitialPlayerResponse?.videoDetails || {};
 
-      // 100% in-memory timedtext extraction
       let directSegments = null;
       if (captions && captions.length > 0) {
-        let track = captions.find(t => t.languageCode === preferredLang);
-        if (!track) track = captions.find(t => t.languageCode?.startsWith(preferredLang));
-        if (!track) track = captions.find(t => t.languageCode === 'en' || t.languageCode?.startsWith('en'));
-        if (!track) track = captions[0];
-
-        if (track && track.baseUrl) {
+        const track = this.pickCaptionTrack(captions, preferredLang);
+        if (track?.baseUrl) {
           directSegments = await this.fetchTrackSegments(track.baseUrl);
         }
       }
 
-      // 100% in-memory InnerTube API fallback if timedtext was empty
       if (!directSegments || directSegments.length === 0) {
         const transcriptParams = this.findTranscriptParams(requestedVideoId || activeId);
         if (transcriptParams) {
@@ -233,7 +172,6 @@ export class YouTubeContextExtractor {
         }
       }
 
-      // Initial data fallback strictly without accepting chapters
       if (!directSegments || directSegments.length === 0) {
         directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
       }
@@ -264,7 +202,6 @@ export class YouTubeContextExtractor {
         publishDate,
         viewCount
       }, '*');
-
     } catch (err) {
       window.postMessage({
         type: 'YT_AI_RES_PLAYER_DATA',
@@ -276,164 +213,16 @@ export class YouTubeContextExtractor {
     }
   }
 
-  /**
-   * Fetches timedtext segments in memory
-   */
   async fetchTrackSegments(baseUrl) {
-    if (!baseUrl) return null;
-    try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 3500);
-      const jsonUrl = baseUrl + (baseUrl.includes('?') ? '&' : '?') + 'fmt=json3';
-      const res = await fetch(jsonUrl, { credentials: 'include', signal: controller.signal });
-      clearTimeout(timer);
-      if (res.ok) {
-        const raw = await res.text();
-        if (raw && raw.trim().startsWith('{')) {
-          const json = JSON.parse(raw);
-          const segs = TimedtextParser.parseTimedtextEvents(json?.events);
-          if (segs && segs.length > 3) return segs;
-        }
-      }
-    } catch (_) {}
-
-    try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 3500);
-      const res = await fetch(baseUrl, { credentials: 'include', signal: controller.signal });
-      clearTimeout(timer);
-      if (res.ok) {
-        const raw = await res.text();
-        if (raw && raw.trim().startsWith('{')) {
-          const json = JSON.parse(raw);
-          const segs = TimedtextParser.parseTimedtextEvents(json?.events);
-          if (segs && segs.length > 3) return segs;
-        } else if (raw && (raw.includes('<transcript') || raw.includes('<tt') || raw.includes('<text'))) {
-          const segs = TimedtextParser.parseTimedtextXml(raw);
-          if (segs && segs.length > 3) return segs;
-        }
-      }
-    } catch (_) {}
-
-    return null;
+    return TimedtextTrackFetcher.fetchTrackSegments(baseUrl);
   }
 
-  /**
-   * Finds transcript params in YouTube memory structures
-   */
   findTranscriptParams(requestedVideoId) {
-    try {
-      function searchParams(obj, depth = 0) {
-        if (!obj || depth > 10) return null;
-        if (typeof obj !== 'object') return null;
-
-        if (obj.getTranscriptEndpoint && typeof obj.getTranscriptEndpoint.params === 'string') {
-          return { type: 'get_transcript', params: obj.getTranscriptEndpoint.params };
-        }
-
-        if (obj.getTranscriptCommand && typeof obj.getTranscriptCommand.params === 'string') {
-          return { type: 'get_transcript', params: obj.getTranscriptCommand.params };
-        }
-
-        if (obj.targetId === 'engagement-panel-searchable-transcript' && obj.continuation && typeof obj.continuation === 'string') {
-          return { type: 'browse_continuation', continuation: obj.continuation };
-        }
-
-        const keys = Array.isArray(obj) ? null : Object.keys(obj);
-        const list = keys || obj;
-        for (let i = 0; i < list.length; i++) {
-          const k = keys ? keys[i] : i;
-          if (k === 'polymerController' || k === '__shady' || k === 'host' || k === '__events') continue;
-          const val = obj[k];
-          if (val && typeof val === 'object') {
-            const res = searchParams(val, depth + 1);
-            if (res) return res;
-          }
-        }
-        return null;
-      }
-
-      const flexy = document.querySelector('ytd-watch-flexy');
-      const flexyData = flexy?.data || flexy?.playerData;
-      if (flexyData) {
-        const p = searchParams(flexyData);
-        if (p) return p;
-      }
-
-      const grid = document.querySelector('ytd-watch-grid');
-      const gridData = grid?.data || grid?.playerData;
-      if (gridData) {
-        const p = searchParams(gridData);
-        if (p) return p;
-      }
-
-      if (window.ytInitialData) {
-        const p = searchParams(window.ytInitialData);
-        if (p) return p;
-      }
-
-      if (window.ytInitialPlayerResponse) {
-        const p = searchParams(window.ytInitialPlayerResponse);
-        if (p) return p;
-      }
-    } catch (_) {}
-    return null;
+    return InnerTubeBridge.findTranscriptParams(requestedVideoId);
   }
 
-  /**
-   * Fetches transcript via YouTube InnerTube API 100% in background
-   */
   async fetchTranscriptFromInnerTube(paramObj) {
-    if (!paramObj) return null;
-    try {
-      const apiKey = window.ytcfg?.get?.('INNERTUBE_API_KEY');
-      const context = window.ytcfg?.get?.('INNERTUBE_CONTEXT');
-      if (!apiKey || !context) return null;
-
-      const clientName = String(window.ytcfg?.get?.('INNERTUBE_CLIENT_NAME') || '1');
-      const clientVersion = String(window.ytcfg?.get?.('INNERTUBE_CLIENT_VERSION') || '');
-      const visitorData = String(window.ytcfg?.get?.('VISITOR_DATA') || '');
-
-      const headers = {
-        'Content-Type': 'application/json',
-        'X-YouTube-Client-Name': clientName
-      };
-      if (clientVersion) headers['X-YouTube-Client-Version'] = clientVersion;
-      if (visitorData) headers['X-Goog-Visitor-Id'] = visitorData;
-
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 4000);
-
-      let url = '';
-      let bodyData = { context };
-
-      if (typeof paramObj === 'string') {
-        url = `https://www.youtube.com/youtubei/v1/get_transcript?key=${apiKey}`;
-        bodyData.params = paramObj;
-      } else if (paramObj.type === 'get_transcript' && paramObj.params) {
-        url = `https://www.youtube.com/youtubei/v1/get_transcript?key=${apiKey}`;
-        bodyData.params = paramObj.params;
-      } else if (paramObj.type === 'browse_continuation' && paramObj.continuation) {
-        url = `https://www.youtube.com/youtubei/v1/browse?key=${apiKey}`;
-        bodyData.continuation = paramObj.continuation;
-      } else {
-        clearTimeout(timer);
-        return null;
-      }
-
-      const res = await fetch(url, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(bodyData),
-        credentials: 'include',
-        signal: controller.signal
-      }).catch(() => null);
-      clearTimeout(timer);
-
-      if (!res || !res.ok) return null;
-      const json = await res.json().catch(() => null);
-      return InnerTubeParser.extractSegmentsFromInnerTubeJson(json, { allowChapters: false });
-    } catch (_) {}
+    return InnerTubeBridge.fetchTranscript(paramObj);
   }
 }
 

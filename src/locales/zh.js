@@ -132,7 +132,21 @@ export const zh = {
   "autoSummarizeLabel": "⚡ 打开视频时自动生成摘要",
   "customPromptLabel": "AI 自定义指令 (可选):",
   "saveTxtBtn": "📄 .txt",
-  "saveJsonBtn": "📦 .json"
+  "saveJsonBtn": "📦 .json",
+  "modelReady": "模型 \"{model}\" 就绪 ({latency}ms)！",
+  "connectionFailed": "失败：{error}",
+  "connectionError": "连接错误",
+  "whisperReady": "本地 Whisper STT 就绪 ({latency}ms)！",
+  "whisperFailed": "Whisper STT 失败：{error}",
+  "whisperKeyRequired": "Whisper 语音转录需要 API 密钥。",
+  "whisperRecording": "🎙️ Whisper 录音中 (麦克风)...",
+  "whisperTranscribing": "⏳ 正在通过 Whisper 转录音频...",
+  "whisperNoAudio": "未录制到音频。请对着麦克风说话。",
+  "micAccessError": "无法访问麦克风",
+  "braveMicNotice": "在 Brave 浏览器上，请确保已授予麦克风权限。",
+  "chapterBadge": "(章节)",
+  "transcriptExtracted": "已提取文字记录",
+  "modelResponsive": "响应模型：{model}"
 };
 
 export default zh;

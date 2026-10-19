@@ -132,7 +132,21 @@ export const ru = {
   "autoSummarizeLabel": "⚡ Авто-саммари при открытии видео",
   "customPromptLabel": "Пользовательские инструкции для ИИ:",
   "saveTxtBtn": "📄 .txt",
-  "saveJsonBtn": "📦 .json"
+  "saveJsonBtn": "📦 .json",
+  "modelReady": "Модель \"{model}\" готова ({latency}мс)!",
+  "connectionFailed": "Сбой: {error}",
+  "connectionError": "Ошибка подключения",
+  "whisperReady": "Локальный Whisper STT готов ({latency}мс)!",
+  "whisperFailed": "Сбой Whisper STT: {error}",
+  "whisperKeyRequired": "Требуется ключ API для голосовой транскрипции Whisper.",
+  "whisperRecording": "🎙️ Запись Whisper (Микрофон)...",
+  "whisperTranscribing": "⏳ Транскрибация аудио через Whisper...",
+  "whisperNoAudio": "Аудио не записано. Пожалуйста, говорите в микрофон.",
+  "micAccessError": "Не удалось получить доступ к микрофону",
+  "braveMicNotice": "В Brave Browser убедитесь, что разрешения на микрофон включены.",
+  "chapterBadge": "(Главы)",
+  "transcriptExtracted": "Транскрипт извлечен",
+  "modelResponsive": "Отзывчивая модель: {model}"
 };
 
 export default ru;

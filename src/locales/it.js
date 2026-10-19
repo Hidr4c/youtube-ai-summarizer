@@ -132,7 +132,21 @@ export const it = {
   "autoSummarizeLabel": "⚡ Riassumi automaticamente all'apertura del video",
   "customPromptLabel": "Istruzioni personalizzate per l'IA:",
   "saveTxtBtn": "📄 .txt",
-  "saveJsonBtn": "📦 .json"
+  "saveJsonBtn": "📦 .json",
+  "modelReady": "Modello \"{model}\" pronto ({latency}ms)!",
+  "connectionFailed": "Non riuscito: {error}",
+  "connectionError": "Errore di connessione",
+  "whisperReady": "Whisper STT locale pronto ({latency}ms)!",
+  "whisperFailed": "Whisper STT non riuscito: {error}",
+  "whisperKeyRequired": "Chiave API richiesta per la trascrizione vocale Whisper.",
+  "whisperRecording": "🎙️ Registrazione Whisper (Microfono)...",
+  "whisperTranscribing": "⏳ Trascrizione audio con Whisper in corso...",
+  "whisperNoAudio": "Nessun audio registrato. Parla nel microfono.",
+  "micAccessError": "Impossibile accedere al microfono",
+  "braveMicNotice": "Su Brave Browser, assicurati che i permessi del microfono siano consentiti.",
+  "chapterBadge": "(Capitoli)",
+  "transcriptExtracted": "Trascrizione estratta",
+  "modelResponsive": "Modello reattivo: {model}"
 };
 
 export default it;
