@@ -264,4 +264,26 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     assert.match(contentSrc, /function initThemeSync\(/);
     assert.match(contentSrc, /attributes:\s*true,\s*attributeFilter:\s*\['dark',\s*'class'\]/);
   });
+
+  // 8. REGRESSION: Speech Synthesis Reliability (LANG_LOCALES import, Chunking, Chrome 15s keepalive & DOM fallback)
+  await suite.test('Speech Synthesis: LANG_LOCALES import, sentence chunking, Chrome keepalive & DOM fallback', () => {
+    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+
+    // LANG_LOCALES must be imported to prevent ReferenceError when clicking listen or mic
+    assert.match(contentSrc, /import\s*\{[^}]*LANG_LOCALES[^}]*\}\s*from\s*['"]\.\.\/config\/AIProviderPresets\.js['"]/);
+    assert.match(contentSrc, /DEFAULT_LANG_LOCALES/);
+
+    // Sentence chunking must exist to prevent synthesis-failed buffer overflow on long summaries
+    assert.match(contentSrc, /function splitTextIntoSpeechChunks\(/);
+
+    // Chrome 15-second speech keepalive watchdog must exist
+    assert.match(contentSrc, /speechKeepAliveTimer/);
+    assert.match(contentSrc, /window\.speechSynthesis\.pause\(\);\s*window\.speechSynthesis\.resume\(\);/);
+
+    // activeUtterance must be stored to prevent Chrome V8 garbage-collection mid-speech
+    assert.match(contentSrc, /activeUtterance\s*=\s*utterance/);
+
+    // DOM fallback on summary body if fullSummaryMarkdown is empty
+    assert.match(contentSrc, /document\.getElementById\('ytAiSummaryBody'\)/);
+  });
 });

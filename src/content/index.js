@@ -1,4 +1,5 @@
 import { I18N } from '../locales/index.js';
+import { LANG_LOCALES } from '../config/AIProviderPresets.js';
 /**
  * content.js - YouTube AI Summarizer
  * Multi-Fournisseurs IA :
@@ -196,6 +197,22 @@ import { I18N } from '../locales/index.js';
   let availableVoices = [];
   let selectedVoiceURI = '';
   let activeSpeakingButton = null;
+  let speechQueue = [];
+  let speechQueueIndex = 0;
+  let isSpeakingActive = false;
+  let activeUtterance = null;
+  let speechKeepAliveTimer = null;
+
+  const DEFAULT_LANG_LOCALES = {
+    fr: 'fr-FR',
+    en: 'en-US',
+    es: 'es-ES',
+    de: 'de-DE',
+    it: 'it-IT',
+    ru: 'ru-RU',
+    ja: 'ja-JP',
+    zh: 'zh-CN'
+  };
 
   // État Reconnaissance vocale (Speech-to-Text / Dictée micro)
   let speechRecognition = null;
@@ -930,58 +947,171 @@ import { I18N } from '../locales/index.js';
       .trim();
   }
 
+  function splitTextIntoSpeechChunks(text, maxChunkLen = 200) {
+    if (!text || text.length <= maxChunkLen) return [text];
+    const rawSentences = text.match(/[^.!?;\n]+[.!?;\n]+|[^.!?;\n]+$/g) || [text];
+    const chunks = [];
+    let currentChunk = '';
+
+    for (const raw of rawSentences) {
+      const sentence = raw.trim();
+      if (!sentence) continue;
+
+      if ((currentChunk + ' ' + sentence).length > maxChunkLen && currentChunk.length > 0) {
+        chunks.push(currentChunk.trim());
+        currentChunk = sentence;
+      } else {
+        currentChunk = currentChunk ? (currentChunk + ' ' + sentence) : sentence;
+      }
+    }
+
+    if (currentChunk.trim()) {
+      chunks.push(currentChunk.trim());
+    }
+
+    return chunks.length > 0 ? chunks : [text];
+  }
+
   function speakText(text, buttonEl) {
     if (!('speechSynthesis' in window)) {
       showStatusBanner("La synthèse vocale n'est pas supportée par ce navigateur.", true);
       return;
     }
 
-    if (window.speechSynthesis.speaking && activeSpeakingButton === buttonEl) {
+    // Toggle arrêt si on reclique sur le bouton en cours de lecture
+    if (isSpeakingActive && activeSpeakingButton === buttonEl) {
       stopSpeech();
       return;
     }
 
+    // Arrêter toute lecture précédente
     stopSpeech();
 
     const clean = cleanMarkdownForSpeech(text);
-    if (!clean) return;
-
-    const utterance = new SpeechSynthesisUtterance(clean);
-    const targetLang = document.getElementById('ytAiLangSelect')?.value || 'en';
-    utterance.lang = LANG_LOCALES[targetLang] || 'en-US';
-    utterance.rate = parseFloat(ttsSpeed) || 1.0;
-    utterance.pitch = 1.0;
-
-    if (selectedVoiceURI) {
-      const voice = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
-      if (voice) utterance.voice = voice;
+    if (!clean) {
+      const t = I18N[currentLang] || I18N.en;
+      showStatusBanner(t.noSummaryToRead || "Aucun texte à lire.", true);
+      return;
     }
 
+    const targetLang = document.getElementById('ytAiLangSelect')?.value || currentLang || 'fr';
+    const targetLocale = (typeof LANG_LOCALES !== 'undefined' && LANG_LOCALES[targetLang]) || DEFAULT_LANG_LOCALES[targetLang] || 'fr-FR';
+    const rate = parseFloat(ttsSpeed) || 1.0;
+
+    // S'assurer que les voix sont disponibles
+    if (!availableVoices || availableVoices.length === 0) {
+      const fresh = window.speechSynthesis.getVoices();
+      if (fresh && fresh.length > 0) availableVoices = fresh;
+    }
+
+    let chosenVoice = null;
+    if (selectedVoiceURI) {
+      chosenVoice = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
+    }
+    if (!chosenVoice) {
+      chosenVoice = availableVoices.find(v => v.lang && (v.lang === targetLocale || v.lang.replace('_', '-').startsWith(targetLang)));
+    }
+    if (!chosenVoice && availableVoices.length > 0) {
+      const preferred = availableVoices.find(v => v.lang.toLowerCase().startsWith(targetLang));
+      if (preferred) chosenVoice = preferred;
+    }
+
+    const chunks = splitTextIntoSpeechChunks(clean, 200);
+    speechQueue = chunks;
+    speechQueueIndex = 0;
+    isSpeakingActive = true;
     activeSpeakingButton = buttonEl;
+
     if (buttonEl) {
       buttonEl.classList.add('is-speaking');
       buttonEl.dataset.originalText = buttonEl.textContent;
-      const t = I18N[targetLang] || I18N.en;
+      const t = I18N[targetLang] || I18N[currentLang] || I18N.en;
       buttonEl.textContent = t.stopListenBtn || '⏹️ Arrêter';
     }
 
-    utterance.onend = () => {
-      resetSpeakingButton(buttonEl);
-      activeSpeakingButton = null;
-    };
+    // Timer keep-alive contre le bug Chromium des 15 secondes
+    clearInterval(speechKeepAliveTimer);
+    speechKeepAliveTimer = setInterval(() => {
+      if (!isSpeakingActive || !window.speechSynthesis.speaking) {
+        clearInterval(speechKeepAliveTimer);
+        return;
+      }
+      try {
+        window.speechSynthesis.pause();
+        window.speechSynthesis.resume();
+      } catch (_) {}
+    }, 10000);
 
-    utterance.onerror = () => {
-      resetSpeakingButton(buttonEl);
-      activeSpeakingButton = null;
-    };
+    function playNextChunk() {
+      if (!isSpeakingActive || speechQueueIndex >= speechQueue.length) {
+        stopSpeech();
+        return;
+      }
 
-    window.speechSynthesis.speak(utterance);
+      const chunk = speechQueue[speechQueueIndex++];
+      const utterance = new SpeechSynthesisUtterance(chunk);
+      activeUtterance = utterance; // Conservation en mémoire pour éviter le garbage-collector Chrome
+      utterance.lang = chosenVoice?.lang || targetLocale;
+      if (chosenVoice) utterance.voice = chosenVoice;
+      utterance.rate = rate;
+      utterance.pitch = 1.0;
+
+      utterance.onend = () => {
+        if (isSpeakingActive) {
+          playNextChunk();
+        }
+      };
+
+      utterance.onerror = (e) => {
+        if (e.error === 'canceled' || e.error === 'interrupted') return;
+        console.warn('[YT AI] SpeechSynthesis utterance error:', e.error);
+        if (isSpeakingActive && speechQueueIndex < speechQueue.length) {
+          playNextChunk();
+        } else {
+          stopSpeech();
+        }
+      };
+
+      try {
+        window.speechSynthesis.speak(utterance);
+      } catch (err) {
+        console.error('[YT AI] SpeechSynthesis.speak error:', err);
+        stopSpeech();
+      }
+    }
+
+    // Débloquer l'état en cas de pause antérieure
+    try {
+      window.speechSynthesis.cancel();
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+    } catch (_) {}
+
+    setTimeout(() => {
+      if (isSpeakingActive) {
+        playNextChunk();
+      }
+    }, 50);
   }
 
   function stopSpeech() {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+    isSpeakingActive = false;
+    speechQueue = [];
+    speechQueueIndex = 0;
+    activeUtterance = null;
+
+    if (speechKeepAliveTimer) {
+      clearInterval(speechKeepAliveTimer);
+      speechKeepAliveTimer = null;
     }
+
+    if ('speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch (_) {}
+    }
+
     if (activeSpeakingButton) {
       resetSpeakingButton(activeSpeakingButton);
       activeSpeakingButton = null;
@@ -991,7 +1121,8 @@ import { I18N } from '../locales/index.js';
   function resetSpeakingButton(btn) {
     if (!btn) return;
     btn.classList.remove('is-speaking');
-    btn.textContent = btn.dataset.originalText || '🔊 Écouter';
+    const t = I18N[currentLang] || I18N.en;
+    btn.textContent = btn.dataset.originalText || t.listenBtn || '🔊 Écouter';
   }
 
   /**
@@ -1913,10 +2044,17 @@ import { I18N } from '../locales/index.js';
 
     speakSummaryBtn?.addEventListener('click', () => {
       const t = I18N[currentLang] || I18N.en;
-      if (fullSummaryMarkdown) {
-        speakText(fullSummaryMarkdown, speakSummaryBtn);
+      let textToRead = fullSummaryMarkdown;
+      if (!textToRead || !textToRead.trim()) {
+        const summaryBody = document.getElementById('ytAiSummaryBody');
+        if (summaryBody && !summaryBody.querySelector('.yt-ai-empty-state')) {
+          textToRead = summaryBody.innerText || summaryBody.textContent || '';
+        }
+      }
+      if (textToRead && textToRead.trim()) {
+        speakText(textToRead, speakSummaryBtn);
       } else {
-        showStatusBanner(t.noSummaryToRead || "No summary to read aloud yet.", true);
+        showStatusBanner(t.noSummaryToRead || "Aucun résumé à lire pour le moment. Cliquez sur '✨ Résumer la vidéo'.", true);
       }
     });
 

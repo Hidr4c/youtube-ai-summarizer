@@ -1099,6 +1099,18 @@
     zh: zh_default
   };
 
+  // src/config/AIProviderPresets.js
+  var LANG_LOCALES = {
+    fr: "fr-FR",
+    en: "en-US",
+    es: "es-ES",
+    de: "de-DE",
+    it: "it-IT",
+    ru: "ru-RU",
+    ja: "ja-JP",
+    zh: "zh-CN"
+  };
+
   // src/content/index.js
   (function() {
     if (window.__ytAiSummarizerInjected) return;
@@ -1273,6 +1285,21 @@
     let availableVoices = [];
     let selectedVoiceURI = "";
     let activeSpeakingButton = null;
+    let speechQueue = [];
+    let speechQueueIndex = 0;
+    let isSpeakingActive = false;
+    let activeUtterance = null;
+    let speechKeepAliveTimer = null;
+    const DEFAULT_LANG_LOCALES = {
+      fr: "fr-FR",
+      en: "en-US",
+      es: "es-ES",
+      de: "de-DE",
+      it: "it-IT",
+      ru: "ru-RU",
+      ja: "ja-JP",
+      zh: "zh-CN"
+    };
     let speechRecognition = null;
     let isDictating = false;
     let isWhisperRecording = false;
@@ -1865,47 +1892,143 @@
       if (!md) return "";
       return md.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "").replace(/###+\s+/g, ". ").replace(/##+\s+/g, ". ").replace(/#+\s+/g, ". ").replace(/\*\*([^*]+)\*\*/g, "$1").replace(/\*([^*]+)\*/g, "$1").replace(/`([^`]+)`/g, "$1").replace(/^[-*•]\s+/gm, "").replace(/\[\d{1,2}:\d{2}\]/g, "").replace(/\n+/g, ". ").replace(/\.\s*\./g, ".").replace(/\s+/g, " ").trim();
     }
+    function splitTextIntoSpeechChunks(text, maxChunkLen = 200) {
+      if (!text || text.length <= maxChunkLen) return [text];
+      const rawSentences = text.match(/[^.!?;\n]+[.!?;\n]+|[^.!?;\n]+$/g) || [text];
+      const chunks = [];
+      let currentChunk = "";
+      for (const raw of rawSentences) {
+        const sentence = raw.trim();
+        if (!sentence) continue;
+        if ((currentChunk + " " + sentence).length > maxChunkLen && currentChunk.length > 0) {
+          chunks.push(currentChunk.trim());
+          currentChunk = sentence;
+        } else {
+          currentChunk = currentChunk ? currentChunk + " " + sentence : sentence;
+        }
+      }
+      if (currentChunk.trim()) {
+        chunks.push(currentChunk.trim());
+      }
+      return chunks.length > 0 ? chunks : [text];
+    }
     function speakText(text, buttonEl) {
       if (!("speechSynthesis" in window)) {
         showStatusBanner("La synth\xE8se vocale n'est pas support\xE9e par ce navigateur.", true);
         return;
       }
-      if (window.speechSynthesis.speaking && activeSpeakingButton === buttonEl) {
+      if (isSpeakingActive && activeSpeakingButton === buttonEl) {
         stopSpeech();
         return;
       }
       stopSpeech();
       const clean = cleanMarkdownForSpeech(text);
-      if (!clean) return;
-      const utterance = new SpeechSynthesisUtterance(clean);
-      const targetLang = document.getElementById("ytAiLangSelect")?.value || "en";
-      utterance.lang = LANG_LOCALES[targetLang] || "en-US";
-      utterance.rate = parseFloat(ttsSpeed) || 1;
-      utterance.pitch = 1;
-      if (selectedVoiceURI) {
-        const voice = availableVoices.find((v) => v.voiceURI === selectedVoiceURI);
-        if (voice) utterance.voice = voice;
+      if (!clean) {
+        const t = I18N[currentLang] || I18N.en;
+        showStatusBanner(t.noSummaryToRead || "Aucun texte \xE0 lire.", true);
+        return;
       }
+      const targetLang = document.getElementById("ytAiLangSelect")?.value || currentLang || "fr";
+      const targetLocale = typeof LANG_LOCALES !== "undefined" && LANG_LOCALES[targetLang] || DEFAULT_LANG_LOCALES[targetLang] || "fr-FR";
+      const rate = parseFloat(ttsSpeed) || 1;
+      if (!availableVoices || availableVoices.length === 0) {
+        const fresh = window.speechSynthesis.getVoices();
+        if (fresh && fresh.length > 0) availableVoices = fresh;
+      }
+      let chosenVoice = null;
+      if (selectedVoiceURI) {
+        chosenVoice = availableVoices.find((v) => v.voiceURI === selectedVoiceURI);
+      }
+      if (!chosenVoice) {
+        chosenVoice = availableVoices.find((v) => v.lang && (v.lang === targetLocale || v.lang.replace("_", "-").startsWith(targetLang)));
+      }
+      if (!chosenVoice && availableVoices.length > 0) {
+        const preferred = availableVoices.find((v) => v.lang.toLowerCase().startsWith(targetLang));
+        if (preferred) chosenVoice = preferred;
+      }
+      const chunks = splitTextIntoSpeechChunks(clean, 200);
+      speechQueue = chunks;
+      speechQueueIndex = 0;
+      isSpeakingActive = true;
       activeSpeakingButton = buttonEl;
       if (buttonEl) {
         buttonEl.classList.add("is-speaking");
         buttonEl.dataset.originalText = buttonEl.textContent;
-        const t = I18N[targetLang] || I18N.en;
+        const t = I18N[targetLang] || I18N[currentLang] || I18N.en;
         buttonEl.textContent = t.stopListenBtn || "\u23F9\uFE0F Arr\xEAter";
       }
-      utterance.onend = () => {
-        resetSpeakingButton(buttonEl);
-        activeSpeakingButton = null;
-      };
-      utterance.onerror = () => {
-        resetSpeakingButton(buttonEl);
-        activeSpeakingButton = null;
-      };
-      window.speechSynthesis.speak(utterance);
+      clearInterval(speechKeepAliveTimer);
+      speechKeepAliveTimer = setInterval(() => {
+        if (!isSpeakingActive || !window.speechSynthesis.speaking) {
+          clearInterval(speechKeepAliveTimer);
+          return;
+        }
+        try {
+          window.speechSynthesis.pause();
+          window.speechSynthesis.resume();
+        } catch (_) {
+        }
+      }, 1e4);
+      function playNextChunk() {
+        if (!isSpeakingActive || speechQueueIndex >= speechQueue.length) {
+          stopSpeech();
+          return;
+        }
+        const chunk = speechQueue[speechQueueIndex++];
+        const utterance = new SpeechSynthesisUtterance(chunk);
+        activeUtterance = utterance;
+        utterance.lang = chosenVoice?.lang || targetLocale;
+        if (chosenVoice) utterance.voice = chosenVoice;
+        utterance.rate = rate;
+        utterance.pitch = 1;
+        utterance.onend = () => {
+          if (isSpeakingActive) {
+            playNextChunk();
+          }
+        };
+        utterance.onerror = (e) => {
+          if (e.error === "canceled" || e.error === "interrupted") return;
+          console.warn("[YT AI] SpeechSynthesis utterance error:", e.error);
+          if (isSpeakingActive && speechQueueIndex < speechQueue.length) {
+            playNextChunk();
+          } else {
+            stopSpeech();
+          }
+        };
+        try {
+          window.speechSynthesis.speak(utterance);
+        } catch (err) {
+          console.error("[YT AI] SpeechSynthesis.speak error:", err);
+          stopSpeech();
+        }
+      }
+      try {
+        window.speechSynthesis.cancel();
+        if (window.speechSynthesis.paused) {
+          window.speechSynthesis.resume();
+        }
+      } catch (_) {
+      }
+      setTimeout(() => {
+        if (isSpeakingActive) {
+          playNextChunk();
+        }
+      }, 50);
     }
     function stopSpeech() {
+      isSpeakingActive = false;
+      speechQueue = [];
+      speechQueueIndex = 0;
+      activeUtterance = null;
+      if (speechKeepAliveTimer) {
+        clearInterval(speechKeepAliveTimer);
+        speechKeepAliveTimer = null;
+      }
       if ("speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
+        try {
+          window.speechSynthesis.cancel();
+        } catch (_) {
+        }
       }
       if (activeSpeakingButton) {
         resetSpeakingButton(activeSpeakingButton);
@@ -1915,7 +2038,8 @@
     function resetSpeakingButton(btn) {
       if (!btn) return;
       btn.classList.remove("is-speaking");
-      btn.textContent = btn.dataset.originalText || "\u{1F50A} \xC9couter";
+      const t = I18N[currentLang] || I18N.en;
+      btn.textContent = btn.dataset.originalText || t.listenBtn || "\u{1F50A} \xC9couter";
     }
     async function initMicrophoneDevices() {
       await refreshMicrophonesList();
@@ -2722,10 +2846,17 @@
       });
       speakSummaryBtn?.addEventListener("click", () => {
         const t = I18N[currentLang] || I18N.en;
-        if (fullSummaryMarkdown) {
-          speakText(fullSummaryMarkdown, speakSummaryBtn);
+        let textToRead = fullSummaryMarkdown;
+        if (!textToRead || !textToRead.trim()) {
+          const summaryBody = document.getElementById("ytAiSummaryBody");
+          if (summaryBody && !summaryBody.querySelector(".yt-ai-empty-state")) {
+            textToRead = summaryBody.innerText || summaryBody.textContent || "";
+          }
+        }
+        if (textToRead && textToRead.trim()) {
+          speakText(textToRead, speakSummaryBtn);
         } else {
-          showStatusBanner(t.noSummaryToRead || "No summary to read aloud yet.", true);
+          showStatusBanner(t.noSummaryToRead || "Aucun r\xE9sum\xE9 \xE0 lire pour le moment. Cliquez sur '\u2728 R\xE9sumer la vid\xE9o'.", true);
         }
       });
       copyBtn?.addEventListener("click", () => copyToClipboard(fullSummaryMarkdown, copyBtn));
