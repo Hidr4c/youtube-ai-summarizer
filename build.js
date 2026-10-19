@@ -1,30 +1,37 @@
 import esbuild from 'esbuild';
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Ensure dist/ directory exists
+if (!fs.existsSync('dist')) {
+  fs.mkdirSync('dist', { recursive: true });
+}
 
 const buildTargets = [
   {
     entryPoints: ['src/content/index.js'],
-    outfile: 'content.js',
+    outfile: 'dist/content.js',
     format: 'iife'
   },
   {
     entryPoints: ['src/background/index.js'],
-    outfile: 'background.js',
+    outfile: 'dist/background.js',
     format: 'iife'
   },
   {
     entryPoints: ['src/popup/index.js'],
-    outfile: 'popup.js',
+    outfile: 'dist/popup.js',
     format: 'iife'
   },
   {
     entryPoints: ['src/injected/index.js'],
-    outfile: 'main_world.js',
+    outfile: 'dist/main_world.js',
     format: 'iife'
   }
 ];
 
 async function runBuild() {
-  console.log('⚡ Building YouTube AI Summarizer bundles from src/ ...');
+  console.log('⚡ Building YouTube AI Summarizer bundles into dist/ ...');
   const start = performance.now();
 
   for (const target of buildTargets) {
@@ -41,7 +48,7 @@ async function runBuild() {
   }
 
   const duration = Math.round(performance.now() - start);
-  console.log(`✨ All bundles compiled successfully in ${duration}ms!`);
+  console.log(`✨ All bundles compiled successfully into dist/ in ${duration}ms!`);
 }
 
 runBuild().catch(err => {

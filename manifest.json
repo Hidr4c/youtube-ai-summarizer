@@ -17,7 +17,7 @@
     "http://192.168.*:*/*"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "dist/background.js"
   },
   "action": {
     "default_popup": "popup.html",
@@ -38,7 +38,7 @@
         "https://www.youtube.com/*"
       ],
       "js": [
-        "main_world.js"
+        "dist/main_world.js"
       ],
       "world": "MAIN",
       "run_at": "document_start"
@@ -48,7 +48,7 @@
         "https://www.youtube.com/*"
       ],
       "js": [
-        "content.js"
+        "dist/content.js"
       ],
       "css": [
         "content.css"
