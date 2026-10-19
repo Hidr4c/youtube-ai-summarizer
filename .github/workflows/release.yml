@@ -1,0 +1,54 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Publish Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Run Test Suite
+        run: npm test
+
+      - name: Create Production Zip Package
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          ZIP_NAME="youtube-summarizer-ai-${GITHUB_REF_NAME}.zip"
+          zip -r "$ZIP_NAME" \
+            manifest.json \
+            background.js \
+            content.js \
+            content.css \
+            main_world.js \
+            popup.html \
+            popup.js \
+            popup.css \
+            README.md \
+            LICENSE \
+            PRIVACY.md \
+            icons/
+          echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
+          echo "Package created: $ZIP_NAME"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.ZIP_NAME }}
+          generate_release_notes: true
+          draft: false
+          prerelease: false

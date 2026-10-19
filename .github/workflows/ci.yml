@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Syntax & Automated Tests (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: JavaScript Syntax Check
+        run: npm run check
+
+      - name: Run Automated Test Suite
+        run: npm test
+
+      - name: Verify Extension Package Structure
+        run: |
+          test -f manifest.json
+          test -f background.js
+          test -f content.js
+          test -f content.css
+          test -f main_world.js
+          test -f popup.html
+          test -f popup.js
+          test -f popup.css
+          test -d icons
+          echo "All required extension files exist."
