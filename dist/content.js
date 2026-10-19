@@ -1682,6 +1682,8 @@
       if (whisperUrlInput) whisperUrlInput.placeholder = t.whisperUrlPlaceholder;
       const testWhisperBtn = document.getElementById("ytAiTestWhisperBtn");
       if (testWhisperBtn) testWhisperBtn.textContent = t.testSttBtn;
+      const modeLabel = document.getElementById("ytAiModeLabel");
+      if (modeLabel) modeLabel.textContent = t.formatLabel || "Format:";
       const tempLabel = document.getElementById("ytAiTempLabel");
       if (tempLabel) tempLabel.textContent = t.tempLabel;
       const tempSelect = document.getElementById("ytAiTemperatureSelect");
@@ -2176,7 +2178,7 @@
       const initialModelLabel = currentSavedModel ? `Model: ${currentSavedModel}` : "Model: Loading...";
       const initialOptionHtml = currentSavedModel ? `<option value="${escapeHtml(currentSavedModel)}" selected>${escapeHtml(currentSavedModel)}</option>` : '<option value="">Loading...</option>';
       safeSetInnerHTML(banner, `
-      <!-- BARRE SUP\xC9RIEURE \xC9L\xC9GANTE (42px) -->
+      <!-- BARRE SUP\xC9RIEURE ULTRA-MINIMALISTE -->
       <div class="yt-ai-header-bar">
         <div class="yt-ai-header-left">
           <div class="yt-ai-brand" id="ytAiBrandToggle" title="Click to toggle panel">
@@ -2186,58 +2188,32 @@
             </svg>
             <span id="ytAiBrandTitle">YT Summarizer AI</span>
           </div>
-
-          <div id="ytAiBadge" class="yt-ai-badge" title="AI Status">
-            <span class="yt-ai-badge-dot"></span>
-            <span id="ytAiBadgeText">Checking...</span>
-          </div>
-
-          <!-- Active Model Capsule Button -->
-          <button id="ytAiHeaderModelPill" class="yt-ai-model-pill" title="Click to change model or server">
-            <span class="yt-ai-model-icon">\u{1F916}</span>
-            <span id="ytAiHeaderModelText">${initialModelLabel}</span>
-            <span class="yt-ai-pill-arrow">\u25BE</span>
-          </button>
         </div>
 
         <div class="yt-ai-header-center">
           <div class="yt-ai-action-cluster">
-            <!-- Segmented Format Switcher -->
-            <div class="yt-ai-format-pills" id="ytAiFormatPills">
-              <button class="yt-ai-format-pill" data-mode="quick" id="ytAiFormatPillQuick" title="Short & concise">\u26A1 Quick</button>
-              <button class="yt-ai-format-pill active" data-mode="standard" id="ytAiFormatPillStandard" title="Natural & balanced">\u{1F4CC} Standard</button>
-              <button class="yt-ai-format-pill" data-mode="detailed" id="ytAiFormatPillDetailed" title="Detailed & in-depth">\u{1F4DD} Deep</button>
+            <div class="yt-ai-header-lang-wrapper">
+              <select id="ytAiLangSelect" class="yt-ai-select yt-ai-header-lang-select" title="Interface & Summary Language">
+                <option value="fr" selected>\u{1F1EB}\u{1F1F7} Fran\xE7ais</option>
+                <option value="en">\u{1F1EC}\u{1F1E7} English</option>
+                <option value="es">\u{1F1EA}\u{1F1F8} Espa\xF1ol</option>
+                <option value="de">\u{1F1E9}\u{1F1EA} Deutsch</option>
+                <option value="it">\u{1F1EE}\u{1F1F9} Italiano</option>
+                <option value="ru">\u{1F1F7}\u{1F1FA} \u0420\u0443\u0441\u0441\u043A\u0438\u0439</option>
+                <option value="ja">\u{1F1EF}\u{1F1F5} \u65E5\u672C\u8A9E</option>
+                <option value="zh">\u{1F1E8}\u{1F1F3} \u4E2D\u6587</option>
+              </select>
             </div>
-            <!-- Hidden select for compatibility -->
-            <select id="ytAiModeSelect" style="display: none;">
-              <option value="quick">Quick</option>
-              <option value="standard" selected>Standard</option>
-              <option value="detailed">Detailed</option>
-            </select>
 
-            <!-- BOUTON D'ACTION PRINCIPAL (ACCENTU\xC9 & CENTR\xC9) -->
+            <!-- BOUTON D'ACTION PRINCIPAL -->
             <button id="ytAiSummarizeBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-summarize-cta">
               \u2728 Summarize video
             </button>
           </div>
         </div>
 
-        <!-- BARRE D'OUTILS ET R\xC9GLAGES (UTILITAIRES) -->
         <div class="yt-ai-header-right">
-          <div class="yt-ai-header-lang-wrapper">
-            <select id="ytAiLangSelect" class="yt-ai-select yt-ai-header-lang-select" title="Interface & Summary Language">
-              <option value="en" selected>\u{1F1EC}\u{1F1E7} English</option>
-              <option value="fr">\u{1F1EB}\u{1F1F7} Fran\xE7ais</option>
-              <option value="es">\u{1F1EA}\u{1F1F8} Espa\xF1ol</option>
-              <option value="de">\u{1F1E9}\u{1F1EA} Deutsch</option>
-              <option value="it">\u{1F1EE}\u{1F1F9} Italiano</option>
-              <option value="ru">\u{1F1F7}\u{1F1FA} \u0420\u0443\u0441\u0441\u043A\u0438\u0439</option>
-              <option value="ja">\u{1F1EF}\u{1F1F5} \u65E5\u672C\u8A9E</option>
-              <option value="zh">\u{1F1E8}\u{1F1F3} \u4E2D\u6587</option>
-            </select>
-          </div>
-
-          <button id="ytAiSettingsToggleBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-settings-toggle-btn" title="Settings & Preferences">
+          <button id="ytAiSettingsToggleBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-settings-toggle-btn" title="Settings & Models">
             <span class="yt-ai-settings-icon">\u2699\uFE0F</span>
             <span id="ytAiSettingsBtnText">Settings</span>
           </button>
@@ -2246,13 +2222,6 @@
             <span id="ytAiToggleText">Expand</span>
             <span id="ytAiToggleIcon">\u25BE</span>
           </button>
-
-          <a href="https://github.com/Hidr4c/youtube-ai-summarizer" target="_blank" rel="noopener" class="yt-ai-help-btn" title="GitHub Source Code & Docs (v1.3.0)">
-            <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor">
-              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-            </svg>
-            <span>v1.3.0</span>
-          </a>
         </div>
       </div>
 
@@ -2280,6 +2249,17 @@
             <div class="yt-ai-settings-body">
               <!-- SOUS-ONGLET 1 : MOD\xC8LE ET SERVEUR -->
               <div id="ytAiSettingsSubpaneModel" class="yt-ai-settings-subpane active">
+                <div class="yt-ai-settings-status-row">
+                  <div id="ytAiBadge" class="yt-ai-badge" title="AI Status">
+                    <span class="yt-ai-badge-dot"></span>
+                    <span id="ytAiBadgeText">Checking...</span>
+                  </div>
+                  <div class="yt-ai-model-pill" id="ytAiHeaderModelPill" style="cursor: default;" title="Active model">
+                    <span class="yt-ai-model-icon">\u{1F916}</span>
+                    <span id="ytAiHeaderModelText">${initialModelLabel}</span>
+                  </div>
+                </div>
+
                 <div class="yt-ai-settings-grid">
                   <div class="yt-ai-setting-item">
                     <label id="ytAiProviderLabel">AI Provider:</label>
@@ -2383,6 +2363,15 @@
               <!-- SOUS-ONGLET 3 : PARAM\xC8TRES IA & PROMPT -->
               <div id="ytAiSettingsSubpaneParams" class="yt-ai-settings-subpane">
                 <div class="yt-ai-settings-grid">
+                  <div class="yt-ai-setting-item">
+                    <label id="ytAiModeLabel">Format de synth\xE8se :</label>
+                    <select id="ytAiModeSelect" class="yt-ai-select">
+                      <option value="quick">\u26A1 Quick (Short & concise)</option>
+                      <option value="standard" selected>\u{1F4CC} Standard (Natural & balanced)</option>
+                      <option value="detailed">\u{1F4DD} Deep (Detailed & in-depth)</option>
+                    </select>
+                  </div>
+
                   <div class="yt-ai-setting-item">
                     <label id="ytAiTempLabel">AI Creativity (Temperature):</label>
                     <select id="ytAiTemperatureSelect" class="yt-ai-select">
