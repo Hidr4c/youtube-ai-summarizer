@@ -135,6 +135,7 @@ import { LANG_LOCALES } from '../config/AIProviderPresets.js';
     zh: 'zh-CN'
   };
   let currentLang = 'fr';
+  let extensionEnabled = true;
   let currentProvider = 'lmstudio';
   let serverUrls = {
     lmstudio: 'http://192.168.56.1:1234',
@@ -295,6 +296,7 @@ import { LANG_LOCALES } from '../config/AIProviderPresets.js';
     if (chrome.storage && chrome.storage.local) {
       const keysToLoad = [
         'aiProvider',
+        'extensionEnabled',
         'serverUrl_lmstudio',
         'serverUrl_ollama',
         'serverUrl',
@@ -327,6 +329,13 @@ import { LANG_LOCALES } from '../config/AIProviderPresets.js';
       });
 
       chrome.storage.local.get(keysToLoad, (data) => {
+        if (data.extensionEnabled !== undefined) {
+          extensionEnabled = Boolean(data.extensionEnabled);
+          if (!extensionEnabled) {
+            const existing = document.getElementById('yt-ai-summarizer-container');
+            if (existing) existing.remove();
+          }
+        }
         if (data.aiProvider) currentProvider = data.aiProvider;
         if (data.serverUrl_lmstudio) serverUrls.lmstudio = data.serverUrl_lmstudio;
         else if (data.serverUrl) serverUrls.lmstudio = data.serverUrl;
@@ -1455,6 +1464,11 @@ import { LANG_LOCALES } from '../config/AIProviderPresets.js';
    * =========================================================================
    */
   function tryInjectBanner() {
+    if (!extensionEnabled) {
+      const existing = document.getElementById('yt-ai-summarizer-container');
+      if (existing) existing.remove();
+      return;
+    }
     if (!isWatchPage()) return;
     const existing = document.getElementById('yt-ai-summarizer-container');
     if (existing && existing.isConnected) return;
@@ -4611,10 +4625,83 @@ ${safeTranscript}
   }
 
   chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
-    if (req.action === 'TOGGLE_INPAGE_BANNER') {
+    if (req.action === 'GET_IN_PAGE_STATUS') {
+      const banner = document.getElementById('yt-ai-summarizer-container');
+      sendResponse({
+        enabled: extensionEnabled,
+        isWatch: isWatchPage(),
+        hasBanner: Boolean(banner && banner.isConnected),
+        isExpanded: Boolean(banner && !banner.classList.contains('is-collapsed')),
+        videoId: getVideoId(),
+        title: document.title ? document.title.replace(/ - YouTube$/, '') : ''
+      });
+      return true;
+    }
+
+    if (req.action === 'SET_EXTENSION_ENABLED') {
+      extensionEnabled = Boolean(req.enabled);
+      savePreference('extensionEnabled', extensionEnabled);
+      if (!extensionEnabled) {
+        const existing = document.getElementById('yt-ai-summarizer-container');
+        if (existing) existing.remove();
+      } else {
+        tryInjectBanner();
+      }
+      sendResponse({ status: 'OK', enabled: extensionEnabled });
+      return true;
+    }
+
+    if (req.action === 'TOGGLE_IN_PAGE_BANNER' || req.action === 'TOGGLE_INPAGE_BANNER') {
+      if (!extensionEnabled) {
+        extensionEnabled = true;
+        savePreference('extensionEnabled', true);
+        tryInjectBanner();
+      }
+      const banner = document.getElementById('yt-ai-summarizer-container');
+      if (banner) {
+        const willExpand = banner.classList.contains('is-collapsed');
+        setExpanded(willExpand);
+        if (willExpand) {
+          banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        sendResponse({ status: 'OK', isExpanded: willExpand });
+      } else {
+        tryInjectBanner();
+        sendResponse({ status: 'OK', isExpanded: true });
+      }
+      return true;
+    }
+
+    if (req.action === 'TRIGGER_SUMMARIZE') {
+      if (!extensionEnabled) {
+        extensionEnabled = true;
+        savePreference('extensionEnabled', true);
+        tryInjectBanner();
+      }
       setExpanded(true);
+      switchTab('summary');
+      startSummarization();
+      const banner = document.getElementById('yt-ai-summarizer-container');
+      if (banner) {
+        banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
       sendResponse({ status: 'OK' });
+      return true;
     }
   });
+
+  if (chrome.storage && chrome.storage.onChanged) {
+    chrome.storage.onChanged.addListener((changes, area) => {
+      if (area === 'local' && changes.extensionEnabled !== undefined) {
+        extensionEnabled = Boolean(changes.extensionEnabled.newValue);
+        if (!extensionEnabled) {
+          const existing = document.getElementById('yt-ai-summarizer-container');
+          if (existing) existing.remove();
+        } else {
+          tryInjectBanner();
+        }
+      }
+    });
+  }
 
 })();

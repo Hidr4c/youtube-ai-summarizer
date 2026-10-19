@@ -103,6 +103,33 @@ export class MessageRouter {
         });
       });
     }
+
+    // Toolbar Action Badge Synchronization
+    function updateBadge(enabled) {
+      if (typeof chrome !== 'undefined' && chrome.action && chrome.action.setBadgeText) {
+        if (!enabled) {
+          chrome.action.setBadgeText({ text: 'OFF' });
+          if (chrome.action.setBadgeBackgroundColor) {
+            chrome.action.setBadgeBackgroundColor({ color: '#6e7681' });
+          }
+        } else {
+          chrome.action.setBadgeText({ text: '' });
+        }
+      }
+    }
+
+    if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+      chrome.storage.local.get(['extensionEnabled'], (res) => {
+        const enabled = res?.extensionEnabled !== undefined ? Boolean(res.extensionEnabled) : true;
+        updateBadge(enabled);
+      });
+
+      chrome.storage.onChanged?.addListener((changes, area) => {
+        if (area === 'local' && changes.extensionEnabled !== undefined) {
+          updateBadge(Boolean(changes.extensionEnabled.newValue));
+        }
+      });
+    }
   }
 }
 
