@@ -27,17 +27,8 @@ yarn-error.log*
 # Node modules
 node_modules/
 
-# Local deployment & release scripts
+# Local deployment & release configuration
 scripts/deploy.ps1
-scripts/deploy.bat
-scripts/deploy.sh
-scripts/package-zip.bat
-scripts/deploy-github.bat
-deploy.ps1
-deploy.bat
-deploy.sh
-package-zip.bat
-deploy-github.bat
 
 # Promo video temporary intermediate build artifacts
 store-assets/promo-video/*.wav
