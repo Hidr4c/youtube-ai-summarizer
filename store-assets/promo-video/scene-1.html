@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scene 1 - YouTube AI Summarizer</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(circle at 50% 20%, #151f32 0%, #080c14 70%);
+      color: #f0f6fc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Ambient Glows */
+    .glow-red {
+      position: absolute;
+      width: 900px;
+      height: 600px;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(230, 33, 23, 0.28) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(80px);
+      z-index: 0;
+    }
+    .glow-blue {
+      position: absolute;
+      width: 800px;
+      height: 400px;
+      bottom: -100px;
+      right: 10%;
+      background: radial-gradient(circle, rgba(56, 139, 253, 0.15) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(90px);
+      z-index: 0;
+    }
+
+    .content-box {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 1500px;
+      padding: 0 40px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(230, 33, 23, 0.18);
+      border: 1px solid rgba(230, 33, 23, 0.45);
+      color: #ff7b72;
+      font-size: 16px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 8px 24px;
+      border-radius: 30px;
+      margin-bottom: 24px;
+      box-shadow: 0 0 20px rgba(230, 33, 23, 0.25);
+    }
+
+    .icon-container {
+      position: relative;
+      margin-bottom: 24px;
+    }
+    .icon-glow-ring {
+      position: absolute;
+      inset: -16px;
+      border-radius: 46px;
+      background: linear-gradient(135deg, #ff3b30, #ff8c00);
+      filter: blur(18px);
+      opacity: 0.75;
+      z-index: 0;
+    }
+    .main-icon {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      border-radius: 32px;
+      background: #0d1117;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .main-icon svg {
+      width: 80px;
+      height: 80px;
+    }
+
+    .hook-title {
+      font-size: 34px;
+      font-weight: 600;
+      color: #8b949e;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-size: 68px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 18px;
+      color: #ffffff;
+    }
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #ff3b30 0%, #ff7b72 50%, #ffa657 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 26px;
+      color: #c9d1d9;
+      font-weight: 400;
+      max-width: 1100px;
+      line-height: 1.5;
+      margin-bottom: 44px;
+    }
+
+    .cards-row {
+      display: flex;
+      gap: 28px;
+      margin-bottom: 40px;
+    }
+
+    .feature-card {
+      background: rgba(22, 27, 34, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    .card-icon {
+      font-size: 32px;
+      background: rgba(255, 255, 255, 0.08);
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-text {
+      text-align: left;
+    }
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+    .card-desc {
+      font-size: 15px;
+      color: #8b949e;
+    }
+
+    .bottom-bar {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 17px;
+      color: #8b949e;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px 28px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #58a6ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-red"></div>
+  <div class="glow-blue"></div>
+
+  <div class="content-box">
+    <div class="badge-pill">🔥 Official Chrome Extension</div>
+
+    <div class="icon-container">
+      <div class="icon-glow-ring"></div>
+      <div class="main-icon">
+        <svg viewBox="0 0 128 128" fill="none">
+          <circle cx="64" cy="64" r="56" fill="url(#grad1)"/>
+          <path d="M48 40L88 64L48 88V40Z" fill="#ffffff"/>
+          <path d="M84 40L88 32L92 40L100 44L92 48L88 56L84 48L76 44L84 40Z" fill="#ffdf5d"/>
+          <defs>
+            <linearGradient id="grad1" x1="12" y1="12" x2="116" y2="116" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FF0000"/>
+              <stop offset="1" stop-color="#C40000"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+    <div class="hook-title">Tired of watching 40-minute videos to find one answer?</div>
+    <h1 class="hero-title">Meet <span class="gradient-text">YouTube AI Summarizer</span></h1>
+    <p class="hero-subtitle">
+      Your intelligent video companion right inside YouTube. Instant summaries, interactive transcript chat, and clickable timestamps — running 100% locally or with top cloud AI models.
+    </p>
+
+    <div class="cards-row">
+      <div class="feature-card">
+        <div class="card-icon">⚡</div>
+        <div class="card-text">
+          <div class="card-title">Instant Summaries</div>
+          <div class="card-desc">Quick, Standard & Detailed modes</div>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="card-icon">💬</div>
+        <div class="card-text">
+          <div class="card-title">Interactive Q&A</div>
+          <div class="card-desc">Chat with the video transcript</div>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="card-icon">🔒</div>
+        <div class="card-text">
+          <div class="card-title">100% Local & Private</div>
+          <div class="card-desc">Powered by LM Studio & Ollama</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <span>Chrome & Brave Ready</span>
+      <span class="dot"></span>
+      <span>Manifest V3 Secure</span>
+      <span class="dot"></span>
+      <span>8 Languages Supported</span>
+    </div>
+  </div>
+</body>
+</html>

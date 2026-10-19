@@ -33,3 +33,9 @@ deploy.bat
 deploy.sh
 package-zip.bat
 deploy-github.bat
+
+# Promo video temporary intermediate build artifacts
+store-assets/promo-video/*.wav
+store-assets/promo-video/clip-*.mp4
+store-assets/promo-video/concat-list.txt
+

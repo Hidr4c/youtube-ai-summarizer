@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scene 2 - Instant Smart Summaries</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(circle at 75% 30%, #151d2f 0%, #080c14 70%);
+      color: #f0f6fc;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      padding: 0 100px;
+    }
+
+    .glow-red {
+      position: absolute;
+      width: 800px;
+      height: 600px;
+      top: -100px;
+      left: 10%;
+      background: radial-gradient(circle, rgba(230, 33, 23, 0.22) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(90px);
+      z-index: 0;
+    }
+    .glow-cyan {
+      position: absolute;
+      width: 800px;
+      height: 500px;
+      bottom: -100px;
+      right: 15%;
+      background: radial-gradient(circle, rgba(56, 139, 253, 0.2) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(90px);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 70px;
+      width: 100%;
+    }
+
+    .text-column {
+      flex: 1;
+      max-width: 720px;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(230, 33, 23, 0.16);
+      border: 1px solid rgba(230, 33, 23, 0.45);
+      color: #ff7b72;
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 6px 20px;
+      border-radius: 24px;
+      margin-bottom: 20px;
+    }
+
+    .scene-title {
+      font-size: 56px;
+      font-weight: 900;
+      line-height: 1.15;
+      color: #ffffff;
+      letter-spacing: -1px;
+      margin-bottom: 18px;
+    }
+    .scene-title span {
+      background: linear-gradient(135deg, #ff4d4d, #f78166);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .scene-desc {
+      font-size: 22px;
+      line-height: 1.5;
+      color: #8b949e;
+      margin-bottom: 36px;
+    }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: rgba(22, 27, 34, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px 22px;
+      backdrop-filter: blur(10px);
+    }
+    .item-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(230, 33, 23, 0.15);
+      color: #ff7b72;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .item-body h4 {
+      font-size: 19px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+    .item-body p {
+      font-size: 15px;
+      color: #8b949e;
+      line-height: 1.4;
+    }
+
+    .visual-column {
+      flex: 1.2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .screenshot-card {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(230, 33, 23, 0.2);
+      transform: perspective(1000px) rotateY(-4deg) rotateX(2deg);
+      transition: transform 0.3s ease;
+      background: #0d1117;
+    }
+    .screenshot-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-red"></div>
+  <div class="glow-cyan"></div>
+
+  <div class="container">
+    <div class="text-column">
+      <div class="badge-pill">⚡ Instant AI Summaries</div>
+      <h1 class="scene-title">Summarize Any Video <span>in Seconds</span></h1>
+      <p class="scene-desc">
+        Save hours of watch time. Get clear, structured summaries delivered directly beside your YouTube video.
+      </p>
+
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="item-icon">⚡</div>
+          <div class="item-body">
+            <h4>3 Flexible Summary Depths</h4>
+            <p>Choose Quick (bullet points), Standard (balanced overview), or Detailed (in-depth analysis).</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="item-icon">⏱️</div>
+          <div class="item-body">
+            <h4>Clickable Interactive Timestamps</h4>
+            <p>Every major topic has a timestamp link. Click any timestamp to jump straight to that moment.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="item-icon">🎯</div>
+          <div class="item-body">
+            <h4>Key Takeaways & TL;DR</h4>
+            <p>Immediate executive summary at the top so you absorb key concepts in under 10 seconds.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="visual-column">
+      <div class="screenshot-card">
+        <img src="../screenshot-1-instant-summary.png" alt="Instant AI Summary Preview" />
+      </div>
+    </div>
+  </div>
+</body>
+</html>

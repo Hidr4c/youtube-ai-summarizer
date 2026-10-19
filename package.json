@@ -4,6 +4,7 @@
   "description": "Chrome/Brave Extension to summarize YouTube videos and chat with transcripts using local AI (LM Studio, Ollama) or Cloud AI (Gemini, Groq, OpenAI).",
   "main": "background.js",
   "scripts": {
+    "test": "node --test tests/**/*.test.js",
     "check": "node --check content.js background.js main_world.js popup.js",
     "package": "powershell -Command \"Compress-Archive -Path manifest.json, background.js, content.js, content.css, main_world.js, popup.html, popup.js, popup.css, README.md, LICENSE, PRIVACY.md, icons -DestinationPath youtube-summarizer-ai-v1.3.0.zip -Force\""
   },

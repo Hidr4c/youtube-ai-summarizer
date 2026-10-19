@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scene 5 - Available Now & Call to Action</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(circle at 50% 30%, #151e33 0%, #080c14 75%);
+      color: #f0f6fc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      text-align: center;
+    }
+
+    .glow-red {
+      position: absolute;
+      width: 900px;
+      height: 500px;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(230, 33, 23, 0.25) 0%, rgba(0,0,0,0) 70%);
+      filter: blur(80px);
+      z-index: 0;
+    }
+
+    .content-box {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(230, 33, 23, 0.16);
+      border: 1px solid rgba(230, 33, 23, 0.45);
+      color: #ff7b72;
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 6px 22px;
+      border-radius: 24px;
+      margin-bottom: 24px;
+    }
+
+    .main-title {
+      font-size: 64px;
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+      color: #ffffff;
+    }
+    .main-title span {
+      background: linear-gradient(135deg, #ff4d4d, #f78166);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 24px;
+      color: #8b949e;
+      max-width: 950px;
+      line-height: 1.5;
+      margin-bottom: 40px;
+    }
+
+    .flags-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .flag-card {
+      background: rgba(22, 27, 34, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+    }
+    .flag-card span.flag {
+      font-size: 22px;
+    }
+
+    .export-row {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 48px;
+    }
+    .export-pill {
+      background: rgba(56, 139, 253, 0.12);
+      border: 1px solid rgba(56, 139, 253, 0.3);
+      color: #79c0ff;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 20px;
+    }
+
+    .cta-card {
+      background: linear-gradient(135deg, rgba(230, 33, 23, 0.15), rgba(31, 111, 235, 0.15));
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 28px;
+      padding: 36px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 60px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      backdrop-filter: blur(16px);
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .cta-left {
+      text-align: left;
+    }
+    .cta-left h3 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+    .cta-left p {
+      font-size: 18px;
+      color: #c9d1d9;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .btn-store {
+      background: #ff0000;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 16px 36px;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(255, 0, 0, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-github {
+      background: #21262d;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #f0f6fc;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 16px 28px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-red"></div>
+
+  <div class="content-box">
+    <div class="badge-pill">🌍 8 Languages • Export Ready</div>
+    <h1 class="main-title">Supercharge Your <span>YouTube Experience</span></h1>
+    <p class="subtitle">
+      Stop scrubbing through endless video timelines. Get instant clarity, interactive transcript intelligence, and seamless export with zero subscription fees.
+    </p>
+
+    <div class="flags-row">
+      <div class="flag-card"><span class="flag">🇺🇸</span> English</div>
+      <div class="flag-card"><span class="flag">🇫🇷</span> Français</div>
+      <div class="flag-card"><span class="flag">🇪🇸</span> Español</div>
+      <div class="flag-card"><span class="flag">🇩🇪</span> Deutsch</div>
+      <div class="flag-card"><span class="flag">🇮🇹</span> Italiano</div>
+      <div class="flag-card"><span class="flag">🇷🇺</span> Русский</div>
+      <div class="flag-card"><span class="flag">🇯🇵</span> 日本語</div>
+      <div class="flag-card"><span class="flag">🇨🇳</span> 简体中文</div>
+    </div>
+
+    <div class="export-row">
+      <div class="export-pill">📥 Markdown (.md)</div>
+      <div class="export-pill">📄 Plain Text (.txt)</div>
+      <div class="export-pill">📊 JSON Data (.json)</div>
+      <div class="export-pill">📋 One-Click Copy</div>
+    </div>
+
+    <div class="cta-card">
+      <div class="cta-left">
+        <h3>Available on Chrome Web Store</h3>
+        <p>Compatible with Google Chrome, Brave, and Edge</p>
+      </div>
+      <div class="cta-buttons">
+        <div class="btn-store">
+          <span>Add to Chrome</span>
+        </div>
+        <div class="btn-github">
+          <span>⭐ Star on GitHub</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
