@@ -152,9 +152,9 @@ function finishCandidate(version) {
   run('node scripts/package.js');
 
   // Stage any updated dist or package files
-  const statusAfterGates = runOutput('git status --porcelain');
-  if (statusAfterGates.length > 0) {
-    run('git add -A');
+  run('git add -A');
+  const stagedChanges = runOutput('git diff --cached --name-only');
+  if (stagedChanges.length > 0) {
     run(`git commit -m "chore(release): synchronize distribution bundles for v${targetVersion}"`);
   }
 
