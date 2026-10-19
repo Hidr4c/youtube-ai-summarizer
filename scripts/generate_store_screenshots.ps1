@@ -1,59 +1,16 @@
-# scripts/generate_store_screenshots.ps1
-# Generates authentic Chrome Web Store presentation screenshots at exact 1280x800 dimensions.
+<#
+.SYNOPSIS
+    Generates authentic Chrome Web Store promotional assets & video from live YouTube page.
+.DESCRIPTION
+    Launches browser automation with real extension loaded on a real YouTube video (no account / unauthenticated).
+    Captures:
+    - 4 Store Screenshots (1280x800): Summary, Chat, Settings, Transcript
+    - 2 Promo Tiles: Marquee (1400x560) and Small (440x280)
+    - 5 Video Scenes (1920x1080) and encodes master MP4 video via FFmpeg
+.EXAMPLE
+    .\scripts\generate_store_screenshots.ps1
+#>
 
 $ErrorActionPreference = "Stop"
-
-$repoRoot = "e:\Dev\Projets\ChromeExtension"
-$storeDir = "$repoRoot\store-assets"
-$templateDir = "$storeDir\templates"
-$edge = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
-
-if (-not (Test-Path $edge)) {
-  throw "Microsoft Edge not found at $edge"
-}
-
-$css = [System.IO.File]::ReadAllText("$repoRoot\dist\content.css", [System.Text.Encoding]::UTF8)
-
-$screens = @(
-  @{
-    template = "$templateDir\screenshot-1.html"
-    output   = "$storeDir\screenshot-1-instant-summary.png"
-    name     = "Screenshot 1: Synthèse IA Instantanée"
-  },
-  @{
-    template = "$templateDir\screenshot-2.html"
-    output   = "$storeDir\screenshot-2-interactive-chat.png"
-    name     = "Screenshot 2: Chat & Q&A Interactif"
-  },
-  @{
-    template = "$templateDir\screenshot-3.html"
-    output   = "$storeDir\screenshot-3-local-and-cloud-ai.png"
-    name     = "Screenshot 3: Réglages & Modèles Locaux"
-  },
-  @{
-    template = "$templateDir\screenshot-4.html"
-    output   = "$storeDir\screenshot-4-multilingual-and-export.png"
-    name     = "Screenshot 4: Transcription & Multi-Formats"
-  }
-)
-
-foreach ($s in $screens) {
-  Write-Host "Rendering $($s.name)..."
-  $html = [System.IO.File]::ReadAllText($s.template, [System.Text.Encoding]::UTF8)
-  
-  # Ensure content.css is inlined so Edge headless renders with 100% fidelity without subresource restrictions
-  $inlined = $html -replace '<link rel="stylesheet" href="\.\./\.\./(?:dist/)?content\.css">', "<style>`n$css`n</style>"
-  
-  $tempHtml = "$storeDir\templates\_temp_render.html"
-  [System.IO.File]::WriteAllText($tempHtml, $inlined, [System.Text.Encoding]::UTF8)
-
-  $fileUri = "file:///" + ($tempHtml -replace '\\', '/')
-  Start-Process -FilePath $edge -ArgumentList "--headless", "--disable-gpu", "--hide-scrollbars", "--window-size=1280,800", "--screenshot=`"$($s.output)`"", "`"$fileUri`"" -Wait
-
-  if (Test-Path $tempHtml) {
-    Remove-Item $tempHtml -Force
-  }
-}
-
-Write-Host "`nAll 4 screenshots rendered successfully:"
-Get-Item "$storeDir\screenshot-*.png" | Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize
+$script = Join-Path $PSScriptRoot "generate_real_store_assets.js"
+node $script

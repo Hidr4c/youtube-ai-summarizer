@@ -9,6 +9,10 @@
   5. Concatenates all scenes into a final broadcast-ready MP4 promo video.
 #>
 
+param(
+    [switch]$SkipRenderSlides
+)
+
 $ErrorActionPreference = "Stop"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $ScriptDir
@@ -92,22 +96,29 @@ $ClipList = [System.Collections.Generic.List[string]]::new()
 foreach ($Scene in $Scenes) {
     Write-Host "`n>>> Processing Scene $($Scene.Id)..." -ForegroundColor Yellow
 
-    # Step A: Render HTML slide to 1080p PNG
-    $HtmlUri = "file:///" + (Resolve-Path $Scene.Html).Path.Replace("\", "/")
+    # Step A: Render HTML slide to 1080p PNG (unless SkipRenderSlides is requested)
     $ImgOut = (Resolve-Path .).Path + "\" + $Scene.Image
-    Write-Host "  [1/3] Rendering 1920x1080 Slide: $($Scene.Html) -> $($Scene.Image)" -ForegroundColor Gray
+    if (-not $SkipRenderSlides) {
+        $HtmlUri = "file:///" + (Resolve-Path $Scene.Html).Path.Replace("\", "/")
+        Write-Host "  [1/3] Rendering 1920x1080 Slide: $($Scene.Html) -> $($Scene.Image)" -ForegroundColor Gray
 
-    $EdgeArgs = @(
-        "--headless",
-        "--disable-gpu",
-        "--hide-scrollbars",
-        "--window-size=1920,1080",
-        "--screenshot=$ImgOut",
-        "$HtmlUri"
-    )
-    $proc = Start-Process -FilePath $EdgePath -ArgumentList $EdgeArgs -Wait -PassThru
-    if ($proc.ExitCode -ne 0 -or -not (Test-Path $ImgOut)) {
-        throw "Failed to render slide image for scene $($Scene.Id)"
+        $EdgeArgs = @(
+            "--headless",
+            "--disable-gpu",
+            "--hide-scrollbars",
+            "--window-size=1920,1080",
+            "--screenshot=$ImgOut",
+            "$HtmlUri"
+        )
+        $proc = Start-Process -FilePath $EdgePath -ArgumentList $EdgeArgs -Wait -PassThru
+        if ($proc.ExitCode -ne 0 -or -not (Test-Path $ImgOut)) {
+            throw "Failed to render slide image for scene $($Scene.Id)"
+        }
+    } else {
+        Write-Host "  [1/3] Using authentic YouTube capture: $($Scene.Image)" -ForegroundColor Gray
+        if (-not (Test-Path $ImgOut)) {
+            throw "Expected authentic capture image not found: $ImgOut"
+        }
     }
 
     # Step B: Pad neural audio with 0.35s lead-in and 0.65s lead-out for natural breathing room

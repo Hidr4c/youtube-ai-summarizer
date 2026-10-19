@@ -40,6 +40,7 @@
   },
   "homepage": "https://github.com/Hidr4c/youtube-ai-summarizer#readme",
   "devDependencies": {
-    "esbuild": "^0.25.0"
+    "esbuild": "^0.25.0",
+    "puppeteer-core": "^25.14.0"
   }
 }
