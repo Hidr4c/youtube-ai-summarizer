@@ -435,6 +435,13 @@
         if (!directSegments || directSegments.length === 0) {
           directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
         }
+        const microformat = playerResponse?.microformat?.playerMicroformatRenderer || window.ytInitialPlayerResponse?.microformat?.playerMicroformatRenderer || {};
+        const description = videoDetails.shortDescription || microformat.description?.simpleText || "";
+        const keywords = Array.isArray(videoDetails.keywords) ? videoDetails.keywords : [];
+        const category = microformat.category || "";
+        const publishDate = microformat.publishDate || microformat.uploadDate || "";
+        const viewCount = videoDetails.viewCount || microformat.viewCount || "";
+        const channelId = videoDetails.channelId || microformat.externalChannelId || "";
         window.postMessage({
           type: "YT_AI_RES_PLAYER_DATA",
           success: true,
@@ -442,8 +449,14 @@
           segments: directSegments || null,
           captions: JSON.parse(JSON.stringify(captions || [])),
           title: videoDetails.title || document.title.replace(" - YouTube", "").trim(),
-          author: videoDetails.author || "",
-          videoId: videoDetails.videoId || requestedVideoId || activeId
+          author: videoDetails.author || microformat.ownerChannelName || "",
+          videoId: videoDetails.videoId || requestedVideoId || activeId,
+          channelId,
+          description,
+          keywords,
+          category,
+          publishDate,
+          viewCount
         }, "*");
       } catch (err) {
         window.postMessage({

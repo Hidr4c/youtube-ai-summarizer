@@ -1324,6 +1324,18 @@
       fullText: "",
       isChapterOnly: false
     };
+    let cachedVideoMetadata = {
+      videoId: "",
+      title: "",
+      author: "",
+      channelId: "",
+      subscribers: "",
+      description: "",
+      keywords: [],
+      category: "",
+      publishDate: "",
+      viewCount: ""
+    };
     let localWhisperUrl = "";
     let temperature = "0.3";
     let maxTokens = "auto";
@@ -1610,6 +1622,7 @@
       }
       isGenerating = false;
       cachedTranscript = { videoId: "", segments: [], fullText: "", isChapterOnly: false };
+      cachedVideoMetadata = { videoId: "", title: "", author: "", channelId: "", subscribers: "", description: "", keywords: [], category: "", publishDate: "", viewCount: "" };
       chatHistory = [];
       resetSummaryOutput();
       resetChatOutput();
@@ -3740,6 +3753,10 @@
         const words = domSegments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
         if (domSegments.length >= 15 || words >= 150) {
           saveCachedTranscript(currentVideoId, domSegments, false);
+          if (!cachedVideoMetadata.description || cachedVideoMetadata.videoId !== currentVideoId) {
+            requestPlayerDataFromMainWorld(currentVideoId, preferredLang).catch(() => {
+            });
+          }
           return domSegments;
         }
       }
@@ -3888,7 +3905,22 @@
         const handler = (e) => {
           if (e.source !== window || !e.data || e.data.type !== "YT_AI_RES_PLAYER_DATA") return;
           window.removeEventListener("message", handler);
-          resolve(e.data || {});
+          const data = e.data || {};
+          if (data.videoId && (!videoId || data.videoId === videoId)) {
+            cachedVideoMetadata = {
+              videoId: data.videoId,
+              title: data.title || "",
+              author: data.author || "",
+              channelId: data.channelId || "",
+              subscribers: cachedVideoMetadata.subscribers || "",
+              description: data.description || "",
+              keywords: Array.isArray(data.keywords) ? data.keywords : [],
+              category: data.category || "",
+              publishDate: data.publishDate || "",
+              viewCount: data.viewCount || ""
+            };
+          }
+          resolve(data);
         };
         window.addEventListener("message", handler);
         window.postMessage({ type: "YT_AI_REQ_PLAYER_DATA", videoId, preferredLang }, "*");
@@ -3901,10 +3933,75 @@
     function getVideoMetadata() {
       const titleEl = document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title");
       const authorEl = document.querySelector("ytd-channel-name a, #channel-name a, #owner-name a");
+      const subEl = document.querySelector("#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count");
+      const descEl = document.querySelector("#description-inline-expander yt-attributed-string, #description, #description-inline-expander");
+      const dateEl = document.querySelector("#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date");
+      const tagEls = document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]');
+      const domSubscribers = subEl?.textContent?.trim() || "";
+      const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || "";
+      const domDate = dateEl?.textContent?.trim() || "";
+      const domKeywords = Array.from(tagEls).map((el) => el.textContent.trim().replace(/^#/, "")).filter(Boolean);
+      const title = titleEl?.textContent?.trim() || cachedVideoMetadata.title || document.title.replace(" - YouTube", "").trim();
+      const author = authorEl?.textContent?.trim() || cachedVideoMetadata.author || "Cha\xEEne YouTube";
+      const subscribers = domSubscribers || cachedVideoMetadata.subscribers || "";
+      const description = cachedVideoMetadata.description || domDescription || "";
+      const keywords = cachedVideoMetadata.keywords && cachedVideoMetadata.keywords.length > 0 ? cachedVideoMetadata.keywords : domKeywords;
+      const category = cachedVideoMetadata.category || "";
+      const publishDate = cachedVideoMetadata.publishDate || domDate || "";
+      const viewCount = cachedVideoMetadata.viewCount || "";
+      const channelId = cachedVideoMetadata.channelId || "";
       return {
-        title: titleEl?.textContent?.trim() || document.title.replace(" - YouTube", "").trim(),
-        author: authorEl?.textContent?.trim() || "Cha\xEEne YouTube"
+        videoId: cachedVideoMetadata.videoId || getVideoId(),
+        title,
+        author,
+        subscribers,
+        description,
+        keywords,
+        category,
+        publishDate,
+        viewCount,
+        channelId
       };
+    }
+    function formatContextInfo(meta, lang = "fr") {
+      if (!meta || typeof meta !== "object") return "";
+      const subscribers = meta.subscribers || "";
+      const category = meta.category || "";
+      const publishDate = meta.publishDate || "";
+      const rawKeywords = meta.keywords || [];
+      const keywords = Array.isArray(rawKeywords) ? rawKeywords.slice(0, 10).join(", ") : typeof rawKeywords === "string" ? rawKeywords : "";
+      let description = String(meta.description || "").trim();
+      if (description.length > 2e3) {
+        description = description.slice(0, 1950) + "... [description condens\xE9e]";
+      }
+      const lines = [];
+      const isFr = lang === "fr";
+      if (subscribers) {
+        lines.push(isFr ? `- Abonn\xE9s cha\xEEne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
+      }
+      if (category) {
+        lines.push(isFr ? `- Cat\xE9gorie : ${category}` : `- Category: ${category}`);
+      }
+      if (publishDate) {
+        lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
+      }
+      if (keywords) {
+        lines.push(isFr ? `- Mots-cl\xE9s : ${keywords}` : `- Keywords: ${keywords}`);
+      }
+      if (description) {
+        lines.push(isFr ? `- Description officielle :
+"""
+${description}
+"""` : `- Official Description:
+"""
+${description}
+"""`);
+      }
+      if (lines.length === 0) return "";
+      const header = isFr ? "CONTEXTE DE LA VID\xC9O & DE LA CHA\xCENE :" : "VIDEO & CHANNEL CONTEXT:";
+      return `${header}
+${lines.join("\n")}
+`;
     }
     function condenseTranscriptForContext(transcript, maxChars) {
       if (transcript.length <= maxChars) {
@@ -3982,10 +4079,15 @@ ${end}`;
         if (reasoningText) reasoningText.textContent = "";
         fullSummaryMarkdown = "";
         fullReasoningText = "";
+        const currentVideoId = getVideoId();
+        if (!cachedVideoMetadata.description || cachedVideoMetadata.videoId !== currentVideoId) {
+          await requestPlayerDataFromMainWorld(currentVideoId, lang).catch(() => {
+          });
+        }
         const meta = getVideoMetadata();
         const maxAllowedChars = CONTEXT_LIMITS[currentProvider] || 25e3;
         const safeTranscript = condenseTranscriptForContext(fullText, maxAllowedChars);
-        const { systemPrompt, userPrompt } = buildPrompts(meta.title, meta.author, safeTranscript, lang, mode);
+        const { systemPrompt, userPrompt } = buildPrompts(meta.title, meta.author, safeTranscript, lang, mode, meta);
         const currentUrl = serverUrls[currentProvider] || "";
         activePort = chrome.runtime.connect({ name: "ai-stream" });
         activePort.postMessage({
@@ -4097,6 +4199,11 @@ ${end}`;
       }
       const aiBubble = appendChatBubble("ai", "");
       aiBubble.classList.add("yt-ai-typing");
+      const currentVideoId = getVideoId();
+      if (!cachedVideoMetadata.description || cachedVideoMetadata.videoId !== currentVideoId) {
+        await requestPlayerDataFromMainWorld(currentVideoId, lang).catch(() => {
+        });
+      }
       const meta = getVideoMetadata();
       const maxChars = CONTEXT_LIMITS[currentProvider] || 2e4;
       const safeTranscript = condenseTranscriptForContext(cachedTranscript.fullText, maxChars);
@@ -4222,15 +4329,18 @@ ${end}`;
       if (wordCountTab) wordCountTab.textContent = `0 ${t.wordsBadge}`;
     }
     function buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode) {
+      const contextBlock = formatContextInfo(meta, lang);
+      const subStr = meta?.subscribers ? ` (${meta.subscribers})` : "";
       if (lang === "en") {
         let lenDir = "Desired length: balanced, natural response, not too long, straight to the point.";
         if (selectedChatMode === "quick") lenDir = "Desired length: short and concise answer (1-2 short paragraphs), straight to the point.";
         else if (selectedChatMode === "detailed") lenDir = "Desired length: detailed and comprehensive explanation.";
         return `You are an expert AI assistant specializing in clear, natural, and direct oral and written explanations.
-You answer the user's questions about this YouTube video, strictly based on its transcript:
+You answer the user's questions about this YouTube video, strictly based on its transcript and official video context (description, channel information, tags):
 Title: "${meta.title}"
-Channel: "${meta.author}"
-
+Channel: "${meta.author}"${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 Transcript:
 """
 ${safeTranscript}
@@ -4251,17 +4361,18 @@ WRITING GUIDELINES (FOR READING AND AUDIO LISTENING):
    - Break your response into short, readable paragraphs.
    - Leave a blank line between paragraphs.
    - Highlight key terms in **bold** for readability.
-   - 100% faithful to the transcript, no hallucinations.`;
+   - 100% faithful to the transcript and official description, no hallucinations.`;
       }
       if (lang === "es") {
         let lenDir = "Longitud deseada: respuesta equilibrada y natural, sin rodeos.";
         if (selectedChatMode === "quick") lenDir = "Longitud deseada: respuesta corta y concisa (1 o 2 p\xE1rrafos cortos).";
         else if (selectedChatMode === "detailed") lenDir = "Longitud deseada: respuesta detallada y completa.";
         return `Eres un asistente de IA experto en explicaciones orales y escritas: directas, claras, naturales y agradables de escuchar.
-Respondes a las preguntas del usuario sobre este v\xEDdeo de YouTube bas\xE1ndote estrictamente en su transcripci\xF3n en ESPA\xD1OL:
+Respondes a las preguntas del usuario sobre este v\xEDdeo de YouTube bas\xE1ndote estrictamente en su transcripci\xF3n y en el contexto oficial (descripci\xF3n, canal, etiquetas) en ESPA\xD1OL:
 T\xEDtulo: "${meta.title}"
-Canal: "${meta.author}"
-
+Canal: "${meta.author}"${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 Transcripci\xF3n:
 """
 ${safeTranscript}
@@ -4280,17 +4391,18 @@ DIRECTRICES DE REDACCI\xD3N (LECTURA VISUAL Y AUDIO):
    - Divide tu texto en p\xE1rrafos cortos y f\xE1ciles de leer.
    - Deja una l\xEDnea en blanco entre p\xE1rrafos.
    - Resalta t\xE9rminos clave en **negrita**.
-   - 100% fiel a la transcripci\xF3n, sin inventar nada.`;
+   - 100% fiel a la transcripci\xF3n y a la descripci\xF3n oficial, sin inventar nada.`;
       }
       if (lang === "de") {
         let lenDir = "Gew\xFCnschte L\xE4nge: ausgewogene, nat\xFCrliche Antwort, direkt auf den Punkt.";
         if (selectedChatMode === "quick") lenDir = "Gew\xFCnschte L\xE4nge: kurze und pr\xE4gnante Antwort (1-2 kurze Abs\xE4tze).";
         else if (selectedChatMode === "detailed") lenDir = "Gew\xFCnschte L\xE4nge: ausf\xFChrliche und detaillierte Erkl\xE4rung.";
         return `Du bist ein KI-Experte f\xFCr klare, direkte und nat\xFCrliche Erkl\xE4rungen auf DEUTSCH.
-Beantworte die Fragen des Nutzers zu diesem YouTube-Video basierend auf dem Transkript:
+Beantworte die Fragen des Nutzers zu diesem YouTube-Video basierend auf dem Transkript und den offiziellen Video- und Kanalinformationen (Beschreibung, Kanal, Tags):
 Titel: "${meta.title}"
-Kanal: "${meta.author}"
-
+Kanal: "${meta.author}"${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 Transkript:
 """
 ${safeTranscript}
@@ -4307,17 +4419,18 @@ RICHTLINIEN (LESEN UND AUDIO-WIEDERGABE):
 3. LUFTIGE STRUKTUR:
    - Kurze Abs\xE4tze mit Zeilenumbruch.
    - Wichtige Begriffe in **fett**.
-   - 100% getreu dem Transkript.`;
+   - 100% getreu dem Transkript und der offiziellen Beschreibung.`;
       }
       if (lang === "it") {
         let lenDir = "Lunghezza desiderata: risposta equilibrata e naturale, senza frasi superflue, che va dritta al punto.";
         if (selectedChatMode === "quick") lenDir = "Lunghezza desiderata: risposta breve e concisa (1 o 2 brevi paragrafi), dritta al punto.";
         else if (selectedChatMode === "detailed") lenDir = "Lunghezza desiderata: spiegazione dettagliata e approfondita.";
         return `Sei un assistente IA esperto in spiegazioni orali e scritte: chiare, naturali, dirette e piacevoli da ascoltare.
-Rispondi alle domande dell'utente su questo video di YouTube basandoti rigorosamente sulla sua trascrizione in ITALIANO:
+Rispondi alle domande dell'utente su questo video di YouTube basandoti rigorosamente sulla sua trascrizione e sul contesto ufficiale del video (descrizione, canale, tag) in ITALIANO:
 Titolo: "${meta.title}"
-Canale: "${meta.author}"
-
+Canale: "${meta.author}"${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 Trascrizione:
 """
 ${safeTranscript}
@@ -4336,17 +4449,18 @@ LINEE GUIDA DI REDAZIONE (LETTURA E ASCOLTO AUDIO):
    - Dividi la risposta in brevi paragrafi facili da leggere.
    - Lascia una riga vuota tra i paragrafi.
    - Evidenzia i termini chiave in **grassetto**.
-   - Fedele al 100% alla trascrizione, senza alcuna allucinazione.`;
+   - Fedele al 100% alla trascrizione e alla descrizione ufficiale, senza alcuna allucinazione.`;
       }
       if (lang === "ru") {
         let lenDir = "\u0416\u0435\u043B\u0430\u0435\u043C\u0430\u044F \u0434\u043B\u0438\u043D\u0430: \u0441\u0431\u0430\u043B\u0430\u043D\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0439 \u0438 \u0435\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442, \u0431\u0435\u0437 \u043B\u0438\u0448\u043D\u0435\u0439 '\u0432\u043E\u0434\u044B', \u043F\u0440\u044F\u043C\u043E \u043A \u0441\u0443\u0442\u0438.";
         if (selectedChatMode === "quick") lenDir = "\u0416\u0435\u043B\u0430\u0435\u043C\u0430\u044F \u0434\u043B\u0438\u043D\u0430: \u043A\u0440\u0430\u0442\u043A\u0438\u0439 \u0438 \u0435\u043C\u043A\u0438\u0439 \u043E\u0442\u0432\u0435\u0442 (1-2 \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0445 \u0430\u0431\u0437\u0430\u0446\u0430), \u0441\u0442\u0440\u043E\u0433\u043E \u043F\u043E \u0434\u0435\u043B\u0443.";
         else if (selectedChatMode === "detailed") lenDir = "\u0416\u0435\u043B\u0430\u0435\u043C\u0430\u044F \u0434\u043B\u0438\u043D\u0430: \u043F\u043E\u0434\u0440\u043E\u0431\u043D\u043E\u0435, \u0433\u043B\u0443\u0431\u043E\u043A\u043E\u0435 \u0438 \u0440\u0430\u0437\u0432\u0435\u0440\u043D\u0443\u0442\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435.";
         return `\u0422\u044B \u2014 \u044D\u043A\u0441\u043F\u0435\u0440\u0442\u043D\u044B\u0439 \u0418\u0418-\u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442, \u0441\u043F\u0435\u0446\u0438\u0430\u043B\u0438\u0437\u0438\u0440\u0443\u044E\u0449\u0438\u0439\u0441\u044F \u043D\u0430 \u044F\u0441\u043D\u044B\u0445, \u0435\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0445 \u0438 \u043F\u0440\u044F\u043C\u044B\u0445 \u043E\u0442\u0432\u0435\u0442\u0430\u0445 \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435.
-\u041E\u0442\u0432\u0435\u0447\u0430\u0439 \u043D\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F \u043F\u043E \u044D\u0442\u043E\u043C\u0443 \u0432\u0438\u0434\u0435\u043E YouTube \u0441\u0442\u0440\u043E\u0433\u043E \u043D\u0430 \u043E\u0441\u043D\u043E\u0432\u0435 \u0435\u0433\u043E \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u0438:
+\u041E\u0442\u0432\u0435\u0447\u0430\u0439 \u043D\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F \u043F\u043E \u044D\u0442\u043E\u043C\u0443 \u0432\u0438\u0434\u0435\u043E YouTube \u0441\u0442\u0440\u043E\u0433\u043E \u043D\u0430 \u043E\u0441\u043D\u043E\u0432\u0435 \u0435\u0433\u043E \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u0438 \u0438 \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442\u0430 (\u043E\u043F\u0438\u0441\u0430\u043D\u0438\u0435, \u043A\u0430\u043D\u0430\u043B, \u0442\u0435\u0433\u0438):
 \u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435: "${meta.title}"
-\u041A\u0430\u043D\u0430\u043B: "${meta.author}"
-
+\u041A\u0430\u043D\u0430\u043B: "${meta.author}"${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 \u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u044F:
 """
 ${safeTranscript}
@@ -4364,17 +4478,18 @@ ${safeTranscript}
 3. \u0427\u0418\u0422\u0410\u0415\u041C\u0410\u042F \u0421\u0422\u0420\u0423\u041A\u0422\u0423\u0420\u0410:
    - \u0420\u0430\u0437\u0434\u0435\u043B\u044F\u0439 \u0442\u0435\u043A\u0441\u0442 \u043D\u0430 \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0435 \u0430\u0431\u0437\u0430\u0446\u044B \u0441 \u043F\u0443\u0441\u0442\u043E\u0439 \u0441\u0442\u0440\u043E\u043A\u043E\u0439 \u043C\u0435\u0436\u0434\u0443 \u043D\u0438\u043C\u0438.
    - \u0412\u044B\u0434\u0435\u043B\u044F\u0439 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0441\u043B\u043E\u0432\u0430 **\u0436\u0438\u0440\u043D\u044B\u043C \u0448\u0440\u0438\u0444\u0442\u043E\u043C**.
-   - \u041D\u0430 100% \u0442\u043E\u0447\u043D\u043E \u043F\u043E \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u0438, \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435 \u0432\u044B\u0434\u0443\u043C\u044B\u0432\u0430\u044F.`;
+   - \u041D\u0430 100% \u0442\u043E\u0447\u043D\u043E \u043F\u043E \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u0438 \u0438 \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u043C\u0443 \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u044E, \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435 \u0432\u044B\u0434\u0443\u043C\u044B\u0432\u0430\u044F.`;
       }
       if (lang === "ja") {
         let lenDir = "\u5E0C\u671B\u306E\u9577\u3055: \u81EA\u7136\u3067\u30D0\u30E9\u30F3\u30B9\u306E\u53D6\u308C\u305F\u3001\u8981\u70B9\u3092\u62BC\u3055\u3048\u305F\u56DE\u7B54\u3002";
         if (selectedChatMode === "quick") lenDir = "\u5E0C\u671B\u306E\u9577\u3055: \u7C21\u6F54\u3067\u77ED\u3044\u56DE\u7B54\uFF081\u301C2\u6BB5\u843D\u7A0B\u5EA6\uFF09\u3001\u8981\u70B9\u306E\u307F\u3092\u76F4\u63A5\u4F1D\u3048\u308B\u3002";
         else if (selectedChatMode === "detailed") lenDir = "\u5E0C\u671B\u306E\u9577\u3055: \u8A73\u7D30\u3067\u6DF1\u3044\u4E01\u5BE7\u306A\u89E3\u8AAC\u3002";
         return `\u3042\u306A\u305F\u306F\u3001\u660E\u77AD\u3067\u81EA\u7136\u3001\u304B\u3064\u8981\u70B9\u3092\u6349\u3048\u305F\u65E5\u672C\u8A9E\u306E\u89E3\u8AAC\u3092\u5F97\u610F\u3068\u3059\u308BAI\u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u3067\u3059\u3002
-YouTube\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u306B\u57FA\u3065\u3044\u3066\u3001\u30E6\u30FC\u30B6\u30FC\u306E\u8CEA\u554F\u306B\u65E5\u672C\u8A9E\u3067\u6B63\u78BA\u306B\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\uFF1A
+YouTube\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u304A\u3088\u3073\u516C\u5F0F\u60C5\u5831\uFF08\u6982\u8981\u6B04\u30FB\u8AAC\u660E\u6587\u3001\u30C1\u30E3\u30F3\u30CD\u30EB\u60C5\u5831\u3001\u30BF\u30B0\uFF09\u306B\u57FA\u3065\u3044\u3066\u3001\u30E6\u30FC\u30B6\u30FC\u306E\u8CEA\u554F\u306B\u65E5\u672C\u8A9E\u3067\u6B63\u78BA\u306B\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\uFF1A
 \u30BF\u30A4\u30C8\u30EB: "${meta.title}"
-\u30C1\u30E3\u30F3\u30CD\u30EB: "${meta.author}"
-
+\u30C1\u30E3\u30F3\u30CD\u30EB: "${meta.author}"${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 \u6587\u5B57\u8D77\u3053\u3057:
 """
 ${safeTranscript}
@@ -4392,17 +4507,18 @@ ${safeTranscript}
 3. \u8AAD\u307F\u3084\u3059\u3044\u6BB5\u843D\u5206\u3051:
    - \u77ED\u3044\u6BB5\u843D\u306B\u5206\u3051\u3001\u6BB5\u843D\u9593\u306B\u7A7A\u884C\u3092\u5165\u308C\u3066\u304F\u3060\u3055\u3044\u3002
    - \u91CD\u8981\u306A\u30AD\u30FC\u30EF\u30FC\u30C9\u306F **\u592A\u5B57** \u3067\u5F37\u8ABF\u3057\u3066\u304F\u3060\u3055\u3044\u3002
-   - \u6587\u5B57\u8D77\u3053\u3057\u306B100%\u5FE0\u5B9F\u3067\u3042\u308A\u3001\u63A8\u6E2C\u3084\u30CF\u30EB\u30B7\u30CD\u30FC\u30B7\u30E7\u30F3\u306F\u542B\u3081\u306A\u3044\u3067\u304F\u3060\u3055\u3044\u3002`;
+   - \u6587\u5B57\u8D77\u3053\u3057\u304A\u3088\u3073\u516C\u5F0F\u6982\u8981\u6B04\u306B100%\u5FE0\u5B9F\u3067\u3042\u308A\u3001\u63A8\u6E2C\u3084\u30CF\u30EB\u30B7\u30CD\u30FC\u30B7\u30E7\u30F3\u306F\u542B\u3081\u306A\u3044\u3067\u304F\u3060\u3055\u3044\u3002`;
       }
       if (lang === "zh") {
         let lenDir = "\u671F\u671B\u957F\u5EA6\uFF1A\u81EA\u7136\u5E73\u8861\u3001\u76F4\u5954\u4E3B\u9898\u3001\u8BE6\u7565\u5F97\u5F53\u3002";
         if (selectedChatMode === "quick") lenDir = "\u671F\u671B\u957F\u5EA6\uFF1A\u7B80\u660E\u627C\u8981\u3001\u77ED\u5C0F\u7CBE\u70BC\uFF081\u81F32\u4E2A\u7B80\u77ED\u6BB5\u843D\uFF09\uFF0C\u76F4\u51FB\u91CD\u70B9\u3002";
         else if (selectedChatMode === "detailed") lenDir = "\u671F\u671B\u957F\u5EA6\uFF1A\u8BE6\u7EC6\u6DF1\u5165\u3001\u5168\u9762\u900F\u5F7B\u7684\u5C55\u5F00\u5206\u6790\u3002";
         return `\u4F60\u662F\u4E00\u540D\u4E13\u4E1A\u7684 AI \u52A9\u7406\uFF0C\u64C5\u957F\u751F\u6210\u6E05\u6670\u81EA\u7136\u3001\u76F4\u51FB\u8981\u70B9\u7684\u4E2D\u6587\u53E3\u8BED\u4E0E\u4E66\u9762\u89E3\u7B54\u3002
-\u8BF7\u4E25\u683C\u57FA\u4E8E\u8BE5 YouTube \u89C6\u9891\u7684\u5B57\u5E55\u9010\u5B57\u7A3F\uFF0C\u56DE\u7B54\u7528\u6237\u7684\u95EE\u9898\uFF1A
+\u8BF7\u4E25\u683C\u57FA\u4E8E\u8BE5 YouTube \u89C6\u9891\u7684\u5B57\u5E55\u9010\u5B57\u7A3F\u53CA\u5B98\u65B9\u80CC\u666F\u4FE1\u606F\uFF08\u5B98\u65B9\u89C6\u9891\u7B80\u4ECB\u3001\u9891\u9053\u4FE1\u606F\u3001\u6807\u7B7E\uFF09\uFF0C\u56DE\u7B54\u7528\u6237\u7684\u95EE\u9898\uFF1A
 \u6807\u9898: "${meta.title}"
-\u9891\u9053: "${meta.author}"
-
+\u9891\u9053: "${meta.author}"${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 \u89C6\u9891\u9010\u5B57\u7A3F:
 """
 ${safeTranscript}
@@ -4420,7 +4536,7 @@ ${safeTranscript}
 3. \u6E05\u723D\u7ED3\u6784\uFF1A
    - \u5207\u5206\u6210\u77ED\u5C0F\u6613\u8BFB\u7684\u6BB5\u843D\uFF0C\u6BB5\u843D\u4E4B\u95F4\u7A7A\u4E00\u884C\u3002
    - \u6838\u5FC3\u5173\u952E\u8BCD\u7528 **\u52A0\u7C97** \u7A81\u51FA\u663E\u793A\u3002
-   - 100% \u5FE0\u5B9E\u4E8E\u9010\u5B57\u7A3F\uFF0C\u4E25\u7981\u865A\u6784\u4E0E\u5E7B\u89C9\u3002`;
+   - 100% \u5FE0\u5B9E\u4E8E\u9010\u5B57\u7A3F\u4E0E\u5B98\u65B9\u7B80\u4ECB\uFF0C\u4E25\u7981\u865A\u6784\u4E0E\u5E7B\u89C9\u3002`;
       }
       let lengthDirective = "Longueur souhait\xE9e : r\xE9ponse \xE9quilibr\xE9e et naturelle, pas trop longue, allant droit \xE0 l'essentiel.";
       if (selectedChatMode === "quick") {
@@ -4429,10 +4545,11 @@ ${safeTranscript}
         lengthDirective = "Longueur souhait\xE9e : r\xE9ponse d\xE9taill\xE9e et approfondie, d\xE9veloppant les explications et arguments.";
       }
       return `Tu es un assistant IA expert en explications orales et \xE9crites : directes, claires, naturelles et agr\xE9ables \xE0 \xE9couter.
-Tu r\xE9ponds aux questions de l'utilisateur sur la vid\xE9o YouTube en t'appuyant rigoureusement sur sa transcription :
+Tu r\xE9ponds aux questions de l'utilisateur sur la vid\xE9o YouTube en t'appuyant rigoureusement sur sa transcription et sur le contexte officiel fourni (description officielle de la vid\xE9o, cha\xEEne, cat\xE9gorie, mots-cl\xE9s) :
 Titre : "${meta.title}"
-Cha\xEEne : "${meta.author}"
-
+Cha\xEEne : "${meta.author}"${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 Transcription de la vid\xE9o :
 """
 ${safeTranscript}
@@ -4453,11 +4570,14 @@ DIRECTIVES DE R\xC9DACTION (CONFORT VISUEL ET \xC9COUTE AUDIO) :
    - D\xE9coupe ton texte en courts paragraphes faciles \xE0 lire.
    - Saute une ligne entre chaque paragraphe.
    - Mets en **gras** les quelques termes cl\xE9s importants pour faciliter la lecture rapide.
-   - 100% fid\xE8le \xE0 la transcription, sans rien inventer.`;
+   - 100% fid\xE8le \xE0 la transcription et \xE0 la description officielle, sans rien inventer.`;
     }
-    function buildPrompts(title, author, safeTranscript, lang, mode) {
+    function buildPrompts(title, author, safeTranscript, lang, mode, meta = null) {
       let systemPrompt = "";
       let userPrompt = "";
+      const resolvedMeta = meta || { title, author };
+      const contextBlock = formatContextInfo(resolvedMeta, lang);
+      const subStr = resolvedMeta?.subscribers ? ` (${resolvedMeta.subscribers})` : "";
       if (lang === "en") {
         systemPrompt = `You are an expert AI assistant specializing in video summarization and insights.
 Your goal is to produce a clear, natural, well-structured, and faithful summary in ENGLISH, regardless of the original video language.
@@ -4509,8 +4629,9 @@ STYLE RULES:
 (The author's main conclusion or actionable advice)`;
         }
         userPrompt = `Title: "${title}"
-Channel: ${author}
-
+Channel: ${author}${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 ${formatInstructions}
 
 Transcript:
@@ -4568,8 +4689,9 @@ REGLAS DE ESTILO:
 (La conclusi\xF3n principal o el consejo pr\xE1ctico dado por el autor)`;
         }
         userPrompt = `T\xEDtulo: "${title}"
-Canal: ${author}
-
+Canal: ${author}${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 ${formatInstructions}
 
 Transcripci\xF3n:
@@ -4627,8 +4749,9 @@ STILRICHTLINIEN:
 (Das Fazit oder der praktische Rat des Autors)`;
         }
         userPrompt = `Titel: "${title}"
-Kanal: ${author}
-
+Kanal: ${author}${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 ${formatInstructions}
 
 Transkript:
@@ -4686,8 +4809,9 @@ REGOLE DI STILE:
 (La conclusione principale o il consiglio pratico dato dall'autore)`;
         }
         userPrompt = `Titolo: "${title}"
-Canale: ${author}
-
+Canale: ${author}${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 ${formatInstructions}
 
 Trascrizione:
@@ -4745,8 +4869,9 @@ ${safeTranscript}
 (\u0413\u043B\u0430\u0432\u043D\u044B\u0439 \u0432\u044B\u0432\u043E\u0434 \u0438\u043B\u0438 \u043F\u0440\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0441\u043E\u0432\u0435\u0442 \u043E\u0442 \u0430\u0432\u0442\u043E\u0440\u0430)`;
         }
         userPrompt = `\u041D\u0430\u0437\u0432\u0430\u043D\u0438\u0435: "${title}"
-\u041A\u0430\u043D\u0430\u043B: ${author}
-
+\u041A\u0430\u043D\u0430\u043B: ${author}${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 ${formatInstructions}
 
 \u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u044F:
@@ -4804,8 +4929,9 @@ ${safeTranscript}
 (\u8457\u8005\u306E\u4E3B\u306A\u7D50\u8AD6\u3001\u307E\u305F\u306F\u63D0\u793A\u3055\u308C\u305F\u5B9F\u8DF5\u7684\u30A2\u30C9\u30D0\u30A4\u30B9)`;
         }
         userPrompt = `\u30BF\u30A4\u30C8\u30EB: "${title}"
-\u30C1\u30E3\u30F3\u30CD\u30EB: ${author}
-
+\u30C1\u30E3\u30F3\u30CD\u30EB: ${author}${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 ${formatInstructions}
 
 \u6587\u5B57\u8D77\u3053\u3057:
@@ -4863,8 +4989,9 @@ ${safeTranscript}
 (\u4F5C\u8005\u7684\u6838\u5FC3\u7ED3\u8BBA\u6216\u7ED9\u51FA\u7684\u5B9E\u7528\u5EFA\u8BAE)`;
         }
         userPrompt = `\u6807\u9898: "${title}"
-\u9891\u9053: ${author}
-
+\u9891\u9053: ${author}${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 ${formatInstructions}
 
 \u89C6\u9891\u9010\u5B57\u7A3F:
@@ -4922,8 +5049,9 @@ R\xC8GLES DE STYLE :
 (La conclusion principale ou le conseil pratique donn\xE9 par l'auteur)`;
         }
         userPrompt = `Titre : "${title}"
-Cha\xEEne : ${author}
-
+Cha\xEEne : ${author}${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}
 ${formatInstructions}
 
 Transcription :

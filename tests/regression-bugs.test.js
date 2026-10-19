@@ -358,5 +358,36 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     assert.match(contentSrc, /\(Chapitres\)/);
     assert.match(contentSrc, /transcript-segment-view-model,\s*ytd-transcript-segment-renderer/);
   });
+
+  // 10. REGRESSION: Video and Channel Context (Description, Subscribers, Category, Tags)
+  await suite.test('Video and Channel Context: In-memory extraction, DOM fallbacks, and prompt injection', () => {
+    const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8');
+    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+    const modelSrc = fs.readFileSync(path.join(rootDir, 'src/domain/models/VideoMetadata.js'), 'utf-8');
+
+    // 1. YouTubeContextExtractor must extract description, keywords, category, publishDate, and channelId
+    assert.match(extractorSrc, /const\s+description\s*=\s*videoDetails\.shortDescription/);
+    assert.match(extractorSrc, /const\s+keywords\s*=\s*Array\.isArray\(videoDetails\.keywords\)/);
+    assert.match(extractorSrc, /const\s+category\s*=\s*microformat\.category/);
+    assert.match(extractorSrc, /const\s+publishDate\s*=\s*microformat\.publishDate/);
+    assert.match(extractorSrc, /description,\s*keywords,\s*category,\s*publishDate/);
+
+    // 2. Content script must maintain cachedVideoMetadata and query DOM for channel subscribers
+    assert.match(contentSrc, /cachedVideoMetadata\s*=\s*\{/);
+    assert.match(contentSrc, /#owner-sub-count/);
+    assert.match(contentSrc, /#description-inline-expander/);
+    assert.match(contentSrc, /formatContextInfo/);
+
+    // 3. buildPrompts and buildChatSystemPrompt must inject context
+    assert.match(contentSrc, /function buildPrompts\(title,\s*author,\s*safeTranscript,\s*lang,\s*mode,\s*meta/);
+    assert.match(contentSrc, /function buildChatSystemPrompt\(meta,\s*safeTranscript,\s*lang,\s*selectedChatMode\)/);
+    assert.match(contentSrc, /strictly based on its transcript and official video context/);
+    assert.match(contentSrc, /t['’]appuyant rigoureusement sur sa transcription et sur le contexte officiel/);
+
+    // 4. VideoMetadata entity must accept extra options without breaking existing contract
+    assert.match(modelSrc, /constructor\(videoId\s*=\s*'',\s*title\s*=\s*'',\s*author\s*=\s*'',\s*url\s*=\s*'',\s*extra\s*=\s*\{\}\)/);
+    assert.match(modelSrc, /this\.subscribers\s*=\s*String\(extra\?\.subscribers/);
+    assert.match(modelSrc, /this\.description\s*=\s*String\(extra\?\.description/);
+  });
 });
 

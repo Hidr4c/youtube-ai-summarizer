@@ -36,6 +36,52 @@ ${end}`;
   }
 
   /**
+   * Formats video description, channel, category and tag context for AI prompts
+   * @param {Object} extraContext
+   * @param {string} lang
+   * @returns {string}
+   */
+  formatContextBlock(extraContext, lang = 'en') {
+    if (!extraContext || typeof extraContext !== 'object') return '';
+    const subscribers = extraContext.subscribers || '';
+    const category = extraContext.category || '';
+    const publishDate = extraContext.publishDate || '';
+    const rawKeywords = extraContext.keywords || [];
+    const keywords = Array.isArray(rawKeywords)
+      ? rawKeywords.slice(0, 10).join(', ')
+      : (typeof rawKeywords === 'string' ? rawKeywords : '');
+    let description = String(extraContext.description || '').trim();
+
+    if (description.length > 2000) {
+      description = description.slice(0, 1950) + '... [description condensée]';
+    }
+
+    const lines = [];
+    const isFr = lang === 'fr';
+
+    if (subscribers) {
+      lines.push(isFr ? `- Abonnés chaîne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
+    }
+    if (category) {
+      lines.push(isFr ? `- Catégorie : ${category}` : `- Category: ${category}`);
+    }
+    if (publishDate) {
+      lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
+    }
+    if (keywords) {
+      lines.push(isFr ? `- Mots-clés : ${keywords}` : `- Keywords: ${keywords}`);
+    }
+    if (description) {
+      lines.push(isFr ? `- Description officielle :\n"""\n${description}\n"""` : `- Official Description:\n"""\n${description}\n"""`);
+    }
+
+    if (lines.length === 0) return '';
+
+    const header = isFr ? 'CONTEXTE DE LA VIDÉO & DE LA CHAÎNE :' : 'VIDEO & CHANNEL CONTEXT:';
+    return `${header}\n${lines.join('\n')}\n`;
+  }
+
+  /**
    * Builds system and user prompts for video summarization
    * @param {string} title
    * @param {string} author
@@ -43,9 +89,10 @@ ${end}`;
    * @param {string} lang
    * @param {string} mode
    * @param {string} [customDirectives]
+   * @param {Object} [extraContext]
    * @returns {{ systemPrompt: string, userPrompt: string }}
    */
-  buildSummaryPrompts(title, author, safeTranscript, lang, mode, customDirectives = '') {
+  buildSummaryPrompts(title, author, safeTranscript, lang, mode, customDirectives = '', extraContext = {}) {
     if (typeof title === 'object' && title !== null) {
       const opts = title;
       title = opts.title;
@@ -53,7 +100,16 @@ ${end}`;
       safeTranscript = opts.safeTranscript || opts.transcript;
       lang = opts.lang || opts.targetLang;
       mode = opts.mode || opts.formatMode;
-      customDirectives = opts.customDirectives || '';
+      customDirectives = typeof opts.customDirectives === 'string' ? opts.customDirectives : '';
+      extraContext = opts.extra || opts.metadata || opts;
+    } else if (typeof author === 'object' && author !== null) {
+      extraContext = author;
+      author = extraContext.author || '';
+    } else if (typeof customDirectives === 'object' && customDirectives !== null) {
+      extraContext = customDirectives;
+      customDirectives = '';
+    } else if (typeof arguments[6] === 'object' && arguments[6] !== null) {
+      extraContext = arguments[6];
     }
 
     let systemPrompt = '';
@@ -127,9 +183,10 @@ RÈGLES DE STYLE :
 (Conclusion synthétique)`;
       }
 
+      const contextBlock = this.formatContextBlock(extraContext, 'fr');
       userPrompt = `Voici la transcription de la vidéo YouTube :
 Titre : "${title}"
-Auteur/Chaîne : "${author}"
+Auteur/Chaîne : "${author}"${contextBlock ? `\n\n${contextBlock}` : ''}
 
 Format demandé :
 ${formatInstructions}
@@ -195,9 +252,10 @@ STYLE RULES:
 (Synthetic concluding thought)`;
       }
 
+      const contextBlock = this.formatContextBlock(extraContext, lang);
       userPrompt = `Here is the transcript of the YouTube video:
 Title: "${title}"
-Author/Channel: "${author}"
+Author/Channel: "${author}"${contextBlock ? `\n\n${contextBlock}` : ''}
 
 Requested format:
 ${formatInstructions}
@@ -217,9 +275,10 @@ ${safeTranscript}`;
    * @param {string} targetLang
    * @param {Array<Object>} chatHistory
    * @param {string} userQuestion
+   * @param {Object} [extraContext]
    * @returns {{ systemPrompt: string, messages: Array<Object> }}
    */
-  buildChatPrompts(title, transcriptText, targetLang, chatHistory, userQuestion) {
+  buildChatPrompts(title, transcriptText, targetLang, chatHistory, userQuestion, extraContext = {}) {
     const langNames = {
       en: 'English',
       fr: 'French',
@@ -231,12 +290,13 @@ ${safeTranscript}`;
       zh: 'Simplified Chinese'
     };
     const targetLangName = langNames[targetLang] || 'English';
+    const contextBlock = this.formatContextBlock(extraContext, targetLang);
 
     const systemPrompt = `You are a conversational AI video assistant.
-You answer questions accurately based SOLELY on the video transcript provided below.
+You answer questions accurately based on the video transcript and the provided official video context (description, channel information, tags).
 Video Title: "${title}"
-Always answer in ${targetLangName}.
-If the answer is not mentioned in the transcript, state clearly that the video does not mention it.
+${contextBlock ? `${contextBlock}\n` : ''}Always answer in ${targetLangName}.
+If the answer is not mentioned in the transcript or description, state clearly that the video does not mention it.
 Be concise, helpful, and quote timestamps in [m:ss] format if applicable.
 
 TRANSCRIPT:

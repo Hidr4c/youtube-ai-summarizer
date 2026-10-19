@@ -42,4 +42,78 @@ test('Prompt Generation & Context Compression', async (t) => {
     const { systemPrompt: jaPrompt } = builder.buildSummaryPrompts('Titre', 'Auteur', 'Texte', 'ja', 'standard');
     assert.ok(/日本語|japanese/i.test(jaPrompt), 'System prompt must require Japanese when lang is ja');
   });
+
+  await t.test('formatContextBlock formats channel info, subscribers, category, keywords and description', () => {
+    const meta = {
+      author: 'Tech Innovators',
+      subscribers: '1.2M subscribers',
+      category: 'Science & Technology',
+      publishDate: '2024-05-12',
+      keywords: ['AI', 'Tech', 'Hardware'],
+      description: 'Official video description detailing projects and links: https://example.com'
+    };
+
+    const enBlock = builder.formatContextBlock(meta, 'en');
+    assert.ok(enBlock.includes('VIDEO & CHANNEL CONTEXT:'));
+    assert.ok(enBlock.includes('1.2M subscribers'));
+    assert.ok(enBlock.includes('Science & Technology'));
+    assert.ok(enBlock.includes('2024-05-12'));
+    assert.ok(enBlock.includes('AI, Tech, Hardware'));
+    assert.ok(enBlock.includes('Official video description'));
+
+    const frBlock = builder.formatContextBlock(meta, 'fr');
+    assert.ok(frBlock.includes('CONTEXTE DE LA VIDÉO & DE LA CHAÎNE :'));
+    assert.ok(frBlock.includes('Abonnés chaîne : 1.2M subscribers'));
+    assert.ok(frBlock.includes('Catégorie : Science & Technology'));
+  });
+
+  await t.test('formatContextBlock cleanly caps extra-long descriptions', () => {
+    const longDesc = 'A'.repeat(3000);
+    const block = builder.formatContextBlock({ description: longDesc }, 'fr');
+    assert.ok(block.includes('description condensée'));
+    assert.ok(block.length < 2500, 'Context block must cap excessive descriptions');
+  });
+
+  await t.test('buildSummaryPrompts injects video context into user prompt', () => {
+    const extraContext = {
+      subscribers: '500k',
+      category: 'Education',
+      description: 'Useful links: https://github.com/test'
+    };
+    const { userPrompt } = builder.buildSummaryPrompts(
+      'Advanced Architecture',
+      'Code Mastery',
+      'Today we discuss Clean Architecture.',
+      'fr',
+      'standard',
+      '',
+      extraContext
+    );
+
+    assert.ok(userPrompt.includes('CONTEXTE DE LA VIDÉO & DE LA CHAÎNE :'));
+    assert.ok(userPrompt.includes('500k'));
+    assert.ok(userPrompt.includes('Education'));
+    assert.ok(userPrompt.includes('https://github.com/test'));
+  });
+
+  await t.test('buildChatPrompts injects video context and guides AI to use description', () => {
+    const extraContext = {
+      subscribers: '300k',
+      category: 'Programming',
+      description: 'Check out the repository here: https://github.com/Hidr4c/test'
+    };
+    const { systemPrompt } = builder.buildChatPrompts(
+      'Clean Code Tutorial',
+      'In this tutorial we write tests first.',
+      'en',
+      [],
+      'Where is the github link?',
+      extraContext
+    );
+
+    assert.ok(systemPrompt.includes('VIDEO & CHANNEL CONTEXT:'));
+    assert.ok(systemPrompt.includes('https://github.com/Hidr4c/test'));
+    assert.ok(systemPrompt.includes('video transcript and the provided official video context'));
+    assert.ok(systemPrompt.includes('Always answer in English.'));
+  });
 });

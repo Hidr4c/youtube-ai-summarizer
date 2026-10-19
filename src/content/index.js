@@ -238,6 +238,20 @@ import { LANG_LOCALES } from '../config/AIProviderPresets.js';
     isChapterOnly: false
   };
 
+  // Cache mémoire des métadonnées riches de la vidéo courante (description, chaîne, catégorie, etc.)
+  let cachedVideoMetadata = {
+    videoId: '',
+    title: '',
+    author: '',
+    channelId: '',
+    subscribers: '',
+    description: '',
+    keywords: [],
+    category: '',
+    publishDate: '',
+    viewCount: ''
+  };
+
   // Options Avancées
   let localWhisperUrl = '';
   let temperature = '0.3';
@@ -561,6 +575,7 @@ import { LANG_LOCALES } from '../config/AIProviderPresets.js';
     isGenerating = false;
 
     cachedTranscript = { videoId: '', segments: [], fullText: '', isChapterOnly: false };
+    cachedVideoMetadata = { videoId: '', title: '', author: '', channelId: '', subscribers: '', description: '', keywords: [], category: '', publishDate: '', viewCount: '' };
     chatHistory = [];
     resetSummaryOutput();
     resetChatOutput();
@@ -3125,6 +3140,9 @@ import { LANG_LOCALES } from '../config/AIProviderPresets.js';
       const words = domSegments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
       if (domSegments.length >= 15 || words >= 150) {
         saveCachedTranscript(currentVideoId, domSegments, false);
+        if (!cachedVideoMetadata.description || cachedVideoMetadata.videoId !== currentVideoId) {
+          requestPlayerDataFromMainWorld(currentVideoId, preferredLang).catch(() => {});
+        }
         return domSegments;
       }
     }
@@ -3310,7 +3328,22 @@ import { LANG_LOCALES } from '../config/AIProviderPresets.js';
       const handler = (e) => {
         if (e.source !== window || !e.data || e.data.type !== 'YT_AI_RES_PLAYER_DATA') return;
         window.removeEventListener('message', handler);
-        resolve(e.data || {});
+        const data = e.data || {};
+        if (data.videoId && (!videoId || data.videoId === videoId)) {
+          cachedVideoMetadata = {
+            videoId: data.videoId,
+            title: data.title || '',
+            author: data.author || '',
+            channelId: data.channelId || '',
+            subscribers: cachedVideoMetadata.subscribers || '',
+            description: data.description || '',
+            keywords: Array.isArray(data.keywords) ? data.keywords : [],
+            category: data.category || '',
+            publishDate: data.publishDate || '',
+            viewCount: data.viewCount || ''
+          };
+        }
+        resolve(data);
       };
       window.addEventListener('message', handler);
       window.postMessage({ type: 'YT_AI_REQ_PLAYER_DATA', videoId, preferredLang }, '*');
@@ -3325,11 +3358,80 @@ import { LANG_LOCALES } from '../config/AIProviderPresets.js';
   function getVideoMetadata() {
     const titleEl = document.querySelector('h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title');
     const authorEl = document.querySelector('ytd-channel-name a, #channel-name a, #owner-name a');
+    const subEl = document.querySelector('#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count');
+    const descEl = document.querySelector('#description-inline-expander yt-attributed-string, #description, #description-inline-expander');
+    const dateEl = document.querySelector('#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date');
+    const tagEls = document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]');
+
+    const domSubscribers = subEl?.textContent?.trim() || '';
+    const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || '';
+    const domDate = dateEl?.textContent?.trim() || '';
+    const domKeywords = Array.from(tagEls).map(el => el.textContent.trim().replace(/^#/, '')).filter(Boolean);
+
+    const title = titleEl?.textContent?.trim() || cachedVideoMetadata.title || document.title.replace(' - YouTube', '').trim();
+    const author = authorEl?.textContent?.trim() || cachedVideoMetadata.author || 'Chaîne YouTube';
+    const subscribers = domSubscribers || cachedVideoMetadata.subscribers || '';
+    const description = cachedVideoMetadata.description || domDescription || '';
+    const keywords = (cachedVideoMetadata.keywords && cachedVideoMetadata.keywords.length > 0)
+      ? cachedVideoMetadata.keywords
+      : domKeywords;
+    const category = cachedVideoMetadata.category || '';
+    const publishDate = cachedVideoMetadata.publishDate || domDate || '';
+    const viewCount = cachedVideoMetadata.viewCount || '';
+    const channelId = cachedVideoMetadata.channelId || '';
 
     return {
-      title: titleEl?.textContent?.trim() || document.title.replace(' - YouTube', '').trim(),
-      author: authorEl?.textContent?.trim() || 'Chaîne YouTube'
+      videoId: cachedVideoMetadata.videoId || getVideoId(),
+      title,
+      author,
+      subscribers,
+      description,
+      keywords,
+      category,
+      publishDate,
+      viewCount,
+      channelId
     };
+  }
+
+  function formatContextInfo(meta, lang = 'fr') {
+    if (!meta || typeof meta !== 'object') return '';
+    const subscribers = meta.subscribers || '';
+    const category = meta.category || '';
+    const publishDate = meta.publishDate || '';
+    const rawKeywords = meta.keywords || [];
+    const keywords = Array.isArray(rawKeywords)
+      ? rawKeywords.slice(0, 10).join(', ')
+      : (typeof rawKeywords === 'string' ? rawKeywords : '');
+    let description = String(meta.description || '').trim();
+
+    if (description.length > 2000) {
+      description = description.slice(0, 1950) + '... [description condensée]';
+    }
+
+    const lines = [];
+    const isFr = lang === 'fr';
+
+    if (subscribers) {
+      lines.push(isFr ? `- Abonnés chaîne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
+    }
+    if (category) {
+      lines.push(isFr ? `- Catégorie : ${category}` : `- Category: ${category}`);
+    }
+    if (publishDate) {
+      lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
+    }
+    if (keywords) {
+      lines.push(isFr ? `- Mots-clés : ${keywords}` : `- Keywords: ${keywords}`);
+    }
+    if (description) {
+      lines.push(isFr ? `- Description officielle :\n"""\n${description}\n"""` : `- Official Description:\n"""\n${description}\n"""`);
+    }
+
+    if (lines.length === 0) return '';
+
+    const header = isFr ? 'CONTEXTE DE LA VIDÉO & DE LA CHAÎNE :' : 'VIDEO & CHANNEL CONTEXT:';
+    return `${header}\n${lines.join('\n')}\n`;
   }
 
   /**
@@ -3430,11 +3532,15 @@ ${end}`;
       fullSummaryMarkdown = '';
       fullReasoningText = '';
 
+      const currentVideoId = getVideoId();
+      if (!cachedVideoMetadata.description || cachedVideoMetadata.videoId !== currentVideoId) {
+        await requestPlayerDataFromMainWorld(currentVideoId, lang).catch(() => {});
+      }
       const meta = getVideoMetadata();
       const maxAllowedChars = CONTEXT_LIMITS[currentProvider] || 25000;
       const safeTranscript = condenseTranscriptForContext(fullText, maxAllowedChars);
 
-      const { systemPrompt, userPrompt } = buildPrompts(meta.title, meta.author, safeTranscript, lang, mode);
+      const { systemPrompt, userPrompt } = buildPrompts(meta.title, meta.author, safeTranscript, lang, mode, meta);
 
       const currentUrl = serverUrls[currentProvider] || '';
 
@@ -3576,6 +3682,10 @@ ${end}`;
     aiBubble.classList.add('yt-ai-typing');
 
     // 4. Construction du contexte avec échantillonnage adapté au modèle
+    const currentVideoId = getVideoId();
+    if (!cachedVideoMetadata.description || cachedVideoMetadata.videoId !== currentVideoId) {
+      await requestPlayerDataFromMainWorld(currentVideoId, lang).catch(() => {});
+    }
     const meta = getVideoMetadata();
     const maxChars = CONTEXT_LIMITS[currentProvider] || 20000;
     const safeTranscript = condenseTranscriptForContext(cachedTranscript.fullText, maxChars);
@@ -3720,16 +3830,19 @@ ${end}`;
 
 
   function buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode) {
+    const contextBlock = formatContextInfo(meta, lang);
+    const subStr = meta?.subscribers ? ` (${meta.subscribers})` : '';
+
     if (lang === 'en') {
       let lenDir = "Desired length: balanced, natural response, not too long, straight to the point.";
       if (selectedChatMode === 'quick') lenDir = "Desired length: short and concise answer (1-2 short paragraphs), straight to the point.";
       else if (selectedChatMode === 'detailed') lenDir = "Desired length: detailed and comprehensive explanation.";
 
       return `You are an expert AI assistant specializing in clear, natural, and direct oral and written explanations.
-You answer the user's questions about this YouTube video, strictly based on its transcript:
+You answer the user's questions about this YouTube video, strictly based on its transcript and official video context (description, channel information, tags):
 Title: "${meta.title}"
-Channel: "${meta.author}"
-
+Channel: "${meta.author}"${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 Transcript:
 """
 ${safeTranscript}
@@ -3750,7 +3863,7 @@ WRITING GUIDELINES (FOR READING AND AUDIO LISTENING):
    - Break your response into short, readable paragraphs.
    - Leave a blank line between paragraphs.
    - Highlight key terms in **bold** for readability.
-   - 100% faithful to the transcript, no hallucinations.`;
+   - 100% faithful to the transcript and official description, no hallucinations.`;
     }
 
     if (lang === 'es') {
@@ -3759,10 +3872,10 @@ WRITING GUIDELINES (FOR READING AND AUDIO LISTENING):
       else if (selectedChatMode === 'detailed') lenDir = "Longitud deseada: respuesta detallada y completa.";
 
       return `Eres un asistente de IA experto en explicaciones orales y escritas: directas, claras, naturales y agradables de escuchar.
-Respondes a las preguntas del usuario sobre este vídeo de YouTube basándote estrictamente en su transcripción en ESPAÑOL:
+Respondes a las preguntas del usuario sobre este vídeo de YouTube basándote estrictamente en su transcripción y en el contexto oficial (descripción, canal, etiquetas) en ESPAÑOL:
 Título: "${meta.title}"
-Canal: "${meta.author}"
-
+Canal: "${meta.author}"${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 Transcripción:
 """
 ${safeTranscript}
@@ -3781,7 +3894,7 @@ DIRECTRICES DE REDACCIÓN (LECTURA VISUAL Y AUDIO):
    - Divide tu texto en párrafos cortos y fáciles de leer.
    - Deja una línea en blanco entre párrafos.
    - Resalta términos clave en **negrita**.
-   - 100% fiel a la transcripción, sin inventar nada.`;
+   - 100% fiel a la transcripción y a la descripción oficial, sin inventar nada.`;
     }
 
     if (lang === 'de') {
@@ -3790,10 +3903,10 @@ DIRECTRICES DE REDACCIÓN (LECTURA VISUAL Y AUDIO):
       else if (selectedChatMode === 'detailed') lenDir = "Gewünschte Länge: ausführliche und detaillierte Erklärung.";
 
       return `Du bist ein KI-Experte für klare, direkte und natürliche Erklärungen auf DEUTSCH.
-Beantworte die Fragen des Nutzers zu diesem YouTube-Video basierend auf dem Transkript:
+Beantworte die Fragen des Nutzers zu diesem YouTube-Video basierend auf dem Transkript und den offiziellen Video- und Kanalinformationen (Beschreibung, Kanal, Tags):
 Titel: "${meta.title}"
-Kanal: "${meta.author}"
-
+Kanal: "${meta.author}"${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 Transkript:
 """
 ${safeTranscript}
@@ -3810,7 +3923,7 @@ RICHTLINIEN (LESEN UND AUDIO-WIEDERGABE):
 3. LUFTIGE STRUKTUR:
    - Kurze Absätze mit Zeilenumbruch.
    - Wichtige Begriffe in **fett**.
-   - 100% getreu dem Transkript.`;
+   - 100% getreu dem Transkript und der offiziellen Beschreibung.`;
     }
 
     if (lang === 'it') {
@@ -3819,10 +3932,10 @@ RICHTLINIEN (LESEN UND AUDIO-WIEDERGABE):
       else if (selectedChatMode === 'detailed') lenDir = "Lunghezza desiderata: spiegazione dettagliata e approfondita.";
 
       return `Sei un assistente IA esperto in spiegazioni orali e scritte: chiare, naturali, dirette e piacevoli da ascoltare.
-Rispondi alle domande dell'utente su questo video di YouTube basandoti rigorosamente sulla sua trascrizione in ITALIANO:
+Rispondi alle domande dell'utente su questo video di YouTube basandoti rigorosamente sulla sua trascrizione e sul contesto ufficiale del video (descrizione, canale, tag) in ITALIANO:
 Titolo: "${meta.title}"
-Canale: "${meta.author}"
-
+Canale: "${meta.author}"${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 Trascrizione:
 """
 ${safeTranscript}
@@ -3841,7 +3954,7 @@ LINEE GUIDA DI REDAZIONE (LETTURA E ASCOLTO AUDIO):
    - Dividi la risposta in brevi paragrafi facili da leggere.
    - Lascia una riga vuota tra i paragrafi.
    - Evidenzia i termini chiave in **grassetto**.
-   - Fedele al 100% alla trascrizione, senza alcuna allucinazione.`;
+   - Fedele al 100% alla trascrizione e alla descrizione ufficiale, senza alcuna allucinazione.`;
     }
 
     if (lang === 'ru') {
@@ -3850,10 +3963,10 @@ LINEE GUIDA DI REDAZIONE (LETTURA E ASCOLTO AUDIO):
       else if (selectedChatMode === 'detailed') lenDir = "Желаемая длина: подробное, глубокое и развернутое объяснение.";
 
       return `Ты — экспертный ИИ-ассистент, специализирующийся на ясных, естественных и прямых ответах на РУССКОМ языке.
-Отвечай на вопросы пользователя по этому видео YouTube строго на основе его транскрипции:
+Отвечай на вопросы пользователя по этому видео YouTube строго на основе его транскрипции и официального контекста (описание, канал, теги):
 Название: "${meta.title}"
-Канал: "${meta.author}"
-
+Канал: "${meta.author}"${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 Транскрипция:
 """
 ${safeTranscript}
@@ -3871,7 +3984,7 @@ ${safeTranscript}
 3. ЧИТАЕМАЯ СТРУКТУРА:
    - Разделяй текст на короткие абзацы с пустой строкой между ними.
    - Выделяй ключевые слова **жирным шрифтом**.
-   - На 100% точно по транскрипции, ничего не выдумывая.`;
+   - На 100% точно по транскрипции и официальному описанию, ничего не выдумывая.`;
     }
 
     if (lang === 'ja') {
@@ -3880,10 +3993,10 @@ ${safeTranscript}
       else if (selectedChatMode === 'detailed') lenDir = "希望の長さ: 詳細で深い丁寧な解説。";
 
       return `あなたは、明瞭で自然、かつ要点を捉えた日本語の解説を得意とするAIアシスタントです。
-YouTube動画の文字起こしに基づいて、ユーザーの質問に日本語で正確に回答してください：
+YouTube動画の文字起こしおよび公式情報（概要欄・説明文、チャンネル情報、タグ）に基づいて、ユーザーの質問に日本語で正確に回答してください：
 タイトル: "${meta.title}"
-チャンネル: "${meta.author}"
-
+チャンネル: "${meta.author}"${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 文字起こし:
 """
 ${safeTranscript}
@@ -3901,7 +4014,7 @@ ${safeTranscript}
 3. 読みやすい段落分け:
    - 短い段落に分け、段落間に空行を入れてください。
    - 重要なキーワードは **太字** で強調してください。
-   - 文字起こしに100%忠実であり、推測やハルシネーションは含めないでください。`;
+   - 文字起こしおよび公式概要欄に100%忠実であり、推測やハルシネーションは含めないでください。`;
     }
 
     if (lang === 'zh') {
@@ -3910,10 +4023,10 @@ ${safeTranscript}
       else if (selectedChatMode === 'detailed') lenDir = "期望长度：详细深入、全面透彻的展开分析。";
 
       return `你是一名专业的 AI 助理，擅长生成清晰自然、直击要点的中文口语与书面解答。
-请严格基于该 YouTube 视频的字幕逐字稿，回答用户的问题：
+请严格基于该 YouTube 视频的字幕逐字稿及官方背景信息（官方视频简介、频道信息、标签），回答用户的问题：
 标题: "${meta.title}"
-频道: "${meta.author}"
-
+频道: "${meta.author}"${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 视频逐字稿:
 """
 ${safeTranscript}
@@ -3931,7 +4044,7 @@ ${safeTranscript}
 3. 清爽结构：
    - 切分成短小易读的段落，段落之间空一行。
    - 核心关键词用 **加粗** 突出显示。
-   - 100% 忠实于逐字稿，严禁虚构与幻觉。`;
+   - 100% 忠实于逐字稿与官方简介，严禁虚构与幻觉。`;
     }
 
     // Français par défaut
@@ -3943,10 +4056,10 @@ ${safeTranscript}
     }
 
     return `Tu es un assistant IA expert en explications orales et écrites : directes, claires, naturelles et agréables à écouter.
-Tu réponds aux questions de l'utilisateur sur la vidéo YouTube en t'appuyant rigoureusement sur sa transcription :
+Tu réponds aux questions de l'utilisateur sur la vidéo YouTube en t'appuyant rigoureusement sur sa transcription et sur le contexte officiel fourni (description officielle de la vidéo, chaîne, catégorie, mots-clés) :
 Titre : "${meta.title}"
-Chaîne : "${meta.author}"
-
+Chaîne : "${meta.author}"${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 Transcription de la vidéo :
 """
 ${safeTranscript}
@@ -3967,13 +4080,16 @@ DIRECTIVES DE RÉDACTION (CONFORT VISUEL ET ÉCOUTE AUDIO) :
    - Découpe ton texte en courts paragraphes faciles à lire.
    - Saute une ligne entre chaque paragraphe.
    - Mets en **gras** les quelques termes clés importants pour faciliter la lecture rapide.
-   - 100% fidèle à la transcription, sans rien inventer.`;
+   - 100% fidèle à la transcription et à la description officielle, sans rien inventer.`;
   }
 
 
-  function buildPrompts(title, author, safeTranscript, lang, mode) {
+  function buildPrompts(title, author, safeTranscript, lang, mode, meta = null) {
     let systemPrompt = '';
     let userPrompt = '';
+    const resolvedMeta = meta || { title, author };
+    const contextBlock = formatContextInfo(resolvedMeta, lang);
+    const subStr = resolvedMeta?.subscribers ? ` (${resolvedMeta.subscribers})` : '';
 
     if (lang === 'en') {
       systemPrompt = `You are an expert AI assistant specializing in video summarization and insights.
@@ -4028,8 +4144,8 @@ STYLE RULES:
       }
 
       userPrompt = `Title: "${title}"
-Channel: ${author}
-
+Channel: ${author}${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 ${formatInstructions}
 
 Transcript:
@@ -4089,8 +4205,8 @@ REGLAS DE ESTILO:
       }
 
       userPrompt = `Título: "${title}"
-Canal: ${author}
-
+Canal: ${author}${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 ${formatInstructions}
 
 Transcripción:
@@ -4150,8 +4266,8 @@ STILRICHTLINIEN:
       }
 
       userPrompt = `Titel: "${title}"
-Kanal: ${author}
-
+Kanal: ${author}${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 ${formatInstructions}
 
 Transkript:
@@ -4211,8 +4327,8 @@ REGOLE DI STILE:
       }
 
       userPrompt = `Titolo: "${title}"
-Canale: ${author}
-
+Canale: ${author}${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 ${formatInstructions}
 
 Trascrizione:
@@ -4272,8 +4388,8 @@ ${safeTranscript}
       }
 
       userPrompt = `Название: "${title}"
-Канал: ${author}
-
+Канал: ${author}${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 ${formatInstructions}
 
 Транскрипция:
@@ -4333,8 +4449,8 @@ ${safeTranscript}
       }
 
       userPrompt = `タイトル: "${title}"
-チャンネル: ${author}
-
+チャンネル: ${author}${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 ${formatInstructions}
 
 文字起こし:
@@ -4394,8 +4510,8 @@ ${safeTranscript}
       }
 
       userPrompt = `标题: "${title}"
-频道: ${author}
-
+频道: ${author}${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 ${formatInstructions}
 
 视频逐字稿:
@@ -4456,8 +4572,8 @@ RÈGLES DE STYLE :
       }
 
       userPrompt = `Titre : "${title}"
-Chaîne : ${author}
-
+Chaîne : ${author}${subStr}
+${contextBlock ? `\n${contextBlock}` : ''}
 ${formatInstructions}
 
 Transcription :

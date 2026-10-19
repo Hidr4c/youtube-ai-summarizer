@@ -2,11 +2,18 @@
  * Entity representing current YouTube video metadata
  */
 export class VideoMetadata {
-  constructor(videoId = '', title = '', author = '', url = '') {
+  constructor(videoId = '', title = '', author = '', url = '', extra = {}) {
     this.videoId = String(videoId || '').trim();
     this.title = String(title || '').trim();
     this.author = String(author || '').trim();
     this.url = String(url || '').trim();
+    this.subscribers = String(extra?.subscribers || '').trim();
+    this.description = String(extra?.description || '').trim();
+    this.keywords = Array.isArray(extra?.keywords) ? extra.keywords : [];
+    this.category = String(extra?.category || '').trim();
+    this.publishDate = String(extra?.publishDate || '').trim();
+    this.viewCount = String(extra?.viewCount || '').trim();
+    this.channelId = String(extra?.channelId || '').trim();
   }
 
   /**
