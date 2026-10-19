@@ -3266,162 +3266,6 @@
       }
       return null;
     }
-    function isNativeTranscriptPanelVisible() {
-      const segs = document.querySelectorAll(
-        'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"]'
-      );
-      if (segs && segs.length > 3) return true;
-      const panels = document.querySelectorAll(
-        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"], ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
-      );
-      for (const panel of panels) {
-        const vis = panel.getAttribute("visibility");
-        if (vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED") {
-          return true;
-        }
-        if (vis !== "ENGAGEMENT_PANEL_VISIBILITY_HIDDEN" && !panel.hasAttribute("hidden") && panel.offsetParent !== null && panel.offsetHeight > 100) {
-          return true;
-        }
-      }
-      return false;
-    }
-    function isDescriptionExpanded() {
-      const expandDesc = document.querySelector(
-        "tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand"
-      );
-      return !expandDesc || expandDesc.offsetParent === null || expandDesc.hidden;
-    }
-    function collapseDescription() {
-      const collapseBtn = document.querySelector(
-        "tp-yt-paper-button#collapse, #collapse.ytd-text-inline-expander, #description-inline-expander #collapse"
-      );
-      if (collapseBtn && collapseBtn.offsetParent !== null) {
-        collapseBtn.click();
-      }
-    }
-    function closeNativeTranscriptPanel() {
-      const panels = document.querySelectorAll(
-        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"], ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
-      );
-      for (const panel of panels) {
-        const closeBtn = panel.querySelector(
-          '#visibility-button button, button[aria-label*="Fermer" i], button[aria-label*="Close" i], yt-button-shape button'
-        );
-        if (closeBtn) {
-          closeBtn.click();
-        }
-        panel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_HIDDEN");
-      }
-    }
-    async function ensureTranscriptTabActive(targetPanel) {
-      const panel = targetPanel || document.querySelector(
-        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"], ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
-      );
-      if (!panel) return false;
-      if (panel.querySelectorAll("transcript-segment-view-model, ytd-transcript-segment-renderer").length > 3) {
-        return true;
-      }
-      const candidates = panel.querySelectorAll(
-        'button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer, yt-formatted-string'
-      );
-      for (const el of candidates) {
-        const text = (el.textContent || "").trim().toLowerCase();
-        const aria = (el.getAttribute("aria-label") || "").trim().toLowerCase();
-        if (text === "transcription" || text === "transcript" || aria === "transcription" || aria === "transcript") {
-          const clickable = el.closest('button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer') || el;
-          clickable.click();
-          return true;
-        }
-      }
-      return false;
-    }
-    async function triggerNativeTranscriptLoad() {
-      const directBtn = document.querySelector(
-        'ytd-video-description-transcript-section-renderer button, button[aria-label*="transcription" i], button[aria-label*="transcript" i]'
-      );
-      if (directBtn) {
-        directBtn.click();
-        return true;
-      }
-      const expandDesc = document.querySelector(
-        "tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand"
-      );
-      if (expandDesc && expandDesc.offsetParent !== null) {
-        expandDesc.click();
-        await new Promise((r) => setTimeout(r, 200));
-      }
-      const afterExpandBtn = document.querySelector(
-        'ytd-video-description-transcript-section-renderer button, button[aria-label*="transcription" i], button[aria-label*="transcript" i]'
-      );
-      if (afterExpandBtn) {
-        afterExpandBtn.click();
-        return true;
-      }
-      const markersBtn = document.querySelector(
-        'ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"], button[aria-label*="chapitre" i], button[aria-label*="chapter" i]'
-      );
-      if (markersBtn) {
-        markersBtn.click();
-        await new Promise((r) => setTimeout(r, 200));
-        await ensureTranscriptTabActive();
-        return true;
-      }
-      const hiddenPanel = document.querySelector(
-        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]'
-      );
-      if (hiddenPanel) {
-        hiddenPanel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED");
-        if (typeof hiddenPanel.show === "function") hiddenPanel.show();
-        await new Promise((r) => setTimeout(r, 150));
-        await ensureTranscriptTabActive(hiddenPanel);
-        return true;
-      }
-      return false;
-    }
-    async function triggerStealthNativeTranscript() {
-      let stealthStyle = document.getElementById("yt-ai-stealth-style");
-      if (!stealthStyle) {
-        stealthStyle = document.createElement("style");
-        stealthStyle.id = "yt-ai-stealth-style";
-        stealthStyle.textContent = `
-        ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"],
-        ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"],
-        ytd-engagement-panel-section-list-renderer[target-id*="transcript"],
-        ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"] {
-          opacity: 0 !important;
-          pointer-events: none !important;
-          position: fixed !important;
-          left: -9999px !important;
-          top: -9999px !important;
-          width: 1px !important;
-          height: 1px !important;
-          overflow: hidden !important;
-          z-index: -9999 !important;
-        }
-      `;
-        document.head.appendChild(stealthStyle);
-      }
-      try {
-        const triggered = await triggerNativeTranscriptLoad();
-        if (!triggered) return null;
-        let segments = null;
-        for (let i = 0; i < 20; i++) {
-          await new Promise((r) => setTimeout(r, 150));
-          await ensureTranscriptTabActive();
-          segments = extractTranscriptFromActiveDOM();
-          if (segments && segments.length > 3) break;
-        }
-        closeNativeTranscriptPanel();
-        collapseDescription();
-        return segments;
-      } catch (_) {
-        return null;
-      } finally {
-        if (stealthStyle && stealthStyle.parentNode) {
-          stealthStyle.parentNode.removeChild(stealthStyle);
-        }
-      }
-    }
     async function extractYouTubeTranscript(preferredLang = "en") {
       const currentVideoId = getVideoId();
       if (cachedTranscript.videoId === currentVideoId && cachedTranscript.segments.length > 0) {
@@ -3431,17 +3275,6 @@
       if (domSegments && domSegments.length > 3) {
         saveCachedTranscript(currentVideoId, domSegments);
         return domSegments;
-      }
-      if (isNativeTranscriptPanelVisible()) {
-        await ensureTranscriptTabActive();
-        for (let i = 0; i < 8; i++) {
-          await new Promise((r) => setTimeout(r, 100));
-          domSegments = extractTranscriptFromActiveDOM();
-          if (domSegments && domSegments.length > 3) {
-            saveCachedTranscript(currentVideoId, domSegments);
-            return domSegments;
-          }
-        }
       }
       const playerData = await requestPlayerDataFromMainWorld(currentVideoId, preferredLang);
       if (playerData && Array.isArray(playerData.segments) && playerData.segments.length > 3) {
@@ -3460,16 +3293,6 @@
             return segments;
           }
         }
-      }
-      const stealthSegments = await triggerStealthNativeTranscript();
-      if (stealthSegments && stealthSegments.length > 3) {
-        saveCachedTranscript(currentVideoId, stealthSegments);
-        return stealthSegments;
-      }
-      domSegments = extractTranscriptFromActiveDOM();
-      if (domSegments && domSegments.length > 3) {
-        saveCachedTranscript(currentVideoId, domSegments);
-        return domSegments;
       }
       return null;
     }

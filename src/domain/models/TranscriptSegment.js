@@ -11,6 +11,7 @@ export class TranscriptSegment {
     this.startMs = Number(startMs) || 0;
     this.durationMs = Number(durationMs) || 0;
     this.text = String(text || '').trim();
+    this.timestamp = this.formatTime();
   }
 
   /**

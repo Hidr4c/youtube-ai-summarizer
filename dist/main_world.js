@@ -95,71 +95,6 @@
     }
   };
 
-  // src/injected/YouTubeContextExtractor.js
-  var YouTubeContextExtractor = class {
-    constructor() {
-      this.setupListeners();
-    }
-    setupListeners() {
-      window.addEventListener("message", async (event) => {
-        if (event.source !== window || !event.data) return;
-        if (event.data.type === "YT_AI_REQUEST_TRANSCRIPT") {
-          const videoId = event.data.videoId;
-          const result = await this.extractTranscript(videoId);
-          window.postMessage({
-            type: "YT_AI_TRANSCRIPT_RESULT",
-            videoId,
-            segments: result?.segments || null,
-            fullText: result?.fullText || null,
-            error: result?.error || null
-          }, "*");
-        }
-      });
-    }
-    /**
-     * Attempts extraction from page globals
-     * @param {string} videoId
-     */
-    async extractTranscript(videoId) {
-      try {
-        const pr = window.ytInitialPlayerResponse;
-        const tracks = pr?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
-        if (Array.isArray(tracks) && tracks.length > 0) {
-          const track = tracks.find((t) => t.languageCode === "en") || tracks[0];
-          if (track && track.baseUrl) {
-            const res = await fetch(`${track.baseUrl}&fmt=json3`);
-            if (res.ok) {
-              const json = await res.json();
-              const segments = [];
-              for (const ev of json.events || []) {
-                if (ev.segs) {
-                  const text = ev.segs.map((s) => s.utf8 || "").join("").trim();
-                  if (text) {
-                    const ms = ev.tStartMs || ev.tOffsetMs || 0;
-                    segments.push({ timestamp: InnerTubeParser.formatMs(ms), text });
-                  }
-                }
-              }
-              if (segments.length > 0) {
-                return { segments, fullText: segments.map((s) => s.text).join(" ") };
-              }
-            }
-          }
-        }
-      } catch {
-      }
-      try {
-        const data = window.ytInitialData;
-        const segments = InnerTubeParser.extractSegmentsFromInnerTubeJson(data);
-        if (segments && segments.length > 0) {
-          return { segments, fullText: segments.map((s) => s.text).join(" ") };
-        }
-      } catch {
-      }
-      return { error: "No transcript found in page context" };
-    }
-  };
-
   // src/domain/models/TranscriptSegment.js
   var TranscriptSegment = class {
     /**
@@ -171,6 +106,7 @@
       this.startMs = Number(startMs) || 0;
       this.durationMs = Number(durationMs) || 0;
       this.text = String(text || "").trim();
+      this.timestamp = this.formatTime();
     }
     /**
      * Formats start time into m:ss or h:mm:ss format
@@ -209,6 +145,314 @@
         segments.push(new TranscriptSegment(startMs, durationMs, cleanText));
       }
       return segments;
+    }
+    /**
+     * Parses standard XML or TTML string into TranscriptSegment list
+     * @param {string} xmlStr
+     * @returns {Array<TranscriptSegment>}
+     */
+    static parseTimedtextXml(xmlStr) {
+      if (!xmlStr || typeof xmlStr !== "string") return [];
+      try {
+        if (typeof DOMParser === "undefined") return [];
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(xmlStr, "text/xml");
+        const textNodes = Array.from(doc.querySelectorAll("text"));
+        if (textNodes.length > 3) {
+          return textNodes.map((n) => {
+            const sec = parseFloat(n.getAttribute("start") || "0");
+            const dur = parseFloat(n.getAttribute("dur") || "0");
+            const text = TextCleaner.cleanTranscriptText(n.textContent || "");
+            return new TranscriptSegment(Math.round(sec * 1e3), Math.round(dur * 1e3), text);
+          }).filter((s) => s.text.length > 0);
+        }
+        const pNodes = Array.from(doc.querySelectorAll("p"));
+        if (pNodes.length > 3) {
+          return pNodes.map((p) => {
+            const tAttr = p.getAttribute("t");
+            const dAttr = p.getAttribute("d");
+            const startMs = tAttr ? parseInt(tAttr, 10) : Math.round(parseFloat(p.getAttribute("begin") || "0") * 1e3);
+            const durMs = dAttr ? parseInt(dAttr, 10) : 0;
+            const text = TextCleaner.cleanTranscriptText(p.textContent || "");
+            return new TranscriptSegment(startMs, durMs, text);
+          }).filter((s) => s.text.length > 0);
+        }
+      } catch (_) {
+      }
+      return [];
+    }
+  };
+
+  // src/injected/YouTubeContextExtractor.js
+  var YouTubeContextExtractor = class {
+    constructor() {
+      this.activeSpeechRecognition = null;
+      this.setupListeners();
+    }
+    setupListeners() {
+      window.addEventListener("message", async (event) => {
+        if (event.source !== window || !event.data) return;
+        if (event.data.type === "YT_AI_START_SPEECH") {
+          this.startSpeechRecognition(event.data.lang || "en-US");
+          return;
+        }
+        if (event.data.type === "YT_AI_STOP_SPEECH") {
+          this.stopSpeechRecognition();
+          return;
+        }
+        if (event.data.type === "YT_AI_REQ_PLAYER_DATA") {
+          const videoId = event.data.videoId || "";
+          const preferredLang = event.data.preferredLang || "en";
+          await this.handlePlayerDataRequest(videoId, preferredLang);
+          return;
+        }
+        if (event.data.type === "YT_AI_REQUEST_TRANSCRIPT") {
+          const videoId = event.data.videoId;
+          const result = await this.extractTranscript(videoId);
+          window.postMessage({
+            type: "YT_AI_TRANSCRIPT_RESULT",
+            videoId,
+            segments: result?.segments || null,
+            fullText: result?.fullText || null,
+            error: result?.error || null
+          }, "*");
+        }
+      });
+    }
+    /**
+     * Handles in-memory player data and transcript extraction
+     */
+    async handlePlayerDataRequest(requestedVideoId, preferredLang) {
+      try {
+        let playerResponse = null;
+        let player = document.getElementById("movie_player");
+        try {
+          player?.loadModule?.("captions");
+        } catch (_) {
+        }
+        for (let attempt = 0; attempt < 5; attempt++) {
+          player = document.getElementById("movie_player");
+          if (player && typeof player.getPlayerResponse === "function") {
+            const resp = player.getPlayerResponse();
+            const activeId2 = player.getVideoData?.()?.video_id || resp?.videoDetails?.videoId;
+            if (!requestedVideoId || activeId2 === requestedVideoId) {
+              playerResponse = resp;
+              if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks) break;
+            }
+          }
+          if (window.ytInitialPlayerResponse) {
+            const initId = window.ytInitialPlayerResponse?.videoDetails?.videoId;
+            if (!requestedVideoId || initId === requestedVideoId) {
+              if (!playerResponse || !playerResponse.captions && window.ytInitialPlayerResponse.captions) {
+                playerResponse = window.ytInitialPlayerResponse;
+                if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks) break;
+              }
+            }
+          }
+          const flexy = document.querySelector("ytd-watch-flexy");
+          const flexyData = flexy?.playerData || flexy?.data;
+          if (flexyData) {
+            const fId = flexyData?.videoDetails?.videoId;
+            if (!requestedVideoId || fId === requestedVideoId) {
+              if (!playerResponse || !playerResponse.captions && flexyData.captions) {
+                playerResponse = flexyData;
+                if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks) break;
+              }
+            }
+          }
+          await new Promise((r) => setTimeout(r, 100));
+        }
+        let activeId = "";
+        if (player && typeof player.getVideoData === "function") {
+          activeId = player.getVideoData()?.video_id || "";
+        }
+        if (!playerResponse) {
+          player = document.getElementById("movie_player");
+          playerResponse = player && typeof player.getPlayerResponse === "function" ? player.getPlayerResponse() : window.ytInitialPlayerResponse;
+        }
+        const captions = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || window.ytInitialPlayerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
+        const videoDetails = playerResponse?.videoDetails || window.ytInitialPlayerResponse?.videoDetails || {};
+        let directSegments = null;
+        if (captions && captions.length > 0) {
+          let track = captions.find((t) => t.languageCode === preferredLang);
+          if (!track) track = captions.find((t) => t.languageCode?.startsWith(preferredLang));
+          if (!track) track = captions.find((t) => t.languageCode === "en" || t.languageCode?.startsWith("en"));
+          if (!track) track = captions[0];
+          if (track && track.baseUrl) {
+            directSegments = await this.fetchTrackSegments(track.baseUrl);
+          }
+        }
+        if (!directSegments || directSegments.length === 0) {
+          const transcriptParams = this.findTranscriptParams(requestedVideoId || activeId);
+          if (transcriptParams) {
+            directSegments = await this.fetchTranscriptFromInnerTube(transcriptParams);
+          }
+        }
+        if (!directSegments || directSegments.length === 0) {
+          directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData);
+        }
+        window.postMessage({
+          type: "YT_AI_RES_PLAYER_DATA",
+          success: true,
+          hasCaptions: directSegments && directSegments.length > 0 || captions && captions.length > 0,
+          segments: directSegments || null,
+          captions: JSON.parse(JSON.stringify(captions || [])),
+          title: videoDetails.title || document.title.replace(" - YouTube", "").trim(),
+          author: videoDetails.author || "",
+          videoId: videoDetails.videoId || requestedVideoId || activeId
+        }, "*");
+      } catch (err) {
+        window.postMessage({
+          type: "YT_AI_RES_PLAYER_DATA",
+          success: false,
+          error: err.message,
+          captions: [],
+          segments: null
+        }, "*");
+      }
+    }
+    /**
+     * Fetches timedtext segments in memory
+     */
+    async fetchTrackSegments(baseUrl) {
+      if (!baseUrl) return null;
+      try {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 3500);
+        const jsonUrl = baseUrl + (baseUrl.includes("?") ? "&" : "?") + "fmt=json3";
+        const res = await fetch(jsonUrl, { credentials: "include", signal: controller.signal });
+        clearTimeout(timer);
+        if (res.ok) {
+          const raw = await res.text();
+          if (raw && raw.trim().startsWith("{")) {
+            const json = JSON.parse(raw);
+            const segs = TimedtextParser.parseTimedtextEvents(json?.events);
+            if (segs && segs.length > 3) return segs;
+          }
+        }
+      } catch (_) {
+      }
+      try {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 3500);
+        const res = await fetch(baseUrl, { credentials: "include", signal: controller.signal });
+        clearTimeout(timer);
+        if (res.ok) {
+          const raw = await res.text();
+          if (raw && raw.trim().startsWith("{")) {
+            const json = JSON.parse(raw);
+            const segs = TimedtextParser.parseTimedtextEvents(json?.events);
+            if (segs && segs.length > 3) return segs;
+          } else if (raw && (raw.includes("<transcript") || raw.includes("<tt") || raw.includes("<text"))) {
+            const segs = TimedtextParser.parseTimedtextXml(raw);
+            if (segs && segs.length > 3) return segs;
+          }
+        }
+      } catch (_) {
+      }
+      return null;
+    }
+    /**
+     * Finds transcript params in YouTube memory structures
+     */
+    findTranscriptParams(requestedVideoId) {
+      try {
+        let searchParams = function(obj, depth = 0) {
+          if (!obj || depth > 10) return null;
+          if (typeof obj !== "object") return null;
+          if (obj.getTranscriptEndpoint && typeof obj.getTranscriptEndpoint.params === "string") {
+            return obj.getTranscriptEndpoint.params;
+          }
+          const keys = Array.isArray(obj) ? null : Object.keys(obj);
+          const list = keys || obj;
+          for (let i = 0; i < list.length; i++) {
+            const k = keys ? keys[i] : i;
+            if (k === "polymerController" || k === "__shady" || k === "host" || k === "__events") continue;
+            const val = obj[k];
+            if (val && typeof val === "object") {
+              const res = searchParams(val, depth + 1);
+              if (res) return res;
+            }
+          }
+          return null;
+        };
+        const flexy = document.querySelector("ytd-watch-flexy");
+        const flexyData = flexy?.data || flexy?.playerData;
+        if (flexyData) {
+          const p = searchParams(flexyData);
+          if (p) return p;
+        }
+        if (window.ytInitialData) {
+          const p = searchParams(window.ytInitialData);
+          if (p) return p;
+        }
+      } catch (_) {
+      }
+      return null;
+    }
+    /**
+     * Fetches transcript via YouTube InnerTube API 100% in background
+     */
+    async fetchTranscriptFromInnerTube(params) {
+      if (!params) return null;
+      try {
+        const apiKey = window.ytcfg?.get?.("INNERTUBE_API_KEY");
+        const context = window.ytcfg?.get?.("INNERTUBE_CONTEXT");
+        if (!apiKey || !context) return null;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 4e3);
+        const res = await fetch(`https://www.youtube.com/youtubei/v1/get_transcript?key=${apiKey}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ context, params }),
+          credentials: "include",
+          signal: controller.signal
+        }).catch(() => null);
+        clearTimeout(timer);
+        if (!res || !res.ok) return null;
+        const json = await res.json().catch(() => null);
+        return InnerTubeParser.extractSegmentsFromInnerTubeJson(json);
+      } catch (_) {
+      }
+      return null;
+    }
+    startSpeechRecognition(lang) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        window.postMessage({ type: "YT_AI_SPEECH_ERROR", error: "not-supported" }, "*");
+        return;
+      }
+      this.stopSpeechRecognition();
+      try {
+        this.activeSpeechRecognition = new SpeechRecognition();
+        this.activeSpeechRecognition.lang = lang;
+        this.activeSpeechRecognition.continuous = true;
+        this.activeSpeechRecognition.interimResults = true;
+        this.activeSpeechRecognition.onstart = () => window.postMessage({ type: "YT_AI_SPEECH_STARTED" }, "*");
+        this.activeSpeechRecognition.onresult = (e) => {
+          let interimText = "";
+          let finalText = "";
+          for (let i = 0; i < e.results.length; i++) {
+            if (e.results[i].isFinal) finalText += e.results[i][0].transcript + " ";
+            else interimText += e.results[i][0].transcript;
+          }
+          window.postMessage({ type: "YT_AI_SPEECH_RESULT", finalText, interimText }, "*");
+        };
+        this.activeSpeechRecognition.onerror = (e) => window.postMessage({ type: "YT_AI_SPEECH_ERROR", error: e.error }, "*");
+        this.activeSpeechRecognition.onend = () => window.postMessage({ type: "YT_AI_SPEECH_ENDED" }, "*");
+        this.activeSpeechRecognition.start();
+      } catch (err) {
+        window.postMessage({ type: "YT_AI_SPEECH_ERROR", error: err.message || "start-failed" }, "*");
+      }
+    }
+    stopSpeechRecognition() {
+      if (this.activeSpeechRecognition) {
+        try {
+          this.activeSpeechRecognition.stop();
+        } catch (_) {
+        }
+        this.activeSpeechRecognition = null;
+      }
     }
   };
 
