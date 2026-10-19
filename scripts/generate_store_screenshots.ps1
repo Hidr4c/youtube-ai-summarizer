@@ -12,7 +12,7 @@ if (-not (Test-Path $edge)) {
   throw "Microsoft Edge not found at $edge"
 }
 
-$css = [System.IO.File]::ReadAllText("$repoRoot\content.css", [System.Text.Encoding]::UTF8)
+$css = [System.IO.File]::ReadAllText("$repoRoot\dist\content.css", [System.Text.Encoding]::UTF8)
 
 $screens = @(
   @{
@@ -42,7 +42,7 @@ foreach ($s in $screens) {
   $html = [System.IO.File]::ReadAllText($s.template, [System.Text.Encoding]::UTF8)
   
   # Ensure content.css is inlined so Edge headless renders with 100% fidelity without subresource restrictions
-  $inlined = $html -replace '<link rel="stylesheet" href="../../content.css">', "<style>`n$css`n</style>"
+  $inlined = $html -replace '<link rel="stylesheet" href="\.\./\.\./(?:dist/)?content\.css">', "<style>`n$css`n</style>"
   
   $tempHtml = "$storeDir\templates\_temp_render.html"
   [System.IO.File]::WriteAllText($tempHtml, $inlined, [System.Text.Encoding]::UTF8)

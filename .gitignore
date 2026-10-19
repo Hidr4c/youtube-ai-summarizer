@@ -28,6 +28,11 @@ yarn-error.log*
 node_modules/
 
 # Local deployment & release scripts
+scripts/deploy.ps1
+scripts/deploy.bat
+scripts/deploy.sh
+scripts/package-zip.bat
+scripts/deploy-github.bat
 deploy.ps1
 deploy.bat
 deploy.sh

@@ -5,11 +5,11 @@
   "main": "dist/background.js",
   "type": "module",
   "scripts": {
-    "build": "node build.js",
+    "build": "node scripts/build.js",
     "test": "node --test --experimental-test-coverage tests/**/*.test.js",
     "coverage": "node --test --experimental-test-coverage tests/**/*.test.js",
     "check": "node --check dist/content.js dist/background.js dist/main_world.js dist/popup.js",
-    "package": "node build.js && powershell -Command \"Compress-Archive -Path manifest.json, dist, content.css, popup.html, popup.css, README.md, LICENSE, PRIVACY.md, icons -DestinationPath youtube-summarizer-ai-v1.3.0.zip -Force\""
+    "package": "node scripts/build.js && powershell -Command \"Compress-Archive -Path manifest.json, dist, icons, README.md, LICENSE, docs -DestinationPath youtube-summarizer-ai-v1.3.0.zip -Force\""
   },
   "repository": {
     "type": "git",

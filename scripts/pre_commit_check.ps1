@@ -55,7 +55,7 @@ if ($testFilesInsideSrc.Count -gt 0) {
 
 # 3. Compile bundles via esbuild
 Write-Host "`n[3/5] Building distribution bundles via esbuild..." -ForegroundColor Yellow
-node build.js
+npm run build
 if ($LASTEXITCODE -ne 0) {
     Write-Host "  [FAIL] esbuild compilation failed." -ForegroundColor Red
     exit 1

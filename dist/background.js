@@ -797,7 +797,7 @@
               });
               chrome.scripting.insertCSS({
                 target: { tabId: tab.id },
-                files: ["content.css"]
+                files: ["dist/content.css"]
               }).catch(() => {
               });
             }

@@ -22,6 +22,12 @@ jobs:
         with:
           node-version: 22.x
 
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile Extension Bundles
+        run: npm run build
+
       - name: Run Test Suite
         run: npm test
 
@@ -31,17 +37,11 @@ jobs:
           ZIP_NAME="youtube-summarizer-ai-${GITHUB_REF_NAME}.zip"
           zip -r "$ZIP_NAME" \
             manifest.json \
-            background.js \
-            content.js \
-            content.css \
-            main_world.js \
-            popup.html \
-            popup.js \
-            popup.css \
+            dist/ \
+            icons/ \
+            docs/ \
             README.md \
-            LICENSE \
-            PRIVACY.md \
-            icons/
+            LICENSE
           echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
           echo "Package created: $ZIP_NAME"
 

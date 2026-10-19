@@ -233,7 +233,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
 
   // 7. REGRESSION: YouTube Theme Adaptation (Dark & Light Mode Support)
   await suite.test('Theme Adaptation: CSS variables and dynamic observer for dark/light YouTube parity', () => {
-    const cssSrc = fs.readFileSync(path.join(rootDir, 'content.css'), 'utf-8');
+    const cssSrc = fs.readFileSync(path.join(rootDir, 'src/content/content.css'), 'utf-8');
     const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
 
     // CSS Theme variables definitions

@@ -76,7 +76,7 @@ Works **100% locally and offline** with your own hardware (**LM Studio**, **Olla
 
 - **No telemetry or data tracking** : 100% open-source, inspectable code.
 - **Secure local storage** : Your API keys, model selections, and custom preferences stay strictly within your browser's `chrome.storage.local`.
-- Read our full [Privacy Policy](PRIVACY.md).
+- Read our full [Privacy Policy](docs/PRIVACY.md).
 
 ---
 
@@ -104,7 +104,7 @@ npm run check
 
 ## 🤝 Contributing
 
-Contributions, bug reports, and suggestions are welcome! Please check our [Contributing Guide](CONTRIBUTING.md) for details on code style and pull requests.
+Contributions, bug reports, and suggestions are welcome! Please check our [Contributing Guide](docs/CONTRIBUTING.md) for details on code style and pull requests.
 
 - 🐛 **Report a bug** : [Open an Issue](https://github.com/Hidr4c/youtube-ai-summarizer/issues)
 - ⭐ **Star the repository** : If you find this extension useful, consider giving it a star on GitHub!

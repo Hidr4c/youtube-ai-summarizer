@@ -1,5 +1,6 @@
 import { InnerTubeParser } from '../parsers/InnerTubeParser.js';
 import { TimedtextParser } from '../parsers/TimedtextParser.js';
+import { SpeechRecognitionBridge } from './SpeechRecognitionBridge.js';
 
 /**
  * YouTube Main World context extractor
@@ -8,7 +9,7 @@ import { TimedtextParser } from '../parsers/TimedtextParser.js';
  */
 export class YouTubeContextExtractor {
   constructor() {
-    this.activeSpeechRecognition = null;
+    this.speechBridge = new SpeechRecognitionBridge();
     this.setupListeners();
   }
 
@@ -18,12 +19,12 @@ export class YouTubeContextExtractor {
 
       // 1. Microphone speech recognition handling in Main World
       if (event.data.type === 'YT_AI_START_SPEECH') {
-        this.startSpeechRecognition(event.data.lang || 'en-US');
+        this.speechBridge.start(event.data.lang || 'en-US');
         return;
       }
 
       if (event.data.type === 'YT_AI_STOP_SPEECH') {
-        this.stopSpeechRecognition();
+        this.speechBridge.stop();
         return;
       }
 
@@ -315,44 +316,6 @@ export class YouTubeContextExtractor {
       const json = await res.json().catch(() => null);
       return InnerTubeParser.extractSegmentsFromInnerTubeJson(json);
     } catch (_) {}
-    return null;
-  }
-
-  startSpeechRecognition(lang) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      window.postMessage({ type: 'YT_AI_SPEECH_ERROR', error: 'not-supported' }, '*');
-      return;
-    }
-    this.stopSpeechRecognition();
-    try {
-      this.activeSpeechRecognition = new SpeechRecognition();
-      this.activeSpeechRecognition.lang = lang;
-      this.activeSpeechRecognition.continuous = true;
-      this.activeSpeechRecognition.interimResults = true;
-      this.activeSpeechRecognition.onstart = () => window.postMessage({ type: 'YT_AI_SPEECH_STARTED' }, '*');
-      this.activeSpeechRecognition.onresult = (e) => {
-        let interimText = '';
-        let finalText = '';
-        for (let i = 0; i < e.results.length; i++) {
-          if (e.results[i].isFinal) finalText += e.results[i][0].transcript + ' ';
-          else interimText += e.results[i][0].transcript;
-        }
-        window.postMessage({ type: 'YT_AI_SPEECH_RESULT', finalText, interimText }, '*');
-      };
-      this.activeSpeechRecognition.onerror = (e) => window.postMessage({ type: 'YT_AI_SPEECH_ERROR', error: e.error }, '*');
-      this.activeSpeechRecognition.onend = () => window.postMessage({ type: 'YT_AI_SPEECH_ENDED' }, '*');
-      this.activeSpeechRecognition.start();
-    } catch (err) {
-      window.postMessage({ type: 'YT_AI_SPEECH_ERROR', error: err.message || 'start-failed' }, '*');
-    }
-  }
-
-  stopSpeechRecognition() {
-    if (this.activeSpeechRecognition) {
-      try { this.activeSpeechRecognition.stop(); } catch (_) {}
-      this.activeSpeechRecognition = null;
-    }
   }
 }
 

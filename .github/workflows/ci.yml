@@ -47,9 +47,12 @@ jobs:
           test -f dist/content.js
           test -f dist/main_world.js
           test -f dist/popup.js
-          test -f content.css
-          test -f popup.html
-          test -f popup.css
+          test -f dist/content.css
+          test -f dist/popup.html
+          test -f dist/popup.css
+          test -f src/content/content.css
+          test -f src/popup/popup.html
+          test -f src/popup/popup.css
           test -d icons
           test -f icons/icon128.png
           echo "All required extension files and dist bundles exist."
