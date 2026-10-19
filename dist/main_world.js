@@ -492,26 +492,27 @@
         const fId = flexyData?.videoDetails?.videoId;
         if (!requestedVideoId || fId === requestedVideoId) return flexyData;
       }
-      return window.ytInitialPlayerResponse || null;
+      return requestedVideoId ? null : window.ytInitialPlayerResponse || null;
     }
-    resolveCaptionTracks(playerResponse) {
-      let captions = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || window.ytInitialPlayerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
+    resolveCaptionTracks(playerResponse, requestedVideoId) {
+      let captions = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
       if (!captions || captions.length === 0) {
         const player = document.getElementById("movie_player");
-        if (player && typeof player.getOption === "function") {
-          try {
-            const pt = player.getOption("captions", "tracklist");
-            if (Array.isArray(pt) && pt.length > 0) captions = pt;
-          } catch (_) {
+        const activeId = player?.getVideoData?.()?.video_id;
+        if (!requestedVideoId || activeId === requestedVideoId) {
+          if (player && typeof player.getOption === "function") {
+            try {
+              const pt = player.getOption("captions", "tracklist");
+              if (Array.isArray(pt) && pt.length > 0) captions = pt;
+            } catch (_) {
+            }
           }
         }
       }
-      if ((!captions || captions.length === 0) && window.ytplayer?.config?.args?.raw_player_response) {
-        try {
-          const raw = typeof window.ytplayer.config.args.raw_player_response === "string" ? JSON.parse(window.ytplayer.config.args.raw_player_response) : window.ytplayer.config.args.raw_player_response;
-          const rawTracks = raw?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
-          if (Array.isArray(rawTracks) && rawTracks.length > 0) captions = rawTracks;
-        } catch (_) {
+      if ((!captions || captions.length === 0) && window.ytInitialPlayerResponse) {
+        const initId = window.ytInitialPlayerResponse?.videoDetails?.videoId;
+        if (!requestedVideoId || initId === requestedVideoId) {
+          captions = window.ytInitialPlayerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
         }
       }
       return captions;
@@ -528,15 +529,27 @@
     async handlePlayerDataRequest(requestedVideoId, preferredLang) {
       try {
         let playerResponse = null;
-        for (let attempt = 0; attempt < 5; attempt++) {
+        for (let attempt = 0; attempt < 8; attempt++) {
           playerResponse = this.resolvePlayerResponse(requestedVideoId);
           if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks) break;
-          await new Promise((r) => setTimeout(r, 100));
+          await new Promise((r) => setTimeout(r, 120));
         }
         const player = document.getElementById("movie_player");
         const activeId = player?.getVideoData?.()?.video_id || "";
-        const captions = this.resolveCaptionTracks(playerResponse);
-        const videoDetails = playerResponse?.videoDetails || window.ytInitialPlayerResponse?.videoDetails || {};
+        if (requestedVideoId && activeId && activeId !== requestedVideoId && !playerResponse) {
+          window.postMessage({
+            type: "YT_AI_RES_PLAYER_DATA",
+            success: false,
+            error: "Video ID mismatch during transition",
+            videoId: requestedVideoId,
+            captions: [],
+            segments: null
+          }, "*");
+          return;
+        }
+        const captions = this.resolveCaptionTracks(playerResponse, requestedVideoId);
+        const isInitialMatch = !requestedVideoId || window.ytInitialPlayerResponse?.videoDetails?.videoId === requestedVideoId;
+        const videoDetails = playerResponse?.videoDetails || (isInitialMatch ? window.ytInitialPlayerResponse?.videoDetails : {}) || {};
         let directSegments = null;
         if (captions && captions.length > 0) {
           const track = this.pickCaptionTrack(captions, preferredLang);
@@ -551,9 +564,12 @@
           }
         }
         if (!directSegments || directSegments.length === 0) {
-          directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
+          const initialVideoId = window.ytInitialData?.currentVideoEndpoint?.watchEndpoint?.videoId;
+          if (!requestedVideoId || initialVideoId === requestedVideoId) {
+            directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
+          }
         }
-        const microformat = playerResponse?.microformat?.playerMicroformatRenderer || window.ytInitialPlayerResponse?.microformat?.playerMicroformatRenderer || {};
+        const microformat = playerResponse?.microformat?.playerMicroformatRenderer || (isInitialMatch ? window.ytInitialPlayerResponse?.microformat?.playerMicroformatRenderer : {}) || {};
         const description = videoDetails.shortDescription || microformat.description?.simpleText || "";
         const keywords = Array.isArray(videoDetails.keywords) ? videoDetails.keywords : [];
         const category = microformat.category || "";
@@ -568,7 +584,7 @@
           captions: JSON.parse(JSON.stringify(captions || [])),
           title: videoDetails.title || document.title.replace(" - YouTube", "").trim(),
           author: videoDetails.author || microformat.ownerChannelName || "",
-          videoId: videoDetails.videoId || requestedVideoId || activeId,
+          videoId: requestedVideoId || videoDetails.videoId || activeId,
           channelId,
           description,
           keywords,

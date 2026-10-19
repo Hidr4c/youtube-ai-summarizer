@@ -6,6 +6,7 @@ import { SettingsDrawerController } from './ui/SettingsDrawerController.js';
 import { SummaryViewController } from './ui/SummaryViewController.js';
 import { ChatViewController } from './ui/ChatViewController.js';
 import { InPageTranscriptController } from './services/InPageTranscriptController.js';
+import { NativeTranscriptPanel } from './services/NativeTranscriptPanel.js';
 import { InPageAudioController } from './services/InPageAudioController.js';
 import { ExportHandler } from './services/ExportHandler.js';
 import { PromptService } from './services/PromptService.js';
@@ -64,6 +65,17 @@ const chatViewController = new ChatViewController({
   audioController
 });
 
+const triggerSummarize = () => {
+  bannerView.setExpanded(true);
+  bannerView.switchTab('summary');
+  summaryViewController.startSummarization({
+    state,
+    currentLang: state.currentLang,
+    getActiveModel: () => state.getActiveModel(),
+    showStatusBanner: (msg, isErr) => bannerView.showStatusBanner(msg, isErr)
+  });
+};
+
 function bindBannerEvents(banner) {
   if (!banner) return;
 
@@ -73,8 +85,13 @@ function bindBannerEvents(banner) {
       const tab = btn.getAttribute('data-tab');
       if (tab) {
         bannerView.switchTab(tab);
-        if (tab === 'transcript' && (!transcriptController.cachedTranscript.segments || transcriptController.cachedTranscript.segments.length === 0)) {
-          transcriptController.extractYouTubeTranscript(state.currentLang, false);
+        if (tab === 'transcript') {
+          const currentVideoId = getVideoId();
+          if (!transcriptController.cachedTranscript.segments ||
+              transcriptController.cachedTranscript.segments.length === 0 ||
+              transcriptController.cachedTranscript.videoId !== currentVideoId) {
+            transcriptController.extractYouTubeTranscript(state.currentLang, false);
+          }
         }
       }
     });
@@ -85,16 +102,6 @@ function bindBannerEvents(banner) {
   document.getElementById('ytAiToggleBtn')?.addEventListener('click', () => bannerView.toggleExpand());
 
   // Summarize CTA action
-  const triggerSummarize = () => {
-    bannerView.setExpanded(true);
-    bannerView.switchTab('summary');
-    summaryViewController.startSummarization({
-      state,
-      currentLang: state.currentLang,
-      getActiveModel: () => state.getActiveModel(),
-      showStatusBanner: (msg, isErr) => bannerView.showStatusBanner(msg, isErr)
-    });
-  };
   document.getElementById('ytAiSummarizeBtn')?.addEventListener('click', triggerSummarize);
 
   // Settings Drawer Toggle & Subtabs
@@ -196,18 +203,10 @@ function bindBannerEvents(banner) {
   });
 
   // Export handlers
-  document.getElementById('ytAiCopyBtn')?.addEventListener('click', (e) => {
-    ExportHandler.copyToClipboard(summaryViewController.fullSummaryMarkdown, e.currentTarget);
-  });
-  document.getElementById('ytAiDownloadBtn')?.addEventListener('click', () => {
-    ExportHandler.downloadMarkdown(summaryViewController.fullSummaryMarkdown, getVideoId());
-  });
-  document.getElementById('ytAiSaveTxtBtn')?.addEventListener('click', () => {
-    ExportHandler.downloadTxt(summaryViewController.fullSummaryMarkdown, getVideoId());
-  });
-  document.getElementById('ytAiSaveJsonBtn')?.addEventListener('click', () => {
-    ExportHandler.downloadJson(summaryViewController.fullSummaryMarkdown, getVideoId(), transcriptController.cachedTranscript);
-  });
+  document.getElementById('ytAiCopyBtn')?.addEventListener('click', (e) => ExportHandler.copyToClipboard(summaryViewController.fullSummaryMarkdown, e.currentTarget));
+  document.getElementById('ytAiDownloadBtn')?.addEventListener('click', () => ExportHandler.downloadMarkdown(summaryViewController.fullSummaryMarkdown, getVideoId()));
+  document.getElementById('ytAiSaveTxtBtn')?.addEventListener('click', () => ExportHandler.downloadTxt(summaryViewController.fullSummaryMarkdown, getVideoId()));
+  document.getElementById('ytAiSaveJsonBtn')?.addEventListener('click', () => ExportHandler.downloadJson(summaryViewController.fullSummaryMarkdown, getVideoId(), transcriptController.cachedTranscript));
 
   // Timestamp navigation delegation
   banner.addEventListener('click', (e) => {
@@ -256,15 +255,23 @@ function loadPreferences(callback) {
 }
 
 function initContentScript() {
-  injectContextExtractorScript();
   ThemeManager.initThemeSync();
 
   loadPreferences(() => {
     bannerView.tryInjectBanner(bindBannerEvents);
 
-    NavigationObserver.observeNavigation(() => {
-      summaryViewController.resetSummaryOutput(state.currentLang);
+    NavigationObserver.observeNavigation(({ isNewVideo }) => {
+      if (isNewVideo) {
+        audioController.stopAll();
+        NativeTranscriptPanel.closeNativeTranscriptPanel();
+        transcriptController.resetAllState(state.currentLang);
+        summaryViewController.resetSummaryOutput(state.currentLang, triggerSummarize);
+        chatViewController.resetChatOutput(state.currentLang);
+      }
       bannerView.tryInjectBanner(bindBannerEvents);
+      if (isNewVideo && state.autoSummarize) {
+        triggerSummarize();
+      }
     });
 
     chrome.runtime?.onMessage?.addListener((req, sender, sendResponse) => {

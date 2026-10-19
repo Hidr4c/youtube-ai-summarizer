@@ -400,5 +400,29 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     assert.match(modelSrc, /this\.subscribers\s*=\s*String\(extra\?\.subscribers/);
     assert.match(modelSrc, /this\.description\s*=\s*String\(extra\?\.description/);
   });
+
+  // 11. REGRESSION: SPA Navigation & Multi-Video Isolation
+  await suite.test('SPA Navigation: resets transcript and metadata on video switch, rejects stale in-memory responses', () => {
+    const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8');
+    const contentFiles = fs.readdirSync(path.join(rootDir, 'src/content'), { recursive: true }).filter(f => f.endsWith('.js'));
+    const contentSrc = contentFiles.map(f => fs.readFileSync(path.join(rootDir, 'src/content', f), 'utf-8')).join('\n');
+
+    // 1. YouTubeContextExtractor must not return stale ytInitialPlayerResponse when requestedVideoId differs
+    assert.match(extractorSrc, /return\s+requestedVideoId\s*\?\s*null\s*:\s*\(window\.ytInitialPlayerResponse\s*\|\|\s*null\)/);
+    assert.match(extractorSrc, /activeId\s*!==\s*requestedVideoId\s*&&\s*!playerResponse/);
+
+    // 2. NavigationObserver must detect isNewVideo and pass videoId payload
+    assert.match(contentSrc, /isNewVideo\s*=\s*!!\(currentVideoId\s*&&\s*currentVideoId\s*!==\s*lastVideoId\)/);
+
+    // 3. TranscriptController must clear state and verify currentVideoId
+    assert.match(contentSrc, /this\.cachedTranscript\.videoId\s*!==\s*currentVideoId/);
+    assert.match(contentSrc, /resetAllState\(preferredLang\)/);
+
+    // 4. index.js must orchestrate reset of audio, transcript, summary, and chat on isNewVideo
+    assert.match(contentSrc, /if\s*\(isNewVideo\)\s*\{/);
+    assert.match(contentSrc, /audioController\.stopAll\(\)/);
+    assert.match(contentSrc, /chatViewController\.resetChatOutput/);
+  });
 });
+
 

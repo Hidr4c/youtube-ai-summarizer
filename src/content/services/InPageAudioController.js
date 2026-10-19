@@ -36,6 +36,11 @@ export class InPageAudioController {
     this.stt.stopDictation();
   }
 
+  stopAll() {
+    this.stopSpeech();
+    this.stopDictation();
+  }
+
   showMicNotice(text, isError) {
     this.stt.showMicNotice(text, isError);
   }

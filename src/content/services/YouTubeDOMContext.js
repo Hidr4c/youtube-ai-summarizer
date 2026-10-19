@@ -34,6 +34,10 @@ export class YouTubeDOMContext {
    * @returns {Object}
    */
   static getVideoMetadata(cachedVideoMetadata = {}) {
+    const currentVideoId = getVideoId();
+    const isCacheValid = cachedVideoMetadata?.videoId === currentVideoId;
+    const safeMeta = isCacheValid ? cachedVideoMetadata : {};
+
     const titleEl = document.querySelector('h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title');
     const authorEl = document.querySelector('ytd-channel-name a, #channel-name a, #owner-name a');
     const subEl = document.querySelector('#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count');
@@ -46,20 +50,20 @@ export class YouTubeDOMContext {
     const domDate = dateEl?.textContent?.trim() || '';
     const domKeywords = Array.from(tagEls).map(el => el.textContent.trim().replace(/^#/, '')).filter(Boolean);
 
-    const title = titleEl?.textContent?.trim() || cachedVideoMetadata.title || document.title.replace(' - YouTube', '').trim();
-    const author = authorEl?.textContent?.trim() || cachedVideoMetadata.author || 'Chaîne YouTube';
-    const subscribers = domSubscribers || cachedVideoMetadata.subscribers || '';
-    const description = cachedVideoMetadata.description || domDescription || '';
-    const keywords = (cachedVideoMetadata.keywords && cachedVideoMetadata.keywords.length > 0)
-      ? cachedVideoMetadata.keywords
+    const title = titleEl?.textContent?.trim() || safeMeta.title || document.title.replace(' - YouTube', '').trim();
+    const author = authorEl?.textContent?.trim() || safeMeta.author || 'Chaîne YouTube';
+    const subscribers = domSubscribers || safeMeta.subscribers || '';
+    const description = safeMeta.description || domDescription || '';
+    const keywords = (safeMeta.keywords && safeMeta.keywords.length > 0)
+      ? safeMeta.keywords
       : domKeywords;
-    const category = cachedVideoMetadata.category || '';
-    const publishDate = cachedVideoMetadata.publishDate || domDate || '';
-    const viewCount = cachedVideoMetadata.viewCount || '';
-    const channelId = cachedVideoMetadata.channelId || '';
+    const category = safeMeta.category || '';
+    const publishDate = safeMeta.publishDate || domDate || '';
+    const viewCount = safeMeta.viewCount || '';
+    const channelId = safeMeta.channelId || '';
 
     return {
-      videoId: cachedVideoMetadata.videoId || getVideoId(),
+      videoId: currentVideoId || safeMeta.videoId || '',
       title,
       author,
       subscribers,

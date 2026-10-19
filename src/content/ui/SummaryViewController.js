@@ -41,10 +41,21 @@ export class SummaryViewController {
     });
   }
 
-  resetSummaryOutput(currentLang = 'en') {
+  resetSummaryOutput(currentLang = 'en', onTriggerSummarize = null) {
     this.fullSummaryMarkdown = '';
     this.fullReasoningText = '';
-    this.renderSummaryEmptyState(false, currentLang);
+    this.isGenerating = false;
+    if (this.activePort) {
+      try { this.activePort.disconnect(); } catch (_) {}
+      this.activePort = null;
+    }
+    const summarizeBtn = document.getElementById('ytAiSummarizeBtn');
+    const t = I18N[currentLang] || I18N.en;
+    if (summarizeBtn) {
+      summarizeBtn.disabled = false;
+      summarizeBtn.innerHTML = t.summarizeBtn || '✨ Summarize video';
+    }
+    this.renderSummaryEmptyState(true, currentLang, onTriggerSummarize);
     const reasoningBox = document.getElementById('ytAiReasoningBox');
     if (reasoningBox) reasoningBox.classList.add('yt-ai-hidden');
   }

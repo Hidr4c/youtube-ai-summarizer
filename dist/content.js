@@ -1934,7 +1934,7 @@
   var parsePoint = MarkdownRenderer.parsePoint;
 
   // src/content/ui/NavigationObserver.js
-  var NavigationObserver = class {
+  var NavigationObserver = class _NavigationObserver {
     /**
      * Checks if current URL is a YouTube watch page
      * @param {string} [url]
@@ -1969,11 +1969,26 @@
      */
     static observeNavigation(handlers = {}) {
       let lastObservedUrl = window.location.href;
+      let lastVideoId = _NavigationObserver.getVideoId(window.location.href);
       const handleNavigation = () => {
+        const currentUrl = window.location.href;
+        const currentVideoId = _NavigationObserver.getVideoId(currentUrl);
+        const isNewVideo = !!(currentVideoId && currentVideoId !== lastVideoId);
+        lastObservedUrl = currentUrl;
+        const prevVideoId = lastVideoId;
+        if (currentVideoId) {
+          lastVideoId = currentVideoId;
+        }
+        const payload = { isNewVideo, currentVideoId, prevVideoId, url: currentUrl };
         if (typeof handlers === "function") {
-          handlers();
-        } else if (typeof handlers?.onUrlChange === "function") {
-          handlers.onUrlChange();
+          handlers(payload);
+        } else {
+          if (typeof handlers?.onUrlChange === "function") {
+            handlers.onUrlChange(payload);
+          }
+          if (isNewVideo && typeof handlers?.onVideoChange === "function") {
+            handlers.onVideoChange(currentVideoId, prevVideoId);
+          }
         }
       };
       window.addEventListener("yt-navigate-finish", handleNavigation);
@@ -1982,7 +1997,6 @@
       window.addEventListener("popstate", handleNavigation);
       setInterval(() => {
         if (window.location.href !== lastObservedUrl) {
-          lastObservedUrl = window.location.href;
           handleNavigation();
         }
       }, 350);
@@ -2637,10 +2651,24 @@
         if (typeof onTriggerSummarize === "function") onTriggerSummarize();
       });
     }
-    resetSummaryOutput(currentLang = "en") {
+    resetSummaryOutput(currentLang = "en", onTriggerSummarize = null) {
       this.fullSummaryMarkdown = "";
       this.fullReasoningText = "";
-      this.renderSummaryEmptyState(false, currentLang);
+      this.isGenerating = false;
+      if (this.activePort) {
+        try {
+          this.activePort.disconnect();
+        } catch (_) {
+        }
+        this.activePort = null;
+      }
+      const summarizeBtn = document.getElementById("ytAiSummarizeBtn");
+      const t = I18N[currentLang] || I18N.en;
+      if (summarizeBtn) {
+        summarizeBtn.disabled = false;
+        summarizeBtn.innerHTML = t.summarizeBtn || "\u2728 Summarize video";
+      }
+      this.renderSummaryEmptyState(true, currentLang, onTriggerSummarize);
       const reasoningBox = document.getElementById("ytAiReasoningBox");
       if (reasoningBox) reasoningBox.classList.add("yt-ai-hidden");
     }
@@ -3301,6 +3329,9 @@
      * @returns {Object}
      */
     static getVideoMetadata(cachedVideoMetadata = {}) {
+      const currentVideoId = getVideoId();
+      const isCacheValid = cachedVideoMetadata?.videoId === currentVideoId;
+      const safeMeta = isCacheValid ? cachedVideoMetadata : {};
       const titleEl = document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title");
       const authorEl = document.querySelector("ytd-channel-name a, #channel-name a, #owner-name a");
       const subEl = document.querySelector("#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count");
@@ -3311,17 +3342,17 @@
       const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || "";
       const domDate = dateEl?.textContent?.trim() || "";
       const domKeywords = Array.from(tagEls).map((el) => el.textContent.trim().replace(/^#/, "")).filter(Boolean);
-      const title = titleEl?.textContent?.trim() || cachedVideoMetadata.title || document.title.replace(" - YouTube", "").trim();
-      const author = authorEl?.textContent?.trim() || cachedVideoMetadata.author || "Cha\xEEne YouTube";
-      const subscribers = domSubscribers || cachedVideoMetadata.subscribers || "";
-      const description = cachedVideoMetadata.description || domDescription || "";
-      const keywords = cachedVideoMetadata.keywords && cachedVideoMetadata.keywords.length > 0 ? cachedVideoMetadata.keywords : domKeywords;
-      const category = cachedVideoMetadata.category || "";
-      const publishDate = cachedVideoMetadata.publishDate || domDate || "";
-      const viewCount = cachedVideoMetadata.viewCount || "";
-      const channelId = cachedVideoMetadata.channelId || "";
+      const title = titleEl?.textContent?.trim() || safeMeta.title || document.title.replace(" - YouTube", "").trim();
+      const author = authorEl?.textContent?.trim() || safeMeta.author || "Cha\xEEne YouTube";
+      const subscribers = domSubscribers || safeMeta.subscribers || "";
+      const description = safeMeta.description || domDescription || "";
+      const keywords = safeMeta.keywords && safeMeta.keywords.length > 0 ? safeMeta.keywords : domKeywords;
+      const category = safeMeta.category || "";
+      const publishDate = safeMeta.publishDate || domDate || "";
+      const viewCount = safeMeta.viewCount || "";
+      const channelId = safeMeta.channelId || "";
       return {
-        videoId: cachedVideoMetadata.videoId || getVideoId(),
+        videoId: currentVideoId || safeMeta.videoId || "",
         title,
         author,
         subscribers,
@@ -3465,10 +3496,13 @@ ${lines.join("\n")}
     }
     requestPlayerDataFromMainWorld(videoId, preferredLang = "fr") {
       return new Promise((resolve) => {
+        let resolved = false;
         const handler = (e) => {
           if (e.source !== window || !e.data || e.data.type !== "YT_AI_RES_PLAYER_DATA") return;
-          window.removeEventListener("message", handler);
           const data = e.data || {};
+          if (videoId && data.videoId && data.videoId !== videoId) return;
+          resolved = true;
+          window.removeEventListener("message", handler);
           if (data.videoId && (!videoId || data.videoId === videoId)) {
             this.cachedVideoMetadata = {
               videoId: data.videoId,
@@ -3488,8 +3522,10 @@ ${lines.join("\n")}
         window.addEventListener("message", handler);
         window.postMessage({ type: "YT_AI_REQ_PLAYER_DATA", videoId, preferredLang }, "*");
         setTimeout(() => {
-          window.removeEventListener("message", handler);
-          resolve({});
+          if (!resolved) {
+            window.removeEventListener("message", handler);
+            resolve({});
+          }
         }, 5e3);
       });
     }
@@ -3504,26 +3540,32 @@ ${lines.join("\n")}
     }
     async extractYouTubeTranscript(preferredLang = "en", isUserInitiated = false) {
       const currentVideoId = getVideoId();
+      if (!currentVideoId) return null;
       if (this.cachedTranscript.videoId === currentVideoId && this.cachedTranscript.segments.length > 0 && !this.cachedTranscript.isChapterOnly) {
         return this.cachedTranscript.segments;
       }
-      const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
-      if (domSegments && domSegments.length > 5) {
-        const words = domSegments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
-        if (domSegments.length >= 15 || words >= 150) {
-          this.saveCachedTranscript(currentVideoId, domSegments, false);
-          return domSegments;
+      if (this.cachedTranscript.videoId && this.cachedTranscript.videoId !== currentVideoId) {
+        this.resetAllState(preferredLang);
+      }
+      if (NativeTranscriptPanel.isNativeTranscriptPanelVisible()) {
+        const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
+        if (domSegments && domSegments.length > 5) {
+          const words = domSegments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
+          if (domSegments.length >= 15 || words >= 150) {
+            this.saveCachedTranscript(currentVideoId, domSegments, false);
+            return domSegments;
+          }
         }
       }
       const playerData = await this.requestPlayerDataFromMainWorld(currentVideoId, preferredLang);
-      if (playerData?.segments?.length > 3) {
+      if (playerData?.videoId === currentVideoId && playerData?.segments?.length > 3) {
         const words = playerData.segments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
         if (playerData.segments.length >= 15 || words >= 150) {
           this.saveCachedTranscript(currentVideoId, playerData.segments, false);
           return playerData.segments;
         }
       }
-      if (playerData?.captions?.length > 0) {
+      if (playerData?.videoId === currentVideoId && playerData?.captions?.length > 0) {
         let track = playerData.captions.find((t) => t.languageCode === preferredLang) || playerData.captions.find((t) => t.languageCode?.startsWith(preferredLang)) || playerData.captions.find((t) => t.languageCode === "en" || t.languageCode?.startsWith("en")) || playerData.captions[0];
         if (track?.baseUrl) {
           const segments = await this.fetchTimedtextSegments(track.baseUrl);
@@ -3579,7 +3621,7 @@ ${lines.join("\n")}
         }).join("");
       }
     }
-    resetAllState() {
+    resetAllState(currentLang = "en") {
       this.cachedTranscript = { videoId: "", segments: [], fullText: "", isChapterOnly: false };
       this.cachedVideoMetadata = {
         videoId: "",
@@ -3593,6 +3635,15 @@ ${lines.join("\n")}
         publishDate: "",
         viewCount: ""
       };
+      const t = I18N[currentLang] || I18N.en;
+      const wordCountEl = document.getElementById("ytAiWordCount");
+      const wordCountTab = document.getElementById("ytAiWordCountTab");
+      const transcriptBody = document.getElementById("ytAiTranscriptBody");
+      if (wordCountEl) wordCountEl.textContent = "0";
+      if (wordCountTab) wordCountTab.textContent = `0 ${t.wordsBadge || "words"}`;
+      if (transcriptBody) {
+        transcriptBody.innerHTML = `<div class="yt-ai-loading">${escapeHtml(t.transcriptWaiting || "Waiting for transcript...")}</div>`;
+      }
     }
   };
 
@@ -4052,6 +4103,10 @@ ${lines.join("\n")}
     }
     stopDictation() {
       this.stt.stopDictation();
+    }
+    stopAll() {
+      this.stopSpeech();
+      this.stopDictation();
     }
     showMicNotice(text, isError) {
       this.stt.showMicNotice(text, isError);
@@ -4667,6 +4722,16 @@ DIRECTIVES DE R\xC9DACTION (CONFORT VISUEL ET \xC9COUTE AUDIO) :
     promptService,
     audioController
   });
+  var triggerSummarize = () => {
+    bannerView.setExpanded(true);
+    bannerView.switchTab("summary");
+    summaryViewController.startSummarization({
+      state,
+      currentLang: state.currentLang,
+      getActiveModel: () => state.getActiveModel(),
+      showStatusBanner: (msg, isErr) => bannerView.showStatusBanner(msg, isErr)
+    });
+  };
   function bindBannerEvents(banner) {
     if (!banner) return;
     banner.querySelectorAll(".yt-ai-tab-btn").forEach((btn) => {
@@ -4674,24 +4739,17 @@ DIRECTIVES DE R\xC9DACTION (CONFORT VISUEL ET \xC9COUTE AUDIO) :
         const tab = btn.getAttribute("data-tab");
         if (tab) {
           bannerView.switchTab(tab);
-          if (tab === "transcript" && (!transcriptController.cachedTranscript.segments || transcriptController.cachedTranscript.segments.length === 0)) {
-            transcriptController.extractYouTubeTranscript(state.currentLang, false);
+          if (tab === "transcript") {
+            const currentVideoId = getVideoId();
+            if (!transcriptController.cachedTranscript.segments || transcriptController.cachedTranscript.segments.length === 0 || transcriptController.cachedTranscript.videoId !== currentVideoId) {
+              transcriptController.extractYouTubeTranscript(state.currentLang, false);
+            }
           }
         }
       });
     });
     document.getElementById("ytAiBrandToggle")?.addEventListener("click", () => bannerView.toggleExpand());
     document.getElementById("ytAiToggleBtn")?.addEventListener("click", () => bannerView.toggleExpand());
-    const triggerSummarize = () => {
-      bannerView.setExpanded(true);
-      bannerView.switchTab("summary");
-      summaryViewController.startSummarization({
-        state,
-        currentLang: state.currentLang,
-        getActiveModel: () => state.getActiveModel(),
-        showStatusBanner: (msg, isErr) => bannerView.showStatusBanner(msg, isErr)
-      });
-    };
     document.getElementById("ytAiSummarizeBtn")?.addEventListener("click", triggerSummarize);
     document.getElementById("ytAiSettingsToggleBtn")?.addEventListener("click", () => {
       SettingsDrawerController.toggleSettingsDrawer((exp) => bannerView.setExpanded(exp));
@@ -4777,18 +4835,10 @@ DIRECTIVES DE R\xC9DACTION (CONFORT VISUEL ET \xC9COUTE AUDIO) :
     document.getElementById("ytAiClearChatBtn")?.addEventListener("click", () => {
       chatViewController.handleClearChat(state.currentLang);
     });
-    document.getElementById("ytAiCopyBtn")?.addEventListener("click", (e) => {
-      ExportHandler.copyToClipboard(summaryViewController.fullSummaryMarkdown, e.currentTarget);
-    });
-    document.getElementById("ytAiDownloadBtn")?.addEventListener("click", () => {
-      ExportHandler.downloadMarkdown(summaryViewController.fullSummaryMarkdown, getVideoId());
-    });
-    document.getElementById("ytAiSaveTxtBtn")?.addEventListener("click", () => {
-      ExportHandler.downloadTxt(summaryViewController.fullSummaryMarkdown, getVideoId());
-    });
-    document.getElementById("ytAiSaveJsonBtn")?.addEventListener("click", () => {
-      ExportHandler.downloadJson(summaryViewController.fullSummaryMarkdown, getVideoId(), transcriptController.cachedTranscript);
-    });
+    document.getElementById("ytAiCopyBtn")?.addEventListener("click", (e) => ExportHandler.copyToClipboard(summaryViewController.fullSummaryMarkdown, e.currentTarget));
+    document.getElementById("ytAiDownloadBtn")?.addEventListener("click", () => ExportHandler.downloadMarkdown(summaryViewController.fullSummaryMarkdown, getVideoId()));
+    document.getElementById("ytAiSaveTxtBtn")?.addEventListener("click", () => ExportHandler.downloadTxt(summaryViewController.fullSummaryMarkdown, getVideoId()));
+    document.getElementById("ytAiSaveJsonBtn")?.addEventListener("click", () => ExportHandler.downloadJson(summaryViewController.fullSummaryMarkdown, getVideoId(), transcriptController.cachedTranscript));
     banner.addEventListener("click", (e) => {
       const link = e.target.closest(".yt-ai-timestamp-link");
       if (link && link.dataset.time !== void 0) {
@@ -4832,13 +4882,21 @@ DIRECTIVES DE R\xC9DACTION (CONFORT VISUEL ET \xC9COUTE AUDIO) :
     });
   }
   function initContentScript() {
-    injectContextExtractorScript();
     ThemeManager.initThemeSync();
     loadPreferences(() => {
       bannerView.tryInjectBanner(bindBannerEvents);
-      NavigationObserver.observeNavigation(() => {
-        summaryViewController.resetSummaryOutput(state.currentLang);
+      NavigationObserver.observeNavigation(({ isNewVideo }) => {
+        if (isNewVideo) {
+          audioController.stopAll();
+          NativeTranscriptPanel.closeNativeTranscriptPanel();
+          transcriptController.resetAllState(state.currentLang);
+          summaryViewController.resetSummaryOutput(state.currentLang, triggerSummarize);
+          chatViewController.resetChatOutput(state.currentLang);
+        }
         bannerView.tryInjectBanner(bindBannerEvents);
+        if (isNewVideo && state.autoSummarize) {
+          triggerSummarize();
+        }
       });
       chrome.runtime?.onMessage?.addListener((req, sender, sendResponse) => {
         if (req.type === "GET_IN_PAGE_STATUS") {

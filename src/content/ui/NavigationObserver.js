@@ -38,12 +38,29 @@ export class NavigationObserver {
    */
   static observeNavigation(handlers = {}) {
     let lastObservedUrl = window.location.href;
+    let lastVideoId = NavigationObserver.getVideoId(window.location.href);
 
     const handleNavigation = () => {
+      const currentUrl = window.location.href;
+      const currentVideoId = NavigationObserver.getVideoId(currentUrl);
+      const isNewVideo = !!(currentVideoId && currentVideoId !== lastVideoId);
+
+      lastObservedUrl = currentUrl;
+      const prevVideoId = lastVideoId;
+      if (currentVideoId) {
+        lastVideoId = currentVideoId;
+      }
+
+      const payload = { isNewVideo, currentVideoId, prevVideoId, url: currentUrl };
       if (typeof handlers === 'function') {
-        handlers();
-      } else if (typeof handlers?.onUrlChange === 'function') {
-        handlers.onUrlChange();
+        handlers(payload);
+      } else {
+        if (typeof handlers?.onUrlChange === 'function') {
+          handlers.onUrlChange(payload);
+        }
+        if (isNewVideo && typeof handlers?.onVideoChange === 'function') {
+          handlers.onVideoChange(currentVideoId, prevVideoId);
+        }
       }
     };
 
@@ -54,7 +71,6 @@ export class NavigationObserver {
 
     setInterval(() => {
       if (window.location.href !== lastObservedUrl) {
-        lastObservedUrl = window.location.href;
         handleNavigation();
       }
     }, 350);

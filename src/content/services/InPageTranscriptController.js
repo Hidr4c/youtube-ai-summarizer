@@ -3,6 +3,7 @@ import { NativeTranscriptPanel } from './NativeTranscriptPanel.js';
 import { YouTubeDOMContext } from './YouTubeDOMContext.js';
 import { getVideoId } from '../ui/NavigationObserver.js';
 import { escapeHtml } from '../ui/MarkdownRenderer.js';
+import { I18N } from '../../locales/index.js';
 
 /**
  * Orchestrates multi-strategy transparent transcript extraction, caching, and state management
@@ -85,10 +86,14 @@ export class InPageTranscriptController {
 
   requestPlayerDataFromMainWorld(videoId, preferredLang = 'fr') {
     return new Promise((resolve) => {
+      let resolved = false;
       const handler = (e) => {
         if (e.source !== window || !e.data || e.data.type !== 'YT_AI_RES_PLAYER_DATA') return;
-        window.removeEventListener('message', handler);
         const data = e.data || {};
+        if (videoId && data.videoId && data.videoId !== videoId) return;
+
+        resolved = true;
+        window.removeEventListener('message', handler);
         if (data.videoId && (!videoId || data.videoId === videoId)) {
           this.cachedVideoMetadata = {
             videoId: data.videoId,
@@ -108,8 +113,10 @@ export class InPageTranscriptController {
       window.addEventListener('message', handler);
       window.postMessage({ type: 'YT_AI_REQ_PLAYER_DATA', videoId, preferredLang }, '*');
       setTimeout(() => {
-        window.removeEventListener('message', handler);
-        resolve({});
+        if (!resolved) {
+          window.removeEventListener('message', handler);
+          resolve({});
+        }
       }, 5000);
     });
   }
@@ -126,23 +133,31 @@ export class InPageTranscriptController {
 
   async extractYouTubeTranscript(preferredLang = 'en', isUserInitiated = false) {
     const currentVideoId = getVideoId();
+    if (!currentVideoId) return null;
+
     if (this.cachedTranscript.videoId === currentVideoId && this.cachedTranscript.segments.length > 0 && !this.cachedTranscript.isChapterOnly) {
       return this.cachedTranscript.segments;
     }
 
-    // STRATÉGIE 1 : Passive Active DOM (0 interaction, seulement si DÉJÀ ouvert par l'utilisateur)
-    const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
-    if (domSegments && domSegments.length > 5) {
-      const words = domSegments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
-      if (domSegments.length >= 15 || words >= 150) {
-        this.saveCachedTranscript(currentVideoId, domSegments, false);
-        return domSegments;
+    if (this.cachedTranscript.videoId && this.cachedTranscript.videoId !== currentVideoId) {
+      this.resetAllState(preferredLang);
+    }
+
+    // STRATÉGIE 1 : Passive Active DOM (0 interaction, seulement si DÉJÀ ouvert et visible par l'utilisateur)
+    if (NativeTranscriptPanel.isNativeTranscriptPanelVisible()) {
+      const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
+      if (domSegments && domSegments.length > 5) {
+        const words = domSegments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
+        if (domSegments.length >= 15 || words >= 150) {
+          this.saveCachedTranscript(currentVideoId, domSegments, false);
+          return domSegments;
+        }
       }
     }
 
     // STRATÉGIE 2 : Main World in-memory (Directement depuis ytInitialPlayerResponse ou movie_player)
     const playerData = await this.requestPlayerDataFromMainWorld(currentVideoId, preferredLang);
-    if (playerData?.segments?.length > 3) {
+    if (playerData?.videoId === currentVideoId && playerData?.segments?.length > 3) {
       const words = playerData.segments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
       if (playerData.segments.length >= 15 || words >= 150) {
         this.saveCachedTranscript(currentVideoId, playerData.segments, false);
@@ -151,7 +166,7 @@ export class InPageTranscriptController {
     }
 
     // STRATÉGIE 3 : Timedtext Direct Streams (Depuis les URLs de sous-titres trouvées en mémoire)
-    if (playerData?.captions?.length > 0) {
+    if (playerData?.videoId === currentVideoId && playerData?.captions?.length > 0) {
       let track = playerData.captions.find(t => t.languageCode === preferredLang) ||
                   playerData.captions.find(t => t.languageCode?.startsWith(preferredLang)) ||
                   playerData.captions.find(t => t.languageCode === 'en' || t.languageCode?.startsWith('en')) ||
@@ -224,12 +239,21 @@ export class InPageTranscriptController {
     }
   }
 
-  resetAllState() {
+  resetAllState(currentLang = 'en') {
     this.cachedTranscript = { videoId: '', segments: [], fullText: '', isChapterOnly: false };
     this.cachedVideoMetadata = {
       videoId: '', title: '', author: '', channelId: '', subscribers: '',
       description: '', keywords: [], category: '', publishDate: '', viewCount: ''
     };
+    const t = I18N[currentLang] || I18N.en;
+    const wordCountEl = document.getElementById('ytAiWordCount');
+    const wordCountTab = document.getElementById('ytAiWordCountTab');
+    const transcriptBody = document.getElementById('ytAiTranscriptBody');
+    if (wordCountEl) wordCountEl.textContent = '0';
+    if (wordCountTab) wordCountTab.textContent = `0 ${t.wordsBadge || 'words'}`;
+    if (transcriptBody) {
+      transcriptBody.innerHTML = `<div class="yt-ai-loading">${escapeHtml(t.transcriptWaiting || 'Waiting for transcript...')}</div>`;
+    }
   }
 }
 
