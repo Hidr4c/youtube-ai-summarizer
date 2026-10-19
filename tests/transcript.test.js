@@ -1,43 +1,20 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
-const vm = require('node:vm');
-
-const mainWorldPath = path.resolve(__dirname, '..', 'main_world.js');
-
-function loadMainWorldFunctions() {
-  const code = fs.readFileSync(mainWorldPath, 'utf8');
-  // Inject export hooks to test internal functions
-  const wrapped = code.replace(
-    /\(function\s*\(\)\s*\{/,
-    '(function () { global.__mw = { formatMs, cleanTranscriptText, parseTimedtextEvents, extractSegmentsFromInnerTubeJson };'
-  );
-
-  const sandbox = {
-    global: {},
-    window: { addEventListener: () => {} },
-    document: { getElementById: () => null, querySelector: () => null },
-    console
-  };
-  vm.createContext(sandbox);
-  vm.runInContext(wrapped, sandbox);
-  return sandbox.global.__mw;
-}
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { InnerTubeParser } from '../src/parsers/InnerTubeParser.js';
+import { TimedtextParser } from '../src/parsers/TimedtextParser.js';
+import { TextCleaner } from '../src/parsers/TextCleaner.js';
 
 test('Transcript Processing & InnerTube Parser', async (t) => {
-  const mw = loadMainWorldFunctions();
-
   await t.test('formatMs formats milliseconds into m:ss', () => {
-    assert.equal(mw.formatMs(0), '0:00');
-    assert.equal(mw.formatMs(15000), '0:15');
-    assert.equal(mw.formatMs(65000), '1:05');
-    assert.equal(mw.formatMs(3665000), '61:05');
+    assert.equal(InnerTubeParser.formatMs(0), '0:00');
+    assert.equal(InnerTubeParser.formatMs(15000), '0:15');
+    assert.equal(InnerTubeParser.formatMs(65000), '1:05');
+    assert.equal(InnerTubeParser.formatMs(3665000), '61:05');
   });
 
   await t.test('cleanTranscriptText cleans entities and excessive whitespace', () => {
     const raw = '&quot;Hello&quot; &amp; welcome&#39;s to &lt;YouTube&gt;! \n\n  Multiple   spaces. ';
-    const cleaned = mw.cleanTranscriptText(raw);
+    const cleaned = TextCleaner.cleanTranscriptText(raw);
     assert.equal(cleaned, '"Hello" & welcome\'s to <YouTube>! Multiple spaces.');
   });
 
@@ -49,17 +26,15 @@ test('Transcript Processing & InnerTube Parser', async (t) => {
       { tStartMs: 60000, segs: [{ utf8: 'Fourth line to exceed minimum threshold.' }] }
     ];
 
-    const parsed = mw.parseTimedtextEvents(sampleEvents);
-    assert.ok(Array.isArray(parsed), 'Parsed result must be an array');
-    assert.equal(parsed.length, 4);
-    assert.equal(parsed[0].timestamp, '0:16');
-    assert.equal(parsed[0].text, 'Hello world!');
-    assert.equal(parsed[1].timestamp, '0:29');
-    assert.equal(parsed[1].text, 'This is a test transcript segment.');
+    const segments = TimedtextParser.parseTimedtextEvents(sampleEvents);
+    assert.equal(segments.length, 4);
+    assert.equal(segments[0].text, 'Hello world!');
+    assert.equal(segments[0].startMs, 16000);
+    assert.equal(segments[1].text, 'This is a test transcript segment.');
   });
 
   await t.test('extractSegmentsFromInnerTubeJson parses traditional transcriptSegmentRenderer', () => {
-    const mockInnerTubeResponse = {
+    const mockInnerTube = {
       actions: [
         {
           updateEngagementPanelAction: {
@@ -72,26 +47,18 @@ test('Transcript Processing & InnerTube Parser', async (t) => {
                         initialSegments: [
                           {
                             transcriptSegmentRenderer: {
-                              startTimeText: { simpleText: '0:10' },
-                              snippet: { runs: [{ text: 'Welcome to this video.' }] }
+                              startMs: '1000',
+                              endMs: '5000',
+                              snippet: { runs: [{ text: 'Segment one of classical transcript' }] },
+                              startTimeText: { simpleText: '0:01' }
                             }
                           },
                           {
                             transcriptSegmentRenderer: {
-                              startTimeText: { simpleText: '0:25' },
-                              snippet: { runs: [{ text: 'Today we discuss artificial intelligence.' }] }
-                            }
-                          },
-                          {
-                            transcriptSegmentRenderer: {
-                              startTimeText: { simpleText: '0:40' },
-                              snippet: { runs: [{ text: 'Let us see how it works.' }] }
-                            }
-                          },
-                          {
-                            transcriptSegmentRenderer: {
-                              startTimeText: { simpleText: '0:55' },
-                              snippet: { runs: [{ text: 'Here are the key takeaways.' }] }
+                              startMs: '5000',
+                              endMs: '10000',
+                              snippet: { runs: [{ text: 'Segment two with more information' }] },
+                              startTimeText: { simpleText: '0:05' }
                             }
                           }
                         ]
@@ -106,60 +73,45 @@ test('Transcript Processing & InnerTube Parser', async (t) => {
       ]
     };
 
-    const segments = mw.extractSegmentsFromInnerTubeJson(mockInnerTubeResponse);
-    assert.ok(Array.isArray(segments), 'Segments must be extracted');
-    assert.equal(segments.length, 4);
-    assert.equal(segments[0].timestamp, '0:10');
-    assert.equal(segments[0].text, 'Welcome to this video.');
-    assert.equal(segments[3].timestamp, '0:55');
+    const segments = InnerTubeParser.extractSegmentsFromInnerTubeJson(mockInnerTube);
+    assert.ok(Array.isArray(segments), 'Must return an array of segments');
+    assert.equal(segments.length, 2);
+    assert.equal(segments[0].timestamp, '0:01');
+    assert.equal(segments[0].text, 'Segment one of classical transcript');
   });
 
   await t.test('extractSegmentsFromInnerTubeJson parses modern transcriptSegmentViewModel', () => {
-    const mockModernResponse = {
-      actions: [
-        {
-          updateEngagementPanelAction: {
-            content: {
-              macroMarkersPanelRenderer: {
-                contents: [
-                  {
-                    transcriptSegmentViewModel: {
-                      startTimeText: '0:16',
-                      snippet: 'Arrivé face à ce gouffre sans fond...'
-                    }
-                  },
-                  {
-                    transcriptSegmentViewModel: {
-                      startTimeText: { content: '0:29' },
-                      snippet: { runs: [{ text: 'tout droit sortis des enfers qui s\'élève...' }] }
-                    }
-                  },
-                  {
-                    transcriptSegmentViewModel: {
-                      startTimeText: '0:38',
-                      snippet: 'sommeille là-dessous et veut sûrement vous casser la gueule.'
-                    }
-                  },
-                  {
-                    transcriptSegmentViewModel: {
-                      startTimeText: '0:50',
-                      snippet: 'Mais ça fait des jours, des semaines, peut-être même des mois.'
-                    }
-                  }
-                ]
+    const mockModernInnerTube = {
+      frameworkUpdates: {
+        entityBatchUpdate: {
+          mutations: [
+            {
+              payload: {
+                transcriptSegmentViewModel: {
+                  startTimeText: { content: '01:42' },
+                  snippet: { content: 'Deep architecture insights and subagents' }
+                }
+              }
+            },
+            {
+              payload: {
+                transcriptSegmentViewModel: {
+                  startTimeText: '08:15',
+                  snippet: 'Reactive loop mechanisms in modern software'
+                }
               }
             }
-          }
+          ]
         }
-      ]
+      }
     };
 
-    const segments = mw.extractSegmentsFromInnerTubeJson(mockModernResponse);
-    assert.ok(Array.isArray(segments), 'Segments must be extracted from modern view model');
-    assert.equal(segments.length, 4);
-    assert.equal(segments[0].timestamp, '0:16');
-    assert.equal(segments[0].text, 'Arrivé face à ce gouffre sans fond...');
-    assert.equal(segments[1].timestamp, '0:29');
-    assert.ok(segments[1].text.includes('tout droit sortis'));
+    const segments = InnerTubeParser.extractSegmentsFromInnerTubeJson(mockModernInnerTube);
+    assert.ok(Array.isArray(segments), 'Must return an array of modern segments');
+    assert.equal(segments.length, 2);
+    assert.equal(segments[0].timestamp, '01:42');
+    assert.equal(segments[0].text, 'Deep architecture insights and subagents');
+    assert.equal(segments[1].timestamp, '08:15');
+    assert.equal(segments[1].text, 'Reactive loop mechanisms in modern software');
   });
 });

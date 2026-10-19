@@ -1,19 +1,8 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
-
-const contentJsPath = path.resolve(__dirname, '..', 'content.js');
-
-function loadI18N() {
-  const content = fs.readFileSync(contentJsPath, 'utf8');
-  const match = content.match(/const I18N = (\{[\s\S]*?\n  \});/);
-  assert.ok(match, 'I18N dictionary must exist in content.js');
-  return eval('(' + match[1] + ')');
-}
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { I18N } from '../src/locales/index.js';
 
 test('I18N Multi-Language Parity & Integrity', async (t) => {
-  const I18N = loadI18N();
   const expectedLanguages = ['fr', 'en', 'es', 'de', 'it', 'ru', 'ja', 'zh'];
 
   await t.test('supports all 8 required languages', () => {

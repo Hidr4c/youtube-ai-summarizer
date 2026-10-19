@@ -1,38 +1,13 @@
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
-
-const contentJsPath = path.resolve(__dirname, '..', 'content.js');
-const backgroundJsPath = path.resolve(__dirname, '..', 'background.js');
-
-function loadConfigs() {
-  const content = fs.readFileSync(contentJsPath, 'utf8');
-  const bg = fs.readFileSync(backgroundJsPath, 'utf8');
-
-  const providerNamesMatch = content.match(/const PROVIDER_NAMES = (\{[\s\S]*?\n  \});/);
-  assert.ok(providerNamesMatch, 'PROVIDER_NAMES must exist in content.js');
-
-  const cloudModelsMatch = content.match(/const CLOUD_MODELS = (\{[\s\S]*?\n  \});/);
-  assert.ok(cloudModelsMatch, 'CLOUD_MODELS must exist in content.js');
-
-  const apiKeyPortalsMatch = content.match(/const API_KEY_PORTALS = (\{[\s\S]*?\n  \});/);
-  assert.ok(apiKeyPortalsMatch, 'API_KEY_PORTALS must exist in content.js');
-
-  const bgConfigsMatch = bg.match(/const PROVIDER_CONFIGS = (\{[\s\S]*?\n\};)/);
-  assert.ok(bgConfigsMatch, 'PROVIDER_CONFIGS must exist in background.js');
-
-  const PROVIDER_NAMES = eval('(' + providerNamesMatch[1].replace(/;\s*$/, '') + ')');
-  const CLOUD_MODELS = eval('(' + cloudModelsMatch[1].replace(/;\s*$/, '') + ')');
-  const API_KEY_PORTALS = eval('(' + apiKeyPortalsMatch[1].replace(/;\s*$/, '') + ')');
-  const PROVIDER_CONFIGS = eval('(' + bgConfigsMatch[1].replace(/;\s*$/, '') + ')');
-
-  return { PROVIDER_NAMES, CLOUD_MODELS, API_KEY_PORTALS, PROVIDER_CONFIGS };
-}
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {
+  PROVIDER_NAMES,
+  CLOUD_MODELS,
+  API_KEY_PORTALS,
+  PROVIDER_CONFIGS
+} from '../src/config/AIProviderPresets.js';
 
 test('AI Providers & Model Configurations', async (t) => {
-  const { PROVIDER_NAMES, CLOUD_MODELS, API_KEY_PORTALS, PROVIDER_CONFIGS } = loadConfigs();
-
   const cloudProviders = [
     'gemini',
     'groq',
