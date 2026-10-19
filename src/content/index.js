@@ -432,6 +432,50 @@ import { I18N } from '../locales/index.js';
     return new URLSearchParams(window.location.search).get('v') || '';
   }
 
+  /**
+   * Synchronise l'apparence du panneau avec le thème actif de YouTube (Sombre / Clair)
+   */
+  function syncThemeWithYouTube(bannerEl) {
+    const banner = bannerEl || document.getElementById('yt-ai-summarizer-container');
+    if (!banner) return;
+    const htmlEl = document.documentElement;
+    // YouTube utilise l'attribut dark sur <html> en mode sombre, ou la classe dark-theme
+    const isDark = htmlEl.hasAttribute('dark') ||
+                   htmlEl.getAttribute('dark') === 'true' ||
+                   document.body?.classList.contains('dark-theme') ||
+                   window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+
+    if (isDark) {
+      banner.classList.remove('yt-ai-light-theme');
+      banner.classList.add('yt-ai-dark-theme');
+    } else {
+      banner.classList.remove('yt-ai-dark-theme');
+      banner.classList.add('yt-ai-light-theme');
+    }
+  }
+
+  let themeObserverAttached = false;
+  function initThemeSync(banner) {
+    syncThemeWithYouTube(banner);
+    if (!themeObserverAttached) {
+      themeObserverAttached = true;
+      try {
+        const themeObserver = new MutationObserver(() => {
+          syncThemeWithYouTube();
+        });
+        themeObserver.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['dark', 'class']
+        });
+        if (window.matchMedia) {
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            syncThemeWithYouTube();
+          });
+        }
+      } catch (_) {}
+    }
+  }
+
   function handleUrlChange() {
     const banner = document.getElementById('yt-ai-summarizer-container');
     const currentId = getVideoId();
@@ -445,6 +489,7 @@ import { I18N } from '../locales/index.js';
 
     if (banner && banner.isConnected) {
       banner.classList.remove('yt-ai-hidden');
+      syncThemeWithYouTube(banner);
       if (currentId && currentId !== lastVideoId) {
         lastVideoId = currentId;
         resetAllStateForNewVideo();
@@ -1316,6 +1361,7 @@ import { I18N } from '../locales/index.js';
     const banner = document.createElement('div');
     banner.id = 'yt-ai-summarizer-container';
     banner.className = 'is-collapsed'; // Rétracté par défaut
+    syncThemeWithYouTube(banner);
 
     const currentSavedModel = getActiveModel();
     const initialModelLabel = currentSavedModel ? `Model: ${currentSavedModel}` : 'Model: Loading...';
@@ -1683,6 +1729,7 @@ import { I18N } from '../locales/index.js';
       syncSettingsUI();
       populateVoiceDropdown();
       applyLanguage(currentLang);
+      initThemeSync(banner);
     } catch (e) {
       console.error('[YT AI] Error syncing UI state:', e);
     }
@@ -2563,11 +2610,21 @@ import { I18N } from '../locales/index.js';
     return null;
   }
 
+  // Expressions régulières multilingues pour la détection universelle des éléments natifs YouTube
+  const TRANSCRIPT_LANG_REGEX = /transcript|transcription|transcrip|transkript|trascriz|trascrizione|транскрип|расшифровк|文字起こし|文字记录|文字記錄|스크립트|نص|प्रतिलेख/i;
+  const CLOSE_BTN_LANG_REGEX = /fermer|close|schließen|cerrar|chiudi|fechar|закрыть|sluiten|stäng|luk|sulje|閉じる|닫기|关闭|關閉|إغلاق|बंद करें/i;
+
   function isNativeTranscriptPanelVisible() {
     const segs = document.querySelectorAll(
       'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"]'
     );
-    if (segs && segs.length > 3) return true;
+    if (segs && segs.length > 3) {
+      for (const seg of segs) {
+        if (seg.offsetParent !== null && !document.getElementById('yt-ai-stealth-style')) {
+          return true;
+        }
+      }
+    }
 
     const panels = document.querySelectorAll(
       'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ' +
@@ -2577,8 +2634,9 @@ import { I18N } from '../locales/index.js';
       'ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
     );
     for (const panel of panels) {
+      if (panel.style.display === 'none' || panel.hasAttribute('hidden')) continue;
       const vis = panel.getAttribute('visibility');
-      if (vis === 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED') return true;
+      if (vis === 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED' && panel.offsetParent !== null) return true;
       if (vis !== 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN' && !panel.hasAttribute('hidden') && panel.offsetParent !== null && panel.offsetHeight > 100) {
         return true;
       }
@@ -2595,11 +2653,66 @@ import { I18N } from '../locales/index.js';
       'ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
     );
     for (const panel of panels) {
-      const closeBtn = panel.querySelector(
-        '#visibility-button button, button[aria-label*="Fermer" i], button[aria-label*="Close" i], yt-button-shape button'
-      );
-      if (closeBtn) closeBtn.click();
+      // 1. Chercher le bouton de fermeture STRICTEMENT dans l'en-tête du volet
+      // (NE JAMAIS chercher dans tout le panneau pour éviter de cliquer sur les onglets "Timeline" / "Transcription" !)
+      const header = panel.querySelector('ytd-engagement-panel-title-header-renderer, #header, [id="header"]');
+      let closeBtn = null;
+      if (header) {
+        // Priorité 1 : Bouton dans #visibility-button (bouton croix standard YouTube)
+        closeBtn = header.querySelector('#visibility-button button, [id="visibility-button"] button');
+
+        // Priorité 2 : Bouton portant un aria-label ou title de fermeture multilingue
+        if (!closeBtn) {
+          const headerBtns = header.querySelectorAll('button');
+          for (const btn of headerBtns) {
+            const aria = btn.getAttribute('aria-label') || '';
+            const title = btn.getAttribute('title') || '';
+            if (CLOSE_BTN_LANG_REGEX.test(aria) || CLOSE_BTN_LANG_REGEX.test(title)) {
+              closeBtn = btn;
+              break;
+            }
+          }
+        }
+
+        // Priorité 3 : Bouton contenant le tracé SVG de la croix (close icon)
+        if (!closeBtn) {
+          const svgs = header.querySelectorAll('svg path');
+          for (const p of svgs) {
+            const d = p.getAttribute('d') || '';
+            if (d.includes('6.41') || d.includes('12.7') || d.includes('17.59') || d.includes('18.3 5.71')) {
+              closeBtn = p.closest('button');
+              if (closeBtn) break;
+            }
+          }
+        }
+
+        // Priorité 4 : Dernier bouton du header
+        if (!closeBtn) {
+          const allHeaderBtns = header.querySelectorAll('button');
+          if (allHeaderBtns.length > 0) {
+            closeBtn = allHeaderBtns[allHeaderBtns.length - 1];
+          }
+        }
+      }
+
+      if (closeBtn) {
+        try {
+          closeBtn.click();
+        } catch (_) {}
+      }
+
+      // Appels aux méthodes natives YouTube / Polymer / Lit si présentes
+      if (typeof panel.hide === 'function') {
+        try { panel.hide(); } catch (_) {}
+      }
+      if (typeof panel.close === 'function') {
+        try { panel.close(); } catch (_) {}
+      }
+
+      // Masquage forcé immédiat et persistant pour garantir l'absence totale de pop-up à l'écran
       panel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN');
+      panel.setAttribute('hidden', '');
+      panel.style.setProperty('display', 'none', 'important');
     }
   }
 
@@ -2626,18 +2739,27 @@ import { I18N } from '../locales/index.js';
       return true;
     }
 
+    // Recherche multilingue de l'onglet de transcription
     const candidates = panel.querySelectorAll(
-      'button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer, yt-formatted-string'
+      'button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer, yt-formatted-string, yt-button-shape'
     );
     for (const el of candidates) {
-      const text = (el.textContent || '').trim().toLowerCase();
-      const aria = (el.getAttribute('aria-label') || '').trim().toLowerCase();
-      if (text === 'transcription' || text === 'transcript' || aria === 'transcription' || aria === 'transcript') {
+      const text = (el.textContent || '').trim();
+      const aria = (el.getAttribute('aria-label') || '').trim();
+      if (TRANSCRIPT_LANG_REGEX.test(text) || TRANSCRIPT_LANG_REGEX.test(aria)) {
         const clickable = el.closest('button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer') || el;
         clickable.click();
         return true;
       }
     }
+
+    // Si le panneau possède un sélecteur d'onglets (Timeline vs Transcription), le 2e onglet est la transcription
+    const tabList = panel.querySelectorAll('[role="tab"], yt-chip-cloud-chip-renderer, ytd-sub-feed-selector-renderer button');
+    if (tabList.length >= 2) {
+      tabList[1].click();
+      return true;
+    }
+
     return false;
   }
 
@@ -2696,18 +2818,34 @@ import { I18N } from '../locales/index.js';
     }
 
     try {
-      let directBtn = document.querySelector(
-        'ytd-video-description-transcript-section-renderer button, ' +
-        'button[aria-label*="transcription" i], button[aria-label*="transcript" i]'
-      );
+      let directBtn = document.querySelector('ytd-video-description-transcript-section-renderer button');
+      if (!directBtn) {
+        const allDescBtns = document.querySelectorAll('#description button, ytd-watch-metadata button');
+        for (const btn of allDescBtns) {
+          const aria = btn.getAttribute('aria-label') || '';
+          const text = btn.textContent || '';
+          if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) {
+            directBtn = btn;
+            break;
+          }
+        }
+      }
 
       if (!directBtn && expandDesc && expandDesc.offsetParent !== null) {
         expandDesc.click();
         await new Promise(r => setTimeout(r, 150));
-        directBtn = document.querySelector(
-          'ytd-video-description-transcript-section-renderer button, ' +
-          'button[aria-label*="transcription" i], button[aria-label*="transcript" i]'
-        );
+        directBtn = document.querySelector('ytd-video-description-transcript-section-renderer button');
+        if (!directBtn) {
+          const allDescBtns = document.querySelectorAll('#description button, ytd-watch-metadata button');
+          for (const btn of allDescBtns) {
+            const aria = btn.getAttribute('aria-label') || '';
+            const text = btn.textContent || '';
+            if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) {
+              directBtn = btn;
+              break;
+            }
+          }
+        }
       }
 
       if (directBtn) {
@@ -2715,8 +2853,7 @@ import { I18N } from '../locales/index.js';
       } else {
         const markersBtn = document.querySelector(
           'ytd-macro-markers-list-renderer button, ' +
-          '#structured-description ytd-macro-markers-list-renderer [role="button"], ' +
-          'button[aria-label*="chapitre" i], button[aria-label*="chapter" i]'
+          '#structured-description ytd-macro-markers-list-renderer [role="button"]'
         );
         if (markersBtn) {
           markersBtn.click();
@@ -2748,13 +2885,24 @@ import { I18N } from '../locales/index.js';
     } catch (_) {
       return null;
     } finally {
-      if (stealthStyle && stealthStyle.parentNode) {
-        stealthStyle.parentNode.removeChild(stealthStyle);
-      }
+      // Nettoyage impératif et invisible :
+      // Si le volet n'était pas ouvert à l'origine, le refermer AVANT de retirer stealthStyle !
       if (!wasPanelOpen) {
         closeNativeTranscriptPanel();
         if (!wasDescExpanded) {
           collapseDescription();
+        }
+        // Attendre 350ms que l'animation de fermeture native de YouTube se termine dans le vide
+        // avant d'enlever le style furtif, évitant tout effet de "panneau qui s'affiche ou reste ouvert"
+        setTimeout(() => {
+          if (stealthStyle && stealthStyle.parentNode) {
+            stealthStyle.parentNode.removeChild(stealthStyle);
+          }
+        }, 350);
+      } else {
+        // Le panneau était déjà ouvert par l'utilisateur, retirer stealthStyle immédiatement
+        if (stealthStyle && stealthStyle.parentNode) {
+          stealthStyle.parentNode.removeChild(stealthStyle);
         }
       }
     }

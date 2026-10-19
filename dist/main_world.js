@@ -374,6 +374,12 @@
           if (obj.getTranscriptEndpoint && typeof obj.getTranscriptEndpoint.params === "string") {
             return obj.getTranscriptEndpoint.params;
           }
+          if (obj.getTranscriptCommand && typeof obj.getTranscriptCommand.params === "string") {
+            return obj.getTranscriptCommand.params;
+          }
+          if (obj.targetId === "engagement-panel-searchable-transcript" && obj.continuation && typeof obj.continuation === "string") {
+            return obj.continuation;
+          }
           const keys = Array.isArray(obj) ? null : Object.keys(obj);
           const list = keys || obj;
           for (let i = 0; i < list.length; i++) {
@@ -403,6 +409,10 @@
           const p = searchParams(window.ytInitialData);
           if (p) return p;
         }
+        if (window.ytInitialPlayerResponse) {
+          const p = searchParams(window.ytInitialPlayerResponse);
+          if (p) return p;
+        }
       } catch (_) {
       }
       return null;
@@ -416,11 +426,20 @@
         const apiKey = window.ytcfg?.get?.("INNERTUBE_API_KEY");
         const context = window.ytcfg?.get?.("INNERTUBE_CONTEXT");
         if (!apiKey || !context) return null;
+        const clientName = String(window.ytcfg?.get?.("INNERTUBE_CLIENT_NAME") || "1");
+        const clientVersion = String(window.ytcfg?.get?.("INNERTUBE_CLIENT_VERSION") || "");
+        const visitorData = String(window.ytcfg?.get?.("VISITOR_DATA") || "");
+        const headers = {
+          "Content-Type": "application/json",
+          "X-YouTube-Client-Name": clientName
+        };
+        if (clientVersion) headers["X-YouTube-Client-Version"] = clientVersion;
+        if (visitorData) headers["X-Goog-Visitor-Id"] = visitorData;
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 4e3);
         const res = await fetch(`https://www.youtube.com/youtubei/v1/get_transcript?key=${apiKey}`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers,
           body: JSON.stringify({ context, params }),
           credentials: "include",
           signal: controller.signal

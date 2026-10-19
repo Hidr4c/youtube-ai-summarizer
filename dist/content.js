@@ -1480,6 +1480,41 @@
     function getVideoId() {
       return new URLSearchParams(window.location.search).get("v") || "";
     }
+    function syncThemeWithYouTube(bannerEl) {
+      const banner = bannerEl || document.getElementById("yt-ai-summarizer-container");
+      if (!banner) return;
+      const htmlEl = document.documentElement;
+      const isDark = htmlEl.hasAttribute("dark") || htmlEl.getAttribute("dark") === "true" || document.body?.classList.contains("dark-theme") || window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+      if (isDark) {
+        banner.classList.remove("yt-ai-light-theme");
+        banner.classList.add("yt-ai-dark-theme");
+      } else {
+        banner.classList.remove("yt-ai-dark-theme");
+        banner.classList.add("yt-ai-light-theme");
+      }
+    }
+    let themeObserverAttached = false;
+    function initThemeSync(banner) {
+      syncThemeWithYouTube(banner);
+      if (!themeObserverAttached) {
+        themeObserverAttached = true;
+        try {
+          const themeObserver = new MutationObserver(() => {
+            syncThemeWithYouTube();
+          });
+          themeObserver.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["dark", "class"]
+          });
+          if (window.matchMedia) {
+            window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+              syncThemeWithYouTube();
+            });
+          }
+        } catch (_) {
+        }
+      }
+    }
     function handleUrlChange() {
       const banner = document.getElementById("yt-ai-summarizer-container");
       const currentId = getVideoId();
@@ -1491,6 +1526,7 @@
       }
       if (banner && banner.isConnected) {
         banner.classList.remove("yt-ai-hidden");
+        syncThemeWithYouTube(banner);
         if (currentId && currentId !== lastVideoId) {
           lastVideoId = currentId;
           resetAllStateForNewVideo();
@@ -2174,6 +2210,7 @@
       const banner = document.createElement("div");
       banner.id = "yt-ai-summarizer-container";
       banner.className = "is-collapsed";
+      syncThemeWithYouTube(banner);
       const currentSavedModel = getActiveModel();
       const initialModelLabel = currentSavedModel ? `Model: ${currentSavedModel}` : "Model: Loading...";
       const initialOptionHtml = currentSavedModel ? `<option value="${escapeHtml(currentSavedModel)}" selected>${escapeHtml(currentSavedModel)}</option>` : '<option value="">Loading...</option>';
@@ -2535,6 +2572,7 @@
         syncSettingsUI();
         populateVoiceDropdown();
         applyLanguage(currentLang);
+        initThemeSync(banner);
       } catch (e) {
         console.error("[YT AI] Error syncing UI state:", e);
       }
@@ -3255,17 +3293,26 @@
       }
       return null;
     }
+    const TRANSCRIPT_LANG_REGEX = /transcript|transcription|transcrip|transkript|trascriz|trascrizione|транскрип|расшифровк|文字起こし|文字记录|文字記錄|스크립트|نص|प्रतिलेख/i;
+    const CLOSE_BTN_LANG_REGEX = /fermer|close|schließen|cerrar|chiudi|fechar|закрыть|sluiten|stäng|luk|sulje|閉じる|닫기|关闭|關閉|إغلاق|बंद करें/i;
     function isNativeTranscriptPanelVisible() {
       const segs = document.querySelectorAll(
         'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"]'
       );
-      if (segs && segs.length > 3) return true;
+      if (segs && segs.length > 3) {
+        for (const seg of segs) {
+          if (seg.offsetParent !== null && !document.getElementById("yt-ai-stealth-style")) {
+            return true;
+          }
+        }
+      }
       const panels = document.querySelectorAll(
         'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"], ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
       );
       for (const panel of panels) {
+        if (panel.style.display === "none" || panel.hasAttribute("hidden")) continue;
         const vis = panel.getAttribute("visibility");
-        if (vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED") return true;
+        if (vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" && panel.offsetParent !== null) return true;
         if (vis !== "ENGAGEMENT_PANEL_VISIBILITY_HIDDEN" && !panel.hasAttribute("hidden") && panel.offsetParent !== null && panel.offsetHeight > 100) {
           return true;
         }
@@ -3277,11 +3324,59 @@
         'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"], ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
       );
       for (const panel of panels) {
-        const closeBtn = panel.querySelector(
-          '#visibility-button button, button[aria-label*="Fermer" i], button[aria-label*="Close" i], yt-button-shape button'
-        );
-        if (closeBtn) closeBtn.click();
+        const header = panel.querySelector('ytd-engagement-panel-title-header-renderer, #header, [id="header"]');
+        let closeBtn = null;
+        if (header) {
+          closeBtn = header.querySelector('#visibility-button button, [id="visibility-button"] button');
+          if (!closeBtn) {
+            const headerBtns = header.querySelectorAll("button");
+            for (const btn of headerBtns) {
+              const aria = btn.getAttribute("aria-label") || "";
+              const title = btn.getAttribute("title") || "";
+              if (CLOSE_BTN_LANG_REGEX.test(aria) || CLOSE_BTN_LANG_REGEX.test(title)) {
+                closeBtn = btn;
+                break;
+              }
+            }
+          }
+          if (!closeBtn) {
+            const svgs = header.querySelectorAll("svg path");
+            for (const p of svgs) {
+              const d = p.getAttribute("d") || "";
+              if (d.includes("6.41") || d.includes("12.7") || d.includes("17.59") || d.includes("18.3 5.71")) {
+                closeBtn = p.closest("button");
+                if (closeBtn) break;
+              }
+            }
+          }
+          if (!closeBtn) {
+            const allHeaderBtns = header.querySelectorAll("button");
+            if (allHeaderBtns.length > 0) {
+              closeBtn = allHeaderBtns[allHeaderBtns.length - 1];
+            }
+          }
+        }
+        if (closeBtn) {
+          try {
+            closeBtn.click();
+          } catch (_) {
+          }
+        }
+        if (typeof panel.hide === "function") {
+          try {
+            panel.hide();
+          } catch (_) {
+          }
+        }
+        if (typeof panel.close === "function") {
+          try {
+            panel.close();
+          } catch (_) {
+          }
+        }
         panel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_HIDDEN");
+        panel.setAttribute("hidden", "");
+        panel.style.setProperty("display", "none", "important");
       }
     }
     function collapseDescription() {
@@ -3301,16 +3396,21 @@
         return true;
       }
       const candidates = panel.querySelectorAll(
-        'button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer, yt-formatted-string'
+        'button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer, yt-formatted-string, yt-button-shape'
       );
       for (const el of candidates) {
-        const text = (el.textContent || "").trim().toLowerCase();
-        const aria = (el.getAttribute("aria-label") || "").trim().toLowerCase();
-        if (text === "transcription" || text === "transcript" || aria === "transcription" || aria === "transcript") {
+        const text = (el.textContent || "").trim();
+        const aria = (el.getAttribute("aria-label") || "").trim();
+        if (TRANSCRIPT_LANG_REGEX.test(text) || TRANSCRIPT_LANG_REGEX.test(aria)) {
           const clickable = el.closest('button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer') || el;
           clickable.click();
           return true;
         }
+      }
+      const tabList = panel.querySelectorAll('[role="tab"], yt-chip-cloud-chip-renderer, ytd-sub-feed-selector-renderer button');
+      if (tabList.length >= 2) {
+        tabList[1].click();
+        return true;
       }
       return false;
     }
@@ -3365,21 +3465,39 @@
         document.head.appendChild(stealthStyle);
       }
       try {
-        let directBtn = document.querySelector(
-          'ytd-video-description-transcript-section-renderer button, button[aria-label*="transcription" i], button[aria-label*="transcript" i]'
-        );
+        let directBtn = document.querySelector("ytd-video-description-transcript-section-renderer button");
+        if (!directBtn) {
+          const allDescBtns = document.querySelectorAll("#description button, ytd-watch-metadata button");
+          for (const btn of allDescBtns) {
+            const aria = btn.getAttribute("aria-label") || "";
+            const text = btn.textContent || "";
+            if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) {
+              directBtn = btn;
+              break;
+            }
+          }
+        }
         if (!directBtn && expandDesc && expandDesc.offsetParent !== null) {
           expandDesc.click();
           await new Promise((r) => setTimeout(r, 150));
-          directBtn = document.querySelector(
-            'ytd-video-description-transcript-section-renderer button, button[aria-label*="transcription" i], button[aria-label*="transcript" i]'
-          );
+          directBtn = document.querySelector("ytd-video-description-transcript-section-renderer button");
+          if (!directBtn) {
+            const allDescBtns = document.querySelectorAll("#description button, ytd-watch-metadata button");
+            for (const btn of allDescBtns) {
+              const aria = btn.getAttribute("aria-label") || "";
+              const text = btn.textContent || "";
+              if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) {
+                directBtn = btn;
+                break;
+              }
+            }
+          }
         }
         if (directBtn) {
           directBtn.click();
         } else {
           const markersBtn = document.querySelector(
-            'ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"], button[aria-label*="chapitre" i], button[aria-label*="chapter" i]'
+            'ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]'
           );
           if (markersBtn) {
             markersBtn.click();
@@ -3408,13 +3526,19 @@
       } catch (_) {
         return null;
       } finally {
-        if (stealthStyle && stealthStyle.parentNode) {
-          stealthStyle.parentNode.removeChild(stealthStyle);
-        }
         if (!wasPanelOpen) {
           closeNativeTranscriptPanel();
           if (!wasDescExpanded) {
             collapseDescription();
+          }
+          setTimeout(() => {
+            if (stealthStyle && stealthStyle.parentNode) {
+              stealthStyle.parentNode.removeChild(stealthStyle);
+            }
+          }, 350);
+        } else {
+          if (stealthStyle && stealthStyle.parentNode) {
+            stealthStyle.parentNode.removeChild(stealthStyle);
           }
         }
       }

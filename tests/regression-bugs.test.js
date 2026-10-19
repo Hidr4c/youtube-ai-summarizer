@@ -185,4 +185,83 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     assert.equal(provider.normalizeUrl('http://192.168.56.1:1234///'), 'http://192.168.56.1:1234');
     assert.equal(provider.normalizeUrl('https://api.deepseek.com/v1'), 'https://api.deepseek.com/v1');
   });
+
+  // 6. REGRESSION: Header-Scoped Close, Stealth Timeout & Multilingual Regex
+  await suite.test('Native Transcript Closing: strictly scoped to header, multilingual, and stealth delay preserved', () => {
+    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+
+    // Forbidden: unscoped yt-button-shape button search on panel that would match body tabs
+    assert.equal(
+      contentSrc.includes("panel.querySelector('#visibility-button button, button[aria-label*=\"Fermer\" i], button[aria-label*=\"Close\" i], yt-button-shape button')"),
+      false,
+      'Close button search must never match body tabs via unscoped yt-button-shape button'
+    );
+
+    // Required: Scoped strictly to header
+    assert.match(contentSrc, /header\.querySelector\('#visibility-button button/);
+    assert.match(contentSrc, /panel\.style\.setProperty\('display',\s*'none'/);
+
+    // Required: Multilingual regex
+    assert.match(contentSrc, /TRANSCRIPT_LANG_REGEX/);
+    assert.match(contentSrc, /CLOSE_BTN_LANG_REGEX/);
+
+    // Test regex on various languages
+    const transRegex = /transcript|transcription|transcrip|transkript|trascriz|trascrizione|транскрип|расшифровк|文字起こし|文字记录|文字記錄|스크립트|نص|प्रतिलेख/i;
+    assert.equal(transRegex.test('Transcription'), true, 'Matches French');
+    assert.equal(transRegex.test('Show transcript'), true, 'Matches English');
+    assert.equal(transRegex.test('Transkript'), true, 'Matches German');
+    assert.equal(transRegex.test('Mostrar transcripción'), true, 'Matches Spanish');
+    assert.equal(transRegex.test('Trascrizione'), true, 'Matches Italian');
+    assert.equal(transRegex.test('Показать расшифровку видео'), true, 'Matches Russian');
+    assert.equal(transRegex.test('文字起こし'), true, 'Matches Japanese');
+    assert.equal(transRegex.test('文字记录'), true, 'Matches Chinese');
+    assert.equal(transRegex.test('스크립트'), true, 'Matches Korean');
+
+    const closeRegex = /fermer|close|schließen|cerrar|chiudi|fechar|закрыть|sluiten|stäng|luk|sulje|閉じる|닫기|关闭|關閉|إغلاق|बंद करें/i;
+    assert.equal(closeRegex.test('Fermer'), true, 'Matches French close');
+    assert.equal(closeRegex.test('Close'), true, 'Matches English close');
+    assert.equal(closeRegex.test('Schließen'), true, 'Matches German close');
+    assert.equal(closeRegex.test('Cerrar'), true, 'Matches Spanish close');
+    assert.equal(closeRegex.test('Chiudi'), true, 'Matches Italian close');
+    assert.equal(closeRegex.test('Закрыть'), true, 'Matches Russian close');
+    assert.equal(closeRegex.test('閉じる'), true, 'Matches Japanese close');
+    assert.equal(closeRegex.test('关闭'), true, 'Matches Chinese close');
+
+    // Required: Stealth delay to avoid flash when closing
+    assert.match(contentSrc, /setTimeout\(\(\)\s*=>\s*\{[\s\S]*?stealthStyle\.parentNode\.removeChild\(stealthStyle\)[\s\S]*?\},\s*350\)/);
+  });
+
+  // 7. REGRESSION: YouTube Theme Adaptation (Dark & Light Mode Support)
+  await suite.test('Theme Adaptation: CSS variables and dynamic observer for dark/light YouTube parity', () => {
+    const cssSrc = fs.readFileSync(path.join(rootDir, 'content.css'), 'utf-8');
+    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+
+    // CSS Theme variables definitions
+    assert.match(cssSrc, /html\[dark\]\s*#yt-ai-summarizer-container/);
+    assert.match(cssSrc, /html:not\(\[dark\]\)\s*#yt-ai-summarizer-container/);
+    assert.match(cssSrc, /\.yt-ai-dark-theme/);
+    assert.match(cssSrc, /\.yt-ai-light-theme/);
+
+    // Essential theme variables must be declared
+    const requiredVars = [
+      '--yt-ai-bg',
+      '--yt-ai-bg-header',
+      '--yt-ai-bg-card',
+      '--yt-ai-bg-secondary',
+      '--yt-ai-border',
+      '--yt-ai-border-subtle',
+      '--yt-ai-text',
+      '--yt-ai-text-secondary',
+      '--yt-ai-timestamp-bg',
+      '--yt-ai-timestamp-text'
+    ];
+    for (const v of requiredVars) {
+      assert.equal(cssSrc.includes(v), true, `CSS variable ${v} must be defined`);
+    }
+
+    // Dynamic theme synchronization functions in content/index.js
+    assert.match(contentSrc, /function syncThemeWithYouTube\(/);
+    assert.match(contentSrc, /function initThemeSync\(/);
+    assert.match(contentSrc, /attributes:\s*true,\s*attributeFilter:\s*\['dark',\s*'class'\]/);
+  });
 });
