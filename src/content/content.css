@@ -1,0 +1,1406 @@
+/* ==========================================================================
+   THEME VARIABLES : DARK THEME (PAR DÉFAUT / YOUTUBE SOMBRE)
+   ========================================================================== */
+#yt-ai-summarizer-container,
+html[dark] #yt-ai-summarizer-container,
+#yt-ai-summarizer-container.yt-ai-dark-theme {
+  --yt-ai-bg: #0f0f0f;
+  --yt-ai-bg-header: #0f0f0f;
+  --yt-ai-bg-expanded: #0d1117;
+  --yt-ai-bg-card: #161b22;
+  --yt-ai-bg-secondary: #21262d;
+  --yt-ai-bg-input: #161b22;
+  --yt-ai-border: #30363d;
+  --yt-ai-border-subtle: #21262d;
+  --yt-ai-text: #f0f6fc;
+  --yt-ai-text-secondary: #8b949e;
+  --yt-ai-text-muted: #6e7681;
+  --yt-ai-brand-text: #ffffff;
+  --yt-ai-hover-bg: #30363d;
+  --yt-ai-hover-light: rgba(255, 255, 255, 0.08);
+  --yt-ai-shadow: rgba(0, 0, 0, 0.5);
+  --yt-ai-assistant-bubble: #161b22;
+  --yt-ai-assistant-border: #30363d;
+  --yt-ai-reasoning-bg: #161b22;
+  --yt-ai-reasoning-border: rgba(188, 140, 255, 0.2);
+  --yt-ai-reasoning-summary: #a5d6ff;
+  --yt-ai-reasoning-body: #8b949e;
+  --yt-ai-empty-bg: rgba(22, 27, 34, 0.45);
+  --yt-ai-empty-border: rgba(48, 54, 61, 0.85);
+  --yt-ai-code-bg: rgba(255, 255, 255, 0.1);
+  --yt-ai-point-line: rgba(88, 166, 255, 0.25);
+  --yt-ai-timestamp-bg: rgba(88, 166, 255, 0.12);
+  --yt-ai-timestamp-border: rgba(88, 166, 255, 0.2);
+  --yt-ai-timestamp-text: #58a6ff;
+}
+
+/* ==========================================================================
+   THEME VARIABLES : LIGHT THEME (YOUTUBE CLAIR)
+   ========================================================================== */
+html:not([dark]) #yt-ai-summarizer-container,
+#yt-ai-summarizer-container.yt-ai-light-theme {
+  --yt-ai-bg: #ffffff;
+  --yt-ai-bg-header: #ffffff;
+  --yt-ai-bg-expanded: #f9f9f9;
+  --yt-ai-bg-card: #ffffff;
+  --yt-ai-bg-secondary: #f2f2f2;
+  --yt-ai-bg-input: #ffffff;
+  --yt-ai-border: #e5e5e5;
+  --yt-ai-border-subtle: #eeeeee;
+  --yt-ai-text: #0f0f0f;
+  --yt-ai-text-secondary: #606060;
+  --yt-ai-text-muted: #909090;
+  --yt-ai-brand-text: #0f0f0f;
+  --yt-ai-hover-bg: #e5e5e5;
+  --yt-ai-hover-light: rgba(0, 0, 0, 0.05);
+  --yt-ai-shadow: rgba(0, 0, 0, 0.08);
+  --yt-ai-assistant-bubble: #ffffff;
+  --yt-ai-assistant-border: #e5e5e5;
+  --yt-ai-reasoning-bg: #f8f9fa;
+  --yt-ai-reasoning-border: #e2e8f0;
+  --yt-ai-reasoning-summary: #0969da;
+  --yt-ai-reasoning-body: #475569;
+  --yt-ai-empty-bg: #ffffff;
+  --yt-ai-empty-border: #d0d7de;
+  --yt-ai-code-bg: rgba(0, 0, 0, 0.06);
+  --yt-ai-point-line: rgba(9, 105, 218, 0.3);
+  --yt-ai-timestamp-bg: rgba(9, 105, 218, 0.08);
+  --yt-ai-timestamp-border: rgba(9, 105, 218, 0.2);
+  --yt-ai-timestamp-text: #0969da;
+}
+
+#yt-ai-summarizer-container {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  position: relative; /* Intégré tout en haut de la page de lecture YouTube (pleine largeur) */
+  background-color: var(--yt-ai-bg);
+  border-bottom: 1px solid var(--yt-ai-border-subtle);
+  color: var(--yt-ai-text);
+  font-family: "YouTube Sans", "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  margin: 0;
+  display: block;
+  z-index: 999;
+  transition: all 0.2s ease-in-out;
+  overflow-x: clip;
+}
+
+/* Version rétractée par défaut (Hauteur fixe 44px) */
+#yt-ai-summarizer-container.is-collapsed .yt-ai-expanded-content {
+  display: none !important;
+}
+
+.yt-ai-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 44px;
+  box-sizing: border-box;
+  background: var(--yt-ai-bg-header);
+  border-bottom: 1px solid var(--yt-ai-border-subtle);
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.yt-ai-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.yt-ai-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--yt-ai-brand-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.yt-ai-brand svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.yt-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  background: var(--yt-ai-bg-secondary);
+  border: 1px solid var(--yt-ai-border);
+  color: var(--yt-ai-text-secondary);
+}
+
+.yt-ai-badge.online {
+  color: #7ee787;
+  border-color: rgba(63, 185, 80, 0.4);
+  background: rgba(63, 185, 80, 0.1);
+}
+
+.yt-ai-badge.offline {
+  color: #ff7b72;
+  border-color: rgba(248, 81, 73, 0.4);
+  background: rgba(248, 81, 73, 0.1);
+}
+
+.yt-ai-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+/* Pilule Modèle Rapide (Cliquable pour ouvrir les réglages du modèle) */
+.yt-ai-model-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--yt-ai-timestamp-bg);
+  border: 1px solid var(--yt-ai-timestamp-border);
+  color: var(--yt-ai-timestamp-text);
+  cursor: pointer;
+  outline: none;
+  max-width: 200px;
+  flex-shrink: 1;
+  min-width: 0;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.yt-ai-model-pill:hover {
+  background: rgba(56, 139, 253, 0.24);
+  border-color: var(--yt-ai-timestamp-text);
+  color: var(--yt-ai-timestamp-text);
+  transform: translateY(-1px);
+}
+
+.yt-ai-model-pill #ytAiHeaderModelText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.yt-ai-pill-arrow {
+  font-size: 9px;
+  opacity: 0.7;
+}
+
+.yt-ai-header-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Cluster d'action centrale : Format + Bouton Résumer */
+.yt-ai-action-cluster {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.yt-ai-summarize-cta {
+  height: 28px;
+  padding: 0 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(230, 33, 23, 0.4);
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
+
+/* Boutons segmentés de sélection rapide du Format */
+.yt-ai-format-pills {
+  display: inline-flex;
+  align-items: center;
+  background: var(--yt-ai-bg-secondary);
+  border: 1px solid var(--yt-ai-border);
+  border-radius: 20px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.yt-ai-format-pill {
+  background: transparent;
+  border: none;
+  border-radius: 16px;
+  color: var(--yt-ai-text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  outline: none;
+  white-space: nowrap;
+}
+
+.yt-ai-format-pill:hover {
+  color: var(--yt-ai-text);
+  background: var(--yt-ai-hover-light);
+}
+
+.yt-ai-format-pill.active {
+  color: #ffffff;
+  background: #1f6feb;
+  box-shadow: 0 1px 4px rgba(31, 111, 235, 0.4);
+}
+
+/* Bouton Paramètres / Tiroir */
+.yt-ai-settings-toggle-btn {
+  background-color: var(--yt-ai-bg-secondary);
+  border: 1px solid var(--yt-ai-border);
+  color: var(--yt-ai-text);
+  font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.yt-ai-settings-toggle-btn:hover {
+  background-color: var(--yt-ai-hover-bg);
+  border-color: var(--yt-ai-timestamp-text);
+  color: var(--yt-ai-text);
+}
+
+.yt-ai-settings-toggle-btn.active {
+  background-color: #1f6feb;
+  border-color: #388bfd;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(31, 111, 235, 0.4);
+}
+
+.yt-ai-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.yt-ai-header-lang-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.yt-ai-header-lang-wrapper label {
+  font-size: 11px;
+  color: var(--yt-ai-text-secondary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.yt-ai-header-lang-select {
+  padding: 3px 8px;
+  font-size: 11.5px;
+  height: 28px;
+  border-radius: 6px;
+  background-color: var(--yt-ai-bg-secondary);
+  border: 1px solid var(--yt-ai-border);
+  color: var(--yt-ai-text);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.yt-ai-header-lang-select:hover {
+  border-color: var(--yt-ai-timestamp-text);
+  background-color: var(--yt-ai-hover-bg);
+}
+
+.yt-ai-header-lang-select:focus {
+  border-color: var(--yt-ai-timestamp-text);
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+}
+
+/* Boutons */
+.yt-ai-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.yt-ai-btn-primary {
+  background: linear-gradient(135deg, #e62117, #c4120a);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(230, 33, 23, 0.4);
+}
+
+.yt-ai-btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff2e24, #d9140b);
+  box-shadow: 0 4px 10px rgba(230, 33, 23, 0.6);
+  transform: translateY(-1px);
+}
+
+.yt-ai-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.yt-ai-btn-secondary {
+  background-color: var(--yt-ai-bg-secondary);
+  color: var(--yt-ai-text);
+  border-color: var(--yt-ai-border);
+}
+
+.yt-ai-btn-secondary:hover {
+  background-color: var(--yt-ai-hover-bg);
+  color: var(--yt-ai-text);
+}
+
+.yt-ai-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--yt-ai-border);
+  color: var(--yt-ai-text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+
+.yt-ai-toggle-btn:hover {
+  color: var(--yt-ai-text);
+  background: var(--yt-ai-hover-light);
+  border-color: var(--yt-ai-border);
+}
+
+/* Contenu déplié (Full Width dans la page) */
+.yt-ai-expanded-content {
+  padding: 14px 20px;
+  background-color: var(--yt-ai-bg-expanded);
+  border-top: 1px solid var(--yt-ai-border-subtle);
+  display: block;
+  max-width: 1700px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Barre de contrôles */
+.yt-ai-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--yt-ai-border-subtle);
+  margin-bottom: 12px;
+}
+
+.yt-ai-controls-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.yt-ai-controls-group label {
+  font-size: 11px;
+  color: var(--yt-ai-text-secondary);
+  font-weight: 500;
+}
+
+.yt-ai-select, .yt-ai-input {
+  background-color: var(--yt-ai-bg-input);
+  border: 1px solid var(--yt-ai-border);
+  color: var(--yt-ai-text);
+  padding: 5px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  outline: none;
+}
+
+.yt-ai-select:focus, .yt-ai-input:focus {
+  border-color: var(--yt-ai-timestamp-text);
+}
+
+.yt-ai-api-key-input {
+  width: 220px;
+  font-family: monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.5px;
+}
+
+.yt-ai-link {
+  color: var(--yt-ai-timestamp-text);
+  font-size: 11px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.yt-ai-link:hover {
+  text-decoration: underline;
+  background-color: var(--yt-ai-timestamp-bg);
+}
+
+.yt-ai-pills {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.yt-ai-pill {
+  background: var(--yt-ai-bg-secondary);
+  border: 1px solid var(--yt-ai-border);
+  color: var(--yt-ai-text-secondary);
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.yt-ai-pill:hover, .yt-ai-pill.active {
+  background: var(--yt-ai-timestamp-bg);
+  border-color: var(--yt-ai-timestamp-text);
+  color: var(--yt-ai-timestamp-text);
+  font-weight: 600;
+}
+
+/* Tiroir Paramètres avec Sous-Onglets (Modèle / Audio / Paramètres) */
+.yt-ai-settings-drawer {
+  margin-bottom: 14px;
+  animation: ytAiSlideDown 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes ytAiSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.yt-ai-settings-card {
+  background: var(--yt-ai-bg-card);
+  border: 1px solid var(--yt-ai-border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--yt-ai-shadow);
+}
+
+.yt-ai-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--yt-ai-bg-secondary);
+  border-bottom: 1px solid var(--yt-ai-border-subtle);
+  padding: 0 12px;
+}
+
+.yt-ai-settings-tabs-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.yt-ai-settings-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--yt-ai-text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+.yt-ai-settings-tab-btn:hover {
+  color: var(--yt-ai-text);
+}
+
+.yt-ai-settings-tab-btn.active {
+  color: var(--yt-ai-timestamp-text);
+  border-bottom-color: var(--yt-ai-timestamp-text);
+}
+
+.yt-ai-btn-icon-close {
+  background: transparent;
+  border: none;
+  color: var(--yt-ai-text-secondary);
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: all 0.15s ease;
+}
+
+.yt-ai-btn-icon-close:hover {
+  background: rgba(248, 81, 73, 0.15);
+  color: #f85149;
+}
+
+.yt-ai-settings-body {
+  padding: 16px 18px;
+}
+
+.yt-ai-settings-subpane {
+  display: none;
+}
+
+.yt-ai-settings-subpane.active {
+  display: block;
+  animation: ytAiFadeIn 0.2s ease;
+}
+
+.yt-ai-settings-status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--yt-ai-border-subtle);
+}
+
+.yt-ai-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 14px;
+  align-items: end;
+}
+
+.yt-ai-setting-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.yt-ai-setting-item label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--yt-ai-text-secondary);
+}
+
+.yt-ai-input-with-btn {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.yt-ai-link-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  background: var(--yt-ai-timestamp-bg);
+  border: 1px solid var(--yt-ai-timestamp-border);
+  border-radius: 6px;
+  color: var(--yt-ai-timestamp-text);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.yt-ai-link-pill:hover {
+  background: rgba(56, 139, 253, 0.25);
+  border-color: var(--yt-ai-timestamp-text);
+  color: var(--yt-ai-timestamp-text);
+  text-decoration: none;
+}
+
+/* Navigation par Onglets (Synthèse / Chat / Transcription) */
+.yt-ai-tabs-nav {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--yt-ai-border-subtle);
+  margin-bottom: 12px;
+  padding-bottom: 2px;
+}
+
+.yt-ai-tab-btn {
+  background: none;
+  border: none;
+  color: var(--yt-ai-text-secondary);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.yt-ai-tab-btn:hover {
+  color: var(--yt-ai-text);
+}
+
+.yt-ai-tab-btn.active {
+  color: var(--yt-ai-text);
+  border-bottom-color: #e62117;
+  font-weight: 600;
+}
+
+.yt-ai-tab-count-badge {
+  font-size: 10px;
+  background-color: var(--yt-ai-bg-secondary);
+  padding: 1px 6px;
+  border-radius: 10px;
+  color: var(--yt-ai-text-secondary);
+}
+
+/* Panneaux des onglets */
+.yt-ai-tab-pane {
+  display: none;
+}
+
+.yt-ai-tab-pane.active {
+  display: block;
+}
+
+/* Zone de résultat Pleine Largeur (2 colonnes pour Synthèse + Volet) */
+.yt-ai-results-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 16px;
+  min-height: 240px;
+}
+
+@media (max-width: 1100px) {
+  .yt-ai-results-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+.yt-ai-summary-pane, .yt-ai-transcript-pane {
+  background: var(--yt-ai-bg-card);
+  border: 1px solid var(--yt-ai-border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  overflow-y: auto;
+  max-height: 480px;
+  color: var(--yt-ai-text);
+}
+
+.yt-ai-chat-pane {
+  background: var(--yt-ai-bg-card);
+  border: 1px solid var(--yt-ai-border);
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+
+.yt-ai-pane-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--yt-ai-text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--yt-ai-border-subtle);
+  padding-bottom: 6px;
+}
+
+/* Typography Markdown */
+.yt-ai-markdown {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--yt-ai-text);
+}
+
+.yt-ai-markdown h2, .yt-ai-markdown h3 {
+  color: var(--yt-ai-text);
+  margin: 14px 0 6px 0;
+  font-size: 14px;
+  border-bottom: 1px solid var(--yt-ai-border-subtle);
+  padding-bottom: 4px;
+}
+
+.yt-ai-markdown h2:first-child, .yt-ai-markdown h3:first-child {
+  margin-top: 0;
+}
+
+.yt-ai-markdown p {
+  margin-bottom: 8px;
+}
+
+.yt-ai-markdown ul {
+  margin: 6px 0 10px 20px;
+  padding: 0;
+}
+
+.yt-ai-markdown li {
+  margin-bottom: 6px;
+}
+
+.yt-ai-markdown strong {
+  color: var(--yt-ai-text);
+  font-weight: 600;
+}
+
+/* État d'accueil / Empty State du Résumé */
+.yt-ai-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 38px 24px;
+  background: var(--yt-ai-empty-bg);
+  border: 1px dashed var(--yt-ai-empty-border);
+  border-radius: 12px;
+  margin: 10px 0;
+  backdrop-filter: blur(8px);
+}
+
+.yt-ai-empty-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 2px 10px rgba(255, 0, 0, 0.35));
+}
+
+.yt-ai-empty-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--yt-ai-text);
+  margin-bottom: 6px;
+  letter-spacing: -0.2px;
+}
+
+.yt-ai-empty-subtitle {
+  font-size: 12.5px;
+  color: var(--yt-ai-text-secondary);
+  max-width: 460px;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+.yt-ai-hero-btn {
+  padding: 8px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(230, 33, 23, 0.45);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.yt-ai-hero-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230, 33, 23, 0.65);
+}
+
+.yt-ai-hero-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Section CHAT BOX interactive */
+.yt-ai-chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 280px;
+  max-height: 480px;
+}
+
+.yt-ai-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 6px;
+  max-height: 380px;
+}
+
+.yt-ai-chat-bubble {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  max-width: 85%;
+  word-break: break-word;
+  animation: ytAiFadeIn 0.2s ease;
+}
+
+.yt-ai-chat-bubble.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #1f6feb, #238636);
+  color: #fff;
+  border-bottom-right-radius: 2px;
+}
+
+.yt-ai-chat-bubble.ai {
+  align-self: flex-start;
+  background-color: var(--yt-ai-assistant-bubble);
+  color: var(--yt-ai-text);
+  border: 1px solid var(--yt-ai-assistant-border);
+  border-bottom-left-radius: 2px;
+  width: 92%;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  font-size: 13px;
+  box-shadow: 0 2px 8px var(--yt-ai-shadow);
+}
+
+.yt-ai-chat-bubble.ai p {
+  margin: 0 0 10px 0;
+  line-height: 1.65;
+}
+
+.yt-ai-chat-bubble.ai p:last-child {
+  margin-bottom: 0;
+}
+
+.yt-ai-chat-bubble.ai h3, .yt-ai-chat-bubble.ai h4 {
+  color: var(--yt-ai-timestamp-text);
+  margin: 14px 0 8px 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  border-bottom: 1px solid var(--yt-ai-timestamp-border);
+  padding-bottom: 4px;
+}
+
+.yt-ai-chat-bubble.ai ul {
+  margin: 8px 0 12px 20px;
+  padding: 0;
+}
+
+.yt-ai-chat-bubble.ai li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.yt-ai-chat-bubble.ai li:last-child {
+  margin-bottom: 0;
+}
+
+.yt-ai-chat-bubble.ai strong {
+  color: var(--yt-ai-text);
+  font-weight: 700;
+}
+
+.yt-ai-chat-bubble.ai code {
+  background: var(--yt-ai-code-bg);
+  padding: 1px 4px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 11.5px;
+  color: var(--yt-ai-text);
+}
+
+.yt-ai-bubble-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 1px solid var(--yt-ai-border-subtle);
+}
+
+.yt-ai-tts-btn {
+  background: transparent;
+  border: 1px solid var(--yt-ai-border);
+  color: var(--yt-ai-text-secondary);
+  border-radius: 12px;
+  font-size: 11px;
+  padding: 2px 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+
+.yt-ai-tts-btn:hover {
+  background: var(--yt-ai-hover-bg);
+  color: var(--yt-ai-text);
+  border-color: var(--yt-ai-timestamp-text);
+}
+
+.yt-ai-tts-btn.is-speaking {
+  background: rgba(230, 33, 23, 0.15);
+  border-color: #e62117;
+  color: #ff7b72;
+  animation: ytAiPulse 1.2s infinite;
+}
+
+@keyframes ytAiPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.yt-ai-chat-suggestions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.yt-ai-suggestion-chip {
+  background: var(--yt-ai-timestamp-bg);
+  border: 1px solid var(--yt-ai-timestamp-border);
+  color: var(--yt-ai-timestamp-text);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.yt-ai-suggestion-chip:hover {
+  background: rgba(56, 139, 253, 0.25);
+  color: var(--yt-ai-brand-text);
+}
+
+.yt-ai-chat-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--yt-ai-border-subtle);
+}
+
+.yt-ai-chat-input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  background-color: var(--yt-ai-bg-input);
+  border: 1px solid var(--yt-ai-border);
+  color: var(--yt-ai-text);
+  border-radius: 6px;
+  outline: none;
+}
+
+.yt-ai-chat-input:focus {
+  border-color: var(--yt-ai-timestamp-text);
+}
+
+.yt-ai-mic-btn {
+  padding: 7px 11px;
+  font-size: 14px;
+  background-color: var(--yt-ai-bg-secondary);
+  border: 1px solid var(--yt-ai-border);
+  color: var(--yt-ai-text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.yt-ai-mic-btn:hover {
+  background-color: var(--yt-ai-hover-bg);
+  color: var(--yt-ai-text);
+  border-color: var(--yt-ai-timestamp-text);
+}
+
+.yt-ai-mic-btn.is-recording {
+  background: rgba(230, 33, 23, 0.2);
+  border-color: #e62117;
+  color: #ff4d4d;
+  animation: ytAiMicPulse 1.2s infinite ease-in-out;
+}
+
+@keyframes ytAiMicPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 4px rgba(230, 33, 23, 0.4);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 14px rgba(230, 33, 23, 0.8);
+  }
+}
+
+/* Reasoning Details Box */
+.yt-ai-reasoning {
+  background-color: var(--yt-ai-reasoning-bg);
+  border: 1px solid var(--yt-ai-reasoning-border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 11px;
+}
+
+.yt-ai-reasoning.error {
+  background-color: rgba(248, 81, 73, 0.1);
+  border-color: rgba(248, 81, 73, 0.3);
+  color: #ff7b72;
+}
+
+.yt-ai-reasoning summary {
+  cursor: pointer;
+  color: var(--yt-ai-reasoning-summary);
+  font-weight: 600;
+}
+
+.yt-ai-reasoning-body {
+  font-family: monospace;
+  color: var(--yt-ai-reasoning-body);
+  margin-top: 6px;
+  max-height: 120px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+/* Transcription brute */
+.yt-ai-transcript-text {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--yt-ai-text-secondary);
+  white-space: pre-wrap;
+  user-select: text;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+/* Barre d'actions inférieure */
+.yt-ai-bottom-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* Curseur d'écriture */
+.yt-ai-typing::after {
+  content: '▋';
+  display: inline-block;
+  color: #e62117;
+  font-size: 13px;
+  margin-left: 2px;
+  animation: ytAiBlink 0.7s infinite;
+}
+
+@keyframes ytAiBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes ytAiFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Spinner */
+.yt-ai-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: ytAiSpin 0.7s linear infinite;
+}
+
+@keyframes ytAiSpin {
+  to { transform: rotate(360deg); }
+}
+
+.yt-ai-hidden {
+  display: none !important;
+}
+
+/* Points clés aérés avec titre sur sa propre ligne et phrases indentées */
+.yt-ai-points-list {
+  list-style: none !important;
+  margin: 10px 0 16px 0 !important;
+  padding: 0 !important;
+}
+
+.yt-ai-point-item {
+  list-style: none !important;
+  margin-bottom: 14px !important;
+}
+
+.yt-ai-point-title {
+  color: var(--yt-ai-timestamp-text) !important;
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+  line-height: 1.4 !important;
+  margin-bottom: 5px !important;
+  display: block !important;
+}
+
+.yt-ai-point-body {
+  padding-left: 20px !important;
+  border-left: 2px solid var(--yt-ai-point-line) !important;
+  margin-left: 4px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.yt-ai-point-sentence {
+  color: var(--yt-ai-text) !important;
+  line-height: 1.55 !important;
+  font-size: 13px !important;
+}
+
+/* Notice d'état du microphone dans le chat */
+.yt-ai-mic-notice {
+  font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-top: 6px;
+  line-height: 1.4;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+.yt-ai-mic-notice.is-error {
+  background: rgba(248, 81, 73, 0.15);
+  color: #ff7b72;
+  border: 1px solid rgba(248, 81, 73, 0.35);
+}
+.yt-ai-mic-notice.is-info {
+  background: var(--yt-ai-timestamp-bg);
+  color: var(--yt-ai-timestamp-text);
+  border: 1px solid var(--yt-ai-timestamp-border);
+}
+
+/* ==========================================================================
+   PANNEAU OPTIONS AVANCÉES & TIMESTAMPS CLIQUABLES
+   ========================================================================== */
+.yt-ai-advanced-details {
+  background: var(--yt-ai-bg-card);
+  border: 1px solid var(--yt-ai-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+}
+
+.yt-ai-advanced-details[open] {
+  background: var(--yt-ai-bg-expanded);
+  border-color: var(--yt-ai-timestamp-text);
+  box-shadow: 0 2px 8px var(--yt-ai-shadow);
+}
+
+.yt-ai-advanced-summary {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--yt-ai-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  padding: 2px 0;
+}
+
+.yt-ai-advanced-summary:hover {
+  color: var(--yt-ai-timestamp-text);
+}
+
+.yt-ai-advanced-toggle-hint {
+  font-size: 11px;
+  color: var(--yt-ai-text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.yt-ai-advanced-details[open] .yt-ai-advanced-toggle-hint {
+  transform: rotate(180deg);
+}
+
+.yt-ai-advanced-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+  padding-top: 12px;
+  margin-top: 8px;
+  border-top: 1px solid var(--yt-ai-border-subtle);
+}
+
+.yt-ai-advanced-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.yt-ai-advanced-field label {
+  font-size: 11px;
+  color: var(--yt-ai-text-secondary);
+  font-weight: 500;
+}
+
+.yt-ai-checkbox-field {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.yt-ai-checkbox-field label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--yt-ai-text-secondary);
+  font-size: 12px;
+  font-weight: normal;
+  user-select: none;
+}
+
+.yt-ai-checkbox-field input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: #e62117;
+  cursor: pointer;
+}
+
+/* Timestamps interactifs cliquables */
+.yt-ai-timestamp-link {
+  color: var(--yt-ai-timestamp-text) !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  padding: 1px 5px !important;
+  border-radius: 4px !important;
+  background: var(--yt-ai-timestamp-bg) !important;
+  border: 1px solid var(--yt-ai-timestamp-border) !important;
+  transition: all 0.15s ease !important;
+  display: inline-block !important;
+  margin: 0 2px !important;
+}
+
+.yt-ai-timestamp-link:hover {
+  background: rgba(88, 166, 255, 0.28) !important;
+  color: var(--yt-ai-timestamp-text) !important;
+  border-color: var(--yt-ai-timestamp-text) !important;
+  transform: translateY(-1px);
+}
+
+.yt-ai-transcript-line {
+  padding: 4px 0;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  border-bottom: 1px solid var(--yt-ai-border-subtle);
+}
+
+.yt-ai-transcript-line:hover {
+  background: var(--yt-ai-hover-light);
+}
+
+/* Bouton GitHub / Aide et pied de page */
+.yt-ai-help-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--yt-ai-hover-light);
+  border: 1px solid var(--yt-ai-border);
+  color: var(--yt-ai-text-secondary);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.yt-ai-help-btn:hover {
+  background: var(--yt-ai-hover-bg);
+  color: var(--yt-ai-timestamp-text);
+  border-color: var(--yt-ai-timestamp-text);
+}
+
+.yt-ai-footer-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding-top: 10px;
+  margin-top: 12px;
+  border-top: 1px solid var(--yt-ai-border-subtle);
+  font-size: 11px;
+  color: var(--yt-ai-text-secondary);
+}
+
+.yt-ai-footer-info a {
+  color: var(--yt-ai-timestamp-text);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.yt-ai-footer-info a:hover {
+  color: var(--yt-ai-timestamp-text);
+  text-decoration: underline;
+}
+
+/* Responsive Breakpoints pour l'entête minimaliste */
+@media (max-width: 780px) {
+  .yt-ai-brand #ytAiBrandTitle {
+    display: none; /* Conserve le logo rouge YT AI compact */
+  }
+}
+
+@media (max-width: 600px) {
+  .yt-ai-settings-toggle-btn #ytAiSettingsBtnText {
+    display: none; /* Conserve l'icône ⚙️ */
+  }
+  .yt-ai-toggle-btn #ytAiToggleText {
+    display: none; /* Conserve l'icône ▾/▲ */
+  }
+  .yt-ai-summarize-cta {
+    padding: 0 8px;
+    font-size: 11px;
+  }
+}
+

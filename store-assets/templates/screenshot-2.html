@@ -1,408 +1,328 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Screenshot 2 - Interactive Video Q&A & Voice Dictation</title>
+  <title>Screenshot 2 - Poser des questions à la vidéo (Chat & Horodatages)</title>
+  <link rel="stylesheet" href="../../dist/content.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       width: 1280px;
       height: 800px;
       overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #080c14;
-      color: #f0f6fc;
-      position: relative;
-      display: flex;
-      flex-direction: column;
+      font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #0f0f0f;
+      color: #f1f1f1;
     }
 
-    /* Ambient background glow */
-    .glow-1 {
-      position: absolute;
-      width: 650px;
-      height: 450px;
-      top: -120px;
-      left: 100px;
-      background: radial-gradient(circle, rgba(163, 113, 247, 0.18) 0%, rgba(0,0,0,0) 70%);
-      filter: blur(70px);
-      z-index: 0;
-    }
-    .glow-2 {
-      position: absolute;
-      width: 600px;
-      height: 400px;
-      top: -100px;
-      right: -80px;
-      background: radial-gradient(circle, rgba(230, 33, 23, 0.18) 0%, rgba(0,0,0,0) 70%);
-      filter: blur(70px);
-      z-index: 0;
-    }
-
-    /* Marketing Header */
-    .marketing-header {
-      position: relative;
-      z-index: 1;
-      padding: 30px 48px 18px 48px;
-      text-align: center;
-    }
-    .badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(163, 113, 247, 0.14);
-      border: 1px solid rgba(163, 113, 247, 0.4);
-      color: #d2a8ff;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin-bottom: 10px;
-    }
-    .marketing-title {
-      font-size: 32px;
-      font-weight: 800;
-      color: #ffffff;
-      letter-spacing: -0.5px;
-      margin-bottom: 6px;
-    }
-    .marketing-title span {
-      background: linear-gradient(135deg, #d2a8ff, #ff7b72);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .marketing-sub {
-      font-size: 14.5px;
-      color: #8b949e;
-      max-width: 720px;
-      margin: 0 auto 12px auto;
-    }
-    .feature-chips {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-    }
-    .feature-chip {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 11.5px;
-      color: #c9d1d9;
-      font-weight: 500;
-    }
-
-    /* Mockup Container */
-    .mockup-container {
-      position: relative;
-      z-index: 1;
-      flex: 1;
-      margin: 0 44px 34px 44px;
-      background: #0f141c;
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .yt-ai-header-bar {
+    /* Top YouTube Bar */
+    .yt-topbar {
+      height: 48px;
+      background: #0f0f0f;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 16px;
-      height: 42px;
-      background: linear-gradient(180deg, #161b22, #12161f);
-      border-bottom: 1px solid #21262d;
     }
-    .yt-ai-header-left { display: flex; align-items: center; gap: 10px; }
-    .yt-ai-brand { display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 12.5px; color: #fff; }
-    .yt-ai-badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      background: rgba(35, 134, 54, 0.15); border: 1px solid rgba(46, 160, 67, 0.4);
-      color: #3fb950; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px;
-    }
-    .yt-ai-badge-dot { width: 5px; height: 5px; background: #3fb950; border-radius: 50%; }
-    .yt-ai-model-pill {
-      background: #21262d; border: 1px solid #30363d; border-radius: 14px;
-      padding: 3px 9px; font-size: 11px; color: #58a6ff; font-weight: 600;
+    .yt-topbar-left { display: flex; align-items: center; gap: 14px; }
+    .yt-brand { display: flex; align-items: center; gap: 4px; font-size: 16px; font-weight: 700; color: #fff; }
+    .yt-icon { width: 26px; height: 18px; background: #ff0000; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+    .yt-icon svg { fill: #fff; width: 11px; height: 11px; margin-left: 2px; }
+
+    .yt-topbar-center { display: flex; align-items: center; width: 440px; }
+    .yt-search { flex: 1; height: 32px; background: #121212; border: 1px solid #303030; border-radius: 20px 0 0 20px; padding: 0 12px; color: #fff; font-size: 12px; }
+    .yt-search-btn { width: 44px; height: 32px; background: #222; border: 1px solid #303030; border-left: none; border-radius: 0 20px 20px 0; display: flex; align-items: center; justify-content: center; }
+    .yt-search-btn svg { width: 14px; height: 14px; fill: #fff; }
+
+    .yt-topbar-right { display: flex; align-items: center; gap: 12px; }
+    .yt-signin { display: flex; align-items: center; gap: 6px; border: 1px solid #3ea6ff; color: #3ea6ff; padding: 4px 12px; border-radius: 16px; font-size: 11.5px; font-weight: 500; }
+    .yt-signin svg { width: 15px; height: 15px; fill: #3ea6ff; }
+
+    /* Page Layout */
+    .yt-page {
+      display: grid;
+      grid-template-columns: 935px 1fr;
+      gap: 16px;
+      padding: 10px 16px;
     }
 
-    .yt-ai-header-center { display: flex; align-items: center; gap: 10px; }
-    .yt-ai-format-pills {
-      display: inline-flex; background: #161b22; border: 1px solid #30363d; border-radius: 16px; padding: 2px; gap: 2px;
-    }
-    .format-pill { padding: 2px 9px; font-size: 10.5px; font-weight: 600; border-radius: 12px; color: #8b949e; }
-    .format-pill.active { background: #1f6feb; color: #fff; }
-    .yt-ai-summarize-cta {
-      background: linear-gradient(135deg, #e62117, #c4120a); color: #fff; font-size: 11.5px;
-      font-weight: 700; border-radius: 6px; padding: 4px 12px; box-shadow: 0 2px 8px rgba(230, 33, 23, 0.4);
-    }
-    .yt-ai-header-right { display: flex; align-items: center; gap: 8px; }
-    .utility-pill {
-      background: #21262d; border: 1px solid #30363d; border-radius: 6px; padding: 3px 8px; font-size: 11px; color: #c9d1d9;
-    }
-
-    /* Expanded Content */
-    .yt-ai-expanded-content {
-      flex: 1;
-      padding: 14px 20px 16px 20px;
-      background: #0d1117;
+    .yt-main-col {
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-    }
-
-    .yt-ai-tabs-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #21262d;
-      padding-bottom: 8px;
-      margin-bottom: 10px;
-    }
-    .yt-ai-tabs-left { display: flex; gap: 14px; }
-    .tab-btn { font-size: 12px; font-weight: 600; color: #8b949e; padding-bottom: 6px; border-bottom: 2px solid transparent; }
-    .tab-btn.active { color: #fff; border-bottom: 2px solid #e62117; }
-
-    /* Chat Messages Container */
-    .chat-messages {
-      flex: 1;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .chat-bubble {
-      display: flex;
       gap: 10px;
-      max-width: 90%;
-    }
-    .chat-bubble.user {
-      align-self: flex-end;
-      flex-direction: row-reverse;
-    }
-    .chat-bubble.assistant {
-      align-self: flex-start;
     }
 
-    .bubble-avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: #21262d;
+    /* Video Player */
+    .yt-video-frame {
+      width: 100%;
+      height: 240px;
+      background: #000;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
       display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+    .video-inner {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
-      flex-shrink: 0;
-      border: 1px solid #30363d;
     }
-    .bubble-content {
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 12px;
-      line-height: 1.55;
-    }
-    .chat-bubble.user .bubble-content {
-      background: linear-gradient(135deg, #1f6feb, #1a56b4);
-      color: #ffffff;
-      border-bottom-right-radius: 2px;
-    }
-    .chat-bubble.assistant .bubble-content {
-      background: #161b22;
-      border: 1px solid #30363d;
-      color: #e6edf3;
-      border-bottom-left-radius: 2px;
-    }
-
-    .timestamp-link {
-      background: rgba(88, 166, 255, 0.15);
-      color: #58a6ff;
-      font-weight: 700;
-      padding: 1px 5px;
-      border-radius: 4px;
-      display: inline-block;
-    }
-
-    /* Chat Suggestions */
-    .chat-suggestions {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-    .suggestion-chip {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 14px;
-      padding: 3px 10px;
+    .video-badge {
+      background: rgba(163, 113, 247, 0.2);
+      border: 1px solid #a371f7;
+      color: #d2a8ff;
+      padding: 4px 10px;
+      border-radius: 12px;
       font-size: 11px;
-      color: #8b949e;
-      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 6px;
     }
+    .video-title-overlay { font-size: 18px; font-weight: 800; color: #fff; }
 
-    /* Chat Input Bar */
-    .chat-input-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      padding: 5px 8px;
-    }
-    .chat-input-text {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: #f0f6fc;
-      font-size: 12px;
-      outline: none;
-      padding: 4px;
-    }
-    .mic-btn-active {
-      background: rgba(230, 33, 23, 0.2);
-      border: 1px solid rgba(230, 33, 23, 0.6);
-      color: #ff7b72;
-      border-radius: 6px;
-      padding: 5px 10px;
-      font-size: 11.5px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      box-shadow: 0 0 10px rgba(230, 33, 23, 0.3);
-    }
-    .send-btn {
-      background: #238636;
-      border: none;
-      color: #fff;
-      font-size: 11.5px;
-      font-weight: 600;
-      border-radius: 6px;
+    .video-controls {
+      position: relative;
+      z-index: 10;
+      background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);
       padding: 6px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
+    .video-scrub { width: 100%; height: 3px; background: rgba(255,255,255,0.25); border-radius: 2px; position: relative; }
+    .video-progress { width: 18%; height: 100%; background: #ff0000; border-radius: 2px; position: relative; }
+    .video-knob { width: 8px; height: 8px; border-radius: 50%; background: #ff0000; position: absolute; right: -4px; top: -3px; }
+    .video-ctrl-row { display: flex; align-items: center; justify-content: space-between; font-size: 10.5px; color: #ddd; }
+
+    .video-title-row { font-size: 15px; font-weight: 700; color: #f1f1f1; line-height: 1.25; }
+    .channel-row { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 6px; }
+    .channel-left { display: flex; align-items: center; gap: 8px; }
+    .channel-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #2563eb, #7c3aed); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; }
+    .channel-name { font-size: 12px; font-weight: 600; color: #fff; }
+    .channel-sub { font-size: 10.5px; color: #aaa; }
+    .sub-btn { background: #fff; color: #000; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 14px; border: none; margin-left: 6px; }
+
+    /* Right Sidebar */
+    .yt-sidebar-col { display: flex; flex-direction: column; gap: 8px; }
+    .rec-item { display: flex; gap: 8px; }
+    .rec-thumb { width: 115px; height: 64px; border-radius: 6px; overflow: hidden; position: relative; background: #222; flex-shrink: 0; }
+    .thumb-grad1 { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+    .thumb-grad2 { background: linear-gradient(135deg, #14532d, #22c55e); }
+    .thumb-grad3 { background: linear-gradient(135deg, #581c87, #a855f7); }
+    .thumb-grad4 { background: linear-gradient(135deg, #7c2d12, #ea580c); }
+    .thumb-label { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #fff; text-align: center; padding: 4px; }
+    .rec-dur { position: absolute; bottom: 2px; right: 2px; background: rgba(0,0,0,0.85); font-size: 8.5px; font-weight: 600; padding: 1px 3px; border-radius: 2px; color: #fff; }
+    .rec-info { display: flex; flex-direction: column; gap: 2px; }
+    .rec-title { font-size: 11px; font-weight: 600; color: #f1f1f1; line-height: 1.25; }
+    .rec-meta { font-size: 9.5px; color: #888; }
   </style>
 </head>
 <body>
-  <div class="glow-1"></div>
-  <div class="glow-2"></div>
 
-  <!-- Marketing Header -->
-  <div class="marketing-header">
-    <div class="badge-pill">💬 Interactive Video Intelligence</div>
-    <h1 class="marketing-title">Ask Anything & Dictate with <span>Voice</span></h1>
-    <p class="marketing-sub">Chat directly with the video content. Ask questions, clarify technical points, and dictate seamlessly with local Whisper or Web Speech.</p>
-    <div class="feature-chips">
-      <div class="feature-chip">🎙️ Voice Dictation (Whisper STT)</div>
-      <div class="feature-chip">📜 100% Transcript Grounded</div>
-      <div class="feature-chip">💡 Smart Suggestion Chips</div>
-      <div class="feature-chip">⚡ Streaming Real-time Replies</div>
-      <div class="feature-chip">🔒 Zero Hallucinations</div>
-    </div>
-  </div>
-
-  <!-- Mockup Container -->
-  <div class="mockup-container">
-    <!-- Extension Header Bar -->
-    <div class="yt-ai-header-bar">
-      <div class="yt-ai-header-left">
-        <div class="yt-ai-brand">
-          <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/></svg>
-          <span>YT Summarizer AI</span>
-        </div>
-        <div class="yt-ai-badge">
-          <span class="yt-ai-badge-dot"></span>
-          <span>Connected</span>
-        </div>
-        <div class="yt-ai-model-pill">🤖 Model: Qwen 2.5 14B (Local) ▾</div>
-      </div>
-
-      <div class="yt-ai-header-center">
-        <div class="yt-ai-format-pills">
-          <span class="format-pill">⚡ Quick</span>
-          <span class="format-pill active">📌 Standard</span>
-          <span class="format-pill">📝 Deep</span>
-        </div>
-        <div class="yt-ai-summarize-cta">✨ Summarize video</div>
-      </div>
-
-      <div class="yt-ai-header-right">
-        <span class="utility-pill">🇬🇧 English ▾</span>
-        <span class="utility-pill">⚙️ Settings</span>
-        <span class="utility-pill">Collapse ▲</span>
-        <span class="utility-pill" style="color: #58a6ff;">v1.3.0</span>
+  <!-- YouTube Top Navbar (Zero personal account) -->
+  <header class="yt-topbar">
+    <div class="yt-topbar-left">
+      <div class="yt-brand">
+        <div class="yt-icon"><svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"></polygon></svg></div>
+        YouTube <span style="font-size: 10px; color: #aaa; margin-left: 2px;">FR</span>
       </div>
     </div>
-
-    <!-- Expanded Content -->
-    <div class="yt-ai-expanded-content">
-      <div class="yt-ai-tabs-nav">
-        <div class="yt-ai-tabs-left">
-          <span class="tab-btn">📝 AI Summary</span>
-          <span class="tab-btn active">💬 Ask a question (2)</span>
-          <span class="tab-btn">📜 Full Transcript (4,280 words)</span>
-        </div>
-        <div style="font-size: 11px; color: #8b949e;">
-          Grounded on full video transcript
-        </div>
-      </div>
-
-      <!-- Chat Messages Container -->
-      <div class="chat-messages">
-        <!-- Q1 User -->
-        <div class="chat-bubble user">
-          <div class="bubble-avatar">👤</div>
-          <div class="bubble-content">
-            At what point in the video does the speaker explain why subagent delegation outperforms monolithic prompts?
-          </div>
-        </div>
-
-        <!-- A1 Assistant -->
-        <div class="chat-bubble assistant">
-          <div class="bubble-avatar">🤖</div>
-          <div class="bubble-content">
-            The speaker addresses this specifically at <span class="timestamp-link">⏱️ 08:15</span>. He explains that isolating subagents with bounded tool sets prevents <strong>context drift</strong> and attention degradation. Rather than forcing a single model to juggle planning, file reading, and test execution simultaneously, routing discrete subtasks yields a <strong>45% higher benchmark completion rate</strong> on long-horizon coding tasks.
-          </div>
-        </div>
-
-        <!-- Q2 User -->
-        <div class="chat-bubble user">
-          <div class="bubble-avatar">👤</div>
-          <div class="bubble-content">
-            Can I run this fully offline on my own computer without cloud API keys?
-          </div>
-        </div>
-
-        <!-- A2 Assistant -->
-        <div class="chat-bubble assistant">
-          <div class="bubble-avatar">🤖</div>
-          <div class="bubble-content">
-            Yes, 100%! You can connect YouTube Summarizer AI to local inference engines like <strong>LM Studio</strong> or <strong>Ollama</strong> running on your machine. All transcripts, prompts, and summaries remain strictly local and private with zero data sent to external cloud servers.
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick suggestions -->
-      <div class="chat-suggestions">
-        <span class="suggestion-chip">💡 Key takeaways</span>
-        <span class="suggestion-chip">⏱️ Timestamps & chapters</span>
-        <span class="suggestion-chip">📊 Data & figures</span>
-        <span class="suggestion-chip">🎯 Actionable advice</span>
-      </div>
-
-      <!-- Chat input bar with active voice dictation -->
-      <div class="chat-input-bar">
-        <span class="mic-btn-active">🎙️ Listening...</span>
-        <div class="chat-input-text" style="color: #a5d6ff;">"Which specific benchmark demonstrated the highest reliability gains?"</div>
-        <button class="send-btn">Send ➤</button>
+    <div class="yt-topbar-center">
+      <input type="text" class="yt-search" value="Ce que j'ai vu au cœur des blocages des jeunes" readonly>
+      <div class="yt-search-btn"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg></div>
+    </div>
+    <div class="yt-topbar-right">
+      <div class="yt-signin">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path></svg>
+        Se connecter
       </div>
     </div>
-  </div>
+  </header>
+
+  <!-- YouTube Main Page -->
+  <main class="yt-page">
+    <div class="yt-main-col">
+
+      <!-- THE REAL EXTENSION BANNER INJECTED DIRECTLY ABOVE THE VIDEO PLAYER -->
+      <div id="yt-ai-summarizer-container">
+        <!-- BARRE SUPÉRIEURE ULTRA-MINIMALISTE -->
+        <div class="yt-ai-header-bar">
+          <div class="yt-ai-header-left">
+            <div class="yt-ai-brand" id="ytAiBrandToggle">
+              <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000"/>
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/>
+              </svg>
+              <span id="ytAiBrandTitle">YT Summarizer AI</span>
+            </div>
+          </div>
+
+          <div class="yt-ai-header-center">
+            <div class="yt-ai-action-cluster">
+              <div class="yt-ai-header-lang-wrapper">
+                <select id="ytAiLangSelect" class="yt-ai-select yt-ai-header-lang-select">
+                  <option value="fr" selected>🇫🇷 Français</option>
+                  <option value="en">🇬🇧 English</option>
+                  <option value="es">🇪🇸 Español</option>
+                  <option value="de">🇩🇪 Deutsch</option>
+                </select>
+              </div>
+
+              <button id="ytAiSummarizeBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-summarize-cta">
+                ✨ Résumer cette vidéo
+              </button>
+            </div>
+          </div>
+
+          <div class="yt-ai-header-right">
+            <button id="ytAiSettingsToggleBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-settings-toggle-btn">
+              <span class="yt-ai-settings-icon">⚙️</span>
+              <span id="ytAiSettingsBtnText">Réglages</span>
+            </button>
+
+            <button id="ytAiToggleBtn" class="yt-ai-toggle-btn">
+              <span id="ytAiToggleText">Réduire</span>
+              <span id="ytAiToggleIcon">▴</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CONTENU DÉPLIÉ - ONGLET CHAT ACTIF -->
+        <div class="yt-ai-expanded-content" style="display: block;">
+          <!-- Onglets -->
+          <div class="yt-ai-tabs-nav">
+            <button id="ytAiTabSummaryBtn" class="yt-ai-tab-btn">
+              📑 Synthèse IA
+            </button>
+            <button id="ytAiTabChatBtn" class="yt-ai-tab-btn active">
+              💬 Poser une question <span class="yt-ai-tab-count-badge">2</span>
+            </button>
+            <button id="ytAiTabTranscriptBtn" class="yt-ai-tab-btn">
+              📜 Transcription <span class="yt-ai-tab-count-badge">4 884 mots</span>
+            </button>
+          </div>
+
+          <!-- Panneau Chat interactif -->
+          <div id="ytAiPaneChat" class="yt-ai-tab-pane active">
+            <div class="yt-ai-chat-pane">
+              <div class="yt-ai-pane-title">
+                <span>💬 Questions / Réponses sur la vidéo</span>
+                <button id="ytAiClearChatBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">🗑️ Effacer la discussion</button>
+              </div>
+
+              <div class="yt-ai-chat-container">
+                <!-- Suggestions rapides -->
+                <div class="yt-ai-chat-suggestions">
+                  <span class="yt-ai-suggestion-chip" data-question="Quels sont les points clés ?">💡 Points clés</span>
+                  <span class="yt-ai-suggestion-chip" data-question="Quels sont les chiffres clés cités ?">📊 Chiffres &amp; données</span>
+                  <span class="yt-ai-suggestion-chip" data-question="Quelle est la conclusion ?">🎯 Conclusion &amp; conseils</span>
+                  <span class="yt-ai-suggestion-chip" data-question="Où sont les moments importants ?">⏱️ Horodatages</span>
+                </div>
+
+                <!-- Messages échangés avec horodatages cliquables réels -->
+                <div id="ytAiChatMessages" class="yt-ai-chat-messages" style="max-height: 200px; overflow-y: auto;">
+                  <div class="yt-ai-chat-bubble user">
+                    Quelles sont les revendications concrètes exprimées par les lycéens à 01:03 ?
+                  </div>
+                  <div class="yt-ai-chat-bubble ai">
+                    <p>D'après la transcription à <a href="javascript:void(0)" class="yt-ai-timestamp-link" style="color: #58a6ff; font-weight: 700; text-decoration: none; background: rgba(56,139,253,0.15); padding: 1px 6px; border-radius: 4px; font-size: 11px;">⏱️ 01:03</a>, les représentants lycéens formulent deux revendications majeures :</p>
+                    <ul style="margin: 4px 0 6px 16px; font-size: 11.5px;">
+                      <li><strong>Pénurie d'enseignants :</strong> Plus de 150 heures de cours non assurées depuis la rentrée dans cet établissement.</li>
+                      <li><strong>Surcharge des classes :</strong> Des effectifs dépassant 35 élèves, ce qui dégrade l'apprentissage et le suivi.</li>
+                    </ul>
+                    <p style="font-size: 11px; color: #8b949e;">À <a href="javascript:void(0)" class="yt-ai-timestamp-link" style="color: #58a6ff; font-weight: 700; text-decoration: none; background: rgba(56,139,253,0.15); padding: 1px 6px; border-radius: 4px; font-size: 11px;">⏱️ 04:47</a>, les professeurs confirment ces difficultés auprès des syndicats.</p>
+                  </div>
+                </div>
+
+                <!-- Ligne de saisie avec bouton micro -->
+                <div class="yt-ai-chat-input-row">
+                  <input type="text" id="ytAiChatInput" class="yt-ai-chat-input" value="Y a-t-1l eu une réaction officielle du rectorat dans la vidéo ?" readonly>
+                  <button id="ytAiMicBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-mic-btn" title="Dicter la question avec le micro">
+                    <span class="yt-ai-mic-icon">🎤</span>
+                  </button>
+                  <button id="ytAiSendChatBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 7px 16px;">
+                    Envoyer ➤
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="yt-ai-footer-info" style="font-size: 10px; color: #8b949e; padding: 6px 12px; display: flex; gap: 8px; align-items: center; border-top: 1px solid #21262d;">
+              <span>YouTube Summarizer AI <strong>v1.3.0</strong> par @Hidr4c</span>
+              <span>•</span>
+              <span style="color: #58a6ff;">⭐ GitHub</span>
+              <span>•</span>
+              <span>🪲 Signaler un bug</span>
+              <span>•</span>
+              <span>📖 Documentation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Player -->
+      <div class="yt-video-frame">
+        <div class="video-inner">
+          <div class="video-badge">▶ Synchronisation temporelle active</div>
+          <div class="video-title-overlay">Ce que j'ai vu au cœur des blocages des jeunes</div>
+        </div>
+        <div class="video-controls">
+          <div class="video-scrub"><div class="video-progress"><div class="video-knob"></div></div></div>
+          <div class="video-ctrl-row">
+            <span>▶ &bull; 🔊 01:03 / 26:42</span>
+            <span>HD &bull; Sous-titres &bull; ⚙ &bull; Plein écran</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Title & Channel Row -->
+      <div class="video-title-row">Ce que j'ai vu au cœur des blocages des jeunes</div>
+      <div class="channel-row">
+        <div class="channel-left">
+          <div class="channel-avatar">HD</div>
+          <div>
+            <div class="channel-name">HugoDécrypte - Grands formats</div>
+            <div class="channel-sub">2,02 M d'abonnés</div>
+          </div>
+          <button class="sub-btn">S'abonner</button>
+        </div>
+        <div style="display:flex; gap:6px; font-size: 11px; color:#ddd;">
+          <span style="background:#272727; padding:4px 10px; border-radius:14px;">👍 14 k</span>
+          <span style="background:#272727; padding:4px 10px; border-radius:14px;">↗ Partager</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Sidebar (Up Next) -->
+    <aside class="yt-sidebar-col">
+      <div style="font-size: 12px; font-weight: 700; color: #f1f1f1;">Vidéos recommandées</div>
+      <div class="rec-item">
+        <div class="rec-thumb thumb-grad1"><div class="thumb-label">Qui sème le chaos ?</div><span class="rec-dur">36:16</span></div>
+        <div class="rec-info"><div class="rec-title">QUI SÈME VRAIMENT LE CHAOS ?</div><div class="rec-meta">LIMIT &bull; 169 k vues</div></div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-thumb thumb-grad2"><div class="thumb-label">Nos élèves sont nuls ?</div><span class="rec-dur">56:53</span></div>
+        <div class="rec-info"><div class="rec-title">Une prof de prépa et un prof de primaire</div><div class="rec-meta">Le Crayon &bull; 291 k vues</div></div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-thumb thumb-grad3"><div class="thumb-label">L'abondance est finie</div><span class="rec-dur">1:30:20</span></div>
+        <div class="rec-info"><div class="rec-title">« On est déjà en décroissance »</div><div class="rec-meta">Le Crayon &bull; 55 k vues</div></div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-thumb thumb-grad4"><div class="thumb-label">VTECH : Gran Turismo</div><span class="rec-dur">59:38</span></div>
+        <div class="rec-info"><div class="rec-title">VTECH : Gran Turismo</div><div class="rec-meta">Sylvain Lyve &bull; 2,8 M vues</div></div>
+      </div>
+    </aside>
+  </main>
+
 </body>
 </html>

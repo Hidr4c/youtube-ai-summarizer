@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YouTube Summarizer AI (LM Studio, Ollama & Cloud)",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Summarize YouTube videos locally (LM Studio, Ollama) or Cloud (Gemini, Groq, GPT-4o). Interactive Q&A chat, voice STT & TTS audio.",
   "permissions": [
     "activeTab",
@@ -17,10 +17,10 @@
     "http://192.168.*:*/*"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "dist/background.js"
   },
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "dist/popup.html",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
@@ -38,7 +38,7 @@
         "https://www.youtube.com/*"
       ],
       "js": [
-        "main_world.js"
+        "dist/main_world.js"
       ],
       "world": "MAIN",
       "run_at": "document_start"
@@ -48,10 +48,10 @@
         "https://www.youtube.com/*"
       ],
       "js": [
-        "content.js"
+        "dist/content.js"
       ],
       "css": [
-        "content.css"
+        "dist/content.css"
       ],
       "run_at": "document_idle"
     }

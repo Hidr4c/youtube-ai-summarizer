@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube AI Summarizer — Promo Video Player</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #030712;
+      color: #f3f4f6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+    p.subtitle {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    .player-stage {
+      position: relative;
+      width: 100%;
+      max-width: 1280px;
+      aspect-ratio: 16 / 9;
+      background: #000000;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(230, 33, 23, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    iframe {
+      width: 1920px;
+      height: 1080px;
+      border: none;
+      transform-origin: top left;
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .controls-bar {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: #111827;
+      padding: 10px 24px;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    button {
+      background: #1f2937;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    button:hover {
+      background: #374151;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    button.primary {
+      background: #e62117;
+      border-color: #ff4d4d;
+    }
+    button.primary:hover {
+      background: #cc1b12;
+    }
+
+    .timeline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .scene-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #374151;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .scene-dot.active {
+      background: #e62117;
+      box-shadow: 0 0 10px rgba(230, 33, 23, 0.8);
+      transform: scale(1.3);
+    }
+
+    .timer-display {
+      font-family: monospace;
+      font-size: 14px;
+      color: #9ca3af;
+      min-width: 60px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>YouTube AI Summarizer — 1080p Promotional Video</h1>
+    <p class="subtitle">Interactive HTML5 Presentation & Video Scene Player</p>
+  </header>
+
+  <div class="player-stage" id="stage">
+    <iframe id="viewport" src="scene-1.html"></iframe>
+  </div>
+
+  <div class="controls-bar">
+    <button class="primary" id="btnPlay">▶ Play Promo</button>
+    <button id="btnPrev">◀ Prev</button>
+    <div class="timeline" id="dots">
+      <div class="scene-dot active" data-scene="1" title="Scene 1: Introduction"></div>
+      <div class="scene-dot" data-scene="2" title="Scene 2: Instant Summaries"></div>
+      <div class="scene-dot" data-scene="3" title="Scene 3: Interactive Chat"></div>
+      <div class="scene-dot" data-scene="4" title="Scene 4: Privacy & Local AI"></div>
+      <div class="scene-dot" data-scene="5" title="Scene 5: 8 Languages & CTA"></div>
+    </div>
+    <button id="btnNext">Next ▶</button>
+    <button id="btnFull">⛶ Fullscreen</button>
+    <div class="timer-display" id="timeDisplay">0:00 / 0:45</div>
+  </div>
+
+  <script>
+    const stage = document.getElementById('stage');
+    const iframe = document.getElementById('viewport');
+    const btnPlay = document.getElementById('btnPlay');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnFull = document.getElementById('btnFull');
+    const dots = document.querySelectorAll('.scene-dot');
+    const timeDisplay = document.getElementById('timeDisplay');
+
+    const scenes = [
+      { id: 1, file: 'scene-1.html', duration: 8 },
+      { id: 2, file: 'scene-2.html', duration: 9 },
+      { id: 3, file: 'scene-3.html', duration: 9 },
+      { id: 4, file: 'scene-4.html', duration: 9 },
+      { id: 5, file: 'scene-5.html', duration: 10 }
+    ];
+
+    let currentScene = 0;
+    let isPlaying = false;
+    let playTimer = null;
+    let elapsedSeconds = 0;
+    let ticker = null;
+
+    function scaleViewport() {
+      const stageWidth = stage.clientWidth;
+      const scale = stageWidth / 1920;
+      iframe.style.transform = `scale(${scale})`;
+    }
+    window.addEventListener('resize', scaleViewport);
+    scaleViewport();
+
+    function updateDots() {
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === currentScene);
+      });
+      iframe.src = scenes[currentScene].file;
+    }
+
+    function goToScene(index) {
+      currentScene = (index + scenes.length) % scenes.length;
+      updateDots();
+    }
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        stopPlay();
+        goToScene(idx);
+      });
+    });
+
+    btnPrev.addEventListener('click', () => {
+      stopPlay();
+      goToScene(currentScene - 1);
+    });
+
+    btnNext.addEventListener('click', () => {
+      stopPlay();
+      goToScene(currentScene + 1);
+    });
+
+    function startPlay() {
+      isPlaying = true;
+      btnPlay.textContent = '⏸ Pause';
+      btnPlay.classList.remove('primary');
+
+      const nextStep = () => {
+        if (!isPlaying) return;
+        if (currentScene >= scenes.length - 1) {
+          stopPlay();
+          return;
+        }
+        currentScene++;
+        updateDots();
+        playTimer = setTimeout(nextStep, scenes[currentScene].duration * 1000);
+      };
+
+      playTimer = setTimeout(nextStep, scenes[currentScene].duration * 1000);
+
+      ticker = setInterval(() => {
+        elapsedSeconds++;
+        const mins = Math.floor(elapsedSeconds / 60);
+        const secs = String(elapsedSeconds % 60).padStart(2, '0');
+        timeDisplay.textContent = `${mins}:${secs} / 0:45`;
+      }, 1000);
+    }
+
+    function stopPlay() {
+      isPlaying = false;
+      btnPlay.textContent = '▶ Play Promo';
+      btnPlay.classList.add('primary');
+      if (playTimer) clearTimeout(playTimer);
+      if (ticker) clearInterval(ticker);
+    }
+
+    btnPlay.addEventListener('click', () => {
+      if (isPlaying) {
+        stopPlay();
+      } else {
+        if (currentScene >= scenes.length - 1) {
+          currentScene = 0;
+          elapsedSeconds = 0;
+          updateDots();
+        }
+        startPlay();
+      }
+    });
+
+    btnFull.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        stage.requestFullscreen().catch(err => alert(err.message));
+      } else {
+        document.exitFullscreen();
+      }
+    });
+  </script>
+</body>
+</html>

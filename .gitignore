@@ -1,6 +1,6 @@
 # Archives & Packages
 *.zip
-!releases/*.zip
+releases/
 *.crx
 *.pem
 
@@ -27,9 +27,11 @@ yarn-error.log*
 # Node modules
 node_modules/
 
-# Local deployment & release scripts
-deploy.ps1
-deploy.bat
-deploy.sh
-package-zip.bat
-deploy-github.bat
+# Local deployment & release configuration
+scripts/deploy.ps1
+
+# Promo video temporary intermediate build artifacts
+store-assets/promo-video/*.wav
+store-assets/promo-video/clip-*.mp4
+store-assets/promo-video/concat-list.txt
+

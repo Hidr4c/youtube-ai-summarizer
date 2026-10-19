@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube AI Summarizer</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000"/>
+            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">YT Summarizer AI</div>
+          <div class="brand-version">v1.3.1 • Privacy-First</div>
+        </div>
+      </div>
+      <div id="statusPill" class="status-pill active" title="Extension status">
+        <span class="status-dot"></span>
+        <span id="statusPillText">Active</span>
+      </div>
+    </header>
+
+    <!-- Master Switch Card -->
+    <div class="card master-switch-card">
+      <div class="switch-row">
+        <div class="switch-info">
+          <div class="switch-title" id="switchTitle">Extension on YouTube</div>
+          <div class="switch-desc" id="switchDesc">Show AI summary panel on video pages</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="extensionToggle" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Active YouTube Video Card -->
+    <div id="videoCard" class="card video-card">
+      <div class="video-card-header">
+        <span class="card-badge">🎬 Current Video</span>
+        <span id="bannerStateBadge" class="card-badge state-badge">Ready</span>
+      </div>
+      <div id="videoTitle" class="video-title">Detecting video...</div>
+      
+      <div class="actions-row">
+        <button id="toggleBannerBtn" class="btn btn-secondary" title="Expand or focus in-page companion">
+          <span class="btn-icon">🖥️</span>
+          <span id="toggleBannerText">Show on page</span>
+        </button>
+        <button id="summarizeBtn" class="btn btn-primary" title="Launch instant AI summary on video">
+          <span class="btn-icon">✨</span>
+          <span id="summarizeBtnText">Summarize</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Disabled Notice Card (shown when master switch is OFF) -->
+    <div id="disabledNoticeCard" class="card disabled-card hidden">
+      <div class="disabled-icon">⏸️</div>
+      <div class="disabled-content">
+        <div class="disabled-title" id="disabledTitle">Extension Paused</div>
+        <div class="disabled-desc" id="disabledDesc">The companion banner is disabled on YouTube. Flip the switch above to re-enable anytime.</div>
+      </div>
+    </div>
+
+    <!-- Idle Card (when not on a watch page) -->
+    <div id="idleCard" class="card idle-card hidden">
+      <div class="idle-icon">💡</div>
+      <div class="idle-content">
+        <div class="idle-title" id="idleTitle">Ready for YouTube</div>
+        <div class="idle-desc" id="idleDesc">Open any YouTube video to summarize with local or cloud AI models.</div>
+        <button id="openYoutubeBtn" class="btn btn-secondary btn-sm mt-8">
+          <span>Go to YouTube</span> ↗
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="popup-footer">
+      <div class="footer-links">
+        <a href="https://github.com/Hidr4c/youtube-ai-summarizer" target="_blank" rel="noopener">GitHub</a>
+        <span>•</span>
+        <a href="https://github.com/Hidr4c/youtube-ai-summarizer#readme" target="_blank" rel="noopener">Docs</a>
+      </div>
+      <div class="lang-picker">
+        <select id="quickLangSelect" class="lang-select" title="Interface Language">
+          <option value="en">🇬🇧 EN</option>
+          <option value="fr">🇫🇷 FR</option>
+          <option value="es">🇪🇸 ES</option>
+          <option value="de">🇩🇪 DE</option>
+          <option value="it">🇮🇹 IT</option>
+          <option value="ru">🇷🇺 RU</option>
+          <option value="ja">🇯🇵 JA</option>
+          <option value="zh">🇨🇳 ZH</option>
+        </select>
+      </div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

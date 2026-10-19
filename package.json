@@ -1,11 +1,18 @@
 {
   "name": "youtube-ai-summarizer",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Chrome/Brave Extension to summarize YouTube videos and chat with transcripts using local AI (LM Studio, Ollama) or Cloud AI (Gemini, Groq, OpenAI).",
-  "main": "background.js",
+  "main": "dist/background.js",
+  "type": "module",
   "scripts": {
-    "check": "node --check content.js background.js main_world.js popup.js",
-    "package": "powershell -Command \"Compress-Archive -Path manifest.json, background.js, content.js, content.css, main_world.js, popup.html, popup.js, popup.css, README.md, LICENSE, PRIVACY.md, icons -DestinationPath youtube-summarizer-ai-v1.3.0.zip -Force\""
+    "build": "node scripts/build.js",
+    "test": "node --test --experimental-test-coverage tests/*.test.js",
+    "coverage": "node scripts/ci_reporter.js",
+    "check": "node --check dist/content.js dist/background.js dist/main_world.js dist/popup.js",
+    "package": "node scripts/package.js",
+    "candidate:start": "node scripts/git_workflow.js start",
+    "candidate:status": "node scripts/git_workflow.js status",
+    "candidate:finish": "node scripts/git_workflow.js finish"
   },
   "repository": {
     "type": "git",
@@ -31,5 +38,9 @@
   "bugs": {
     "url": "https://github.com/Hidr4c/youtube-ai-summarizer/issues"
   },
-  "homepage": "https://github.com/Hidr4c/youtube-ai-summarizer#readme"
+  "homepage": "https://github.com/Hidr4c/youtube-ai-summarizer#readme",
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "puppeteer-core": "^25.14.0"
+  }
 }

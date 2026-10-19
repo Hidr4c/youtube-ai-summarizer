@@ -1,5 +1,6 @@
 # 🎬 YouTube Summarizer AI (LM Studio, Ollama & Cloud)
 
+[![CI Build](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml/badge.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/releases)
 [![Manifest](https://img.shields.io/badge/manifest-v3-success.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -73,14 +74,32 @@ Works **100% locally and offline** with your own hardware (**LM Studio**, **Olla
 
 - **No telemetry or data tracking** : 100% open-source, inspectable code.
 - **Secure local storage** : Your API keys, model selections, and custom preferences stay strictly within your browser's `chrome.storage.local`.
-- Read our full [Privacy Policy](PRIVACY.md).
+- Read our full [Privacy Policy](docs/PRIVACY.md).
+
+---
+
+## 🧪 Automated Tests & Quality Assurance
+
+The codebase is protected by Continuous Integration ([GitHub Actions CI](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml)). Every commit and pull request runs an automated test suite enforcing JavaScript syntax integrity, bundle compilation, and high code coverage thresholds (> 80%).
+
+Real-time test outcomes and detailed coverage metrics are generated dynamically on every CI run and can be inspected directly on the [GitHub Actions Run Summary](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml).
+
+### Running Tests Locally
+```bash
+# Run complete test suite with coverage report
+npm test
+
+# Run syntax and bundle verification
+npm run check
+```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, bug reports, and suggestions are welcome! Please check our [Contributing Guide](CONTRIBUTING.md) for details on code style and pull requests.
-
+Contributions, bug reports, and suggestions are welcome!
+- 📘 **[Contributing Guide](docs/CONTRIBUTING.md)** — Code style, development setup, and testing requirements.
+- 🌿 **[Git Release Workflow Guide](docs/GIT_WORKFLOW.md)** — Strict candidate branch methodology (`candidate/vX.Y.Z` -> 1 commit per release on `main`).
 - 🐛 **Report a bug** : [Open an Issue](https://github.com/Hidr4c/youtube-ai-summarizer/issues)
 - ⭐ **Star the repository** : If you find this extension useful, consider giving it a star on GitHub!
 
