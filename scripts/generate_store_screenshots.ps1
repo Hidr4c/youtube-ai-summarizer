@@ -12,7 +12,7 @@ if (-not (Test-Path $edge)) {
   throw "Microsoft Edge not found at $edge"
 }
 
-$css = Get-Content -Raw -Path "$repoRoot\content.css"
+$css = [System.IO.File]::ReadAllText("$repoRoot\content.css", [System.Text.Encoding]::UTF8)
 
 $screens = @(
   @{
@@ -39,13 +39,13 @@ $screens = @(
 
 foreach ($s in $screens) {
   Write-Host "Rendering $($s.name)..."
-  $html = Get-Content -Raw -Path $s.template
+  $html = [System.IO.File]::ReadAllText($s.template, [System.Text.Encoding]::UTF8)
   
   # Ensure content.css is inlined so Edge headless renders with 100% fidelity without subresource restrictions
   $inlined = $html -replace '<link rel="stylesheet" href="../../content.css">', "<style>`n$css`n</style>"
   
   $tempHtml = "$storeDir\templates\_temp_render.html"
-  Set-Content -Path $tempHtml -Value $inlined -Encoding utf8
+  [System.IO.File]::WriteAllText($tempHtml, $inlined, [System.Text.Encoding]::UTF8)
 
   $fileUri = "file:///" + ($tempHtml -replace '\\', '/')
   Start-Process -FilePath $edge -ArgumentList "--headless", "--disable-gpu", "--hide-scrollbars", "--window-size=1280,800", "--screenshot=`"$($s.output)`"", "`"$fileUri`"" -Wait

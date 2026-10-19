@@ -260,6 +260,17 @@
               }
             }
           }
+          const grid = document.querySelector("ytd-watch-grid");
+          const gridData = grid?.playerData || grid?.data;
+          if (gridData) {
+            const gId = gridData?.videoDetails?.videoId;
+            if (!requestedVideoId || gId === requestedVideoId) {
+              if (!playerResponse || !playerResponse.captions && gridData.captions) {
+                playerResponse = gridData;
+                if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks) break;
+              }
+            }
+          }
           await new Promise((r) => setTimeout(r, 100));
         }
         let activeId = "";
@@ -380,6 +391,12 @@
         const flexyData = flexy?.data || flexy?.playerData;
         if (flexyData) {
           const p = searchParams(flexyData);
+          if (p) return p;
+        }
+        const grid = document.querySelector("ytd-watch-grid");
+        const gridData = grid?.data || grid?.playerData;
+        if (gridData) {
+          const p = searchParams(gridData);
           if (p) return p;
         }
         if (window.ytInitialData) {

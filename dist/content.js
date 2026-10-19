@@ -2236,11 +2236,11 @@
                 <button class="yt-ai-settings-tab-btn active" data-subtab="model" id="ytAiTabSettingsModelBtn">
                   \u{1F916} AI Model & Server
                 </button>
-                <button class="yt-ai-settings-tab-btn" data-subtab="audio" id="ytAiTabSettingsAudioBtn">
-                  \u{1F399}\uFE0F Voice & Audio
-                </button>
                 <button class="yt-ai-settings-tab-btn" data-subtab="params" id="ytAiTabSettingsParamsBtn">
                   \u2699\uFE0F Parameters & Prompt
+                </button>
+                <button class="yt-ai-settings-tab-btn" data-subtab="audio" id="ytAiTabSettingsAudioBtn">
+                  \u{1F399}\uFE0F Voice & Audio
                 </button>
               </div>
               <button id="ytAiSettingsCloseBtn" class="yt-ai-btn-icon-close" title="Close Settings">\u2715</button>
@@ -2322,45 +2322,7 @@
                 </div>
               </div>
 
-              <!-- SOUS-ONGLET 2 : VOIX & AUDIO -->
-              <div id="ytAiSettingsSubpaneAudio" class="yt-ai-settings-subpane">
-                <div class="yt-ai-settings-grid">
-                  <div class="yt-ai-setting-item">
-                    <label id="ytAiVoiceLabel">Voice (TTS):</label>
-                    <select id="ytAiVoiceSelect" class="yt-ai-select" title="Voice for speech audio">
-                      <option value="">System voice...</option>
-                    </select>
-                  </div>
-
-                  <div class="yt-ai-setting-item">
-                    <label id="ytAiTtsSpeedLabel">Voice Speed:</label>
-                    <select id="ytAiTtsSpeedSelect" class="yt-ai-select">
-                      <option value="0.75">0.75x (Calm)</option>
-                      <option value="1.0" selected>1.0x (Normal)</option>
-                      <option value="1.25">1.25x (Fast)</option>
-                      <option value="1.5">1.5x (Speedy)</option>
-                      <option value="2.0">2.0x (Double)</option>
-                    </select>
-                  </div>
-
-                  <div class="yt-ai-setting-item">
-                    <label id="ytAiMicLabel">Microphone (Speech-to-Text):</label>
-                    <select id="ytAiMicSelect" class="yt-ai-select" title="Select your microphone for dictation">
-                      <option value="">Default mic...</option>
-                    </select>
-                  </div>
-
-                  <div class="yt-ai-setting-item">
-                    <label id="ytAiWhisperUrlLabel">Local Whisper Server (Audio STT):</label>
-                    <div class="yt-ai-input-with-btn">
-                      <input type="text" id="ytAiWhisperUrlInput" class="yt-ai-input" placeholder="e.g. http://localhost:8000/v1/audio/transcriptions" style="flex: 1;">
-                      <button id="ytAiTestWhisperBtn" class="yt-ai-btn yt-ai-btn-secondary">\u26A1 Test STT</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- SOUS-ONGLET 3 : PARAM\xC8TRES IA & PROMPT -->
+              <!-- SOUS-ONGLET 2 : PARAM\xC8TRES IA & PROMPT -->
               <div id="ytAiSettingsSubpaneParams" class="yt-ai-settings-subpane">
                 <div class="yt-ai-settings-grid">
                   <div class="yt-ai-setting-item">
@@ -2403,6 +2365,44 @@
                   <div class="yt-ai-setting-item" style="grid-column: span 2;">
                     <label id="ytAiCustomPromptLabel">Custom AI Instructions (optional):</label>
                     <input type="text" id="ytAiCustomPromptInput" class="yt-ai-input" placeholder="e.g. Focus on technical details, explain with analogies..." style="width: 100%;">
+                  </div>
+                </div>
+              </div>
+
+              <!-- SOUS-ONGLET 3 : VOIX & AUDIO -->
+              <div id="ytAiSettingsSubpaneAudio" class="yt-ai-settings-subpane">
+                <div class="yt-ai-settings-grid">
+                  <div class="yt-ai-setting-item">
+                    <label id="ytAiVoiceLabel">Voice (TTS):</label>
+                    <select id="ytAiVoiceSelect" class="yt-ai-select" title="Voice for speech audio">
+                      <option value="">System voice...</option>
+                    </select>
+                  </div>
+
+                  <div class="yt-ai-setting-item">
+                    <label id="ytAiTtsSpeedLabel">Voice Speed:</label>
+                    <select id="ytAiTtsSpeedSelect" class="yt-ai-select">
+                      <option value="0.75">0.75x (Calm)</option>
+                      <option value="1.0" selected>1.0x (Normal)</option>
+                      <option value="1.25">1.25x (Fast)</option>
+                      <option value="1.5">1.5x (Speedy)</option>
+                      <option value="2.0">2.0x (Double)</option>
+                    </select>
+                  </div>
+
+                  <div class="yt-ai-setting-item">
+                    <label id="ytAiMicLabel">Microphone (Speech-to-Text):</label>
+                    <select id="ytAiMicSelect" class="yt-ai-select" title="Select your microphone for dictation">
+                      <option value="">Default mic...</option>
+                    </select>
+                  </div>
+
+                  <div class="yt-ai-setting-item">
+                    <label id="ytAiWhisperUrlLabel">Local Whisper Server (Audio STT):</label>
+                    <div class="yt-ai-input-with-btn">
+                      <input type="text" id="ytAiWhisperUrlInput" class="yt-ai-input" placeholder="e.g. http://localhost:8000/v1/audio/transcriptions" style="flex: 1;">
+                      <button id="ytAiTestWhisperBtn" class="yt-ai-btn yt-ai-btn-secondary">\u26A1 Test STT</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -3255,6 +3255,170 @@
       }
       return null;
     }
+    function isNativeTranscriptPanelVisible() {
+      const segs = document.querySelectorAll(
+        'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"]'
+      );
+      if (segs && segs.length > 3) return true;
+      const panels = document.querySelectorAll(
+        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"], ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
+      );
+      for (const panel of panels) {
+        const vis = panel.getAttribute("visibility");
+        if (vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED") return true;
+        if (vis !== "ENGAGEMENT_PANEL_VISIBILITY_HIDDEN" && !panel.hasAttribute("hidden") && panel.offsetParent !== null && panel.offsetHeight > 100) {
+          return true;
+        }
+      }
+      return false;
+    }
+    function closeNativeTranscriptPanel() {
+      const panels = document.querySelectorAll(
+        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"], ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
+      );
+      for (const panel of panels) {
+        const closeBtn = panel.querySelector(
+          '#visibility-button button, button[aria-label*="Fermer" i], button[aria-label*="Close" i], yt-button-shape button'
+        );
+        if (closeBtn) closeBtn.click();
+        panel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_HIDDEN");
+      }
+    }
+    function collapseDescription() {
+      const collapseBtn = document.querySelector(
+        "tp-yt-paper-button#collapse, #collapse.ytd-text-inline-expander, #description-inline-expander #collapse"
+      );
+      if (collapseBtn && collapseBtn.offsetParent !== null) {
+        collapseBtn.click();
+      }
+    }
+    async function ensureTranscriptTabActive(targetPanel) {
+      const panel = targetPanel || document.querySelector(
+        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"], ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
+      );
+      if (!panel) return false;
+      if (panel.querySelectorAll("transcript-segment-view-model, ytd-transcript-segment-renderer").length > 3) {
+        return true;
+      }
+      const candidates = panel.querySelectorAll(
+        'button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer, yt-formatted-string'
+      );
+      for (const el of candidates) {
+        const text = (el.textContent || "").trim().toLowerCase();
+        const aria = (el.getAttribute("aria-label") || "").trim().toLowerCase();
+        if (text === "transcription" || text === "transcript" || aria === "transcription" || aria === "transcript") {
+          const clickable = el.closest('button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer') || el;
+          clickable.click();
+          return true;
+        }
+      }
+      return false;
+    }
+    function extractChaptersFromDescription() {
+      const results = [];
+      const entries = document.querySelectorAll(
+        "ytd-macro-markers-entry-renderer, #structured-description ytd-macro-markers-entry-renderer, ytd-chapter-renderer"
+      );
+      if (entries && entries.length > 1) {
+        entries.forEach((el) => {
+          const timeEl = el.querySelector('#time, [class*="time"], a[href*="t="]');
+          const titleEl = el.querySelector('#title, #details, [class*="title"], h4');
+          const timestamp = timeEl ? timeEl.textContent.trim() : "";
+          const text = titleEl ? titleEl.textContent.trim() : "";
+          if (timestamp && text) {
+            results.push({ timestamp, text });
+          }
+        });
+        if (results.length > 1) return results;
+      }
+      return null;
+    }
+    async function triggerStealthNativeTranscript() {
+      const wasPanelOpen = isNativeTranscriptPanelVisible();
+      let wasDescExpanded = false;
+      const expandDesc = document.querySelector(
+        "tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand"
+      );
+      wasDescExpanded = !expandDesc || expandDesc.offsetParent === null;
+      if (wasPanelOpen) {
+        await ensureTranscriptTabActive();
+        return extractTranscriptFromActiveDOM();
+      }
+      let stealthStyle = document.getElementById("yt-ai-stealth-style");
+      if (!stealthStyle) {
+        stealthStyle = document.createElement("style");
+        stealthStyle.id = "yt-ai-stealth-style";
+        stealthStyle.textContent = `
+        ytd-engagement-panel-section-list-renderer[target-id*="transcript"],
+        ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"] {
+          opacity: 0 !important;
+          pointer-events: none !important;
+          position: fixed !important;
+          left: -9999px !important;
+          top: -9999px !important;
+          width: 1px !important;
+          height: 1px !important;
+          overflow: hidden !important;
+          z-index: -9999 !important;
+        }
+      `;
+        document.head.appendChild(stealthStyle);
+      }
+      try {
+        let directBtn = document.querySelector(
+          'ytd-video-description-transcript-section-renderer button, button[aria-label*="transcription" i], button[aria-label*="transcript" i]'
+        );
+        if (!directBtn && expandDesc && expandDesc.offsetParent !== null) {
+          expandDesc.click();
+          await new Promise((r) => setTimeout(r, 150));
+          directBtn = document.querySelector(
+            'ytd-video-description-transcript-section-renderer button, button[aria-label*="transcription" i], button[aria-label*="transcript" i]'
+          );
+        }
+        if (directBtn) {
+          directBtn.click();
+        } else {
+          const markersBtn = document.querySelector(
+            'ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"], button[aria-label*="chapitre" i], button[aria-label*="chapter" i]'
+          );
+          if (markersBtn) {
+            markersBtn.click();
+            await new Promise((r) => setTimeout(r, 150));
+            await ensureTranscriptTabActive();
+          } else {
+            const hiddenPanel = document.querySelector(
+              'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]'
+            );
+            if (hiddenPanel) {
+              hiddenPanel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED");
+              if (typeof hiddenPanel.show === "function") hiddenPanel.show();
+            } else {
+              return null;
+            }
+          }
+        }
+        let segments = null;
+        for (let i = 0; i < 25; i++) {
+          await new Promise((r) => setTimeout(r, 100));
+          await ensureTranscriptTabActive();
+          segments = extractTranscriptFromActiveDOM();
+          if (segments && segments.length > 3) break;
+        }
+        return segments;
+      } catch (_) {
+        return null;
+      } finally {
+        if (stealthStyle && stealthStyle.parentNode) {
+          stealthStyle.parentNode.removeChild(stealthStyle);
+        }
+        if (!wasPanelOpen) {
+          closeNativeTranscriptPanel();
+          if (!wasDescExpanded) {
+            collapseDescription();
+          }
+        }
+      }
+    }
     async function extractYouTubeTranscript(preferredLang = "en") {
       const currentVideoId = getVideoId();
       if (cachedTranscript.videoId === currentVideoId && cachedTranscript.segments.length > 0) {
@@ -3282,6 +3446,16 @@
             return segments;
           }
         }
+      }
+      const stealthSegments = await triggerStealthNativeTranscript();
+      if (stealthSegments && stealthSegments.length > 3) {
+        saveCachedTranscript(currentVideoId, stealthSegments);
+        return stealthSegments;
+      }
+      const chapterSegments = extractChaptersFromDescription();
+      if (chapterSegments && chapterSegments.length > 1) {
+        saveCachedTranscript(currentVideoId, chapterSegments);
+        return chapterSegments;
       }
       return null;
     }

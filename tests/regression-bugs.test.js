@@ -9,29 +9,23 @@ import { BaseAIProvider } from '../src/services/ai/providers/BaseAIProvider.js';
 test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) => {
   const rootDir = path.resolve('.');
 
-  // 1. REGRESSION: Transparent Transcript Extraction (Zero DOM manipulation / No panel opening)
-  await suite.test('Transparent Transcript: zero DOM clicks on native YouTube panels or buttons', () => {
+  // 1. REGRESSION: Multi-Model Transcript Extraction & State Preservation
+  await suite.test('Multi-Model Transcript: handles all YouTube layouts and preserves user panel state', () => {
     const contextExtractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8');
     const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
 
-    // Never click description or transcript buttons to toggle native panel
-    const forbiddenPatterns = [
+    // ContextExtractor runs purely in memory without DOM clicks
+    const forbiddenInMainWorld = [
       /description.*\.click\(\)/i,
       /engagement-panel.*\.click\(\)/i,
       /transcript.*\.click\(\)/i,
       /aria-label.*transcript.*click/i
     ];
-
-    for (const pattern of forbiddenPatterns) {
+    for (const pattern of forbiddenInMainWorld) {
       assert.equal(
         pattern.test(contextExtractorSrc),
         false,
         `YouTubeContextExtractor must not click DOM to extract transcript (matched ${pattern})`
-      );
-      assert.equal(
-        pattern.test(contentSrc),
-        false,
-        `content/index.js must not click DOM to extract transcript (matched ${pattern})`
       );
     }
 
@@ -39,17 +33,25 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     assert.match(contextExtractorSrc, /YT_AI_REQ_PLAYER_DATA/);
     assert.match(contextExtractorSrc, /YT_AI_RES_PLAYER_DATA/);
     assert.match(contentSrc, /YT_AI_REQ_PLAYER_DATA/);
+
+    // Multi-model support functions must be present in content/index.js:
+    assert.match(contentSrc, /function isNativeTranscriptPanelVisible\(\)/, 'Must check if panel is already visible');
+    assert.match(contentSrc, /function closeNativeTranscriptPanel\(\)/, 'Must be able to restore closed state');
+    assert.match(contentSrc, /function collapseDescription\(\)/, 'Must be able to collapse expanded description');
+    assert.match(contentSrc, /function triggerStealthNativeTranscript\(\)/, 'Must have stealth native loader');
+    assert.match(contentSrc, /function extractChaptersFromDescription\(\)/, 'Must have chapters / "Dans cette vidéo" parser');
+
+    // State preservation rule: when stealth trigger runs, it only closes if it wasn't open before
+    assert.match(contentSrc, /if \(!wasPanelOpen\) \{\s*closeNativeTranscriptPanel\(\)/);
   });
 
   // 2. REGRESSION: Model Detection Response Contracts (success, ok, data.data, models)
   await suite.test('Model Detection: response contracts guarantee both modern and legacy format consumers', async () => {
-    // Mock provider fetchModels output
     const mockModels = [
       { id: 'qwen2.5:7b', name: 'Qwen 2.5 7B' },
       { id: 'llama3.2:3b', name: 'Llama 3.2 3B' }
     ];
 
-    // Simulating MessageRouter FETCH_MODELS response payload builder
     const buildFetchModelsResponse = (models) => ({
       success: true,
       ok: true,
@@ -59,11 +61,8 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
 
     const response = buildFetchModelsResponse(mockModels);
 
-    // Verify all consumers receive truthy ok/success
     assert.equal(response.success, true);
     assert.equal(response.ok, true);
-
-    // Verify all legacy & modern paths to model lists exist and match
     assert.deepEqual(response.models, mockModels);
     assert.deepEqual(response.data.data, mockModels);
     assert.deepEqual(response.data.models, mockModels);
@@ -74,7 +73,6 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     const capturedRequests = [];
     const originalFetch = globalThis.fetch;
 
-    // Mock fetch to capture payload
     globalThis.fetch = async (url, options) => {
       capturedRequests.push({ url, options, body: JSON.parse(options.body) });
       const stream = new ReadableStream({
@@ -93,7 +91,6 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
         postMessage: (msg) => messagesSent.push(msg)
       };
 
-      // Case A: systemPrompt + userPrompt without messages array (the exact bug that occurred)
       await StreamRelay.handleStream({
         provider: 'lmstudio',
         model: 'deepseek-r1',
@@ -110,7 +107,6 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
       assert.equal(messagesSent.some(m => m.type === 'CHUNK' && m.content === 'OK'), true);
       assert.equal(messagesSent.some(m => m.type === 'DONE'), true);
 
-      // Case B: existing messages array, systemPrompt must be prepended if not already first
       capturedRequests.length = 0;
       await StreamRelay.handleStream({
         provider: 'lmstudio',
@@ -129,8 +125,8 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     }
   });
 
-  // 4. REGRESSION: Minimalist Header UI Layout & Component Organization
-  await suite.test('Minimalist Header: compact 4-element header bar with controls moved to Settings', () => {
+  // 4. REGRESSION: Minimalist Header UI Layout & Settings Tab Order
+  await suite.test('Minimalist Header & Settings Order: Model -> Params -> Audio', () => {
     const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
     const headerBarMatch = contentSrc.match(/<div class="yt-ai-header-bar">([\s\S]*?)<\/div>\s*<!-- CONTENU DÉPLIABLE -->/);
     assert.ok(headerBarMatch, 'Header bar must exist in template');
@@ -143,7 +139,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     assert.match(headerBarHtml, /ytAiSettingsToggleBtn/, 'Settings button must be in header');
     assert.match(headerBarHtml, /ytAiToggleBtn/, 'Expand/collapse button must be in header');
 
-    // Header bar MUST NOT contain (moved to settings to prevent horizontal overflow):
+    // Header bar MUST NOT contain:
     assert.equal(headerBarHtml.includes('id="ytAiFormatPills"'), false, 'Format pills must be removed from header bar');
     assert.equal(headerBarHtml.includes('id="ytAiBadge"'), false, 'Status badge must be removed from header bar');
     assert.equal(headerBarHtml.includes('id="ytAiHeaderModelPill"'), false, 'Active model pill must be removed from header bar');
@@ -163,21 +159,30 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     // AI Badge and Model display in Settings Model subpane
     assert.match(settingsDrawerHtml, /id="ytAiBadge"/, 'Status badge must be inside Settings drawer');
     assert.match(settingsDrawerHtml, /id="ytAiHeaderModelText"/, 'Model display text must be inside Settings drawer');
+
+    // Settings subtab buttons order: Model -> Params -> Audio
+    const modelIdx = settingsDrawerHtml.indexOf('data-subtab="model"');
+    const paramsIdx = settingsDrawerHtml.indexOf('data-subtab="params"');
+    const audioIdx = settingsDrawerHtml.indexOf('data-subtab="audio"');
+    assert.ok(modelIdx < paramsIdx, 'Model tab must come before Params tab');
+    assert.ok(paramsIdx < audioIdx, 'Params tab must come before Audio tab');
+
+    // Settings subpanes order: SubpaneModel -> SubpaneParams -> SubpaneAudio
+    const paneModelIdx = settingsDrawerHtml.indexOf('id="ytAiSettingsSubpaneModel"');
+    const paneParamsIdx = settingsDrawerHtml.indexOf('id="ytAiSettingsSubpaneParams"');
+    const paneAudioIdx = settingsDrawerHtml.indexOf('id="ytAiSettingsSubpaneAudio"');
+    assert.ok(paneModelIdx < paneParamsIdx, 'Model subpane must come before Params subpane');
+    assert.ok(paneParamsIdx < paneAudioIdx, 'Params subpane must come before Audio subpane');
   });
 
   // 5. REGRESSION: Provider URL Normalization (http:// scheme & trailing slash cleanup)
   await suite.test('URL Normalization: guarantees local endpoints are properly formatted', () => {
     const provider = new BaseAIProvider('lmstudio', 'LM Studio', true);
 
-    // Missing http prefix
     assert.equal(provider.normalizeUrl('192.168.56.1:1234'), 'http://192.168.56.1:1234');
     assert.equal(provider.normalizeUrl('localhost:11434'), 'http://localhost:11434');
-
-    // Trailing slash cleanup
     assert.equal(provider.normalizeUrl('http://localhost:11434/'), 'http://localhost:11434');
     assert.equal(provider.normalizeUrl('http://192.168.56.1:1234///'), 'http://192.168.56.1:1234');
-
-    // Preserves valid HTTPS
     assert.equal(provider.normalizeUrl('https://api.deepseek.com/v1'), 'https://api.deepseek.com/v1');
   });
 });

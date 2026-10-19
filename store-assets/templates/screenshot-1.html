@@ -152,7 +152,7 @@
 
       <!-- THE REAL EXTENSION BANNER INJECTED DIRECTLY ABOVE THE VIDEO PLAYER -->
       <div id="yt-ai-summarizer-container">
-        <!-- BARRE SUPÉRIEURE ÉLÉGANTE (42px) -->
+        <!-- BARRE SUPÉRIEURE ULTRA-MINIMALISTE -->
         <div class="yt-ai-header-bar">
           <div class="yt-ai-header-left">
             <div class="yt-ai-brand" id="ytAiBrandToggle">
@@ -162,25 +162,17 @@
               </svg>
               <span id="ytAiBrandTitle">YT Summarizer AI</span>
             </div>
-
-            <div id="ytAiBadge" class="yt-ai-badge online">
-              <span class="yt-ai-badge-dot"></span>
-              <span id="ytAiBadgeText">LM Studio (192.168.56.1:1234)</span>
-            </div>
-
-            <button id="ytAiHeaderModelPill" class="yt-ai-model-pill">
-              <span class="yt-ai-model-icon">🤖</span>
-              <span id="ytAiHeaderModelText">Modèle : qwen/qwen3.8-27b</span>
-              <span class="yt-ai-pill-arrow">▾</span>
-            </button>
           </div>
 
           <div class="yt-ai-header-center">
             <div class="yt-ai-action-cluster">
-              <div class="yt-ai-format-pills" id="ytAiFormatPills">
-                <button class="yt-ai-format-pill active" data-mode="quick">⚡ Courte &amp; concise</button>
-                <button class="yt-ai-format-pill" data-mode="standard">📌 Naturelle &amp; équilibrée</button>
-                <button class="yt-ai-format-pill" data-mode="detailed">📄 Détaillée &amp; approfondie</button>
+              <div class="yt-ai-header-lang-wrapper">
+                <select id="ytAiLangSelect" class="yt-ai-select yt-ai-header-lang-select">
+                  <option value="fr" selected>🇫🇷 Français</option>
+                  <option value="en">🇬🇧 English</option>
+                  <option value="es">🇪🇸 Español</option>
+                  <option value="de">🇩🇪 Deutsch</option>
+                </select>
               </div>
 
               <button id="ytAiSummarizeBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-summarize-cta">
@@ -190,15 +182,6 @@
           </div>
 
           <div class="yt-ai-header-right">
-            <div class="yt-ai-header-lang-wrapper">
-              <select id="ytAiLangSelect" class="yt-ai-select yt-ai-header-lang-select">
-                <option value="fr" selected>🇫🇷 Français</option>
-                <option value="en">🇬🇧 English</option>
-                <option value="es">🇪🇸 Español</option>
-                <option value="de">🇩🇪 Deutsch</option>
-              </select>
-            </div>
-
             <button id="ytAiSettingsToggleBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-settings-toggle-btn">
               <span class="yt-ai-settings-icon">⚙️</span>
               <span id="ytAiSettingsBtnText">Réglages</span>
@@ -208,8 +191,6 @@
               <span id="ytAiToggleText">Réduire</span>
               <span id="ytAiToggleIcon">▴</span>
             </button>
-
-            <div class="yt-ai-header-links" style="font-size: 10px; color: #8b949e;">v1.3.0</div>
           </div>
         </div>
 

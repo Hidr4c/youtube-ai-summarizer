@@ -30,7 +30,7 @@ SCENES = [
     }
 ]
 
-VOICE = "en-US-ChristopherNeural"
+VOICE = "en-US-BrianMultilingualNeural"
 
 async def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
