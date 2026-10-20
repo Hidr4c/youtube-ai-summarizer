@@ -1940,7 +1940,9 @@
      */
     static isWatchPage(url) {
       try {
-        const u = url ? new URL(url, window.location.origin) : window.location;
+        const base = typeof window !== "undefined" && window.location?.origin ? window.location.origin : "https://www.youtube.com";
+        const u = url ? new URL(url, base) : typeof window !== "undefined" ? window.location : null;
+        if (!u) return false;
         if (u.pathname === "/watch" && new URLSearchParams(u.search).has("v")) return true;
         if (u.pathname.startsWith("/live/") && u.pathname.length > 6) return true;
         if (u.pathname.startsWith("/shorts/") && u.pathname.length > 8) return true;
@@ -1956,7 +1958,9 @@
      */
     static getVideoId(url) {
       try {
-        const u = url ? new URL(url, window.location.origin) : window.location;
+        const base = typeof window !== "undefined" && window.location?.origin ? window.location.origin : "https://www.youtube.com";
+        const u = url ? new URL(url, base) : typeof window !== "undefined" ? window.location : null;
+        if (!u) return "";
         const v = new URLSearchParams(u.search).get("v");
         if (v) return v;
         const liveMatch = u.pathname.match(/^\/live\/([^/?#]+)/);

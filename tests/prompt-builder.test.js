@@ -1,17 +1,17 @@
-import test from 'node:test';
+import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { PromptBuilder } from '../src/services/implementations/PromptBuilder.js';
 
 const builder = new PromptBuilder();
 
-test('Prompt Generation & Context Compression', async (t) => {
-  await t.test('condenseTranscript keeps short transcripts intact', () => {
+describe('Prompt Generation & Context Compression', () => {
+  it('condenseTranscript keeps short transcripts intact', () => {
     const text = 'This is a short transcript that fits easily within limits.';
     const result = builder.condenseTranscript(text, 1000);
     assert.equal(result, text);
   });
 
-  await t.test('condenseTranscript performs smart 3-part condensation when limit is exceeded', () => {
+  it('condenseTranscript performs smart 3-part condensation when limit is exceeded', () => {
     const longText = 'A'.repeat(500) + 'B'.repeat(500) + 'C'.repeat(500);
     const maxChars = 300;
     const result = builder.condenseTranscript(longText, maxChars);
@@ -22,7 +22,7 @@ test('Prompt Generation & Context Compression', async (t) => {
     assert.ok(result.endsWith('C'), 'Must preserve end of transcript');
   });
 
-  await t.test('buildSummaryPrompts generates proper system and user prompts for quick mode', () => {
+  it('buildSummaryPrompts generates proper system and user prompts for quick mode', () => {
     const title = 'Zelda Secrets Unveiled';
     const author = 'Game Theorist';
     const transcript = 'Welcome back everyone. Today we analyze hidden lore in Hyrule.';
@@ -35,7 +35,7 @@ test('Prompt Generation & Context Compression', async (t) => {
     assert.ok(/quick|points/i.test(userPrompt), 'Prompt must specify quick format');
   });
 
-  await t.test('buildSummaryPrompts respects language selection', () => {
+  it('buildSummaryPrompts respects language selection', () => {
     const { systemPrompt: frPrompt } = builder.buildSummaryPrompts('Titre', 'Auteur', 'Texte', 'fr', 'standard');
     assert.ok(/fran[çc]ais/i.test(frPrompt), 'System prompt must require French when lang is fr');
 
@@ -43,7 +43,7 @@ test('Prompt Generation & Context Compression', async (t) => {
     assert.ok(/日本語|japanese/i.test(jaPrompt), 'System prompt must require Japanese when lang is ja');
   });
 
-  await t.test('formatContextBlock formats channel info, subscribers, category, keywords and description', () => {
+  it('formatContextBlock formats channel info, subscribers, category, keywords and description', () => {
     const meta = {
       author: 'Tech Innovators',
       subscribers: '1.2M subscribers',
@@ -67,14 +67,14 @@ test('Prompt Generation & Context Compression', async (t) => {
     assert.ok(frBlock.includes('Catégorie : Science & Technology'));
   });
 
-  await t.test('formatContextBlock cleanly caps extra-long descriptions', () => {
+  it('formatContextBlock cleanly caps extra-long descriptions', () => {
     const longDesc = 'A'.repeat(3000);
     const block = builder.formatContextBlock({ description: longDesc }, 'fr');
     assert.ok(block.includes('description condensée'));
     assert.ok(block.length < 2500, 'Context block must cap excessive descriptions');
   });
 
-  await t.test('buildSummaryPrompts injects video context into user prompt', () => {
+  it('buildSummaryPrompts injects video context into user prompt', () => {
     const extraContext = {
       subscribers: '500k',
       category: 'Education',
@@ -96,7 +96,7 @@ test('Prompt Generation & Context Compression', async (t) => {
     assert.ok(userPrompt.includes('https://github.com/test'));
   });
 
-  await t.test('buildChatPrompts injects video context and guides AI to use description', () => {
+  it('buildChatPrompts injects video context and guides AI to use description', () => {
     const extraContext = {
       subscribers: '300k',
       category: 'Programming',

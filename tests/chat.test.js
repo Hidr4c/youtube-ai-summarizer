@@ -1,4 +1,4 @@
-import test from 'node:test';
+import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -80,16 +80,16 @@ function setupMockDom() {
   return { elements, messagesContainer, chatInput, chatCount };
 }
 
-test('ChatViewController - Q&A Interactive Tab Specification', async (t) => {
+describe('ChatViewController - Q&A Interactive Tab Specification', () => {
   const rootDir = path.resolve('.');
 
-  await t.test('initializes with empty chat history and null port', () => {
+  it('initializes with empty chat history and null port', () => {
     const controller = new ChatViewController();
     assert.deepEqual(controller.chatHistory, []);
     assert.equal(controller.chatPort, null);
   });
 
-  await t.test('handleClearChat resets messages, count badge, and stops audio', () => {
+  it('handleClearChat resets messages, count badge, and stops audio', () => {
     const { chatCount, messagesContainer } = setupMockDom();
     let audioStopped = false;
     let dictationStopped = false;
@@ -112,7 +112,7 @@ test('ChatViewController - Q&A Interactive Tab Specification', async (t) => {
     assert.ok(messagesContainer.innerHTML.includes('réinitialisée') || messagesContainer.innerHTML.includes('reset'), 'Welcome notice rendered');
   });
 
-  await t.test('handleSendChatMessage unconditionally clears input field when sending', async () => {
+  it('handleSendChatMessage unconditionally clears input field when sending', async () => {
     const { chatInput } = setupMockDom();
     chatInput.value = 'How does this work?';
 
@@ -161,7 +161,7 @@ test('ChatViewController - Q&A Interactive Tab Specification', async (t) => {
     assert.equal(postedMessage.messages[0].content, 'How does this work?');
   });
 
-  await t.test('handleSendChatMessage ignores empty or whitespace-only queries', async () => {
+  it('handleSendChatMessage ignores empty or whitespace-only queries', async () => {
     const { chatInput, messagesContainer } = setupMockDom();
     chatInput.value = '   ';
 
@@ -171,7 +171,7 @@ test('ChatViewController - Q&A Interactive Tab Specification', async (t) => {
     assert.equal(messagesContainer.children.length, 0, 'No bubble should be added for whitespace input');
   });
 
-  await t.test('handleSendChatMessage warns user when model is not selected', async () => {
+  it('handleSendChatMessage warns user when model is not selected', async () => {
     const { chatInput, messagesContainer } = setupMockDom();
     chatInput.value = 'Valid question';
 
@@ -193,7 +193,7 @@ test('ChatViewController - Q&A Interactive Tab Specification', async (t) => {
     assert.ok(lastBubble.innerHTML.includes('modèle') || lastBubble.innerHTML.includes('model'), 'Must display model selection warning');
   });
 
-  await t.test('handleSendChatMessage warns user when API key is missing for cloud provider', async () => {
+  it('handleSendChatMessage warns user when API key is missing for cloud provider', async () => {
     const { chatInput, messagesContainer } = setupMockDom();
     chatInput.value = 'Valid question';
 
@@ -216,7 +216,7 @@ test('ChatViewController - Q&A Interactive Tab Specification', async (t) => {
     assert.ok(lastBubble.innerHTML.includes('clé API') || lastBubble.innerHTML.includes('API key'), 'Must display missing API key alert');
   });
 
-  await t.test('handleSendChatMessage automatically triggers transcript extraction when empty', async () => {
+  it('handleSendChatMessage automatically triggers transcript extraction when empty', async () => {
     const { chatInput } = setupMockDom();
     chatInput.value = 'Explain the intro';
 
@@ -263,7 +263,7 @@ test('ChatViewController - Q&A Interactive Tab Specification', async (t) => {
     assert.equal(transcriptExtracted, true, 'Must automatically fetch transcript if not yet extracted');
   });
 
-  await t.test('handles CHUNK, DONE, and ERROR stream cycles properly', async () => {
+  it('handles CHUNK, DONE, and ERROR stream cycles properly', async () => {
     const { chatInput, chatCount } = setupMockDom();
     chatInput.value = 'Stream test';
 
@@ -316,7 +316,7 @@ test('ChatViewController - Q&A Interactive Tab Specification', async (t) => {
     assert.equal(chatCount.textContent, '1', 'Badge must increment to 1 conversation turn');
   });
 
-  await t.test('toggleDictation delegates directly to InPageAudioController', () => {
+  it('toggleDictation delegates directly to InPageAudioController', () => {
     let dictationToggled = false;
     const mockAudioController = {
       toggleDictation: (opts) => { dictationToggled = true; return true; }
@@ -326,7 +326,7 @@ test('ChatViewController - Q&A Interactive Tab Specification', async (t) => {
     assert.equal(dictationToggled, true, 'Must delegate toggleDictation to audioController');
   });
 
-  await t.test('content script wires Enter key, send button, and suggestion chips to chat submission', () => {
+  it('content script wires Enter key, send button, and suggestion chips to chat submission', () => {
     const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
 
     // Enter key submission

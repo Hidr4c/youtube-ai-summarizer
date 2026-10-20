@@ -1,4 +1,4 @@
-import test from 'node:test';
+import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -7,7 +7,7 @@ import { AIProviderFactory } from '../src/services/ai/providers/AIProviderFactor
 import { BaseAIProvider } from '../src/services/ai/providers/BaseAIProvider.js';
 import { InnerTubeParser } from '../src/parsers/InnerTubeParser.js';
 
-test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) => {
+describe('Regression Suite - Bug Prevention & Integration Contracts', () => {
   const rootDir = path.resolve('.');
 
   // Helper to read all content script sources
@@ -17,7 +17,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   };
 
   // 1. REGRESSION: Multi-Model Transcript Extraction & State Preservation
-  await suite.test('Multi-Model Transcript: handles all YouTube layouts and preserves user panel state', () => {
+  it('Multi-Model Transcript: handles all YouTube layouts and preserves user panel state', () => {
     const contextExtractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8') +
       (fs.existsSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js')) ? fs.readFileSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js'), 'utf-8') : '');
     const contentSrc = getAllContentSrc();
@@ -54,7 +54,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 2. REGRESSION: Model Detection Response Contracts (success, ok, data.data, models)
-  await suite.test('Model Detection: response contracts guarantee both modern and legacy format consumers', async () => {
+  it('Model Detection: response contracts guarantee both modern and legacy format consumers', async () => {
     const mockModels = [
       { id: 'qwen2.5:7b', name: 'Qwen 2.5 7B' },
       { id: 'llama3.2:3b', name: 'Llama 3.2 3B' }
@@ -77,7 +77,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 3. REGRESSION: AI Stream Message Synthesis (systemPrompt + userPrompt when messages is omitted)
-  await suite.test('StreamRelay: synthesizes chatMessages when messages array is omitted', async () => {
+  it('StreamRelay: synthesizes chatMessages when messages array is omitted', async () => {
     const capturedRequests = [];
     const originalFetch = globalThis.fetch;
 
@@ -134,7 +134,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 4. REGRESSION: Minimalist Header UI Layout & Settings Tab Order
-  await suite.test('Minimalist Header & Settings Order: Model -> Params -> Audio', () => {
+  it('Minimalist Header & Settings Order: Model -> Params -> Audio', () => {
     const contentSrc = getAllContentSrc();
     const headerBarMatch = contentSrc.match(/<div class="yt-ai-header-bar">([\s\S]*?)<\/div>\s*<!-- CONTENU DÉPLIABLE -->/);
     assert.ok(headerBarMatch, 'Header bar must exist in template');
@@ -184,7 +184,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 5. REGRESSION: Provider URL Normalization (http:// scheme & trailing slash cleanup)
-  await suite.test('URL Normalization: guarantees local endpoints are properly formatted', () => {
+  it('URL Normalization: guarantees local endpoints are properly formatted', () => {
     const provider = new BaseAIProvider('lmstudio', 'LM Studio', true);
 
     assert.equal(provider.normalizeUrl('192.168.56.1:1234'), 'http://192.168.56.1:1234');
@@ -195,7 +195,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 6. REGRESSION: Header-Scoped Close, Stealth Timeout & Multilingual Regex
-  await suite.test('Native Transcript Closing: strictly scoped to header, multilingual, and stealth delay preserved', () => {
+  it('Native Transcript Closing: strictly scoped to header, multilingual, and stealth delay preserved', () => {
     const contentSrc = getAllContentSrc();
 
     // Forbidden: unscoped yt-button-shape button search on panel that would match body tabs
@@ -240,7 +240,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 7. REGRESSION: YouTube Theme Adaptation (Dark & Light Mode Support)
-  await suite.test('Theme Adaptation: CSS variables and dynamic observer for dark/light YouTube parity', () => {
+  it('Theme Adaptation: CSS variables and dynamic observer for dark/light YouTube parity', () => {
     const cssSrc = fs.readFileSync(path.join(rootDir, 'src/content/content.css'), 'utf-8');
     const contentSrc = getAllContentSrc();
 
@@ -274,7 +274,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 8. REGRESSION: Speech Synthesis Reliability (LANG_LOCALES import, Chunking, Chrome 15s keepalive & DOM fallback)
-  await suite.test('Speech Synthesis: LANG_LOCALES import, sentence chunking, Chrome keepalive & DOM fallback', () => {
+  it('Speech Synthesis: LANG_LOCALES import, sentence chunking, Chrome keepalive & DOM fallback', () => {
     const contentSrc = getAllContentSrc();
 
     // LANG_LOCALES must be imported to prevent ReferenceError when clicking listen or mic
@@ -296,7 +296,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 9. REGRESSION: Complete Speech Transcript vs Video Chapters Separation
-  await suite.test('Speech Transcript vs Chapters: InnerTubeParser separation, DOM selectors, and quality guards', () => {
+  it('Speech Transcript vs Chapters: InnerTubeParser separation, DOM selectors, and quality guards', () => {
     const contentFiles = fs.readdirSync(path.join(rootDir, 'src/content'), { recursive: true }).filter(f => f.endsWith('.js'));
     const contentSrc = contentFiles.map(f => fs.readFileSync(path.join(rootDir, 'src/content', f), 'utf-8')).join('\n');
     const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8') +
@@ -369,7 +369,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 10. REGRESSION: Video and Channel Context (Description, Subscribers, Category, Tags)
-  await suite.test('Video and Channel Context: In-memory extraction, DOM fallbacks, and prompt injection', () => {
+  it('Video and Channel Context: In-memory extraction, DOM fallbacks, and prompt injection', () => {
     const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8') +
       (fs.existsSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js')) ? fs.readFileSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js'), 'utf-8') : '');
     const contentFiles = fs.readdirSync(path.join(rootDir, 'src/content'), { recursive: true }).filter(f => f.endsWith('.js'));
@@ -402,7 +402,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 11. REGRESSION: SPA Navigation & Multi-Video Isolation
-  await suite.test('SPA Navigation: resets transcript and metadata on video switch, rejects stale in-memory responses', () => {
+  it('SPA Navigation: resets transcript and metadata on video switch, rejects stale in-memory responses', () => {
     const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8');
     const contentFiles = fs.readdirSync(path.join(rootDir, 'src/content'), { recursive: true }).filter(f => f.endsWith('.js'));
     const contentSrc = contentFiles.map(f => fs.readFileSync(path.join(rootDir, 'src/content', f), 'utf-8')).join('\n');

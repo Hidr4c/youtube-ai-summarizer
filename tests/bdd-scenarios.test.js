@@ -1,4 +1,4 @@
-import test from 'node:test';
+import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { SummaryViewController } from '../src/content/ui/SummaryViewController.js';
 import { ChatViewController } from '../src/content/ui/ChatViewController.js';
@@ -172,10 +172,10 @@ function setupMockDom(url = 'https://www.youtube.com/watch?v=TEST_VID_BDD', lang
   return { elements, createElement };
 }
 
-test('BDD End-to-End User Journeys: AI Summary, Interactive Chat, and SPA Navigation', async (suite) => {
+describe('BDD End-to-End User Journeys: AI Summary, Interactive Chat, and SPA Navigation', () => {
   const promptServiceInstance = new PromptService();
 
-  await suite.test('Scenario 1: Given video with subtitles, When user requests summary, Then stream renders reasoning and markdown, and enables audio TTS', async () => {
+  it('Scenario 1: Given video with subtitles, When user requests summary, Then stream renders reasoning and markdown, and enables audio TTS', async () => {
     const dom = setupMockDom('https://www.youtube.com/watch?v=VID_SUM_1', 'fr');
     let port = null;
     global.chrome = {
@@ -268,7 +268,7 @@ test('BDD End-to-End User Journeys: AI Summary, Interactive Chat, and SPA Naviga
     assert.ok(spokenText.includes('superposition'), 'Audio TTS must receive full generated summary text');
   });
 
-  await suite.test('Scenario 2: Given extracted transcript, When user sends chat question or chip, Then input clears, stream replies, badge increments, and TTS attaches', async () => {
+  it('Scenario 2: Given extracted transcript, When user sends chat question or chip, Then input clears, stream replies, badge increments, and TTS attaches', async () => {
     const dom = setupMockDom('https://www.youtube.com/watch?v=VID_CHAT_1', 'fr');
     let port = null;
     global.chrome = {
@@ -360,7 +360,7 @@ test('BDD End-to-End User Journeys: AI Summary, Interactive Chat, and SPA Naviga
     assert.equal(chatController.chatHistory.length, 4, 'History must contain 4 messages (2 user, 2 ai)');
   });
 
-  await suite.test('Scenario 3: Given ongoing session on Video A, When SPA navigates to Video B, Then cache and UI are purged, and new video context is isolated', async () => {
+  it('Scenario 3: Given ongoing session on Video A, When SPA navigates to Video B, Then cache and UI are purged, and new video context is isolated', async () => {
     const dom = setupMockDom('https://www.youtube.com/watch?v=VID_ALPHA', 'fr');
     let audioStopped = false;
 
@@ -444,7 +444,7 @@ test('BDD End-to-End User Journeys: AI Summary, Interactive Chat, and SPA Naviga
     assert.ok(chatPort, 'Chat stream must be connected for Video B');
   });
 
-  await suite.test('Scenario 4: Given an active request, When AI stream emits error, Then error message renders safely without crashing and UI buttons restore', async () => {
+  it('Scenario 4: Given an active request, When AI stream emits error, Then error message renders safely without crashing and UI buttons restore', async () => {
     const dom = setupMockDom('https://www.youtube.com/watch?v=VID_ERR_1', 'en');
     let port = null;
     global.chrome = {
@@ -489,7 +489,7 @@ test('BDD End-to-End User Journeys: AI Summary, Interactive Chat, and SPA Naviga
     assert.equal(bannerStatus?.isErr, true, 'Status banner must be notified of error');
   });
 
-  await suite.test('Scenario 5: Given DOM transcript is unavailable, When extractYouTubeTranscript runs, Then controller cascades through available strategies', async () => {
+  it('Scenario 5: Given DOM transcript is unavailable, When extractYouTubeTranscript runs, Then controller cascades through available strategies', async () => {
     const dom = setupMockDom('https://www.youtube.com/watch?v=VID_STRAT_1', 'fr');
     const controller = new InPageTranscriptController();
 
@@ -509,7 +509,7 @@ test('BDD End-to-End User Journeys: AI Summary, Interactive Chat, and SPA Naviga
     assert.ok(dom.elements.get('ytAiTranscriptBody').innerHTML.includes('yt-ai-timestamp-link'), 'Transcript tab must contain clickable timestamp links');
   });
 
-  await suite.test('Scenario 6: Given multi-language selection, When empty states and suggestions are rendered, Then correct locale strings are applied', () => {
+  it('Scenario 6: Given multi-language selection, When empty states and suggestions are rendered, Then correct locale strings are applied', () => {
     const dom = setupMockDom('https://www.youtube.com/watch?v=VID_LANG_1', 'es');
     const summaryController = new SummaryViewController();
 

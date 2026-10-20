@@ -1,4 +1,4 @@
-import test from 'node:test';
+import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -10,8 +10,8 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const manifestPath = path.join(rootDir, 'manifest.json');
 
-test('Manifest V3 Structure & Integrity', async (t) => {
-  await t.test('manifest.json exists and is valid JSON', () => {
+describe('Manifest V3 Structure & Integrity', () => {
+  it('manifest.json exists and is valid JSON', () => {
     assert.ok(fs.existsSync(manifestPath), 'manifest.json must exist');
     const content = fs.readFileSync(manifestPath, 'utf8');
     const manifest = JSON.parse(content);
@@ -20,7 +20,7 @@ test('Manifest V3 Structure & Integrity', async (t) => {
 
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 
-  await t.test('conforms to Manifest V3 requirements', () => {
+  it('conforms to Manifest V3 requirements', () => {
     assert.equal(manifest.manifest_version, 3, 'manifest_version must be 3');
     assert.ok(manifest.name, 'manifest must define a name');
     assert.ok(manifest.version, 'manifest must define a version');
@@ -28,7 +28,7 @@ test('Manifest V3 Structure & Integrity', async (t) => {
     assert.ok(manifest.action, 'manifest must define action popup');
   });
 
-  await t.test('defines required permissions', () => {
+  it('defines required permissions', () => {
     const requiredPermissions = ['storage', 'activeTab', 'scripting'];
     assert.ok(Array.isArray(manifest.permissions), 'permissions must be an array');
     for (const perm of requiredPermissions) {
@@ -39,13 +39,13 @@ test('Manifest V3 Structure & Integrity', async (t) => {
     }
   });
 
-  await t.test('defines required host_permissions', () => {
+  it('defines required host_permissions', () => {
     assert.ok(Array.isArray(manifest.host_permissions), 'host_permissions must be an array');
     const hasYouTubeHost = manifest.host_permissions.some(h => h.includes('youtube.com'));
     assert.ok(hasYouTubeHost, 'Must declare host_permission for youtube.com');
   });
 
-  await t.test('all referenced files exist on disk', () => {
+  it('all referenced files exist on disk', () => {
     // Check service worker
     if (manifest.background && manifest.background.service_worker) {
       const swPath = path.join(rootDir, manifest.background.service_worker);
