@@ -79,6 +79,12 @@ export class ChatViewController {
     this.handleClearChat(currentLang);
   }
 
+  toggleDictation(options) {
+    if (this.audioController) {
+      return this.audioController.toggleDictation(options);
+    }
+  }
+
   async handleSendChatMessage(customText = null, ctx = {}) {
     if (this.audioController) {
       this.audioController.stopDictation();
@@ -87,37 +93,48 @@ export class ChatViewController {
     const text = (customText || inputEl?.value || '').trim();
     if (!text) return;
 
-    if (inputEl && !customText) inputEl.value = '';
+    if (inputEl) inputEl.value = '';
 
     if (typeof ctx.setExpanded === 'function') ctx.setExpanded(true);
     if (typeof ctx.switchTab === 'function') ctx.switchTab('chat');
 
+    const stateObj = (ctx && typeof ctx === 'object') ? (ctx.state || ctx) : {};
     const messagesContainer = document.getElementById('ytAiChatMessages');
     const chatCountBadge = document.getElementById('ytAiChatCount');
-    const lang = document.getElementById('ytAiLangSelect')?.value || ctx.currentLang || 'en';
+    const lang = document.getElementById('ytAiLangSelect')?.value || ctx.currentLang || stateObj.currentLang || 'en';
     const t = I18N[lang] || I18N.en;
 
     this.appendChatBubble('user', escapeHtml(text));
 
-    if (!this.transcriptController.cachedTranscript.segments || this.transcriptController.cachedTranscript.segments.length === 0) {
+    const currentVideoId = getVideoId();
+    const isCachedValid = this.transcriptController.cachedTranscript.segments?.length > 0 &&
+      (!currentVideoId || this.transcriptController.cachedTranscript.videoId === currentVideoId);
+
+    if (!isCachedValid) {
       const waitBubble = this.appendChatBubble('ai', `<span class="yt-ai-spinner"></span> ${escapeHtml(t.extractingTranscriptNotice || 'Extracting video transcript...')}`);
       const segments = await this.transcriptController.extractYouTubeTranscript(lang, true);
       if (!segments || segments.length === 0) {
         waitBubble.innerHTML = `<span style="color: #ff7b72;">❌ ${escapeHtml(t.noTranscriptError || 'Unable to extract video transcript.')}</span>`;
         return;
       }
-      waitBubble.remove();
+      waitBubble?.remove?.();
     }
 
-    const activeModel = ctx.getActiveModel ? ctx.getActiveModel() : (ctx.selectedModel || '');
+    const activeModel = (typeof ctx.getActiveModel === 'function' ? ctx.getActiveModel() : null) ||
+                        (typeof stateObj.getActiveModel === 'function' ? stateObj.getActiveModel() : null) ||
+                        ctx.selectedModel ||
+                        stateObj.selectedModels?.[stateObj.currentProvider] ||
+                        stateObj.selectedModel ||
+                        '';
     if (!activeModel) {
       this.appendChatBubble('ai', t.selectModelAlert || 'Please select an AI model in the settings toolbar above.');
       return;
     }
 
-    const currentProvider = ctx.currentProvider || 'lmstudio';
+    const currentProvider = ctx.currentProvider || stateObj.currentProvider || 'lmstudio';
     const isLocal = (currentProvider === 'lmstudio' || currentProvider === 'ollama');
-    const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : '';
+    const apiKeys = ctx.apiKeys || stateObj.apiKeys || {};
+    const key = apiKeys[currentProvider] || '';
     if (!isLocal && !key) {
       this.appendChatBubble('ai', t.missingKeyAlert || `Please provide your API key for ${currentProvider.toUpperCase()} to chat.`);
       return;
@@ -126,8 +143,8 @@ export class ChatViewController {
     const aiBubble = this.appendChatBubble('ai', '');
     aiBubble.classList.add('yt-ai-typing');
 
-    const currentVideoId = getVideoId();
-    if (!this.transcriptController.cachedVideoMetadata.description || this.transcriptController.cachedVideoMetadata.videoId !== currentVideoId) {
+    if (typeof this.transcriptController?.requestPlayerDataFromMainWorld === 'function' &&
+        (!this.transcriptController.cachedVideoMetadata?.description || this.transcriptController.cachedVideoMetadata?.videoId !== currentVideoId)) {
       await this.transcriptController.requestPlayerDataFromMainWorld(currentVideoId, lang).catch(() => {});
     }
 
@@ -146,7 +163,8 @@ export class ChatViewController {
       try { this.chatPort.disconnect(); } catch (_) {}
     }
 
-    const currentUrl = ctx.serverUrls ? (ctx.serverUrls[currentProvider] || '') : '';
+    const serverUrls = ctx.serverUrls || stateObj.serverUrls || {};
+    const currentUrl = serverUrls[currentProvider] || '';
     this.chatPort = chrome.runtime.connect({ name: 'ai-stream' });
     this.chatPort.postMessage({
       action: 'CHAT_STREAM',
@@ -156,8 +174,8 @@ export class ChatViewController {
       model: activeModel,
       systemPrompt,
       messages: historyPayload,
-      temperature: ctx.temperature || '0.3',
-      maxTokens: ctx.maxTokens || 'auto'
+      temperature: ctx.temperature || stateObj.temperature || '0.3',
+      maxTokens: ctx.maxTokens || stateObj.maxTokens || 'auto'
     });
 
     this.chatPort.onMessage.addListener((msg) => {
@@ -167,10 +185,14 @@ export class ChatViewController {
         ChatViewController.scrollToBottom(messagesContainer);
       } else if (msg.type === 'DONE') {
         aiBubble.classList.remove('yt-ai-typing');
-        this.chatHistory.push({ role: 'user', content: text });
-        this.chatHistory.push({ role: 'assistant', content: fullAnswer });
-        if (chatCountBadge) chatCountBadge.textContent = Math.floor(this.chatHistory.length / 2);
-        this.attachAudioButtonToBubble(aiBubble, fullAnswer, lang);
+        if (!fullAnswer.trim()) {
+          aiBubble.innerHTML = `<span style="color: #ff7b72;">⚠️ ${escapeHtml(t.connectionError || 'No response received from AI model.')}</span>`;
+        } else {
+          this.chatHistory.push({ role: 'user', content: text });
+          this.chatHistory.push({ role: 'assistant', content: fullAnswer });
+          if (chatCountBadge) chatCountBadge.textContent = String(Math.floor(this.chatHistory.length / 2));
+          this.attachAudioButtonToBubble(aiBubble, fullAnswer, lang);
+        }
         if (this.chatPort) { this.chatPort.disconnect(); this.chatPort = null; }
       } else if (msg.type === 'ERROR') {
         aiBubble.classList.remove('yt-ai-typing');

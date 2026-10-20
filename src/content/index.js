@@ -15,17 +15,8 @@ import { PromptService } from './services/PromptService.js';
 const state = {
   extensionEnabled: true,
   currentProvider: 'lmstudio',
-  serverUrls: {
-    lmstudio: 'http://192.168.56.1:1234',
-    ollama: 'http://localhost:11434'
-  },
-  apiKeys: {
-    openai: '',
-    gemini: '',
-    claude: '',
-    groq: '',
-    deepseek: ''
-  },
+  serverUrls: { lmstudio: 'http://192.168.56.1:1234', ollama: 'http://localhost:11434' },
+  apiKeys: { openai: '', gemini: '', claude: '', groq: '', deepseek: '' },
   selectedModels: {},
   availableLocalModels: {},
   currentLang: 'fr',
@@ -37,12 +28,8 @@ const state = {
   customPrompt: '',
   selectedVoiceURI: '',
   selectedMicDeviceId: '',
-  getActiveModel() {
-    return this.selectedModels[this.currentProvider] || '';
-  },
-  setActiveModel(m) {
-    this.selectedModels[this.currentProvider] = m;
-  },
+  getActiveModel() { return this.selectedModels[this.currentProvider] || ''; },
+  setActiveModel(m) { this.selectedModels[this.currentProvider] = m; },
   savePreference(key, val) {
     if (chrome?.storage?.local) chrome.storage.local.set({ [key]: val });
   }
@@ -105,29 +92,19 @@ function bindBannerEvents(banner) {
   document.getElementById('ytAiSummarizeBtn')?.addEventListener('click', triggerSummarize);
 
   // Settings Drawer Toggle & Subtabs
-  document.getElementById('ytAiSettingsToggleBtn')?.addEventListener('click', () => {
-    SettingsDrawerController.toggleSettingsDrawer(exp => bannerView.setExpanded(exp));
-  });
-  document.getElementById('ytAiSettingsCloseBtn')?.addEventListener('click', () => {
-    SettingsDrawerController.setSettingsDrawerOpen(false);
-  });
-  banner.querySelectorAll('.yt-ai-settings-tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const sub = btn.getAttribute('data-subtab');
-      if (sub) SettingsDrawerController.switchSettingsSubtab(sub);
-    });
-  });
+  document.getElementById('ytAiSettingsToggleBtn')?.addEventListener('click', () => SettingsDrawerController.toggleSettingsDrawer(exp => bannerView.setExpanded(exp)));
+  document.getElementById('ytAiSettingsCloseBtn')?.addEventListener('click', () => SettingsDrawerController.setSettingsDrawerOpen(false));
+  banner.querySelectorAll('.yt-ai-settings-tab-btn').forEach(btn => btn.addEventListener('click', () => {
+    const sub = btn.getAttribute('data-subtab');
+    if (sub) SettingsDrawerController.switchSettingsSubtab(sub);
+  }));
 
   // Format pills & select
-  banner.querySelectorAll('.yt-ai-format-pill').forEach(pill => {
-    pill.addEventListener('click', () => {
-      const mode = pill.getAttribute('data-mode');
-      if (mode) bannerView.setSummaryMode(mode);
-    });
-  });
-  document.getElementById('ytAiModeSelect')?.addEventListener('change', (e) => {
-    bannerView.setSummaryMode(e.target.value);
-  });
+  banner.querySelectorAll('.yt-ai-format-pill').forEach(pill => pill.addEventListener('click', () => {
+    const mode = pill.getAttribute('data-mode');
+    if (mode) bannerView.setSummaryMode(mode);
+  }));
+  document.getElementById('ytAiModeSelect')?.addEventListener('change', (e) => bannerView.setSummaryMode(e.target.value));
 
   // Language select
   document.getElementById('ytAiLangSelect')?.addEventListener('change', (e) => {
@@ -192,11 +169,37 @@ function bindBannerEvents(banner) {
   });
 
   // Chat Q&A events
-  document.getElementById('ytAiSendChatBtn')?.addEventListener('click', () => {
-    chatViewController.handleSendChatMessage(document.getElementById('ytAiChatInput')?.value, state.currentLang);
+  const sendChat = (customText = null) => {
+    chatViewController.handleSendChatMessage(customText, {
+      state,
+      currentLang: state.currentLang,
+      currentProvider: state.currentProvider,
+      apiKeys: state.apiKeys,
+      serverUrls: state.serverUrls,
+      temperature: state.temperature,
+      maxTokens: state.maxTokens,
+      getActiveModel: () => state.getActiveModel(),
+      setExpanded: exp => bannerView.setExpanded(exp),
+      switchTab: tab => bannerView.switchTab(tab)
+    });
+  };
+
+  document.getElementById('ytAiSendChatBtn')?.addEventListener('click', () => sendChat());
+  document.getElementById('ytAiChatInput')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendChat();
+    }
+  });
+  banner.querySelectorAll('.yt-ai-suggestion-chip').forEach(chip => {
+    chip.addEventListener('click', () => sendChat(chip.getAttribute('data-question') || chip.textContent.trim()));
   });
   document.getElementById('ytAiMicBtn')?.addEventListener('click', () => {
-    chatViewController.toggleDictation(state.currentLang);
+    audioController.toggleDictation({
+      localWhisperUrl: state.localWhisperUrl,
+      groqKey: state.apiKeys.groq,
+      openaiKey: state.apiKeys.openai
+    });
   });
   document.getElementById('ytAiClearChatBtn')?.addEventListener('click', () => {
     chatViewController.handleClearChat(state.currentLang);
@@ -232,25 +235,18 @@ function bindBannerEvents(banner) {
 }
 
 function loadPreferences(callback) {
-  if (!chrome?.storage?.local) {
-    if (callback) callback();
-    return;
-  }
-  chrome.storage.local.get(null, (items) => {
-    if (items) {
-      if (typeof items.extensionEnabled === 'boolean') state.extensionEnabled = items.extensionEnabled;
-      if (items.aiProvider) state.currentProvider = items.aiProvider;
-      if (items.targetLang) state.currentLang = items.targetLang;
-      if (items.selectedModel) state.setActiveModel(items.selectedModel);
-      ['openai', 'gemini', 'claude', 'groq', 'deepseek'].forEach(p => {
-        if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`];
-      });
-      ['lmstudio', 'ollama'].forEach(p => {
-        if (items[`serverUrl_${p}`]) state.serverUrls[p] = items[`serverUrl_${p}`];
-        if (items[`selectedModel_${p}`]) state.selectedModels[p] = items[`selectedModel_${p}`];
-      });
-    }
-    if (callback) callback();
+  if (!chrome?.storage?.local) return callback?.();
+  chrome.storage.local.get(null, (items = {}) => {
+    if (typeof items.extensionEnabled === 'boolean') state.extensionEnabled = items.extensionEnabled;
+    if (items.aiProvider) state.currentProvider = items.aiProvider;
+    if (items.targetLang) state.currentLang = items.targetLang;
+    if (items.selectedModel) state.setActiveModel(items.selectedModel);
+    ['openai', 'gemini', 'claude', 'groq', 'deepseek'].forEach(p => { if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`]; });
+    ['lmstudio', 'ollama'].forEach(p => {
+      if (items[`serverUrl_${p}`]) state.serverUrls[p] = items[`serverUrl_${p}`];
+      if (items[`selectedModel_${p}`]) state.selectedModels[p] = items[`selectedModel_${p}`];
+    });
+    callback?.();
   });
 }
 

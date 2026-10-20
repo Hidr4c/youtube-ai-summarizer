@@ -1541,6 +1541,7 @@
     static render(t, options = {}) {
       const drawerHtml = SettingsDrawerTemplate.render(t, options);
       const version = options.version || "v1.3.2";
+      const suggestionsHtml = Array.isArray(t.suggestions) && t.suggestions.length > 0 ? t.suggestions.map((s) => `<span class="yt-ai-suggestion-chip" data-question="${(s.question || "").replace(/"/g, "&quot;")}">${s.label}</span>`).join("") : `<span class="yt-ai-suggestion-chip" data-question="What are the core key takeaways from this video?">\u{1F4A1} Key takeaways</span><span class="yt-ai-suggestion-chip" data-question="At what point in the video is the main topic discussed?">\u23F1\uFE0F Timestamps</span><span class="yt-ai-suggestion-chip" data-question="What specific figures, examples, or arguments are presented?">\u{1F4CA} Data & Figures</span><span class="yt-ai-suggestion-chip" data-question="What is the author's final conclusion or actionable advice?">\u{1F3AF} Conclusion & Advice</span>`;
       return `
       <!-- BARRE SUP\xC9RIEURE ULTRA-MINIMALISTE -->
       <div class="yt-ai-header-bar">
@@ -1646,10 +1647,7 @@
             <div class="yt-ai-chat-container">
               <!-- Suggestions rapides -->
               <div class="yt-ai-chat-suggestions">
-                <span class="yt-ai-suggestion-chip" data-question="What are the core key takeaways from this video?">\u{1F4A1} Key takeaways</span>
-                <span class="yt-ai-suggestion-chip" data-question="At what point in the video is the main topic discussed?">\u23F1\uFE0F Timestamps</span>
-                <span class="yt-ai-suggestion-chip" data-question="What specific figures, examples, or arguments are presented?">\u{1F4CA} Data & Figures</span>
-                <span class="yt-ai-suggestion-chip" data-question="What is the author's final conclusion or actionable advice?">\u{1F3AF} Conclusion & Advice</span>
+                ${suggestionsHtml}
               </div>
 
               <!-- Messages \xE9chang\xE9s -->
@@ -2876,6 +2874,11 @@
     resetChatOutput(currentLang = "en") {
       this.handleClearChat(currentLang);
     }
+    toggleDictation(options) {
+      if (this.audioController) {
+        return this.audioController.toggleDictation(options);
+      }
+    }
     async handleSendChatMessage(customText = null, ctx = {}) {
       if (this.audioController) {
         this.audioController.stopDictation();
@@ -2883,39 +2886,42 @@
       const inputEl = document.getElementById("ytAiChatInput");
       const text = (customText || inputEl?.value || "").trim();
       if (!text) return;
-      if (inputEl && !customText) inputEl.value = "";
+      if (inputEl) inputEl.value = "";
       if (typeof ctx.setExpanded === "function") ctx.setExpanded(true);
       if (typeof ctx.switchTab === "function") ctx.switchTab("chat");
+      const stateObj = ctx && typeof ctx === "object" ? ctx.state || ctx : {};
       const messagesContainer = document.getElementById("ytAiChatMessages");
       const chatCountBadge = document.getElementById("ytAiChatCount");
-      const lang = document.getElementById("ytAiLangSelect")?.value || ctx.currentLang || "en";
+      const lang = document.getElementById("ytAiLangSelect")?.value || ctx.currentLang || stateObj.currentLang || "en";
       const t = I18N[lang] || I18N.en;
       this.appendChatBubble("user", escapeHtml(text));
-      if (!this.transcriptController.cachedTranscript.segments || this.transcriptController.cachedTranscript.segments.length === 0) {
+      const currentVideoId = getVideoId();
+      const isCachedValid = this.transcriptController.cachedTranscript.segments?.length > 0 && (!currentVideoId || this.transcriptController.cachedTranscript.videoId === currentVideoId);
+      if (!isCachedValid) {
         const waitBubble = this.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${escapeHtml(t.extractingTranscriptNotice || "Extracting video transcript...")}`);
         const segments = await this.transcriptController.extractYouTubeTranscript(lang, true);
         if (!segments || segments.length === 0) {
           waitBubble.innerHTML = `<span style="color: #ff7b72;">\u274C ${escapeHtml(t.noTranscriptError || "Unable to extract video transcript.")}</span>`;
           return;
         }
-        waitBubble.remove();
+        waitBubble?.remove?.();
       }
-      const activeModel = ctx.getActiveModel ? ctx.getActiveModel() : ctx.selectedModel || "";
+      const activeModel = (typeof ctx.getActiveModel === "function" ? ctx.getActiveModel() : null) || (typeof stateObj.getActiveModel === "function" ? stateObj.getActiveModel() : null) || ctx.selectedModel || stateObj.selectedModels?.[stateObj.currentProvider] || stateObj.selectedModel || "";
       if (!activeModel) {
         this.appendChatBubble("ai", t.selectModelAlert || "Please select an AI model in the settings toolbar above.");
         return;
       }
-      const currentProvider = ctx.currentProvider || "lmstudio";
+      const currentProvider = ctx.currentProvider || stateObj.currentProvider || "lmstudio";
       const isLocal = currentProvider === "lmstudio" || currentProvider === "ollama";
-      const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : "";
+      const apiKeys = ctx.apiKeys || stateObj.apiKeys || {};
+      const key = apiKeys[currentProvider] || "";
       if (!isLocal && !key) {
         this.appendChatBubble("ai", t.missingKeyAlert || `Please provide your API key for ${currentProvider.toUpperCase()} to chat.`);
         return;
       }
       const aiBubble = this.appendChatBubble("ai", "");
       aiBubble.classList.add("yt-ai-typing");
-      const currentVideoId = getVideoId();
-      if (!this.transcriptController.cachedVideoMetadata.description || this.transcriptController.cachedVideoMetadata.videoId !== currentVideoId) {
+      if (typeof this.transcriptController?.requestPlayerDataFromMainWorld === "function" && (!this.transcriptController.cachedVideoMetadata?.description || this.transcriptController.cachedVideoMetadata?.videoId !== currentVideoId)) {
         await this.transcriptController.requestPlayerDataFromMainWorld(currentVideoId, lang).catch(() => {
         });
       }
@@ -2933,7 +2939,8 @@
         } catch (_) {
         }
       }
-      const currentUrl = ctx.serverUrls ? ctx.serverUrls[currentProvider] || "" : "";
+      const serverUrls = ctx.serverUrls || stateObj.serverUrls || {};
+      const currentUrl = serverUrls[currentProvider] || "";
       this.chatPort = chrome.runtime.connect({ name: "ai-stream" });
       this.chatPort.postMessage({
         action: "CHAT_STREAM",
@@ -2943,8 +2950,8 @@
         model: activeModel,
         systemPrompt,
         messages: historyPayload,
-        temperature: ctx.temperature || "0.3",
-        maxTokens: ctx.maxTokens || "auto"
+        temperature: ctx.temperature || stateObj.temperature || "0.3",
+        maxTokens: ctx.maxTokens || stateObj.maxTokens || "auto"
       });
       this.chatPort.onMessage.addListener((msg) => {
         if (msg.type === "CHUNK" && msg.content) {
@@ -2953,10 +2960,14 @@
           _ChatViewController.scrollToBottom(messagesContainer);
         } else if (msg.type === "DONE") {
           aiBubble.classList.remove("yt-ai-typing");
-          this.chatHistory.push({ role: "user", content: text });
-          this.chatHistory.push({ role: "assistant", content: fullAnswer });
-          if (chatCountBadge) chatCountBadge.textContent = Math.floor(this.chatHistory.length / 2);
-          this.attachAudioButtonToBubble(aiBubble, fullAnswer, lang);
+          if (!fullAnswer.trim()) {
+            aiBubble.innerHTML = `<span style="color: #ff7b72;">\u26A0\uFE0F ${escapeHtml(t.connectionError || "No response received from AI model.")}</span>`;
+          } else {
+            this.chatHistory.push({ role: "user", content: text });
+            this.chatHistory.push({ role: "assistant", content: fullAnswer });
+            if (chatCountBadge) chatCountBadge.textContent = String(Math.floor(this.chatHistory.length / 2));
+            this.attachAudioButtonToBubble(aiBubble, fullAnswer, lang);
+          }
           if (this.chatPort) {
             this.chatPort.disconnect();
             this.chatPort = null;
@@ -4675,17 +4686,8 @@ DIRECTIVES DE R\xC9DACTION (CONFORT VISUEL ET \xC9COUTE AUDIO) :
   var state = {
     extensionEnabled: true,
     currentProvider: "lmstudio",
-    serverUrls: {
-      lmstudio: "http://192.168.56.1:1234",
-      ollama: "http://localhost:11434"
-    },
-    apiKeys: {
-      openai: "",
-      gemini: "",
-      claude: "",
-      groq: "",
-      deepseek: ""
-    },
+    serverUrls: { lmstudio: "http://192.168.56.1:1234", ollama: "http://localhost:11434" },
+    apiKeys: { openai: "", gemini: "", claude: "", groq: "", deepseek: "" },
     selectedModels: {},
     availableLocalModels: {},
     currentLang: "fr",
@@ -4751,27 +4753,17 @@ DIRECTIVES DE R\xC9DACTION (CONFORT VISUEL ET \xC9COUTE AUDIO) :
     document.getElementById("ytAiBrandToggle")?.addEventListener("click", () => bannerView.toggleExpand());
     document.getElementById("ytAiToggleBtn")?.addEventListener("click", () => bannerView.toggleExpand());
     document.getElementById("ytAiSummarizeBtn")?.addEventListener("click", triggerSummarize);
-    document.getElementById("ytAiSettingsToggleBtn")?.addEventListener("click", () => {
-      SettingsDrawerController.toggleSettingsDrawer((exp) => bannerView.setExpanded(exp));
-    });
-    document.getElementById("ytAiSettingsCloseBtn")?.addEventListener("click", () => {
-      SettingsDrawerController.setSettingsDrawerOpen(false);
-    });
-    banner.querySelectorAll(".yt-ai-settings-tab-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const sub = btn.getAttribute("data-subtab");
-        if (sub) SettingsDrawerController.switchSettingsSubtab(sub);
-      });
-    });
-    banner.querySelectorAll(".yt-ai-format-pill").forEach((pill) => {
-      pill.addEventListener("click", () => {
-        const mode = pill.getAttribute("data-mode");
-        if (mode) bannerView.setSummaryMode(mode);
-      });
-    });
-    document.getElementById("ytAiModeSelect")?.addEventListener("change", (e) => {
-      bannerView.setSummaryMode(e.target.value);
-    });
+    document.getElementById("ytAiSettingsToggleBtn")?.addEventListener("click", () => SettingsDrawerController.toggleSettingsDrawer((exp) => bannerView.setExpanded(exp)));
+    document.getElementById("ytAiSettingsCloseBtn")?.addEventListener("click", () => SettingsDrawerController.setSettingsDrawerOpen(false));
+    banner.querySelectorAll(".yt-ai-settings-tab-btn").forEach((btn) => btn.addEventListener("click", () => {
+      const sub = btn.getAttribute("data-subtab");
+      if (sub) SettingsDrawerController.switchSettingsSubtab(sub);
+    }));
+    banner.querySelectorAll(".yt-ai-format-pill").forEach((pill) => pill.addEventListener("click", () => {
+      const mode = pill.getAttribute("data-mode");
+      if (mode) bannerView.setSummaryMode(mode);
+    }));
+    document.getElementById("ytAiModeSelect")?.addEventListener("change", (e) => bannerView.setSummaryMode(e.target.value));
     document.getElementById("ytAiLangSelect")?.addEventListener("change", (e) => {
       state.currentLang = e.target.value;
       state.savePreference("targetLang", state.currentLang);
@@ -4826,11 +4818,36 @@ DIRECTIVES DE R\xC9DACTION (CONFORT VISUEL ET \xC9COUTE AUDIO) :
         bannerView.showStatusBanner(I18N[state.currentLang]?.noSummaryToRead || "No summary to read", true);
       }
     });
-    document.getElementById("ytAiSendChatBtn")?.addEventListener("click", () => {
-      chatViewController.handleSendChatMessage(document.getElementById("ytAiChatInput")?.value, state.currentLang);
+    const sendChat = (customText = null) => {
+      chatViewController.handleSendChatMessage(customText, {
+        state,
+        currentLang: state.currentLang,
+        currentProvider: state.currentProvider,
+        apiKeys: state.apiKeys,
+        serverUrls: state.serverUrls,
+        temperature: state.temperature,
+        maxTokens: state.maxTokens,
+        getActiveModel: () => state.getActiveModel(),
+        setExpanded: (exp) => bannerView.setExpanded(exp),
+        switchTab: (tab) => bannerView.switchTab(tab)
+      });
+    };
+    document.getElementById("ytAiSendChatBtn")?.addEventListener("click", () => sendChat());
+    document.getElementById("ytAiChatInput")?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendChat();
+      }
+    });
+    banner.querySelectorAll(".yt-ai-suggestion-chip").forEach((chip) => {
+      chip.addEventListener("click", () => sendChat(chip.getAttribute("data-question") || chip.textContent.trim()));
     });
     document.getElementById("ytAiMicBtn")?.addEventListener("click", () => {
-      chatViewController.toggleDictation(state.currentLang);
+      audioController.toggleDictation({
+        localWhisperUrl: state.localWhisperUrl,
+        groqKey: state.apiKeys.groq,
+        openaiKey: state.apiKeys.openai
+      });
     });
     document.getElementById("ytAiClearChatBtn")?.addEventListener("click", () => {
       chatViewController.handleClearChat(state.currentLang);
@@ -4860,25 +4877,20 @@ DIRECTIVES DE R\xC9DACTION (CONFORT VISUEL ET \xC9COUTE AUDIO) :
     summaryViewController.renderSummaryEmptyState(false, state.currentLang, triggerSummarize);
   }
   function loadPreferences(callback) {
-    if (!chrome?.storage?.local) {
-      if (callback) callback();
-      return;
-    }
-    chrome.storage.local.get(null, (items) => {
-      if (items) {
-        if (typeof items.extensionEnabled === "boolean") state.extensionEnabled = items.extensionEnabled;
-        if (items.aiProvider) state.currentProvider = items.aiProvider;
-        if (items.targetLang) state.currentLang = items.targetLang;
-        if (items.selectedModel) state.setActiveModel(items.selectedModel);
-        ["openai", "gemini", "claude", "groq", "deepseek"].forEach((p) => {
-          if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`];
-        });
-        ["lmstudio", "ollama"].forEach((p) => {
-          if (items[`serverUrl_${p}`]) state.serverUrls[p] = items[`serverUrl_${p}`];
-          if (items[`selectedModel_${p}`]) state.selectedModels[p] = items[`selectedModel_${p}`];
-        });
-      }
-      if (callback) callback();
+    if (!chrome?.storage?.local) return callback?.();
+    chrome.storage.local.get(null, (items = {}) => {
+      if (typeof items.extensionEnabled === "boolean") state.extensionEnabled = items.extensionEnabled;
+      if (items.aiProvider) state.currentProvider = items.aiProvider;
+      if (items.targetLang) state.currentLang = items.targetLang;
+      if (items.selectedModel) state.setActiveModel(items.selectedModel);
+      ["openai", "gemini", "claude", "groq", "deepseek"].forEach((p) => {
+        if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`];
+      });
+      ["lmstudio", "ollama"].forEach((p) => {
+        if (items[`serverUrl_${p}`]) state.serverUrls[p] = items[`serverUrl_${p}`];
+        if (items[`selectedModel_${p}`]) state.selectedModels[p] = items[`selectedModel_${p}`];
+      });
+      callback?.();
     });
   }
   function initContentScript() {
