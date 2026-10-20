@@ -231,6 +231,7 @@ function bindBannerEvents(banner) {
   // Initial UI state synchronization
   bannerView.applyLanguage(state.currentLang, summaryViewController);
   settingsDrawer.syncProviderUI();
+  if (state.summaryMode) bannerView.setSummaryMode(state.summaryMode);
   summaryViewController.renderSummaryEmptyState(false, state.currentLang, triggerSummarize);
 }
 
@@ -241,8 +242,15 @@ function loadPreferences(callback) {
     if (items.aiProvider) state.currentProvider = items.aiProvider;
     if (items.targetLang) state.currentLang = items.targetLang;
     if (items.selectedModel) state.setActiveModel(items.selectedModel);
-    ['openai', 'gemini', 'claude', 'groq', 'deepseek'].forEach(p => { if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`]; });
-    ['lmstudio', 'ollama'].forEach(p => {
+    if (items.summaryMode) { state.summaryMode = items.summaryMode; bannerView.currentMode = items.summaryMode; }
+    if (items.temperature) state.temperature = items.temperature;
+    if (items.maxTokens) state.maxTokens = items.maxTokens;
+    if (typeof items.autoSummarize === 'boolean') state.autoSummarize = items.autoSummarize;
+    if (items.localWhisperUrl) state.localWhisperUrl = items.localWhisperUrl;
+    if (items.ttsSpeed) state.ttsSpeed = items.ttsSpeed;
+    if (items.selectedVoiceURI) state.selectedVoiceURI = items.selectedVoiceURI;
+    ['openai', 'gemini', 'claude', 'groq', 'deepseek', 'lmstudio', 'ollama'].forEach(p => {
+      if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`];
       if (items[`serverUrl_${p}`]) state.serverUrls[p] = items[`serverUrl_${p}`];
       if (items[`selectedModel_${p}`]) state.selectedModels[p] = items[`selectedModel_${p}`];
     });
@@ -271,11 +279,13 @@ function initContentScript() {
     });
 
     chrome.runtime?.onMessage?.addListener((req, sender, sendResponse) => {
-      if (req.type === 'GET_IN_PAGE_STATUS') {
-        sendResponse({ success: true, enabled: state.extensionEnabled, isWatchPage: isWatchPage() });
-      } else if (req.type === 'SET_EXTENSION_ENABLED') {
-        state.extensionEnabled = !!req.enabled;
-        bannerView.tryInjectBanner(bindBannerEvents);
+      const act = req.type || req.action;
+      if (act === 'GET_IN_PAGE_STATUS') sendResponse({ success: true, enabled: state.extensionEnabled, isWatchPage: isWatchPage() });
+      else if (act === 'SET_EXTENSION_ENABLED') { state.extensionEnabled = !!req.enabled; bannerView.tryInjectBanner(bindBannerEvents); sendResponse({ success: true }); }
+      else if (act === 'TOGGLE_IN_PAGE_BANNER') { bannerView.toggleExpand(); sendResponse({ success: true, isExpanded: bannerView.isExpanded }); }
+      else if (act === 'TRIGGER_SUMMARIZE') { triggerSummarize(); sendResponse({ success: true }); }
+      else if (act === 'SET_LANGUAGE') {
+        if (req.lang) { state.currentLang = req.lang; bannerView.applyLanguage(state.currentLang, summaryViewController); audioController.populateVoiceDropdown(state.currentLang); }
         sendResponse({ success: true });
       }
       return true;
