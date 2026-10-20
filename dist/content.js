@@ -1941,20 +1941,31 @@
     static isWatchPage(url) {
       try {
         const u = url ? new URL(url, window.location.origin) : window.location;
-        return u.pathname === "/watch" && new URLSearchParams(u.search).has("v");
+        if (u.pathname === "/watch" && new URLSearchParams(u.search).has("v")) return true;
+        if (u.pathname.startsWith("/live/") && u.pathname.length > 6) return true;
+        if (u.pathname.startsWith("/shorts/") && u.pathname.length > 8) return true;
+        return false;
       } catch (_) {
         return false;
       }
     }
     /**
-     * Extracts YouTube video ID from URL
+     * Extracts YouTube video ID from URL (watch, live, shorts, embed)
      * @param {string} [url]
      * @returns {string}
      */
     static getVideoId(url) {
       try {
         const u = url ? new URL(url, window.location.origin) : window.location;
-        return new URLSearchParams(u.search).get("v") || "";
+        const v = new URLSearchParams(u.search).get("v");
+        if (v) return v;
+        const liveMatch = u.pathname.match(/^\/live\/([^/?#]+)/);
+        if (liveMatch) return liveMatch[1];
+        const shortsMatch = u.pathname.match(/^\/shorts\/([^/?#]+)/);
+        if (shortsMatch) return shortsMatch[1];
+        const embedMatch = u.pathname.match(/^\/embed\/([^/?#]+)/);
+        if (embedMatch) return embedMatch[1];
+        return "";
       } catch (_) {
         return "";
       }
@@ -2028,19 +2039,19 @@
       const existing = document.getElementById("yt-ai-summarizer-container");
       if (existing && existing.isConnected) return;
       if (existing) existing.remove();
-      const watchFlexy = document.querySelector("ytd-watch-flexy");
+      const watchContainer = document.querySelector("ytd-watch-flexy, ytd-watch-grid");
       let parent = null;
       let refChild = null;
-      if (watchFlexy && watchFlexy.isConnected) {
-        parent = watchFlexy;
-        refChild = watchFlexy.querySelector("#player-theater-container") || watchFlexy.querySelector("#columns") || watchFlexy.firstChild;
+      if (watchContainer && watchContainer.isConnected) {
+        parent = watchContainer;
+        refChild = watchContainer.querySelector("#player-theater-container") || watchContainer.querySelector("#columns") || watchContainer.firstChild;
       } else {
-        const columns = document.getElementById("columns") || document.querySelector("ytd-watch-flexy #columns");
+        const columns = document.getElementById("columns") || document.querySelector("ytd-watch-flexy #columns, ytd-watch-grid #columns");
         if (columns && columns.parentNode) {
           parent = columns.parentNode;
           refChild = columns;
         } else {
-          const primary = document.getElementById("primary");
+          const primary = document.getElementById("primary") || document.getElementById("below");
           if (primary && primary.parentNode) {
             parent = primary.parentNode;
             refChild = primary;

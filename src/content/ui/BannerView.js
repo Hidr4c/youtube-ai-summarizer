@@ -26,22 +26,22 @@ export class BannerView {
     if (existing && existing.isConnected) return;
     if (existing) existing.remove();
 
-    const watchFlexy = document.querySelector('ytd-watch-flexy');
+    const watchContainer = document.querySelector('ytd-watch-flexy, ytd-watch-grid');
     let parent = null;
     let refChild = null;
 
-    if (watchFlexy && watchFlexy.isConnected) {
-      parent = watchFlexy;
-      refChild = watchFlexy.querySelector('#player-theater-container') ||
-                 watchFlexy.querySelector('#columns') ||
-                 watchFlexy.firstChild;
+    if (watchContainer && watchContainer.isConnected) {
+      parent = watchContainer;
+      refChild = watchContainer.querySelector('#player-theater-container') ||
+                 watchContainer.querySelector('#columns') ||
+                 watchContainer.firstChild;
     } else {
-      const columns = document.getElementById('columns') || document.querySelector('ytd-watch-flexy #columns');
+      const columns = document.getElementById('columns') || document.querySelector('ytd-watch-flexy #columns, ytd-watch-grid #columns');
       if (columns && columns.parentNode) {
         parent = columns.parentNode;
         refChild = columns;
       } else {
-        const primary = document.getElementById('primary');
+        const primary = document.getElementById('primary') || document.getElementById('below');
         if (primary && primary.parentNode) {
           parent = primary.parentNode;
           refChild = primary;
