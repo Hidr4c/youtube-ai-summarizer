@@ -2833,6 +2833,7 @@
       this.transcriptController = dependencies.transcriptController;
       this.promptService = dependencies.promptService;
       this.audioController = dependencies.audioController;
+      this.summaryViewController = dependencies.summaryViewController;
       this.chatHistory = [];
       this.chatPort = null;
     }
@@ -2944,7 +2945,8 @@
       const maxChars = CONTEXT_LIMITS[currentProvider] || 2e4;
       const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(this.transcriptController.cachedTranscript.fullText, maxChars);
       const selectedChatMode = document.getElementById("ytAiModeSelect")?.value || "standard";
-      const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode);
+      const summaryText = this.summaryViewController?.fullSummaryMarkdown || ctx.summaryText || "";
+      const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText);
       const historyPayload = this.chatHistory.slice(-8);
       historyPayload.push({ role: "user", content: text });
       let fullAnswer = "";
@@ -4258,11 +4260,20 @@ ${lines.join("\n")}
     }
   };
 
-  // src/services/implementations/PromptBuilder.js
-  function getFormatInstructions(mode, isFr) {
-    if (isFr) {
-      if (mode === "quick") {
-        return `Produis un r\xE9sum\xE9 COURT, CONCIS et DIRECT sous cette forme :
+  // src/services/implementations/PromptTemplates.js
+  var TARGET_LANG_NAMES = {
+    fr: "FRAN\xC7AIS",
+    en: "ENGLISH",
+    es: "ESPA\xD1OL",
+    it: "ITALIANO",
+    de: "DEUTSCH",
+    ja: "\u65E5\u672C\u8A9E (JAPANESE)",
+    ru: "\u0420\u0423\u0421\u0421\u041A\u0418\u0419",
+    zh: "\u4E2D\u6587 (SIMPLIFIED CHINESE)"
+  };
+  var TEMPLATES = {
+    fr: {
+      quick: `Produis un r\xE9sum\xE9 COURT, CONCIS et DIRECT sous cette forme :
 ### \u26A1 En Bref
 (2 \xE0 3 phrases percutantes r\xE9sumant l'essentiel absolu)
 
@@ -4272,10 +4283,8 @@ ${lines.join("\n")}
 - **[Point 3]** : Explication courte et concr\xE8te.
 
 ### \u{1F4CC} Conclusion
-(1 phrase de conclusion finale)`;
-      }
-      if (mode === "detailed") {
-        return `Produis une synth\xE8se COMPL\xC8TE, D\xC9TAILL\xC9E et EXHAUSTIVE :
+(1 phrase de conclusion finale)`,
+      detailed: `Produis une synth\xE8se COMPL\xC8TE, D\xC9TAILL\xC9E et EXHAUSTIVE :
 ### \u{1F3AF} Vue d'ensemble & Enjeux
 (Contexte, probl\xE8me abord\xE9 et th\xE8se de la vid\xE9o)
 
@@ -4289,9 +4298,8 @@ ${lines.join("\n")}
 (Tout ce qui est actionnable pour le spectateur)
 
 ### \u{1F4CC} Conclusion & Perspective
-(Message final et conclusion de l'auteur)`;
-      }
-      return `Produis un r\xE9sum\xE9 \xC9QUILIBR\xC9, NATUREL et STRUCTUR\xC9 :
+(Message final et conclusion de l'auteur)`,
+      standard: `Produis un r\xE9sum\xE9 \xC9QUILIBR\xC9, NATUREL et STRUCTUR\xC9 :
 ### \u{1F3AF} L'Essentiel
 (2-3 phrases r\xE9sumant le sujet et le message central)
 
@@ -4305,10 +4313,139 @@ ${lines.join("\n")}
 - **[Actionable]** : Recommandation de l'auteur.
 
 ### \u{1F4CC} Ce qu'il faut en retenir
-(Conclusion synth\xE9tique)`;
-    }
-    if (mode === "quick") {
-      return `Produce a SHORT, CONCISE, and DIRECT summary in this format:
+(Conclusion synth\xE9tique)`
+    },
+    es: {
+      quick: `Produce un resumen CORTO, CONCISO y DIRECTO en este formato:
+### \u26A1 En Breve
+(2 a 3 frases impactantes resumiendo lo esencial)
+
+### \u{1F3AF} Puntos Clave a Recordar
+- **[Punto 1]** : Explicaci\xF3n corta y concreta.
+- **[Punto 2]** : Explicaci\xF3n corta y concreta.
+- **[Punto 3]** : Explicaci\xF3n corta y concreta.
+
+### \u{1F4CC} Conclusi\xF3n
+(1 frase de conclusi\xF3n final)`,
+      detailed: `Produce una s\xEDntesis COMPLETA, DETALLADA y EXHAUSTIVA:
+### \u{1F3AF} Visi\xF3n General & Contexto
+(Contexto, problema abordado y tesis del v\xEDdeo)
+
+### \u23F1\uFE0F Desarrollo Cronol\xF3gico & Cap\xEDtulos Clave
+(Reconstruye las etapas principales con marcas de tiempo)
+
+### \u{1F4A1} An\xE1lisis, Argumentos & Ejemplos
+(Detalla datos, an\xE9cdotas o conceptos expuestos)
+
+### \u{1F6E0}\uFE0F Consejos Pr\xE1cticos & Acciones Concretas
+(Todo lo accionable para el espectador)
+
+### \u{1F4CC} Conclusi\xF3n & Perspectiva
+(Mensaje final y conclusi\xF3n del autor)`,
+      standard: `Produce un resumen EQUILIBRADO, NATURAL y ESTRUCTURADO:
+### \u{1F3AF} Lo Esencial
+(2-3 frases resumiendo el tema y mensaje principal)
+
+### \u23F1\uFE0F Momentos Clave & Desarrollo
+- **[Tema 1]** : Lo que se explica o demuestra.
+- **[Tema 2]** : Lo que se explica o demuestra.
+- **[Tema 3]** : Lo que se explica o demuestra.
+
+### \u{1F4A1} Ense\xF1anzas & Consejos
+- **[Lecci\xF3n clave]** : Detalle concreto y \xFAtil.
+- **[Acci\xF3n pr\xE1ctica]** : Recomendaci\xF3n del autor.
+
+### \u{1F4CC} Conclusi\xF3n General
+(Conclusi\xF3n sint\xE9tica)`
+    },
+    it: {
+      quick: `Produci un riassunto BREVE, CONCISO e DIRETTO in questo formato:
+### \u26A1 In Breve
+(2-3 frasi incisive che riassumono l'essenziale)
+
+### \u{1F3AF} Punti Chiave da Ricordare
+- **[Punto 1]** : Spiegazione breve e concreta.
+- **[Punto 2]** : Spiegazione breve e concreta.
+- **[Punto 3]** : Spiegazione breve e concreta.
+
+### \u{1F4CC} Conclusione
+(1 frase di conclusione finale)`,
+      detailed: `Produci una sintesi COMPLETA, DETTAGLIATA ed ESAUSTIVA:
+### \u{1F3AF} Panoramica & Obiettivi
+(Contesto, problema affrontato e tesi del video)
+
+### \u23F1\uFE0F Svolgimento Cronologico & Capitoli Chiave
+(Ricostruisci i passaggi chiave con timestamp se presenti)
+
+### \u{1F4A1} Analisi, Argomentazioni & Esempi
+(Analizza dati, aneddoti o concetti illustrati)
+
+### \u{1F6E0}\uFE0F Consigli Pratici & Azioni Concrete
+(Tutto ci\xF2 che \xE8 attuabile per lo spettatore)
+
+### \u{1F4CC} Conclusione & Prospettiva
+(Messaggio finale e conclusione dell'autore)`,
+      standard: `Produci un riassunto EQUILIBRATO, NATURALE e STRUTTURATO:
+### \u{1F3AF} L'Essenziale
+(2-3 frasi che riassumono l'argomento e il messaggio centrale)
+
+### \u23F1\uFE0F Momenti Chiave & Svolgimento
+- **[Tema 1]** : Spiegazione o dimostrazione.
+- **[Tema 2]** : Spiegazione o dimostrazione.
+- **[Tema 3]** : Spiegazione o dimostrazione.
+
+### \u{1F4A1} Insegnamenti & Consigli Pratici
+- **[Lezione chiave]** : Dettaglio concreto e utile.
+- **[Azione pratica]** : Raccomandazione dell'autore.
+
+### \u{1F4CC} Da Ricordare
+(Conclusione sintetica)`
+    },
+    de: {
+      quick: `Erstelle eine KURZE, PR\xC4ZISE und DIREKTE Zusammenfassung:
+### \u26A1 Kurz & B\xFCndig
+(2 bis 3 pr\xE4gnante S\xE4tze mit dem Wesentlichen)
+
+### \u{1F3AF} Wichtigste Erkenntnisse
+- **[Punkt 1]** : Kurze, konkrete Erkl\xE4rung.
+- **[Punkt 2]** : Kurze, konkrete Erkl\xE4rung.
+- **[Punkt 3]** : Kurze, konkrete Erkl\xE4rung.
+
+### \u{1F4CC} Fazit
+(1 abschlie\xDFender Schlusssatz)`,
+      detailed: `Erstelle eine VOLLST\xC4NDIGE, DETAILLIERTE und UMFASSENDE Analyse:
+### \u{1F3AF} \xDCberblick & Kernfrage
+(Kontext, Thema und Hauptthese des Videos)
+
+### \u23F1\uFE0F Chronologischer Ablauf & Wichtige Kapitel
+(Hauptabschnitte mit Zeitstempeln)
+
+### \u{1F4A1} Analysen, Argumente & Beispiele
+(Daten, Fakten oder erkl\xE4rte Konzepte)
+
+### \u{1F6E0}\uFE0F Praktische Ratschl\xE4ge & Handlungsschritte
+(Konkret anwendbare Tipps f\xFCr den Zuschauer)
+
+### \u{1F4CC} Fazit & Ausblick
+(Schlussgedanke des Autors)`,
+      standard: `Erstelle eine AUSGEWOGENE, NAT\xDCRLICHE und STRUKTURIERTE Zusammenfassung:
+### \u{1F3AF} Das Wesentliche
+(2-3 S\xE4tze als Zusammenfassung des Themas)
+
+### \u23F1\uFE0F Wichtige Abschnitte & Verlauf
+- **[Thema 1]** : Was erkl\xE4rt oder gezeigt wird.
+- **[Thema 2]** : Was erkl\xE4rt oder gezeigt wird.
+- **[Thema 3]** : Was erkl\xE4rt oder gezeigt wird.
+
+### \u{1F4A1} Erkenntnisse & Praktische Tipps
+- **[Kernlektion]** : Konkretes und n\xFCtzliches Detail.
+- **[Handlungsempfehlung]** : Empfehlung des Autors.
+
+### \u{1F4CC} Wichtigste Erkenntnis
+(Synthetisches Fazit)`
+    },
+    en: {
+      quick: `Produce a SHORT, CONCISE, and DIRECT summary in this format:
 ### \u26A1 Quick Summary
 (2 to 3 impactful sentences capturing the absolute essence)
 
@@ -4318,10 +4455,8 @@ ${lines.join("\n")}
 - **[Point 3]**: Short, concrete explanation.
 
 ### \u{1F4CC} Conclusion
-(1 final concluding sentence)`;
-    }
-    if (mode === "detailed") {
-      return `Produce a THOROUGH, DETAILED, and COMPREHENSIVE study guide:
+(1 final concluding sentence)`,
+      detailed: `Produce a THOROUGH, DETAILED, and COMPREHENSIVE study guide:
 ### \u{1F3AF} Overview & Core Thesis
 (Context, problem addressed, and central thesis of the video)
 
@@ -4335,9 +4470,8 @@ ${lines.join("\n")}
 (Actionable takeaways for the viewer)
 
 ### \u{1F4CC} Author's Conclusion & Key Takeaway
-(Final takeaway and perspective)`;
-    }
-    return `Produce a BALANCED, NATURAL, and STRUCTURED summary:
+(Final takeaway and perspective)`,
+      standard: `Produce a BALANCED, NATURAL, and STRUCTURED summary:
 ### \u{1F3AF} Core Takeaways
 (2-3 sentences summarizing the topic and central message)
 
@@ -4351,8 +4485,21 @@ ${lines.join("\n")}
 - **[Actionable item]**: Author recommendation.
 
 ### \u{1F4CC} Final Summary
-(Synthetic concluding thought)`;
+(Synthetic concluding thought)`
+    }
+  };
+  function getFormatInstructions(mode, langOrIsFr = "en") {
+    let lang = "en";
+    if (typeof langOrIsFr === "boolean") {
+      lang = langOrIsFr ? "fr" : "en";
+    } else if (typeof langOrIsFr === "string") {
+      lang = langOrIsFr;
+    }
+    const langTemplates = TEMPLATES[lang] || TEMPLATES.en;
+    return langTemplates[mode] || langTemplates.standard;
   }
+
+  // src/services/implementations/PromptBuilder.js
   var PromptBuilder = class extends IPromptBuilder {
     /**
      * Smart 3-part condensation algorithm (40% intro, 25% middle, 35% conclusion)
@@ -4434,37 +4581,32 @@ ${lines.join("\n")}
         extraContext = arguments[6];
       }
       const isFr = lang === "fr";
-      const langNames = {
-        en: "ENGLISH",
-        fr: "FRAN\xC7AIS",
-        es: "ESPA\xD1OL",
-        de: "DEUTSCH",
-        it: "ITALIANO",
-        ru: "\u0420\u0423\u0421\u0421\u041A\u0418\u0419",
-        ja: "\u65E5\u672C\u8A9E (JAPANESE)",
-        zh: "\u4E2D\u6587 (SIMPLIFIED CHINESE)"
-      };
-      const targetLangName = langNames[lang] || "ENGLISH";
-      const systemPrompt = isFr ? `Tu es un assistant IA d'\xE9lite sp\xE9cialis\xE9 dans la synth\xE8se et l'analyse de vid\xE9os.
-Ton but est de produire un r\xE9sum\xE9 clair, naturel, bien structur\xE9 et fid\xE8le en FRAN\xC7AIS, quelle que soit la langue originale de la vid\xE9o.
+      const targetLangName = TARGET_LANG_NAMES[lang] || "ENGLISH";
+      const systemPrompt = isFr ? `Tu es un assistant IA d'\xE9lite YouTube Summarizer AI sp\xE9cialis\xE9 dans la synth\xE8se et l'analyse de vid\xE9os.
+Ton but absolu est de produire un r\xE9sum\xE9 clair, naturel, bien structur\xE9 et fid\xE8le EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o.
+OBLIGATION STRICTE : R\xE9dige l'int\xE9gralit\xE9 du r\xE9sum\xE9, tous les titres et analyses en FRAN\xC7AIS.
 R\xC8GLES DE STYLE :
 - Style naturel, direct et percutant : va droit au but sans phrases de remplissage.
 - \xC9vite les phrases inutilement longues, privil\xE9gie la fluidit\xE9 et la clart\xE9.
 - Mise en page a\xE9r\xE9e en Markdown avec des listes \xE0 puces et des mots-cl\xE9s en **gras** en d\xE9but de point.
-- Fid\xE9lit\xE9 \xE0 100% \xE0 la transcription, z\xE9ro hallucination ou extrapolation.` : `You are an expert AI assistant specializing in video summarization and insights.
-Your goal is to produce a clear, natural, well-structured, and faithful summary in ${targetLangName}, regardless of the original video language.
+- Fid\xE9lit\xE9 \xE0 100% \xE0 la transcription, z\xE9ro hallucination ou extrapolation.` : `You are an expert AI assistant YouTube Summarizer AI specializing in video summarization and insights.
+Your absolute goal is to produce a clear, natural, well-structured, and faithful summary EXCLUSIVELY in ${targetLangName}, regardless of the original video language.
+MANDATORY LANGUAGE DIRECTIVE: Write the ENTIRE summary, all section headings, bullet points, and analysis strictly in ${targetLangName}. Do NOT use English unless the requested language is English.
 STYLE RULES:
 - Natural, direct, and engaging style: go straight to the point without filler phrases.
 - Avoid overly long and complex sentences, focus on clarity and flow.
 - Use airy Markdown formatting with bullet points and **bold** keywords at the start of each point.
 - 100% faithful to the transcript, with zero hallucinations or extrapolation.`;
-      const formatInstructions = getFormatInstructions(mode, isFr);
+      const formatInstructions = getFormatInstructions(mode, lang);
       const contextBlock = this.formatContextBlock(extraContext, lang);
+      const langRule = isFr ? `OBLIGATION : R\xE9dige l'int\xE9gralit\xE9 du r\xE9sum\xE9 en FRAN\xC7AIS.` : `MANDATORY: Write the entire summary exclusively in ${targetLangName}.`;
       const userPrompt = isFr ? `Voici la transcription de la vid\xE9o YouTube :
 Titre : "${title}"
 Auteur/Cha\xEEne : "${author}"${contextBlock ? `
 
 ${contextBlock}` : ""}
+
+${langRule}
 
 Format demand\xE9 :
 ${formatInstructions}${customDirectives ? `
@@ -4478,6 +4620,8 @@ Title: "${title}"
 Author/Channel: "${author}"${contextBlock ? `
 
 ${contextBlock}` : ""}
+
+${langRule}
 
 Requested format:
 ${formatInstructions}${customDirectives ? `
@@ -4505,7 +4649,7 @@ ${safeTranscript}`;
       };
       const targetLangName = langNames[targetLang] || "English";
       const contextBlock = this.formatContextBlock(extraContext, targetLang);
-      const systemPrompt = `You are a conversational AI video assistant.
+      const systemPrompt = `You are a conversational AI video assistant YouTube Summarizer AI.
 You answer questions accurately based on the video transcript and the provided official video context (description, channel information, tags).
 Video Title: "${title}"
 ${contextBlock ? `${contextBlock}
@@ -4530,12 +4674,99 @@ ${transcriptText}`;
 
   // src/content/services/PromptService.js
   var promptBuilder = new PromptBuilder();
+  var CHAT_LANG_MAP = {
+    fr: {
+      persona: "Tu es YouTube Summarizer AI, une extension Chrome intelligente int\xE9gr\xE9e directement sous la vid\xE9o YouTube.",
+      role: "Tu r\xE9ponds aux questions de l'utilisateur sur cette vid\xE9o YouTube en t'appuyant rigoureusement sur sa transcription et sur le contexte officiel fourni (description, cha\xEEne, cat\xE9gorie) ainsi que sur le r\xE9sum\xE9 vid\xE9o.",
+      identity: "Si l'utilisateur mentionne l'extension ou te demande qui tu es, confirme explicitement que tu es l'assistant de l'extension YouTube Summarizer AI.",
+      rule: "OBLIGATION STRICTE DE LANGUE : Tu DOIS r\xE9pondre EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o ou de la question.",
+      quick: "Longueur souhait\xE9e : r\xE9ponse courte, concise et directe (1 ou 2 courts paragraphes).",
+      detailed: "Longueur souhait\xE9e : r\xE9ponse d\xE9taill\xE9e et approfondie.",
+      standard: "Longueur souhait\xE9e : r\xE9ponse \xE9quilibr\xE9e et naturelle, allant droit au but.",
+      summaryLabel: "R\xC9SUM\xC9 VID\xC9O PR\xC9C\xC9DEMMENT G\xC9N\xC9R\xC9 DANS L'EXTENSION (POUR R\xC9F\xC9RENCE) :",
+      transcriptLabel: "Transcription de la vid\xE9o :"
+    },
+    en: {
+      persona: "You are YouTube Summarizer AI, an intelligent Chrome extension built directly into YouTube.",
+      role: "You answer the user's questions about this YouTube video, strictly based on its transcript and official video context (description, channel information, tags) along with the generated summary.",
+      identity: "If the user mentions the extension or asks who you are, explicitly confirm that you are the YouTube Summarizer AI Chrome extension assistant.",
+      rule: "MANDATORY LANGUAGE RULE: You MUST write your ENTIRE response EXCLUSIVELY in ENGLISH, regardless of the video or question language.",
+      quick: "Desired length: short and concise answer (1-2 short paragraphs), straight to the point.",
+      detailed: "Desired length: detailed and comprehensive explanation.",
+      standard: "Desired length: balanced, natural response, not too long, straight to the point.",
+      summaryLabel: "PREVIOUSLY GENERATED VIDEO SUMMARY (FOR USER REFERENCE):",
+      transcriptLabel: "Video Transcript:"
+    },
+    es: {
+      persona: "Eres YouTube Summarizer AI, una extensi\xF3n inteligente de Chrome integrada directamente en YouTube.",
+      role: "Respondes a las preguntas del usuario sobre este v\xEDdeo de YouTube bas\xE1ndote estrictamente en su transcripci\xF3n, contexto oficial y resumen.",
+      identity: "Si el usuario menciona la extensi\xF3n o pregunta qui\xE9n eres, confirma expl\xEDcitamente que eres el asistente de la extensi\xF3n YouTube Summarizer AI.",
+      rule: "REGLA OBLIGATORIA DE IDIOMA: Debes responder \xDANICA Y EXCLUSIVAMENTE en ESPA\xD1OL, sea cual sea el idioma de la pregunta o del v\xEDdeo.",
+      quick: "Longitud deseada: respuesta corta y concisa (1 o 2 p\xE1rrafos cortos).",
+      detailed: "Longitud deseada: respuesta detallada y completa.",
+      standard: "Longitud deseada: respuesta equilibrada y natural, sin rodeos.",
+      summaryLabel: "RESUMEN DEL V\xCDDEO PREVIAMENTE GENERADO EN LA EXTENSI\xD3N (PARA REFERENCIA):",
+      transcriptLabel: "Transcripci\xF3n del v\xEDdeo:"
+    },
+    it: {
+      persona: "Sei YouTube Summarizer AI, un'estensione intelligente per Chrome integrata direttamente in YouTube.",
+      role: "Rispondi alle domande dell'utente su questo video di YouTube basandoti rigorosamente sulla trascrizione, sul contesto ufficiale e sul riassunto.",
+      identity: "Se l'utente menziona l'estensione o chiede chi sei, conferma esplicitamente di essere l'assistente dell'estensione YouTube Summarizer AI.",
+      rule: "REGOLA OBBLIGATORIA SULLA LINGUA: Devi rispondere ESCLUSIVAMENTE in ITALIANO, indipendentemente dalla lingua della domanda o del video.",
+      quick: "Lunghezza desiderata: risposta breve e concisa (1 o 2 brevi paragrafi).",
+      detailed: "Lunghezza desiderata: spiegazione dettagliata e approfondita.",
+      standard: "Lunghezza desiderata: risposta equilibrata e naturale, dritta al punto.",
+      summaryLabel: "RIASSUNTO DEL VIDEO PRECEDENTEMENTE GENERATO NELL'ESTENSIONE (PER RIFERIMENTO):",
+      transcriptLabel: "Trascrizione del video:"
+    },
+    de: {
+      persona: "Du bist YouTube Summarizer AI, eine intelligente Chrome-Erweiterung, die direkt in YouTube integriert ist.",
+      role: "Du beantwortest Fragen des Nutzers basierend auf dem Videotranskript, offiziellen Kontextdaten und der Videozusammenfassung.",
+      identity: "Wenn der Nutzer die Erweiterung erw\xE4hnt oder fragt wer du bist, best\xE4tige explizit, dass du der Assistent der YouTube Summarizer AI Chrome-Erweiterung bist.",
+      rule: "STRIKTE SPRACHVORGABE: Antworte AUSSCHLIESSLICH auf DEUTSCH, unabh\xE4ngig von der Sprache der Frage oder des Videos.",
+      quick: "Gew\xFCnschte L\xE4nge: kurze und pr\xE4gnante Antwort (1-2 kurze Abs\xE4tze).",
+      detailed: "Gew\xFCnschte L\xE4nge: ausf\xFChrliche und detaillierte Erkl\xE4rung.",
+      standard: "Gew\xFCnschte L\xE4nge: ausgewogene, nat\xFCrliche Antwort, direkt auf den Punkt.",
+      summaryLabel: "ZUVOR GENERIERTE VIDEOZUSAMMENFASSUNG IN DER ERWEITERUNG (ZUR REFERENZ):",
+      transcriptLabel: "Videotranskript:"
+    },
+    ja: {
+      persona: "\u3042\u306A\u305F\u306FYouTube\u306B\u76F4\u63A5\u7D71\u5408\u3055\u308C\u305F\u30A4\u30F3\u30C6\u30EA\u30B8\u30A7\u30F3\u30C8\u306AChrome\u62E1\u5F35\u6A5F\u80FD\u300CYouTube Summarizer AI\u300D\u3067\u3059\u3002",
+      role: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3001\u516C\u5F0F\u6982\u8981\u3001\u304A\u3088\u3073\u751F\u6210\u3055\u308C\u305F\u8981\u7D04\u306B\u57FA\u3065\u3044\u3066\u6B63\u78BA\u306B\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+      identity: "\u30E6\u30FC\u30B6\u30FC\u304C\u62E1\u5F35\u6A5F\u80FD\u306B\u3064\u3044\u3066\u8A00\u53CA\u3057\u305F\u5834\u5408\u306F\u3001\u81EA\u8EAB\u304CYouTube Summarizer AI\u62E1\u5F35\u6A5F\u80FD\u306E\u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u3067\u3042\u308B\u3053\u3068\u3092\u8A8D\u3081\u3066\u304F\u3060\u3055\u3044\u3002",
+      rule: "\u3010\u6700\u91CD\u8981\u8A00\u8A9E\u30EB\u30FC\u30EB\u3011\u8CEA\u554F\u3084\u52D5\u753B\u306E\u8A00\u8A9E\u306B\u95A2\u4FC2\u306A\u304F\u3001\u5FC5\u305A\u81EA\u7136\u306A\u65E5\u672C\u8A9E\u306E\u307F\u3067\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+      quick: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u7C21\u6F54\u306A\u56DE\u7B54\uFF081\u301C2\u6BB5\u843D\uFF09\u3002",
+      detailed: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u8A73\u7D30\u3067\u7DB2\u7F85\u7684\u306A\u8AAC\u660E\u3002",
+      standard: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u8981\u70B9\u3092\u62BC\u3055\u3048\u305F\u81EA\u7136\u306A\u56DE\u7B54\u3002",
+      summaryLabel: "\u62E1\u5F35\u6A5F\u80FD\u3067\u4EE5\u524D\u306B\u751F\u6210\u3055\u308C\u305F\u52D5\u753B\u306E\u8981\u7D04\uFF08\u53C2\u8003\u7528\uFF09\uFF1A",
+      transcriptLabel: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\uFF1A"
+    },
+    ru: {
+      persona: "\u0412\u044B \u2014 YouTube Summarizer AI, \u0438\u043D\u0442\u0435\u043B\u043B\u0435\u043A\u0442\u0443\u0430\u043B\u044C\u043D\u043E\u0435 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435 Chrome, \u0432\u0441\u0442\u0440\u043E\u0435\u043D\u043D\u043E\u0435 \u043F\u0440\u044F\u043C\u043E \u0432 YouTube.",
+      role: "\u0412\u044B \u043E\u0442\u0432\u0435\u0447\u0430\u0435\u0442\u0435 \u043D\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F \u043E \u0432\u0438\u0434\u0435\u043E strictly \u043D\u0430 \u043E\u0441\u043D\u043E\u0432\u0435 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430, \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442\u0430 \u0438 \u0433\u043E\u0442\u043E\u0432\u043E\u0433\u043E \u0440\u0435\u0437\u044E\u043C\u0435.",
+      identity: "\u0415\u0441\u043B\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0443\u043F\u043E\u043C\u0438\u043D\u0430\u0435\u0442 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435 \u0438\u043B\u0438 \u0441\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0442 \u043A\u0442\u043E \u0432\u044B, \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u0435, \u0447\u0442\u043E \u0432\u044B \u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u044F YouTube Summarizer AI.",
+      rule: "\u0421\u0422\u0420\u041E\u0413\u041E\u0415 \u0422\u0420\u0415\u0411\u041E\u0412\u0410\u041D\u0418\u0415 \u041A \u042F\u0417\u042B\u041A\u0423: \u041E\u0442\u0432\u0435\u0447\u0430\u0439\u0442\u0435 \u0418\u0421\u041A\u041B\u042E\u0427\u0418\u0422\u0415\u041B\u042C\u041D\u041E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435, \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E \u043E\u0442 \u044F\u0437\u044B\u043A\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u0430 \u0438\u043B\u0438 \u0432\u0438\u0434\u0435\u043E.",
+      quick: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u043A\u0440\u0430\u0442\u043A\u0438\u0439 \u0438 \u0447\u0435\u0442\u043A\u0438\u0439 \u043E\u0442\u0432\u0435\u0442 (1-2 \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0445 \u0430\u0431\u0437\u0430\u0446\u0430).",
+      detailed: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u043F\u043E\u0434\u0440\u043E\u0431\u043D\u043E\u0435 \u0438 \u0438\u0441\u0447\u0435\u0440\u043F\u044B\u0432\u0430\u044E\u0449\u0435\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435.",
+      standard: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u0441\u0431\u0430\u043B\u0430\u043D\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0439 \u0438 \u0435\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442 \u043F\u043E \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443.",
+      summaryLabel: "\u0420\u0410\u041D\u0415\u0415 \u0421\u0424\u041E\u0420\u041C\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415 \u0420\u0415\u0417\u042E\u041C\u0415 \u0412\u0418\u0414\u0415\u041E \u0412 \u0420\u0410\u0421\u0428\u0418\u0420\u0415\u041D\u0418\u0418 (\u0414\u041B\u042F \u0421\u041F\u0420\u0410\u0412\u041A\u0418):",
+      transcriptLabel: "\u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442 \u0432\u0438\u0434\u0435\u043E:"
+    },
+    zh: {
+      persona: "\u4F60\u662F YouTube Summarizer AI\uFF0C\u4E00\u6B3E\u76F4\u63A5\u5185\u5D4C\u4E8E YouTube \u7684\u667A\u80FD Chrome \u6269\u5C55\u7A0B\u5E8F\u52A9\u624B\u3002",
+      role: "\u8BF7\u4E25\u683C\u4F9D\u636E\u89C6\u9891\u9010\u5B57\u7A3F\u3001\u5B98\u65B9\u89C6\u9891\u4FE1\u606F\u548C\u5DF2\u751F\u6210\u7684\u89C6\u9891\u6458\u8981\u56DE\u7B54\u7528\u6237\u7684\u95EE\u9898\u3002",
+      identity: "\u5982\u679C\u7528\u6237\u63D0\u5230\u6269\u5C55\u7A0B\u5E8F\u6216\u8BE2\u95EE\u4F60\u7684\u8EAB\u4EFD\uFF0C\u8BF7\u660E\u786E\u786E\u8BA4\u4F60\u662F YouTube Summarizer AI \u6269\u5C55\u7A0B\u5E8F\u52A9\u624B\u3002",
+      rule: "\u3010\u5F3A\u5236\u8BED\u8A00\u8981\u6C42\u3011\u65E0\u8BBA\u63D0\u95EE\u6216\u89C6\u9891\u539F\u59CB\u8BED\u8A00\u4E3A\u4F55\uFF0C\u5FC5\u987B\u5168\u90E8\u4F7F\u7528\u4E2D\u6587\uFF08\u7B80\u4F53\u4E2D\u6587\uFF09\u56DE\u7B54\u3002",
+      quick: "\u671F\u671B\u957F\u5EA6\uFF1A\u7B80\u660E\u627C\u8981\u7684\u56DE\u7B54\uFF081-2\u4E2A\u7B80\u77ED\u6BB5\u843D\uFF09\u3002",
+      detailed: "\u671F\u671B\u957F\u5EA6\uFF1A\u8BE6\u5C3D\u800C\u6DF1\u5165\u7684\u89E3\u91CA\u5206\u6790\u3002",
+      standard: "\u671F\u671B\u957F\u5EA6\uFF1A\u81EA\u7136\u5E73\u8861\u3001\u76F4\u5954\u4E3B\u9898\u7684\u56DE\u7B54\u3002",
+      summaryLabel: "\u6B64\u524D\u5728\u6269\u5C55\u7A0B\u5E8F\u4E2D\u751F\u6210\u7684\u89C6\u9891\u6458\u8981\uFF08\u4F9B\u53C2\u8003\uFF09\uFF1A",
+      transcriptLabel: "\u89C6\u9891\u9010\u5B57\u7A3F\uFF1A"
+    }
+  };
   var PromptService = class {
     /**
      * Condenses transcript to fit within AI model context limits
-     * @param {string} transcript
-     * @param {number} maxChars
-     * @returns {string}
      */
     static condenseTranscriptForContext(transcript, maxChars) {
       if (transcript.length <= maxChars) {
@@ -4578,122 +4809,43 @@ ${end}`;
      * Builds chat system prompt for interactive Q&A
      */
     static buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode) {
+      const summaryText = arguments[4] || "";
       const contextBlock = formatContextInfo(meta, lang);
       const subStr = meta?.subscribers ? ` (${meta.subscribers})` : "";
-      if (lang === "en") {
-        let lenDir = "Desired length: balanced, natural response, not too long, straight to the point.";
-        if (selectedChatMode === "quick") lenDir = "Desired length: short and concise answer (1-2 short paragraphs), straight to the point.";
-        else if (selectedChatMode === "detailed") lenDir = "Desired length: detailed and comprehensive explanation.";
-        return `You are an expert AI assistant specializing in clear, natural, and direct oral and written explanations.
-You answer the user's questions about this YouTube video, strictly based on its transcript and official video context (description, channel information, tags):
-Title: "${meta.title}"
-Channel: "${meta.author}"${subStr}
+      const cleanLang = lang && CHAT_LANG_MAP[lang] ? lang : "fr";
+      const cfg = CHAT_LANG_MAP[cleanLang];
+      let lenDir = cfg.standard;
+      if (selectedChatMode === "quick") lenDir = cfg.quick;
+      else if (selectedChatMode === "detailed") lenDir = cfg.detailed;
+      const summaryBlock = summaryText && summaryText.trim() ? `
+${cfg.summaryLabel}
+"""
+${summaryText.trim()}
+"""
+` : "";
+      return `${cfg.persona}
+${cfg.role}
+${cfg.identity}
+
+${cfg.rule}
+
+Title: "${meta?.title || ""}"
+Channel: "${meta?.author || ""}"${subStr}
 ${contextBlock ? `
-${contextBlock}` : ""}
-Transcript:
+${contextBlock}` : ""}${summaryBlock}
+${cfg.transcriptLabel}
 """
 ${safeTranscript}
 """
 
-WRITING GUIDELINES (FOR READING AND AUDIO LISTENING):
-1. NATURAL AND DIRECT TONE:
-   - Answer in clear, fluent, natural English.
-   - Go straight to the point without filler phrases.
-   - ${lenDir}
-
-2. CONTINUOUS PROSE (NO THEMATIC BULLETS OR EMOJIS):
-   - Write in flowing prose paragraphs so that text-to-speech (TTS) playback remains smooth.
-
-3. AIRY STRUCTURE:
-   - Break your response into short, readable paragraphs with **bold** key terms.
-   - 100% faithful to the transcript and official description, no hallucinations.`;
-      }
-      if (lang === "es") {
-        let lenDir = "Longitud deseada: respuesta equilibrada y natural, sin rodeos.";
-        if (selectedChatMode === "quick") lenDir = "Longitud deseada: respuesta corta y concisa (1 o 2 p\xE1rrafos cortos).";
-        else if (selectedChatMode === "detailed") lenDir = "Longitud deseada: respuesta detallada y completa.";
-        return `Eres un asistente de IA experto en explicaciones orales y escritas en ESPA\xD1OL.
-Respondes a las preguntas del usuario sobre este v\xEDdeo de YouTube bas\xE1ndote estrictamente en su transcripci\xF3n y en el contexto oficial (descripci\xF3n, canal, etiquetas):
-T\xEDtulo: "${meta.title}"
-Canal: "${meta.author}"${subStr}
-${contextBlock ? `
-${contextBlock}` : ""}
-Transcripci\xF3n:
-"""
-${safeTranscript}
-"""
-${lenDir} Resalta t\xE9rminos clave en **negrita**, sin vi\xF1etas para lectura TTS fluida. 100% fiel.`;
-      }
-      if (lang === "de") {
-        let lenDir = "Gew\xFCnschte L\xE4nge: ausgewogene, nat\xFCrliche Antwort, direkt auf den Punkt.";
-        if (selectedChatMode === "quick") lenDir = "Gew\xFCnschte L\xE4nge: kurze und pr\xE4gnante Antwort.";
-        else if (selectedChatMode === "detailed") lenDir = "Gew\xFCnschte L\xE4nge: ausf\xFChrliche und detaillierte Erkl\xE4rung.";
-        return `Du bist ein KI-Experte f\xFCr klare Erkl\xE4rungen auf DEUTSCH.
-Beantworte Fragen basierend auf dem Transkript und offiziellen Videoinformationen:
-Titel: "${meta.title}"
-Kanal: "${meta.author}"${subStr}
-${contextBlock ? `
-${contextBlock}` : ""}
-Transkript:
-"""
-${safeTranscript}
-"""
-${lenDir} Flie\xDFtext f\xFCr fl\xFCssige TTS-Wiedergabe, **fettgedruckte** Schl\xFCsselw\xF6rter.`;
-      }
-      if (lang === "ja") {
-        return `\u3042\u306A\u305F\u306FYouTube\u52D5\u753B\u306E\u5185\u5BB9\u306B\u3064\u3044\u3066\u65E5\u672C\u8A9E\u3067\u56DE\u7B54\u3059\u308BAI\u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u3067\u3059\u3002
-\u516C\u5F0F\u6982\u8981\u6B04\u3068\u6587\u5B57\u8D77\u3053\u3057\u306B\u5FE0\u5B9F\u306B\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\uFF1A
-\u30BF\u30A4\u30C8\u30EB: "${meta.title}"
-\u30C1\u30E3\u30F3\u30CD\u30EB: "${meta.author}"${subStr}
-${contextBlock ? `
-${contextBlock}` : ""}
-\u6587\u5B57\u8D77\u3053\u3057:
-"""
-${safeTranscript}
-"""
-\u81EA\u7136\u306A\u65E5\u672C\u8A9E\u306E\u6BB5\u843D\u3067\u3001\u30AD\u30FC\u30EF\u30FC\u30C9\u3092 **\u592A\u5B57** \u3067\u5F37\u8ABF\u3057\u3066\u304F\u3060\u3055\u3044\u3002`;
-      }
-      if (lang === "zh") {
-        return `\u4F60\u662F\u4E00\u4F4D\u4E13\u4E1A\u7684\u4EBA\u5DE5\u667A\u80FD\u89C6\u9891\u52A9\u624B\u3002\u8BF7\u6839\u636E\u89C6\u9891\u9010\u5B57\u7A3F\u4E0E\u5B98\u65B9\u89C6\u9891\u7B80\u4ECB\u51C6\u786E\u56DE\u7B54\u95EE\u9898\uFF1A
-\u6807\u9898: "${meta.title}"
-\u9891\u9053: "${meta.author}"${subStr}
-${contextBlock ? `
-${contextBlock}` : ""}
-\u9010\u5B57\u7A3F:
-"""
-${safeTranscript}
-"""
-\u4EE5\u8FDE\u8D2F\u7684\u6BB5\u843D\u53D9\u8FF0\uFF0C\u6838\u5FC3\u5173\u952E\u8BCD\u7528 **\u52A0\u7C97** \u663E\u793A\u3002`;
-      }
-      let lengthDirective = "Longueur souhait\xE9e : r\xE9ponse \xE9quilibr\xE9e et naturelle, pas trop longue, allant droit \xE0 l'essentiel.";
-      if (selectedChatMode === "quick") {
-        lengthDirective = "Longueur souhait\xE9e : r\xE9ponse courte, concise et directe (1 ou 2 courts paragraphes suffisent).";
-      } else if (selectedChatMode === "detailed") {
-        lengthDirective = "Longueur souhait\xE9e : r\xE9ponse d\xE9taill\xE9e et approfondie, d\xE9veloppant les explications et arguments.";
-      }
-      return `Tu es un assistant IA expert en explications orales et \xE9crites : directes, claires, naturelles et agr\xE9ables \xE0 \xE9couter.
-Tu r\xE9ponds aux questions de l'utilisateur sur la vid\xE9o YouTube en t'appuyant rigoureusement sur sa transcription et sur le contexte officiel fourni (description officielle de la vid\xE9o, cha\xEEne, cat\xE9gorie, mots-cl\xE9s) :
-Titre : "${meta.title}"
-Cha\xEEne : "${meta.author}"${subStr}
-${contextBlock ? `
-${contextBlock}` : ""}
-Transcription de la vid\xE9o :
-"""
-${safeTranscript}
-"""
-
-DIRECTIVES DE R\xC9DACTION (CONFORT VISUEL ET \xC9COUTE AUDIO) :
-1. TON NATUREL ET DIRECT :
-   - R\xE9ponds de fa\xE7on vivante, fluide et naturelle.
-   - Va droit au but sans bavardage superflu.
-   - ${lengthDirective}
-
-2. FORMAT EN PROSE (PAS DE PUCES TH\xC9MATIQUES NI D'\xC9MOJIS) :
-   - R\xE9dige sous forme de paragraphes en prose continue pour que la lecture vocale (TTS) reste fluide.
-
-3. STRUCTURE A\xC9R\xC9E :
-   - D\xE9coupe ton texte en courts paragraphes faciles \xE0 lire avec des mots-cl\xE9s en **gras**.
-   - 100% fid\xE8le \xE0 la transcription et \xE0 la description officielle, sans rien inventer.`;
+WRITING & AUDIO PLAYBACK GUIDELINES:
+1. ${cfg.rule}
+2. ${lenDir}
+3. CONTINUOUS PROSE (TTS READY):
+   - Write in flowing, natural prose paragraphs without disjointed lists or decorative emojis for smooth audio playback.
+4. READABLE STRUCTURE:
+   - Break answers into short paragraphs with **bold** key terms.
+   - 100% faithful to the video content, transcript, and summary without hallucinations.`;
     }
   };
 
@@ -4737,7 +4889,8 @@ DIRECTIVES DE R\xC9DACTION (CONFORT VISUEL ET \xC9COUTE AUDIO) :
   var chatViewController = new ChatViewController({
     transcriptController,
     promptService,
-    audioController
+    audioController,
+    summaryViewController
   });
   var triggerSummarize = () => {
     bannerView.setExpanded(true);

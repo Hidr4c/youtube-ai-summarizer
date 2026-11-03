@@ -49,7 +49,8 @@ const summaryViewController = new SummaryViewController({
 const chatViewController = new ChatViewController({
   transcriptController,
   promptService,
-  audioController
+  audioController,
+  summaryViewController
 });
 
 const triggerSummarize = () => {

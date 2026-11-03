@@ -11,6 +11,7 @@ export class ChatViewController {
     this.transcriptController = dependencies.transcriptController;
     this.promptService = dependencies.promptService;
     this.audioController = dependencies.audioController;
+    this.summaryViewController = dependencies.summaryViewController;
     this.chatHistory = [];
     this.chatPort = null;
   }
@@ -153,7 +154,8 @@ export class ChatViewController {
     const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(this.transcriptController.cachedTranscript.fullText, maxChars);
 
     const selectedChatMode = document.getElementById('ytAiModeSelect')?.value || 'standard';
-    const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode);
+    const summaryText = this.summaryViewController?.fullSummaryMarkdown || ctx.summaryText || '';
+    const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText);
 
     const historyPayload = this.chatHistory.slice(-8);
     historyPayload.push({ role: 'user', content: text });

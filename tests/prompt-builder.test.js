@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { PromptBuilder } from '../src/services/implementations/PromptBuilder.js';
+import { PromptService } from '../src/content/services/PromptService.js';
 
 const builder = new PromptBuilder();
 
@@ -41,6 +42,16 @@ describe('Prompt Generation & Context Compression', () => {
 
     const { systemPrompt: jaPrompt } = builder.buildSummaryPrompts('Titre', 'Auteur', 'Texte', 'ja', 'standard');
     assert.ok(/日本語|japanese/i.test(jaPrompt), 'System prompt must require Japanese when lang is ja');
+  });
+
+  it('buildSummaryPrompts produces localized format headers for Italian and Spanish', () => {
+    const { userPrompt: esPrompt } = builder.buildSummaryPrompts('Título', 'Canal', 'Texto', 'es', 'quick');
+    assert.ok(esPrompt.includes('### ⚡ En Breve'), 'Spanish quick format must include En Breve header');
+    assert.ok(esPrompt.includes('### 🎯 Puntos Clave'), 'Spanish quick format must include Puntos Clave');
+
+    const { userPrompt: itPrompt } = builder.buildSummaryPrompts('Titolo', 'Canale', 'Testo', 'it', 'quick');
+    assert.ok(itPrompt.includes('### ⚡ In Breve'), 'Italian quick format must include In Breve header');
+    assert.ok(itPrompt.includes('### 🎯 Punti Chiave'), 'Italian quick format must include Punti Chiave');
   });
 
   it('formatContextBlock formats channel info, subscribers, category, keywords and description', () => {
@@ -115,5 +126,26 @@ describe('Prompt Generation & Context Compression', () => {
     assert.ok(systemPrompt.includes('https://github.com/Hidr4c/test'));
     assert.ok(systemPrompt.includes('video transcript and the provided official video context'));
     assert.ok(systemPrompt.includes('Always answer in English.'));
+  });
+
+  it('PromptService.buildChatSystemPrompt enforces Italian, Spanish and Chrome Extension identity', () => {
+    const meta = { title: 'Cosmology Today', author: 'Dr. Astra' };
+    const itPrompt = PromptService.buildChatSystemPrompt(meta, 'Transcript audio', 'it', 'standard');
+    assert.ok(itPrompt.includes('YouTube Summarizer AI'), 'Must establish identity as YouTube Summarizer AI');
+    assert.ok(itPrompt.includes('estensione intelligente per Chrome') || itPrompt.includes('Chrome'), 'Must acknowledge Chrome extension persona');
+    assert.ok(itPrompt.includes('ITALIANO'), 'Must enforce strict Italian language rule');
+
+    const esPrompt = PromptService.buildChatSystemPrompt(meta, 'Transcript audio', 'es', 'quick');
+    assert.ok(esPrompt.includes('YouTube Summarizer AI'), 'Must establish identity in Spanish');
+    assert.ok(esPrompt.includes('ESPAÑOL'), 'Must enforce strict Spanish language rule');
+  });
+
+  it('PromptService.buildChatSystemPrompt injects generated summary for reference when available', () => {
+    const meta = { title: 'Quantum Computing', author: 'Physics Lab' };
+    const summary = '### ⚡ Quick Summary\nQuantum gates manipulate qubits in superposition.';
+    const prompt = PromptService.buildChatSystemPrompt(meta, 'Raw speech text', 'en', 'standard', summary);
+
+    assert.ok(prompt.includes('PREVIOUSLY GENERATED VIDEO SUMMARY'), 'Must include summary section');
+    assert.ok(prompt.includes('Quantum gates manipulate qubits'), 'Must contain actual summary markdown text');
   });
 });

@@ -1,100 +1,7 @@
 import { IPromptBuilder } from '../interfaces/IPromptBuilder.js';
+import { getFormatInstructions, TARGET_LANG_NAMES } from './PromptTemplates.js';
 
-function getFormatInstructions(mode, isFr) {
-  if (isFr) {
-    if (mode === 'quick') {
-      return `Produis un résumé COURT, CONCIS et DIRECT sous cette forme :
-### ⚡ En Bref
-(2 à 3 phrases percutantes résumant l'essentiel absolu)
-
-### 🎯 Points Clés à Retenir
-- **[Point 1]** : Explication courte et concrète.
-- **[Point 2]** : Explication courte et concrète.
-- **[Point 3]** : Explication courte et concrète.
-
-### 📌 Conclusion
-(1 phrase de conclusion finale)`;
-    }
-    if (mode === 'detailed') {
-      return `Produis une synthèse COMPLÈTE, DÉTAILLÉE et EXHAUSTIVE :
-### 🎯 Vue d'ensemble & Enjeux
-(Contexte, problème abordé et thèse de la vidéo)
-
-### ⏱️ Déroulé chronologique & Chapitres clés
-(Reconstitue les grandes étapes avec timestamps si mentionnés)
-
-### 💡 Analyses, Arguments & Exemples cités
-(Décortique les données, anecdotes ou concepts expliqués)
-
-### 🛠️ Conseils pratiques & Actions concrètes
-(Tout ce qui est actionnable pour le spectateur)
-
-### 📌 Conclusion & Perspective
-(Message final et conclusion de l'auteur)`;
-    }
-    return `Produis un résumé ÉQUILIBRÉ, NATUREL et STRUCTURÉ :
-### 🎯 L'Essentiel
-(2-3 phrases résumant le sujet et le message central)
-
-### ⏱️ Moments Clés & Déroulement
-- **[Thème 1]** : Ce qui est expliqué ou démontré.
-- **[Thème 2]** : Ce qui est expliqué ou démontré.
-- **[Thème 3]** : Ce qui est expliqué ou démontré.
-
-### 💡 Enseignements & Conseils
-- **[Leçon clé]** : Détail concret et utile.
-- **[Actionable]** : Recommandation de l'auteur.
-
-### 📌 Ce qu'il faut en retenir
-(Conclusion synthétique)`;
-  }
-
-  if (mode === 'quick') {
-    return `Produce a SHORT, CONCISE, and DIRECT summary in this format:
-### ⚡ Quick Summary
-(2 to 3 impactful sentences capturing the absolute essence)
-
-### 🎯 Key Takeaways
-- **[Point 1]**: Short, concrete explanation.
-- **[Point 2]**: Short, concrete explanation.
-- **[Point 3]**: Short, concrete explanation.
-
-### 📌 Conclusion
-(1 final concluding sentence)`;
-  }
-  if (mode === 'detailed') {
-    return `Produce a THOROUGH, DETAILED, and COMPREHENSIVE study guide:
-### 🎯 Overview & Core Thesis
-(Context, problem addressed, and central thesis of the video)
-
-### ⏱️ Chronological Breakdown & Key Chapters
-(Reconstruct key sections with timestamps if present)
-
-### 💡 Deep Dive: Arguments, Data & Examples
-(Analyze the data, case studies, or concepts presented)
-
-### 🛠️ Actionable Advice & Practical Steps
-(Actionable takeaways for the viewer)
-
-### 📌 Author's Conclusion & Key Takeaway
-(Final takeaway and perspective)`;
-  }
-  return `Produce a BALANCED, NATURAL, and STRUCTURED summary:
-### 🎯 Core Takeaways
-(2-3 sentences summarizing the topic and central message)
-
-### ⏱️ Key Highlights & Chapters
-- **[Topic 1]**: What is explained or demonstrated.
-- **[Topic 2]**: What is explained or demonstrated.
-- **[Topic 3]**: What is explained or demonstrated.
-
-### 💡 Insights & Practical Advice
-- **[Key insight]**: Concrete and actionable takeaway.
-- **[Actionable item]**: Author recommendation.
-
-### 📌 Final Summary
-(Synthetic concluding thought)`;
-}
+export { getFormatInstructions, TARGET_LANG_NAMES };
 
 /**
  * Service for prompt generation, context compression, and system instructions
@@ -172,22 +79,21 @@ export class PromptBuilder extends IPromptBuilder {
     }
 
     const isFr = lang === 'fr';
-    const langNames = {
-      en: 'ENGLISH', fr: 'FRANÇAIS', es: 'ESPAÑOL', de: 'DEUTSCH',
-      it: 'ITALIANO', ru: 'РУССКИЙ', ja: '日本語 (JAPANESE)', zh: '中文 (SIMPLIFIED CHINESE)'
-    };
-    const targetLangName = langNames[lang] || 'ENGLISH';
+    const targetLangName = TARGET_LANG_NAMES[lang] || 'ENGLISH';
 
     const systemPrompt = isFr
-      ? `Tu es un assistant IA d'élite spécialisé dans la synthèse et l'analyse de vidéos.\nTon but est de produire un résumé clair, naturel, bien structuré et fidèle en FRANÇAIS, quelle que soit la langue originale de la vidéo.\nRÈGLES DE STYLE :\n- Style naturel, direct et percutant : va droit au but sans phrases de remplissage.\n- Évite les phrases inutilement longues, privilégie la fluidité et la clarté.\n- Mise en page aérée en Markdown avec des listes à puces et des mots-clés en **gras** en début de point.\n- Fidélité à 100% à la transcription, zéro hallucination ou extrapolation.`
-      : `You are an expert AI assistant specializing in video summarization and insights.\nYour goal is to produce a clear, natural, well-structured, and faithful summary in ${targetLangName}, regardless of the original video language.\nSTYLE RULES:\n- Natural, direct, and engaging style: go straight to the point without filler phrases.\n- Avoid overly long and complex sentences, focus on clarity and flow.\n- Use airy Markdown formatting with bullet points and **bold** keywords at the start of each point.\n- 100% faithful to the transcript, with zero hallucinations or extrapolation.`;
+      ? `Tu es un assistant IA d'élite YouTube Summarizer AI spécialisé dans la synthèse et l'analyse de vidéos.\nTon but absolu est de produire un résumé clair, naturel, bien structuré et fidèle EXCLUSIVEMENT en FRANÇAIS, quelle que soit la langue de la vidéo.\nOBLIGATION STRICTE : Rédige l'intégralité du résumé, tous les titres et analyses en FRANÇAIS.\nRÈGLES DE STYLE :\n- Style naturel, direct et percutant : va droit au but sans phrases de remplissage.\n- Évite les phrases inutilement longues, privilégie la fluidité et la clarté.\n- Mise en page aérée en Markdown avec des listes à puces et des mots-clés en **gras** en début de point.\n- Fidélité à 100% à la transcription, zéro hallucination ou extrapolation.`
+      : `You are an expert AI assistant YouTube Summarizer AI specializing in video summarization and insights.\nYour absolute goal is to produce a clear, natural, well-structured, and faithful summary EXCLUSIVELY in ${targetLangName}, regardless of the original video language.\nMANDATORY LANGUAGE DIRECTIVE: Write the ENTIRE summary, all section headings, bullet points, and analysis strictly in ${targetLangName}. Do NOT use English unless the requested language is English.\nSTYLE RULES:\n- Natural, direct, and engaging style: go straight to the point without filler phrases.\n- Avoid overly long and complex sentences, focus on clarity and flow.\n- Use airy Markdown formatting with bullet points and **bold** keywords at the start of each point.\n- 100% faithful to the transcript, with zero hallucinations or extrapolation.`;
 
-    const formatInstructions = getFormatInstructions(mode, isFr);
+    const formatInstructions = getFormatInstructions(mode, lang);
     const contextBlock = this.formatContextBlock(extraContext, lang);
+    const langRule = isFr
+      ? `OBLIGATION : Rédige l'intégralité du résumé en FRANÇAIS.`
+      : `MANDATORY: Write the entire summary exclusively in ${targetLangName}.`;
 
     const userPrompt = isFr
-      ? `Voici la transcription de la vidéo YouTube :\nTitre : "${title}"\nAuteur/Chaîne : "${author}"${contextBlock ? `\n\n${contextBlock}` : ''}\n\nFormat demandé :\n${formatInstructions}${customDirectives ? `\nDIRECTIVES PERSONNALISÉES DE L'UTILISATEUR :\n${customDirectives}\n` : ''}\n\nTRANSCRIPTION :\n${safeTranscript}`
-      : `Here is the transcript of the YouTube video:\nTitle: "${title}"\nAuthor/Channel: "${author}"${contextBlock ? `\n\n${contextBlock}` : ''}\n\nRequested format:\n${formatInstructions}${customDirectives ? `\nUSER CUSTOM DIRECTIVES:\n${customDirectives}\n` : ''}\n\nTRANSCRIPT:\n${safeTranscript}`;
+      ? `Voici la transcription de la vidéo YouTube :\nTitre : "${title}"\nAuteur/Chaîne : "${author}"${contextBlock ? `\n\n${contextBlock}` : ''}\n\n${langRule}\n\nFormat demandé :\n${formatInstructions}${customDirectives ? `\nDIRECTIVES PERSONNALISÉES DE L'UTILISATEUR :\n${customDirectives}\n` : ''}\n\nTRANSCRIPTION :\n${safeTranscript}`
+      : `Here is the transcript of the YouTube video:\nTitle: "${title}"\nAuthor/Channel: "${author}"${contextBlock ? `\n\n${contextBlock}` : ''}\n\n${langRule}\n\nRequested format:\n${formatInstructions}${customDirectives ? `\nUSER CUSTOM DIRECTIVES:\n${customDirectives}\n` : ''}\n\nTRANSCRIPT:\n${safeTranscript}`;
 
     return { systemPrompt, userPrompt };
   }
@@ -203,7 +109,7 @@ export class PromptBuilder extends IPromptBuilder {
     const targetLangName = langNames[targetLang] || 'English';
     const contextBlock = this.formatContextBlock(extraContext, targetLang);
 
-    const systemPrompt = `You are a conversational AI video assistant.\nYou answer questions accurately based on the video transcript and the provided official video context (description, channel information, tags).\nVideo Title: "${title}"\n${contextBlock ? `${contextBlock}\n` : ''}Always answer in ${targetLangName}.\nIf the answer is not mentioned in the transcript or description, state clearly that the video does not mention it.\nBe concise, helpful, and quote timestamps in [m:ss] format if applicable.\n\nTRANSCRIPT:\n${transcriptText}`;
+    const systemPrompt = `You are a conversational AI video assistant YouTube Summarizer AI.\nYou answer questions accurately based on the video transcript and the provided official video context (description, channel information, tags).\nVideo Title: "${title}"\n${contextBlock ? `${contextBlock}\n` : ''}Always answer in ${targetLangName}.\nIf the answer is not mentioned in the transcript or description, state clearly that the video does not mention it.\nBe concise, helpful, and quote timestamps in [m:ss] format if applicable.\n\nTRANSCRIPT:\n${transcriptText}`;
 
     const messages = [];
     if (Array.isArray(chatHistory)) {
