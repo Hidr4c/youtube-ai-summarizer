@@ -27,7 +27,7 @@ const zipName = `youtube-summarizer-ai-v${version}.zip`;
 const zipPath = path.join(releasesDir, zipName);
 
 // 4. Create zip archive
-const filesToPack = ['manifest.json', 'dist', 'icons', 'docs', 'README.md', 'LICENSE'];
+const filesToPack = ['manifest.json', '_locales', 'dist', 'icons', 'docs', 'README.md', 'LICENSE'];
 
 console.log(`🗜️  Archiving files into releases/${zipName}...`);
 if (process.platform === 'win32') {

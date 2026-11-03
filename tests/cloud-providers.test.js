@@ -1,4 +1,4 @@
-import test from 'node:test';
+import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   PROVIDER_NAMES,
@@ -7,7 +7,7 @@ import {
   PROVIDER_CONFIGS
 } from '../src/config/AIProviderPresets.js';
 
-test('AI Providers & Model Configurations', async (t) => {
+describe('AI Providers & Model Configurations', () => {
   const cloudProviders = [
     'gemini',
     'groq',
@@ -22,7 +22,7 @@ test('AI Providers & Model Configurations', async (t) => {
     'together'
   ];
 
-  await t.test('all cloud providers have display names, model presets, and portal links', () => {
+  it('all cloud providers have display names, model presets, and portal links', () => {
     for (const p of cloudProviders) {
       assert.ok(PROVIDER_NAMES[p], `PROVIDER_NAMES must contain "${p}"`);
       assert.ok(Array.isArray(CLOUD_MODELS[p]) && CLOUD_MODELS[p].length > 0, `CLOUD_MODELS must contain models for "${p}"`);
@@ -32,7 +32,7 @@ test('AI Providers & Model Configurations', async (t) => {
     }
   });
 
-  await t.test('all cloud providers have valid endpoints configured in background.js', () => {
+  it('all cloud providers have valid endpoints configured in background.js', () => {
     for (const p of cloudProviders) {
       assert.ok(PROVIDER_CONFIGS[p], `PROVIDER_CONFIGS in background.js must contain "${p}"`);
       assert.ok(
@@ -50,7 +50,7 @@ test('AI Providers & Model Configurations', async (t) => {
     }
   });
 
-  await t.test('all model presets have valid id and name strings', () => {
+  it('all model presets have valid id and name strings', () => {
     for (const p of cloudProviders) {
       const models = CLOUD_MODELS[p];
       for (const m of models) {

@@ -1,4 +1,4 @@
-import test from 'node:test';
+import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { AIProviderFactory } from '../src/services/ai/providers/AIProviderFactory.js';
 import { BaseAIProvider } from '../src/services/ai/providers/BaseAIProvider.js';
@@ -21,8 +21,8 @@ import { TranscriptError } from '../src/domain/errors/TranscriptError.js';
 import { VideoMetadata } from '../src/domain/models/VideoMetadata.js';
 import { AIRequest } from '../src/domain/models/AIRequest.js';
 
-test('AI Providers Strategy & Factory Implementation', async (suite) => {
-  await suite.test('AIProviderFactory instantiates and caches all supported strategies', () => {
+describe('AI Providers Strategy & Factory Implementation', () => {
+  it('AIProviderFactory instantiates and caches all supported strategies', () => {
     const providers = ['lmstudio', 'ollama', 'gemini', 'groq', 'openai', 'claude', 'deepseek'];
     for (const p of providers) {
       const inst1 = AIProviderFactory.getProvider(p);
@@ -40,7 +40,7 @@ test('AI Providers Strategy & Factory Implementation', async (suite) => {
     assert.equal(fallback.isLocal(), false);
   });
 
-  await suite.test('BaseAIProvider helpers: identification, local check, and timeout', async () => {
+  it('BaseAIProvider helpers: identification, local check, and timeout', async () => {
     const base = new BaseAIProvider('test-ai', 'Test AI Provider', true);
     assert.equal(base.getProviderId(), 'test-ai');
     assert.equal(base.getDisplayName(), 'Test AI Provider');
@@ -56,7 +56,7 @@ test('AI Providers Strategy & Factory Implementation', async (suite) => {
     }
   });
 
-  await suite.test('Cloud providers return model lists and handle test connection', async () => {
+  it('Cloud providers return model lists and handle test connection', async () => {
     const origFetch = globalThis.fetch;
 
     try {
@@ -112,7 +112,7 @@ test('AI Providers Strategy & Factory Implementation', async (suite) => {
     }
   });
 
-  await suite.test('Local providers (LM Studio & Ollama) fetch models and test connections', async () => {
+  it('Local providers (LM Studio & Ollama) fetch models and test connections', async () => {
     const origFetch = globalThis.fetch;
 
     try {
@@ -172,8 +172,8 @@ test('AI Providers Strategy & Factory Implementation', async (suite) => {
   });
 });
 
-test('Timedtext XML & TTML Parser Coverage', async (suite) => {
-  await suite.test('parseTimedtextXml parses standard XML text tags and TTML p tags', () => {
+describe('Timedtext XML & TTML Parser Coverage', () => {
+  it('parseTimedtextXml parses standard XML text tags and TTML p tags', () => {
     // Empty inputs
     assert.deepEqual(TimedtextParser.parseTimedtextXml(''), []);
     assert.deepEqual(TimedtextParser.parseTimedtextXml(null), []);
@@ -281,10 +281,10 @@ test('Timedtext XML & TTML Parser Coverage', async (suite) => {
   });
 });
 
-test('PromptBuilder & StreamRelay Comprehensive Coverage', async (suite) => {
+describe('PromptBuilder & StreamRelay Comprehensive Coverage', () => {
   const builder = new PromptBuilder();
 
-  await suite.test('buildSummaryPrompts handles detailed mode, French, and custom directives', () => {
+  it('buildSummaryPrompts handles detailed mode, French, and custom directives', () => {
     const resDetailed = builder.buildSummaryPrompts({
       title: 'Guide complet IA',
       author: 'Tech France',
@@ -331,7 +331,7 @@ test('PromptBuilder & StreamRelay Comprehensive Coverage', async (suite) => {
     assert.match(condensed, /Progression de la vidéo condensée/);
   });
 
-  await suite.test('buildChatPrompts constructs system prompt with language and messages list', () => {
+  it('buildChatPrompts constructs system prompt with language and messages list', () => {
     const chatPrompts = builder.buildChatPrompts(
       'Deep Learning 101',
       'The video explains convolutional networks at 02:15.',
@@ -346,7 +346,7 @@ test('PromptBuilder & StreamRelay Comprehensive Coverage', async (suite) => {
     assert.equal(chatPrompts.messages[2].content, 'Where is it mentioned?');
   });
 
-  await suite.test('StreamRelay context error formatting for all providers', () => {
+  it('StreamRelay context error formatting for all providers', () => {
     const ollamaMsg = StreamRelay.formatContextError('Context length exceeded 2048', 'ollama', 'qwen');
     assert.match(ollamaMsg, /num_ctx/);
 
@@ -364,8 +364,8 @@ test('PromptBuilder & StreamRelay Comprehensive Coverage', async (suite) => {
   });
 });
 
-test('InnerTubeParser Chapters and Edge Cases Coverage', async (suite) => {
-  await suite.test('extractSegmentsFromInnerTubeJson handles macroMarkers and empty inputs', () => {
+describe('InnerTubeParser Chapters and Edge Cases Coverage', () => {
+  it('extractSegmentsFromInnerTubeJson handles macroMarkers and empty inputs', () => {
     assert.equal(InnerTubeParser.extractSegmentsFromInnerTubeJson(null), null);
     assert.equal(InnerTubeParser.extractSegmentsFromInnerTubeJson({}), null);
     assert.equal(InnerTubeParser.extractSegmentsFromInnerTubeJson([]), null);
@@ -396,8 +396,8 @@ test('InnerTubeParser Chapters and Edge Cases Coverage', async (suite) => {
   });
 });
 
-test('Domain Models & Errors Validation', async (suite) => {
-  await suite.test('TranscriptSegment formatting and boundary checks', () => {
+describe('Domain Models & Errors Validation', () => {
+  it('TranscriptSegment formatting and boundary checks', () => {
     const seg = new TranscriptSegment(125000, 5000, 'Important statement');
     assert.equal(seg.startMs, 125000);
     assert.equal(seg.durationMs, 5000);
@@ -409,7 +409,7 @@ test('Domain Models & Errors Validation', async (suite) => {
     assert.equal(longSeg.timestamp, '1:02:05');
   });
 
-  await suite.test('AppError, AIProviderError, and TranscriptError hierarchy', () => {
+  it('AppError, AIProviderError, and TranscriptError hierarchy', () => {
     const appErr = new AppError('General failure', 'ERR_APP', { extra: 1 });
     assert.equal(appErr.message, 'General failure');
     assert.equal(appErr.code, 'ERR_APP');
@@ -423,7 +423,7 @@ test('Domain Models & Errors Validation', async (suite) => {
     assert.equal(transErr.code, 'NO_CAPTIONS');
   });
 
-  await suite.test('VideoMetadata and AIRequest models instantiation', () => {
+  it('VideoMetadata and AIRequest models instantiation', () => {
     const defaultMeta = new VideoMetadata();
     assert.equal(defaultMeta.videoId, '');
     assert.equal(defaultMeta.title, '');

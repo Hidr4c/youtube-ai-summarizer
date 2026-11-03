@@ -1,18 +1,26 @@
-import test from 'node:test';
+import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { StreamRelay } from '../src/background/StreamRelay.js';
 import { AIProviderFactory } from '../src/services/ai/providers/AIProviderFactory.js';
 import { BaseAIProvider } from '../src/services/ai/providers/BaseAIProvider.js';
+import { InnerTubeParser } from '../src/parsers/InnerTubeParser.js';
 
-test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) => {
+describe('Regression Suite - Bug Prevention & Integration Contracts', () => {
   const rootDir = path.resolve('.');
 
+  // Helper to read all content script sources
+  const getAllContentSrc = () => {
+    const contentFiles = fs.readdirSync(path.join(rootDir, 'src/content'), { recursive: true }).filter(f => f.endsWith('.js'));
+    return contentFiles.map(f => fs.readFileSync(path.join(rootDir, 'src/content', f), 'utf-8')).join('\n');
+  };
+
   // 1. REGRESSION: Multi-Model Transcript Extraction & State Preservation
-  await suite.test('Multi-Model Transcript: handles all YouTube layouts and preserves user panel state', () => {
-    const contextExtractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8');
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+  it('Multi-Model Transcript: handles all YouTube layouts and preserves user panel state', () => {
+    const contextExtractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8') +
+      (fs.existsSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js')) ? fs.readFileSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js'), 'utf-8') : '');
+    const contentSrc = getAllContentSrc();
 
     // ContextExtractor runs purely in memory without DOM clicks
     const forbiddenInMainWorld = [
@@ -46,7 +54,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 2. REGRESSION: Model Detection Response Contracts (success, ok, data.data, models)
-  await suite.test('Model Detection: response contracts guarantee both modern and legacy format consumers', async () => {
+  it('Model Detection: response contracts guarantee both modern and legacy format consumers', async () => {
     const mockModels = [
       { id: 'qwen2.5:7b', name: 'Qwen 2.5 7B' },
       { id: 'llama3.2:3b', name: 'Llama 3.2 3B' }
@@ -69,7 +77,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 3. REGRESSION: AI Stream Message Synthesis (systemPrompt + userPrompt when messages is omitted)
-  await suite.test('StreamRelay: synthesizes chatMessages when messages array is omitted', async () => {
+  it('StreamRelay: synthesizes chatMessages when messages array is omitted', async () => {
     const capturedRequests = [];
     const originalFetch = globalThis.fetch;
 
@@ -126,8 +134,8 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 4. REGRESSION: Minimalist Header UI Layout & Settings Tab Order
-  await suite.test('Minimalist Header & Settings Order: Model -> Params -> Audio', () => {
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+  it('Minimalist Header & Settings Order: Model -> Params -> Audio', () => {
+    const contentSrc = getAllContentSrc();
     const headerBarMatch = contentSrc.match(/<div class="yt-ai-header-bar">([\s\S]*?)<\/div>\s*<!-- CONTENU DÉPLIABLE -->/);
     assert.ok(headerBarMatch, 'Header bar must exist in template');
     const headerBarHtml = headerBarMatch[1];
@@ -146,7 +154,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     assert.equal(headerBarHtml.includes('v1.3.0'), false, 'Duplicate version link must be removed from header bar');
 
     // Controls MUST be found inside the Settings Drawer:
-    const settingsDrawerMatch = contentSrc.match(/<div id="ytAiSettingsDrawer"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>\s*<!-- BANNIÈRE DE STATUT/);
+    const settingsDrawerMatch = contentSrc.match(/<div id="ytAiSettingsDrawer"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>\s*`;/);
     assert.ok(settingsDrawerMatch, 'Settings drawer must exist');
     const settingsDrawerHtml = settingsDrawerMatch[0];
 
@@ -176,7 +184,7 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 5. REGRESSION: Provider URL Normalization (http:// scheme & trailing slash cleanup)
-  await suite.test('URL Normalization: guarantees local endpoints are properly formatted', () => {
+  it('URL Normalization: guarantees local endpoints are properly formatted', () => {
     const provider = new BaseAIProvider('lmstudio', 'LM Studio', true);
 
     assert.equal(provider.normalizeUrl('192.168.56.1:1234'), 'http://192.168.56.1:1234');
@@ -187,8 +195,8 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 6. REGRESSION: Header-Scoped Close, Stealth Timeout & Multilingual Regex
-  await suite.test('Native Transcript Closing: strictly scoped to header, multilingual, and stealth delay preserved', () => {
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+  it('Native Transcript Closing: strictly scoped to header, multilingual, and stealth delay preserved', () => {
+    const contentSrc = getAllContentSrc();
 
     // Forbidden: unscoped yt-button-shape button search on panel that would match body tabs
     assert.equal(
@@ -232,9 +240,9 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 7. REGRESSION: YouTube Theme Adaptation (Dark & Light Mode Support)
-  await suite.test('Theme Adaptation: CSS variables and dynamic observer for dark/light YouTube parity', () => {
+  it('Theme Adaptation: CSS variables and dynamic observer for dark/light YouTube parity', () => {
     const cssSrc = fs.readFileSync(path.join(rootDir, 'src/content/content.css'), 'utf-8');
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+    const contentSrc = getAllContentSrc();
 
     // CSS Theme variables definitions
     assert.match(cssSrc, /html\[dark\]\s*#yt-ai-summarizer-container/);
@@ -266,11 +274,11 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
   });
 
   // 8. REGRESSION: Speech Synthesis Reliability (LANG_LOCALES import, Chunking, Chrome 15s keepalive & DOM fallback)
-  await suite.test('Speech Synthesis: LANG_LOCALES import, sentence chunking, Chrome keepalive & DOM fallback', () => {
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+  it('Speech Synthesis: LANG_LOCALES import, sentence chunking, Chrome keepalive & DOM fallback', () => {
+    const contentSrc = getAllContentSrc();
 
     // LANG_LOCALES must be imported to prevent ReferenceError when clicking listen or mic
-    assert.match(contentSrc, /import\s*\{[^}]*LANG_LOCALES[^}]*\}\s*from\s*['"]\.\.\/config\/AIProviderPresets\.js['"]/);
+    assert.match(contentSrc, /import\s*\{[^}]*LANG_LOCALES[^}]*\}\s*from\s*['"](?:\.\.\/)+config\/AIProviderPresets\.js['"]/);
     assert.match(contentSrc, /DEFAULT_LANG_LOCALES/);
 
     // Sentence chunking must exist to prevent synthesis-failed buffer overflow on long summaries
@@ -286,4 +294,135 @@ test('Regression Suite - Bug Prevention & Integration Contracts', async (suite) 
     // DOM fallback on summary body if fullSummaryMarkdown is empty
     assert.match(contentSrc, /document\.getElementById\('ytAiSummaryBody'\)/);
   });
+
+  // 9. REGRESSION: Complete Speech Transcript vs Video Chapters Separation
+  it('Speech Transcript vs Chapters: InnerTubeParser separation, DOM selectors, and quality guards', () => {
+    const contentFiles = fs.readdirSync(path.join(rootDir, 'src/content'), { recursive: true }).filter(f => f.endsWith('.js'));
+    const contentSrc = contentFiles.map(f => fs.readFileSync(path.join(rootDir, 'src/content', f), 'utf-8')).join('\n');
+    const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8') +
+      (fs.existsSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js')) ? fs.readFileSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js'), 'utf-8') : '');
+
+    // 1. Fallback 2 in extractTranscriptFromActiveDOM must strictly exclude macro-markers
+    assert.equal(
+      contentSrc.includes('target-id*="transcript"]:not([target-id*="macro-markers"])'),
+      true,
+      'extractTranscriptFromActiveDOM must strictly exclude macro-markers'
+    );
+    assert.match(
+      contentSrc,
+      /\/\/ 2\. Fallback textuel STRICTEMENT sur les panneaux de transcription dédiés \(JAMAIS sur les panneaux de chapitres\)/,
+      'extractTranscriptFromActiveDOM must document strict chapter exclusion'
+    );
+
+    // 2. InnerTubeParser must prioritize speech segments over chapters and support allowChapters: false
+    const mixedJson = {
+      response: {
+        actions: [
+          {
+            macroMarkersListItemRenderer: {
+              timeDescription: { simpleText: '00:00' },
+              title: { simpleText: 'Chapter 1' }
+            }
+          },
+          {
+            transcriptSegmentViewModel: {
+              startTimeText: { content: '0:02' },
+              snippet: { content: 'This is real speech text.' }
+            }
+          }
+        ]
+      }
+    };
+    const speechOnly = InnerTubeParser.extractSegmentsFromInnerTubeJson(mixedJson);
+    assert.equal(speechOnly.length, 1);
+    assert.equal(speechOnly[0].timestamp, '0:02');
+    assert.equal(speechOnly[0].text, 'This is real speech text.');
+
+    // Chapters only with allowChapters: false must return null
+    const chaptersOnlyJson = {
+      macroMarkersListItemRenderer: {
+        timeDescription: { simpleText: '02:20' },
+        title: { simpleText: 'Why time dilates' }
+      }
+    };
+    assert.equal(InnerTubeParser.extractSegmentsFromInnerTubeJson(chaptersOnlyJson, { allowChapters: false }), null);
+    assert.equal(InnerTubeParser.extractSegmentsFromInnerTubeJson(chaptersOnlyJson, { allowChapters: true }).length, 1);
+
+    // 3. YouTubeContextExtractor must call extractSegmentsFromInnerTubeJson with allowChapters: false
+    assert.match(
+      extractorSrc,
+      /extractSegmentsFromInnerTubeJson\(window\.ytInitialData,\s*\{\s*allowChapters:\s*false\s*\}\)/,
+      'Main world extractor must reject chapters from ytInitialData'
+    );
+
+    // 4. YouTubeContextExtractor must have extractTranscript method implemented
+    assert.match(extractorSrc, /async extractTranscript\(requestedVideoId/);
+
+    // 5. YouTubeContextExtractor must differentiate get_transcript vs browse_continuation
+    assert.match(extractorSrc, /type:\s*['"]browse_continuation['"]/);
+    assert.match(extractorSrc, /https:\/\/www\.youtube\.com\/youtubei\/v1\/browse/);
+
+    // 6. Quality guards: isChapterOnly tracking and dynamic upgrade observer in content/index.js
+    assert.match(contentSrc, /isChapterOnly:\s*!!isChapterOnly/);
+    assert.match(contentSrc, /\(Chapitres\)/);
+    assert.match(contentSrc, /transcript-segment-view-model,\s*ytd-transcript-segment-renderer/);
+  });
+
+  // 10. REGRESSION: Video and Channel Context (Description, Subscribers, Category, Tags)
+  it('Video and Channel Context: In-memory extraction, DOM fallbacks, and prompt injection', () => {
+    const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8') +
+      (fs.existsSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js')) ? fs.readFileSync(path.join(rootDir, 'src/injected/InnerTubeBridge.js'), 'utf-8') : '');
+    const contentFiles = fs.readdirSync(path.join(rootDir, 'src/content'), { recursive: true }).filter(f => f.endsWith('.js'));
+    const contentSrc = contentFiles.map(f => fs.readFileSync(path.join(rootDir, 'src/content', f), 'utf-8')).join('\n');
+    const modelSrc = fs.readFileSync(path.join(rootDir, 'src/domain/models/VideoMetadata.js'), 'utf-8');
+
+    // 1. YouTubeContextExtractor must extract description, keywords, category, publishDate, and channelId
+    assert.match(extractorSrc, /const\s+description\s*=\s*videoDetails\.shortDescription/);
+    assert.match(extractorSrc, /const\s+keywords\s*=\s*Array\.isArray\(videoDetails\.keywords\)/);
+    assert.match(extractorSrc, /const\s+category\s*=\s*microformat\.category/);
+    assert.match(extractorSrc, /const\s+publishDate\s*=\s*microformat\.publishDate/);
+    assert.match(extractorSrc, /description,\s*keywords,\s*category,\s*publishDate/);
+
+    // 2. Content script must maintain cachedVideoMetadata and query DOM for channel subscribers
+    assert.match(contentSrc, /cachedVideoMetadata\s*=\s*\{/);
+    assert.match(contentSrc, /#owner-sub-count/);
+    assert.match(contentSrc, /#description-inline-expander/);
+    assert.match(contentSrc, /formatContextInfo/);
+
+    // 3. buildPrompts and buildChatSystemPrompt must inject context
+    assert.match(contentSrc, /function buildPrompts\(title,\s*author,\s*safeTranscript,\s*lang,\s*mode,\s*meta/);
+    assert.match(contentSrc, /function buildChatSystemPrompt\(meta,\s*safeTranscript,\s*lang,\s*selectedChatMode\)/);
+    assert.match(contentSrc, /strictly based on its transcript and official video context/);
+    assert.match(contentSrc, /t['’]appuyant rigoureusement sur sa transcription et sur le contexte officiel/);
+
+    // 4. VideoMetadata entity must accept extra options without breaking existing contract
+    assert.match(modelSrc, /constructor\(videoId\s*=\s*'',\s*title\s*=\s*'',\s*author\s*=\s*'',\s*url\s*=\s*'',\s*extra\s*=\s*\{\}\)/);
+    assert.match(modelSrc, /this\.subscribers\s*=\s*String\(extra\?\.subscribers/);
+    assert.match(modelSrc, /this\.description\s*=\s*String\(extra\?\.description/);
+  });
+
+  // 11. REGRESSION: SPA Navigation & Multi-Video Isolation
+  it('SPA Navigation: resets transcript and metadata on video switch, rejects stale in-memory responses', () => {
+    const extractorSrc = fs.readFileSync(path.join(rootDir, 'src/injected/YouTubeContextExtractor.js'), 'utf-8');
+    const contentFiles = fs.readdirSync(path.join(rootDir, 'src/content'), { recursive: true }).filter(f => f.endsWith('.js'));
+    const contentSrc = contentFiles.map(f => fs.readFileSync(path.join(rootDir, 'src/content', f), 'utf-8')).join('\n');
+
+    // 1. YouTubeContextExtractor must not return stale ytInitialPlayerResponse when requestedVideoId differs
+    assert.match(extractorSrc, /return\s+requestedVideoId\s*\?\s*null\s*:\s*\(window\.ytInitialPlayerResponse\s*\|\|\s*null\)/);
+    assert.match(extractorSrc, /activeId\s*!==\s*requestedVideoId\s*&&\s*!playerResponse/);
+
+    // 2. NavigationObserver must detect isNewVideo and pass videoId payload
+    assert.match(contentSrc, /isNewVideo\s*=\s*!!\(currentVideoId\s*&&\s*currentVideoId\s*!==\s*lastVideoId\)/);
+
+    // 3. TranscriptController must clear state and verify currentVideoId
+    assert.match(contentSrc, /this\.cachedTranscript\.videoId\s*!==\s*currentVideoId/);
+    assert.match(contentSrc, /resetAllState\(preferredLang\)/);
+
+    // 4. index.js must orchestrate reset of audio, transcript, summary, and chat on isNewVideo
+    assert.match(contentSrc, /if\s*\(isNewVideo\)\s*\{/);
+    assert.match(contentSrc, /audioController\.stopAll\(\)/);
+    assert.match(contentSrc, /chatViewController\.resetChatOutput/);
+  });
 });
+
+

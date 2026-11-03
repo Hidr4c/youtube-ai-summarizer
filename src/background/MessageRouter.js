@@ -78,6 +78,83 @@ export class MessageRouter {
           });
         return true;
       }
+
+      if (request.action === 'FETCH_WATCH_PAGE_TRANSCRIPT') {
+        const { videoId, lang = 'fr' } = request;
+        if (!videoId) {
+          sendResponse({ success: false, error: 'No videoId' });
+          return true;
+        }
+
+        (async () => {
+          try {
+            const res = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
+              headers: { 'Accept-Language': `${lang},en;q=0.8` }
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const html = await res.text();
+
+            let captionTracks = [];
+            const startIdx = html.indexOf('var ytInitialPlayerResponse = ');
+            if (startIdx !== -1) {
+              const sub = html.slice(startIdx + 'var ytInitialPlayerResponse = '.length);
+              const endIdx = sub.indexOf(';</script>');
+              if (endIdx !== -1) {
+                try {
+                  const parsed = JSON.parse(sub.slice(0, endIdx));
+                  captionTracks = parsed.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
+                } catch (_) {}
+              }
+            }
+
+            if (!captionTracks.length) {
+              const tracksMatch = html.match(/"captionTracks":\s*(\[[^\]]+\])/);
+              if (tracksMatch) {
+                try { captionTracks = JSON.parse(tracksMatch[1]); } catch (_) {}
+              }
+            }
+
+            if (!captionTracks.length) {
+              sendResponse({ success: false, error: 'No caption tracks found' });
+              return;
+            }
+
+            let track = captionTracks.find(t => t.languageCode === lang);
+            if (!track) track = captionTracks.find(t => t.languageCode?.startsWith(lang));
+            if (!track) track = captionTracks.find(t => t.languageCode === 'en' || t.languageCode?.startsWith('en'));
+            if (!track) track = captionTracks[0];
+
+            if (!track?.baseUrl) {
+              sendResponse({ success: false, error: 'No track baseUrl' });
+              return;
+            }
+
+            const ttUrl = track.baseUrl + (track.baseUrl.includes('?') ? '&' : '?') + 'fmt=json3';
+            const ttRes = await fetch(ttUrl);
+            if (!ttRes.ok) throw new Error(`Timedtext HTTP ${ttRes.status}`);
+            const ttJson = await ttRes.json();
+
+            const segments = [];
+            if (Array.isArray(ttJson.events)) {
+              for (const ev of ttJson.events) {
+                if (!ev.segs) continue;
+                const sec = Math.floor((ev.tStartMs || 0) / 1000);
+                const m = Math.floor(sec / 60);
+                const s = (sec % 60).toString().padStart(2, '0');
+                const text = ev.segs.map(seg => seg.utf8 || '').join('').replace(/\s+/g, ' ').trim();
+                if (text && text !== '\n') {
+                  segments.push({ timestamp: `${m}:${s}`, text });
+                }
+              }
+            }
+
+            sendResponse({ success: segments.length > 0, segments, captions: captionTracks });
+          } catch (err) {
+            sendResponse({ success: false, error: err.message });
+          }
+        })();
+        return true;
+      }
     });
 
     // Auto-inject scripts on install/update into open YouTube tabs

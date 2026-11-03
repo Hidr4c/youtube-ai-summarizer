@@ -1,24 +1,24 @@
-import test from 'node:test';
+import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { InnerTubeParser } from '../src/parsers/InnerTubeParser.js';
 import { TimedtextParser } from '../src/parsers/TimedtextParser.js';
 import { TextCleaner } from '../src/parsers/TextCleaner.js';
 
-test('Transcript Processing & InnerTube Parser', async (t) => {
-  await t.test('formatMs formats milliseconds into m:ss', () => {
+describe('Transcript Processing & InnerTube Parser', () => {
+  it('formatMs formats milliseconds into m:ss', () => {
     assert.equal(InnerTubeParser.formatMs(0), '0:00');
     assert.equal(InnerTubeParser.formatMs(15000), '0:15');
     assert.equal(InnerTubeParser.formatMs(65000), '1:05');
     assert.equal(InnerTubeParser.formatMs(3665000), '61:05');
   });
 
-  await t.test('cleanTranscriptText cleans entities and excessive whitespace', () => {
+  it('cleanTranscriptText cleans entities and excessive whitespace', () => {
     const raw = '&quot;Hello&quot; &amp; welcome&#39;s to &lt;YouTube&gt;! \n\n  Multiple   spaces. ';
     const cleaned = TextCleaner.cleanTranscriptText(raw);
     assert.equal(cleaned, '"Hello" & welcome\'s to <YouTube>! Multiple spaces.');
   });
 
-  await t.test('parseTimedtextEvents correctly parses JSON3 YouTube timedtext events', () => {
+  it('parseTimedtextEvents correctly parses JSON3 YouTube timedtext events', () => {
     const sampleEvents = [
       { tStartMs: 16000, segs: [{ utf8: 'Hello ' }, { utf8: 'world!' }] },
       { tStartMs: 29000, segs: [{ utf8: 'This is a test transcript segment.' }] },
@@ -33,7 +33,7 @@ test('Transcript Processing & InnerTube Parser', async (t) => {
     assert.equal(segments[1].text, 'This is a test transcript segment.');
   });
 
-  await t.test('extractSegmentsFromInnerTubeJson parses traditional transcriptSegmentRenderer', () => {
+  it('extractSegmentsFromInnerTubeJson parses traditional transcriptSegmentRenderer', () => {
     const mockInnerTube = {
       actions: [
         {
@@ -80,7 +80,7 @@ test('Transcript Processing & InnerTube Parser', async (t) => {
     assert.equal(segments[0].text, 'Segment one of classical transcript');
   });
 
-  await t.test('extractSegmentsFromInnerTubeJson parses modern transcriptSegmentViewModel', () => {
+  it('extractSegmentsFromInnerTubeJson parses modern transcriptSegmentViewModel', () => {
     const mockModernInnerTube = {
       frameworkUpdates: {
         entityBatchUpdate: {

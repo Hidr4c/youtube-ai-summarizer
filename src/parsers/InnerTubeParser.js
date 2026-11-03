@@ -19,13 +19,18 @@ export class InnerTubeParser {
   /**
    * Extracts transcript segments from any InnerTube JSON response
    * @param {Object} json
+   * @param {Object} [options]
+   * @param {boolean} [options.allowChapters=true]
    * @returns {Array<{timestamp: string, text: string}>|null}
    */
-  static extractSegmentsFromInnerTubeJson(json) {
+  static extractSegmentsFromInnerTubeJson(json, options = {}) {
     if (!json || typeof json !== 'object') return null;
 
-    const segments = [];
-    const seen = new Set();
+    const { allowChapters = true } = options;
+    const speechSegments = [];
+    const chapterSegments = [];
+    const seenSpeech = new Set();
+    const seenChapters = new Set();
 
     function walk(node, depth = 0) {
       if (!node || depth > 14) return;
@@ -39,9 +44,9 @@ export class InnerTubeParser {
         if (time && text) {
           const cleaned = TextCleaner.cleanTranscriptText(text);
           const key = `${time}|${cleaned.slice(0, 30)}`;
-          if (!seen.has(key)) {
-            seen.add(key);
-            segments.push({ timestamp: time.trim(), text: cleaned });
+          if (!seenSpeech.has(key)) {
+            seenSpeech.add(key);
+            speechSegments.push({ timestamp: time.trim(), text: cleaned });
           }
         }
       }
@@ -57,14 +62,14 @@ export class InnerTubeParser {
         if (time && text) {
           const cleaned = TextCleaner.cleanTranscriptText(text);
           const key = `${time}|${cleaned.slice(0, 30)}`;
-          if (!seen.has(key)) {
-            seen.add(key);
-            segments.push({ timestamp: time.trim(), text: cleaned });
+          if (!seenSpeech.has(key)) {
+            seenSpeech.add(key);
+            speechSegments.push({ timestamp: time.trim(), text: cleaned });
           }
         }
       }
 
-      // 3. Macro markers / Chapters
+      // 3. Macro markers / Chapters (fallback when genuine transcript segments are absent)
       const macro = node.macroMarkersListItemRenderer;
       if (macro) {
         const time = macro.timeDescription?.simpleText || (macro.timeDescription?.runs || []).map(r => r.text || '').join('');
@@ -72,9 +77,9 @@ export class InnerTubeParser {
         if (time && title) {
           const cleaned = TextCleaner.cleanTranscriptText(title);
           const key = `${time}|${cleaned.slice(0, 30)}`;
-          if (!seen.has(key)) {
-            seen.add(key);
-            segments.push({ timestamp: time.trim(), text: cleaned });
+          if (!seenChapters.has(key)) {
+            seenChapters.add(key);
+            chapterSegments.push({ timestamp: time.trim(), text: cleaned });
           }
         }
       }
@@ -92,7 +97,11 @@ export class InnerTubeParser {
     }
 
     walk(json);
-    return segments.length > 0 ? segments : null;
+
+    // Prioritize genuine speech segments. Only return chapter segments if no speech segments exist AND allowChapters is true.
+    if (speechSegments.length > 0) return speechSegments;
+    if (allowChapters && chapterSegments.length > 0) return chapterSegments;
+    return null;
   }
 }
 

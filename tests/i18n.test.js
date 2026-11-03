@@ -1,11 +1,11 @@
-import test from 'node:test';
+import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { I18N } from '../src/locales/index.js';
 
-test('I18N Multi-Language Parity & Integrity', async (t) => {
+describe('I18N Multi-Language Parity & Integrity', () => {
   const expectedLanguages = ['fr', 'en', 'es', 'de', 'it', 'ru', 'ja', 'zh'];
 
-  await t.test('supports all 8 required languages', () => {
+  it('supports all 8 required languages', () => {
     const definedLangs = Object.keys(I18N);
     for (const lang of expectedLanguages) {
       assert.ok(definedLangs.includes(lang), `Language "${lang}" must be defined in I18N`);
@@ -14,7 +14,7 @@ test('I18N Multi-Language Parity & Integrity', async (t) => {
 
   const enKeys = Object.keys(I18N.en);
 
-  await t.test('guarantees key parity across all languages against English', () => {
+  it('guarantees key parity across all languages against English', () => {
     for (const lang of expectedLanguages) {
       const currentKeys = Object.keys(I18N[lang]);
       const missingKeys = enKeys.filter(k => !currentKeys.includes(k));
@@ -26,7 +26,7 @@ test('I18N Multi-Language Parity & Integrity', async (t) => {
     }
   });
 
-  await t.test('all languages have non-empty essential UI strings', () => {
+  it('all languages have non-empty essential UI strings', () => {
     const essentialKeys = [
       'brandName',
       'summarizeBtn',
@@ -57,7 +57,7 @@ test('I18N Multi-Language Parity & Integrity', async (t) => {
     }
   });
 
-  await t.test('each language contains at least 4 prompt suggestion chips', () => {
+  it('each language contains at least 4 prompt suggestion chips', () => {
     for (const lang of expectedLanguages) {
       const suggestions = I18N[lang].suggestions;
       assert.ok(

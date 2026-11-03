@@ -20,9 +20,10 @@ export class IPromptBuilder {
    * @param {string} targetLang
    * @param {string} formatMode
    * @param {string} [customDirectives]
+   * @param {Object} [extraContext]
    * @returns {{ systemPrompt: string, userPrompt: string }}
    */
-  buildSummaryPrompts(title, author, transcriptText, targetLang, formatMode, customDirectives = '') {
+  buildSummaryPrompts(title, author, transcriptText, targetLang, formatMode, customDirectives = '', extraContext = {}) {
     throw new Error('Not implemented');
   }
 
@@ -33,9 +34,10 @@ export class IPromptBuilder {
    * @param {string} targetLang
    * @param {Array<Object>} chatHistory
    * @param {string} userQuestion
+   * @param {Object} [extraContext]
    * @returns {{ systemPrompt: string, messages: Array<Object> }}
    */
-  buildChatPrompts(title, transcriptText, targetLang, chatHistory, userQuestion) {
+  buildChatPrompts(title, transcriptText, targetLang, chatHistory, userQuestion, extraContext = {}) {
     throw new Error('Not implemented');
   }
 }
