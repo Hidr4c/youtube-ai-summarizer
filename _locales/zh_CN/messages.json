@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "YouTube Summarizer AI (LM Studio, Ollama & Cloud)",
+    "description": "扩展名称"
+  },
+  "appDesc": {
+    "message": "通过本地 AI（LM Studio、Ollama）或云端快速总结 YouTube 视频。支持交互式 Q&A 问答、语音输入与语音播报。",
+    "description": "扩展简要说明"
+  }
+}

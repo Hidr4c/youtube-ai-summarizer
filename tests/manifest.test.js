@@ -86,4 +86,23 @@ describe('Manifest V3 Structure & Integrity', () => {
       }
     }
   });
+
+  it('declares valid Chrome Web Store i18n localization structure', () => {
+    assert.ok(manifest.default_locale, 'default_locale must be declared in manifest.json');
+    assert.equal(manifest.default_locale, 'en', 'default_locale must default to "en"');
+
+    const localesDir = path.join(rootDir, '_locales');
+    assert.ok(fs.existsSync(localesDir), '_locales directory must exist');
+
+    const expectedLocales = ['en', 'fr', 'de', 'es', 'it', 'ja', 'ru', 'zh_CN'];
+    for (const locale of expectedLocales) {
+      const messagesFile = path.join(localesDir, locale, 'messages.json');
+      assert.ok(fs.existsSync(messagesFile), `messages.json for locale "${locale}" must exist`);
+
+      const raw = fs.readFileSync(messagesFile, 'utf8');
+      const messages = JSON.parse(raw);
+      assert.ok(messages.appName && messages.appName.message, `locale "${locale}" must define appName.message`);
+      assert.ok(messages.appDesc && messages.appDesc.message, `locale "${locale}" must define appDesc.message`);
+    }
+  });
 });

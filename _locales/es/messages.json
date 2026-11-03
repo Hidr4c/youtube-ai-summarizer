@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "YouTube Summarizer AI (LM Studio, Ollama & Cloud)",
+    "description": "Nombre de la extensión"
+  },
+  "appDesc": {
+    "message": "Resume videos de YouTube localmente (LM Studio, Ollama) o en la nube. Chat interactivo Q&A, dictado por voz y audio TTS.",
+    "description": "Descripción corta de la extensión"
+  }
+}

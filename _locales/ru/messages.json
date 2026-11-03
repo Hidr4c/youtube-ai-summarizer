@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "YouTube Summarizer AI (LM Studio, Ollama & Cloud)",
+    "description": "Название расширения"
+  },
+  "appDesc": {
+    "message": "Краткое резюме видео YouTube с помощью локального ИИ (LM Studio, Ollama) или облака. Интерактивный чат, голосовой ввод и озвучивание.",
+    "description": "Краткое описание расширения"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "YouTube Summarizer AI (LM Studio, Ollama & Cloud)",
+    "description": "The extension name displayed in the Chrome Web Store and browser."
+  },
+  "appDesc": {
+    "message": "Summarize YouTube videos locally (LM Studio, Ollama) or Cloud (Gemini, Groq, GPT-4o). Interactive Q&A chat, voice STT & TTS audio.",
+    "description": "Short extension description displayed in the Chrome Web Store."
+  }
+}
