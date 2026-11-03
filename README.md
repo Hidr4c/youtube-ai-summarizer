@@ -9,14 +9,14 @@
 
 > **A powerful, modern, and privacy-first browser extension for Chrome, Brave, and Edge**, embedded directly below the YouTube video player. Summarize videos in seconds, engage in interactive Q&A chat based on real transcripts, speak your questions with microphone speech-to-text (STT), and listen with text-to-speech (TTS).
 
-Works **100% locally and offline** with your own hardware (**LM Studio**, **Ollama**, local Whisper STT) or with top-tier Cloud models (**Google Gemini**, **Groq**, **OpenAI GPT-4o**, **Claude 3.5**, **DeepSeek R1**, **Grok**, **Qwen**, **Mistral**, **Perplexity**).
+Works **100% locally and offline** with your own hardware (**LM Studio**, **Ollama**, local Whisper STT) or with your own Cloud API keys for extended reasoning.
 
 ---
 
 ## 🚀 Key Features
 
 - 🏠 **100% Local & Private** : Full native support for **LM Studio** and **Ollama** — zero data leaves your machine.
-- ☁️ **11 Major Cloud Providers** : Google Gemini (1M token free tier), Groq (ultra-fast LPU inference), OpenAI (GPT-4o, o3-mini), Anthropic Claude, DeepSeek (V3 & R1), xAI Grok, Alibaba Qwen, Mistral AI, OpenRouter, Perplexity, Together AI.
+- ☁️ **Flexible Cloud AI Support** : Connect your preferred API provider for fast cloud inference alongside local offline models.
 - 🎙️ **Microphone Voice Dictation (STT)** :
   - **Native Web Speech API** on Chrome & Edge.
   - **Local Whisper Server** (e.g. `http://localhost:8000/v1/audio/transcriptions` or `whisper.cpp`) for 100% local, private voice recognition!
