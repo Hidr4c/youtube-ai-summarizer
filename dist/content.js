@@ -2180,7 +2180,7 @@
         el.textContent = activeM ? `${t.modelPrefix || "Model: "}${activeM}` : t.noModelSelected || "No model";
       }
     }
-    applyLanguage(lang, summaryViewController2 = null) {
+    applyLanguage(lang, summaryViewController2 = null, settingsDrawer2 = null) {
       this.state.currentLang = lang;
       const t = I18N[lang] || I18N.en;
       const langSelect = document.getElementById("ytAiLangSelect");
@@ -2214,6 +2214,47 @@
       if (tabTranscriptBtn) {
         const count = document.getElementById("ytAiWordCountTab")?.textContent || `0 ${t.wordsBadge || "words"}`;
         tabTranscriptBtn.innerHTML = `${escapeHtml(t.tabTranscript || "\u{1F4DC} Transcript")} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
+      }
+      const providerName = PROVIDER_NAMES[this.state.currentProvider] || (this.state.currentProvider === "ollama" ? "Ollama" : this.state.currentProvider === "lmstudio" ? "LM Studio" : this.state.currentProvider);
+      const summaryTitle = document.getElementById("ytAiSummaryHeaderTitle");
+      if (summaryTitle) summaryTitle.textContent = `${t.summaryTitle || "\u{1F4DD} AI Summary"} (${providerName.toUpperCase()})`;
+      const setText = (id, txt) => {
+        const el = document.getElementById(id);
+        if (el && txt) el.textContent = txt;
+      };
+      setText("ytAiSpeakSummaryBtn", t.listenBtn);
+      setText("ytAiCopyBtn", t.copyBtn);
+      setText("ytAiDownloadBtn", t.saveMdBtn);
+      setText("ytAiSaveTxtBtn", t.saveTxtBtn);
+      setText("ytAiSaveJsonBtn", t.saveJsonBtn);
+      if (!summaryViewController2?.fullSummaryMarkdown) {
+        const emptyTitle = document.querySelector("#ytAiSummaryBody .yt-ai-empty-title");
+        if (emptyTitle) emptyTitle.textContent = t.emptyTitle || "No summary generated";
+        const emptySub = document.querySelector("#ytAiSummaryBody .yt-ai-empty-subtitle");
+        if (emptySub) emptySub.textContent = t.emptySubtitle || t.summaryPlaceholder || "Click below to generate the summary.";
+        const heroBtn = document.getElementById("ytAiSummaryHeroBtn");
+        if (heroBtn && !summaryViewController2?.isGenerating) heroBtn.textContent = t.summarizeBtn || "\u2728 Summarize video";
+      }
+      const chatPaneTitle = document.querySelector("#ytAiPaneChat .yt-ai-pane-title span");
+      if (chatPaneTitle) chatPaneTitle.textContent = t.chatTitle || "\u{1F4AC} Video Q&A";
+      setText("ytAiClearChatBtn", t.clearChatBtn);
+      const chatInput = document.getElementById("ytAiChatInput");
+      if (chatInput && t.chatPlaceholder) chatInput.placeholder = t.chatPlaceholder;
+      const micBtn = document.getElementById("ytAiMicBtn");
+      if (micBtn && t.micTitle) micBtn.title = t.micTitle;
+      setText("ytAiSendChatBtn", t.sendBtn);
+      const transcriptTitle = document.querySelector("#ytAiPaneTranscript .yt-ai-pane-title span");
+      const wordCount = document.getElementById("ytAiWordCount")?.textContent || "0";
+      if (transcriptTitle) {
+        transcriptTitle.innerHTML = `${escapeHtml(t.transcriptTitle || "\u{1F4DC} Full Transcript")} (<span id="ytAiWordCount">${escapeHtml(wordCount)}</span> ${escapeHtml(t.wordsBadge || "words")})`;
+      }
+      setText("ytAiCopyTranscriptBtn", t.copyRawBtn);
+      const bugLink = document.getElementById("ytAiFooterBugLink");
+      if (bugLink) bugLink.textContent = `\u{1F41B} ${t.footerReportBug || "Report a bug"}`;
+      const docsLink = document.getElementById("ytAiFooterDocsLink");
+      if (docsLink) docsLink.textContent = `\u{1F4D6} ${t.footerDocs || "Documentation"}`;
+      if (typeof settingsDrawer2?.applyLanguage === "function") {
+        settingsDrawer2.applyLanguage(lang);
       }
       this.updateHeaderBadge();
       this.updateHeaderModelText();
@@ -2444,19 +2485,37 @@
       }
     }
     showStatusBanner(text, isError = false) {
-      if (this.bannerView) {
-        this.bannerView.showStatusBanner(text, isError);
-      }
+      if (this.bannerView) this.bannerView.showStatusBanner(text, isError);
     }
     updateHeaderBadge() {
-      if (this.bannerView) {
-        this.bannerView.updateHeaderBadge();
-      }
+      if (this.bannerView) this.bannerView.updateHeaderBadge();
     }
     updateHeaderModelText() {
-      if (this.bannerView) {
-        this.bannerView.updateHeaderModelText();
-      }
+      if (this.bannerView) this.bannerView.updateHeaderModelText();
+    }
+    applyLanguage(lang) {
+      this.state.currentLang = lang;
+      const t = I18N[lang] || I18N.en;
+      const setText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el && text) el.textContent = text;
+      };
+      setText("ytAiTabSettingsModelBtn", t.tabSettingsModel);
+      setText("ytAiTabSettingsParamsBtn", t.tabSettingsParams);
+      setText("ytAiTabSettingsAudioBtn", t.tabSettingsAudio);
+      setText("ytAiProviderLabel", t.providerLabel);
+      setText("ytAiModelSelectLabel", t.modelSelectLabel);
+      setText("ytAiFormatLabel", t.formatLabel);
+      setText("ytAiCustomPromptLabel", t.customPromptLabel);
+      setText("ytAiVoiceLabel", t.voiceLabel);
+      setText("ytAiSpeedLabel", t.speedLabel);
+      setText("ytAiMicSelectLabel", t.micSelectLabel);
+      setText("ytAiWhisperLabel", t.whisperLabel);
+      const customInput = document.getElementById("ytAiCustomPromptInput");
+      if (customInput && t.customPromptPlaceholder) customInput.placeholder = t.customPromptPlaceholder;
+      const whisperInput = document.getElementById("ytAiWhisperUrlInput");
+      if (whisperInput && t.whisperUrlPlaceholder) whisperInput.placeholder = t.whisperUrlPlaceholder;
+      this.syncProviderUI();
     }
     syncProviderUI() {
       const providerSelect = document.getElementById("ytAiProviderSelect");
@@ -2503,99 +2562,80 @@
       this.updateHeaderBadge();
       this.updateHeaderModelText();
     }
-    populateCloudModels(provider) {
-      const select = document.getElementById("ytAiModelSelect");
-      if (!select) return;
-      select.innerHTML = "";
-      const list = CLOUD_MODELS[provider] || [];
-      list.forEach((m) => {
-        const opt = document.createElement("option");
-        opt.value = m.id;
-        opt.textContent = m.name;
-        select.appendChild(opt);
-      });
-      const activeM = this.state.getActiveModel();
-      if (select.options.length > 0) {
-        let found = false;
-        for (const opt of select.options) {
-          if (opt.value === activeM) {
-            select.value = activeM;
-            found = true;
-            break;
-          }
-        }
-        if (!found) select.selectedIndex = 0;
-        this.state.setActiveModel(select.value);
-        this.state.savePreference(`selectedModel_${provider}`, select.value);
-        this.state.savePreference("selectedModel", select.value);
-      }
-    }
     updateServerUrlUI() {
       const serverSelect = document.getElementById("ytAiServerSelect");
       if (!serverSelect) return;
       const isOllama = this.state.currentProvider === "ollama";
-      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234");
-      serverSelect.innerHTML = "";
-      const presets = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434", "http://192.168.56.1:11434"] : ["http://192.168.56.1:1234", "http://localhost:1234", "http://127.0.0.1:1234"];
-      presets.forEach((u) => {
-        const opt = document.createElement("option");
-        opt.value = u;
-        opt.textContent = u.replace(/https?:\/\//, "");
-        if (u === currentUrl) opt.selected = true;
-        serverSelect.appendChild(opt);
-      });
-      const t = I18N[this.state.currentLang] || I18N.en;
-      const customOpt = document.createElement("option");
-      customOpt.value = "custom";
-      customOpt.textContent = t.customServer || "Custom IP...";
-      if (!presets.includes(currentUrl)) {
-        customOpt.selected = true;
-        customOpt.textContent = `Custom (${currentUrl.replace(/https?:\/\//, "")})`;
-      }
-      serverSelect.appendChild(customOpt);
-    }
-    refreshModelsList(showFeedback = false) {
-      const badge = document.getElementById("ytAiBadge");
-      const badgeText = document.getElementById("ytAiBadgeText");
-      const t = I18N[this.state.currentLang] || I18N.en;
-      if (badgeText) badgeText.textContent = t.checking || "Connecting...";
-      LocalModelDiscovery.refreshModelsList(this.state, showFeedback, (models, currentUrl) => {
-        this.state.availableLocalModels[this.state.currentProvider] = models;
-        const isOllama = this.state.currentProvider === "ollama";
-        const providerLabel = isOllama ? "Ollama" : "LM Studio";
-        if (badge) badge.className = "yt-ai-badge online";
-        if (badgeText) badgeText.textContent = `${providerLabel} (${currentUrl.replace(/https?:\/\//, "")})`;
-        this.populateModelDropdown(models);
-        if (showFeedback) {
-          this.showStatusBanner(`\u2705 Connected to ${providerLabel} (${models.length} models ready)`, false);
+      const def = isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234";
+      const current = this.state.serverUrls[this.state.currentProvider] || def;
+      const optLocal = document.getElementById("ytAiServerOptionLocalhost");
+      const optLan = document.getElementById("ytAiServerOptionLan");
+      if (optLocal) optLocal.value = isOllama ? "http://localhost:11434" : "http://localhost:1234";
+      if (optLan) optLan.value = isOllama ? "http://192.168.1.100:11434" : "http://192.168.56.1:1234";
+      if (current === optLocal?.value || current === optLan?.value) {
+        serverSelect.value = current;
+      } else {
+        let customOpt = serverSelect.querySelector('option[data-custom="true"]');
+        if (!customOpt) {
+          customOpt = document.createElement("option");
+          customOpt.setAttribute("data-custom", "true");
+          serverSelect.insertBefore(customOpt, serverSelect.lastElementChild);
         }
-      }, () => {
-        this.tryFallbackUrls();
-      });
+        customOpt.value = current;
+        customOpt.textContent = `Custom (${current})`;
+        serverSelect.value = current;
+      }
     }
-    tryFallbackUrls(testedUrls = []) {
+    refreshModelsList() {
+      const isLocal = this.state.currentProvider === "lmstudio" || this.state.currentProvider === "ollama";
+      if (!isLocal) return;
+      const t = I18N[this.state.currentLang] || I18N.en;
       const badge = document.getElementById("ytAiBadge");
       const badgeText = document.getElementById("ytAiBadgeText");
-      const t = I18N[this.state.currentLang] || I18N.en;
-      const isOllama = this.state.currentProvider === "ollama";
-      const providerLabel = isOllama ? "Ollama" : "LM Studio";
-      LocalModelDiscovery.tryFallbackUrls(this.state, testedUrls, (candidate, models) => {
-        this.state.serverUrls[this.state.currentProvider] = candidate;
-        this.state.savePreference(`serverUrl_${this.state.currentProvider}`, candidate);
-        this.updateServerUrlUI();
-        this.state.availableLocalModels[this.state.currentProvider] = models;
-        if (badge) badge.className = "yt-ai-badge online";
-        if (badgeText) badgeText.textContent = `${providerLabel} (${candidate.replace(/https?:\/\//, "")})`;
-        this.populateModelDropdown(models);
-        this.showStatusBanner(`\u2705 Connected to ${providerLabel} (${models.length} models ready)`, false);
-      }, () => {
-        if (badge) badge.className = "yt-ai-badge offline";
-        if (badgeText) badgeText.textContent = `${providerLabel} (${t.offlineBadge || "Offline"})`;
-        this.populateModelDropdown([]);
-      });
+      if (badge) badge.className = "yt-ai-badge checking";
+      if (badgeText) badgeText.textContent = t.checking || "Checking...";
+      const currentUrl = this.state.serverUrls[this.state.currentProvider];
+      LocalModelDiscovery.fetchLocalModels(
+        this.state.currentProvider,
+        currentUrl,
+        (models) => {
+          this.state.availableLocalModels[this.state.currentProvider] = models;
+          this.populateModelDropdown(models);
+          this.updateHeaderBadge();
+        },
+        (err) => {
+          this.populateModelDropdown([]);
+          if (badge) badge.className = "yt-ai-badge offline";
+          if (badgeText) badgeText.textContent = t.offline || "Offline";
+          this.updateHeaderModelText();
+        }
+      );
+    }
+    populateCloudModels(provider) {
+      const select = document.getElementById("ytAiModelSelect");
+      if (!select) return;
+      select.innerHTML = "";
+      const models = CLOUD_MODELS[provider] || [];
+      const savedModel = this.state.getActiveModel();
+      for (const m of models) {
+        const opt = document.createElement("option");
+        opt.value = m.id;
+        opt.textContent = m.name;
+        select.appendChild(opt);
+      }
+      const match = models.find((m) => m.id === savedModel);
+      if (match) {
+        select.value = savedModel;
+      } else if (models.length > 0) {
+        select.value = models[0].id;
+        this.state.setActiveModel(models[0].id);
+        this.state.savePreference(`selectedModel_${provider}`, models[0].id);
+      }
+      this.updateHeaderModelText();
     }
     populateModelDropdown(models) {
       const select = document.getElementById("ytAiModelSelect");
+      if (!select) return;
       const currentSaved = this.state.getActiveModel();
       const activeVal = LocalModelDiscovery.populateModelSelect(
         select,
@@ -4260,18 +4300,8 @@ ${lines.join("\n")}
     }
   };
 
-  // src/services/implementations/PromptTemplates.js
-  var TARGET_LANG_NAMES = {
-    fr: "FRAN\xC7AIS",
-    en: "ENGLISH",
-    es: "ESPA\xD1OL",
-    it: "ITALIANO",
-    de: "DEUTSCH",
-    ja: "\u65E5\u672C\u8A9E (JAPANESE)",
-    ru: "\u0420\u0423\u0421\u0421\u041A\u0418\u0419",
-    zh: "\u4E2D\u6587 (SIMPLIFIED CHINESE)"
-  };
-  var TEMPLATES = {
+  // src/services/implementations/templates/WesternTemplates.js
+  var WESTERN_TEMPLATES = {
     fr: {
       quick: `Produis un r\xE9sum\xE9 COURT, CONCIS et DIRECT sous cette forme :
 ### \u26A1 En Bref
@@ -4488,6 +4518,145 @@ ${lines.join("\n")}
 (Synthetic concluding thought)`
     }
   };
+
+  // src/services/implementations/templates/EasternTemplates.js
+  var EASTERN_TEMPLATES = {
+    zh: {
+      quick: `\u8BF7\u6309\u7167\u4EE5\u4E0B\u683C\u5F0F\u8F93\u51FA\u7B80\u660E\u627C\u8981\u7684\u4E2D\u6587\u603B\u7ED3\uFF1A
+### \u26A1 \u6838\u5FC3\u6982\u8981
+(\u75282\u81F33\u53E5\u7CBE\u70BC\u6709\u529B\u7684\u8BDD\u603B\u7ED3\u89C6\u9891\u7684\u6700\u6838\u5FC3\u4E3B\u65E8)
+
+### \u{1F3AF} \u91CD\u70B9\u8981\u70B9
+- **[\u8981\u70B9 1]** : \u7B80\u8981\u5177\u4F53\u7684\u89E3\u91CA\u8BF4\u660E\u3002
+- **[\u8981\u70B9 2]** : \u7B80\u8981\u5177\u4F53\u7684\u89E3\u91CA\u8BF4\u660E\u3002
+- **[\u8981\u70B9 3]** : \u7B80\u8981\u5177\u4F53\u7684\u89E3\u91CA\u8BF4\u660E\u3002
+
+### \u{1F4CC} \u6700\u7EC8\u7ED3\u8BBA
+(1\u53E5\u7B80\u7EC3\u7684\u6700\u7EC8\u603B\u7ED3)`,
+      detailed: `\u8BF7\u8F93\u51FA\u5168\u9762\u8BE6\u5C3D\u7684\u4E2D\u6587\u6DF1\u5EA6\u7814\u7A76\u603B\u7ED3\uFF1A
+### \u{1F3AF} \u6838\u5FC3\u4E3B\u65E8\u4E0E\u80CC\u666F
+(\u80CC\u666F\u3001\u89E3\u51B3\u7684\u6838\u5FC3\u95EE\u9898\u4E0E\u5168\u7247\u6838\u5FC3\u8BBA\u70B9)
+
+### \u23F1\uFE0F \u65F6\u95F4\u7EBF\u4E0E\u91CD\u8981\u7AE0\u8282
+(\u7ED3\u5408\u65F6\u95F4\u6233\u91CD\u6784\u89C6\u9891\u6838\u5FC3\u53D1\u5C55\u8109\u7EDC)
+
+### \u{1F4A1} \u6838\u5FC3\u8BBA\u70B9\u3001\u6570\u636E\u4E0E\u5B9E\u4F8B\u5206\u6790
+(\u5256\u6790\u89C6\u9891\u5C55\u793A\u7684\u5173\u952E\u6570\u636E\u3001\u8BBA\u636E\u6216\u6848\u4F8B)
+
+### \u{1F6E0}\uFE0F \u5B9E\u8DF5\u5EFA\u8BAE\u4E0E\u884C\u52A8\u6307\u5357
+(\u5BF9\u89C2\u4F17\u6709\u5B9E\u9645\u64CD\u4F5C\u4EF7\u503C\u7684\u5B9E\u7528\u5EFA\u8BAE)
+
+### \u{1F4CC} \u6700\u7EC8\u603B\u7ED3\u4E0E\u5C55\u671B
+(\u4F5C\u8005\u6838\u5FC3\u89C2\u70B9\u4E0E\u603B\u7ED3)`,
+      standard: `\u8BF7\u6309\u7167\u4EE5\u4E0B\u7ED3\u6784\u8F93\u51FA\u81EA\u7136\u3001\u5E73\u8861\u3001\u7ED3\u6784\u6E05\u6670\u7684\u4E2D\u6587\u603B\u7ED3\uFF1A
+### \u{1F3AF} \u6838\u5FC3\u6982\u8FF0
+(2-3\u53E5\u8BDD\u603B\u7ED3\u4E3B\u9898\u4E0E\u6838\u5FC3\u4FE1\u606F)
+
+### \u23F1\uFE0F \u5173\u952E\u73AF\u8282\u4E0E\u8109\u7EDC
+- **[\u4E3B\u9898 1]** : \u6240\u89E3\u91CA\u6216\u6F14\u793A\u7684\u6838\u5FC3\u5185\u5BB9\u3002
+- **[\u4E3B\u9898 2]** : \u6240\u89E3\u91CA\u6216\u6F14\u793A\u7684\u6838\u5FC3\u5185\u5BB9\u3002
+- **[\u4E3B\u9898 3]** : \u6240\u89E3\u91CA\u6216\u6F14\u793A\u7684\u6838\u5FC3\u5185\u5BB9\u3002
+
+### \u{1F4A1} \u6838\u5FC3\u542F\u793A\u4E0E\u5B9E\u7528\u5EFA\u8BAE
+- **[\u5173\u952E\u542F\u793A]** : \u5177\u4F53\u4E14\u6709\u4EF7\u503C\u7684\u7EC6\u8282\u3002
+- **[\u884C\u52A8\u5EFA\u8BAE]** : \u4F5C\u8005\u7ED9\u51FA\u7684\u5EFA\u8BAE\u3002
+
+### \u{1F4CC} \u6700\u7EC8\u7ED3\u8BED
+(\u7EFC\u5408\u6027\u603B\u7ED3)`
+    },
+    ja: {
+      quick: `\u4EE5\u4E0B\u306E\u5F62\u5F0F\u3067\u7C21\u6F54\u304B\u3064\u660E\u77AD\u306A\u65E5\u672C\u8A9E\u306E\u8981\u7D04\u3092\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\uFF1A
+### \u26A1 \u6982\u8981
+(\u52D5\u753B\u306E\u6838\u5FC3\u30922\u301C3\u6587\u3067\u7C21\u6F54\u306B\u307E\u3068\u3081\u308B)
+
+### \u{1F3AF} \u4E3B\u306A\u30DD\u30A4\u30F3\u30C8
+- **[\u30DD\u30A4\u30F3\u30C8 1]** : \u5177\u4F53\u7684\u3067\u7C21\u6F54\u306A\u8AAC\u660E\u3002
+- **[\u30DD\u30A4\u30F3\u30C8 2]** : \u5177\u4F53\u7684\u3067\u7C21\u6F54\u306A\u8AAC\u660E\u3002
+- **[\u30DD\u30A4\u30F3\u30C8 3]** : \u5177\u4F53\u7684\u3067\u7C21\u6F54\u306A\u8AAC\u660E\u3002
+
+### \u{1F4CC} \u7D50\u8AD6
+(\u6700\u7D42\u7684\u306A\u7D50\u8AD6\u30921\u6587\u3067)`,
+      detailed: `\u7DB2\u7F85\u7684\u3067\u8A73\u7D30\u306A\u65E5\u672C\u8A9E\u306E\u89E3\u8AAC\u3092\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\uFF1A
+### \u{1F3AF} \u5168\u4F53\u50CF\u3068\u80CC\u666F
+(\u52D5\u753B\u306E\u6587\u8108\u3001\u63D0\u8D77\u3055\u308C\u305F\u8AB2\u984C\u3001\u4E2D\u5FC3\u7684\u306A\u4E3B\u5F35)
+
+### \u23F1\uFE0F \u6642\u7CFB\u5217\u306E\u5C55\u958B\u3068\u4E3B\u8981\u30C1\u30E3\u30D7\u30BF\u30FC
+(\u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7\u3092\u4EA4\u3048\u3066\u91CD\u8981\u30BB\u30AF\u30B7\u30E7\u30F3\u3092\u518D\u69CB\u6210)
+
+### \u{1F4A1} \u8B70\u8AD6\u3001\u30C7\u30FC\u30BF\u304A\u3088\u3073\u4E8B\u4F8B\u306E\u6DF1\u6398\u308A
+(\u63D0\u793A\u3055\u308C\u305F\u8A3C\u62E0\u3084\u5177\u4F53\u4F8B\u3092\u5206\u6790)
+
+### \u{1F6E0}\uFE0F \u5B9F\u8DF5\u7684\u306A\u30A2\u30C9\u30D0\u30A4\u30B9\u3068\u5177\u4F53\u7684\u306A\u30A2\u30AF\u30B7\u30E7\u30F3
+(\u8996\u8074\u8005\u304C\u3059\u3050\u306B\u884C\u52D5\u3067\u304D\u308B\u6709\u76CA\u306A\u60C5\u5831)
+
+### \u{1F4CC} \u6700\u7D42\u7684\u306A\u307E\u3068\u3081\u3068\u5C55\u671B
+(\u6295\u7A3F\u8005\u306E\u6700\u7D42\u30E1\u30C3\u30BB\u30FC\u30B8)`,
+      standard: `\u81EA\u7136\u3067\u30D0\u30E9\u30F3\u30B9\u306E\u3068\u308C\u305F\u69CB\u6210\u3067\u65E5\u672C\u8A9E\u306E\u8981\u7D04\u3092\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\uFF1A
+### \u{1F3AF} \u8981\u70B9
+(\u30C6\u30FC\u30DE\u3068\u4E2D\u5FC3\u30E1\u30C3\u30BB\u30FC\u30B8\u30922\u301C3\u6587\u3067\u8981\u7D04)
+
+### \u23F1\uFE0F \u4E3B\u306A\u30CF\u30A4\u30E9\u30A4\u30C8\u3068\u5C55\u958B
+- **[\u30C6\u30FC\u30DE 1]** : \u8AAC\u660E\u307E\u305F\u306F\u5B9F\u6F14\u3055\u308C\u305F\u5185\u5BB9\u3002
+- **[\u30C6\u30FC\u30DE 2]** : \u8AAC\u660E\u307E\u305F\u306F\u5B9F\u6F14\u3055\u308C\u305F\u5185\u5BB9\u3002
+- **[\u30C6\u30FC\u30DE 3]** : \u8AAC\u660E\u307E\u305F\u306F\u5B9F\u6F14\u3055\u308C\u305F\u5185\u5BB9\u3002
+
+### \u{1F4A1} \u91CD\u8981\u306A\u5B66\u3073\u3068\u30A2\u30C9\u30D0\u30A4\u30B9
+- **[\u91CD\u8981\u30DD\u30A4\u30F3\u30C8]** : \u5177\u4F53\u7684\u3067\u5B9F\u7528\u7684\u306A\u77E5\u898B\u3002
+- **[\u30A2\u30AF\u30B7\u30E7\u30F3]** : \u63A8\u5968\u3055\u308C\u308B\u5B9F\u8DF5\u6CD5\u3002
+
+### \u{1F4CC} \u307E\u3068\u3081
+(\u5168\u4F53\u306E\u307E\u3068\u3081)`
+    },
+    ru: {
+      quick: `\u0421\u043E\u0441\u0442\u0430\u0432\u044C\u0442\u0435 \u041A\u0420\u0410\u0422\u041A\u0418\u0419, \u0422\u041E\u0427\u041D\u042B\u0419 \u0438 \u0427\u0415\u0422\u041A\u0418\u0419 \u043E\u0431\u0437\u043E\u0440 \u043D\u0430 \u0440\u0443\u0441\u0441\u043A\u043E\u043C \u044F\u0437\u044B\u043A\u0435:
+### \u26A1 \u041A\u0440\u0430\u0442\u043A\u043E \u043E \u0433\u043B\u0430\u0432\u043D\u043E\u043C
+(2-3 \u0435\u043C\u043A\u0438\u0445 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F, \u043E\u0442\u0440\u0430\u0436\u0430\u044E\u0449\u0438\u0445 \u043A\u043B\u044E\u0447\u0435\u0432\u0443\u044E \u0441\u0443\u0442\u044C)
+
+### \u{1F3AF} \u0413\u043B\u0430\u0432\u043D\u044B\u0435 \u0432\u044B\u0432\u043E\u0434\u044B
+- **[\u041F\u0443\u043D\u043A\u0442 1]** : \u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u0438 \u043A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435.
+- **[\u041F\u0443\u043D\u043A\u0442 2]** : \u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u0438 \u043A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435.
+- **[\u041F\u0443\u043D\u043A\u0442 3]** : \u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u0438 \u043A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435.
+
+### \u{1F4CC} \u0417\u0430\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435
+(1 \u0438\u0442\u043E\u0433\u043E\u0432\u043E\u0435 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435)`,
+      detailed: `\u0421\u043E\u0441\u0442\u0430\u0432\u044C\u0442\u0435 \u041F\u041E\u0414\u0420\u041E\u0411\u041D\u042B\u0419, \u0413\u041B\u0423\u0411\u041E\u041A\u0418\u0419 \u0438 \u0418\u0421\u0427\u0415\u0420\u041F\u042B\u0412\u0410\u042E\u0429\u0418\u0419 \u0440\u0430\u0437\u0431\u043E\u0440 \u043D\u0430 \u0440\u0443\u0441\u0441\u043A\u043E\u043C \u044F\u0437\u044B\u043A\u0435:
+### \u{1F3AF} \u041E\u0431\u0437\u043E\u0440 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u0430\u044F \u0438\u0434\u0435\u044F
+(\u041A\u043E\u043D\u0442\u0435\u043A\u0441\u0442, \u043F\u0440\u043E\u0431\u043B\u0435\u043C\u0430 \u0438 \u0433\u043B\u0430\u0432\u043D\u0430\u044F \u043C\u044B\u0441\u043B\u044C \u0432\u0438\u0434\u0435\u043E)
+
+### \u23F1\uFE0F \u0425\u0440\u043E\u043D\u043E\u043B\u043E\u0433\u0438\u044F \u0438 \u0432\u0430\u0436\u043D\u044B\u0435 \u0433\u043B\u0430\u0432\u044B
+(\u041E\u0441\u043D\u043E\u0432\u043D\u044B\u0435 \u044D\u0442\u0430\u043F\u044B \u0441 \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u0430\u043C\u0438, \u0435\u0441\u043B\u0438 \u043E\u043D\u0438 \u0435\u0441\u0442\u044C)
+
+### \u{1F4A1} \u0410\u043D\u0430\u043B\u0438\u0437 \u0430\u0440\u0433\u0443\u043C\u0435\u043D\u0442\u043E\u0432, \u0444\u0430\u043A\u0442\u043E\u0432 \u0438 \u043F\u0440\u0438\u043C\u0435\u0440\u043E\u0432
+(\u0420\u0430\u0437\u0431\u043E\u0440 \u043F\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043D\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445 \u0438 \u043A\u043E\u043D\u0446\u0435\u043F\u0446\u0438\u0439)
+
+### \u{1F6E0}\uFE0F \u041F\u0440\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435 \u0441\u043E\u0432\u0435\u0442\u044B \u0438 \u0448\u0430\u0433\u0438
+(\u041F\u0440\u0438\u043C\u0435\u043D\u0438\u043C\u044B\u0435 \u0440\u0435\u043A\u043E\u043C\u0435\u043D\u0434\u0430\u0446\u0438\u0438 \u0434\u043B\u044F \u0437\u0440\u0438\u0442\u0435\u043B\u044F)
+
+### \u{1F4CC} \u0418\u0442\u043E\u0433\u043E\u0432\u044B\u0439 \u0432\u044B\u0432\u043E\u0434 \u0430\u0432\u0442\u043E\u0440\u0430
+(\u0424\u0438\u043D\u0430\u043B\u044C\u043D\u044B\u0439 \u0432\u044B\u0432\u043E\u0434)`,
+      standard: `\u0421\u043E\u0441\u0442\u0430\u0432\u044C\u0442\u0435 \u0421\u0411\u0410\u041B\u0410\u041D\u0421\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415 \u0438 \u0421\u0422\u0420\u0423\u041A\u0422\u0423\u0420\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415 \u0440\u0435\u0437\u044E\u043C\u0435 \u043D\u0430 \u0440\u0443\u0441\u0441\u043A\u043E\u043C \u044F\u0437\u044B\u043A\u0435:
+### \u{1F3AF} \u0421\u0443\u0442\u044C \u0432\u0438\u0434\u0435\u043E
+(2-3 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F, \u043F\u0435\u0440\u0435\u0434\u0430\u044E\u0449\u0438\u0435 \u0433\u043B\u0430\u0432\u043D\u043E\u0435 \u0441\u043E\u0434\u0435\u0440\u0436\u0430\u043D\u0438\u0435)
+
+### \u23F1\uFE0F \u041A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u043C\u043E\u043C\u0435\u043D\u0442\u044B
+- **[\u0422\u0435\u043C\u0430 1]** : \u0427\u0442\u043E \u043E\u0431\u044A\u044F\u0441\u043D\u044F\u0435\u0442\u0441\u044F \u0438\u043B\u0438 \u0434\u0435\u043C\u043E\u043D\u0441\u0442\u0440\u0438\u0440\u0443\u0435\u0442\u0441\u044F.
+- **[\u0422\u0435\u043C\u0430 2]** : \u0427\u0442\u043E \u043E\u0431\u044A\u044F\u0441\u043D\u044F\u0435\u0442\u0441\u044F \u0438\u043B\u0438 \u0434\u0435\u043C\u043E\u043D\u0441\u0442\u0440\u0438\u0440\u0443\u0435\u0442\u0441\u044F.
+- **[\u0422\u0435\u043C\u0430 3]** : \u0427\u0442\u043E \u043E\u0431\u044A\u044F\u0441\u043D\u044F\u0435\u0442\u0441\u044F \u0438\u043B\u0438 \u0434\u0435\u043C\u043E\u043D\u0441\u0442\u0440\u0438\u0440\u0443\u0435\u0442\u0441\u044F.
+
+### \u{1F4A1} \u0412\u044B\u0432\u043E\u0434\u044B \u0438 \u043F\u043E\u043B\u0435\u0437\u043D\u044B\u0435 \u0441\u043E\u0432\u0435\u0442\u044B
+- **[\u0413\u043B\u0430\u0432\u043D\u044B\u0439 \u0443\u0440\u043E\u043A]** : \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u0430\u044F \u043F\u043E\u043B\u0435\u0437\u043D\u0430\u044F \u0434\u0435\u0442\u0430\u043B\u044C.
+- **[\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u0435]** : \u0420\u0435\u043A\u043E\u043C\u0435\u043D\u0434\u0430\u0446\u0438\u044F \u0430\u0432\u0442\u043E\u0440\u0430.
+
+### \u{1F4CC} \u0418\u0442\u043E\u0433
+(\u0421\u0438\u043D\u0442\u0435\u0442\u0438\u0447\u0435\u0441\u043A\u043E\u0435 \u0437\u0430\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435)`
+    }
+  };
+
+  // src/services/implementations/PromptTemplates.js
+  var ALL_TEMPLATES = {
+    ...WESTERN_TEMPLATES,
+    ...EASTERN_TEMPLATES
+  };
   function getFormatInstructions(mode, langOrIsFr = "en") {
     let lang = "en";
     if (typeof langOrIsFr === "boolean") {
@@ -4495,11 +4664,81 @@ ${lines.join("\n")}
     } else if (typeof langOrIsFr === "string") {
       lang = langOrIsFr;
     }
-    const langTemplates = TEMPLATES[lang] || TEMPLATES.en;
+    const langTemplates = ALL_TEMPLATES[lang] || ALL_TEMPLATES.en;
     return langTemplates[mode] || langTemplates.standard;
   }
 
   // src/services/implementations/PromptBuilder.js
+  var SYSTEM_PROMPTS = {
+    fr: `Tu es un assistant IA d'\xE9lite YouTube Summarizer AI sp\xE9cialis\xE9 dans la synth\xE8se et l'analyse de vid\xE9os.
+Ton but absolu est de produire un r\xE9sum\xE9 clair, naturel, bien structur\xE9 et fid\xE8le EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o.
+OBLIGATION STRICTE : R\xE9dige l'int\xE9gralit\xE9 du r\xE9sum\xE9, tous les titres et analyses en FRAN\xC7AIS.
+R\xC8GLES DE STYLE :
+- Style naturel, direct et percutant : va droit au but sans phrases de remplissage.
+- \xC9vite les phrases inutilement longues, privil\xE9gie la fluidit\xE9 et la clart\xE9.
+- Mise en page a\xE9r\xE9e en Markdown avec des listes \xE0 puces et des mots-cl\xE9s en **gras** en d\xE9but de point.
+- Fid\xE9lit\xE9 \xE0 100% \xE0 la transcription, z\xE9ro hallucination ou extrapolation.`,
+    en: `You are an expert AI assistant YouTube Summarizer AI specializing in video summarization and insights.
+Your absolute goal is to produce a clear, natural, well-structured, and faithful summary EXCLUSIVELY in ENGLISH, regardless of the original video language.
+MANDATORY LANGUAGE DIRECTIVE: Write the ENTIRE summary, all section headings, bullet points, and analysis strictly in ENGLISH.
+STYLE RULES:
+- Natural, direct, and engaging style: go straight to the point without filler phrases.
+- Avoid overly long and complex sentences, focus on clarity and flow.
+- Use airy Markdown formatting with bullet points and **bold** keywords at the start of each point.
+- 100% faithful to the transcript, with zero hallucinations or extrapolation.`,
+    es: `Eres un asistente IA de \xE9lite YouTube Summarizer AI especializado en la s\xEDntesis y an\xE1lisis de v\xEDdeos.
+Tu objetivo absoluto es producir un resumen claro, natural, bien estructurado y fiel EXCLUSIVAMENTE en ESPA\xD1OL (SPANISH), independientemente del idioma del v\xEDdeo.
+OBLIGACI\xD3N ESTRICTA: Redacta la totalidad del resumen, todos los t\xEDtulos y puntos clave exclusivamente en ESPA\xD1OL.
+REGLAS DE ESTILO:
+- Estilo natural, directo e impactante: ve directo al grano sin rodeos.
+- Formato Markdown limpio con listas y palabras clave en **negrita** al principio de cada punto.
+- Fidelidad a la transcripci\xF3n al 100%, sin alucinaciones.`,
+    it: `Sei un assistente IA d'\xE9lite YouTube Summarizer AI specializzato nella sintesi e analisi di video.
+Il tuo obiettivo assoluto \xE8 produrre un riassunto chiaro, naturale, ben strutturato e fedele ESCLUSIVAMENTE in ITALIANO (ITALIAN), indipendentemente dalla lingua originale del video.
+OBBLIGO RIGOROSO: Redigi l'intero riassunto, tutti i titoli di sezione e l'analisi esclusivamente in ITALIANO.
+REGOLE DI STILE:
+- Stile naturale, diretto e incisivo: dritto al punto senza frasi riempitive.
+- Formattazione Markdown ariosa con elenchi puntati e parole chiave in **grassetto**.
+- Fedelt\xE0 al 100% alla trascrizione, zero allucinazioni.`,
+    de: `Du bist ein Elite-KI-Assistent YouTube Summarizer AI, spezialisiert auf Videozusammenfassungen und Analysen.
+Dein oberstes Ziel ist es, eine klare, nat\xFCrliche und treue Zusammenfassung AUSSCHLIESSLICH auf DEUTSCH (GERMAN) zu erstellen, unabh\xE4ngig von der Originalsprache des Videos.
+STRIKTE VORGABE: Schreibe die gesamte Zusammenfassung, alle \xDCberschriften und Stichpunkte ausschlie\xDFlich auf DEUTSCH.
+STILREGELN:
+- Nat\xFCrlicher, direkter und pr\xE4gnanter Stil: direkt auf den Punkt.
+- Luftiges Markdown-Layout mit Aufz\xE4hlungszeichen und Schl\xFCsselw\xF6rtern in **Fettschrift**.
+- 100% originalgetreu zum Transkript, keinerlei Halluzinationen.`,
+    ja: `\u3042\u306A\u305F\u306F\u52D5\u753B\u306E\u8981\u7D04\u3068\u5206\u6790\u306B\u7279\u5316\u3057\u305F\u30A8\u30AD\u30B9\u30D1\u30FC\u30C8AI\u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u300CYouTube Summarizer AI\u300D\u3067\u3059\u3002
+\u3042\u306A\u305F\u306E\u7D76\u5BFE\u7684\u306A\u76EE\u6A19\u306F\u3001\u52D5\u753B\u306E\u8A00\u8A9E\u306B\u95A2\u4FC2\u306A\u304F\u3001\u5B8C\u5168\u306B\u3010\u65E5\u672C\u8A9E (JAPANESE)\u3011\u306E\u307F\u3067\u3001\u660E\u77AD\u3067\u81EA\u7136\u3001\u7F8E\u3057\u304F\u69CB\u9020\u5316\u3055\u308C\u305F\u8981\u7D04\u3092\u4F5C\u6210\u3059\u308B\u3053\u3068\u3067\u3059\u3002
+\u3010\u53B3\u683C\u306A\u8A00\u8A9E\u7FA9\u52D9\u3011\uFF1A\u3059\u3079\u3066\u306E\u898B\u51FA\u3057\u3001\u7B87\u6761\u66F8\u304D\u3001\u672C\u6587\u3092\u5FC5\u305A\u65E5\u672C\u8A9E\u3067\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\u3002
+\u30B9\u30BF\u30A4\u30EB\u898F\u5247\uFF1A
+- \u81EA\u7136\u3067\u7684\u78BA\u306A\u8868\u73FE\uFF1A\u524D\u7F6E\u304D\u3084\u4F59\u8A08\u306A\u6328\u62F6\u306F\u7701\u304D\u3001\u76F4\u3061\u306B\u672C\u8CEA\u3078\u5165\u308B\u3002
+- \u898B\u3084\u3059\u3044Markdown\u5F62\u5F0F\uFF1A\u7B87\u6761\u66F8\u304D\u3068**\u592A\u5B57**\u30AD\u30FC\u30EF\u30FC\u30C9\u3092\u6D3B\u7528\u3002
+- \u6587\u5B57\u8D77\u3053\u3057\u306B100%\u5FE0\u5B9F\u3001\u4E0D\u6B63\u78BA\u306A\u63A8\u6E2C\u3084\u5E7B\u899A\u306F\u30BC\u30ED\u3002`,
+    ru: `\u0412\u044B \u2014 \u044D\u043A\u0441\u043F\u0435\u0440\u0442\u043D\u044B\u0439 \u0418\u0418-\u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442 YouTube Summarizer AI, \u0441\u043F\u0435\u0446\u0438\u0430\u043B\u0438\u0437\u0438\u0440\u0443\u044E\u0449\u0438\u0439\u0441\u044F \u043D\u0430 \u0430\u043D\u0430\u043B\u0438\u0437\u0435 \u0438 \u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0438 \u0432\u0438\u0434\u0435\u043E.
+\u0412\u0430\u0448\u0430 \u0430\u0431\u0441\u043E\u043B\u044E\u0442\u043D\u0430\u044F \u0446\u0435\u043B\u044C \u2014 \u0441\u043E\u0437\u0434\u0430\u0442\u044C \u043A\u0430\u0447\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0435 \u0440\u0435\u0437\u044E\u043C\u0435 \u0418\u0421\u041A\u041B\u042E\u0427\u0418\u0422\u0415\u041B\u042C\u041D\u041E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435 (RUSSIAN), \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E \u043E\u0442 \u0438\u0441\u0445\u043E\u0434\u043D\u043E\u0433\u043E \u044F\u0437\u044B\u043A\u0430 \u0432\u0438\u0434\u0435\u043E.
+\u0421\u0422\u0420\u041E\u0413\u041E\u0415 \u0422\u0420\u0415\u0411\u041E\u0412\u0410\u041D\u0418\u0415: \u041D\u0430\u043F\u0438\u0448\u0438\u0442\u0435 \u0432\u0441\u0451 \u0440\u0435\u0437\u044E\u043C\u0435, \u0432\u0441\u0435 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0438 \u0438 \u0432\u044B\u0432\u043E\u0434\u044B \u0441\u0442\u0440\u043E\u0433\u043E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435.
+\u041F\u0420\u0410\u0412\u0418\u041B\u0410 \u0421\u0422\u0418\u041B\u042F:
+- \u0415\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439, \u043B\u0430\u043A\u043E\u043D\u0438\u0447\u043D\u044B\u0439 \u0438 \u0443\u0431\u0435\u0434\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0439 \u0441\u0442\u0438\u043B\u044C \u0431\u0435\u0437 \u043B\u0438\u0448\u043D\u0435\u0439 \xAB\u0432\u043E\u0434\u044B\xBB.
+- \u0427\u0435\u0442\u043A\u043E\u0435 \u0444\u043E\u0440\u043C\u0430\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 Markdown \u0441\u043E \u0441\u043F\u0438\u0441\u043A\u0430\u043C\u0438 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u043C\u0438 \u0441\u043B\u043E\u0432\u0430\u043C\u0438 **\u043F\u043E\u043B\u0443\u0436\u0438\u0440\u043D\u044B\u043C \u0448\u0440\u0438\u0444\u0442\u043E\u043C**.
+- 100% \u0432\u0435\u0440\u043D\u043E\u0441\u0442\u044C \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0443, \u0431\u0435\u0437 \u0432\u044B\u0434\u0443\u043C\u043E\u043A \u0438 \u0433\u0430\u043B\u043B\u044E\u0446\u0438\u043D\u0430\u0446\u0438\u0439.`,
+    zh: `\u4F60\u662F YouTube Summarizer AI \u89C6\u9891\u603B\u7ED3\u5206\u6790\u4E13\u5BB6\u3002
+\u4F60\u7684\u7EDD\u5BF9\u76EE\u6807\u662F\u65E0\u8BBA\u539F\u89C6\u9891\u4E3A\u4F55\u79CD\u8BED\u8A00\uFF0C\u90FD\u5FC5\u987B\u5B8C\u5168\u4E14\u4EC5\u4F7F\u7528\u3010\u4E2D\u6587\uFF08\u7B80\u4F53\u4E2D\u6587\uFF0CSIMPLIFIED CHINESE\uFF09\u3011\u8F93\u51FA\u7ED3\u6784\u6E05\u6670\u3001\u751F\u52A8\u81EA\u7136\u3001\u5FE0\u5B9E\u539F\u610F\u7684\u603B\u7ED3\u3002
+\u3010\u5F3A\u5236\u8BED\u8A00\u8981\u6C42\u3011\uFF1A\u6240\u6709\u7AE0\u8282\u6807\u9898\u3001\u8981\u70B9\u5217\u8868\u53CA\u6B63\u6587\u5206\u6790\u5FC5\u987B\u5168\u90E8\u4F7F\u7528\u4E2D\u6587\u3002\u4E25\u7981\u8F93\u51FA\u82F1\u6587\u6216\u6CD5\u6587\u6807\u9898\u3002
+\u98CE\u683C\u8981\u6C42\uFF1A
+- \u81EA\u7136\u3001\u6709\u529B\u3001\u76F4\u5954\u4E3B\u9898\uFF1A\u907F\u514D\u5BA2\u5957\u548C\u5E9F\u8BDD\u3002
+- \u8D4F\u5FC3\u60A6\u76EE\u7684 Markdown \u6392\u7248\uFF1A\u4F7F\u7528\u5217\u8868\uFF0C\u5E76\u5728\u6BCF\u4E2A\u8981\u70B9\u5F00\u5934\u5C06\u5173\u952E\u8BCD**\u52A0\u7C97**\u3002
+- 100% \u5FE0\u5B9E\u4E8E\u89C6\u9891\u9010\u5B57\u7A3F\uFF0C\u675C\u7EDD\u4EFB\u4F55\u5E7B\u89C9\u3002`
+  };
+  var FINAL_LANG_DIRECTIVES = {
+    fr: "OBLIGATION STRICTE : R\xE9dige maintenant l'int\xE9gralit\xE9 du r\xE9sum\xE9 en FRAN\xC7AIS en suivant scrupuleusement le format Markdown ci-dessus.",
+    en: "CRITICAL FINAL INSTRUCTION: Write your entire summary and all Markdown headings strictly and exclusively in ENGLISH following the format above.",
+    es: "INSTRUCCI\xD3N FINAL OBLIGATORIA: Redacta la totalidad del resumen y todos los encabezados Markdown estricta y exclusivamente en ESPA\xD1OL siguiendo el formato anterior.",
+    it: "ISTRUZIONE FINALE OBBLIGATORIA: Redigi l'intero riassunto e tutti i titoli Markdown rigorosamente ed esclusivamente in ITALIANO seguendo il formato sopra indicato.",
+    de: "STRIKTE ABSCHLUSSANWEISUNG: Verfasse die gesamte Zusammenfassung und alle Markdown-\xDCberschriften strikt und ausschlie\xDFlich auf DEUTSCH gem\xE4\xDF obigem Format.",
+    ja: "\u3010\u6700\u7D42\u6700\u91CD\u8981\u6307\u793A\u3011\uFF1A\u5143\u306E\u52D5\u753B\u306E\u8A00\u8A9E\u306B\u304B\u304B\u308F\u3089\u305A\u3001\u3059\u3079\u3066\u306EMarkdown\u898B\u51FA\u3057\u304A\u3088\u3073\u672C\u6587\u3092\u53B3\u683C\u306B\u65E5\u672C\u8A9E\u306E\u307F\u3067\u51FA\u529B\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+    ru: "\u041A\u0420\u0418\u0422\u0418\u0427\u0415\u0421\u041A\u0418 \u0412\u0410\u0416\u041D\u041E\u0415 \u0423\u041A\u0410\u0417\u0410\u041D\u0418\u0415: \u041D\u0430\u043F\u0438\u0448\u0438\u0442\u0435 \u0432\u0441\u0435 \u0440\u0435\u0437\u044E\u043C\u0435 \u0438 \u0432\u0441\u0435 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0438 Markdown \u0438\u0441\u043A\u043B\u044E\u0447\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435 \u0432 \u0441\u043E\u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0438 \u0441 \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u044B\u043C \u0444\u043E\u0440\u043C\u0430\u0442\u043E\u043C.",
+    zh: "\u3010\u6700\u7EC8\u6700\u5173\u952E\u6307\u793A\u3011\uFF1A\u65E0\u8BBA\u9010\u5B57\u7A3F\u539F\u59CB\u8BED\u8A00\u4E3A\u4F55\uFF0C\u5FC5\u987B\u4E25\u683C\u4E14\u5B8C\u5168\u4F7F\u7528\u4E2D\u6587\u8F93\u51FA\u6574\u7BC7\u603B\u7ED3\uFF0C\u6240\u6709Markdown\u7AE0\u8282\u6807\u9898\u548C\u6B63\u6587\u5FC5\u987B\u5747\u4E3A\u4E2D\u6587\u3002"
+  };
   var PromptBuilder = class extends IPromptBuilder {
     /**
      * Smart 3-part condensation algorithm (40% intro, 25% middle, 35% conclusion)
@@ -4580,57 +4819,34 @@ ${lines.join("\n")}
       } else if (typeof arguments[6] === "object" && arguments[6] !== null) {
         extraContext = arguments[6];
       }
-      const isFr = lang === "fr";
-      const targetLangName = TARGET_LANG_NAMES[lang] || "ENGLISH";
-      const systemPrompt = isFr ? `Tu es un assistant IA d'\xE9lite YouTube Summarizer AI sp\xE9cialis\xE9 dans la synth\xE8se et l'analyse de vid\xE9os.
-Ton but absolu est de produire un r\xE9sum\xE9 clair, naturel, bien structur\xE9 et fid\xE8le EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o.
-OBLIGATION STRICTE : R\xE9dige l'int\xE9gralit\xE9 du r\xE9sum\xE9, tous les titres et analyses en FRAN\xC7AIS.
-R\xC8GLES DE STYLE :
-- Style naturel, direct et percutant : va droit au but sans phrases de remplissage.
-- \xC9vite les phrases inutilement longues, privil\xE9gie la fluidit\xE9 et la clart\xE9.
-- Mise en page a\xE9r\xE9e en Markdown avec des listes \xE0 puces et des mots-cl\xE9s en **gras** en d\xE9but de point.
-- Fid\xE9lit\xE9 \xE0 100% \xE0 la transcription, z\xE9ro hallucination ou extrapolation.` : `You are an expert AI assistant YouTube Summarizer AI specializing in video summarization and insights.
-Your absolute goal is to produce a clear, natural, well-structured, and faithful summary EXCLUSIVELY in ${targetLangName}, regardless of the original video language.
-MANDATORY LANGUAGE DIRECTIVE: Write the ENTIRE summary, all section headings, bullet points, and analysis strictly in ${targetLangName}. Do NOT use English unless the requested language is English.
-STYLE RULES:
-- Natural, direct, and engaging style: go straight to the point without filler phrases.
-- Avoid overly long and complex sentences, focus on clarity and flow.
-- Use airy Markdown formatting with bullet points and **bold** keywords at the start of each point.
-- 100% faithful to the transcript, with zero hallucinations or extrapolation.`;
-      const formatInstructions = getFormatInstructions(mode, lang);
-      const contextBlock = this.formatContextBlock(extraContext, lang);
-      const langRule = isFr ? `OBLIGATION : R\xE9dige l'int\xE9gralit\xE9 du r\xE9sum\xE9 en FRAN\xC7AIS.` : `MANDATORY: Write the entire summary exclusively in ${targetLangName}.`;
-      const userPrompt = isFr ? `Voici la transcription de la vid\xE9o YouTube :
-Titre : "${title}"
-Auteur/Cha\xEEne : "${author}"${contextBlock ? `
+      const cleanLang = lang && SYSTEM_PROMPTS[lang] ? lang : "en";
+      const isFr = cleanLang === "fr";
+      const systemPrompt = SYSTEM_PROMPTS[cleanLang] || SYSTEM_PROMPTS.en;
+      const formatInstructions = getFormatInstructions(mode, cleanLang);
+      const contextBlock = this.formatContextBlock(extraContext, cleanLang);
+      const finalDirective = FINAL_LANG_DIRECTIVES[cleanLang] || FINAL_LANG_DIRECTIVES.en;
+      const headerTitle = isFr ? "Voici la transcription de la vid\xE9o YouTube :" : "Here is the transcript of the YouTube video:";
+      const titleLabel = isFr ? "Titre :" : "Title:";
+      const authorLabel = isFr ? "Auteur/Cha\xEEne :" : "Author/Channel:";
+      const transcriptLabel = isFr ? "TRANSCRIPTION :" : "TRANSCRIPT:";
+      const userPrompt = `${headerTitle}
+${titleLabel} "${title}"
+${authorLabel} "${author}"${contextBlock ? `
 
 ${contextBlock}` : ""}
 
-${langRule}
+${transcriptLabel}
+"""
+${safeTranscript}
+"""
 
-Format demand\xE9 :
+---
 ${formatInstructions}${customDirectives ? `
-DIRECTIVES PERSONNALIS\xC9ES DE L'UTILISATEUR :
-${customDirectives}
-` : ""}
 
-TRANSCRIPTION :
-${safeTranscript}` : `Here is the transcript of the YouTube video:
-Title: "${title}"
-Author/Channel: "${author}"${contextBlock ? `
+${isFr ? "DIRECTIVES PERSONNALIS\xC9ES DE L'UTILISATEUR :" : "USER CUSTOM DIRECTIVES:"}
+${customDirectives}` : ""}
 
-${contextBlock}` : ""}
-
-${langRule}
-
-Requested format:
-${formatInstructions}${customDirectives ? `
-USER CUSTOM DIRECTIVES:
-${customDirectives}
-` : ""}
-
-TRANSCRIPT:
-${safeTranscript}`;
+${finalDirective}`;
       return { systemPrompt, userPrompt };
     }
     /**
@@ -4849,33 +5065,60 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     }
   };
 
+  // src/content/services/InPageState.js
+  function createInPageState() {
+    return {
+      extensionEnabled: true,
+      currentProvider: "lmstudio",
+      serverUrls: { lmstudio: "http://192.168.56.1:1234", ollama: "http://localhost:11434" },
+      apiKeys: { openai: "", gemini: "", claude: "", groq: "", deepseek: "" },
+      selectedModels: {},
+      availableLocalModels: {},
+      currentLang: "fr",
+      temperature: "0.3",
+      maxTokens: "auto",
+      ttsSpeed: "1.0",
+      localWhisperUrl: "http://127.0.0.1:8000",
+      autoSummarize: false,
+      customPrompt: "",
+      selectedVoiceURI: "",
+      selectedMicDeviceId: "",
+      getActiveModel() {
+        return this.selectedModels[this.currentProvider] || "";
+      },
+      setActiveModel(m) {
+        this.selectedModels[this.currentProvider] = m;
+      },
+      savePreference(key, val) {
+        if (chrome?.storage?.local) chrome.storage.local.set({ [key]: val });
+      }
+    };
+  }
+  function loadPreferences(state2, callback) {
+    if (!chrome?.storage?.local) return callback?.();
+    chrome.storage.local.get(null, (items = {}) => {
+      if (typeof items.extensionEnabled === "boolean") state2.extensionEnabled = items.extensionEnabled;
+      if (items.aiProvider) state2.currentProvider = items.aiProvider;
+      if (items.targetLang) state2.currentLang = items.targetLang;
+      if (items.selectedModel) state2.setActiveModel(items.selectedModel);
+      if (items.summaryMode) state2.summaryMode = items.summaryMode;
+      if (items.temperature) state2.temperature = items.temperature;
+      if (items.maxTokens) state2.maxTokens = items.maxTokens;
+      if (typeof items.autoSummarize === "boolean") state2.autoSummarize = items.autoSummarize;
+      if (items.localWhisperUrl) state2.localWhisperUrl = items.localWhisperUrl;
+      if (items.ttsSpeed) state2.ttsSpeed = items.ttsSpeed;
+      if (items.selectedVoiceURI) state2.selectedVoiceURI = items.selectedVoiceURI;
+      ["openai", "gemini", "claude", "groq", "deepseek", "lmstudio", "ollama"].forEach((p) => {
+        if (items[`apiKey_${p}`]) state2.apiKeys[p] = items[`apiKey_${p}`];
+        if (items[`serverUrl_${p}`]) state2.serverUrls[p] = items[`serverUrl_${p}`];
+        if (items[`selectedModel_${p}`]) state2.selectedModels[p] = items[`selectedModel_${p}`];
+      });
+      callback?.();
+    });
+  }
+
   // src/content/index.js
-  var state = {
-    extensionEnabled: true,
-    currentProvider: "lmstudio",
-    serverUrls: { lmstudio: "http://192.168.56.1:1234", ollama: "http://localhost:11434" },
-    apiKeys: { openai: "", gemini: "", claude: "", groq: "", deepseek: "" },
-    selectedModels: {},
-    availableLocalModels: {},
-    currentLang: "fr",
-    temperature: "0.3",
-    maxTokens: "auto",
-    ttsSpeed: "1.0",
-    localWhisperUrl: "http://127.0.0.1:8000",
-    autoSummarize: false,
-    customPrompt: "",
-    selectedVoiceURI: "",
-    selectedMicDeviceId: "",
-    getActiveModel() {
-      return this.selectedModels[this.currentProvider] || "";
-    },
-    setActiveModel(m) {
-      this.selectedModels[this.currentProvider] = m;
-    },
-    savePreference(key, val) {
-      if (chrome?.storage?.local) chrome.storage.local.set({ [key]: val });
-    }
-  };
+  var state = createInPageState();
   var transcriptController = new InPageTranscriptController();
   var audioController = new InPageAudioController();
   var promptService = new PromptService();
@@ -4935,7 +5178,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     document.getElementById("ytAiLangSelect")?.addEventListener("change", (e) => {
       state.currentLang = e.target.value;
       state.savePreference("targetLang", state.currentLang);
-      bannerView.applyLanguage(state.currentLang, summaryViewController);
+      bannerView.applyLanguage(state.currentLang, summaryViewController, settingsDrawer);
       audioController.populateVoiceDropdown(state.currentLang);
     });
     document.getElementById("ytAiProviderSelect")?.addEventListener("change", (e) => {
@@ -5040,39 +5283,15 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         }
       }
     });
-    bannerView.applyLanguage(state.currentLang, summaryViewController);
+    bannerView.applyLanguage(state.currentLang, summaryViewController, settingsDrawer);
     settingsDrawer.syncProviderUI();
     if (state.summaryMode) bannerView.setSummaryMode(state.summaryMode);
     summaryViewController.renderSummaryEmptyState(false, state.currentLang, triggerSummarize);
   }
-  function loadPreferences(callback) {
-    if (!chrome?.storage?.local) return callback?.();
-    chrome.storage.local.get(null, (items = {}) => {
-      if (typeof items.extensionEnabled === "boolean") state.extensionEnabled = items.extensionEnabled;
-      if (items.aiProvider) state.currentProvider = items.aiProvider;
-      if (items.targetLang) state.currentLang = items.targetLang;
-      if (items.selectedModel) state.setActiveModel(items.selectedModel);
-      if (items.summaryMode) {
-        state.summaryMode = items.summaryMode;
-        bannerView.currentMode = items.summaryMode;
-      }
-      if (items.temperature) state.temperature = items.temperature;
-      if (items.maxTokens) state.maxTokens = items.maxTokens;
-      if (typeof items.autoSummarize === "boolean") state.autoSummarize = items.autoSummarize;
-      if (items.localWhisperUrl) state.localWhisperUrl = items.localWhisperUrl;
-      if (items.ttsSpeed) state.ttsSpeed = items.ttsSpeed;
-      if (items.selectedVoiceURI) state.selectedVoiceURI = items.selectedVoiceURI;
-      ["openai", "gemini", "claude", "groq", "deepseek", "lmstudio", "ollama"].forEach((p) => {
-        if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`];
-        if (items[`serverUrl_${p}`]) state.serverUrls[p] = items[`serverUrl_${p}`];
-        if (items[`selectedModel_${p}`]) state.selectedModels[p] = items[`selectedModel_${p}`];
-      });
-      callback?.();
-    });
-  }
   function initContentScript() {
     ThemeManager.initThemeSync();
-    loadPreferences(() => {
+    loadPreferences(state, () => {
+      if (state.summaryMode) bannerView.currentMode = state.summaryMode;
       bannerView.tryInjectBanner(bindBannerEvents);
       NavigationObserver.observeNavigation(({ isNewVideo }) => {
         if (isNewVideo) {
@@ -5103,7 +5322,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         } else if (act === "SET_LANGUAGE") {
           if (req.lang) {
             state.currentLang = req.lang;
-            bannerView.applyLanguage(state.currentLang, summaryViewController);
+            bannerView.applyLanguage(state.currentLang, summaryViewController, settingsDrawer);
             audioController.populateVoiceDropdown(state.currentLang);
           }
           sendResponse({ success: true });

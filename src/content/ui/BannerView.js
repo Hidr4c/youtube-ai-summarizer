@@ -185,7 +185,7 @@ export class BannerView {
     }
   }
 
-  applyLanguage(lang, summaryViewController = null) {
+  applyLanguage(lang, summaryViewController = null, settingsDrawer = null) {
     this.state.currentLang = lang;
     const t = I18N[lang] || I18N.en;
 
@@ -225,6 +225,54 @@ export class BannerView {
     if (tabTranscriptBtn) {
       const count = document.getElementById('ytAiWordCountTab')?.textContent || `0 ${t.wordsBadge || 'words'}`;
       tabTranscriptBtn.innerHTML = `${escapeHtml(t.tabTranscript || '📜 Transcript')} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
+    }
+
+    const providerName = PROVIDER_NAMES[this.state.currentProvider] || (this.state.currentProvider === 'ollama' ? 'Ollama' : (this.state.currentProvider === 'lmstudio' ? 'LM Studio' : this.state.currentProvider));
+    const summaryTitle = document.getElementById('ytAiSummaryHeaderTitle');
+    if (summaryTitle) summaryTitle.textContent = `${t.summaryTitle || '📝 AI Summary'} (${providerName.toUpperCase()})`;
+
+    const setText = (id, txt) => {
+      const el = document.getElementById(id);
+      if (el && txt) el.textContent = txt;
+    };
+    setText('ytAiSpeakSummaryBtn', t.listenBtn);
+    setText('ytAiCopyBtn', t.copyBtn);
+    setText('ytAiDownloadBtn', t.saveMdBtn);
+    setText('ytAiSaveTxtBtn', t.saveTxtBtn);
+    setText('ytAiSaveJsonBtn', t.saveJsonBtn);
+
+    if (!summaryViewController?.fullSummaryMarkdown) {
+      const emptyTitle = document.querySelector('#ytAiSummaryBody .yt-ai-empty-title');
+      if (emptyTitle) emptyTitle.textContent = t.emptyTitle || 'No summary generated';
+      const emptySub = document.querySelector('#ytAiSummaryBody .yt-ai-empty-subtitle');
+      if (emptySub) emptySub.textContent = t.emptySubtitle || t.summaryPlaceholder || 'Click below to generate the summary.';
+      const heroBtn = document.getElementById('ytAiSummaryHeroBtn');
+      if (heroBtn && !summaryViewController?.isGenerating) heroBtn.textContent = t.summarizeBtn || '✨ Summarize video';
+    }
+
+    const chatPaneTitle = document.querySelector('#ytAiPaneChat .yt-ai-pane-title span');
+    if (chatPaneTitle) chatPaneTitle.textContent = t.chatTitle || '💬 Video Q&A';
+    setText('ytAiClearChatBtn', t.clearChatBtn);
+    const chatInput = document.getElementById('ytAiChatInput');
+    if (chatInput && t.chatPlaceholder) chatInput.placeholder = t.chatPlaceholder;
+    const micBtn = document.getElementById('ytAiMicBtn');
+    if (micBtn && t.micTitle) micBtn.title = t.micTitle;
+    setText('ytAiSendChatBtn', t.sendBtn);
+
+    const transcriptTitle = document.querySelector('#ytAiPaneTranscript .yt-ai-pane-title span');
+    const wordCount = document.getElementById('ytAiWordCount')?.textContent || '0';
+    if (transcriptTitle) {
+      transcriptTitle.innerHTML = `${escapeHtml(t.transcriptTitle || '📜 Full Transcript')} (<span id="ytAiWordCount">${escapeHtml(wordCount)}</span> ${escapeHtml(t.wordsBadge || 'words')})`;
+    }
+    setText('ytAiCopyTranscriptBtn', t.copyRawBtn);
+
+    const bugLink = document.getElementById('ytAiFooterBugLink');
+    if (bugLink) bugLink.textContent = `🐛 ${t.footerReportBug || 'Report a bug'}`;
+    const docsLink = document.getElementById('ytAiFooterDocsLink');
+    if (docsLink) docsLink.textContent = `📖 ${t.footerDocs || 'Documentation'}`;
+
+    if (typeof settingsDrawer?.applyLanguage === 'function') {
+      settingsDrawer.applyLanguage(lang);
     }
 
     this.updateHeaderBadge();
