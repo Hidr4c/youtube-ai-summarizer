@@ -2,6 +2,7 @@ import { I18N } from '../../locales/index.js';
 import { CONTEXT_LIMITS } from '../../config/AIProviderPresets.js';
 import { renderMarkdown, escapeHtml, safeSetInnerHTML } from './MarkdownRenderer.js';
 import { getVideoId } from './NavigationObserver.js';
+import { TimestampEnricher } from '../services/TimestampEnricher.js';
 
 /**
  * Controller for Video AI Summarization tab, reasoning stream, and empty state
@@ -60,6 +61,10 @@ export class SummaryViewController {
     if (reasoningBox) reasoningBox.classList.add('yt-ai-hidden');
   }
 
+  static injectTimestampsIfMissing(markdown, segments) {
+    return TimestampEnricher.injectTimestampsIfMissing(markdown, segments);
+  }
+
   async startSummarization(ctx = {}) {
     if (this.isGenerating) return;
 
@@ -74,9 +79,9 @@ export class SummaryViewController {
       return;
     }
 
-    const currentProvider = ctx.currentProvider || 'lmstudio';
+    const currentProvider = ctx.currentProvider || ctx.state?.currentProvider || 'lmstudio';
     const isLocal = (currentProvider === 'lmstudio' || currentProvider === 'ollama');
-    const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : '';
+    const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : (ctx.state?.apiKeys ? ctx.state.apiKeys[currentProvider] : '');
 
     if (!isLocal && !key) {
       if (typeof ctx.showStatusBanner === 'function') {
@@ -134,11 +139,18 @@ export class SummaryViewController {
 
       const meta = ctx.getVideoMetadata ? ctx.getVideoMetadata() : this.transcriptController.cachedVideoMetadata;
       const maxAllowedChars = CONTEXT_LIMITS[currentProvider] || 25000;
-      const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(fullText, maxAllowedChars);
+      const transcriptSource = this.transcriptController.cachedTranscript.timestampedText || fullText;
+      const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(transcriptSource, maxAllowedChars);
       const { systemPrompt, userPrompt } = this.promptService.constructor.buildPrompts(meta.title, meta.author, safeTranscript, lang, mode, meta);
 
-      const serverUrl = ctx.serverUrls ? (ctx.serverUrls[currentProvider] || '') : '';
+      const serverUrl = ctx.serverUrls ? (ctx.serverUrls[currentProvider] || '') : (ctx.state?.serverUrls ? ctx.state.serverUrls[currentProvider] : '');
       this.activePort = chrome.runtime.connect({ name: 'ai-stream' });
+
+      const maxTokensByMode = { quick: '800', standard: '1400', detailed: '3500' };
+      const configuredTokens = ctx.maxTokens || ctx.state?.maxTokens;
+      const resolvedMaxTokens = (configuredTokens && configuredTokens !== 'auto')
+        ? configuredTokens
+        : (maxTokensByMode[mode] || 'auto');
 
       this.activePort.postMessage({
         action: 'START_STREAM',
@@ -148,8 +160,8 @@ export class SummaryViewController {
         model: activeModel,
         systemPrompt,
         userPrompt,
-        temperature: ctx.temperature || '0.3',
-        maxTokens: ctx.maxTokens || 'auto'
+        temperature: ctx.temperature || ctx.state?.temperature || '0.3',
+        maxTokens: resolvedMaxTokens
       });
 
       this.activePort.onMessage.addListener((msg) => {
@@ -202,6 +214,17 @@ export class SummaryViewController {
     const summarizeBtn = document.getElementById('ytAiSummarizeBtn');
     const heroBtn = document.getElementById('ytAiSummaryHeroBtn');
     const t = I18N[currentLang] || I18N.en;
+
+    if (this.fullSummaryMarkdown && this.transcriptController?.cachedTranscript?.segments?.length > 0) {
+      const enriched = SummaryViewController.injectTimestampsIfMissing(
+        this.fullSummaryMarkdown,
+        this.transcriptController.cachedTranscript.segments
+      );
+      if (enriched !== this.fullSummaryMarkdown) {
+        this.fullSummaryMarkdown = enriched;
+        if (summaryBody) renderMarkdown(this.fullSummaryMarkdown, summaryBody);
+      }
+    }
 
     if (summaryBody) summaryBody.classList.remove('yt-ai-typing');
     if (summarizeBtn) {

@@ -158,7 +158,51 @@ describe('ChatViewController - Q&A Interactive Tab Specification', () => {
     assert.ok(postedMessage, 'Message must be posted to port');
     assert.equal(postedMessage.action, 'CHAT_STREAM');
     assert.equal(postedMessage.model, 'qwen-2.5-7b');
-    assert.equal(postedMessage.messages[0].content, 'How does this work?');
+    assert.ok(postedMessage.messages[0].content.startsWith('How does this work?'));
+  });
+
+  it('handleSendChatMessage scopes conversation history to active language and enforces target language directive', async () => {
+    setupMockDom();
+    const controller = new ChatViewController({
+      transcriptController: {
+        cachedTranscript: { segments: [{ timestamp: '00:01', text: 'intro' }], fullText: 'intro' },
+        cachedVideoMetadata: { title: 'Test Video', author: 'Author' }
+      },
+      promptService: {
+        constructor: {
+          condenseTranscriptForContext: (t) => t,
+          buildChatSystemPrompt: () => 'System prompt'
+        }
+      }
+    });
+
+    controller.chatHistory = [
+      { role: 'user', content: 'Bonjour', lang: 'fr' },
+      { role: 'assistant', content: 'Bonjour !', lang: 'fr' }
+    ];
+
+    let postedPayload = null;
+    global.chrome = {
+      runtime: {
+        connect: () => ({
+          postMessage: (msg) => { postedPayload = msg; },
+          onMessage: { addListener: () => {} },
+          onDisconnect: { addListener: () => {} },
+          disconnect: () => {}
+        })
+      }
+    };
+
+    await controller.handleSendChatMessage('churn ?', {
+      currentLang: 'zh',
+      currentProvider: 'lmstudio',
+      getActiveModel: () => 'qwen-2.5-7b'
+    });
+
+    assert.ok(postedPayload);
+    assert.equal(postedPayload.messages.length, 1);
+    assert.match(postedPayload.messages[0].content, /churn \?/);
+    assert.match(postedPayload.messages[0].content, /中文/);
   });
 
   it('handleSendChatMessage ignores empty or whitespace-only queries', async () => {

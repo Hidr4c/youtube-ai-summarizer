@@ -30,8 +30,9 @@ node_modules/
 # Local deployment & release configuration
 scripts/deploy.ps1
 
-# Promo video temporary intermediate build artifacts
-store-assets/promo-video/*.wav
-store-assets/promo-video/clip-*.mp4
-store-assets/promo-video/concat-list.txt
+# AI Agent & Assistant configurations
+.agent/
+.gemini/
 
+# Chrome Web Store marketing assets (local only, not part of the app)
+store-assets/

@@ -89,15 +89,29 @@ export function collapseDescription() {
 }
 
 function findTranscriptButtonInDOM() {
-  let btn = document.querySelector('ytd-video-description-transcript-section-renderer button');
-  if (btn) return btn;
-  const allBtns = document.querySelectorAll('#description button, ytd-watch-metadata button');
-  for (const b of allBtns) {
-    const aria = b.getAttribute('aria-label') || '';
-    const text = b.textContent || '';
-    if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) return b;
+  const direct = document.querySelector(
+    'ytd-video-description-transcript-section-renderer button, ' +
+    'ytd-button-renderer[target-id="engagement-panel-searchable-transcript"] button, ' +
+    'ytd-button-renderer[target-id*="transcript"] button, ' +
+    '[target-id="engagement-panel-searchable-transcript"] button'
+  );
+  if (direct && direct.offsetParent !== null) return direct;
+
+  const candidates = document.querySelectorAll(
+    '#description button, #description [role="button"], ' +
+    'ytd-watch-metadata button, ytd-watch-metadata [role="button"], ' +
+    '#structured-description button, #structured-description [role="button"], ' +
+    'ytd-structured-description-content-renderer button'
+  );
+  for (const b of candidates) {
+    const aria = (b.getAttribute('aria-label') || '').trim();
+    const title = (b.getAttribute('title') || '').trim();
+    const text = (b.textContent || '').trim();
+    if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(title) || TRANSCRIPT_LANG_REGEX.test(text)) {
+      return b.querySelector('button') || b;
+    }
   }
-  return null;
+  return direct || null;
 }
 
 export async function ensureTranscriptTabActive(targetPanel) {
@@ -144,7 +158,11 @@ export async function ensureTranscriptTabActive(targetPanel) {
 export async function triggerStealthNativeTranscript() {
   const wasPanelOpen = isNativeTranscriptPanelVisible();
   let didWeOpenPanel = false;
-  const expandDesc = document.querySelector('tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand');
+  const expandDesc = document.querySelector(
+    'tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, ' +
+    '#description-inline-expander #expand, #description.ytd-watch-metadata, ' +
+    'ytd-text-inline-expander[collapsed] #expand'
+  );
   const wasDescExpanded = !expandDesc || expandDesc.offsetParent === null;
 
   if (wasPanelOpen) {
@@ -160,9 +178,14 @@ export async function triggerStealthNativeTranscript() {
     stealthStyle.textContent = `
       ytd-engagement-panel-section-list-renderer[target-id*="transcript"],
       ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"] {
-        display: none !important; opacity: 0 !important; visibility: hidden !important;
-        position: fixed !important; left: -99999px !important; top: -99999px !important;
-        width: 1px !important; height: 1px !important; z-index: -9999 !important;
+        opacity: 0.001 !important;
+        pointer-events: none !important;
+        position: fixed !important;
+        right: -9999px !important;
+        top: 0 !important;
+        width: 400px !important;
+        height: 600px !important;
+        z-index: -9999 !important;
       }
     `;
     document.head.appendChild(stealthStyle);
@@ -170,9 +193,9 @@ export async function triggerStealthNativeTranscript() {
 
   try {
     let directBtn = findTranscriptButtonInDOM();
-    if (!directBtn && expandDesc && expandDesc.offsetParent !== null) {
+    if (!directBtn && expandDesc && typeof expandDesc.click === 'function') {
       expandDesc.click();
-      await new Promise(r => setTimeout(r, 200));
+      await new Promise(r => setTimeout(r, 250));
       directBtn = findTranscriptButtonInDOM();
     }
 
@@ -180,27 +203,28 @@ export async function triggerStealthNativeTranscript() {
       didWeOpenPanel = true;
       directBtn.click();
     } else {
-      const markersBtn = document.querySelector('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]');
-      if (markersBtn) {
+      const hiddenPanel = document.querySelector(
+        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ' +
+        'ytd-engagement-panel-section-list-renderer[target-id*="transcript"]'
+      );
+      if (hiddenPanel) {
         didWeOpenPanel = true;
-        markersBtn.click();
-        await new Promise(r => setTimeout(r, 200));
-        await ensureTranscriptTabActive();
+        hiddenPanel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED');
+        if (typeof hiddenPanel.show === 'function') hiddenPanel.show();
+        await ensureTranscriptTabActive(hiddenPanel);
       } else {
-        const hiddenPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]');
-        if (hiddenPanel) {
+        const markersBtn = document.querySelector('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]');
+        if (markersBtn) {
           didWeOpenPanel = true;
-          hiddenPanel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED');
-          if (typeof hiddenPanel.show === 'function') hiddenPanel.show();
-          await ensureTranscriptTabActive(hiddenPanel);
-        } else {
-          return null;
+          markersBtn.click();
+          await new Promise(r => setTimeout(r, 200));
+          await ensureTranscriptTabActive();
         }
       }
     }
 
     let segments = null;
-    for (let i = 0; i < 35; i++) {
+    for (let i = 0; i < 40; i++) {
       await new Promise(r => setTimeout(r, 100));
       if (i % 3 === 0) await ensureTranscriptTabActive();
       segments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
@@ -213,14 +237,7 @@ export async function triggerStealthNativeTranscript() {
   } catch (_) {
     return null;
   } finally {
-    const shouldClose = !wasPanelOpen || didWeOpenPanel;
     if (!wasPanelOpen) {
-      closeNativeTranscriptPanel();
-      if (!wasDescExpanded) collapseDescription();
-      setTimeout(() => {
-        if (stealthStyle?.parentNode) stealthStyle.parentNode.removeChild(stealthStyle);
-      }, 350);
-    } else if (didWeOpenPanel) {
       closeNativeTranscriptPanel();
       if (!wasDescExpanded) collapseDescription();
       setTimeout(() => {

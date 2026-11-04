@@ -56,25 +56,25 @@ const CHAT_LANG_MAP = {
     quick: "Gewünschte Länge: kurze und prägnante Antwort (1-2 kurze Absätze).",
     detailed: "Gewünschte Länge: ausführliche und detaillierte Erklärung.",
     standard: "Gewünschte Länge: ausgewogene, natürliche Antwort, direkt auf den Punkt.",
-    summaryLabel: "ZUVOR GENERIERTE VIDEOZUSAMMENFASSUNG IN DER ERWEITERUNG (ZUR REFERENZ):",
-    transcriptLabel: "Videotranskript:"
+    summaryLabel: "ZUVOR GENERIERTE VIDEO-ZUSAMMENFASSUNG (ALS REFERENZ):",
+    transcriptLabel: "Transkript des Videos:"
   },
   ja: {
-    persona: "あなたはYouTubeに直接統合されたインテリジェントなChrome拡張機能「YouTube Summarizer AI」です。",
-    role: "動画の文字起こし、公式概要、および生成された要約に基づいて正確に回答してください。",
-    identity: "ユーザーが拡張機能について言及した場合は、自身がYouTube Summarizer AI拡張機能のアシスタントであることを認めてください。",
-    rule: "【最重要言語ルール】質問や動画の言語に関係なく、必ず自然な日本語のみで回答してください。",
-    quick: "希望する長さ：簡潔な回答（1〜2段落）。",
-    detailed: "希望する長さ：詳細で網羅的な説明。",
-    standard: "希望する長さ：要点を押さえた自然な回答。",
-    summaryLabel: "拡張機能で以前に生成された動画の要約（参考用）：",
+    persona: "あなたは YouTube Summarizer AI、YouTube 画面に直接統合されたインテリジェントな Chrome 拡張機能アシスタントです。",
+    role: "動画の文字起こし、公式コンテキスト（説明文、チャンネル情報、タグ）、および生成された要約に基づいて正確に回答してください。",
+    identity: "拡張機能について言及された場合、YouTube Summarizer AI アシスタントであることを確認してください。",
+    rule: "【言語の絶対義務】動画や質問の言語にかかわらず、必ず【日本語】のみで回答してください。",
+    quick: "希望の長さ：簡潔で要点のみの短い回答（1〜2の短い段落）。",
+    detailed: "希望の長さ：詳細で充実した解説。",
+    standard: "希望の長さ：自然でバランスの取れた、要点を得た回答。",
+    summaryLabel: "以前に生成された動画の要約（参考用）：",
     transcriptLabel: "動画の文字起こし："
   },
   ru: {
-    persona: "Вы — YouTube Summarizer AI, интеллектуальное расширение Chrome, встроенное прямо в YouTube.",
-    role: "Вы отвечаете на вопросы пользователя о видео strictly на основе транскрипта, контекста и готового резюме.",
-    identity: "Если пользователь упоминает расширение или спрашивает кто вы, подтвердите, что вы ассистент расширения YouTube Summarizer AI.",
-    rule: "СТРОГОЕ ТРЕБОВАНИЕ К ЯЗЫКУ: Отвечайте ИСКЛЮЧИТЕЛЬНО на РУССКОМ языке, независимо от языка вопроса или видео.",
+    persona: "Вы — YouTube Summarizer AI, интеллектуальный Chrome-ассистент, встроенный в YouTube.",
+    role: "Вы отвечаете на вопросы пользователя строго на основе транскрипта видео, официального контекста (описания, канала, тегов) и сгенерированного резюме.",
+    identity: "Если пользователь спрашивает, кто вы, подтвердите, что вы ассистент расширения YouTube Summarizer AI.",
+    rule: "СТРОГОЕ ПРАВИЛО: Отвечайте ИСКЛЮЧИТЕЛЬНО на РУССКОМ языке, независимо от языка вопроса или видео.",
     quick: "Желаемый объем: краткий и четкий ответ (1-2 коротких абзаца).",
     detailed: "Желаемый объем: подробное и исчерпывающее объяснение.",
     standard: "Желаемый объем: сбалансированный и естественный ответ по существу.",
@@ -92,6 +92,17 @@ const CHAT_LANG_MAP = {
     summaryLabel: "此前在扩展程序中生成的视频摘要（供参考）：",
     transcriptLabel: "视频逐字稿："
   }
+};
+
+export const CHAT_USER_DIRECTIVES = {
+  fr: "\n\n(Consigne impérative : Réponds EXCLUSIVEMENT en FRANÇAIS, quelle que soit la langue de la question, de la vidéo ou des échanges précédents.)",
+  en: "\n\n(Mandatory directive: Answer EXCLUSIVELY in ENGLISH, regardless of the question, video, or prior conversation language.)",
+  es: "\n\n(Instrucción obligatoria: Responde EXCLUSIVAMENTE en ESPAÑOL, independientemente del idioma de la pregunta, del vídeo o del historial.)",
+  it: "\n\n(Obbligo rigoroso: Rispondi ESCLUSIVAMENTE in ITALIANO, indipendentemente dalla lingua della domanda, del video o dei messaggi precedenti.)",
+  de: "\n\n(Strikte Vorgabe: Antworte AUSSCHLIESSLICH auf DEUTSCH, unabhängig von der Sprache der Frage, des Videos oder des bisherigen Verlaufs.)",
+  ja: "\n\n【言語指示：動画や質問、過去の会話履歴にかかわらず、必ず【日本語】のみで回答してください。】",
+  ru: "\n\n(Строгое указание: Отвечайте ИСКЛЮЧИТЕЛЬНО на РУССКОМ языке, независимо от языка вопроса, видео или предыдущих сообщений.)",
+  zh: "\n\n【语言强制指令：无论提问、原视频或此前对话为何种语言，本回答必须全部且仅使用【中文（简体中文）】输出。严禁使用法语或英语。】"
 };
 
 /**
@@ -136,8 +147,7 @@ export class PromptService {
   /**
    * Builds chat system prompt for interactive Q&A
    */
-  static buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode) {
-    const summaryText = arguments[4] || '';
+  static buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText = '', externalContext = '') {
     const contextBlock = formatContextInfo(meta, lang);
     const subStr = meta?.subscribers ? ` (${meta.subscribers})` : '';
     const cleanLang = (lang && CHAT_LANG_MAP[lang]) ? lang : 'fr';
@@ -151,6 +161,10 @@ export class PromptService {
       ? `\n${cfg.summaryLabel}\n"""\n${summaryText.trim()}\n"""\n`
       : '';
 
+    const extBlock = (externalContext && externalContext.trim())
+      ? `\n${externalContext.trim()}\n\nDIRECTIVES DE COMPARAISON MULTI-VIDÉOS :\n- L'utilisateur a fourni le contexte d'une ou plusieurs vidéos YouTube externes.\n- Réponds aux questions en comparant et recoupant les informations des vidéos avec rigueur.\n- Attribue explicitement les faits à leur vidéo ou auteur respectif.\n`
+      : '';
+
     return `${cfg.persona}
 ${cfg.role}
 ${cfg.identity}
@@ -159,7 +173,7 @@ ${cfg.rule}
 
 Title: "${meta?.title || ''}"
 Channel: "${meta?.author || ''}"${subStr}
-${contextBlock ? `\n${contextBlock}` : ''}${summaryBlock}
+${contextBlock ? `\n${contextBlock}` : ''}${summaryBlock}${extBlock}
 ${cfg.transcriptLabel}
 """
 ${safeTranscript}
@@ -172,7 +186,9 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
    - Write in flowing, natural prose paragraphs without disjointed lists or decorative emojis for smooth audio playback.
 4. READABLE STRUCTURE:
    - Break answers into short paragraphs with **bold** key terms.
-   - 100% faithful to the video content, transcript, and summary without hallucinations.`;
+   - 100% faithful to the video content, transcript, and summary without hallucinations.
+5. FINAL MANDATORY DIRECTIVE:
+   - ${cfg.rule}`;
   }
 }
 
@@ -186,7 +202,8 @@ export function buildPrompts(title, author, safeTranscript, lang, mode, meta = n
 
 export function buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode) {
   const summaryText = arguments[4] || '';
-  return PromptService.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText);
+  const externalContext = arguments[5] || '';
+  return PromptService.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText, externalContext);
 }
 
 export default PromptService;

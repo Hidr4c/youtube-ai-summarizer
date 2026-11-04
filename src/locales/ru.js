@@ -147,7 +147,9 @@ export const ru = {
   "chapterBadge": "(Главы)",
   "transcriptExtracted": "Транскрипт извлечен",
   "modelResponsive": "Отзывчивая модель: {model}",
-  "extractingTranscriptNotice": "Извлечение транскрипции видео..."
+  "extractingTranscriptNotice": "Извлечение транскрипции видео...",
+  "fetchingExternalVideo": "⏳ Анализ связанного видео YouTube...",
+  "externalVideoBadge": "📎 Связанное видео проанализировано"
 };
 
 export default ru;

@@ -12,7 +12,7 @@ export class BannerTemplate {
    */
   static render(t, options = {}) {
     const drawerHtml = SettingsDrawerTemplate.render(t, options);
-    const version = options.version || 'v1.3.2';
+    const version = options.version || 'v1.3.3';
     const suggestionsHtml = (Array.isArray(t.suggestions) && t.suggestions.length > 0)
       ? t.suggestions.map(s => `<span class="yt-ai-suggestion-chip" data-question="${(s.question || '').replace(/"/g, '&quot;')}">${s.label}</span>`).join('')
       : `<span class="yt-ai-suggestion-chip" data-question="What are the core key takeaways from this video?">💡 Key takeaways</span><span class="yt-ai-suggestion-chip" data-question="At what point in the video is the main topic discussed?">⏱️ Timestamps</span><span class="yt-ai-suggestion-chip" data-question="What specific figures, examples, or arguments are presented?">📊 Data & Figures</span><span class="yt-ai-suggestion-chip" data-question="What is the author's final conclusion or actionable advice?">🎯 Conclusion & Advice</span>`;

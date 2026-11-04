@@ -147,7 +147,9 @@ export const de = {
   "chapterBadge": "(Kapitel)",
   "transcriptExtracted": "Transkript extrahiert",
   "modelResponsive": "Reaktionsschnelles Modell: {model}",
-  "extractingTranscriptNotice": "Video-Transkript wird extrahiert..."
+  "extractingTranscriptNotice": "Video-Transkript wird extrahiert...",
+  "fetchingExternalVideo": "⏳ Analysiere verlinktes YouTube-Video...",
+  "externalVideoBadge": "📎 Verlinktes Video analysiert"
 };
 
 export default de;

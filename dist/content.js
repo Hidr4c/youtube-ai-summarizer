@@ -146,7 +146,9 @@
     "chapterBadge": "(Chapitres)",
     "transcriptExtracted": "Transcription extraite",
     "modelResponsive": "Mod\xE8le r\xE9actif : {model}",
-    "extractingTranscriptNotice": "Extraction de la transcription de la vid\xE9o en cours..."
+    "extractingTranscriptNotice": "Extraction de la transcription de la vid\xE9o en cours...",
+    "fetchingExternalVideo": "\u23F3 Analyse de la vid\xE9o YouTube li\xE9e en cours...",
+    "externalVideoBadge": "\u{1F4CE} Vid\xE9o li\xE9e analys\xE9e"
   };
   var fr_default = fr;
 
@@ -297,7 +299,9 @@
     "chapterBadge": "(Chapters)",
     "transcriptExtracted": "Transcript extracted",
     "modelResponsive": "Responsive model: {model}",
-    "extractingTranscriptNotice": "Extracting video transcript..."
+    "extractingTranscriptNotice": "Extracting video transcript...",
+    "fetchingExternalVideo": "\u23F3 Analyzing linked YouTube video...",
+    "externalVideoBadge": "\u{1F4CE} Linked video analyzed"
   };
   var en_default = en;
 
@@ -448,7 +452,9 @@
     "chapterBadge": "(Cap\xEDtulos)",
     "transcriptExtracted": "Transcripci\xF3n extra\xEDda",
     "modelResponsive": "Modelo responsivo: {model}",
-    "extractingTranscriptNotice": "Extrayendo transcripci\xF3n del video..."
+    "extractingTranscriptNotice": "Extrayendo transcripci\xF3n del video...",
+    "fetchingExternalVideo": "\u23F3 Analizando v\xEDdeo de YouTube vinculado...",
+    "externalVideoBadge": "\u{1F4CE} V\xEDdeo vinculado analizado"
   };
   var es_default = es;
 
@@ -599,7 +605,9 @@
     "chapterBadge": "(Kapitel)",
     "transcriptExtracted": "Transkript extrahiert",
     "modelResponsive": "Reaktionsschnelles Modell: {model}",
-    "extractingTranscriptNotice": "Video-Transkript wird extrahiert..."
+    "extractingTranscriptNotice": "Video-Transkript wird extrahiert...",
+    "fetchingExternalVideo": "\u23F3 Analysiere verlinktes YouTube-Video...",
+    "externalVideoBadge": "\u{1F4CE} Verlinktes Video analysiert"
   };
   var de_default = de;
 
@@ -750,7 +758,9 @@
     "chapterBadge": "(Capitoli)",
     "transcriptExtracted": "Trascrizione estratta",
     "modelResponsive": "Modello reattivo: {model}",
-    "extractingTranscriptNotice": "Estrazione della trascrizione del video in corso..."
+    "extractingTranscriptNotice": "Estrazione della trascrizione del video in corso...",
+    "fetchingExternalVideo": "\u23F3 Analisi del video YouTube collegato in corso...",
+    "externalVideoBadge": "\u{1F4CE} Video collegato analizzato"
   };
   var it_default = it;
 
@@ -901,7 +911,9 @@
     "chapterBadge": "(\u0413\u043B\u0430\u0432\u044B)",
     "transcriptExtracted": "\u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442 \u0438\u0437\u0432\u043B\u0435\u0447\u0435\u043D",
     "modelResponsive": "\u041E\u0442\u0437\u044B\u0432\u0447\u0438\u0432\u0430\u044F \u043C\u043E\u0434\u0435\u043B\u044C: {model}",
-    "extractingTranscriptNotice": "\u0418\u0437\u0432\u043B\u0435\u0447\u0435\u043D\u0438\u0435 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u0438 \u0432\u0438\u0434\u0435\u043E..."
+    "extractingTranscriptNotice": "\u0418\u0437\u0432\u043B\u0435\u0447\u0435\u043D\u0438\u0435 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u0438 \u0432\u0438\u0434\u0435\u043E...",
+    "fetchingExternalVideo": "\u23F3 \u0410\u043D\u0430\u043B\u0438\u0437 \u0441\u0432\u044F\u0437\u0430\u043D\u043D\u043E\u0433\u043E \u0432\u0438\u0434\u0435\u043E YouTube...",
+    "externalVideoBadge": "\u{1F4CE} \u0421\u0432\u044F\u0437\u0430\u043D\u043D\u043E\u0435 \u0432\u0438\u0434\u0435\u043E \u043F\u0440\u043E\u0430\u043D\u0430\u043B\u0438\u0437\u0438\u0440\u043E\u0432\u0430\u043D\u043E"
   };
   var ru_default = ru;
 
@@ -1052,7 +1064,9 @@
     "chapterBadge": "(\u30C1\u30E3\u30D7\u30BF\u30FC)",
     "transcriptExtracted": "\u6587\u5B57\u8D77\u3053\u3057\u3092\u62BD\u51FA\u3057\u307E\u3057\u305F",
     "modelResponsive": "\u5FDC\u7B54\u30E2\u30C7\u30EB: {model}",
-    "extractingTranscriptNotice": "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3092\u62BD\u51FA\u4E2D..."
+    "extractingTranscriptNotice": "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3092\u62BD\u51FA\u4E2D...",
+    "fetchingExternalVideo": "\u23F3 \u30EA\u30F3\u30AF\u3055\u308C\u305FYouTube\u52D5\u753B\u3092\u89E3\u6790\u4E2D...",
+    "externalVideoBadge": "\u{1F4CE} \u30EA\u30F3\u30AF\u3055\u308C\u305F\u52D5\u753B\u3092\u89E3\u6790\u5B8C\u4E86"
   };
   var ja_default = ja;
 
@@ -1203,7 +1217,9 @@
     "chapterBadge": "(\u7AE0\u8282)",
     "transcriptExtracted": "\u5DF2\u63D0\u53D6\u6587\u5B57\u8BB0\u5F55",
     "modelResponsive": "\u54CD\u5E94\u6A21\u578B\uFF1A{model}",
-    "extractingTranscriptNotice": "\u6B63\u5728\u63D0\u53D6\u89C6\u9891\u5B57\u5E55..."
+    "extractingTranscriptNotice": "\u6B63\u5728\u63D0\u53D6\u89C6\u9891\u5B57\u5E55...",
+    "fetchingExternalVideo": "\u23F3 \u6B63\u5728\u5206\u6790\u5173\u8054\u7684 YouTube \u89C6\u9891\u9010\u5B57\u7A3F...",
+    "externalVideoBadge": "\u{1F4CE} \u5DF2\u89E3\u6790\u5173\u8054\u89C6\u9891"
   };
   var zh_default = zh;
 
@@ -1540,7 +1556,7 @@
      */
     static render(t, options = {}) {
       const drawerHtml = SettingsDrawerTemplate.render(t, options);
-      const version = options.version || "v1.3.2";
+      const version = options.version || "v1.3.3";
       const suggestionsHtml = Array.isArray(t.suggestions) && t.suggestions.length > 0 ? t.suggestions.map((s) => `<span class="yt-ai-suggestion-chip" data-question="${(s.question || "").replace(/"/g, "&quot;")}">${s.label}</span>`).join("") : `<span class="yt-ai-suggestion-chip" data-question="What are the core key takeaways from this video?">\u{1F4A1} Key takeaways</span><span class="yt-ai-suggestion-chip" data-question="At what point in the video is the main topic discussed?">\u23F1\uFE0F Timestamps</span><span class="yt-ai-suggestion-chip" data-question="What specific figures, examples, or arguments are presented?">\u{1F4CA} Data & Figures</span><span class="yt-ai-suggestion-chip" data-question="What is the author's final conclusion or actionable advice?">\u{1F3AF} Conclusion & Advice</span>`;
       return `
       <!-- BARRE SUP\xC9RIEURE ULTRA-MINIMALISTE -->
@@ -2072,7 +2088,7 @@
       ThemeManager.syncThemeWithYouTube(banner);
       const lang = this.state.currentLang || "en";
       const t = I18N[lang] || I18N.en;
-      safeSetInnerHTML(banner, BannerTemplate.render(t, { version: "v1.3.2" }));
+      safeSetInnerHTML(banner, BannerTemplate.render(t, { version: "v1.3.3" }));
       parent.insertBefore(banner, refChild);
       if (typeof onInit === "function") onInit(banner);
     }
@@ -2180,40 +2196,81 @@
         el.textContent = activeM ? `${t.modelPrefix || "Model: "}${activeM}` : t.noModelSelected || "No model";
       }
     }
-    applyLanguage(lang, summaryViewController2 = null) {
+    applyLanguage(lang, summaryViewController2 = null, settingsDrawer2 = null) {
       this.state.currentLang = lang;
       const t = I18N[lang] || I18N.en;
+      const setText = (id, txt) => {
+        const el = document.getElementById(id);
+        if (el && txt) el.textContent = txt;
+      };
       const langSelect = document.getElementById("ytAiLangSelect");
       if (langSelect && langSelect.value !== lang) langSelect.value = lang;
-      const brandTitle = document.getElementById("ytAiBrandTitle");
-      if (brandTitle) brandTitle.textContent = t.brandName || "YT Summarizer AI";
-      const summarizeBtn = document.getElementById("ytAiSummarizeBtn");
-      if (summarizeBtn && !summaryViewController2?.isGenerating) {
-        summarizeBtn.textContent = t.summarizeBtn || "\u2728 Summarize video";
-      }
-      const toggleText = document.getElementById("ytAiToggleText");
-      if (toggleText) toggleText.textContent = this.isExpanded ? t.collapse : t.expand;
-      const toggleIcon = document.getElementById("ytAiToggleIcon");
-      if (toggleIcon) toggleIcon.textContent = this.isExpanded ? "\u25B2" : "\u25BE";
-      const settingsBtnText = document.getElementById("ytAiSettingsBtnText");
-      if (settingsBtnText) settingsBtnText.textContent = t.settingsBtn || "Settings";
-      const tabModel = document.getElementById("ytAiTabSettingsModelBtn");
-      if (tabModel) tabModel.textContent = t.tabSettingsModel || "\u{1F916} AI Model & Server";
-      const tabAudio = document.getElementById("ytAiTabSettingsAudioBtn");
-      if (tabAudio) tabAudio.textContent = t.tabSettingsAudio || "\u{1F399}\uFE0F Voice & Audio";
-      const tabParams = document.getElementById("ytAiTabSettingsParamsBtn");
-      if (tabParams) tabParams.textContent = t.tabSettingsParams || "\u2699\uFE0F Parameters & Prompt";
-      const tabSummaryBtn = document.getElementById("ytAiTabSummaryBtn");
-      if (tabSummaryBtn) tabSummaryBtn.textContent = t.tabSummary || "\u{1F4DD} AI Summary";
+      setText("ytAiBrandTitle", t.brandName || "YT Summarizer AI");
+      if (!summaryViewController2?.isGenerating) setText("ytAiSummarizeBtn", t.summarizeBtn || "\u2728 Summarize video");
+      setText("ytAiToggleText", this.isExpanded ? t.collapse : t.expand);
+      setText("ytAiSettingsBtnText", t.settingsBtn || "Settings");
+      setText("ytAiTabSummaryBtn", t.tabSummary || "\u{1F4DD} AI Summary");
       const tabChatBtn = document.getElementById("ytAiTabChatBtn");
       if (tabChatBtn) {
         const count = document.getElementById("ytAiChatCount")?.textContent || "0";
-        tabChatBtn.innerHTML = `${escapeHtml(t.tabChat || "\u{1F4AC} Ask a question")} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
+        safeSetInnerHTML(tabChatBtn, `${escapeHtml(t.tabChat || "\u{1F4AC} Ask a question")} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`);
       }
       const tabTranscriptBtn = document.getElementById("ytAiTabTranscriptBtn");
       if (tabTranscriptBtn) {
-        const count = document.getElementById("ytAiWordCountTab")?.textContent || `0 ${t.wordsBadge || "words"}`;
-        tabTranscriptBtn.innerHTML = `${escapeHtml(t.tabTranscript || "\u{1F4DC} Transcript")} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
+        const rawCount = (document.getElementById("ytAiWordCountTab")?.textContent || "0").replace(/[^0-9]/g, "") || "0";
+        const formattedCount = Number(rawCount) > 0 ? Number(rawCount).toLocaleString() : "0";
+        safeSetInnerHTML(tabTranscriptBtn, `${escapeHtml(t.tabTranscript || "\u{1F4DC} Transcript")} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">${escapeHtml(formattedCount)} ${escapeHtml(t.wordsBadge || "words")}</span>`);
+      }
+      const providerName = PROVIDER_NAMES[this.state.currentProvider] || (this.state.currentProvider === "ollama" ? "Ollama" : this.state.currentProvider === "lmstudio" ? "LM Studio" : this.state.currentProvider || "AI");
+      setText("ytAiSummaryHeaderTitle", `${t.summaryTitle || "\u{1F4DD} AI Summary"} (${providerName.toUpperCase()})`);
+      setText("ytAiSpeakSummaryBtn", t.listenBtn);
+      setText("ytAiCopyBtn", t.copyBtn);
+      setText("ytAiDownloadBtn", t.saveMdBtn);
+      setText("ytAiSaveTxtBtn", t.saveTxtBtn);
+      setText("ytAiSaveJsonBtn", t.saveJsonBtn);
+      const reasoningSummary = document.querySelector("#ytAiReasoningBox summary");
+      if (reasoningSummary) {
+        const statusSpan = document.getElementById("ytAiReasoningStatus");
+        const curStatus = statusSpan?.textContent || t.reasoningInProgress || "in progress...";
+        safeSetInnerHTML(reasoningSummary, `${escapeHtml(t.reasoningModel || "\u{1F4AD} Model Reasoning")} (<span id="ytAiReasoningStatus">${escapeHtml(curStatus)}</span>)`);
+      }
+      if (!summaryViewController2?.fullSummaryMarkdown) {
+        setText(document.querySelector("#ytAiSummaryBody .yt-ai-empty-title"), t.emptyTitle || "No summary generated");
+        setText(document.querySelector("#ytAiSummaryBody .yt-ai-empty-subtitle"), t.emptySubtitle || t.summaryPlaceholder || "Click below to generate the summary.");
+        if (!summaryViewController2?.isGenerating) setText("ytAiSummaryHeroBtn", t.summarizeBtn || "\u2728 Summarize video");
+      }
+      const chatPaneTitle = document.querySelector("#ytAiPaneChat .yt-ai-pane-title span");
+      if (chatPaneTitle) chatPaneTitle.textContent = t.chatTitle || "\u{1F4AC} Video Q&A";
+      setText("ytAiClearChatBtn", t.clearChatBtn);
+      const chatInput = document.getElementById("ytAiChatInput");
+      if (chatInput && t.chatPlaceholder) chatInput.placeholder = t.chatPlaceholder;
+      const micBtn = document.getElementById("ytAiMicBtn");
+      if (micBtn && t.micTitle) micBtn.title = t.micTitle;
+      setText("ytAiSendChatBtn", t.sendBtn);
+      const suggestionsContainer = document.querySelector(".yt-ai-chat-suggestions");
+      if (suggestionsContainer && Array.isArray(t.suggestions) && t.suggestions.length > 0) {
+        const suggestionsHtml = t.suggestions.map((s) => `<span class="yt-ai-suggestion-chip" data-question="${escapeHtml(s.question || "")}">${escapeHtml(s.label)}</span>`).join("");
+        safeSetInnerHTML(suggestionsContainer, suggestionsHtml);
+      }
+      const chatMessages = document.getElementById("ytAiChatMessages");
+      const userBubbles = chatMessages?.querySelectorAll(".yt-ai-chat-user, .yt-ai-chat-bubble.user");
+      if (chatMessages && (!userBubbles || userBubbles.length === 0)) {
+        const firstAiBubble = chatMessages.querySelector(".yt-ai-chat-bubble.ai, .yt-ai-chat-bubble");
+        if (firstAiBubble && t.chatWelcome) firstAiBubble.textContent = t.chatWelcome;
+      }
+      const transcriptTitle = document.querySelector("#ytAiPaneTranscript .yt-ai-pane-title span");
+      const rawWordCount = (document.getElementById("ytAiWordCount")?.textContent || "0").replace(/[^0-9]/g, "") || "0";
+      const formattedWordCount = Number(rawWordCount) > 0 ? Number(rawWordCount).toLocaleString() : "0";
+      if (transcriptTitle) {
+        safeSetInnerHTML(transcriptTitle, `${escapeHtml(t.transcriptTitle || "\u{1F4DC} Full Transcript")} (<span id="ytAiWordCount">${escapeHtml(formattedWordCount)}</span> ${escapeHtml(t.wordsBadge || "words")})`);
+      }
+      setText("ytAiCopyTranscriptBtn", t.copyRawBtn);
+      const bugLink = document.getElementById("ytAiFooterBugLink");
+      if (bugLink) bugLink.textContent = `\u{1F41B} ${t.footerReportBug || "Report a bug"}`;
+      const docsLink = document.getElementById("ytAiFooterDocsLink");
+      if (docsLink) docsLink.textContent = `\u{1F4D6} ${t.footerDocs || "Documentation"}`;
+      if (typeof settingsDrawer2?.applyLanguage === "function") {
+        settingsDrawer2.applyLanguage(lang);
       }
       this.updateHeaderBadge();
       this.updateHeaderModelText();
@@ -2222,6 +2279,25 @@
 
   // src/content/services/LocalModelDiscovery.js
   var LocalModelDiscovery = class _LocalModelDiscovery {
+    /**
+     * Directly fetches models for a local provider and server URL
+     */
+    static fetchLocalModels(provider, currentUrl, onSuccess = null, onError = null) {
+      if (!chrome?.runtime?.sendMessage) return;
+      chrome.runtime.sendMessage({
+        action: "FETCH_MODELS",
+        provider,
+        serverUrl: currentUrl
+      }, (response) => {
+        if (chrome.runtime.lastError || !response || !response.success && !response.ok) {
+          if (typeof onError === "function") onError(chrome.runtime.lastError || "Fetch failed");
+          return;
+        }
+        const data = response.data;
+        const models = Array.isArray(data?.data) ? data.data : Array.isArray(data?.models) ? data.models : Array.isArray(data) ? data : Array.isArray(response.models) ? response.models : [];
+        if (typeof onSuccess === "function") onSuccess(models);
+      });
+    }
     /**
      * Refreshes model list for local providers (LM Studio / Ollama)
      * @param {Object} ctx
@@ -2444,19 +2520,53 @@
       }
     }
     showStatusBanner(text, isError = false) {
-      if (this.bannerView) {
-        this.bannerView.showStatusBanner(text, isError);
-      }
+      if (this.bannerView) this.bannerView.showStatusBanner(text, isError);
     }
     updateHeaderBadge() {
-      if (this.bannerView) {
-        this.bannerView.updateHeaderBadge();
-      }
+      if (this.bannerView) this.bannerView.updateHeaderBadge();
     }
     updateHeaderModelText() {
-      if (this.bannerView) {
-        this.bannerView.updateHeaderModelText();
-      }
+      if (this.bannerView) this.bannerView.updateHeaderModelText();
+    }
+    applyLanguage(lang) {
+      this.state.currentLang = lang;
+      const t = I18N[lang] || I18N.en;
+      const setText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el && text) el.textContent = text;
+      };
+      setText("ytAiTabSettingsModelBtn", t.tabSettingsModel);
+      setText("ytAiTabSettingsParamsBtn", t.tabSettingsParams);
+      setText("ytAiTabSettingsAudioBtn", t.tabSettingsAudio);
+      setText("ytAiProviderLabel", t.providerLabel);
+      setText("ytAiModelSelectLabel", t.modelSelectLabel || t.modelLabel);
+      setText("ytAiModeLabel", t.formatLabel);
+      setText("ytAiTempLabel", t.tempLabel);
+      setText("ytAiMaxTokensLabel", t.maxTokensLabel);
+      setText("ytAiAutoSummarizeLabel", t.autoSummarizeLabel);
+      setText("ytAiCustomPromptLabel", t.customPromptLabel);
+      setText("ytAiVoiceLabel", t.voiceLabel);
+      setText("ytAiTtsSpeedLabel", t.ttsSpeedLabel);
+      setText("ytAiMicLabel", t.micLabel);
+      setText("ytAiWhisperUrlLabel", t.whisperUrlLabel);
+      setText("ytAiTestModelBtn", t.testModelBtn);
+      setText("ytAiTestWhisperBtn", t.testSttBtn);
+      const updateOpts = (id, map) => {
+        const sel = document.getElementById(id);
+        if (sel) Object.entries(map).forEach(([v, l]) => {
+          const o = sel.querySelector(`option[value="${v}"]`);
+          if (o && l) o.textContent = l;
+        });
+      };
+      updateOpts("ytAiModeSelect", { quick: t.formatQuick, standard: t.formatStandard, detailed: t.formatDetailed });
+      updateOpts("ytAiTemperatureSelect", { "0.0": t.tempStrict, "0.3": t.tempBalanced, "0.7": t.tempCreative, "1.0": t.tempWild });
+      updateOpts("ytAiMaxTokensSelect", { auto: t.tokensAuto, "1024": t.tokensShort, "2048": t.tokensStandard, "4096": t.tokensDetailed, "8192": t.tokensMax });
+      updateOpts("ytAiTtsSpeedSelect", { "0.75": t.speedSlow, "1.0": t.speedNormal, "1.25": t.speedFast, "1.5": t.speedVeryFast, "2.0": t.speedDouble });
+      const customInput = document.getElementById("ytAiCustomPromptInput");
+      if (customInput && t.customPromptPlaceholder) customInput.placeholder = t.customPromptPlaceholder;
+      const whisperInput = document.getElementById("ytAiWhisperUrlInput");
+      if (whisperInput && t.whisperUrlPlaceholder) whisperInput.placeholder = t.whisperUrlPlaceholder;
+      this.syncProviderUI();
     }
     syncProviderUI() {
       const providerSelect = document.getElementById("ytAiProviderSelect");
@@ -2503,99 +2613,80 @@
       this.updateHeaderBadge();
       this.updateHeaderModelText();
     }
-    populateCloudModels(provider) {
-      const select = document.getElementById("ytAiModelSelect");
-      if (!select) return;
-      select.innerHTML = "";
-      const list = CLOUD_MODELS[provider] || [];
-      list.forEach((m) => {
-        const opt = document.createElement("option");
-        opt.value = m.id;
-        opt.textContent = m.name;
-        select.appendChild(opt);
-      });
-      const activeM = this.state.getActiveModel();
-      if (select.options.length > 0) {
-        let found = false;
-        for (const opt of select.options) {
-          if (opt.value === activeM) {
-            select.value = activeM;
-            found = true;
-            break;
-          }
-        }
-        if (!found) select.selectedIndex = 0;
-        this.state.setActiveModel(select.value);
-        this.state.savePreference(`selectedModel_${provider}`, select.value);
-        this.state.savePreference("selectedModel", select.value);
-      }
-    }
     updateServerUrlUI() {
       const serverSelect = document.getElementById("ytAiServerSelect");
       if (!serverSelect) return;
       const isOllama = this.state.currentProvider === "ollama";
-      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234");
-      serverSelect.innerHTML = "";
-      const presets = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434", "http://192.168.56.1:11434"] : ["http://192.168.56.1:1234", "http://localhost:1234", "http://127.0.0.1:1234"];
-      presets.forEach((u) => {
-        const opt = document.createElement("option");
-        opt.value = u;
-        opt.textContent = u.replace(/https?:\/\//, "");
-        if (u === currentUrl) opt.selected = true;
-        serverSelect.appendChild(opt);
-      });
-      const t = I18N[this.state.currentLang] || I18N.en;
-      const customOpt = document.createElement("option");
-      customOpt.value = "custom";
-      customOpt.textContent = t.customServer || "Custom IP...";
-      if (!presets.includes(currentUrl)) {
-        customOpt.selected = true;
-        customOpt.textContent = `Custom (${currentUrl.replace(/https?:\/\//, "")})`;
-      }
-      serverSelect.appendChild(customOpt);
-    }
-    refreshModelsList(showFeedback = false) {
-      const badge = document.getElementById("ytAiBadge");
-      const badgeText = document.getElementById("ytAiBadgeText");
-      const t = I18N[this.state.currentLang] || I18N.en;
-      if (badgeText) badgeText.textContent = t.checking || "Connecting...";
-      LocalModelDiscovery.refreshModelsList(this.state, showFeedback, (models, currentUrl) => {
-        this.state.availableLocalModels[this.state.currentProvider] = models;
-        const isOllama = this.state.currentProvider === "ollama";
-        const providerLabel = isOllama ? "Ollama" : "LM Studio";
-        if (badge) badge.className = "yt-ai-badge online";
-        if (badgeText) badgeText.textContent = `${providerLabel} (${currentUrl.replace(/https?:\/\//, "")})`;
-        this.populateModelDropdown(models);
-        if (showFeedback) {
-          this.showStatusBanner(`\u2705 Connected to ${providerLabel} (${models.length} models ready)`, false);
+      const def = isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234";
+      const current = this.state.serverUrls[this.state.currentProvider] || def;
+      const optLocal = document.getElementById("ytAiServerOptionLocalhost");
+      const optLan = document.getElementById("ytAiServerOptionLan");
+      if (optLocal) optLocal.value = isOllama ? "http://localhost:11434" : "http://localhost:1234";
+      if (optLan) optLan.value = isOllama ? "http://192.168.1.100:11434" : "http://192.168.56.1:1234";
+      if (current === optLocal?.value || current === optLan?.value) {
+        serverSelect.value = current;
+      } else {
+        let customOpt = serverSelect.querySelector('option[data-custom="true"]');
+        if (!customOpt) {
+          customOpt = document.createElement("option");
+          customOpt.setAttribute("data-custom", "true");
+          serverSelect.insertBefore(customOpt, serverSelect.lastElementChild);
         }
-      }, () => {
-        this.tryFallbackUrls();
-      });
+        customOpt.value = current;
+        customOpt.textContent = `Custom (${current})`;
+        serverSelect.value = current;
+      }
     }
-    tryFallbackUrls(testedUrls = []) {
+    refreshModelsList() {
+      const isLocal = this.state.currentProvider === "lmstudio" || this.state.currentProvider === "ollama";
+      if (!isLocal) return;
+      const t = I18N[this.state.currentLang] || I18N.en;
       const badge = document.getElementById("ytAiBadge");
       const badgeText = document.getElementById("ytAiBadgeText");
-      const t = I18N[this.state.currentLang] || I18N.en;
-      const isOllama = this.state.currentProvider === "ollama";
-      const providerLabel = isOllama ? "Ollama" : "LM Studio";
-      LocalModelDiscovery.tryFallbackUrls(this.state, testedUrls, (candidate, models) => {
-        this.state.serverUrls[this.state.currentProvider] = candidate;
-        this.state.savePreference(`serverUrl_${this.state.currentProvider}`, candidate);
-        this.updateServerUrlUI();
-        this.state.availableLocalModels[this.state.currentProvider] = models;
-        if (badge) badge.className = "yt-ai-badge online";
-        if (badgeText) badgeText.textContent = `${providerLabel} (${candidate.replace(/https?:\/\//, "")})`;
-        this.populateModelDropdown(models);
-        this.showStatusBanner(`\u2705 Connected to ${providerLabel} (${models.length} models ready)`, false);
-      }, () => {
-        if (badge) badge.className = "yt-ai-badge offline";
-        if (badgeText) badgeText.textContent = `${providerLabel} (${t.offlineBadge || "Offline"})`;
-        this.populateModelDropdown([]);
-      });
+      if (badge) badge.className = "yt-ai-badge checking";
+      if (badgeText) badgeText.textContent = t.checking || "Checking...";
+      const currentUrl = this.state.serverUrls[this.state.currentProvider];
+      LocalModelDiscovery.fetchLocalModels(
+        this.state.currentProvider,
+        currentUrl,
+        (models) => {
+          this.state.availableLocalModels[this.state.currentProvider] = models;
+          this.populateModelDropdown(models);
+          this.updateHeaderBadge();
+        },
+        (err) => {
+          this.populateModelDropdown([]);
+          if (badge) badge.className = "yt-ai-badge offline";
+          if (badgeText) badgeText.textContent = t.offline || "Offline";
+          this.updateHeaderModelText();
+        }
+      );
+    }
+    populateCloudModels(provider) {
+      const select = document.getElementById("ytAiModelSelect");
+      if (!select) return;
+      select.innerHTML = "";
+      const models = CLOUD_MODELS[provider] || [];
+      const savedModel = this.state.getActiveModel();
+      for (const m of models) {
+        const opt = document.createElement("option");
+        opt.value = m.id;
+        opt.textContent = m.name;
+        select.appendChild(opt);
+      }
+      const match = models.find((m) => m.id === savedModel);
+      if (match) {
+        select.value = savedModel;
+      } else if (models.length > 0) {
+        select.value = models[0].id;
+        this.state.setActiveModel(models[0].id);
+        this.state.savePreference(`selectedModel_${provider}`, models[0].id);
+      }
+      this.updateHeaderModelText();
     }
     populateModelDropdown(models) {
       const select = document.getElementById("ytAiModelSelect");
+      if (!select) return;
       const currentSaved = this.state.getActiveModel();
       const activeVal = LocalModelDiscovery.populateModelSelect(
         select,
@@ -2632,8 +2723,77 @@
     }
   };
 
+  // src/content/services/TimestampEnricher.js
+  var TimestampEnricher = class {
+    /**
+     * Enriches markdown with timestamps if the LLM output dropped them
+     * @param {string} markdown
+     * @param {Array<Object>} segments
+     * @returns {string}
+     */
+    static injectTimestampsIfMissing(markdown, segments) {
+      if (!markdown || !Array.isArray(segments) || segments.length === 0) return markdown;
+      if (/\[\d{1,2}:\d{2}(?::\d{2})?\]/.test(markdown)) return markdown;
+      const lines = markdown.split("\n");
+      let items = [];
+      lines.forEach((line, idx) => {
+        const match = line.match(/^(\s*(?:[-*]|\d+\.)\s+)(.*)$/);
+        if (match && match[2].trim().length > 3) {
+          items.push({ idx, prefix: match[1], content: match[2] });
+        }
+      });
+      if (items.length === 0) {
+        let inKeySection = false;
+        lines.forEach((line, idx) => {
+          const trimmed = line.trim();
+          if (/^#{1,4}\s+.*(?:point|temps|fort|key|takeaway|d[eé]roul|moment|chapitre|puntos|punti|kernpunkte)/i.test(trimmed)) {
+            inKeySection = true;
+            return;
+          }
+          if (/^#{1,4}\s+/.test(trimmed)) {
+            inKeySection = false;
+            return;
+          }
+          if (inKeySection && trimmed.length > 8 && !trimmed.startsWith(">") && !trimmed.startsWith("|")) {
+            items.push({ idx, prefix: "- ", content: trimmed });
+          }
+        });
+      }
+      if (items.length === 0) return markdown;
+      const total = items.length;
+      items.forEach((item, bIndex) => {
+        const textToSearch = item.content.toLowerCase().replace(/[*_#`:]/g, " ");
+        const words = textToSearch.split(/\s+/).filter((w) => w.length > 3);
+        let bestSeg = null;
+        let maxScore = 0;
+        for (const seg of segments) {
+          const segText = (seg.text || "").toLowerCase();
+          let score = 0;
+          for (const w of words) {
+            if (segText.includes(w)) score++;
+          }
+          if (score > maxScore) {
+            maxScore = score;
+            bestSeg = seg;
+          }
+        }
+        if (!bestSeg || maxScore === 0) {
+          const segIndex = Math.min(segments.length - 1, Math.floor(bIndex / total * segments.length));
+          bestSeg = segments[segIndex];
+        }
+        const timeStr = bestSeg?.timestamp || "00:00";
+        if (item.content.startsWith("**")) {
+          lines[item.idx] = `${item.prefix}**[${timeStr}] ${item.content.slice(2)}`;
+        } else {
+          lines[item.idx] = `${item.prefix}**[${timeStr}]** ${item.content}`;
+        }
+      });
+      return lines.join("\n");
+    }
+  };
+
   // src/content/ui/SummaryViewController.js
-  var SummaryViewController = class {
+  var SummaryViewController = class _SummaryViewController {
     constructor(dependencies = {}) {
       this.transcriptController = dependencies.transcriptController;
       this.promptService = dependencies.promptService;
@@ -2685,6 +2845,9 @@
       const reasoningBox = document.getElementById("ytAiReasoningBox");
       if (reasoningBox) reasoningBox.classList.add("yt-ai-hidden");
     }
+    static injectTimestampsIfMissing(markdown, segments) {
+      return TimestampEnricher.injectTimestampsIfMissing(markdown, segments);
+    }
     async startSummarization(ctx = {}) {
       if (this.isGenerating) return;
       const lang = document.getElementById("ytAiLangSelect")?.value || ctx.currentLang || "en";
@@ -2696,9 +2859,9 @@
         }
         return;
       }
-      const currentProvider = ctx.currentProvider || "lmstudio";
+      const currentProvider = ctx.currentProvider || ctx.state?.currentProvider || "lmstudio";
       const isLocal = currentProvider === "lmstudio" || currentProvider === "ollama";
-      const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : "";
+      const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : ctx.state?.apiKeys ? ctx.state.apiKeys[currentProvider] : "";
       if (!isLocal && !key) {
         if (typeof ctx.showStatusBanner === "function") {
           ctx.showStatusBanner(t.missingKeyAlert || `API key missing for ${currentProvider.toUpperCase()}. Please enter your key.`, true);
@@ -2749,10 +2912,14 @@
         }
         const meta = ctx.getVideoMetadata ? ctx.getVideoMetadata() : this.transcriptController.cachedVideoMetadata;
         const maxAllowedChars = CONTEXT_LIMITS[currentProvider] || 25e3;
-        const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(fullText, maxAllowedChars);
+        const transcriptSource = this.transcriptController.cachedTranscript.timestampedText || fullText;
+        const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(transcriptSource, maxAllowedChars);
         const { systemPrompt, userPrompt } = this.promptService.constructor.buildPrompts(meta.title, meta.author, safeTranscript, lang, mode, meta);
-        const serverUrl = ctx.serverUrls ? ctx.serverUrls[currentProvider] || "" : "";
+        const serverUrl = ctx.serverUrls ? ctx.serverUrls[currentProvider] || "" : ctx.state?.serverUrls ? ctx.state.serverUrls[currentProvider] : "";
         this.activePort = chrome.runtime.connect({ name: "ai-stream" });
+        const maxTokensByMode = { quick: "800", standard: "1400", detailed: "3500" };
+        const configuredTokens = ctx.maxTokens || ctx.state?.maxTokens;
+        const resolvedMaxTokens = configuredTokens && configuredTokens !== "auto" ? configuredTokens : maxTokensByMode[mode] || "auto";
         this.activePort.postMessage({
           action: "START_STREAM",
           provider: currentProvider,
@@ -2761,8 +2928,8 @@
           model: activeModel,
           systemPrompt,
           userPrompt,
-          temperature: ctx.temperature || "0.3",
-          maxTokens: ctx.maxTokens || "auto"
+          temperature: ctx.temperature || ctx.state?.temperature || "0.3",
+          maxTokens: resolvedMaxTokens
         });
         this.activePort.onMessage.addListener((msg) => {
           if (msg.type === "CHUNK") {
@@ -2811,6 +2978,16 @@
       const summarizeBtn = document.getElementById("ytAiSummarizeBtn");
       const heroBtn = document.getElementById("ytAiSummaryHeroBtn");
       const t = I18N[currentLang] || I18N.en;
+      if (this.fullSummaryMarkdown && this.transcriptController?.cachedTranscript?.segments?.length > 0) {
+        const enriched = _SummaryViewController.injectTimestampsIfMissing(
+          this.fullSummaryMarkdown,
+          this.transcriptController.cachedTranscript.segments
+        );
+        if (enriched !== this.fullSummaryMarkdown) {
+          this.fullSummaryMarkdown = enriched;
+          if (summaryBody) renderMarkdown(this.fullSummaryMarkdown, summaryBody);
+        }
+      }
       if (summaryBody) summaryBody.classList.remove("yt-ai-typing");
       if (summarizeBtn) {
         summarizeBtn.disabled = false;
@@ -2827,6 +3004,1085 @@
     }
   };
 
+  // src/content/services/ExternalVideoManager.js
+  var ExternalVideoManager = class {
+    constructor() {
+      this.cache = /* @__PURE__ */ new Map();
+    }
+    /**
+     * Extracts unique external YouTube video IDs from prompt text, ignoring the current active video
+     * @param {string} text
+     * @param {string} currentVideoId
+     * @returns {string[]}
+     */
+    extractYouTubeVideoIds(text, currentVideoId = "") {
+      if (!text || typeof text !== "string") return [];
+      const ytRegex = /(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?.*v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/gi;
+      const matches = /* @__PURE__ */ new Set();
+      let m;
+      while ((m = ytRegex.exec(text)) !== null) {
+        const id = m[1];
+        if (id && id !== currentVideoId) {
+          matches.add(id);
+        }
+      }
+      return Array.from(matches);
+    }
+    /**
+     * Fetches an external video's transcript and metadata via background service worker
+     * @param {string} videoId
+     * @param {string} lang
+     * @returns {Promise<Object|null>}
+     */
+    async fetchExternalVideo(videoId, lang = "fr") {
+      if (!videoId) return null;
+      if (this.cache.has(videoId)) {
+        return this.cache.get(videoId);
+      }
+      if (!chrome?.runtime?.sendMessage) return null;
+      return new Promise((resolve) => {
+        chrome.runtime.sendMessage(
+          { action: "FETCH_WATCH_PAGE_TRANSCRIPT", videoId, lang },
+          (res) => {
+            if (chrome.runtime.lastError || !res || !res.success) {
+              resolve(null);
+            } else {
+              const data = {
+                videoId,
+                title: res.title || `Video ${videoId}`,
+                author: res.author || "YouTube Creator",
+                segments: res.segments || [],
+                fullText: res.fullText || (res.segments ? res.segments.map((s) => s.text).join(" ") : "")
+              };
+              this.cache.set(videoId, data);
+              resolve(data);
+            }
+          }
+        );
+      });
+    }
+    /**
+     * Formats external video transcripts into a structured prompt context block
+     * @param {Array<Object>} externalVideos
+     * @param {number} maxCharsPerVideo
+     * @returns {string}
+     */
+    formatExternalContextBlock(externalVideos, maxCharsPerVideo = 5e3) {
+      if (!Array.isArray(externalVideos) || externalVideos.length === 0) return "";
+      const blocks = externalVideos.map((vid) => {
+        let text = (vid.fullText || "").trim();
+        if (text.length > maxCharsPerVideo) {
+          const half = Math.floor(maxCharsPerVideo / 2);
+          text = `${text.slice(0, half)}
+
+[... transcription condens\xE9e ...]
+
+${text.slice(-half)}`;
+        }
+        return `---
+[VID\xC9O EXTERNE FOURNIE PAR L'UTILISATEUR]
+Titre : "${vid.title}"
+Auteur / Cha\xEEne : "${vid.author}"
+ID Vid\xE9o : ${vid.videoId}
+Transcription :
+"""
+${text}
+"""`;
+      });
+      return `
+### INFORMATIONS & TRANSCRIPTIONS DES VID\xC9OS EXTERNES MENTIONN\xC9ES :
+${blocks.join("\n\n")}
+`;
+    }
+  };
+
+  // src/content/services/YouTubeDOMContext.js
+  var YouTubeDOMContext = class {
+    /**
+     * Extracts chapters / timeline markers directly from YouTube video description
+     * @returns {Array<{timestamp: string, text: string}> | null}
+     */
+    static extractChaptersFromDescription() {
+      const results = [];
+      const entries = document.querySelectorAll(
+        "ytd-macro-markers-entry-renderer, #structured-description ytd-macro-markers-entry-renderer, ytd-chapter-renderer"
+      );
+      if (entries && entries.length > 1) {
+        entries.forEach((el) => {
+          const timeEl = el.querySelector('#time, [class*="time"], a[href*="t="]');
+          const titleEl = el.querySelector('#title, #details, [class*="title"], h4');
+          const timestamp = timeEl ? timeEl.textContent.trim() : "";
+          const text = titleEl ? titleEl.textContent.trim() : "";
+          if (timestamp && text) {
+            results.push({ timestamp, text });
+          }
+        });
+        if (results.length > 1) return results;
+      }
+      return null;
+    }
+    /**
+     * Extracts rich metadata from YouTube DOM elements with cached fallback
+     * @param {Object} [cachedVideoMetadata]
+     * @returns {Object}
+     */
+    static getVideoMetadata(cachedVideoMetadata = {}) {
+      const currentVideoId = getVideoId();
+      const isCacheValid = cachedVideoMetadata?.videoId === currentVideoId;
+      const safeMeta = isCacheValid ? cachedVideoMetadata : {};
+      const titleEl = document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title");
+      const authorEl = document.querySelector("ytd-channel-name a, #channel-name a, #owner-name a");
+      const subEl = document.querySelector("#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count");
+      const descEl = document.querySelector("#description-inline-expander yt-attributed-string, #description, #description-inline-expander");
+      const dateEl = document.querySelector("#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date");
+      const tagEls = document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]');
+      const domSubscribers = subEl?.textContent?.trim() || "";
+      const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || "";
+      const domDate = dateEl?.textContent?.trim() || "";
+      const domKeywords = Array.from(tagEls).map((el) => el.textContent.trim().replace(/^#/, "")).filter(Boolean);
+      const title = titleEl?.textContent?.trim() || safeMeta.title || document.title.replace(" - YouTube", "").trim();
+      const author = authorEl?.textContent?.trim() || safeMeta.author || "Cha\xEEne YouTube";
+      const subscribers = domSubscribers || safeMeta.subscribers || "";
+      const description = safeMeta.description || domDescription || "";
+      const keywords = safeMeta.keywords && safeMeta.keywords.length > 0 ? safeMeta.keywords : domKeywords;
+      const category = safeMeta.category || "";
+      const publishDate = safeMeta.publishDate || domDate || "";
+      const viewCount = safeMeta.viewCount || "";
+      const channelId = safeMeta.channelId || "";
+      return {
+        videoId: currentVideoId || safeMeta.videoId || "",
+        title,
+        author,
+        subscribers,
+        description,
+        keywords,
+        category,
+        publishDate,
+        viewCount,
+        channelId
+      };
+    }
+    /**
+     * Formats video context block for AI prompts
+     * @param {Object} meta
+     * @param {string} [lang]
+     * @returns {string}
+     */
+    static formatContextInfo(meta, lang = "fr") {
+      if (!meta || typeof meta !== "object") return "";
+      const subscribers = meta.subscribers || "";
+      const category = meta.category || "";
+      const publishDate = meta.publishDate || "";
+      const rawKeywords = meta.keywords || [];
+      const keywords = Array.isArray(rawKeywords) ? rawKeywords.slice(0, 10).join(", ") : typeof rawKeywords === "string" ? rawKeywords : "";
+      let description = String(meta.description || "").trim();
+      if (description.length > 2e3) {
+        description = description.slice(0, 1950) + "... [description condens\xE9e]";
+      }
+      const lines = [];
+      const isFr = lang === "fr";
+      if (subscribers) {
+        lines.push(isFr ? `- Abonn\xE9s cha\xEEne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
+      }
+      if (category) {
+        lines.push(isFr ? `- Cat\xE9gorie : ${category}` : `- Category: ${category}`);
+      }
+      if (publishDate) {
+        lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
+      }
+      if (keywords) {
+        lines.push(isFr ? `- Mots-cl\xE9s : ${keywords}` : `- Keywords: ${keywords}`);
+      }
+      if (description) {
+        lines.push(isFr ? `- Description officielle :
+"""
+${description}
+"""` : `- Official Description:
+"""
+${description}
+"""`);
+      }
+      if (lines.length === 0) return "";
+      const header = isFr ? "CONTEXTE DE LA VID\xC9O & DE LA CHA\xCENE :" : "VIDEO & CHANNEL CONTEXT:";
+      return `${header}
+${lines.join("\n")}
+`;
+    }
+  };
+  function formatContextInfo(meta, lang) {
+    return YouTubeDOMContext.formatContextInfo(meta, lang);
+  }
+
+  // src/services/interfaces/IPromptBuilder.js
+  var IPromptBuilder = class {
+    /**
+     * Condenses a long transcript if it exceeds character limits
+     * @param {string} text
+     * @param {number} maxChars
+     * @returns {string}
+     */
+    condenseTranscript(text, maxChars) {
+      throw new Error("Not implemented");
+    }
+    /**
+     * Builds system and user prompts for video summarization
+     * @param {string} title
+     * @param {string} author
+     * @param {string} transcriptText
+     * @param {string} targetLang
+     * @param {string} formatMode
+     * @param {string} [customDirectives]
+     * @param {Object} [extraContext]
+     * @returns {{ systemPrompt: string, userPrompt: string }}
+     */
+    buildSummaryPrompts(title, author, transcriptText, targetLang, formatMode, customDirectives = "", extraContext = {}) {
+      throw new Error("Not implemented");
+    }
+    /**
+     * Builds system and user prompts for Q&A chat
+     * @param {string} title
+     * @param {string} transcriptText
+     * @param {string} targetLang
+     * @param {Array<Object>} chatHistory
+     * @param {string} userQuestion
+     * @param {Object} [extraContext]
+     * @returns {{ systemPrompt: string, messages: Array<Object> }}
+     */
+    buildChatPrompts(title, transcriptText, targetLang, chatHistory, userQuestion, extraContext = {}) {
+      throw new Error("Not implemented");
+    }
+  };
+
+  // src/services/implementations/templates/WesternTemplates.js
+  var WESTERN_TEMPLATES = {
+    fr: {
+      quick: `Produis un r\xE9sum\xE9 COURT, CONCIS et DIRECT sous cette forme :
+### \u26A1 En Bref
+(2 \xE0 3 phrases percutantes r\xE9sumant l'essentiel absolu)
+
+### \u{1F3AF} Points Cl\xE9s \xE0 Retenir
+- **[00:00] [Point 1]** : Explication courte et concr\xE8te en 1 phrase.
+- **[02:15] [Point 2]** : Explication courte et concr\xE8te en 1 phrase.
+- **[04:48] [Point 3]** : Explication courte et concr\xE8te en 1 phrase.
+(Cite obligatoirement les horodatages r\xE9els [mm:ss] de la transcription pour chaque point)
+
+### \u{1F4CC} Conclusion
+(1 phrase de conclusion finale)`,
+      detailed: `Produis une synth\xE8se COMPL\xC8TE, D\xC9TAILL\xC9E et EXHAUSTIVE :
+### \u{1F3AF} Vue d'ensemble & Enjeux
+(Contexte, probl\xE8me abord\xE9 et th\xE8se de la vid\xE9o)
+
+### \u23F1\uFE0F D\xE9roul\xE9 chronologique & Chapitres cl\xE9s
+- **[00:00] [\xC9tape 1]** : Analyse et faits marquants.
+- **[02:15] [\xC9tape 2]** : Analyse et faits marquants.
+- **[04:48] [\xC9tape 3]** : Analyse et faits marquants.
+(Reconstitue les grandes \xE9tapes avec leurs horodatages r\xE9els [mm:ss] de la transcription)
+
+### \u{1F4A1} Analyses, Arguments & Exemples cit\xE9s
+(D\xE9cortique les donn\xE9es, anecdotes ou concepts expliqu\xE9s)
+
+### \u{1F6E0}\uFE0F Conseils pratiques & Actions concr\xE8tes
+(Tout ce qui est actionnable pour le spectateur)
+
+### \u{1F4CC} Conclusion & Perspective
+(Message final et conclusion de l'auteur)`,
+      standard: `Produis un r\xE9sum\xE9 \xC9QUILIBR\xC9, NATUREL et STRUCTUR\xC9 (format interm\xE9diaire d'environ 350 \xE0 450 mots) :
+
+DIRECTIVE DE CALIBRAGE : Ne sois ni trop exp\xE9ditif comme le format court, ni trop exhaustif comme le format d\xE9taill\xE9. Reste direct, fluide et percutant en \xE9vitant les digressions.
+
+### \u{1F3AF} Synth\xE8se Globale
+(Un paragraphe fluide de 3 \xE0 4 phrases r\xE9sumant le sujet central, les enjeux et l'int\xE9r\xEAt principal de la vid\xE9o)
+
+### \u23F1\uFE0F D\xE9roul\xE9 & Temps Forts
+- **[00:00] [\xC9tape 1]** : Analyse claire et fait marquant en 2 phrases concr\xE8tes.
+- **[02:15] [\xC9tape 2]** : Analyse claire et fait marquant en 2 phrases concr\xE8tes.
+- **[04:48] [\xC9tape 3]** : Analyse claire et fait marquant en 2 phrases concr\xE8tes.
+- **[07:30] [\xC9tape 4]** : Analyse claire et fait marquant en 2 phrases concr\xE8tes.
+(Reconstitue les 4 \xE0 5 \xE9tapes majeures avec leurs horodatages r\xE9els [mm:ss] de la transcription)
+
+### \u{1F4CC} L'Enseignement Cl\xE9 & Conclusion
+(2 phrases synth\xE9tisant le conseil majeur de l'auteur et ce qu'il faut absolument en retenir)`
+    },
+    es: {
+      quick: `Produce un resumen CORTO, CONCISO y DIRECTO en este formato:
+### \u26A1 En Breve
+(2 a 3 frases impactantes resumiendo lo esencial)
+
+### \u{1F3AF} Puntos Clave a Recordar
+- **[00:00] [Punto 1]** : Explicaci\xF3n corta y concreta en 1 frase.
+- **[02:15] [Punto 2]** : Explicaci\xF3n corta y concreta en 1 frase.
+- **[04:48] [Punto 3]** : Explicaci\xF3n corta y concreta en 1 frase.
+(Cita obligatoriamente las marcas de tiempo reales [mm:ss] de la transcripci\xF3n)
+
+### \u{1F4CC} Conclusi\xF3n
+(1 frase de conclusi\xF3n final)`,
+      detailed: `Produce una s\xEDntesis COMPLETA, DETALLADA y EXHAUSTIVA:
+### \u{1F3AF} Visi\xF3n General & Contexto
+(Contexto, problema abordado y tesis del v\xEDdeo)
+
+### \u23F1\uFE0F Desarrollo Cronol\xF3gico & Cap\xEDtulos Clave
+- **[00:00] [Etapa 1]** : An\xE1lisis y hechos destacados.
+- **[02:15] [Etapa 2]** : An\xE1lisis y hechos destacados.
+- **[04:48] [Etapa 3]** : An\xE1lisis y hechos destacados.
+(Reconstruye las etapas principales con marcas de tiempo reales [mm:ss])
+
+### \u{1F4A1} An\xE1lisis, Argumentos & Ejemplos
+(Detalla datos, an\xE9cdotas o conceptos expuestos)
+
+### \u{1F6E0}\uFE0F Consejos Pr\xE1cticos & Acciones Concretas
+(Todo lo accionable para el espectador)
+
+### \u{1F4CC} Conclusi\xF3n & Perspectiva
+(Mensaje final y conclusi\xF3n del autor)`,
+      standard: `Produce un resumen EQUILIBRADO, NATURAL y BIEN ESTRUCTURADO (formato intermedio de ~350 a 450 palabras):
+
+DIRECTIVA DE CALIBRACI\xD3N: No seas demasiado breve como en el modo r\xE1pido, ni excesivamente extenso como en el modo detallado. Mant\xE9n un aut\xE9ntico t\xE9rmino medio: fluido, conciso y sustancioso.
+
+### \u{1F3AF} S\xEDntesis Global
+(Un p\xE1rrafo fluido de 3 a 4 frases resumiendo el tema principal, el contexto y el mensaje central)
+
+### \u23F1\uFE0F Momentos Clave & Desarrollo
+- **[00:00] [Hito 1]** : Explicaci\xF3n concreta y punto clave en 2 frases concisas.
+- **[02:15] [Hito 2]** : Explicaci\xF3n concreta y punto clave en 2 frases concisas.
+- **[04:48] [Hito 3]** : Explicaci\xF3n concreta y punto clave en 2 frases concisas.
+- **[07:30] [Hito 4]** : Explicaci\xF3n concreta y punto clave en 2 frases concisas.
+(Re\xFAne 4 a 5 momentos clave con sus marcas de tiempo reales [mm:ss] de la transcripci\xF3n)
+
+### \u{1F4CC} Conclusi\xF3n & Aprendizaje Clave
+(2 frases sintetizando el consejo principal del autor y la conclusi\xF3n definitiva)`
+    },
+    it: {
+      quick: `Produci un riassunto BREVE, CONCISO e DIRETTO in questo formato:
+### \u26A1 In Breve
+(2-3 frasi incisive che riassumono l'essenziale)
+
+### \u{1F3AF} Punti Chiave da Ricordare
+- **[00:00] [Punto 1]** : Spiegazione breve e concreta in 1 frase.
+- **[02:15] [Punto 2]** : Spiegazione breve e concreta in 1 frase.
+- **[04:48] [Punto 3]** : Spiegazione breve e concreta in 1 frase.
+(Cita obbligatoriamente i timestamp reali [mm:ss] della trascrizione per ogni punto)
+
+### \u{1F4CC} Conclusione
+(1 frase di conclusione finale)`,
+      detailed: `Produci una sintesi COMPLETA, DETTAGLIATA ed ESAUSTIVA:
+### \u{1F3AF} Panoramica & Obiettivi
+(Contesto, problema affrontato e tesi del video)
+
+### \u23F1\uFE0F Svolgimento Cronologico & Capitoli Chiave
+- **[00:00] [Fase 1]** : Analisi e fatti salienti.
+- **[02:15] [Fase 2]** : Analisi e fatti salienti.
+- **[04:48] [Fase 3]** : Analisi e fatti salienti.
+(Ricostruisci i passaggi chiave con i timestamp reali [mm:ss] della trascrizione)
+
+### \u{1F4A1} Analisi, Argomentazioni & Esempi
+(Analizza dati, aneddoti o concetti illustrati)
+
+### \u{1F6E0}\uFE0F Consigli Pratici & Azioni Concrete
+(Tutto ci\xF2 che \xE8 attuabile per lo spettatore)
+
+### \u{1F4CC} Conclusione & Prospettiva
+(Messaggio finale e conclusione dell'autore)`,
+      standard: `Produci un riassunto EQUILIBRATO, NATURALE e BEN STRUTTURATO (formato intermedio di ~350 a 450 parole):
+
+DIRETTIVA DI CALIBRAZIONE: Non essere troppo sbrigativo come nel formato rapido, n\xE9 prolisso come nel formato dettagliato. Offri un vero punto d'incontro: fluido, concreto e senza divagazioni.
+
+### \u{1F3AF} Panoramica Globale
+(Un paragrafo scorrevole di 3-4 frasi che riassume il tema centrale, il contesto e il messaggio)
+
+### \u23F1\uFE0F Momenti Salienti & Svolgimento
+- **[00:00] [Fase 1]** : Spiegazione concreta e punto chiave in 2 frasi concise.
+- **[02:15] [Fase 2]** : Spiegazione concreta e punto chiave in 2 frasi concise.
+- **[04:48] [Fase 3]** : Spiegazione concreta e punto chiave in 2 frasi concise.
+- **[07:30] [Fase 4]** : Spiegazione concreta e punto chiave in 2 frasi concise.
+(Seleziona 4 o 5 tappe salienti con i loro timestamp reali [mm:ss] della trascrizione)
+
+### \u{1F4CC} Conclusione & Insegnamento Chiave
+(2 frasi che sintetizzano il consiglio principale dell'autore e il messaggio finale)`
+    },
+    de: {
+      quick: `Erstelle eine KURZE, PR\xC4GNANTE und DIREKTE Zusammenfassung:
+### \u26A1 Kurz & B\xFCndig
+(2 bis 3 treffende S\xE4tze, die das Wesentliche zusammenfassen)
+
+### \u{1F3AF} Die wichtigsten Kernpunkte
+- **[00:00] [Punkt 1]**: Kurze und konkrete Erkl\xE4rung in 1 Satz.
+- **[02:15] [Punkt 2]**: Kurze und konkrete Erkl\xE4rung in 1 Satz.
+- **[04:48] [Punkt 3]**: Kurze und konkrete Erkl\xE4rung in 1 Satz.
+(Nenne zwingend die echten Zeitstempel [mm:ss] aus dem Transkript)
+
+### \u{1F4CC} Fazit
+(1 abschlie\xDFender Schlusssatz)`,
+      detailed: `Erstelle eine VOLLST\xC4NDIGE, DETAILLIERTE und ERSCH\xD6PFENDE Analyse:
+### \u{1F3AF} \xDCberblick & Fragestellung
+(Kontext, behandelte Problemstellung und Hauptthese des Videos)
+
+### \u23F1\uFE0F Chronologischer Ablauf & Schl\xFCsselkapitel
+- **[00:00] [Phase 1]**: Analyse und wesentliche Fakten.
+- **[02:15] [Phase 2]**: Analyse und wesentliche Fakten.
+- **[04:48] [Phase 3]**: Analyse und wesentliche Fakten.
+(Stelle die Hauptetappen mit ihren realen Zeitstempeln [mm:ss] aus dem Transkript dar)
+
+### \u{1F4A1} Tiefenanalyse: Argumente, Daten & Beispiele
+(Untersuche die dargelegten Fakten, Anekdoten oder Konzepte)
+
+### \u{1F6E0}\uFE0F Praktische Ratschl\xE4ge & Handlungsschritte
+(Alle sofort anwendbaren Erkenntnisse f\xFCr den Zuschauer)
+
+### \u{1F4CC} Fazit & Ausblick
+(Abschlie\xDFende Botschaft und Ausblick des Autors)`,
+      standard: `Erstelle eine AUSGEWOGENE, NAT\xDCRLICHE und GUT STRUKTURIERTE Zusammenfassung (mittleres Format, ca. 350 bis 450 W\xF6rter):
+
+KALIBRIERUNGS-RICHTLINIE: Sei weder zu knapp wie im Kurzmodus, noch ausufernd wie im Detailmodus. Biete einen echten Mittelweg: pr\xE4gnant, informativ und fl\xFCssig ohne F\xFCllw\xF6rter.
+
+### \u{1F3AF} Gesamt\xFCberblick & Kernaussage
+(Ein fl\xFCssiger Absatz aus 3-4 S\xE4tzen, der das Thema, den Kontext und die Hauptbotschaft zusammenfasst)
+
+### \u23F1\uFE0F Wichtige Stationen & Ablauf
+- **[00:00] [Meilenstein 1]**: Konkrete Erkl\xE4rung und Kernpunkt in 2 pr\xE4gnanten S\xE4tzen.
+- **[02:15] [Meilenstein 2]**: Konkrete Erkl\xE4rung und Kernpunkt in 2 pr\xE4gnanten S\xE4tzen.
+- **[04:48] [Meilenstein 3]**: Konkrete Erkl\xE4rung und Kernpunkt in 2 pr\xE4gnanten S\xE4tzen.
+- **[07:30] [Meilenstein 4]**: Konkrete Erkl\xE4rung und Kernpunkt in 2 pr\xE4gnanten S\xE4tzen.
+(W\xE4hle 4 bis 5 Meilensteine mit ihren echten Zeitstempeln [mm:ss] aus dem Transkript)
+
+### \u{1F4CC} Kernaussage & Fazit
+(2 S\xE4tze mit der wichtigsten Handlungsempfehlung des Autors und dem abschlie\xDFenden Fazit)`
+    },
+    en: {
+      quick: `Produce a SHORT, CONCISE, and DIRECT summary in this format:
+### \u26A1 Quick Summary
+(2 to 3 impactful sentences capturing the absolute essence)
+
+### \u{1F3AF} Key Takeaways
+- **[00:00] [Point 1]**: Short, concrete explanation in 1 sentence.
+- **[02:15] [Point 2]**: Short, concrete explanation in 1 sentence.
+- **[04:48] [Point 3]**: Short, concrete explanation in 1 sentence.
+(Mandatorily cite real timestamps [mm:ss] from the transcript for each key takeaway)
+
+### \u{1F4CC} Conclusion
+(1 final concluding sentence)`,
+      detailed: `Produce a THOROUGH, DETAILED, and COMPREHENSIVE study guide:
+### \u{1F3AF} Overview & Core Thesis
+(Context, problem addressed, and central thesis of the video)
+
+### \u23F1\uFE0F Chronological Breakdown & Key Chapters
+- **[00:00] [Milestone 1]**: In-depth analysis and key observations.
+- **[02:15] [Milestone 2]**: In-depth analysis and key observations.
+- **[04:48] [Milestone 3]**: In-depth analysis and key observations.
+(Reconstruct key sections using their real timestamps [mm:ss] to enable player navigation)
+
+### \u{1F4A1} Deep Dive: Arguments, Data & Examples
+(Analyze the data, case studies, or concepts presented)
+
+### \u{1F6E0}\uFE0F Actionable Advice & Practical Steps
+(Actionable takeaways for the viewer)
+
+### \u{1F4CC} Author's Conclusion & Key Takeaway
+(Final takeaway and perspective)`,
+      standard: `Produce a BALANCED, NATURAL, and STRUCTURED summary (intermediate format, ~350 to 450 words):
+
+CALIBRATION DIRECTIVE: Do not be overly brief like quick mode, nor excessively exhaustive like deep mode. Deliver a true middle-ground: substantive, engaging, and to the point without fluff.
+
+### \u{1F3AF} Overview & Core Idea
+(One engaging paragraph of 3-4 sentences establishing the video's context, thesis, and core message)
+
+### \u23F1\uFE0F Key Milestones & Breakdown
+- **[00:00] [Highlight 1]**: Concrete explanation and key takeaway in 2 focused sentences.
+- **[02:15] [Highlight 2]**: Concrete explanation and key takeaway in 2 focused sentences.
+- **[04:48] [Highlight 3]**: Concrete explanation and key takeaway in 2 focused sentences.
+- **[07:30] [Highlight 4]**: Concrete explanation and key takeaway in 2 focused sentences.
+(Select 4 to 5 key milestones with their real [mm:ss] timestamps from the transcript)
+
+### \u{1F4CC} Main Takeaway & Conclusion
+(2 sentences summarizing the author's primary actionable advice and concluding perspective)`
+    }
+  };
+
+  // src/services/implementations/templates/EasternTemplates.js
+  var EASTERN_TEMPLATES = {
+    zh: {
+      quick: `\u8BF7\u6309\u7167\u4EE5\u4E0B\u683C\u5F0F\u8F93\u51FA\u7B80\u660E\u627C\u8981\u7684\u4E2D\u6587\u603B\u7ED3\uFF1A
+### \u26A1 \u6838\u5FC3\u6982\u8981
+(\u75282\u81F33\u53E5\u7CBE\u70BC\u6709\u529B\u7684\u8BDD\u603B\u7ED3\u89C6\u9891\u7684\u6700\u6838\u5FC3\u4E3B\u65E8)
+
+### \u{1F3AF} \u91CD\u70B9\u8981\u70B9
+- **[00:00] [\u8981\u70B9 1]** : \u7B80\u8981\u5177\u4F53\u7684\u89E3\u91CA\u8BF4\u660E\uFF081\u53E5\u8BDD\uFF09\u3002
+- **[02:15] [\u8981\u70B9 2]** : \u7B80\u8981\u5177\u4F53\u7684\u89E3\u91CA\u8BF4\u660E\uFF081\u53E5\u8BDD\uFF09\u3002
+- **[04:48] [\u8981\u70B9 3]** : \u7B80\u8981\u5177\u4F53\u7684\u89E3\u91CA\u8BF4\u660E\uFF081\u53E5\u8BDD\uFF09\u3002
+(\u5FC5\u987B\u5F15\u7528\u9010\u5B57\u7A3F\u4E2D\u7684\u771F\u5B9E\u65F6\u95F4\u6233 [mm:ss] \u4EE5\u652F\u6301\u70B9\u51FB\u8DF3\u8F6C)
+
+### \u{1F4CC} \u6700\u7EC8\u7ED3\u8BBA
+(1\u53E5\u7B80\u7EC3\u7684\u6700\u7EC8\u603B\u7ED3)`,
+      detailed: `\u8BF7\u8F93\u51FA\u5168\u9762\u3001\u8BE6\u5C3D\u4E14\u5177\u5907\u6DF1\u5EA6\u7814\u7A76\u4EF7\u503C\u7684\u4E2D\u6587\u957F\u7BC7\u5408\u6210\u62A5\u544A\uFF1A
+### \u{1F3AF} \u89C6\u9891\u5168\u666F\u4E0E\u6838\u5FC3\u8BBA\u70B9
+(\u80CC\u666F\u3001\u89E3\u51B3\u7684\u6838\u5FC3\u95EE\u9898\u4E0E\u5168\u7247\u6838\u5FC3\u8BBA\u70B9)
+
+### \u23F1\uFE0F \u65F6\u95F4\u7EBF\u4E0E\u91CD\u8981\u7AE0\u8282
+- **[00:00] [\u9636\u6BB5 1]** : \u5173\u952E\u5185\u5BB9\u5206\u6790\u4E0E\u4E8B\u5B9E\u5448\u73B0\u3002
+- **[02:15] [\u9636\u6BB5 2]** : \u5173\u952E\u5185\u5BB9\u5206\u6790\u4E0E\u4E8B\u5B9E\u5448\u73B0\u3002
+- **[04:48] [\u9636\u6BB5 3]** : \u5173\u952E\u5185\u5BB9\u5206\u6790\u4E0E\u4E8B\u5B9E\u5448\u73B0\u3002
+(\u4F7F\u7528\u9010\u5B57\u7A3F\u4E2D\u7684\u771F\u5B9E\u65F6\u95F4\u6233 [mm:ss] \u4EE5\u652F\u6301\u70B9\u51FB\u8DF3\u8F6C)
+
+### \u{1F4A1} \u6838\u5FC3\u8BBA\u70B9\u3001\u6570\u636E\u4E0E\u5B9E\u4F8B\u5206\u6790
+(\u5256\u6790\u89C6\u9891\u5C55\u793A\u7684\u5173\u952E\u6570\u636E\u3001\u8BBA\u636E\u6216\u6848\u4F8B)
+
+### \u{1F6E0}\uFE0F \u5B9E\u64CD\u5EFA\u8BAE\u4E0E\u884C\u52A8\u6307\u5357
+(\u4E3A\u89C2\u4F17\u63D0\u70BC\u7684\u6240\u6709\u53EF\u843D\u5730\u6267\u884C\u7684\u5EFA\u8BAE)
+
+### \u{1F4CC} \u6700\u7EC8\u7ED3\u8BBA\u4E0E\u672A\u6765\u6D1E\u5BDF
+(\u4F5C\u8005\u7684\u6838\u5FC3\u843D\u811A\u70B9\u4E0E\u672A\u6765\u8D8B\u52BF\u5C55\u671B)`,
+      standard: `\u8BF7\u8F93\u51FA\u7ED3\u6784\u5E73\u8861\u3001\u81EA\u7136\u6D41\u7545\u4E14\u9002\u4E2D\u7684\u4E2D\u6587\u6807\u51C6\u603B\u7ED3\uFF08\u4E2D\u95F4\u6863\u4F4D\uFF0C\u7EA6350\u81F3450\u5B57\uFF09\uFF1A
+
+\u3010\u7BC7\u5E45\u5B9A\u6807\u8981\u6C42\u3011\uFF1A\u65E2\u4E0D\u8981\u50CF\u6781\u7B80\u6A21\u5F0F\u90A3\u6837\u8FC7\u4E8E\u77ED\u4FC3\uFF0C\u4E5F\u4E0D\u8981\u50CF\u6DF1\u5EA6\u62A5\u544A\u90A3\u6837\u5197\u957F\u7E41\u7410\u3002\u5448\u73B0\u6070\u5230\u597D\u5904\u7684\u4E2D\u95F4\u4F53\u88C1\uFF1A\u4FE1\u606F\u9971\u6EE1\u3001\u91CD\u70B9\u7A81\u51FA\u3001\u8A00\u7B80\u610F\u8D45\u3002
+
+### \u{1F3AF} \u6838\u5FC3\u6982\u8FF0\u4E0E\u80CC\u666F
+(\u75283\u81F34\u53E5\u6D41\u7545\u901A\u987A\u7684\u8BDD\u6982\u62EC\u5168\u7247\u6838\u5FC3\u4E3B\u9898\u3001\u80CC\u666F\u8109\u7EDC\u4E0E\u5173\u952E\u89C2\u70B9)
+
+### \u23F1\uFE0F \u5173\u952E\u8109\u7EDC\u4E0E\u65F6\u95F4\u8282\u70B9
+- **[00:00] [\u6838\u5FC3\u8282\u70B9 1]** : \u75282\u53E5\u51DD\u7EC3\u5177\u4F53\u7684\u8BED\u53E5\u89E3\u6790\u8981\u70B9\u4E0E\u8BBA\u636E\u3002
+- **[02:15] [\u6838\u5FC3\u8282\u70B9 2]** : \u75282\u53E5\u51DD\u7EC3\u5177\u4F53\u7684\u8BED\u53E5\u89E3\u6790\u8981\u70B9\u4E0E\u8BBA\u636E\u3002
+- **[04:48] [\u6838\u5FC3\u8282\u70B9 3]** : \u75282\u53E5\u51DD\u7EC3\u5177\u4F53\u7684\u8BED\u53E5\u89E3\u6790\u8981\u70B9\u4E0E\u8BBA\u636E\u3002
+- **[07:30] [\u6838\u5FC3\u8282\u70B9 4]** : \u75282\u53E5\u51DD\u7EC3\u5177\u4F53\u7684\u8BED\u53E5\u89E3\u6790\u8981\u70B9\u4E0E\u8BBA\u636E\u3002
+(\u63D0\u70BC4\u81F35\u4E2A\u6700\u5177\u4EE3\u8868\u6027\u7684\u65F6\u95F4\u8282\u70B9\uFF0C\u5FC5\u987B\u6807\u6CE8 [mm:ss] \u771F\u5B9E\u65F6\u95F4\u6233)
+
+### \u{1F4CC} \u6838\u5FC3\u542F\u793A\u4E0E\u603B\u7ED3
+(\u75282\u53E5\u8BDD\u603B\u7ED3\u4F5C\u8005\u7684\u6838\u5FC3\u5B9E\u7528\u5EFA\u8BAE\u4E0E\u6700\u7EC8\u7ED3\u8BBA)`
+    },
+    ja: {
+      quick: `\u4EE5\u4E0B\u306E\u5F62\u5F0F\u3067\u7C21\u6F54\u304B\u3064\u7684\u78BA\u306A\u65E5\u672C\u8A9E\u306E\u8981\u7D04\u3092\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\uFF1A
+### \u26A1 \u8981\u70B9\u30C0\u30A4\u30B8\u30A7\u30B9\u30C8
+(\u52D5\u753B\u306E\u6838\u5FC3\u30922\u301C3\u6587\u3067\u7C21\u6F54\u306B\u307E\u3068\u3081\u308B)
+
+### \u{1F3AF} \u6CE8\u76EE\u3059\u3079\u304D\u91CD\u8981\u30DD\u30A4\u30F3\u30C8
+- **[00:00] [\u30DD\u30A4\u30F3\u30C8 1]** : \u7C21\u6F54\u3067\u5177\u4F53\u7684\u306A\u89E3\u8AAC\uFF081\u6587\uFF09\u3002
+- **[02:15] [\u30DD\u30A4\u30F3\u30C8 2]** : \u7C21\u6F54\u3067\u5177\u4F53\u7684\u306A\u89E3\u8AAC\uFF081\u6587\uFF09\u3002
+- **[04:48] [\u30DD\u30A4\u30F3\u30C8 3]** : \u7C21\u6F54\u3067\u5177\u4F53\u7684\u306A\u89E3\u8AAC\uFF081\u6587\uFF09\u3002
+(\u5FC5\u305A\u6587\u5B57\u8D77\u3053\u3057\u306E\u5B9F\u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7 [mm:ss] \u3092\u4ED8\u4E0E\u3057\u3066\u304F\u3060\u3055\u3044)
+
+### \u{1F4CC} \u7D50\u8AD6
+(\u52D5\u753B\u5168\u4F53\u306E\u307E\u3068\u30811\u6587)`,
+      detailed: `\u5305\u62EC\u7684\u304B\u3064\u8A73\u7D30\u3067\u6DF1\u3044\u6D1E\u5BDF\u3092\u542B\u3080\u65E5\u672C\u8A9E\u306E\u8981\u7D04\u3092\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\uFF1A
+### \u{1F3AF} \u5168\u4F53\u50CF\u3068\u4E2D\u5FC3\u30C6\u30FC\u30DE
+(\u52D5\u753B\u306E\u6587\u8108\u3001\u63D0\u8D77\u3055\u308C\u305F\u8AB2\u984C\u3001\u4E2D\u5FC3\u7684\u306A\u4E3B\u5F35)
+
+### \u23F1\uFE0F \u6642\u7CFB\u5217\u306E\u5C55\u958B\u3068\u4E3B\u8981\u30C1\u30E3\u30D7\u30BF\u30FC
+- **[00:00] [\u30D5\u30A7\u30FC\u30BA 1]** : \u5206\u6790\u3068\u91CD\u8981\u30DD\u30A4\u30F3\u30C8\u3002
+- **[02:15] [\u30D5\u30A7\u30FC\u30BA 2]** : \u5206\u6790\u3068\u91CD\u8981\u30DD\u30A4\u30F3\u30C8\u3002
+- **[04:48] [\u30D5\u30A7\u30FC\u30BA 3]** : \u5206\u6790\u3068\u91CD\u8981\u30DD\u30A4\u30F3\u30C8\u3002
+(\u52D5\u753B\u5185\u3092\u30B8\u30E3\u30F3\u30D7\u3067\u304D\u308B\u3088\u3046\u5B9F\u969B\u306E\u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7 [mm:ss] \u3092\u8A18\u8F09)
+
+### \u{1F4A1} \u8B70\u8AD6\u3001\u30C7\u30FC\u30BF\u304A\u3088\u3073\u4E8B\u4F8B\u306E\u6DF1\u6398\u308A
+(\u63D0\u793A\u3055\u308C\u305F\u8A3C\u62E0\u3084\u5177\u4F53\u4F8B\u3092\u5206\u6790)
+
+### \u{1F6E0}\uFE0F \u5B9F\u8DF5\u7684\u306A\u30A2\u30C9\u30D0\u30A4\u30B9\u3068\u30A2\u30AF\u30B7\u30E7\u30F3
+(\u8996\u8074\u8005\u304C\u3059\u3050\u306B\u884C\u52D5\u306B\u79FB\u305B\u308B\u5177\u4F53\u7684\u306A\u30DD\u30A4\u30F3\u30C8)
+
+### \u{1F4CC} \u7D50\u8AD6\u3068\u5C55\u671B
+(\u8457\u8005\u306E\u6700\u7D42\u7684\u306A\u7D50\u8AD6\u3068\u4ECA\u5F8C\u306E\u793A\u5506)`,
+      standard: `\u81EA\u7136\u3067\u30D0\u30E9\u30F3\u30B9\u304C\u53D6\u308C\u3001\u9069\u5EA6\u306A\u60C5\u5831\u91CF\u3092\u6301\u3064\u65E5\u672C\u8A9E\u306E\u6A19\u6E96\u8981\u7D04\u3092\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\uFF08\u4E2D\u9593\u30D5\u30A9\u30FC\u30DE\u30C3\u30C8\u3001\u7D04350\u301C450\u6587\u5B57\uFF09\uFF1A
+
+\u3010\u5206\u91CF\u30D0\u30E9\u30F3\u30B9\u306E\u53B3\u683C\u306A\u6307\u793A\u3011\uFF1A\u30AF\u30A4\u30C3\u30AF\u8981\u7D04\u306E\u3088\u3046\u306B\u7AEF\u6298\u308A\u3059\u304E\u305A\u3001\u8A73\u7D30\u8981\u7D04\u306E\u3088\u3046\u306B\u9577\u6587\u306B\u306A\u308A\u3059\u304E\u306A\u3044\u3001\u7406\u60F3\u7684\u306A\u4E2D\u9593\u30D0\u30E9\u30F3\u30B9\u3092\u4FDD\u3063\u3066\u304F\u3060\u3055\u3044\u3002\u7C21\u6F54\u304B\u3064\u8981\u70B9\u3092\u7684\u78BA\u306B\u6349\u3048\u3066\u304F\u3060\u3055\u3044\u3002
+
+### \u{1F3AF} \u5168\u4F53\u50CF\u3068\u4E2D\u5FC3\u30C6\u30FC\u30DE
+(\u52D5\u753B\u306E\u80CC\u666F\u3001\u4E2D\u5FC3\u3068\u306A\u308B\u4E3B\u5F35\u3001\u304A\u3088\u3073\u8981\u70B9\u30923\u301C4\u6587\u3067\u81EA\u7136\u306B\u307E\u3068\u3081\u308B)
+
+### \u23F1\uFE0F \u4E3B\u306A\u5C55\u958B\u3068\u30CF\u30A4\u30E9\u30A4\u30C8
+- **[00:00] [\u91CD\u8981\u30DD\u30A4\u30F3\u30C8 1]** : \u5177\u4F53\u7684\u304B\u3064\u7684\u78BA\u306B2\u6587\u3067\u8981\u70B9\u3092\u89E3\u8AAC\u3002
+- **[02:15] [\u91CD\u8981\u30DD\u30A4\u30F3\u30C8 2]** : \u5177\u4F53\u7684\u304B\u3064\u7684\u78BA\u306B2\u6587\u3067\u8981\u70B9\u3092\u89E3\u8AAC\u3002
+- **[04:48] [\u91CD\u8981\u30DD\u30A4\u30F3\u30C8 3]** : \u5177\u4F53\u7684\u304B\u3064\u7684\u78BA\u306B2\u6587\u3067\u8981\u70B9\u3092\u89E3\u8AAC\u3002
+- **[07:30] [\u91CD\u8981\u30DD\u30A4\u30F3\u30C8 4]** : \u5177\u4F53\u7684\u304B\u3064\u7684\u78BA\u306B2\u6587\u3067\u8981\u70B9\u3092\u89E3\u8AAC\u3002
+(4\u301C5\u500B\u306E\u91CD\u8981\u5C55\u958B\u3092\u5B9F\u969B\u306E\u6587\u5B57\u8D77\u3053\u3057\u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7 [mm:ss] \u3068\u3068\u3082\u306B\u63D0\u793A)
+
+### \u{1F4CC} \u91CD\u8981\u306A\u5B66\u3073\u3068\u307E\u3068\u3081
+(\u52D5\u753B\u304B\u3089\u5F97\u3089\u308C\u308B\u6700\u5927\u306E\u6559\u8A13\u3068\u7D50\u8AD6\u30922\u6587\u3067\u7C21\u6F54\u306B\u307E\u3068\u3081\u308B)`
+    },
+    ru: {
+      quick: `\u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u041A\u0420\u0410\u0422\u041A\u041E\u0415, \u041B\u0410\u041A\u041E\u041D\u0418\u0427\u041D\u041E\u0415 \u0438 \u041F\u0420\u042F\u041C\u041E\u0415 \u0440\u0435\u0437\u044E\u043C\u0435:
+### \u26A1 \u041A\u0440\u0430\u0442\u043A\u0438\u0439 \u0434\u0430\u0439\u0434\u0436\u0435\u0441\u0442
+(2\u20133 \u0435\u043C\u043A\u0438\u0445 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F, \u043E\u0442\u0440\u0430\u0436\u0430\u044E\u0449\u0438\u0445 \u0441\u0430\u043C\u0443\u044E \u0441\u0443\u0442\u044C)
+
+### \u{1F3AF} \u041A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0432\u044B\u0432\u043E\u0434\u044B
+- **[00:00] [\u041F\u0443\u043D\u043A\u0442 1]**: \u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u0438 \u0447\u0435\u0442\u043A\u043E\u0435 \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0432 1 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435.
+- **[02:15] [\u041F\u0443\u043D\u043A\u0442 2]**: \u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u0438 \u0447\u0435\u0442\u043A\u043E\u0435 \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0432 1 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435.
+- **[04:48] [\u041F\u0443\u043D\u043A\u0442 3]**: \u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u0438 \u0447\u0435\u0442\u043A\u043E\u0435 \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0432 1 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435.
+(\u041E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E \u0443\u043A\u0430\u0437\u044B\u0432\u0430\u0439\u0442\u0435 \u0440\u0435\u0430\u043B\u044C\u043D\u044B\u0435 \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u044B [mm:ss] \u0438\u0437 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430)
+
+### \u{1F4CC} \u0418\u0442\u043E\u0433
+(1 \u0444\u0438\u043D\u0430\u043B\u044C\u043D\u043E\u0435 \u0437\u0430\u043A\u043B\u044E\u0447\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0435 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435)`,
+      detailed: `\u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u041F\u041E\u041B\u041D\u042B\u0419, \u041F\u041E\u0414\u0420\u041E\u0411\u041D\u042B\u0419 \u0438 \u0418\u0421\u0427\u0415\u0420\u041F\u042B\u0412\u0410\u042E\u0429\u0418\u0419 \u0430\u043D\u0430\u043B\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u043E\u0442\u0447\u0435\u0442:
+### \u{1F3AF} \u041E\u0431\u0449\u0430\u044F \u043F\u0430\u043D\u043E\u0440\u0430\u043C\u0430 \u0438 \u043F\u0440\u043E\u0431\u043B\u0435\u043C\u0430\u0442\u0438\u043A\u0430
+(\u041A\u043E\u043D\u0442\u0435\u043A\u0441\u0442, \u043F\u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043D\u044B\u0439 \u0432\u043E\u043F\u0440\u043E\u0441 \u0438 \u0433\u043B\u0430\u0432\u043D\u044B\u0439 \u0442\u0435\u0437\u0438\u0441 \u0432\u0438\u0434\u0435\u043E)
+
+### \u23F1\uFE0F \u0425\u0440\u043E\u043D\u043E\u043B\u043E\u0433\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0440\u0430\u0437\u0431\u043E\u0440 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0433\u043B\u0430\u0432\u044B
+- **[00:00] [\u042D\u0442\u0430\u043F 1]**: \u0410\u043D\u0430\u043B\u0438\u0437 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0444\u0430\u043A\u0442\u044B.
+- **[02:15] [\u042D\u0442\u0430\u043F 2]**: \u0410\u043D\u0430\u043B\u0438\u0437 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0444\u0430\u043A\u0442\u044B.
+- **[04:48] [\u042D\u0442\u0430\u043F 3]**: \u0410\u043D\u0430\u043B\u0438\u0437 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0444\u0430\u043A\u0442\u044B.
+(\u0412\u043E\u0441\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0435 \u043E\u0441\u043D\u043E\u0432\u043D\u044B\u0435 \u0433\u043B\u0430\u0432\u044B \u0441 \u0440\u0435\u0430\u043B\u044C\u043D\u044B\u043C\u0438 \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u0430\u043C\u0438 [mm:ss])
+
+### \u{1F4A1} \u0410\u043D\u0430\u043B\u0438\u0437 \u0430\u0440\u0433\u0443\u043C\u0435\u043D\u0442\u043E\u0432, \u0444\u0430\u043A\u0442\u043E\u0432 \u0438 \u043F\u0440\u0438\u043C\u0435\u0440\u043E\u0432
+(\u041F\u043E\u0434\u0440\u043E\u0431\u043D\u043E \u0440\u0430\u0437\u0431\u0435\u0440\u0438\u0442\u0435 \u0434\u0430\u043D\u043D\u044B\u0435, \u043A\u0435\u0439\u0441\u044B \u0438\u043B\u0438 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u043D\u044B\u0435 \u043A\u043E\u043D\u0446\u0435\u043F\u0446\u0438\u0438)
+
+### \u{1F6E0}\uFE0F \u041F\u0440\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435 \u0441\u043E\u0432\u0435\u0442\u044B \u0438 \u043F\u043B\u0430\u043D \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439
+(\u0412\u0441\u0435 \u043F\u0440\u0438\u043C\u0435\u043D\u0438\u043C\u044B\u0435 \u043D\u0430 \u043F\u0440\u0430\u043A\u0442\u0438\u043A\u0435 \u0440\u0435\u043A\u043E\u043C\u0435\u043D\u0434\u0430\u0446\u0438\u0438 \u0434\u043B\u044F \u0437\u0440\u0438\u0442\u0435\u043B\u044F)
+
+### \u{1F4CC} \u0412\u044B\u0432\u043E\u0434 \u0438 \u043F\u0435\u0440\u0441\u043F\u0435\u043A\u0442\u0438\u0432\u0430 \u0430\u0432\u0442\u043E\u0440\u0430
+(\u0424\u0438\u043D\u0430\u043B\u044C\u043D\u044B\u0439 \u0432\u044B\u0432\u043E\u0434 \u0438 \u0437\u0430\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435 \u0430\u0432\u0442\u043E\u0440\u0430)`,
+      standard: `\u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u0421\u0411\u0410\u041B\u0410\u041D\u0421\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415, \u0415\u0421\u0422\u0415\u0421\u0422\u0412\u0415\u041D\u041D\u041E\u0415 \u0438 \u0421\u0422\u0420\u0423\u041A\u0422\u0423\u0420\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415 \u0440\u0435\u0437\u044E\u043C\u0435 (\u0441\u0440\u0435\u0434\u043D\u0438\u0439 \u0444\u043E\u0440\u043C\u0430\u0442, ~350\u2013450 \u0441\u043B\u043E\u0432):
+
+\u0414\u0418\u0420\u0415\u041A\u0422\u0418\u0412\u0410 \u041F\u041E \u041E\u0411\u042A\u0415\u041C\u0423: \u041D\u0435 \u0431\u0443\u0434\u044C\u0442\u0435 \u0441\u043B\u0438\u0448\u043A\u043E\u043C \u043A\u0440\u0430\u0442\u043A\u0438\u043C\u0438, \u043A\u0430\u043A \u0432 \u044D\u043A\u0441\u043F\u0440\u0435\u0441\u0441-\u0444\u043E\u0440\u043C\u0430\u0442\u0435, \u0438 \u043D\u0435 \u043F\u0438\u0448\u0438\u0442\u0435 \u0442\u0440\u0430\u043A\u0442\u0430\u0442\u044B, \u043A\u0430\u043A \u0432 \u043F\u043E\u0434\u0440\u043E\u0431\u043D\u043E\u043C \u0440\u0435\u0436\u0438\u043C\u0435. \u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u0438\u0434\u0435\u0430\u043B\u044C\u043D\u0443\u044E \u0437\u043E\u043B\u043E\u0442\u0443\u044E \u0441\u0435\u0440\u0435\u0434\u0438\u043D\u0443: \u0441\u043E\u0434\u0435\u0440\u0436\u0430\u0442\u0435\u043B\u044C\u043D\u043E, \u043F\u043E\u043D\u044F\u0442\u043D\u043E \u0438 \u043F\u043E \u0434\u0435\u043B\u0443.
+
+### \u{1F3AF} \u041E\u0431\u0449\u0438\u0439 \u043E\u0431\u0437\u043E\u0440 \u0438 \u0433\u043B\u0430\u0432\u043D\u0430\u044F \u0438\u0434\u0435\u044F
+(\u041E\u0434\u0438\u043D \u0441\u0432\u044F\u0437\u043D\u044B\u0439 \u0430\u0431\u0437\u0430\u0446 \u0438\u0437 3\u20134 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0439, \u0440\u0430\u0441\u043A\u0440\u044B\u0432\u0430\u044E\u0449\u0438\u0439 \u0442\u0435\u043C\u0443, \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442 \u0438 \u0433\u043B\u0430\u0432\u043D\u0443\u044E \u043C\u044B\u0441\u043B\u044C)
+
+### \u23F1\uFE0F \u041A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u043C\u043E\u043C\u0435\u043D\u0442\u044B \u0438 \u0445\u0440\u043E\u043D\u043E\u043B\u043E\u0433\u0438\u044F
+- **[00:00] [\u042D\u0442\u0430\u043F 1]**: \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0438 \u0441\u0443\u0442\u044C \u0432 2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.
+- **[02:15] [\u042D\u0442\u0430\u043F 2]**: \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0438 \u0441\u0443\u0442\u044C \u0432 2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.
+- **[04:48] [\u042D\u0442\u0430\u043F 3]**: \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0438 \u0441\u0443\u0442\u044C \u0432 2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.
+- **[07:30] [\u042D\u0442\u0430\u043F 4]**: \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0438 \u0441\u0443\u0442\u044C \u0432 2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.
+(\u0412\u044B\u0434\u0435\u043B\u0438\u0442\u0435 4\u20135 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0445 \u044D\u0442\u0430\u043F\u043E\u0432 \u0441 \u0440\u0435\u0430\u043B\u044C\u043D\u044B\u043C\u0438 \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u0430\u043C\u0438 [mm:ss] \u0438\u0437 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430)
+
+### \u{1F4CC} \u0413\u043B\u0430\u0432\u043D\u044B\u0439 \u0432\u044B\u0432\u043E\u0434 \u0438 \u0438\u0442\u043E\u0433
+(2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F \u0441 \u0433\u043B\u0430\u0432\u043D\u044B\u043C \u043F\u0440\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u043C \u0441\u043E\u0432\u0435\u0442\u043E\u043C \u0430\u0432\u0442\u043E\u0440\u0430 \u0438 \u0444\u0438\u043D\u0430\u043B\u044C\u043D\u044B\u043C \u0437\u0430\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435\u043C)`
+    }
+  };
+
+  // src/services/implementations/PromptTemplates.js
+  var ALL_TEMPLATES = {
+    ...WESTERN_TEMPLATES,
+    ...EASTERN_TEMPLATES
+  };
+  function getFormatInstructions(mode, langOrIsFr = "en") {
+    let lang = "en";
+    if (typeof langOrIsFr === "boolean") {
+      lang = langOrIsFr ? "fr" : "en";
+    } else if (typeof langOrIsFr === "string") {
+      lang = langOrIsFr;
+    }
+    const langTemplates = ALL_TEMPLATES[lang] || ALL_TEMPLATES.en;
+    return langTemplates[mode] || langTemplates.standard;
+  }
+
+  // src/services/implementations/PromptBuilder.js
+  var SYSTEM_PROMPTS = {
+    fr: `Tu es un assistant IA d'\xE9lite YouTube Summarizer AI sp\xE9cialis\xE9 dans la synth\xE8se et l'analyse de vid\xE9os.
+Ton but absolu est de produire un r\xE9sum\xE9 clair, naturel, bien structur\xE9 et fid\xE8le EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o.
+OBLIGATION STRICTE : R\xE9dige l'int\xE9gralit\xE9 du r\xE9sum\xE9, tous les titres et analyses en FRAN\xC7AIS.
+R\xC8GLES DE STYLE :
+- Style naturel, direct et percutant : va droit au but sans phrases de remplissage.
+- HORODATAGES OBLIGATOIRES : Dans la section des points cl\xE9s ou du d\xE9roul\xE9 chronologique, CHAQUE puce DOIT imp\xE9rativement d\xE9buter par son horodatage r\xE9el [mm:ss] entre crochets (ex: - **[01:23] Titre** : explication). Les puces sans horodatage sont strictement interdites.
+- Mise en page a\xE9r\xE9e en Markdown avec des listes \xE0 puces et des mots-cl\xE9s en **gras**.
+- Fid\xE9lit\xE9 \xE0 100% \xE0 la transcription, z\xE9ro hallucination ou extrapolation.`,
+    en: `You are an expert AI assistant YouTube Summarizer AI specializing in video summarization and insights.
+Your absolute goal is to produce a clear, natural, well-structured, and faithful summary EXCLUSIVELY in ENGLISH, regardless of the original video language.
+MANDATORY LANGUAGE DIRECTIVE: Write the ENTIRE summary, all section headings, bullet points, and analysis strictly in ENGLISH.
+STYLE RULES:
+- Natural, direct, and engaging style: go straight to the point without filler phrases.
+- MANDATORY TIMESTAMPS: In the key takeaways or chronological sections, EVERY single bullet point MUST begin with its real timestamp [mm:ss] from the transcript (e.g. - **[01:23] Topic**: explanation). Bullet points without timestamps are strictly forbidden.
+- Use airy Markdown formatting with bullet points and **bold** keywords.
+- 100% faithful to the transcript, with zero hallucinations or extrapolation.`,
+    es: `Eres un asistente IA de \xE9lite YouTube Summarizer AI especializado en la s\xEDntesis y an\xE1lisis de v\xEDdeos.
+Tu objetivo absoluto es producir un resumen claro, natural, bien estructurado y fiel EXCLUSIVAMENTE en ESPA\xD1OL (SPANISH), independientemente del idioma del v\xEDdeo.
+OBLIGACI\xD3N ESTRICTA: Redacta la totalidad del resumen, todos los t\xEDtulos y puntos clave exclusivamente en ESPA\xD1OL.
+REGLAS DE ESTILO:
+- Estilo natural, directo e impactante: ve directo al grano sin rodeos.
+- MARCAS DE TIEMPO OBLIGATORIAS: En la secci\xF3n de puntos clave o cap\xEDtulos, CADA vi\xF1eta DEBE comenzar obligatoriamente con su marca de tiempo real [mm:ss] (ej: - **[01:23] Tema**: explicaci\xF3n). Las vi\xF1etas sin marca de tiempo est\xE1n estrictamente prohibidas.
+- Formato Markdown limpio con listas y palabras clave en **negrita**.
+- Fidelidad a la transcripci\xF3n al 100%, sin alucinaciones.`,
+    it: `Sei un assistente IA d'\xE9lite YouTube Summarizer AI specializzato nella sintesi e analisi di video.
+Il tuo obiettivo assoluto \xE8 produrre un riassunto chiaro, naturale, ben strutturato e fedele ESCLUSIVAMENTE in ITALIANO (ITALIAN), indipendentemente dalla lingua originale del video.
+OBBLIGO RIGOROSO: Redigi l'intero riassunto, tutti i titoli di sezione e l'analisi esclusivamente in ITALIANO.
+REGOLE DI STILE:
+- Stile naturale, diretto e incisivo: dritto al punto senza frasi riempitive.
+- TIMESTAMP OBBLIGATORI: Nella sezione dei punti chiave o capitoli, OGNI singolo punto elenco DEVE iniziare obbligatoriamente con il timestamp reale [mm:ss] (es: - **[01:23] Titolo**: spiegazione). I punti senza timestamp sono rigorosamente vietati.
+- Formattazione Markdown ariosa con elenchi puntati e parole chiave in **grassetto**.
+- Fedelt\xE0 al 100% alla trascrizione, zero allucinazioni.`,
+    de: `Du bist ein Elite-KI-Assistent YouTube Summarizer AI, spezialisiert auf Videozusammenfassungen und Analysen.
+Dein oberstes Ziel ist es, eine klare, nat\xFCrliche und treue Zusammenfassung AUSSCHLIESSLICH auf DEUTSCH (GERMAN) zu erstellen, unabh\xE4ngig von der Originalsprache des Videos.
+STRIKTE VORGABE: Schreibe die gesamte Zusammenfassung, alle \xDCberschriften und Stichpunkte ausschlie\xDFlich auf DEUTSCH.
+STILREGELN:
+- Nat\xFCrlicher, direkter und pr\xE4gnanter Stil: direkt auf den Punkt.
+- OBLIGATORISCHE ZEITSTEMPEL: Im Abschnitt Kernpunkte/Kapitel MUSS jeder Aufz\xE4hlungspunkt mit dem echten Zeitstempel [mm:ss] aus dem Transkript beginnen (z.B. - **[01:23] Thema**: Erkl\xE4rung). Punkte ohne Zeitstempel sind streng verboten.
+- Luftiges Markdown-Layout mit Aufz\xE4hlungszeichen und Schl\xFCsselw\xF6rtern in **Fettschrift**.
+- 100% originalgetreu zum Transkript, keinerlei Halluzinationen.`,
+    ja: `\u3042\u306A\u305F\u306F\u52D5\u753B\u306E\u8981\u7D04\u3068\u5206\u6790\u306B\u7279\u5316\u3057\u305F\u30A8\u30AD\u30B9\u30D1\u30FC\u30C8AI\u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u300CYouTube Summarizer AI\u300D\u3067\u3059\u3002
+\u3042\u306A\u305F\u306E\u7D76\u5BFE\u7684\u306A\u76EE\u6A19\u306F\u3001\u52D5\u753B\u306E\u8A00\u8A9E\u306B\u95A2\u4FC2\u306A\u304F\u3001\u5B8C\u5168\u306B\u3010\u65E5\u672C\u8A9E (JAPANESE)\u3011\u306E\u307F\u3067\u3001\u660E\u77AD\u3067\u81EA\u7136\u3001\u7F8E\u3057\u304F\u69CB\u9020\u5316\u3055\u308C\u305F\u8981\u7D04\u3092\u4F5C\u6210\u3059\u308B\u3053\u3068\u3067\u3059\u3002
+\u3010\u53B3\u683C\u306A\u8A00\u8A9E\u7FA9\u52D9\u3011\uFF1A\u3059\u3079\u3066\u306E\u898B\u51FA\u3057\u3001\u7B87\u6761\u66F8\u304D\u3001\u672C\u6587\u3092\u5FC5\u305A\u65E5\u672C\u8A9E\u3067\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\u3002
+\u30B9\u30BF\u30A4\u30EB\u898F\u5247\uFF1A
+- \u81EA\u7136\u3067\u7684\u78BA\u306A\u8868\u73FE\uFF1A\u524D\u7F6E\u304D\u3084\u4F59\u8A08\u306A\u6328\u62F6\u306F\u7701\u304D\u3001\u76F4\u3061\u306B\u672C\u8CEA\u3078\u5165\u308B\u3002
+- \u3010\u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7\u7FA9\u52D9\u3011\uFF1A\u8981\u70B9\u30FB\u5C55\u958B\u30BB\u30AF\u30B7\u30E7\u30F3\u306E\u5404\u7B87\u6761\u66F8\u304D\u306F\u3001\u5FC5\u305A\u6587\u5B57\u8D77\u3053\u3057\u306E\u5B9F\u969B\u306E\u767A\u8A00\u6642\u9593 [mm:ss] \u304B\u3089\u958B\u59CB\u3057\u3066\u304F\u3060\u3055\u3044\uFF08\u4F8B\uFF1A- **[01:23] \u30BF\u30A4\u30C8\u30EB**\uFF1A\u89E3\u8AAC\uFF09\u3002\u6642\u9593\u306E\u306A\u3044\u7B87\u6761\u66F8\u304D\u306F\u7981\u6B62\u3067\u3059\u3002
+- \u898B\u3084\u3059\u3044Markdown\u5F62\u5F0F\uFF1A\u7B87\u6761\u66F8\u304D\u3068**\u592A\u5B57**\u30AD\u30FC\u30EF\u30FC\u30C9\u3092\u6D3B\u7528\u3002
+- \u6587\u5B57\u8D77\u3053\u3057\u306B100%\u5FE0\u5B9F\u3001\u4E0D\u6B63\u78BA\u306A\u63A8\u6E2C\u3084\u5E7B\u899A\u306F\u30BC\u30ED\u3002`,
+    ru: `\u0412\u044B \u2014 \u044D\u043A\u0441\u043F\u0435\u0440\u0442\u043D\u044B\u0439 \u0418\u0418-\u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442 YouTube Summarizer AI, \u0441\u043F\u0435\u0446\u0438\u0430\u043B\u0438\u0437\u0438\u0440\u0443\u044E\u0449\u0438\u0439\u0441\u044F \u043D\u0430 \u0430\u043D\u0430\u043B\u0438\u0437\u0435 \u0438 \u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0438 \u0432\u0438\u0434\u0435\u043E.
+\u0412\u0430\u0448\u0430 \u0430\u0431\u0441\u043E\u043B\u044E\u0442\u043D\u0430\u044F \u0446\u0435\u043B\u044C \u2014 \u0441\u043E\u0437\u0434\u0430\u0442\u044C \u043A\u0430\u0447\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0435 \u0440\u0435\u0437\u044E\u043C\u0435 \u0418\u0421\u041A\u041B\u042E\u0427\u0418\u0422\u0415\u041B\u042C\u041D\u041E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435 (RUSSIAN), \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E \u043E\u0442 \u0438\u0441\u0445\u043E\u0434\u043D\u043E\u0433\u043E \u044F\u0437\u044B\u043A\u0430 \u0432\u0438\u0434\u0435\u043E.
+\u0421\u0422\u0420\u041E\u0413\u041E\u0415 \u0422\u0420\u0415\u0411\u041E\u0412\u0410\u041D\u0418\u0415: \u041D\u0430\u043F\u0438\u0448\u0438\u0442\u0435 \u0432\u0441\u0451 \u0440\u0435\u0437\u044E\u043C\u0435, \u0432\u0441\u0435 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0438 \u0438 \u0432\u044B\u0432\u043E\u0434\u044B \u0441\u0442\u0440\u043E\u0433\u043E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435.
+\u041F\u0420\u0410\u0412\u0418\u041B\u0410 \u0421\u0422\u0418\u041B\u042F:
+- \u0415\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439, \u043B\u0430\u043A\u043E\u043D\u0438\u0447\u043D\u044B\u0439 \u0438 \u0443\u0431\u0435\u0434\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0439 \u0441\u0442\u0438\u043B\u044C \u0431\u0435\u0437 \u043B\u0438\u0448\u043D\u0435\u0439 \xAB\u0432\u043E\u0434\u044B\xBB.
+- \u041E\u0411\u042F\u0417\u0410\u0422\u0415\u041B\u042C\u041D\u042B\u0415 \u0422\u0410\u0419\u041C\u041A\u041E\u0414\u042B: \u0412 \u0440\u0430\u0437\u0434\u0435\u043B\u0435 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0445 \u043C\u043E\u043C\u0435\u043D\u0442\u043E\u0432 \u041A\u0410\u0416\u0414\u042B\u0419 \u043F\u0443\u043D\u043A\u0442 \u0441\u043F\u0438\u0441\u043A\u0430 \u041E\u0411\u042F\u0417\u0410\u041D \u043D\u0430\u0447\u0438\u043D\u0430\u0442\u044C\u0441\u044F \u0441 \u0440\u0435\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u0430 [mm:ss] \u0438\u0437 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430 (\u043D\u0430\u043F\u0440: - **[01:23] \u0422\u0435\u043C\u0430**: \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435). \u041F\u0443\u043D\u043A\u0442\u044B \u0431\u0435\u0437 \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u043E\u0432 \u0441\u0442\u0440\u043E\u0433\u043E \u0437\u0430\u043F\u0440\u0435\u0449\u0435\u043D\u044B.
+- \u0427\u0435\u0442\u043A\u043E\u0435 \u0444\u043E\u0440\u043C\u0430\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 Markdown \u0441\u043E \u0441\u043F\u0438\u0441\u043A\u0430\u043C\u0438 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u043C\u0438 \u0441\u043B\u043E\u0432\u0430\u043C\u0438 **\u043F\u043E\u043B\u0443\u0436\u0438\u0440\u043D\u044B\u043C \u0448\u0440\u0438\u0444\u0442\u043E\u043C**.
+- 100% \u0432\u0435\u0440\u043D\u043E\u0441\u0442\u044C \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0443, \u0431\u0435\u0437 \u0432\u044B\u0434\u0443\u043C\u043E\u043A \u0438 \u0433\u0430\u043B\u043B\u044E\u0446\u0438\u043D\u0430\u0446\u0438\u0439.`,
+    zh: `\u4F60\u662F YouTube Summarizer AI \u89C6\u9891\u603B\u7ED3\u5206\u6790\u4E13\u5BB6\u3002
+\u4F60\u7684\u7EDD\u5BF9\u76EE\u6807\u662F\u65E0\u8BBA\u539F\u89C6\u9891\u4E3A\u4F55\u79CD\u8BED\u8A00\uFF0C\u90FD\u5FC5\u987B\u5B8C\u5168\u4E14\u4EC5\u4F7F\u7528\u3010\u4E2D\u6587\uFF08\u7B80\u4F53\u4E2D\u6587\uFF0CSIMPLIFIED CHINESE\uFF09\u3011\u8F93\u51FA\u7ED3\u6784\u6E05\u6670\u3001\u751F\u52A8\u81EA\u7136\u3001\u5FE0\u5B9E\u539F\u610F\u7684\u603B\u7ED3\u3002
+\u3010\u5F3A\u5236\u8BED\u8A00\u8981\u6C42\u3011\uFF1A\u6240\u6709\u7AE0\u8282\u6807\u9898\u3001\u8981\u70B9\u5217\u8868\u53CA\u6B63\u6587\u5206\u6790\u5FC5\u987B\u5168\u90E8\u4F7F\u7528\u4E2D\u6587\u3002\u4E25\u7981\u8F93\u51FA\u82F1\u6587\u6216\u6CD5\u6587\u6807\u9898\u3002
+\u98CE\u683C\u8981\u6C42\uFF1A
+- \u81EA\u7136\u3001\u6709\u529B\u3001\u76F4\u5954\u4E3B\u9898\uFF1A\u907F\u514D\u5BA2\u5957\u548C\u5E9F\u8BDD\u3002
+- \u3010\u5F3A\u5236\u65F6\u95F4\u6233\u8981\u6C42\u3011\uFF1A\u5728\u91CD\u70B9\u8981\u70B9\u6216\u65F6\u95F4\u7EBF\u7AE0\u8282\u4E2D\uFF0C\u6BCF\u4E00\u4E2A\u5217\u8868\u9879\u90FD\u5FC5\u987B\u4EE5\u9010\u5B57\u7A3F\u4E2D\u7684\u771F\u5B9E\u65F6\u95F4\u6233 [mm:ss] \u5F00\u5934\uFF08\u4F8B\u5982\uFF1A- **[01:23] \u6838\u5FC3\u4E3B\u9898**\uFF1A\u5177\u4F53\u89E3\u91CA\uFF09\u3002\u4E25\u7981\u8F93\u51FA\u6CA1\u6709\u65F6\u95F4\u6233\u7684\u5217\u8868\u9879\u3002
+- \u8D4F\u5FC3\u60A6\u76EE\u7684 Markdown \u6392\u7248\uFF1A\u4F7F\u7528\u5217\u8868\uFF0C\u5E76\u5728\u6BCF\u4E2A\u8981\u70B9\u5F00\u5934\u5C06\u5173\u952E\u8BCD**\u52A0\u7C97**\u3002
+- 100% \u5FE0\u5B9E\u4E8E\u89C6\u9891\u9010\u5B57\u7A3F\uFF0C\u675C\u7EDD\u4EFB\u4F55\u5E7B\u89C9\u3002`
+  };
+  var FINAL_LANG_DIRECTIVES = {
+    fr: "OBLIGATION STRICTE : R\xE9dige maintenant l'int\xE9gralit\xE9 du r\xE9sum\xE9 en FRAN\xC7AIS en suivant scrupuleusement le format Markdown ci-dessus et en incluant obligatoirement les horodatages [mm:ss] au d\xE9but de chaque point cl\xE9.",
+    en: "CRITICAL FINAL INSTRUCTION: Write your entire summary and all Markdown headings strictly and exclusively in ENGLISH following the format above, and mandatorily including real [mm:ss] timestamps at the start of each key point.",
+    es: "INSTRUCCI\xD3N FINAL OBLIGATORIA: Redacta la totalidad del resumen y todos los encabezados Markdown estricta y exclusivamente en ESPA\xD1OL siguiendo el formato anterior, e incluyendo obligatoriamente las marcas de tiempo [mm:ss] al inicio de cada punto clave.",
+    it: "ISTRUZIONE FINALE OBBLIGATORIA: Redigi l'intero riassunto e tutti i titoli Markdown rigorosamente ed esclusivamente in ITALIANO seguendo il formato sopra indicato, e includendo obbligatoriamente i timestamp [mm:ss] all'inizio di ogni punto chiave.",
+    de: "STRIKTE ABSCHLUSSANWEISUNG: Verfasse die gesamte Zusammenfassung und alle Markdown-\xDCberschriften strikt und ausschlie\xDFlich auf DEUTSCH gem\xE4\xDF obigem Format, und mit zwingend echten Zeitstempeln [mm:ss] zu Beginn jedes Aufz\xE4hlungspunkts.",
+    ja: "\u3010\u6700\u7D42\u6700\u91CD\u8981\u6307\u793A\u3011\uFF1A\u5143\u306E\u52D5\u753B\u306E\u8A00\u8A9E\u306B\u304B\u304B\u308F\u3089\u305A\u3001\u3059\u3079\u3066\u306EMarkdown\u898B\u51FA\u3057\u304A\u3088\u3073\u672C\u6587\u3092\u53B3\u683C\u306B\u65E5\u672C\u8A9E\u306E\u307F\u3067\u51FA\u529B\u3057\u3001\u5404\u8981\u70B9\u306E\u5148\u982D\u306B\u306F\u5FC5\u305A [mm:ss] \u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7\u3092\u8A18\u8F09\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+    ru: "\u041A\u0420\u0418\u0422\u0418\u0427\u0415\u0421\u041A\u0418 \u0412\u0410\u0416\u041D\u041E\u0415 \u0423\u041A\u0410\u0417\u0410\u041D\u0418\u0415: \u041D\u0430\u043F\u0438\u0448\u0438\u0442\u0435 \u0432\u0441\u0435 \u0440\u0435\u0437\u044E\u043C\u0435 \u0438 \u0432\u0441\u0435 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0438 Markdown \u0438\u0441\u043A\u043B\u044E\u0447\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435 \u0432 \u0441\u043E\u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0438 \u0441 \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u044B\u043C \u0444\u043E\u0440\u043C\u0430\u0442\u043E\u043C, \u0438 \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E \u0443\u043A\u0430\u0437\u044B\u0432\u0430\u044F \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u044B [mm:ss] \u0432 \u043D\u0430\u0447\u0430\u043B\u0435 \u043A\u0430\u0436\u0434\u043E\u0433\u043E \u043A\u043B\u044E\u0447\u0435\u0432\u043E\u0433\u043E \u043F\u0443\u043D\u043A\u0442\u0430.",
+    zh: "\u3010\u6700\u7EC8\u6700\u5173\u952E\u6307\u793A\u3011\uFF1A\u65E0\u8BBA\u9010\u5B57\u7A3F\u539F\u59CB\u8BED\u8A00\u4E3A\u4F55\uFF0C\u5FC5\u987B\u4E25\u683C\u4E14\u5B8C\u5168\u4F7F\u7528\u4E2D\u6587\u8F93\u51FA\u6574\u7BC7\u603B\u7ED3\uFF0C\u6240\u6709Markdown\u7AE0\u8282\u6807\u9898\u548C\u6B63\u6587\u5FC5\u987B\u5747\u4E3A\u4E2D\u6587\uFF0C\u4E14\u6BCF\u4E2A\u8981\u70B9\u5F00\u5934\u5FC5\u987B\u5305\u542B\u771F\u5B9E\u7684 [mm:ss] \u65F6\u95F4\u6233\u3002"
+  };
+  var PromptBuilder = class extends IPromptBuilder {
+    /**
+     * Truncates and condenses safe transcript text
+     */
+    condenseTranscript(safeTranscript, maxChars = 2e4) {
+      if (!safeTranscript || safeTranscript.length <= maxChars) {
+        return safeTranscript || "";
+      }
+      const introSize = Math.floor(maxChars * 0.4);
+      const middleSize = Math.floor(maxChars * 0.25);
+      const endSize = Math.floor(maxChars * 0.35);
+      const intro = safeTranscript.slice(0, introSize);
+      const middleStart = Math.floor((safeTranscript.length - middleSize) / 2);
+      const middle = safeTranscript.slice(middleStart, middleStart + middleSize);
+      const end = safeTranscript.slice(-endSize);
+      return `${intro}
+
+[... Progression de la vid\xE9o condens\xE9e pour respecter la fen\xEAtre de contexte de l'IA ...]
+
+${middle}
+
+[... Suite et conclusion de la vid\xE9o ...]
+
+${end}`;
+    }
+    /**
+     * Formats video description, channel, category and tag context for AI prompts
+     */
+    formatContextBlock(extraContext, lang = "en") {
+      if (!extraContext || typeof extraContext !== "object") return "";
+      const subscribers = extraContext.subscribers || "";
+      const category = extraContext.category || "";
+      const publishDate = extraContext.publishDate || "";
+      const rawKeywords = extraContext.keywords || [];
+      const keywords = Array.isArray(rawKeywords) ? rawKeywords.slice(0, 10).join(", ") : typeof rawKeywords === "string" ? rawKeywords : "";
+      let description = String(extraContext.description || "").trim();
+      if (description.length > 2e3) {
+        description = description.slice(0, 1950) + "... [description condens\xE9e]";
+      }
+      const lines = [];
+      const isFr = lang === "fr";
+      if (subscribers) lines.push(isFr ? `- Abonn\xE9s cha\xEEne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
+      if (category) lines.push(isFr ? `- Cat\xE9gorie : ${category}` : `- Category: ${category}`);
+      if (publishDate) lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
+      if (keywords) lines.push(isFr ? `- Mots-cl\xE9s : ${keywords}` : `- Keywords: ${keywords}`);
+      if (description) lines.push(isFr ? `- Description officielle :
+"""
+${description}
+"""` : `- Official Description:
+"""
+${description}
+"""`);
+      if (lines.length === 0) return "";
+      const header = isFr ? "CONTEXTE DE LA VID\xC9O & DE LA CHA\xCENE :" : "VIDEO & CHANNEL CONTEXT:";
+      return `${header}
+${lines.join("\n")}
+`;
+    }
+    /**
+     * Builds system and user prompts for video summarization
+     */
+    buildSummaryPrompts(title, author, safeTranscript, lang, mode, customDirectives = "", extraContext = {}) {
+      if (typeof title === "object" && title !== null) {
+        const opts = title;
+        title = opts.title;
+        author = opts.author;
+        safeTranscript = opts.safeTranscript || opts.transcript;
+        lang = opts.lang || opts.targetLang;
+        mode = opts.mode || opts.formatMode;
+        customDirectives = typeof opts.customDirectives === "string" ? opts.customDirectives : "";
+        extraContext = opts.extra || opts.metadata || opts;
+      } else if (typeof author === "object" && author !== null) {
+        extraContext = author;
+        author = extraContext.author || "";
+      } else if (typeof customDirectives === "object" && customDirectives !== null) {
+        extraContext = customDirectives;
+        customDirectives = "";
+      } else if (typeof arguments[6] === "object" && arguments[6] !== null) {
+        extraContext = arguments[6];
+      }
+      const cleanLang = lang && SYSTEM_PROMPTS[lang] ? lang : "en";
+      const isFr = cleanLang === "fr";
+      const systemPrompt = SYSTEM_PROMPTS[cleanLang] || SYSTEM_PROMPTS.en;
+      const formatInstructions = getFormatInstructions(mode, cleanLang);
+      const contextBlock = this.formatContextBlock(extraContext, cleanLang);
+      const finalDirective = FINAL_LANG_DIRECTIVES[cleanLang] || FINAL_LANG_DIRECTIVES.en;
+      const headerTitle = isFr ? "Voici la transcription de la vid\xE9o YouTube :" : "Here is the transcript of the YouTube video:";
+      const titleLabel = isFr ? "Titre :" : "Title:";
+      const authorLabel = isFr ? "Auteur/Cha\xEEne :" : "Author/Channel:";
+      const transcriptLabel = isFr ? "TRANSCRIPTION :" : "TRANSCRIPT:";
+      const userPrompt = `${headerTitle}
+${titleLabel} "${title}"
+${authorLabel} "${author}"${contextBlock ? `
+
+${contextBlock}` : ""}
+
+${transcriptLabel}
+"""
+${safeTranscript}
+"""
+
+---
+${formatInstructions}${customDirectives ? `
+
+${isFr ? "DIRECTIVES PERSONNALIS\xC9ES DE L'UTILISATEUR :" : "USER CUSTOM DIRECTIVES:"}
+${customDirectives}` : ""}
+
+${finalDirective}`;
+      return { systemPrompt, userPrompt };
+    }
+    /**
+     * Builds system and user messages for interactive Q&A chat
+     */
+    buildChatPrompts(title, transcriptText, targetLang, chatHistory, userQuestion, extraContext = {}) {
+      const langNames = {
+        en: "English",
+        fr: "French",
+        es: "Spanish",
+        de: "German",
+        it: "Italian",
+        ru: "Russian",
+        ja: "Japanese",
+        zh: "Simplified Chinese"
+      };
+      const targetLangName = langNames[targetLang] || "English";
+      const contextBlock = this.formatContextBlock(extraContext, targetLang);
+      const systemPrompt = `You are a conversational AI video assistant YouTube Summarizer AI.
+You answer questions accurately based on the video transcript and the provided official video context (description, channel information, tags).
+Video Title: "${title}"
+${contextBlock ? `${contextBlock}
+` : ""}Always answer in ${targetLangName}.
+If the answer is not mentioned in the transcript or description, state clearly that the video does not mention it.
+Be concise, helpful, and quote timestamps in [m:ss] format if applicable.
+
+TRANSCRIPT:
+${transcriptText}`;
+      const messages = [];
+      if (Array.isArray(chatHistory)) {
+        for (const msg of chatHistory) {
+          if (msg.role && msg.content) {
+            messages.push({ role: msg.role, content: msg.content });
+          }
+        }
+      }
+      messages.push({ role: "user", content: userQuestion });
+      return { systemPrompt, messages };
+    }
+  };
+
+  // src/content/services/PromptService.js
+  var promptBuilder = new PromptBuilder();
+  var CHAT_LANG_MAP = {
+    fr: {
+      persona: "Tu es YouTube Summarizer AI, une extension Chrome intelligente int\xE9gr\xE9e directement sous la vid\xE9o YouTube.",
+      role: "Tu r\xE9ponds aux questions de l'utilisateur sur cette vid\xE9o YouTube en t'appuyant rigoureusement sur sa transcription et sur le contexte officiel fourni (description, cha\xEEne, cat\xE9gorie) ainsi que sur le r\xE9sum\xE9 vid\xE9o.",
+      identity: "Si l'utilisateur mentionne l'extension ou te demande qui tu es, confirme explicitement que tu es l'assistant de l'extension YouTube Summarizer AI.",
+      rule: "OBLIGATION STRICTE DE LANGUE : Tu DOIS r\xE9pondre EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o ou de la question.",
+      quick: "Longueur souhait\xE9e : r\xE9ponse courte, concise et directe (1 ou 2 courts paragraphes).",
+      detailed: "Longueur souhait\xE9e : r\xE9ponse d\xE9taill\xE9e et approfondie.",
+      standard: "Longueur souhait\xE9e : r\xE9ponse \xE9quilibr\xE9e et naturelle, allant droit au but.",
+      summaryLabel: "R\xC9SUM\xC9 VID\xC9O PR\xC9C\xC9DEMMENT G\xC9N\xC9R\xC9 DANS L'EXTENSION (POUR R\xC9F\xC9RENCE) :",
+      transcriptLabel: "Transcription de la vid\xE9o :"
+    },
+    en: {
+      persona: "You are YouTube Summarizer AI, an intelligent Chrome extension built directly into YouTube.",
+      role: "You answer the user's questions about this YouTube video, strictly based on its transcript and official video context (description, channel information, tags) along with the generated summary.",
+      identity: "If the user mentions the extension or asks who you are, explicitly confirm that you are the YouTube Summarizer AI Chrome extension assistant.",
+      rule: "MANDATORY LANGUAGE RULE: You MUST write your ENTIRE response EXCLUSIVELY in ENGLISH, regardless of the video or question language.",
+      quick: "Desired length: short and concise answer (1-2 short paragraphs), straight to the point.",
+      detailed: "Desired length: detailed and comprehensive explanation.",
+      standard: "Desired length: balanced, natural response, not too long, straight to the point.",
+      summaryLabel: "PREVIOUSLY GENERATED VIDEO SUMMARY (FOR USER REFERENCE):",
+      transcriptLabel: "Video Transcript:"
+    },
+    es: {
+      persona: "Eres YouTube Summarizer AI, una extensi\xF3n inteligente de Chrome integrada directamente en YouTube.",
+      role: "Respondes a las preguntas del usuario sobre este v\xEDdeo de YouTube bas\xE1ndote estrictamente en su transcripci\xF3n, contexto oficial y resumen.",
+      identity: "Si el usuario menciona la extensi\xF3n o pregunta qui\xE9n eres, confirma expl\xEDcitamente que eres el asistente de la extensi\xF3n YouTube Summarizer AI.",
+      rule: "REGLA OBLIGATORIA DE IDIOMA: Debes responder \xDANICA Y EXCLUSIVAMENTE en ESPA\xD1OL, sea cual sea el idioma de la pregunta o del v\xEDdeo.",
+      quick: "Longitud deseada: respuesta corta y concisa (1 o 2 p\xE1rrafos cortos).",
+      detailed: "Longitud deseada: respuesta detallada y completa.",
+      standard: "Longitud deseada: respuesta equilibrada y natural, sin rodeos.",
+      summaryLabel: "RESUMEN DEL V\xCDDEO PREVIAMENTE GENERADO EN LA EXTENSI\xD3N (PARA REFERENCIA):",
+      transcriptLabel: "Transcripci\xF3n del v\xEDdeo:"
+    },
+    it: {
+      persona: "Sei YouTube Summarizer AI, un'estensione intelligente per Chrome integrata direttamente in YouTube.",
+      role: "Rispondi alle domande dell'utente su questo video di YouTube basandoti rigorosamente sulla trascrizione, sul contesto ufficiale e sul riassunto.",
+      identity: "Se l'utente menziona l'estensione o chiede chi sei, conferma esplicitamente di essere l'assistente dell'estensione YouTube Summarizer AI.",
+      rule: "REGOLA OBBLIGATORIA SULLA LINGUA: Devi rispondere ESCLUSIVAMENTE in ITALIANO, indipendentemente dalla lingua della domanda o del video.",
+      quick: "Lunghezza desiderata: risposta breve e concisa (1 o 2 brevi paragrafi).",
+      detailed: "Lunghezza desiderata: spiegazione dettagliata e approfondita.",
+      standard: "Lunghezza desiderata: risposta equilibrata e naturale, dritta al punto.",
+      summaryLabel: "RIASSUNTO DEL VIDEO PRECEDENTEMENTE GENERATO NELL'ESTENSIONE (PER RIFERIMENTO):",
+      transcriptLabel: "Trascrizione del video:"
+    },
+    de: {
+      persona: "Du bist YouTube Summarizer AI, eine intelligente Chrome-Erweiterung, die direkt in YouTube integriert ist.",
+      role: "Du beantwortest Fragen des Nutzers basierend auf dem Videotranskript, offiziellen Kontextdaten und der Videozusammenfassung.",
+      identity: "Wenn der Nutzer die Erweiterung erw\xE4hnt oder fragt wer du bist, best\xE4tige explizit, dass du der Assistent der YouTube Summarizer AI Chrome-Erweiterung bist.",
+      rule: "STRIKTE SPRACHVORGABE: Antworte AUSSCHLIESSLICH auf DEUTSCH, unabh\xE4ngig von der Sprache der Frage oder des Videos.",
+      quick: "Gew\xFCnschte L\xE4nge: kurze und pr\xE4gnante Antwort (1-2 kurze Abs\xE4tze).",
+      detailed: "Gew\xFCnschte L\xE4nge: ausf\xFChrliche und detaillierte Erkl\xE4rung.",
+      standard: "Gew\xFCnschte L\xE4nge: ausgewogene, nat\xFCrliche Antwort, direkt auf den Punkt.",
+      summaryLabel: "ZUVOR GENERIERTE VIDEO-ZUSAMMENFASSUNG (ALS REFERENZ):",
+      transcriptLabel: "Transkript des Videos:"
+    },
+    ja: {
+      persona: "\u3042\u306A\u305F\u306F YouTube Summarizer AI\u3001YouTube \u753B\u9762\u306B\u76F4\u63A5\u7D71\u5408\u3055\u308C\u305F\u30A4\u30F3\u30C6\u30EA\u30B8\u30A7\u30F3\u30C8\u306A Chrome \u62E1\u5F35\u6A5F\u80FD\u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u3067\u3059\u3002",
+      role: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3001\u516C\u5F0F\u30B3\u30F3\u30C6\u30AD\u30B9\u30C8\uFF08\u8AAC\u660E\u6587\u3001\u30C1\u30E3\u30F3\u30CD\u30EB\u60C5\u5831\u3001\u30BF\u30B0\uFF09\u3001\u304A\u3088\u3073\u751F\u6210\u3055\u308C\u305F\u8981\u7D04\u306B\u57FA\u3065\u3044\u3066\u6B63\u78BA\u306B\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+      identity: "\u62E1\u5F35\u6A5F\u80FD\u306B\u3064\u3044\u3066\u8A00\u53CA\u3055\u308C\u305F\u5834\u5408\u3001YouTube Summarizer AI \u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u3067\u3042\u308B\u3053\u3068\u3092\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+      rule: "\u3010\u8A00\u8A9E\u306E\u7D76\u5BFE\u7FA9\u52D9\u3011\u52D5\u753B\u3084\u8CEA\u554F\u306E\u8A00\u8A9E\u306B\u304B\u304B\u308F\u3089\u305A\u3001\u5FC5\u305A\u3010\u65E5\u672C\u8A9E\u3011\u306E\u307F\u3067\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+      quick: "\u5E0C\u671B\u306E\u9577\u3055\uFF1A\u7C21\u6F54\u3067\u8981\u70B9\u306E\u307F\u306E\u77ED\u3044\u56DE\u7B54\uFF081\u301C2\u306E\u77ED\u3044\u6BB5\u843D\uFF09\u3002",
+      detailed: "\u5E0C\u671B\u306E\u9577\u3055\uFF1A\u8A73\u7D30\u3067\u5145\u5B9F\u3057\u305F\u89E3\u8AAC\u3002",
+      standard: "\u5E0C\u671B\u306E\u9577\u3055\uFF1A\u81EA\u7136\u3067\u30D0\u30E9\u30F3\u30B9\u306E\u53D6\u308C\u305F\u3001\u8981\u70B9\u3092\u5F97\u305F\u56DE\u7B54\u3002",
+      summaryLabel: "\u4EE5\u524D\u306B\u751F\u6210\u3055\u308C\u305F\u52D5\u753B\u306E\u8981\u7D04\uFF08\u53C2\u8003\u7528\uFF09\uFF1A",
+      transcriptLabel: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\uFF1A"
+    },
+    ru: {
+      persona: "\u0412\u044B \u2014 YouTube Summarizer AI, \u0438\u043D\u0442\u0435\u043B\u043B\u0435\u043A\u0442\u0443\u0430\u043B\u044C\u043D\u044B\u0439 Chrome-\u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442, \u0432\u0441\u0442\u0440\u043E\u0435\u043D\u043D\u044B\u0439 \u0432 YouTube.",
+      role: "\u0412\u044B \u043E\u0442\u0432\u0435\u0447\u0430\u0435\u0442\u0435 \u043D\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F \u0441\u0442\u0440\u043E\u0433\u043E \u043D\u0430 \u043E\u0441\u043D\u043E\u0432\u0435 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430 \u0432\u0438\u0434\u0435\u043E, \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442\u0430 (\u043E\u043F\u0438\u0441\u0430\u043D\u0438\u044F, \u043A\u0430\u043D\u0430\u043B\u0430, \u0442\u0435\u0433\u043E\u0432) \u0438 \u0441\u0433\u0435\u043D\u0435\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u043E\u0433\u043E \u0440\u0435\u0437\u044E\u043C\u0435.",
+      identity: "\u0415\u0441\u043B\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0441\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0442, \u043A\u0442\u043E \u0432\u044B, \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u0435, \u0447\u0442\u043E \u0432\u044B \u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u044F YouTube Summarizer AI.",
+      rule: "\u0421\u0422\u0420\u041E\u0413\u041E\u0415 \u041F\u0420\u0410\u0412\u0418\u041B\u041E: \u041E\u0442\u0432\u0435\u0447\u0430\u0439\u0442\u0435 \u0418\u0421\u041A\u041B\u042E\u0427\u0418\u0422\u0415\u041B\u042C\u041D\u041E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435, \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E \u043E\u0442 \u044F\u0437\u044B\u043A\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u0430 \u0438\u043B\u0438 \u0432\u0438\u0434\u0435\u043E.",
+      quick: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u043A\u0440\u0430\u0442\u043A\u0438\u0439 \u0438 \u0447\u0435\u0442\u043A\u0438\u0439 \u043E\u0442\u0432\u0435\u0442 (1-2 \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0445 \u0430\u0431\u0437\u0430\u0446\u0430).",
+      detailed: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u043F\u043E\u0434\u0440\u043E\u0431\u043D\u043E\u0435 \u0438 \u0438\u0441\u0447\u0435\u0440\u043F\u044B\u0432\u0430\u044E\u0449\u0435\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435.",
+      standard: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u0441\u0431\u0430\u043B\u0430\u043D\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0439 \u0438 \u0435\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442 \u043F\u043E \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443.",
+      summaryLabel: "\u0420\u0410\u041D\u0415\u0415 \u0421\u0424\u041E\u0420\u041C\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415 \u0420\u0415\u0417\u042E\u041C\u0415 \u0412\u0418\u0414\u0415\u041E \u0412 \u0420\u0410\u0421\u0428\u0418\u0420\u0415\u041D\u0418\u0418 (\u0414\u041B\u042F \u0421\u041F\u0420\u0410\u0412\u041A\u0418):",
+      transcriptLabel: "\u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442 \u0432\u0438\u0434\u0435\u043E:"
+    },
+    zh: {
+      persona: "\u4F60\u662F YouTube Summarizer AI\uFF0C\u4E00\u6B3E\u76F4\u63A5\u5185\u5D4C\u4E8E YouTube \u7684\u667A\u80FD Chrome \u6269\u5C55\u7A0B\u5E8F\u52A9\u624B\u3002",
+      role: "\u8BF7\u4E25\u683C\u4F9D\u636E\u89C6\u9891\u9010\u5B57\u7A3F\u3001\u5B98\u65B9\u89C6\u9891\u4FE1\u606F\u548C\u5DF2\u751F\u6210\u7684\u89C6\u9891\u6458\u8981\u56DE\u7B54\u7528\u6237\u7684\u95EE\u9898\u3002",
+      identity: "\u5982\u679C\u7528\u6237\u63D0\u5230\u6269\u5C55\u7A0B\u5E8F\u6216\u8BE2\u95EE\u4F60\u7684\u8EAB\u4EFD\uFF0C\u8BF7\u660E\u786E\u786E\u8BA4\u4F60\u662F YouTube Summarizer AI \u6269\u5C55\u7A0B\u5E8F\u52A9\u624B\u3002",
+      rule: "\u3010\u5F3A\u5236\u8BED\u8A00\u8981\u6C42\u3011\u65E0\u8BBA\u63D0\u95EE\u6216\u89C6\u9891\u539F\u59CB\u8BED\u8A00\u4E3A\u4F55\uFF0C\u5FC5\u987B\u5168\u90E8\u4F7F\u7528\u4E2D\u6587\uFF08\u7B80\u4F53\u4E2D\u6587\uFF09\u56DE\u7B54\u3002",
+      quick: "\u671F\u671B\u957F\u5EA6\uFF1A\u7B80\u660E\u627C\u8981\u7684\u56DE\u7B54\uFF081-2\u4E2A\u7B80\u77ED\u6BB5\u843D\uFF09\u3002",
+      detailed: "\u671F\u671B\u957F\u5EA6\uFF1A\u8BE6\u5C3D\u800C\u6DF1\u5165\u7684\u89E3\u91CA\u5206\u6790\u3002",
+      standard: "\u671F\u671B\u957F\u5EA6\uFF1A\u81EA\u7136\u5E73\u8861\u3001\u76F4\u5954\u4E3B\u9898\u7684\u56DE\u7B54\u3002",
+      summaryLabel: "\u6B64\u524D\u5728\u6269\u5C55\u7A0B\u5E8F\u4E2D\u751F\u6210\u7684\u89C6\u9891\u6458\u8981\uFF08\u4F9B\u53C2\u8003\uFF09\uFF1A",
+      transcriptLabel: "\u89C6\u9891\u9010\u5B57\u7A3F\uFF1A"
+    }
+  };
+  var CHAT_USER_DIRECTIVES = {
+    fr: "\n\n(Consigne imp\xE9rative : R\xE9ponds EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la question, de la vid\xE9o ou des \xE9changes pr\xE9c\xE9dents.)",
+    en: "\n\n(Mandatory directive: Answer EXCLUSIVELY in ENGLISH, regardless of the question, video, or prior conversation language.)",
+    es: "\n\n(Instrucci\xF3n obligatoria: Responde EXCLUSIVAMENTE en ESPA\xD1OL, independientemente del idioma de la pregunta, del v\xEDdeo o del historial.)",
+    it: "\n\n(Obbligo rigoroso: Rispondi ESCLUSIVAMENTE in ITALIANO, indipendentemente dalla lingua della domanda, del video o dei messaggi precedenti.)",
+    de: "\n\n(Strikte Vorgabe: Antworte AUSSCHLIESSLICH auf DEUTSCH, unabh\xE4ngig von der Sprache der Frage, des Videos oder des bisherigen Verlaufs.)",
+    ja: "\n\n\u3010\u8A00\u8A9E\u6307\u793A\uFF1A\u52D5\u753B\u3084\u8CEA\u554F\u3001\u904E\u53BB\u306E\u4F1A\u8A71\u5C65\u6B74\u306B\u304B\u304B\u308F\u3089\u305A\u3001\u5FC5\u305A\u3010\u65E5\u672C\u8A9E\u3011\u306E\u307F\u3067\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002\u3011",
+    ru: "\n\n(\u0421\u0442\u0440\u043E\u0433\u043E\u0435 \u0443\u043A\u0430\u0437\u0430\u043D\u0438\u0435: \u041E\u0442\u0432\u0435\u0447\u0430\u0439\u0442\u0435 \u0418\u0421\u041A\u041B\u042E\u0427\u0418\u0422\u0415\u041B\u042C\u041D\u041E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435, \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E \u043E\u0442 \u044F\u0437\u044B\u043A\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u0430, \u0432\u0438\u0434\u0435\u043E \u0438\u043B\u0438 \u043F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0438\u0445 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0439.)",
+    zh: "\n\n\u3010\u8BED\u8A00\u5F3A\u5236\u6307\u4EE4\uFF1A\u65E0\u8BBA\u63D0\u95EE\u3001\u539F\u89C6\u9891\u6216\u6B64\u524D\u5BF9\u8BDD\u4E3A\u4F55\u79CD\u8BED\u8A00\uFF0C\u672C\u56DE\u7B54\u5FC5\u987B\u5168\u90E8\u4E14\u4EC5\u4F7F\u7528\u3010\u4E2D\u6587\uFF08\u7B80\u4F53\u4E2D\u6587\uFF09\u3011\u8F93\u51FA\u3002\u4E25\u7981\u4F7F\u7528\u6CD5\u8BED\u6216\u82F1\u8BED\u3002\u3011"
+  };
+  var PromptService = class {
+    /**
+     * Condenses transcript to fit within AI model context limits
+     */
+    static condenseTranscriptForContext(transcript, maxChars) {
+      if (transcript.length <= maxChars) {
+        return transcript;
+      }
+      const introSize = Math.floor(maxChars * 0.4);
+      const middleSize = Math.floor(maxChars * 0.25);
+      const endSize = Math.floor(maxChars * 0.35);
+      const intro = transcript.slice(0, introSize);
+      const middleStart = Math.floor((transcript.length - middleSize) / 2);
+      const middle = transcript.slice(middleStart, middleStart + middleSize);
+      const end = transcript.slice(-endSize);
+      return `${intro}
+
+[... Progression de la vid\xE9o condens\xE9e pour respecter la m\xE9moire du mod\xE8le ...]
+
+${middle}
+
+[... Progression vers la conclusion ...]
+
+${end}`;
+    }
+    /**
+     * Builds system and user prompts for in-page video summarization
+     */
+    static buildPrompts(title, author, safeTranscript, lang, mode, meta = null) {
+      const resolvedMeta = meta || { title, author };
+      const { systemPrompt, userPrompt } = promptBuilder.buildSummaryPrompts(
+        title,
+        author,
+        safeTranscript,
+        lang,
+        mode,
+        "",
+        resolvedMeta
+      );
+      return { systemPrompt, userPrompt };
+    }
+    /**
+     * Builds chat system prompt for interactive Q&A
+     */
+    static buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText = "", externalContext = "") {
+      const contextBlock = formatContextInfo(meta, lang);
+      const subStr = meta?.subscribers ? ` (${meta.subscribers})` : "";
+      const cleanLang = lang && CHAT_LANG_MAP[lang] ? lang : "fr";
+      const cfg = CHAT_LANG_MAP[cleanLang];
+      let lenDir = cfg.standard;
+      if (selectedChatMode === "quick") lenDir = cfg.quick;
+      else if (selectedChatMode === "detailed") lenDir = cfg.detailed;
+      const summaryBlock = summaryText && summaryText.trim() ? `
+${cfg.summaryLabel}
+"""
+${summaryText.trim()}
+"""
+` : "";
+      const extBlock = externalContext && externalContext.trim() ? `
+${externalContext.trim()}
+
+DIRECTIVES DE COMPARAISON MULTI-VID\xC9OS :
+- L'utilisateur a fourni le contexte d'une ou plusieurs vid\xE9os YouTube externes.
+- R\xE9ponds aux questions en comparant et recoupant les informations des vid\xE9os avec rigueur.
+- Attribue explicitement les faits \xE0 leur vid\xE9o ou auteur respectif.
+` : "";
+      return `${cfg.persona}
+${cfg.role}
+${cfg.identity}
+
+${cfg.rule}
+
+Title: "${meta?.title || ""}"
+Channel: "${meta?.author || ""}"${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}${summaryBlock}${extBlock}
+${cfg.transcriptLabel}
+"""
+${safeTranscript}
+"""
+
+WRITING & AUDIO PLAYBACK GUIDELINES:
+1. ${cfg.rule}
+2. ${lenDir}
+3. CONTINUOUS PROSE (TTS READY):
+   - Write in flowing, natural prose paragraphs without disjointed lists or decorative emojis for smooth audio playback.
+4. READABLE STRUCTURE:
+   - Break answers into short paragraphs with **bold** key terms.
+   - 100% faithful to the video content, transcript, and summary without hallucinations.
+5. FINAL MANDATORY DIRECTIVE:
+   - ${cfg.rule}`;
+    }
+  };
+
   // src/content/ui/ChatViewController.js
   var ChatViewController = class _ChatViewController {
     constructor(dependencies = {}) {
@@ -2834,6 +4090,7 @@
       this.promptService = dependencies.promptService;
       this.audioController = dependencies.audioController;
       this.summaryViewController = dependencies.summaryViewController;
+      this.externalVideoManager = dependencies.externalVideoManager || new ExternalVideoManager();
       this.chatHistory = [];
       this.chatPort = null;
     }
@@ -2908,7 +4165,7 @@
       const stateObj = ctx && typeof ctx === "object" ? ctx.state || ctx : {};
       const messagesContainer = document.getElementById("ytAiChatMessages");
       const chatCountBadge = document.getElementById("ytAiChatCount");
-      const lang = document.getElementById("ytAiLangSelect")?.value || ctx.currentLang || stateObj.currentLang || "en";
+      const lang = ctx.currentLang || stateObj.currentLang || document.getElementById("ytAiLangSelect")?.value || "en";
       const t = I18N[lang] || I18N.en;
       this.appendChatBubble("user", escapeHtml(text));
       const currentVideoId = getVideoId();
@@ -2921,6 +4178,23 @@
           return;
         }
         waitBubble?.remove?.();
+      }
+      let externalContextBlock = "";
+      const externalIds = this.externalVideoManager.extractYouTubeVideoIds(text, currentVideoId);
+      if (externalIds.length > 0) {
+        const waitLinkedBubble = this.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${escapeHtml(t.fetchingExternalVideo || "Analyzing linked YouTube video...")}`);
+        try {
+          const extVideos = await Promise.all(externalIds.map((id) => this.externalVideoManager.fetchExternalVideo(id, lang)));
+          const validVideos = extVideos.filter((v) => v && v.fullText);
+          if (validVideos.length > 0) {
+            externalContextBlock = this.externalVideoManager.formatExternalContextBlock(validVideos);
+            waitLinkedBubble.innerHTML = `<span style="color: #58a6ff; font-size: 12px;">${escapeHtml(t.externalVideoBadge || "\u{1F4CE} Linked video analyzed")}: <strong>${escapeHtml(validVideos.map((v) => v.title).join(", "))}</strong></span>`;
+          } else {
+            waitLinkedBubble?.remove?.();
+          }
+        } catch (_) {
+          waitLinkedBubble?.remove?.();
+        }
       }
       const activeModel = (typeof ctx.getActiveModel === "function" ? ctx.getActiveModel() : null) || (typeof stateObj.getActiveModel === "function" ? stateObj.getActiveModel() : null) || ctx.selectedModel || stateObj.selectedModels?.[stateObj.currentProvider] || stateObj.selectedModel || "";
       if (!activeModel) {
@@ -2943,12 +4217,14 @@
       }
       const meta = ctx.getVideoMetadata ? ctx.getVideoMetadata() : this.transcriptController.cachedVideoMetadata;
       const maxChars = CONTEXT_LIMITS[currentProvider] || 2e4;
-      const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(this.transcriptController.cachedTranscript.fullText, maxChars);
+      const transcriptSource = this.transcriptController.cachedTranscript.timestampedText || this.transcriptController.cachedTranscript.fullText;
+      const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(transcriptSource, maxChars);
       const selectedChatMode = document.getElementById("ytAiModeSelect")?.value || "standard";
       const summaryText = this.summaryViewController?.fullSummaryMarkdown || ctx.summaryText || "";
-      const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText);
-      const historyPayload = this.chatHistory.slice(-8);
-      historyPayload.push({ role: "user", content: text });
+      const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText, externalContextBlock);
+      const relevantHistory = this.chatHistory.filter((m) => !m.lang || m.lang === lang).slice(-8).map((m) => ({ role: m.role, content: m.content }));
+      const userPayloadContent = `${text}${CHAT_USER_DIRECTIVES[lang] || ""}`;
+      relevantHistory.push({ role: "user", content: userPayloadContent });
       let fullAnswer = "";
       if (this.chatPort) {
         try {
@@ -2966,7 +4242,7 @@
         apiKey: key,
         model: activeModel,
         systemPrompt,
-        messages: historyPayload,
+        messages: relevantHistory,
         temperature: ctx.temperature || stateObj.temperature || "0.3",
         maxTokens: ctx.maxTokens || stateObj.maxTokens || "auto"
       });
@@ -2980,8 +4256,8 @@
           if (!fullAnswer.trim()) {
             aiBubble.innerHTML = `<span style="color: #ff7b72;">\u26A0\uFE0F ${escapeHtml(t.connectionError || "No response received from AI model.")}</span>`;
           } else {
-            this.chatHistory.push({ role: "user", content: text });
-            this.chatHistory.push({ role: "assistant", content: fullAnswer });
+            this.chatHistory.push({ role: "user", content: text, lang });
+            this.chatHistory.push({ role: "assistant", content: fullAnswer, lang });
             if (chatCountBadge) chatCountBadge.textContent = String(Math.floor(this.chatHistory.length / 2));
             this.attachAudioButtonToBubble(aiBubble, fullAnswer, lang);
           }
@@ -3185,15 +4461,22 @@
     if (collapseBtn && collapseBtn.offsetParent !== null) collapseBtn.click();
   }
   function findTranscriptButtonInDOM() {
-    let btn = document.querySelector("ytd-video-description-transcript-section-renderer button");
-    if (btn) return btn;
-    const allBtns = document.querySelectorAll("#description button, ytd-watch-metadata button");
-    for (const b of allBtns) {
-      const aria = b.getAttribute("aria-label") || "";
-      const text = b.textContent || "";
-      if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) return b;
+    const direct = document.querySelector(
+      'ytd-video-description-transcript-section-renderer button, ytd-button-renderer[target-id="engagement-panel-searchable-transcript"] button, ytd-button-renderer[target-id*="transcript"] button, [target-id="engagement-panel-searchable-transcript"] button'
+    );
+    if (direct && direct.offsetParent !== null) return direct;
+    const candidates = document.querySelectorAll(
+      '#description button, #description [role="button"], ytd-watch-metadata button, ytd-watch-metadata [role="button"], #structured-description button, #structured-description [role="button"], ytd-structured-description-content-renderer button'
+    );
+    for (const b of candidates) {
+      const aria = (b.getAttribute("aria-label") || "").trim();
+      const title = (b.getAttribute("title") || "").trim();
+      const text = (b.textContent || "").trim();
+      if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(title) || TRANSCRIPT_LANG_REGEX.test(text)) {
+        return b.querySelector("button") || b;
+      }
     }
-    return null;
+    return direct || null;
   }
   async function ensureTranscriptTabActive(targetPanel) {
     const panels = document.querySelectorAll(ENGAGEMENT_SELECTORS);
@@ -3236,7 +4519,9 @@
   async function triggerStealthNativeTranscript() {
     const wasPanelOpen = isNativeTranscriptPanelVisible();
     let didWeOpenPanel = false;
-    const expandDesc = document.querySelector("tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand");
+    const expandDesc = document.querySelector(
+      "tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand, #description.ytd-watch-metadata, ytd-text-inline-expander[collapsed] #expand"
+    );
     const wasDescExpanded = !expandDesc || expandDesc.offsetParent === null;
     if (wasPanelOpen) {
       await ensureTranscriptTabActive();
@@ -3250,44 +4535,49 @@
       stealthStyle.textContent = `
       ytd-engagement-panel-section-list-renderer[target-id*="transcript"],
       ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"] {
-        display: none !important; opacity: 0 !important; visibility: hidden !important;
-        position: fixed !important; left: -99999px !important; top: -99999px !important;
-        width: 1px !important; height: 1px !important; z-index: -9999 !important;
+        opacity: 0.001 !important;
+        pointer-events: none !important;
+        position: fixed !important;
+        right: -9999px !important;
+        top: 0 !important;
+        width: 400px !important;
+        height: 600px !important;
+        z-index: -9999 !important;
       }
     `;
       document.head.appendChild(stealthStyle);
     }
     try {
       let directBtn = findTranscriptButtonInDOM();
-      if (!directBtn && expandDesc && expandDesc.offsetParent !== null) {
+      if (!directBtn && expandDesc && typeof expandDesc.click === "function") {
         expandDesc.click();
-        await new Promise((r) => setTimeout(r, 200));
+        await new Promise((r) => setTimeout(r, 250));
         directBtn = findTranscriptButtonInDOM();
       }
       if (directBtn) {
         didWeOpenPanel = true;
         directBtn.click();
       } else {
-        const markersBtn = document.querySelector('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]');
-        if (markersBtn) {
+        const hiddenPanel = document.querySelector(
+          'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]'
+        );
+        if (hiddenPanel) {
           didWeOpenPanel = true;
-          markersBtn.click();
-          await new Promise((r) => setTimeout(r, 200));
-          await ensureTranscriptTabActive();
+          hiddenPanel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED");
+          if (typeof hiddenPanel.show === "function") hiddenPanel.show();
+          await ensureTranscriptTabActive(hiddenPanel);
         } else {
-          const hiddenPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]');
-          if (hiddenPanel) {
+          const markersBtn = document.querySelector('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]');
+          if (markersBtn) {
             didWeOpenPanel = true;
-            hiddenPanel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED");
-            if (typeof hiddenPanel.show === "function") hiddenPanel.show();
-            await ensureTranscriptTabActive(hiddenPanel);
-          } else {
-            return null;
+            markersBtn.click();
+            await new Promise((r) => setTimeout(r, 200));
+            await ensureTranscriptTabActive();
           }
         }
       }
       let segments = null;
-      for (let i = 0; i < 35; i++) {
+      for (let i = 0; i < 40; i++) {
         await new Promise((r) => setTimeout(r, 100));
         if (i % 3 === 0) await ensureTranscriptTabActive();
         segments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
@@ -3300,14 +4590,7 @@
     } catch (_) {
       return null;
     } finally {
-      const shouldClose = !wasPanelOpen || didWeOpenPanel;
       if (!wasPanelOpen) {
-        closeNativeTranscriptPanel();
-        if (!wasDescExpanded) collapseDescription();
-        setTimeout(() => {
-          if (stealthStyle?.parentNode) stealthStyle.parentNode.removeChild(stealthStyle);
-        }, 350);
-      } else if (didWeOpenPanel) {
         closeNativeTranscriptPanel();
         if (!wasDescExpanded) collapseDescription();
         setTimeout(() => {
@@ -3326,127 +4609,10 @@
     triggerStealthNativeTranscript
   };
 
-  // src/content/services/YouTubeDOMContext.js
-  var YouTubeDOMContext = class {
-    /**
-     * Extracts chapters / timeline markers directly from YouTube video description
-     * @returns {Array<{timestamp: string, text: string}> | null}
-     */
-    static extractChaptersFromDescription() {
-      const results = [];
-      const entries = document.querySelectorAll(
-        "ytd-macro-markers-entry-renderer, #structured-description ytd-macro-markers-entry-renderer, ytd-chapter-renderer"
-      );
-      if (entries && entries.length > 1) {
-        entries.forEach((el) => {
-          const timeEl = el.querySelector('#time, [class*="time"], a[href*="t="]');
-          const titleEl = el.querySelector('#title, #details, [class*="title"], h4');
-          const timestamp = timeEl ? timeEl.textContent.trim() : "";
-          const text = titleEl ? titleEl.textContent.trim() : "";
-          if (timestamp && text) {
-            results.push({ timestamp, text });
-          }
-        });
-        if (results.length > 1) return results;
-      }
-      return null;
-    }
-    /**
-     * Extracts rich metadata from YouTube DOM elements with cached fallback
-     * @param {Object} [cachedVideoMetadata]
-     * @returns {Object}
-     */
-    static getVideoMetadata(cachedVideoMetadata = {}) {
-      const currentVideoId = getVideoId();
-      const isCacheValid = cachedVideoMetadata?.videoId === currentVideoId;
-      const safeMeta = isCacheValid ? cachedVideoMetadata : {};
-      const titleEl = document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title");
-      const authorEl = document.querySelector("ytd-channel-name a, #channel-name a, #owner-name a");
-      const subEl = document.querySelector("#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count");
-      const descEl = document.querySelector("#description-inline-expander yt-attributed-string, #description, #description-inline-expander");
-      const dateEl = document.querySelector("#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date");
-      const tagEls = document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]');
-      const domSubscribers = subEl?.textContent?.trim() || "";
-      const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || "";
-      const domDate = dateEl?.textContent?.trim() || "";
-      const domKeywords = Array.from(tagEls).map((el) => el.textContent.trim().replace(/^#/, "")).filter(Boolean);
-      const title = titleEl?.textContent?.trim() || safeMeta.title || document.title.replace(" - YouTube", "").trim();
-      const author = authorEl?.textContent?.trim() || safeMeta.author || "Cha\xEEne YouTube";
-      const subscribers = domSubscribers || safeMeta.subscribers || "";
-      const description = safeMeta.description || domDescription || "";
-      const keywords = safeMeta.keywords && safeMeta.keywords.length > 0 ? safeMeta.keywords : domKeywords;
-      const category = safeMeta.category || "";
-      const publishDate = safeMeta.publishDate || domDate || "";
-      const viewCount = safeMeta.viewCount || "";
-      const channelId = safeMeta.channelId || "";
-      return {
-        videoId: currentVideoId || safeMeta.videoId || "",
-        title,
-        author,
-        subscribers,
-        description,
-        keywords,
-        category,
-        publishDate,
-        viewCount,
-        channelId
-      };
-    }
-    /**
-     * Formats video context block for AI prompts
-     * @param {Object} meta
-     * @param {string} [lang]
-     * @returns {string}
-     */
-    static formatContextInfo(meta, lang = "fr") {
-      if (!meta || typeof meta !== "object") return "";
-      const subscribers = meta.subscribers || "";
-      const category = meta.category || "";
-      const publishDate = meta.publishDate || "";
-      const rawKeywords = meta.keywords || [];
-      const keywords = Array.isArray(rawKeywords) ? rawKeywords.slice(0, 10).join(", ") : typeof rawKeywords === "string" ? rawKeywords : "";
-      let description = String(meta.description || "").trim();
-      if (description.length > 2e3) {
-        description = description.slice(0, 1950) + "... [description condens\xE9e]";
-      }
-      const lines = [];
-      const isFr = lang === "fr";
-      if (subscribers) {
-        lines.push(isFr ? `- Abonn\xE9s cha\xEEne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
-      }
-      if (category) {
-        lines.push(isFr ? `- Cat\xE9gorie : ${category}` : `- Category: ${category}`);
-      }
-      if (publishDate) {
-        lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
-      }
-      if (keywords) {
-        lines.push(isFr ? `- Mots-cl\xE9s : ${keywords}` : `- Keywords: ${keywords}`);
-      }
-      if (description) {
-        lines.push(isFr ? `- Description officielle :
-"""
-${description}
-"""` : `- Official Description:
-"""
-${description}
-"""`);
-      }
-      if (lines.length === 0) return "";
-      const header = isFr ? "CONTEXTE DE LA VID\xC9O & DE LA CHA\xCENE :" : "VIDEO & CHANNEL CONTEXT:";
-      return `${header}
-${lines.join("\n")}
-`;
-    }
-  };
-  function formatContextInfo(meta, lang) {
-    return YouTubeDOMContext.formatContextInfo(meta, lang);
-  }
-
   // src/content/services/InPageTranscriptController.js
   var InPageTranscriptController = class _InPageTranscriptController {
     constructor() {
-      this.cachedTranscript = { videoId: "", segments: [], fullText: "", isChapterOnly: false };
+      this.cachedTranscript = { videoId: "", segments: [], fullText: "", timestampedText: "", isChapterOnly: false };
       this.cachedVideoMetadata = {
         videoId: "",
         title: "",
@@ -3613,20 +4779,44 @@ ${lines.join("\n")}
         this.saveCachedTranscript(currentVideoId, chapterSegments, true);
         return chapterSegments;
       }
-      if (isUserInitiated) {
-        const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
-        if (stealthSegments && stealthSegments.length > 3) {
-          this.saveCachedTranscript(currentVideoId, stealthSegments, false);
-          return stealthSegments;
-        }
+      const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
+      if (stealthSegments && stealthSegments.length > 3) {
+        this.saveCachedTranscript(currentVideoId, stealthSegments, false);
+        return stealthSegments;
       }
       return null;
+    }
+    static formatTimestampedText(segments, intervalSec = 30) {
+      if (!Array.isArray(segments) || segments.length === 0) return "";
+      const parts = [];
+      let lastSec = -1;
+      for (const s of segments) {
+        const text = (s.text || "").trim();
+        if (!text) continue;
+        let sec = 0;
+        if (typeof s.startMs === "number") {
+          sec = Math.floor(s.startMs / 1e3);
+        } else if (s.timestamp) {
+          const timeParts = s.timestamp.split(":").map(Number);
+          if (timeParts.length === 3) sec = timeParts[0] * 3600 + timeParts[1] * 60 + timeParts[2];
+          else if (timeParts.length === 2) sec = timeParts[0] * 60 + timeParts[1];
+        }
+        if (lastSec === -1 || sec - lastSec >= intervalSec) {
+          const timeStr = s.timestamp || (s.formatTime ? s.formatTime() : `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")}`);
+          parts.push(`[${timeStr}] ${text}`);
+          lastSec = sec;
+        } else {
+          parts.push(text);
+        }
+      }
+      return parts.join(" ").replace(/\s{2,}/g, " ").trim();
     }
     saveCachedTranscript(videoId, segments, isChapterOnly = false) {
       this.cachedTranscript = {
         videoId,
         segments,
         fullText: segments.map((s) => s.text).join(" "),
+        timestampedText: _InPageTranscriptController.formatTimestampedText(segments, 30),
         isChapterOnly: !!isChapterOnly
       };
       const wordsCount = this.cachedTranscript.fullText.trim().split(/\s+/).filter(Boolean).length;
@@ -3650,7 +4840,7 @@ ${lines.join("\n")}
       }
     }
     resetAllState(currentLang = "en") {
-      this.cachedTranscript = { videoId: "", segments: [], fullText: "", isChapterOnly: false };
+      this.cachedTranscript = { videoId: "", segments: [], fullText: "", timestampedText: "", isChapterOnly: false };
       this.cachedVideoMetadata = {
         videoId: "",
         title: "",
@@ -4220,662 +5410,60 @@ ${lines.join("\n")}
   };
   var copyToClipboard = ExportHandler.copyToClipboard;
 
-  // src/services/interfaces/IPromptBuilder.js
-  var IPromptBuilder = class {
-    /**
-     * Condenses a long transcript if it exceeds character limits
-     * @param {string} text
-     * @param {number} maxChars
-     * @returns {string}
-     */
-    condenseTranscript(text, maxChars) {
-      throw new Error("Not implemented");
-    }
-    /**
-     * Builds system and user prompts for video summarization
-     * @param {string} title
-     * @param {string} author
-     * @param {string} transcriptText
-     * @param {string} targetLang
-     * @param {string} formatMode
-     * @param {string} [customDirectives]
-     * @param {Object} [extraContext]
-     * @returns {{ systemPrompt: string, userPrompt: string }}
-     */
-    buildSummaryPrompts(title, author, transcriptText, targetLang, formatMode, customDirectives = "", extraContext = {}) {
-      throw new Error("Not implemented");
-    }
-    /**
-     * Builds system and user prompts for Q&A chat
-     * @param {string} title
-     * @param {string} transcriptText
-     * @param {string} targetLang
-     * @param {Array<Object>} chatHistory
-     * @param {string} userQuestion
-     * @param {Object} [extraContext]
-     * @returns {{ systemPrompt: string, messages: Array<Object> }}
-     */
-    buildChatPrompts(title, transcriptText, targetLang, chatHistory, userQuestion, extraContext = {}) {
-      throw new Error("Not implemented");
-    }
-  };
-
-  // src/services/implementations/PromptTemplates.js
-  var TARGET_LANG_NAMES = {
-    fr: "FRAN\xC7AIS",
-    en: "ENGLISH",
-    es: "ESPA\xD1OL",
-    it: "ITALIANO",
-    de: "DEUTSCH",
-    ja: "\u65E5\u672C\u8A9E (JAPANESE)",
-    ru: "\u0420\u0423\u0421\u0421\u041A\u0418\u0419",
-    zh: "\u4E2D\u6587 (SIMPLIFIED CHINESE)"
-  };
-  var TEMPLATES = {
-    fr: {
-      quick: `Produis un r\xE9sum\xE9 COURT, CONCIS et DIRECT sous cette forme :
-### \u26A1 En Bref
-(2 \xE0 3 phrases percutantes r\xE9sumant l'essentiel absolu)
-
-### \u{1F3AF} Points Cl\xE9s \xE0 Retenir
-- **[Point 1]** : Explication courte et concr\xE8te.
-- **[Point 2]** : Explication courte et concr\xE8te.
-- **[Point 3]** : Explication courte et concr\xE8te.
-
-### \u{1F4CC} Conclusion
-(1 phrase de conclusion finale)`,
-      detailed: `Produis une synth\xE8se COMPL\xC8TE, D\xC9TAILL\xC9E et EXHAUSTIVE :
-### \u{1F3AF} Vue d'ensemble & Enjeux
-(Contexte, probl\xE8me abord\xE9 et th\xE8se de la vid\xE9o)
-
-### \u23F1\uFE0F D\xE9roul\xE9 chronologique & Chapitres cl\xE9s
-(Reconstitue les grandes \xE9tapes avec timestamps si mentionn\xE9s)
-
-### \u{1F4A1} Analyses, Arguments & Exemples cit\xE9s
-(D\xE9cortique les donn\xE9es, anecdotes ou concepts expliqu\xE9s)
-
-### \u{1F6E0}\uFE0F Conseils pratiques & Actions concr\xE8tes
-(Tout ce qui est actionnable pour le spectateur)
-
-### \u{1F4CC} Conclusion & Perspective
-(Message final et conclusion de l'auteur)`,
-      standard: `Produis un r\xE9sum\xE9 \xC9QUILIBR\xC9, NATUREL et STRUCTUR\xC9 :
-### \u{1F3AF} L'Essentiel
-(2-3 phrases r\xE9sumant le sujet et le message central)
-
-### \u23F1\uFE0F Moments Cl\xE9s & D\xE9roulement
-- **[Th\xE8me 1]** : Ce qui est expliqu\xE9 ou d\xE9montr\xE9.
-- **[Th\xE8me 2]** : Ce qui est expliqu\xE9 ou d\xE9montr\xE9.
-- **[Th\xE8me 3]** : Ce qui est expliqu\xE9 ou d\xE9montr\xE9.
-
-### \u{1F4A1} Enseignements & Conseils
-- **[Le\xE7on cl\xE9]** : D\xE9tail concret et utile.
-- **[Actionable]** : Recommandation de l'auteur.
-
-### \u{1F4CC} Ce qu'il faut en retenir
-(Conclusion synth\xE9tique)`
-    },
-    es: {
-      quick: `Produce un resumen CORTO, CONCISO y DIRECTO en este formato:
-### \u26A1 En Breve
-(2 a 3 frases impactantes resumiendo lo esencial)
-
-### \u{1F3AF} Puntos Clave a Recordar
-- **[Punto 1]** : Explicaci\xF3n corta y concreta.
-- **[Punto 2]** : Explicaci\xF3n corta y concreta.
-- **[Punto 3]** : Explicaci\xF3n corta y concreta.
-
-### \u{1F4CC} Conclusi\xF3n
-(1 frase de conclusi\xF3n final)`,
-      detailed: `Produce una s\xEDntesis COMPLETA, DETALLADA y EXHAUSTIVA:
-### \u{1F3AF} Visi\xF3n General & Contexto
-(Contexto, problema abordado y tesis del v\xEDdeo)
-
-### \u23F1\uFE0F Desarrollo Cronol\xF3gico & Cap\xEDtulos Clave
-(Reconstruye las etapas principales con marcas de tiempo)
-
-### \u{1F4A1} An\xE1lisis, Argumentos & Ejemplos
-(Detalla datos, an\xE9cdotas o conceptos expuestos)
-
-### \u{1F6E0}\uFE0F Consejos Pr\xE1cticos & Acciones Concretas
-(Todo lo accionable para el espectador)
-
-### \u{1F4CC} Conclusi\xF3n & Perspectiva
-(Mensaje final y conclusi\xF3n del autor)`,
-      standard: `Produce un resumen EQUILIBRADO, NATURAL y ESTRUCTURADO:
-### \u{1F3AF} Lo Esencial
-(2-3 frases resumiendo el tema y mensaje principal)
-
-### \u23F1\uFE0F Momentos Clave & Desarrollo
-- **[Tema 1]** : Lo que se explica o demuestra.
-- **[Tema 2]** : Lo que se explica o demuestra.
-- **[Tema 3]** : Lo que se explica o demuestra.
-
-### \u{1F4A1} Ense\xF1anzas & Consejos
-- **[Lecci\xF3n clave]** : Detalle concreto y \xFAtil.
-- **[Acci\xF3n pr\xE1ctica]** : Recomendaci\xF3n del autor.
-
-### \u{1F4CC} Conclusi\xF3n General
-(Conclusi\xF3n sint\xE9tica)`
-    },
-    it: {
-      quick: `Produci un riassunto BREVE, CONCISO e DIRETTO in questo formato:
-### \u26A1 In Breve
-(2-3 frasi incisive che riassumono l'essenziale)
-
-### \u{1F3AF} Punti Chiave da Ricordare
-- **[Punto 1]** : Spiegazione breve e concreta.
-- **[Punto 2]** : Spiegazione breve e concreta.
-- **[Punto 3]** : Spiegazione breve e concreta.
-
-### \u{1F4CC} Conclusione
-(1 frase di conclusione finale)`,
-      detailed: `Produci una sintesi COMPLETA, DETTAGLIATA ed ESAUSTIVA:
-### \u{1F3AF} Panoramica & Obiettivi
-(Contesto, problema affrontato e tesi del video)
-
-### \u23F1\uFE0F Svolgimento Cronologico & Capitoli Chiave
-(Ricostruisci i passaggi chiave con timestamp se presenti)
-
-### \u{1F4A1} Analisi, Argomentazioni & Esempi
-(Analizza dati, aneddoti o concetti illustrati)
-
-### \u{1F6E0}\uFE0F Consigli Pratici & Azioni Concrete
-(Tutto ci\xF2 che \xE8 attuabile per lo spettatore)
-
-### \u{1F4CC} Conclusione & Prospettiva
-(Messaggio finale e conclusione dell'autore)`,
-      standard: `Produci un riassunto EQUILIBRATO, NATURALE e STRUTTURATO:
-### \u{1F3AF} L'Essenziale
-(2-3 frasi che riassumono l'argomento e il messaggio centrale)
-
-### \u23F1\uFE0F Momenti Chiave & Svolgimento
-- **[Tema 1]** : Spiegazione o dimostrazione.
-- **[Tema 2]** : Spiegazione o dimostrazione.
-- **[Tema 3]** : Spiegazione o dimostrazione.
-
-### \u{1F4A1} Insegnamenti & Consigli Pratici
-- **[Lezione chiave]** : Dettaglio concreto e utile.
-- **[Azione pratica]** : Raccomandazione dell'autore.
-
-### \u{1F4CC} Da Ricordare
-(Conclusione sintetica)`
-    },
-    de: {
-      quick: `Erstelle eine KURZE, PR\xC4ZISE und DIREKTE Zusammenfassung:
-### \u26A1 Kurz & B\xFCndig
-(2 bis 3 pr\xE4gnante S\xE4tze mit dem Wesentlichen)
-
-### \u{1F3AF} Wichtigste Erkenntnisse
-- **[Punkt 1]** : Kurze, konkrete Erkl\xE4rung.
-- **[Punkt 2]** : Kurze, konkrete Erkl\xE4rung.
-- **[Punkt 3]** : Kurze, konkrete Erkl\xE4rung.
-
-### \u{1F4CC} Fazit
-(1 abschlie\xDFender Schlusssatz)`,
-      detailed: `Erstelle eine VOLLST\xC4NDIGE, DETAILLIERTE und UMFASSENDE Analyse:
-### \u{1F3AF} \xDCberblick & Kernfrage
-(Kontext, Thema und Hauptthese des Videos)
-
-### \u23F1\uFE0F Chronologischer Ablauf & Wichtige Kapitel
-(Hauptabschnitte mit Zeitstempeln)
-
-### \u{1F4A1} Analysen, Argumente & Beispiele
-(Daten, Fakten oder erkl\xE4rte Konzepte)
-
-### \u{1F6E0}\uFE0F Praktische Ratschl\xE4ge & Handlungsschritte
-(Konkret anwendbare Tipps f\xFCr den Zuschauer)
-
-### \u{1F4CC} Fazit & Ausblick
-(Schlussgedanke des Autors)`,
-      standard: `Erstelle eine AUSGEWOGENE, NAT\xDCRLICHE und STRUKTURIERTE Zusammenfassung:
-### \u{1F3AF} Das Wesentliche
-(2-3 S\xE4tze als Zusammenfassung des Themas)
-
-### \u23F1\uFE0F Wichtige Abschnitte & Verlauf
-- **[Thema 1]** : Was erkl\xE4rt oder gezeigt wird.
-- **[Thema 2]** : Was erkl\xE4rt oder gezeigt wird.
-- **[Thema 3]** : Was erkl\xE4rt oder gezeigt wird.
-
-### \u{1F4A1} Erkenntnisse & Praktische Tipps
-- **[Kernlektion]** : Konkretes und n\xFCtzliches Detail.
-- **[Handlungsempfehlung]** : Empfehlung des Autors.
-
-### \u{1F4CC} Wichtigste Erkenntnis
-(Synthetisches Fazit)`
-    },
-    en: {
-      quick: `Produce a SHORT, CONCISE, and DIRECT summary in this format:
-### \u26A1 Quick Summary
-(2 to 3 impactful sentences capturing the absolute essence)
-
-### \u{1F3AF} Key Takeaways
-- **[Point 1]**: Short, concrete explanation.
-- **[Point 2]**: Short, concrete explanation.
-- **[Point 3]**: Short, concrete explanation.
-
-### \u{1F4CC} Conclusion
-(1 final concluding sentence)`,
-      detailed: `Produce a THOROUGH, DETAILED, and COMPREHENSIVE study guide:
-### \u{1F3AF} Overview & Core Thesis
-(Context, problem addressed, and central thesis of the video)
-
-### \u23F1\uFE0F Chronological Breakdown & Key Chapters
-(Reconstruct key sections with timestamps if present)
-
-### \u{1F4A1} Deep Dive: Arguments, Data & Examples
-(Analyze the data, case studies, or concepts presented)
-
-### \u{1F6E0}\uFE0F Actionable Advice & Practical Steps
-(Actionable takeaways for the viewer)
-
-### \u{1F4CC} Author's Conclusion & Key Takeaway
-(Final takeaway and perspective)`,
-      standard: `Produce a BALANCED, NATURAL, and STRUCTURED summary:
-### \u{1F3AF} Core Takeaways
-(2-3 sentences summarizing the topic and central message)
-
-### \u23F1\uFE0F Key Highlights & Chapters
-- **[Topic 1]**: What is explained or demonstrated.
-- **[Topic 2]**: What is explained or demonstrated.
-- **[Topic 3]**: What is explained or demonstrated.
-
-### \u{1F4A1} Insights & Practical Advice
-- **[Key insight]**: Concrete and actionable takeaway.
-- **[Actionable item]**: Author recommendation.
-
-### \u{1F4CC} Final Summary
-(Synthetic concluding thought)`
-    }
-  };
-  function getFormatInstructions(mode, langOrIsFr = "en") {
-    let lang = "en";
-    if (typeof langOrIsFr === "boolean") {
-      lang = langOrIsFr ? "fr" : "en";
-    } else if (typeof langOrIsFr === "string") {
-      lang = langOrIsFr;
-    }
-    const langTemplates = TEMPLATES[lang] || TEMPLATES.en;
-    return langTemplates[mode] || langTemplates.standard;
+  // src/content/services/InPageState.js
+  function createInPageState() {
+    return {
+      extensionEnabled: true,
+      currentProvider: "lmstudio",
+      serverUrls: { lmstudio: "http://192.168.56.1:1234", ollama: "http://localhost:11434" },
+      apiKeys: { openai: "", gemini: "", claude: "", groq: "", deepseek: "" },
+      selectedModels: {},
+      availableLocalModels: {},
+      currentLang: "fr",
+      temperature: "0.3",
+      maxTokens: "auto",
+      ttsSpeed: "1.0",
+      localWhisperUrl: "http://127.0.0.1:8000",
+      autoSummarize: false,
+      customPrompt: "",
+      selectedVoiceURI: "",
+      selectedMicDeviceId: "",
+      getActiveModel() {
+        return this.selectedModels[this.currentProvider] || "";
+      },
+      setActiveModel(m) {
+        this.selectedModels[this.currentProvider] = m;
+      },
+      savePreference(key, val) {
+        if (chrome?.storage?.local) chrome.storage.local.set({ [key]: val });
+      }
+    };
+  }
+  function loadPreferences(state2, callback) {
+    if (!chrome?.storage?.local) return callback?.();
+    chrome.storage.local.get(null, (items = {}) => {
+      if (typeof items.extensionEnabled === "boolean") state2.extensionEnabled = items.extensionEnabled;
+      if (items.aiProvider) state2.currentProvider = items.aiProvider;
+      if (items.targetLang) state2.currentLang = items.targetLang;
+      if (items.selectedModel) state2.setActiveModel(items.selectedModel);
+      if (items.summaryMode) state2.summaryMode = items.summaryMode;
+      if (items.temperature) state2.temperature = items.temperature;
+      if (items.maxTokens) state2.maxTokens = items.maxTokens;
+      if (typeof items.autoSummarize === "boolean") state2.autoSummarize = items.autoSummarize;
+      if (items.localWhisperUrl) state2.localWhisperUrl = items.localWhisperUrl;
+      if (items.ttsSpeed) state2.ttsSpeed = items.ttsSpeed;
+      if (items.selectedVoiceURI) state2.selectedVoiceURI = items.selectedVoiceURI;
+      ["openai", "gemini", "claude", "groq", "deepseek", "lmstudio", "ollama"].forEach((p) => {
+        if (items[`apiKey_${p}`]) state2.apiKeys[p] = items[`apiKey_${p}`];
+        if (items[`serverUrl_${p}`]) state2.serverUrls[p] = items[`serverUrl_${p}`];
+        if (items[`selectedModel_${p}`]) state2.selectedModels[p] = items[`selectedModel_${p}`];
+      });
+      callback?.();
+    });
   }
 
-  // src/services/implementations/PromptBuilder.js
-  var PromptBuilder = class extends IPromptBuilder {
-    /**
-     * Smart 3-part condensation algorithm (40% intro, 25% middle, 35% conclusion)
-     */
-    condenseTranscript(transcript, maxChars) {
-      if (!transcript || transcript.length <= maxChars) {
-        return transcript || "";
-      }
-      const introSize = Math.floor(maxChars * 0.4);
-      const middleSize = Math.floor(maxChars * 0.25);
-      const endSize = Math.floor(maxChars * 0.35);
-      const intro = transcript.slice(0, introSize);
-      const middleStart = Math.floor((transcript.length - middleSize) / 2);
-      const middle = transcript.slice(middleStart, middleStart + middleSize);
-      const end = transcript.slice(-endSize);
-      return `${intro}
-
-[... Progression de la vid\xE9o condens\xE9e pour respecter la fen\xEAtre de contexte de l'IA ...]
-
-${middle}
-
-[... Suite et conclusion de la vid\xE9o ...]
-
-${end}`;
-    }
-    /**
-     * Formats video description, channel, category and tag context for AI prompts
-     */
-    formatContextBlock(extraContext, lang = "en") {
-      if (!extraContext || typeof extraContext !== "object") return "";
-      const subscribers = extraContext.subscribers || "";
-      const category = extraContext.category || "";
-      const publishDate = extraContext.publishDate || "";
-      const rawKeywords = extraContext.keywords || [];
-      const keywords = Array.isArray(rawKeywords) ? rawKeywords.slice(0, 10).join(", ") : typeof rawKeywords === "string" ? rawKeywords : "";
-      let description = String(extraContext.description || "").trim();
-      if (description.length > 2e3) {
-        description = description.slice(0, 1950) + "... [description condens\xE9e]";
-      }
-      const lines = [];
-      const isFr = lang === "fr";
-      if (subscribers) lines.push(isFr ? `- Abonn\xE9s cha\xEEne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
-      if (category) lines.push(isFr ? `- Cat\xE9gorie : ${category}` : `- Category: ${category}`);
-      if (publishDate) lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
-      if (keywords) lines.push(isFr ? `- Mots-cl\xE9s : ${keywords}` : `- Keywords: ${keywords}`);
-      if (description) lines.push(isFr ? `- Description officielle :
-"""
-${description}
-"""` : `- Official Description:
-"""
-${description}
-"""`);
-      if (lines.length === 0) return "";
-      const header = isFr ? "CONTEXTE DE LA VID\xC9O & DE LA CHA\xCENE :" : "VIDEO & CHANNEL CONTEXT:";
-      return `${header}
-${lines.join("\n")}
-`;
-    }
-    /**
-     * Builds system and user prompts for video summarization
-     */
-    buildSummaryPrompts(title, author, safeTranscript, lang, mode, customDirectives = "", extraContext = {}) {
-      if (typeof title === "object" && title !== null) {
-        const opts = title;
-        title = opts.title;
-        author = opts.author;
-        safeTranscript = opts.safeTranscript || opts.transcript;
-        lang = opts.lang || opts.targetLang;
-        mode = opts.mode || opts.formatMode;
-        customDirectives = typeof opts.customDirectives === "string" ? opts.customDirectives : "";
-        extraContext = opts.extra || opts.metadata || opts;
-      } else if (typeof author === "object" && author !== null) {
-        extraContext = author;
-        author = extraContext.author || "";
-      } else if (typeof customDirectives === "object" && customDirectives !== null) {
-        extraContext = customDirectives;
-        customDirectives = "";
-      } else if (typeof arguments[6] === "object" && arguments[6] !== null) {
-        extraContext = arguments[6];
-      }
-      const isFr = lang === "fr";
-      const targetLangName = TARGET_LANG_NAMES[lang] || "ENGLISH";
-      const systemPrompt = isFr ? `Tu es un assistant IA d'\xE9lite YouTube Summarizer AI sp\xE9cialis\xE9 dans la synth\xE8se et l'analyse de vid\xE9os.
-Ton but absolu est de produire un r\xE9sum\xE9 clair, naturel, bien structur\xE9 et fid\xE8le EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o.
-OBLIGATION STRICTE : R\xE9dige l'int\xE9gralit\xE9 du r\xE9sum\xE9, tous les titres et analyses en FRAN\xC7AIS.
-R\xC8GLES DE STYLE :
-- Style naturel, direct et percutant : va droit au but sans phrases de remplissage.
-- \xC9vite les phrases inutilement longues, privil\xE9gie la fluidit\xE9 et la clart\xE9.
-- Mise en page a\xE9r\xE9e en Markdown avec des listes \xE0 puces et des mots-cl\xE9s en **gras** en d\xE9but de point.
-- Fid\xE9lit\xE9 \xE0 100% \xE0 la transcription, z\xE9ro hallucination ou extrapolation.` : `You are an expert AI assistant YouTube Summarizer AI specializing in video summarization and insights.
-Your absolute goal is to produce a clear, natural, well-structured, and faithful summary EXCLUSIVELY in ${targetLangName}, regardless of the original video language.
-MANDATORY LANGUAGE DIRECTIVE: Write the ENTIRE summary, all section headings, bullet points, and analysis strictly in ${targetLangName}. Do NOT use English unless the requested language is English.
-STYLE RULES:
-- Natural, direct, and engaging style: go straight to the point without filler phrases.
-- Avoid overly long and complex sentences, focus on clarity and flow.
-- Use airy Markdown formatting with bullet points and **bold** keywords at the start of each point.
-- 100% faithful to the transcript, with zero hallucinations or extrapolation.`;
-      const formatInstructions = getFormatInstructions(mode, lang);
-      const contextBlock = this.formatContextBlock(extraContext, lang);
-      const langRule = isFr ? `OBLIGATION : R\xE9dige l'int\xE9gralit\xE9 du r\xE9sum\xE9 en FRAN\xC7AIS.` : `MANDATORY: Write the entire summary exclusively in ${targetLangName}.`;
-      const userPrompt = isFr ? `Voici la transcription de la vid\xE9o YouTube :
-Titre : "${title}"
-Auteur/Cha\xEEne : "${author}"${contextBlock ? `
-
-${contextBlock}` : ""}
-
-${langRule}
-
-Format demand\xE9 :
-${formatInstructions}${customDirectives ? `
-DIRECTIVES PERSONNALIS\xC9ES DE L'UTILISATEUR :
-${customDirectives}
-` : ""}
-
-TRANSCRIPTION :
-${safeTranscript}` : `Here is the transcript of the YouTube video:
-Title: "${title}"
-Author/Channel: "${author}"${contextBlock ? `
-
-${contextBlock}` : ""}
-
-${langRule}
-
-Requested format:
-${formatInstructions}${customDirectives ? `
-USER CUSTOM DIRECTIVES:
-${customDirectives}
-` : ""}
-
-TRANSCRIPT:
-${safeTranscript}`;
-      return { systemPrompt, userPrompt };
-    }
-    /**
-     * Builds system and user messages for interactive Q&A chat
-     */
-    buildChatPrompts(title, transcriptText, targetLang, chatHistory, userQuestion, extraContext = {}) {
-      const langNames = {
-        en: "English",
-        fr: "French",
-        es: "Spanish",
-        de: "German",
-        it: "Italian",
-        ru: "Russian",
-        ja: "Japanese",
-        zh: "Simplified Chinese"
-      };
-      const targetLangName = langNames[targetLang] || "English";
-      const contextBlock = this.formatContextBlock(extraContext, targetLang);
-      const systemPrompt = `You are a conversational AI video assistant YouTube Summarizer AI.
-You answer questions accurately based on the video transcript and the provided official video context (description, channel information, tags).
-Video Title: "${title}"
-${contextBlock ? `${contextBlock}
-` : ""}Always answer in ${targetLangName}.
-If the answer is not mentioned in the transcript or description, state clearly that the video does not mention it.
-Be concise, helpful, and quote timestamps in [m:ss] format if applicable.
-
-TRANSCRIPT:
-${transcriptText}`;
-      const messages = [];
-      if (Array.isArray(chatHistory)) {
-        for (const msg of chatHistory) {
-          if (msg.role && msg.content) {
-            messages.push({ role: msg.role, content: msg.content });
-          }
-        }
-      }
-      messages.push({ role: "user", content: userQuestion });
-      return { systemPrompt, messages };
-    }
-  };
-
-  // src/content/services/PromptService.js
-  var promptBuilder = new PromptBuilder();
-  var CHAT_LANG_MAP = {
-    fr: {
-      persona: "Tu es YouTube Summarizer AI, une extension Chrome intelligente int\xE9gr\xE9e directement sous la vid\xE9o YouTube.",
-      role: "Tu r\xE9ponds aux questions de l'utilisateur sur cette vid\xE9o YouTube en t'appuyant rigoureusement sur sa transcription et sur le contexte officiel fourni (description, cha\xEEne, cat\xE9gorie) ainsi que sur le r\xE9sum\xE9 vid\xE9o.",
-      identity: "Si l'utilisateur mentionne l'extension ou te demande qui tu es, confirme explicitement que tu es l'assistant de l'extension YouTube Summarizer AI.",
-      rule: "OBLIGATION STRICTE DE LANGUE : Tu DOIS r\xE9pondre EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o ou de la question.",
-      quick: "Longueur souhait\xE9e : r\xE9ponse courte, concise et directe (1 ou 2 courts paragraphes).",
-      detailed: "Longueur souhait\xE9e : r\xE9ponse d\xE9taill\xE9e et approfondie.",
-      standard: "Longueur souhait\xE9e : r\xE9ponse \xE9quilibr\xE9e et naturelle, allant droit au but.",
-      summaryLabel: "R\xC9SUM\xC9 VID\xC9O PR\xC9C\xC9DEMMENT G\xC9N\xC9R\xC9 DANS L'EXTENSION (POUR R\xC9F\xC9RENCE) :",
-      transcriptLabel: "Transcription de la vid\xE9o :"
-    },
-    en: {
-      persona: "You are YouTube Summarizer AI, an intelligent Chrome extension built directly into YouTube.",
-      role: "You answer the user's questions about this YouTube video, strictly based on its transcript and official video context (description, channel information, tags) along with the generated summary.",
-      identity: "If the user mentions the extension or asks who you are, explicitly confirm that you are the YouTube Summarizer AI Chrome extension assistant.",
-      rule: "MANDATORY LANGUAGE RULE: You MUST write your ENTIRE response EXCLUSIVELY in ENGLISH, regardless of the video or question language.",
-      quick: "Desired length: short and concise answer (1-2 short paragraphs), straight to the point.",
-      detailed: "Desired length: detailed and comprehensive explanation.",
-      standard: "Desired length: balanced, natural response, not too long, straight to the point.",
-      summaryLabel: "PREVIOUSLY GENERATED VIDEO SUMMARY (FOR USER REFERENCE):",
-      transcriptLabel: "Video Transcript:"
-    },
-    es: {
-      persona: "Eres YouTube Summarizer AI, una extensi\xF3n inteligente de Chrome integrada directamente en YouTube.",
-      role: "Respondes a las preguntas del usuario sobre este v\xEDdeo de YouTube bas\xE1ndote estrictamente en su transcripci\xF3n, contexto oficial y resumen.",
-      identity: "Si el usuario menciona la extensi\xF3n o pregunta qui\xE9n eres, confirma expl\xEDcitamente que eres el asistente de la extensi\xF3n YouTube Summarizer AI.",
-      rule: "REGLA OBLIGATORIA DE IDIOMA: Debes responder \xDANICA Y EXCLUSIVAMENTE en ESPA\xD1OL, sea cual sea el idioma de la pregunta o del v\xEDdeo.",
-      quick: "Longitud deseada: respuesta corta y concisa (1 o 2 p\xE1rrafos cortos).",
-      detailed: "Longitud deseada: respuesta detallada y completa.",
-      standard: "Longitud deseada: respuesta equilibrada y natural, sin rodeos.",
-      summaryLabel: "RESUMEN DEL V\xCDDEO PREVIAMENTE GENERADO EN LA EXTENSI\xD3N (PARA REFERENCIA):",
-      transcriptLabel: "Transcripci\xF3n del v\xEDdeo:"
-    },
-    it: {
-      persona: "Sei YouTube Summarizer AI, un'estensione intelligente per Chrome integrata direttamente in YouTube.",
-      role: "Rispondi alle domande dell'utente su questo video di YouTube basandoti rigorosamente sulla trascrizione, sul contesto ufficiale e sul riassunto.",
-      identity: "Se l'utente menziona l'estensione o chiede chi sei, conferma esplicitamente di essere l'assistente dell'estensione YouTube Summarizer AI.",
-      rule: "REGOLA OBBLIGATORIA SULLA LINGUA: Devi rispondere ESCLUSIVAMENTE in ITALIANO, indipendentemente dalla lingua della domanda o del video.",
-      quick: "Lunghezza desiderata: risposta breve e concisa (1 o 2 brevi paragrafi).",
-      detailed: "Lunghezza desiderata: spiegazione dettagliata e approfondita.",
-      standard: "Lunghezza desiderata: risposta equilibrata e naturale, dritta al punto.",
-      summaryLabel: "RIASSUNTO DEL VIDEO PRECEDENTEMENTE GENERATO NELL'ESTENSIONE (PER RIFERIMENTO):",
-      transcriptLabel: "Trascrizione del video:"
-    },
-    de: {
-      persona: "Du bist YouTube Summarizer AI, eine intelligente Chrome-Erweiterung, die direkt in YouTube integriert ist.",
-      role: "Du beantwortest Fragen des Nutzers basierend auf dem Videotranskript, offiziellen Kontextdaten und der Videozusammenfassung.",
-      identity: "Wenn der Nutzer die Erweiterung erw\xE4hnt oder fragt wer du bist, best\xE4tige explizit, dass du der Assistent der YouTube Summarizer AI Chrome-Erweiterung bist.",
-      rule: "STRIKTE SPRACHVORGABE: Antworte AUSSCHLIESSLICH auf DEUTSCH, unabh\xE4ngig von der Sprache der Frage oder des Videos.",
-      quick: "Gew\xFCnschte L\xE4nge: kurze und pr\xE4gnante Antwort (1-2 kurze Abs\xE4tze).",
-      detailed: "Gew\xFCnschte L\xE4nge: ausf\xFChrliche und detaillierte Erkl\xE4rung.",
-      standard: "Gew\xFCnschte L\xE4nge: ausgewogene, nat\xFCrliche Antwort, direkt auf den Punkt.",
-      summaryLabel: "ZUVOR GENERIERTE VIDEOZUSAMMENFASSUNG IN DER ERWEITERUNG (ZUR REFERENZ):",
-      transcriptLabel: "Videotranskript:"
-    },
-    ja: {
-      persona: "\u3042\u306A\u305F\u306FYouTube\u306B\u76F4\u63A5\u7D71\u5408\u3055\u308C\u305F\u30A4\u30F3\u30C6\u30EA\u30B8\u30A7\u30F3\u30C8\u306AChrome\u62E1\u5F35\u6A5F\u80FD\u300CYouTube Summarizer AI\u300D\u3067\u3059\u3002",
-      role: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3001\u516C\u5F0F\u6982\u8981\u3001\u304A\u3088\u3073\u751F\u6210\u3055\u308C\u305F\u8981\u7D04\u306B\u57FA\u3065\u3044\u3066\u6B63\u78BA\u306B\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
-      identity: "\u30E6\u30FC\u30B6\u30FC\u304C\u62E1\u5F35\u6A5F\u80FD\u306B\u3064\u3044\u3066\u8A00\u53CA\u3057\u305F\u5834\u5408\u306F\u3001\u81EA\u8EAB\u304CYouTube Summarizer AI\u62E1\u5F35\u6A5F\u80FD\u306E\u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u3067\u3042\u308B\u3053\u3068\u3092\u8A8D\u3081\u3066\u304F\u3060\u3055\u3044\u3002",
-      rule: "\u3010\u6700\u91CD\u8981\u8A00\u8A9E\u30EB\u30FC\u30EB\u3011\u8CEA\u554F\u3084\u52D5\u753B\u306E\u8A00\u8A9E\u306B\u95A2\u4FC2\u306A\u304F\u3001\u5FC5\u305A\u81EA\u7136\u306A\u65E5\u672C\u8A9E\u306E\u307F\u3067\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
-      quick: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u7C21\u6F54\u306A\u56DE\u7B54\uFF081\u301C2\u6BB5\u843D\uFF09\u3002",
-      detailed: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u8A73\u7D30\u3067\u7DB2\u7F85\u7684\u306A\u8AAC\u660E\u3002",
-      standard: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u8981\u70B9\u3092\u62BC\u3055\u3048\u305F\u81EA\u7136\u306A\u56DE\u7B54\u3002",
-      summaryLabel: "\u62E1\u5F35\u6A5F\u80FD\u3067\u4EE5\u524D\u306B\u751F\u6210\u3055\u308C\u305F\u52D5\u753B\u306E\u8981\u7D04\uFF08\u53C2\u8003\u7528\uFF09\uFF1A",
-      transcriptLabel: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\uFF1A"
-    },
-    ru: {
-      persona: "\u0412\u044B \u2014 YouTube Summarizer AI, \u0438\u043D\u0442\u0435\u043B\u043B\u0435\u043A\u0442\u0443\u0430\u043B\u044C\u043D\u043E\u0435 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435 Chrome, \u0432\u0441\u0442\u0440\u043E\u0435\u043D\u043D\u043E\u0435 \u043F\u0440\u044F\u043C\u043E \u0432 YouTube.",
-      role: "\u0412\u044B \u043E\u0442\u0432\u0435\u0447\u0430\u0435\u0442\u0435 \u043D\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F \u043E \u0432\u0438\u0434\u0435\u043E strictly \u043D\u0430 \u043E\u0441\u043D\u043E\u0432\u0435 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430, \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442\u0430 \u0438 \u0433\u043E\u0442\u043E\u0432\u043E\u0433\u043E \u0440\u0435\u0437\u044E\u043C\u0435.",
-      identity: "\u0415\u0441\u043B\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0443\u043F\u043E\u043C\u0438\u043D\u0430\u0435\u0442 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435 \u0438\u043B\u0438 \u0441\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0442 \u043A\u0442\u043E \u0432\u044B, \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u0435, \u0447\u0442\u043E \u0432\u044B \u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u044F YouTube Summarizer AI.",
-      rule: "\u0421\u0422\u0420\u041E\u0413\u041E\u0415 \u0422\u0420\u0415\u0411\u041E\u0412\u0410\u041D\u0418\u0415 \u041A \u042F\u0417\u042B\u041A\u0423: \u041E\u0442\u0432\u0435\u0447\u0430\u0439\u0442\u0435 \u0418\u0421\u041A\u041B\u042E\u0427\u0418\u0422\u0415\u041B\u042C\u041D\u041E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435, \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E \u043E\u0442 \u044F\u0437\u044B\u043A\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u0430 \u0438\u043B\u0438 \u0432\u0438\u0434\u0435\u043E.",
-      quick: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u043A\u0440\u0430\u0442\u043A\u0438\u0439 \u0438 \u0447\u0435\u0442\u043A\u0438\u0439 \u043E\u0442\u0432\u0435\u0442 (1-2 \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0445 \u0430\u0431\u0437\u0430\u0446\u0430).",
-      detailed: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u043F\u043E\u0434\u0440\u043E\u0431\u043D\u043E\u0435 \u0438 \u0438\u0441\u0447\u0435\u0440\u043F\u044B\u0432\u0430\u044E\u0449\u0435\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435.",
-      standard: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u0441\u0431\u0430\u043B\u0430\u043D\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0439 \u0438 \u0435\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442 \u043F\u043E \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443.",
-      summaryLabel: "\u0420\u0410\u041D\u0415\u0415 \u0421\u0424\u041E\u0420\u041C\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415 \u0420\u0415\u0417\u042E\u041C\u0415 \u0412\u0418\u0414\u0415\u041E \u0412 \u0420\u0410\u0421\u0428\u0418\u0420\u0415\u041D\u0418\u0418 (\u0414\u041B\u042F \u0421\u041F\u0420\u0410\u0412\u041A\u0418):",
-      transcriptLabel: "\u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442 \u0432\u0438\u0434\u0435\u043E:"
-    },
-    zh: {
-      persona: "\u4F60\u662F YouTube Summarizer AI\uFF0C\u4E00\u6B3E\u76F4\u63A5\u5185\u5D4C\u4E8E YouTube \u7684\u667A\u80FD Chrome \u6269\u5C55\u7A0B\u5E8F\u52A9\u624B\u3002",
-      role: "\u8BF7\u4E25\u683C\u4F9D\u636E\u89C6\u9891\u9010\u5B57\u7A3F\u3001\u5B98\u65B9\u89C6\u9891\u4FE1\u606F\u548C\u5DF2\u751F\u6210\u7684\u89C6\u9891\u6458\u8981\u56DE\u7B54\u7528\u6237\u7684\u95EE\u9898\u3002",
-      identity: "\u5982\u679C\u7528\u6237\u63D0\u5230\u6269\u5C55\u7A0B\u5E8F\u6216\u8BE2\u95EE\u4F60\u7684\u8EAB\u4EFD\uFF0C\u8BF7\u660E\u786E\u786E\u8BA4\u4F60\u662F YouTube Summarizer AI \u6269\u5C55\u7A0B\u5E8F\u52A9\u624B\u3002",
-      rule: "\u3010\u5F3A\u5236\u8BED\u8A00\u8981\u6C42\u3011\u65E0\u8BBA\u63D0\u95EE\u6216\u89C6\u9891\u539F\u59CB\u8BED\u8A00\u4E3A\u4F55\uFF0C\u5FC5\u987B\u5168\u90E8\u4F7F\u7528\u4E2D\u6587\uFF08\u7B80\u4F53\u4E2D\u6587\uFF09\u56DE\u7B54\u3002",
-      quick: "\u671F\u671B\u957F\u5EA6\uFF1A\u7B80\u660E\u627C\u8981\u7684\u56DE\u7B54\uFF081-2\u4E2A\u7B80\u77ED\u6BB5\u843D\uFF09\u3002",
-      detailed: "\u671F\u671B\u957F\u5EA6\uFF1A\u8BE6\u5C3D\u800C\u6DF1\u5165\u7684\u89E3\u91CA\u5206\u6790\u3002",
-      standard: "\u671F\u671B\u957F\u5EA6\uFF1A\u81EA\u7136\u5E73\u8861\u3001\u76F4\u5954\u4E3B\u9898\u7684\u56DE\u7B54\u3002",
-      summaryLabel: "\u6B64\u524D\u5728\u6269\u5C55\u7A0B\u5E8F\u4E2D\u751F\u6210\u7684\u89C6\u9891\u6458\u8981\uFF08\u4F9B\u53C2\u8003\uFF09\uFF1A",
-      transcriptLabel: "\u89C6\u9891\u9010\u5B57\u7A3F\uFF1A"
-    }
-  };
-  var PromptService = class {
-    /**
-     * Condenses transcript to fit within AI model context limits
-     */
-    static condenseTranscriptForContext(transcript, maxChars) {
-      if (transcript.length <= maxChars) {
-        return transcript;
-      }
-      const introSize = Math.floor(maxChars * 0.4);
-      const middleSize = Math.floor(maxChars * 0.25);
-      const endSize = Math.floor(maxChars * 0.35);
-      const intro = transcript.slice(0, introSize);
-      const middleStart = Math.floor((transcript.length - middleSize) / 2);
-      const middle = transcript.slice(middleStart, middleStart + middleSize);
-      const end = transcript.slice(-endSize);
-      return `${intro}
-
-[... Progression de la vid\xE9o condens\xE9e pour respecter la m\xE9moire du mod\xE8le ...]
-
-${middle}
-
-[... Progression vers la conclusion ...]
-
-${end}`;
-    }
-    /**
-     * Builds system and user prompts for in-page video summarization
-     */
-    static buildPrompts(title, author, safeTranscript, lang, mode, meta = null) {
-      const resolvedMeta = meta || { title, author };
-      const { systemPrompt, userPrompt } = promptBuilder.buildSummaryPrompts(
-        title,
-        author,
-        safeTranscript,
-        lang,
-        mode,
-        "",
-        resolvedMeta
-      );
-      return { systemPrompt, userPrompt };
-    }
-    /**
-     * Builds chat system prompt for interactive Q&A
-     */
-    static buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode) {
-      const summaryText = arguments[4] || "";
-      const contextBlock = formatContextInfo(meta, lang);
-      const subStr = meta?.subscribers ? ` (${meta.subscribers})` : "";
-      const cleanLang = lang && CHAT_LANG_MAP[lang] ? lang : "fr";
-      const cfg = CHAT_LANG_MAP[cleanLang];
-      let lenDir = cfg.standard;
-      if (selectedChatMode === "quick") lenDir = cfg.quick;
-      else if (selectedChatMode === "detailed") lenDir = cfg.detailed;
-      const summaryBlock = summaryText && summaryText.trim() ? `
-${cfg.summaryLabel}
-"""
-${summaryText.trim()}
-"""
-` : "";
-      return `${cfg.persona}
-${cfg.role}
-${cfg.identity}
-
-${cfg.rule}
-
-Title: "${meta?.title || ""}"
-Channel: "${meta?.author || ""}"${subStr}
-${contextBlock ? `
-${contextBlock}` : ""}${summaryBlock}
-${cfg.transcriptLabel}
-"""
-${safeTranscript}
-"""
-
-WRITING & AUDIO PLAYBACK GUIDELINES:
-1. ${cfg.rule}
-2. ${lenDir}
-3. CONTINUOUS PROSE (TTS READY):
-   - Write in flowing, natural prose paragraphs without disjointed lists or decorative emojis for smooth audio playback.
-4. READABLE STRUCTURE:
-   - Break answers into short paragraphs with **bold** key terms.
-   - 100% faithful to the video content, transcript, and summary without hallucinations.`;
-    }
-  };
-
   // src/content/index.js
-  var state = {
-    extensionEnabled: true,
-    currentProvider: "lmstudio",
-    serverUrls: { lmstudio: "http://192.168.56.1:1234", ollama: "http://localhost:11434" },
-    apiKeys: { openai: "", gemini: "", claude: "", groq: "", deepseek: "" },
-    selectedModels: {},
-    availableLocalModels: {},
-    currentLang: "fr",
-    temperature: "0.3",
-    maxTokens: "auto",
-    ttsSpeed: "1.0",
-    localWhisperUrl: "http://127.0.0.1:8000",
-    autoSummarize: false,
-    customPrompt: "",
-    selectedVoiceURI: "",
-    selectedMicDeviceId: "",
-    getActiveModel() {
-      return this.selectedModels[this.currentProvider] || "";
-    },
-    setActiveModel(m) {
-      this.selectedModels[this.currentProvider] = m;
-    },
-    savePreference(key, val) {
-      if (chrome?.storage?.local) chrome.storage.local.set({ [key]: val });
-    }
-  };
+  var state = createInPageState();
   var transcriptController = new InPageTranscriptController();
   var audioController = new InPageAudioController();
   var promptService = new PromptService();
@@ -4935,7 +5523,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     document.getElementById("ytAiLangSelect")?.addEventListener("change", (e) => {
       state.currentLang = e.target.value;
       state.savePreference("targetLang", state.currentLang);
-      bannerView.applyLanguage(state.currentLang, summaryViewController);
+      bannerView.applyLanguage(state.currentLang, summaryViewController, settingsDrawer);
       audioController.populateVoiceDropdown(state.currentLang);
     });
     document.getElementById("ytAiProviderSelect")?.addEventListener("change", (e) => {
@@ -5007,8 +5595,9 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         sendChat();
       }
     });
-    banner.querySelectorAll(".yt-ai-suggestion-chip").forEach((chip) => {
-      chip.addEventListener("click", () => sendChat(chip.getAttribute("data-question") || chip.textContent.trim()));
+    banner.querySelector(".yt-ai-chat-suggestions")?.addEventListener("click", (e) => {
+      const chip = e.target.closest(".yt-ai-suggestion-chip");
+      if (chip) sendChat(chip.getAttribute("data-question") || chip.textContent.trim());
     });
     document.getElementById("ytAiMicBtn")?.addEventListener("click", () => {
       audioController.toggleDictation({
@@ -5040,39 +5629,15 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         }
       }
     });
-    bannerView.applyLanguage(state.currentLang, summaryViewController);
+    bannerView.applyLanguage(state.currentLang, summaryViewController, settingsDrawer);
     settingsDrawer.syncProviderUI();
     if (state.summaryMode) bannerView.setSummaryMode(state.summaryMode);
     summaryViewController.renderSummaryEmptyState(false, state.currentLang, triggerSummarize);
   }
-  function loadPreferences(callback) {
-    if (!chrome?.storage?.local) return callback?.();
-    chrome.storage.local.get(null, (items = {}) => {
-      if (typeof items.extensionEnabled === "boolean") state.extensionEnabled = items.extensionEnabled;
-      if (items.aiProvider) state.currentProvider = items.aiProvider;
-      if (items.targetLang) state.currentLang = items.targetLang;
-      if (items.selectedModel) state.setActiveModel(items.selectedModel);
-      if (items.summaryMode) {
-        state.summaryMode = items.summaryMode;
-        bannerView.currentMode = items.summaryMode;
-      }
-      if (items.temperature) state.temperature = items.temperature;
-      if (items.maxTokens) state.maxTokens = items.maxTokens;
-      if (typeof items.autoSummarize === "boolean") state.autoSummarize = items.autoSummarize;
-      if (items.localWhisperUrl) state.localWhisperUrl = items.localWhisperUrl;
-      if (items.ttsSpeed) state.ttsSpeed = items.ttsSpeed;
-      if (items.selectedVoiceURI) state.selectedVoiceURI = items.selectedVoiceURI;
-      ["openai", "gemini", "claude", "groq", "deepseek", "lmstudio", "ollama"].forEach((p) => {
-        if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`];
-        if (items[`serverUrl_${p}`]) state.serverUrls[p] = items[`serverUrl_${p}`];
-        if (items[`selectedModel_${p}`]) state.selectedModels[p] = items[`selectedModel_${p}`];
-      });
-      callback?.();
-    });
-  }
   function initContentScript() {
     ThemeManager.initThemeSync();
-    loadPreferences(() => {
+    loadPreferences(state, () => {
+      if (state.summaryMode) bannerView.currentMode = state.summaryMode;
       bannerView.tryInjectBanner(bindBannerEvents);
       NavigationObserver.observeNavigation(({ isNewVideo }) => {
         if (isNewVideo) {
@@ -5103,7 +5668,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         } else if (act === "SET_LANGUAGE") {
           if (req.lang) {
             state.currentLang = req.lang;
-            bannerView.applyLanguage(state.currentLang, summaryViewController);
+            bannerView.applyLanguage(state.currentLang, summaryViewController, settingsDrawer);
             audioController.populateVoiceDropdown(state.currentLang);
           }
           sendResponse({ success: true });

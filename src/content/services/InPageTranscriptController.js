@@ -10,7 +10,7 @@ import { I18N } from '../../locales/index.js';
  */
 export class InPageTranscriptController {
   constructor() {
-    this.cachedTranscript = { videoId: '', segments: [], fullText: '', isChapterOnly: false };
+    this.cachedTranscript = { videoId: '', segments: [], fullText: '', timestampedText: '', isChapterOnly: false };
     this.cachedVideoMetadata = {
       videoId: '', title: '', author: '', channelId: '', subscribers: '',
       description: '', keywords: [], category: '', publishDate: '', viewCount: ''
@@ -194,16 +194,44 @@ export class InPageTranscriptController {
       return chapterSegments;
     }
 
-    // STRATÉGIE 6 : Stealth Native Panel (Seulement si l'utilisateur a explicitement demandé et que tout le reste a échoué)
-    if (isUserInitiated) {
-      const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
-      if (stealthSegments && stealthSegments.length > 3) {
-        this.saveCachedTranscript(currentVideoId, stealthSegments, false);
-        return stealthSegments;
-      }
+    // STRATÉGIE 6 : Stealth Native Panel (Extraction transparente sans clic visible)
+    const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
+    if (stealthSegments && stealthSegments.length > 3) {
+      this.saveCachedTranscript(currentVideoId, stealthSegments, false);
+      return stealthSegments;
     }
 
     return null;
+  }
+
+  static formatTimestampedText(segments, intervalSec = 30) {
+    if (!Array.isArray(segments) || segments.length === 0) return '';
+    const parts = [];
+    let lastSec = -1;
+
+    for (const s of segments) {
+      const text = (s.text || '').trim();
+      if (!text) continue;
+
+      let sec = 0;
+      if (typeof s.startMs === 'number') {
+        sec = Math.floor(s.startMs / 1000);
+      } else if (s.timestamp) {
+        const timeParts = s.timestamp.split(':').map(Number);
+        if (timeParts.length === 3) sec = timeParts[0] * 3600 + timeParts[1] * 60 + timeParts[2];
+        else if (timeParts.length === 2) sec = timeParts[0] * 60 + timeParts[1];
+      }
+
+      if (lastSec === -1 || (sec - lastSec) >= intervalSec) {
+        const timeStr = s.timestamp || (s.formatTime ? s.formatTime() : `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`);
+        parts.push(`[${timeStr}] ${text}`);
+        lastSec = sec;
+      } else {
+        parts.push(text);
+      }
+    }
+
+    return parts.join(' ').replace(/\s{2,}/g, ' ').trim();
   }
 
   saveCachedTranscript(videoId, segments, isChapterOnly = false) {
@@ -211,6 +239,7 @@ export class InPageTranscriptController {
       videoId,
       segments,
       fullText: segments.map(s => s.text).join(' '),
+      timestampedText: InPageTranscriptController.formatTimestampedText(segments, 30),
       isChapterOnly: !!isChapterOnly
     };
 
@@ -240,7 +269,7 @@ export class InPageTranscriptController {
   }
 
   resetAllState(currentLang = 'en') {
-    this.cachedTranscript = { videoId: '', segments: [], fullText: '', isChapterOnly: false };
+    this.cachedTranscript = { videoId: '', segments: [], fullText: '', timestampedText: '', isChapterOnly: false };
     this.cachedVideoMetadata = {
       videoId: '', title: '', author: '', channelId: '', subscribers: '',
       description: '', keywords: [], category: '', publishDate: '', viewCount: ''

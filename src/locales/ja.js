@@ -147,7 +147,9 @@ export const ja = {
   "chapterBadge": "(チャプター)",
   "transcriptExtracted": "文字起こしを抽出しました",
   "modelResponsive": "応答モデル: {model}",
-  "extractingTranscriptNotice": "動画の文字起こしを抽出中..."
+  "extractingTranscriptNotice": "動画の文字起こしを抽出中...",
+  "fetchingExternalVideo": "⏳ リンクされたYouTube動画を解析中...",
+  "externalVideoBadge": "📎 リンクされた動画を解析完了"
 };
 
 export default ja;

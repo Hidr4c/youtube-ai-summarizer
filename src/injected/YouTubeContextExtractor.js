@@ -145,26 +145,17 @@ export class YouTubeContextExtractor {
   async handlePlayerDataRequest(requestedVideoId, preferredLang) {
     try {
       let playerResponse = null;
-      for (let attempt = 0; attempt < 8; attempt++) {
+      for (let attempt = 0; attempt < 15; attempt++) {
         playerResponse = this.resolvePlayerResponse(requestedVideoId);
-        if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks) break;
-        await new Promise(r => setTimeout(r, 120));
+        if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks?.length > 0) break;
+        await new Promise(r => setTimeout(r, 100));
       }
 
       const player = document.getElementById('movie_player');
       const activeId = player?.getVideoData?.()?.video_id || '';
-      if (requestedVideoId && activeId && activeId !== requestedVideoId && !playerResponse) {
-        window.postMessage({
-          type: 'YT_AI_RES_PLAYER_DATA',
-          success: false,
-          error: 'Video ID mismatch during transition',
-          videoId: requestedVideoId,
-          captions: [],
-          segments: null
-        }, '*');
-        return;
+      if (requestedVideoId && activeId !== requestedVideoId && !playerResponse) {
+        throw new Error('Video ID mismatch during transition');
       }
-
       const captions = this.resolveCaptionTracks(playerResponse, requestedVideoId);
       const isInitialMatch = (!requestedVideoId || window.ytInitialPlayerResponse?.videoDetails?.videoId === requestedVideoId);
       const videoDetails = playerResponse?.videoDetails || (isInitialMatch ? window.ytInitialPlayerResponse?.videoDetails : {}) || {};

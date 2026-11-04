@@ -147,7 +147,9 @@ export const zh = {
   "chapterBadge": "(章节)",
   "transcriptExtracted": "已提取文字记录",
   "modelResponsive": "响应模型：{model}",
-  "extractingTranscriptNotice": "正在提取视频字幕..."
+  "extractingTranscriptNotice": "正在提取视频字幕...",
+  "fetchingExternalVideo": "⏳ 正在分析关联的 YouTube 视频逐字稿...",
+  "externalVideoBadge": "📎 已解析关联视频"
 };
 
 export default zh;
