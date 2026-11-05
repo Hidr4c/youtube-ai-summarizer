@@ -26,8 +26,16 @@ export class VideoCommentsManager {
       /qu['’]en\s+dit\s+la\s+communaut[ée]/i,
       /avis\s+g[ée]n[ée]ral\s+sous\s+la\s+vid[ée]o/i,
       /critiques?\s+dans\s+les\s+commentaires/i,
+      /(?:retrouve|cherche|trouve|voir)\s+(?:le\s+|un\s+)?(?:commentaire|message|avis|post)/i,
+      /(?:quelqu['’]un|un\s+gars|un\s+spectateur|un\s+abonn[ée])\s+(?:a\s+dit|a\s+[ée]crit|disait|parle|demandait)/i,
+      /(?:qui|quelqu['’]un)\s+(?:a\s+post[ée]|a\s+comment[ée])/i,
+      /un\s+commentaire\s+(?:qui|sur|de)/i,
+      /@[a-zA-Z0-9_-]{3,}/,
       /(?:public|audience|community|viewer)\s+(?:feedback|reaction|opinion)/i,
       /(?:what\s+do|how\s+do)\s+people\s+(?:think|react)/i,
+      /(?:find|search|lookup)\s+(?:the\s+|a\s+)?comment/i,
+      /(?:someone|a\s+user|a\s+viewer)\s+(?:said|wrote|posted|commented)/i,
+      /who\s+commented/i,
       /video\s+comments/i
     ];
 

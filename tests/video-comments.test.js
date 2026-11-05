@@ -2,6 +2,7 @@ import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { VideoCommentsManager } from '../src/content/services/VideoCommentsManager.js';
 import { VideoCommentsFetcher } from '../src/background/VideoCommentsFetcher.js';
+import { PromptService } from '../src/content/services/PromptService.js';
 
 describe('VideoCommentsManager - Intent Detection & Caching', () => {
   let manager;
@@ -22,6 +23,17 @@ describe('VideoCommentsManager - Intent Detection & Caching', () => {
     assert.equal(manager.detectCommentsIntent('What do people think about this remake?'), true);
     assert.equal(manager.detectCommentsIntent('Show me video comments feedback'), true);
     assert.equal(manager.detectCommentsIntent('What is the community feedback?'), true);
+  });
+
+  it('detects specific comment search and @author mentions', () => {
+    assert.equal(manager.detectCommentsIntent('Retrouve le commentaire de @mathieuleroy'), true);
+    assert.equal(manager.detectCommentsIntent('Quelqu’un a dit dans les commentaires que c’était répétitif'), true);
+    assert.equal(manager.detectCommentsIntent('Qui a commenté à propos du concours ?'), true);
+    assert.equal(manager.detectCommentsIntent('Y a-t-il un commentaire de @oriman6070 ?'), true);
+    assert.equal(manager.detectCommentsIntent('Un spectateur demandait si la Switch 2 était obligatoire'), true);
+    assert.equal(manager.detectCommentsIntent('Find the comment by @john_doe'), true);
+    assert.equal(manager.detectCommentsIntent('Someone commented that the graphics look dated'), true);
+    assert.equal(manager.detectCommentsIntent('Who commented on this?'), true);
   });
 
   it('ignores standard video inquiries without comments intent', () => {
@@ -112,5 +124,39 @@ describe('VideoCommentsFetcher - Parser & Formatter', () => {
   it('formats empty comments gracefully', () => {
     const emptyMarkdown = VideoCommentsFetcher.formatCommentsMarkdown([], 'TEST_VID');
     assert.ok(emptyMarkdown.includes('Aucun commentaire'));
+  });
+});
+
+describe('PromptService - Comments Integration & Quotation Directives', () => {
+  it('injects verbatim comment quotation directives in French', () => {
+    const prompt = PromptService.buildChatSystemPrompt(
+      { title: 'Video A', author: 'Author A' },
+      'Transcript content',
+      'fr',
+      'standard',
+      '',
+      '',
+      '### [Avis du Public] (20 avis)'
+    );
+
+    assert.ok(prompt.includes('AVIS ET RÉACTIONS DU PUBLIC'));
+    assert.ok(prompt.includes('cite-le textuellement avec son auteur'));
+    assert.ok(prompt.includes('### [Avis du Public]'));
+  });
+
+  it('injects verbatim comment quotation directives in English', () => {
+    const prompt = PromptService.buildChatSystemPrompt(
+      { title: 'Video B', author: 'Author B' },
+      'Transcript content',
+      'en',
+      'standard',
+      '',
+      '',
+      '### [Community Feedback] (15 reviews)'
+    );
+
+    assert.ok(prompt.includes('AUDIENCE & COMMUNITY REACTIONS'));
+    assert.ok(prompt.includes('quote it verbatim with author'));
+    assert.ok(prompt.includes('### [Community Feedback]'));
   });
 });

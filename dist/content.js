@@ -3505,8 +3505,16 @@ ${condenseFn(text, externalBudget)}`);
         /qu['’]en\s+dit\s+la\s+communaut[ée]/i,
         /avis\s+g[ée]n[ée]ral\s+sous\s+la\s+vid[ée]o/i,
         /critiques?\s+dans\s+les\s+commentaires/i,
+        /(?:retrouve|cherche|trouve|voir)\s+(?:le\s+|un\s+)?(?:commentaire|message|avis|post)/i,
+        /(?:quelqu['’]un|un\s+gars|un\s+spectateur|un\s+abonn[ée])\s+(?:a\s+dit|a\s+[ée]crit|disait|parle|demandait)/i,
+        /(?:qui|quelqu['’]un)\s+(?:a\s+post[ée]|a\s+comment[ée])/i,
+        /un\s+commentaire\s+(?:qui|sur|de)/i,
+        /@[a-zA-Z0-9_-]{3,}/,
         /(?:public|audience|community|viewer)\s+(?:feedback|reaction|opinion)/i,
         /(?:what\s+do|how\s+do)\s+people\s+(?:think|react)/i,
+        /(?:find|search|lookup)\s+(?:the\s+|a\s+)?comment/i,
+        /(?:someone|a\s+user|a\s+viewer)\s+(?:said|wrote|posted|commented)/i,
+        /who\s+commented/i,
         /video\s+comments/i
       ];
       return patterns.some((p) => p.test(clean));
@@ -5875,7 +5883,7 @@ ${channelDossier}
       const commentsBlock = commentsDossier ? `
 ${commentsDossier}
 ` : "";
-      const commentsDirective = commentsDossier ? cleanLang === "fr" ? "\nAVIS ET R\xC9ACTIONS DU PUBLIC : Une s\xE9lection de commentaires et r\xE9actions de la communaut\xE9 sous la vid\xE9o est fournie ci-dessous. Utilise-la fid\xE8lement pour analyser le ressenti g\xE9n\xE9ral, les d\xE9bats, les critiques et les r\xE9actions du public.\n" : "\nAUDIENCE & COMMUNITY REACTIONS: A selection of public comments and viewer feedback is provided below. Use them to accurately analyze community sentiment, praise, criticisms, and audience reception.\n" : "";
+      const commentsDirective = commentsDossier ? cleanLang === "fr" ? "\nAVIS ET R\xC9ACTIONS DU PUBLIC : Une s\xE9lection de commentaires et r\xE9actions de la communaut\xE9 sous la vid\xE9o est fournie ci-dessous. Utilise-la fid\xE8lement pour analyser le ressenti g\xE9n\xE9ral, les d\xE9bats, les critiques et les r\xE9actions du public. Si l'utilisateur demande de retrouver un commentaire pr\xE9cis, mentionne un auteur (@pseudo) ou recherche un message particulier, identifie-le formellement dans la liste et cite-le textuellement avec son auteur et ses m\xE9tadonn\xE9es.\n" : "\nAUDIENCE & COMMUNITY REACTIONS: A selection of public comments and viewer feedback is provided below. Use them to accurately analyze community sentiment, praise, criticisms, and audience reception. If the user asks to find a specific comment, mentions a user handle (@handle), or searches for a particular message, locate it explicitly in the list and quote it verbatim with author and metadata.\n" : "";
       const multiVideoDirective = safeTranscript.includes("[VID\xC9O EXTERNE") ? cleanLang === "fr" ? "\nCONTEXTE MULTI-VID\xC9OS : La discussion porte sur plusieurs vid\xE9os fournies dans la transcription ([VID\xC9O ACTUELLE] et [VID\xC9O EXTERNE ...]). Conserve la m\xE9moire et le contenu de chacune de ces vid\xE9os tout au long de la conversation. Compare leurs informations avec pr\xE9cision et ne pr\xE9tends jamais que tu ne peux pas acc\xE9der aux vid\xE9os externes d\xE9j\xE0 fournies.\n" : "\nMULTI-VIDEO CONTEXT: This discussion involves multiple YouTube videos provided in the transcript section ([VID\xC9O ACTUELLE] and [VID\xC9O EXTERNE ...]). Maintain continuous awareness of all referenced videos across the discussion. Accurately compare them and never claim you lack access to the provided external videos.\n" : "";
       return `${cfg.persona}
 ${cfg.role}

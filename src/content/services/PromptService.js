@@ -163,8 +163,8 @@ export class PromptService {
     const commentsBlock = commentsDossier ? `\n${commentsDossier}\n` : '';
     const commentsDirective = commentsDossier
       ? (cleanLang === 'fr'
-        ? '\nAVIS ET RÉACTIONS DU PUBLIC : Une sélection de commentaires et réactions de la communauté sous la vidéo est fournie ci-dessous. Utilise-la fidèlement pour analyser le ressenti général, les débats, les critiques et les réactions du public.\n'
-        : '\nAUDIENCE & COMMUNITY REACTIONS: A selection of public comments and viewer feedback is provided below. Use them to accurately analyze community sentiment, praise, criticisms, and audience reception.\n')
+        ? '\nAVIS ET RÉACTIONS DU PUBLIC : Une sélection de commentaires et réactions de la communauté sous la vidéo est fournie ci-dessous. Utilise-la fidèlement pour analyser le ressenti général, les débats, les critiques et les réactions du public. Si l\'utilisateur demande de retrouver un commentaire précis, mentionne un auteur (@pseudo) ou recherche un message particulier, identifie-le formellement dans la liste et cite-le textuellement avec son auteur et ses métadonnées.\n'
+        : '\nAUDIENCE & COMMUNITY REACTIONS: A selection of public comments and viewer feedback is provided below. Use them to accurately analyze community sentiment, praise, criticisms, and audience reception. If the user asks to find a specific comment, mentions a user handle (@handle), or searches for a particular message, locate it explicitly in the list and quote it verbatim with author and metadata.\n')
       : '';
 
     const multiVideoDirective = safeTranscript.includes('[VIDÉO EXTERNE')
