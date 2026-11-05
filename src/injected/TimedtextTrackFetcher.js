@@ -24,7 +24,7 @@ export class TimedtextTrackFetcher {
         if (raw && raw.trim().startsWith('{')) {
           const json = JSON.parse(raw);
           const segs = TimedtextParser.parseTimedtextEvents(json?.events);
-          if (segs && segs.length > 3) return segs;
+          if (segs && segs.length > 0) return segs;
         }
       }
     } catch (_) {}
@@ -40,10 +40,10 @@ export class TimedtextTrackFetcher {
         if (raw && raw.trim().startsWith('{')) {
           const json = JSON.parse(raw);
           const segs = TimedtextParser.parseTimedtextEvents(json?.events);
-          if (segs && segs.length > 3) return segs;
+          if (segs && segs.length > 0) return segs;
         } else if (raw && (raw.includes('<transcript') || raw.includes('<tt') || raw.includes('<text'))) {
           const segs = TimedtextParser.parseTimedtextXml(raw);
-          if (segs && segs.length > 3) return segs;
+          if (segs && segs.length > 0) return segs;
         }
       }
     } catch (_) {}

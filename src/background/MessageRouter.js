@@ -1,5 +1,6 @@
 import { StreamRelay } from './StreamRelay.js';
 import { AIProviderFactory } from '../services/ai/providers/AIProviderFactory.js';
+import { BackgroundTranscriptFetcher } from './BackgroundTranscriptFetcher.js';
 
 /**
  * Message routing controller for background service worker
@@ -79,80 +80,39 @@ export class MessageRouter {
         return true;
       }
 
-      if (request.action === 'FETCH_WATCH_PAGE_TRANSCRIPT') {
-        const { videoId, lang = 'fr' } = request;
-        if (!videoId) {
-          sendResponse({ success: false, error: 'No videoId' });
-          return true;
+      if (request.action === 'TTS_FETCH_AUDIO') {
+        const text = (request.text || '').trim();
+        const lang = request.lang || 'en';
+        if (!text) {
+          sendResponse({ success: false, error: 'Empty text' });
+          return false;
         }
 
         (async () => {
           try {
-            const res = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
-              headers: { 'Accept-Language': `${lang},en;q=0.8` }
-            });
+            const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${encodeURIComponent(lang)}&client=tw-ob&q=${encodeURIComponent(text)}`;
+            const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const html = await res.text();
-
-            let captionTracks = [];
-            const startIdx = html.indexOf('var ytInitialPlayerResponse = ');
-            if (startIdx !== -1) {
-              const sub = html.slice(startIdx + 'var ytInitialPlayerResponse = '.length);
-              const endIdx = sub.indexOf(';</script>');
-              if (endIdx !== -1) {
-                try {
-                  const parsed = JSON.parse(sub.slice(0, endIdx));
-                  captionTracks = parsed.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
-                } catch (_) {}
-              }
+            const buffer = await res.arrayBuffer();
+            let binary = '';
+            const bytes = new Uint8Array(buffer);
+            for (let i = 0; i < bytes.byteLength; i++) {
+              binary += String.fromCharCode(bytes[i]);
             }
-
-            if (!captionTracks.length) {
-              const tracksMatch = html.match(/"captionTracks":\s*(\[[^\]]+\])/);
-              if (tracksMatch) {
-                try { captionTracks = JSON.parse(tracksMatch[1]); } catch (_) {}
-              }
-            }
-
-            if (!captionTracks.length) {
-              sendResponse({ success: false, error: 'No caption tracks found' });
-              return;
-            }
-
-            let track = captionTracks.find(t => t.languageCode === lang);
-            if (!track) track = captionTracks.find(t => t.languageCode?.startsWith(lang));
-            if (!track) track = captionTracks.find(t => t.languageCode === 'en' || t.languageCode?.startsWith('en'));
-            if (!track) track = captionTracks[0];
-
-            if (!track?.baseUrl) {
-              sendResponse({ success: false, error: 'No track baseUrl' });
-              return;
-            }
-
-            const ttUrl = track.baseUrl + (track.baseUrl.includes('?') ? '&' : '?') + 'fmt=json3';
-            const ttRes = await fetch(ttUrl);
-            if (!ttRes.ok) throw new Error(`Timedtext HTTP ${ttRes.status}`);
-            const ttJson = await ttRes.json();
-
-            const segments = [];
-            if (Array.isArray(ttJson.events)) {
-              for (const ev of ttJson.events) {
-                if (!ev.segs) continue;
-                const sec = Math.floor((ev.tStartMs || 0) / 1000);
-                const m = Math.floor(sec / 60);
-                const s = (sec % 60).toString().padStart(2, '0');
-                const text = ev.segs.map(seg => seg.utf8 || '').join('').replace(/\s+/g, ' ').trim();
-                if (text && text !== '\n') {
-                  segments.push({ timestamp: `${m}:${s}`, text });
-                }
-              }
-            }
-
-            sendResponse({ success: segments.length > 0, segments, captions: captionTracks });
+            const b64 = btoa(binary);
+            sendResponse({ success: true, audioDataUrl: `data:audio/mpeg;base64,${b64}` });
           } catch (err) {
             sendResponse({ success: false, error: err.message });
           }
         })();
+        return true;
+      }
+
+      if (request.action === 'FETCH_WATCH_PAGE_TRANSCRIPT') {
+        const { videoId, lang = 'fr' } = request;
+        BackgroundTranscriptFetcher.fetchTranscript(videoId, lang)
+          .then(res => sendResponse(res))
+          .catch(err => sendResponse({ success: false, error: err.message }));
         return true;
       }
     });

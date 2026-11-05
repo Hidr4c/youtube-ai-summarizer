@@ -147,7 +147,10 @@ export const it = {
   "chapterBadge": "(Capitoli)",
   "transcriptExtracted": "Trascrizione estratta",
   "modelResponsive": "Modello reattivo: {model}",
-  "extractingTranscriptNotice": "Estrazione della trascrizione del video in corso..."
+  "extractingTranscriptNotice": "Estrazione della trascrizione del video in corso...",
+  "fetchingExternalTranscriptNotice": "Recupero dei sottotitoli per il video esterno ({videoId})...",
+  "externalTranscriptError": "Impossibile estrarre sottotitoli o capitoli per il video esterno ({videoId}). Possibili cause: nessun sottotitolo o capitolo disponibile, o restrizioni di accesso YouTube.",
+  "retryBtn": "🔄 Riprova"
 };
 
 export default it;

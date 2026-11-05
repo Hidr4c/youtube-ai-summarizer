@@ -1,4 +1,5 @@
 import { LANG_LOCALES } from '../../config/AIProviderPresets.js';
+import { I18N } from '../../locales/index.js';
 
 export const DEFAULT_LANG_LOCALES = {
   fr: 'fr-FR',
@@ -61,6 +62,7 @@ export class InPageTTSService {
     this.isSpeakingActive = false;
     this.activeUtterance = null;
     this.speechKeepAliveTimer = null;
+    this.activeAudio = null;
     this.ttsSpeed = '1.0';
   }
 
@@ -107,21 +109,25 @@ export class InPageTTSService {
     const matchingVoices = this.availableVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith(langCode));
     const voicesToShow = matchingVoices.length > 0 ? matchingVoices : this.availableVoices;
 
+    let hasSelected = false;
     voicesToShow.forEach(voice => {
       const opt = document.createElement('option');
       opt.value = voice.voiceURI;
       opt.textContent = `${voice.name} (${voice.lang})`;
-      if (voice.voiceURI === this.selectedVoiceURI) opt.selected = true;
+      if (voice.voiceURI === this.selectedVoiceURI && matchingVoices.some(m => m.voiceURI === this.selectedVoiceURI)) {
+        opt.selected = true;
+        hasSelected = true;
+      }
       select.appendChild(opt);
     });
 
-    if (!select.value && select.options.length > 0) {
+    if (!hasSelected && select.options.length > 0) {
       select.selectedIndex = 0;
       this.selectedVoiceURI = select.value;
     }
   }
 
-  speakText(rawText, triggerBtn) {
+  speakText(rawText, triggerBtn, options = {}) {
     if (!('speechSynthesis' in window)) return;
 
     if (this.isSpeakingActive) {
@@ -139,6 +145,11 @@ export class InPageTTSService {
     this.isSpeakingActive = true;
     this.activeSpeakingButton = triggerBtn;
 
+    const targetLang = options?.lang || document.getElementById('ytAiLangSelect')?.value || 'fr';
+    const targetLocale = (typeof LANG_LOCALES !== 'undefined' && LANG_LOCALES[targetLang]) ||
+      DEFAULT_LANG_LOCALES[targetLang] || 'fr-FR';
+    const rate = parseFloat(options?.rate || this.ttsSpeed) || 1.0;
+
     if (triggerBtn) {
       triggerBtn.classList.add('speaking');
       if (triggerBtn.id === 'ytAiSpeakSummaryBtn') {
@@ -146,25 +157,73 @@ export class InPageTTSService {
       }
     }
 
-    const targetLang = document.getElementById('ytAiLangSelect')?.value || 'fr';
-    const targetLocale = (typeof LANG_LOCALES !== 'undefined' && LANG_LOCALES[targetLang]) ||
-      DEFAULT_LANG_LOCALES[targetLang] || 'fr-FR';
-    const rate = parseFloat(this.ttsSpeed) || 1.0;
+    if (!this.availableVoices || this.availableVoices.length === 0) {
+      this.availableVoices = window.speechSynthesis.getVoices();
+    }
 
-    const playNextChunk = () => {
+    let voiceToUse = null;
+    if (this.selectedVoiceURI) {
+      const chosen = this.availableVoices.find(v => v.voiceURI === this.selectedVoiceURI);
+      if (chosen && chosen.lang && chosen.lang.toLowerCase().startsWith(targetLang.toLowerCase())) {
+        voiceToUse = chosen;
+      }
+    }
+
+    if (!voiceToUse && this.availableVoices.length > 0) {
+      voiceToUse = this.availableVoices.find(v => v.lang && v.lang.toLowerCase() === targetLocale.toLowerCase()) ||
+                   this.availableVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(targetLang.toLowerCase())) ||
+                   this.availableVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(targetLocale.split('-')[0].toLowerCase()));
+      if (voiceToUse) {
+        this.selectedVoiceURI = voiceToUse.voiceURI;
+      }
+    }
+
+    const playAudioDataUrl = (dataUrl) => {
+      return new Promise((resolve) => {
+        if (!this.isSpeakingActive) return resolve();
+        const audio = new Audio(dataUrl);
+        audio.playbackRate = rate;
+        this.activeAudio = audio;
+        audio.onended = () => { this.activeAudio = null; resolve(); };
+        audio.onerror = () => { this.activeAudio = null; resolve(); };
+        audio.play().catch(() => { this.activeAudio = null; resolve(); });
+      });
+    };
+
+    const playNextChunk = async () => {
       if (!this.isSpeakingActive || this.speechQueueIndex >= this.speechQueue.length) {
         this.stopSpeech();
         return;
       }
 
       const chunk = this.speechQueue[this.speechQueueIndex++];
+
+      // If browser lacks native voice for target language (e.g. Brave), use background TTS audio
+      if (!voiceToUse && typeof chrome !== 'undefined' && chrome.runtime?.sendMessage) {
+        try {
+          const resp = await new Promise((resolve) => {
+            chrome.runtime.sendMessage({
+              action: 'TTS_FETCH_AUDIO',
+              text: chunk,
+              lang: targetLang
+            }, resolve);
+          });
+          if (resp?.success && resp.audioDataUrl && this.isSpeakingActive) {
+            await playAudioDataUrl(resp.audioDataUrl);
+            if (this.isSpeakingActive) playNextChunk();
+            return;
+          }
+        } catch (_) {}
+      }
+
       const utterance = new SpeechSynthesisUtterance(chunk);
-      utterance.lang = targetLocale;
       utterance.rate = rate;
 
-      if (this.selectedVoiceURI) {
-        const found = this.availableVoices.find(v => v.voiceURI === this.selectedVoiceURI);
-        if (found) utterance.voice = found;
+      if (voiceToUse) {
+        utterance.voice = voiceToUse;
+        utterance.lang = voiceToUse.lang || targetLocale;
+      } else {
+        utterance.lang = targetLocale;
       }
 
       this.activeUtterance = utterance;
@@ -182,7 +241,7 @@ export class InPageTTSService {
 
       clearInterval(this.speechKeepAliveTimer);
       this.speechKeepAliveTimer = setInterval(() => {
-        if (window.speechSynthesis.speaking) {
+        if (window.speechSynthesis?.speaking) {
           window.speechSynthesis.pause();
           window.speechSynthesis.resume();
         } else {
@@ -199,6 +258,13 @@ export class InPageTTSService {
   stopSpeech() {
     this.isSpeakingActive = false;
     clearInterval(this.speechKeepAliveTimer);
+    if (this.activeAudio) {
+      try {
+        this.activeAudio.pause();
+        this.activeAudio.currentTime = 0;
+      } catch (_) {}
+      this.activeAudio = null;
+    }
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
@@ -215,10 +281,12 @@ export class InPageTTSService {
   resetSpeakingButton(btn) {
     if (!btn) return;
     btn.classList.remove('speaking');
+    const lang = document.getElementById('ytAiLangSelect')?.value || 'en';
+    const t = I18N[lang] || I18N.en;
     if (btn.id === 'ytAiSpeakSummaryBtn') {
-      btn.textContent = '🔊 Listen';
+      btn.textContent = t.listenBtn || '🔊 Listen';
     } else {
-      btn.textContent = '🔊';
+      btn.textContent = t.listenBtn || '🔊';
     }
   }
 }

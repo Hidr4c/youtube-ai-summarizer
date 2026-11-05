@@ -111,15 +111,6 @@ export class SettingsDrawerTemplate {
             <div id="ytAiSettingsSubpaneParams" class="yt-ai-settings-subpane">
               <div class="yt-ai-settings-grid">
                 <div class="yt-ai-setting-item">
-                  <label id="ytAiModeLabel">${t.formatLabel || 'Format:'}</label>
-                  <select id="ytAiModeSelect" class="yt-ai-select">
-                    <option value="quick">${t.formatQuick || '⚡ Quick'}</option>
-                    <option value="standard" selected>${t.formatStandard || '📌 Standard'}</option>
-                    <option value="detailed">${t.formatDetailed || '📝 Deep'}</option>
-                  </select>
-                </div>
-
-                <div class="yt-ai-setting-item">
                   <label id="ytAiTempLabel">${t.tempLabel || 'AI Creativity (Temperature):'}</label>
                   <select id="ytAiTemperatureSelect" class="yt-ai-select">
                     <option value="0.0">${t.tempStrict || '0.0 - Strict & Precise'}</option>

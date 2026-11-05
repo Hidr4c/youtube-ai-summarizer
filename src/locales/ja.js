@@ -147,7 +147,10 @@ export const ja = {
   "chapterBadge": "(チャプター)",
   "transcriptExtracted": "文字起こしを抽出しました",
   "modelResponsive": "応答モデル: {model}",
-  "extractingTranscriptNotice": "動画の文字起こしを抽出中..."
+  "extractingTranscriptNotice": "動画の文字起こしを抽出中...",
+  "fetchingExternalTranscriptNotice": "外部動画（{videoId}）の字幕を取得中...",
+  "externalTranscriptError": "外部動画（{videoId}）の字幕またはチャプターを抽出できませんでした。理由：字幕やチャプターが存在しないか、YouTubeのアクセス制限がある可能性があります。",
+  "retryBtn": "🔄 再試行"
 };
 
 export default ja;

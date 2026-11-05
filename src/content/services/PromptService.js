@@ -151,11 +151,17 @@ export class PromptService {
       ? `\n${cfg.summaryLabel}\n"""\n${summaryText.trim()}\n"""\n`
       : '';
 
+    const multiVideoDirective = safeTranscript.includes('[VIDÉO EXTERNE')
+      ? (cleanLang === 'fr'
+        ? '\nCONTEXTE MULTI-VIDÉOS : La discussion porte sur plusieurs vidéos fournies dans la transcription ([VIDÉO ACTUELLE] et [VIDÉO EXTERNE ...]). Conserve la mémoire et le contenu de chacune de ces vidéos tout au long de la conversation. Compare leurs informations avec précision et ne prétends jamais que tu ne peux pas accéder aux vidéos externes déjà fournies.\n'
+        : '\nMULTI-VIDEO CONTEXT: This discussion involves multiple YouTube videos provided in the transcript section ([VIDÉO ACTUELLE] and [VIDÉO EXTERNE ...]). Maintain continuous awareness of all referenced videos across the discussion. Accurately compare them and never claim you lack access to the provided external videos.\n')
+      : '';
+
     return `${cfg.persona}
 ${cfg.role}
 ${cfg.identity}
 
-${cfg.rule}
+${cfg.rule}${multiVideoDirective}
 
 Title: "${meta?.title || ''}"
 Channel: "${meta?.author || ''}"${subStr}

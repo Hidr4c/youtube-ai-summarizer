@@ -1,3 +1,4 @@
+import { BannerI18n } from './BannerI18n.js';
 import { I18N } from '../../locales/index.js';
 import { PROVIDER_NAMES } from '../../config/AIProviderPresets.js';
 import { BannerTemplate } from '../templates/BannerTemplate.js';
@@ -26,7 +27,7 @@ export class BannerView {
     if (existing && existing.isConnected) return;
     if (existing) existing.remove();
 
-    const watchContainer = document.querySelector('ytd-watch-flexy, ytd-watch-grid');
+    const watchContainer = document.querySelector?.('ytd-watch-flexy, ytd-watch-grid');
     let parent = null;
     let refChild = null;
 
@@ -36,7 +37,7 @@ export class BannerView {
                  watchContainer.querySelector('#columns') ||
                  watchContainer.firstChild;
     } else {
-      const columns = document.getElementById('columns') || document.querySelector('ytd-watch-flexy #columns, ytd-watch-grid #columns');
+      const columns = document.getElementById('columns') || document.querySelector?.('ytd-watch-flexy #columns, ytd-watch-grid #columns');
       if (columns && columns.parentNode) {
         parent = columns.parentNode;
         refChild = columns;
@@ -61,7 +62,11 @@ export class BannerView {
 
     const lang = this.state.currentLang || 'en';
     const t = I18N[lang] || I18N.en;
-    safeSetInnerHTML(banner, BannerTemplate.render(t, { version: 'v1.3.2' }));
+    safeSetInnerHTML(banner, BannerTemplate.render(t, {
+      version: 'v1.3.2',
+      currentMode: this.currentMode || this.state.summaryMode || 'standard',
+      currentLang: lang
+    }));
 
     parent.insertBefore(banner, refChild);
     if (typeof onInit === 'function') onInit(banner);
@@ -117,6 +122,7 @@ export class BannerView {
 
   setSummaryMode(mode) {
     this.currentMode = mode;
+    if (this.state) this.state.summaryMode = mode;
     const modeSelect = document.getElementById('ytAiModeSelect');
     if (modeSelect) {
       modeSelect.value = mode;
@@ -185,48 +191,8 @@ export class BannerView {
     }
   }
 
-  applyLanguage(lang, summaryViewController = null) {
-    this.state.currentLang = lang;
-    const t = I18N[lang] || I18N.en;
-
-    const langSelect = document.getElementById('ytAiLangSelect');
-    if (langSelect && langSelect.value !== lang) langSelect.value = lang;
-
-    const brandTitle = document.getElementById('ytAiBrandTitle');
-    if (brandTitle) brandTitle.textContent = t.brandName || 'YT Summarizer AI';
-
-    const summarizeBtn = document.getElementById('ytAiSummarizeBtn');
-    if (summarizeBtn && !summaryViewController?.isGenerating) {
-      summarizeBtn.textContent = t.summarizeBtn || '✨ Summarize video';
-    }
-    const toggleText = document.getElementById('ytAiToggleText');
-    if (toggleText) toggleText.textContent = this.isExpanded ? t.collapse : t.expand;
-    const toggleIcon = document.getElementById('ytAiToggleIcon');
-    if (toggleIcon) toggleIcon.textContent = this.isExpanded ? '▲' : '▾';
-
-    const settingsBtnText = document.getElementById('ytAiSettingsBtnText');
-    if (settingsBtnText) settingsBtnText.textContent = t.settingsBtn || 'Settings';
-
-    const tabModel = document.getElementById('ytAiTabSettingsModelBtn');
-    if (tabModel) tabModel.textContent = t.tabSettingsModel || '🤖 AI Model & Server';
-    const tabAudio = document.getElementById('ytAiTabSettingsAudioBtn');
-    if (tabAudio) tabAudio.textContent = t.tabSettingsAudio || '🎙️ Voice & Audio';
-    const tabParams = document.getElementById('ytAiTabSettingsParamsBtn');
-    if (tabParams) tabParams.textContent = t.tabSettingsParams || '⚙️ Parameters & Prompt';
-
-    const tabSummaryBtn = document.getElementById('ytAiTabSummaryBtn');
-    if (tabSummaryBtn) tabSummaryBtn.textContent = t.tabSummary || '📝 AI Summary';
-    const tabChatBtn = document.getElementById('ytAiTabChatBtn');
-    if (tabChatBtn) {
-      const count = document.getElementById('ytAiChatCount')?.textContent || '0';
-      tabChatBtn.innerHTML = `${escapeHtml(t.tabChat || '💬 Ask a question')} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
-    }
-    const tabTranscriptBtn = document.getElementById('ytAiTabTranscriptBtn');
-    if (tabTranscriptBtn) {
-      const count = document.getElementById('ytAiWordCountTab')?.textContent || `0 ${t.wordsBadge || 'words'}`;
-      tabTranscriptBtn.innerHTML = `${escapeHtml(t.tabTranscript || '📜 Transcript')} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
-    }
-
+  applyLanguage(lang, summaryViewController = null, chatViewController = null) {
+    BannerI18n.applyLanguage(lang, this.state, summaryViewController, chatViewController, this.isExpanded);
     this.updateHeaderBadge();
     this.updateHeaderModelText();
   }

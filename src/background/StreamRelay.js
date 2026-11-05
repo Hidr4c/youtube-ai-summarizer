@@ -22,6 +22,25 @@ export class StreamRelay {
       apiKey
     } = request;
 
+    let isDisconnected = false;
+    const abortController = new AbortController();
+
+    if (port?.onDisconnect?.addListener) {
+      port.onDisconnect.addListener(() => {
+        isDisconnected = true;
+        try { abortController.abort(); } catch (_) {}
+      });
+    }
+
+    const safePost = (msg) => {
+      if (isDisconnected) return;
+      try {
+        port.postMessage(msg);
+      } catch (_) {
+        isDisconnected = true;
+      }
+    };
+
     // Build chat message sequence from system/user prompts or chat history
     let chatMessages = messages;
     if (!chatMessages) {
@@ -35,14 +54,15 @@ export class StreamRelay {
 
     try {
       if (provider === 'claude') {
-        await this.streamClaude(port, apiKey, model, systemPrompt, chatMessages, temperature, maxTokens);
+        await this.streamClaude(port, apiKey, model, systemPrompt, chatMessages, temperature, maxTokens, abortController.signal, safePost);
       } else {
-        await this.streamOpenAICompatible(port, provider, serverUrl, apiKey, model, chatMessages, temperature, maxTokens);
+        await this.streamOpenAICompatible(port, provider, serverUrl, apiKey, model, chatMessages, temperature, maxTokens, abortController.signal, safePost);
       }
-      port.postMessage({ type: 'DONE' });
+      safePost({ type: 'DONE' });
     } catch (err) {
+      if (isDisconnected || abortController.signal.aborted) return;
       const userFriendlyError = this.formatContextError(err.message || String(err), provider);
-      port.postMessage({ type: 'ERROR', error: userFriendlyError });
+      safePost({ type: 'ERROR', error: userFriendlyError });
     }
   }
 
@@ -71,7 +91,7 @@ export class StreamRelay {
   /**
    * Streams from OpenAI-compatible endpoints (LM Studio, Ollama, Groq, Gemini, DeepSeek, etc.)
    */
-  static async streamOpenAICompatible(port, provider, serverUrl, apiKey, model, messages, temperature, maxTokens) {
+  static async streamOpenAICompatible(port, provider, serverUrl, apiKey, model, messages, temperature, maxTokens, signal = null, safePost = null) {
     let endpoint = '';
     const headers = { 'Content-Type': 'application/json' };
 
@@ -111,11 +131,14 @@ export class StreamRelay {
       }
     }
 
-    const response = await fetch(endpoint, {
+    const fetchOptions = {
       method: 'POST',
       headers,
       body: JSON.stringify(bodyPayload)
-    });
+    };
+    if (signal) fetchOptions.signal = signal;
+
+    const response = await fetch(endpoint, fetchOptions);
 
     if (!response.ok) {
       const errText = await response.text();
@@ -127,6 +150,10 @@ export class StreamRelay {
     let buffer = '';
 
     while (true) {
+      if (signal?.aborted) {
+        try { await reader.cancel(); } catch (_) {}
+        break;
+      }
       const { done, value } = await reader.read();
       if (done) break;
 
@@ -142,12 +169,14 @@ export class StreamRelay {
           try {
             const parsed = JSON.parse(trimmed.slice(6));
             const delta = parsed.choices?.[0]?.delta || {};
-            port.postMessage({
+            const chunkMsg = {
               type: 'CHUNK',
               content: delta.content || '',
               reasoning: delta.reasoning_content || '',
               text: delta.content || ''
-            });
+            };
+            if (safePost) safePost(chunkMsg);
+            else port.postMessage(chunkMsg);
           } catch (e) {}
         }
       }
@@ -157,7 +186,7 @@ export class StreamRelay {
   /**
    * Streams from Anthropic Claude API (/v1/messages)
    */
-  static async streamClaude(port, apiKey, model, systemPrompt, messages, temperature, maxTokens) {
+  static async streamClaude(port, apiKey, model, systemPrompt, messages, temperature, maxTokens, signal = null, safePost = null) {
     if (!apiKey) throw new Error('Clé API Claude requise');
 
     const claudeMessages = messages.filter(m => m.role !== 'system');
@@ -178,7 +207,7 @@ export class StreamRelay {
       bodyPayload.temperature = Math.max(0, Math.min(parsedTemp, 1.0));
     }
 
-    const response = await fetch(PROVIDER_CONFIGS.claude.endpoint, {
+    const fetchOptions = {
       method: 'POST',
       headers: {
         'x-api-key': apiKey.trim(),
@@ -186,7 +215,10 @@ export class StreamRelay {
         'content-type': 'application/json'
       },
       body: JSON.stringify(bodyPayload)
-    });
+    };
+    if (signal) fetchOptions.signal = signal;
+
+    const response = await fetch(PROVIDER_CONFIGS.claude.endpoint, fetchOptions);
 
     if (!response.ok) {
       const errText = await response.text();
@@ -198,6 +230,10 @@ export class StreamRelay {
     let buffer = '';
 
     while (true) {
+      if (signal?.aborted) {
+        try { await reader.cancel(); } catch (_) {}
+        break;
+      }
       const { done, value } = await reader.read();
       if (done) break;
 
@@ -213,12 +249,14 @@ export class StreamRelay {
           try {
             const parsed = JSON.parse(trimmed.slice(6));
             if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
-              port.postMessage({
+              const chunkMsg = {
                 type: 'CHUNK',
                 content: parsed.delta.text,
                 reasoning: '',
                 text: parsed.delta.text
-              });
+              };
+              if (safePost) safePost(chunkMsg);
+              else port.postMessage(chunkMsg);
             }
           } catch (e) {}
         }

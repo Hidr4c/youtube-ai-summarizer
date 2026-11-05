@@ -42,7 +42,7 @@ export class InPageTranscriptController {
             const txt = InPageTranscriptController.cleanTranscriptText(ev.segs.map(s => s.utf8 || '').join(''));
             if (txt && txt !== '\n') segs.push({ timestamp: `${m}:${s}`, text: txt });
           }
-          if (segs.length > 5) return segs;
+          if (segs.length > 0) return segs;
         }
       } catch (_) {}
     }
@@ -50,7 +50,7 @@ export class InPageTranscriptController {
     try {
       const doc = new DOMParser().parseFromString(trimmed, 'text/xml');
       const nodes = Array.from(doc.querySelectorAll('text, p'));
-      if (nodes.length > 5) {
+      if (nodes.length > 0) {
         return nodes.map(n => {
           const tAttr = n.getAttribute('t');
           const sec = tAttr ? Math.floor(parseInt(tAttr, 10) / 1000) : Math.floor(parseFloat(n.getAttribute('start') || n.getAttribute('begin') || '0'));
@@ -143,29 +143,36 @@ export class InPageTranscriptController {
       this.resetAllState(preferredLang);
     }
 
-    // STRATÉGIE 1 : Passive Active DOM (0 interaction, seulement si DÉJÀ ouvert et visible par l'utilisateur)
-    if (NativeTranscriptPanel.isNativeTranscriptPanelVisible()) {
-      const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
-      if (domSegments && domSegments.length > 5) {
-        const words = domSegments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
-        if (domSegments.length >= 15 || words >= 150) {
-          this.saveCachedTranscript(currentVideoId, domSegments, false);
-          return domSegments;
-        }
+    const segments = await this.executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated);
+    if (segments && segments.length > 0) return segments;
+
+    if (isUserInitiated) {
+      const retryDelays = [600, 1200];
+      for (const delay of retryDelays) {
+        await new Promise(r => setTimeout(r, delay));
+        const retrySegments = await this.executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated);
+        if (retrySegments && retrySegments.length > 0) return retrySegments;
       }
     }
+    return null;
+  }
 
-    // STRATÉGIE 2 : Main World in-memory (Directement depuis ytInitialPlayerResponse ou movie_player)
+  async executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated) {
+    // STRATÉGIE 1 : Passive Active DOM
+    const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
+    if (domSegments && domSegments.length > 0) {
+      this.saveCachedTranscript(currentVideoId, domSegments, false);
+      return domSegments;
+    }
+
+    // STRATÉGIE 2 : Main World in-memory
     const playerData = await this.requestPlayerDataFromMainWorld(currentVideoId, preferredLang);
-    if (playerData?.videoId === currentVideoId && playerData?.segments?.length > 3) {
-      const words = playerData.segments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
-      if (playerData.segments.length >= 15 || words >= 150) {
-        this.saveCachedTranscript(currentVideoId, playerData.segments, false);
-        return playerData.segments;
-      }
+    if (playerData?.videoId === currentVideoId && playerData?.segments?.length > 0) {
+      this.saveCachedTranscript(currentVideoId, playerData.segments, false);
+      return playerData.segments;
     }
 
-    // STRATÉGIE 3 : Timedtext Direct Streams (Depuis les URLs de sous-titres trouvées en mémoire)
+    // STRATÉGIE 3 : Timedtext Direct Streams
     if (playerData?.videoId === currentVideoId && playerData?.captions?.length > 0) {
       let track = playerData.captions.find(t => t.languageCode === preferredLang) ||
                   playerData.captions.find(t => t.languageCode?.startsWith(preferredLang)) ||
@@ -173,36 +180,35 @@ export class InPageTranscriptController {
                   playerData.captions[0];
       if (track?.baseUrl) {
         const segments = await this.fetchTimedtextSegments(track.baseUrl);
-        if (segments && segments.length > 3) {
+        if (segments && segments.length > 0) {
           this.saveCachedTranscript(currentVideoId, segments, false);
           return segments;
         }
       }
     }
 
-    // STRATÉGIE 4 : Background Direct Fetch via Service Worker (100% transparent, 0 DOM touch)
+    // STRATÉGIE 4 : Background Direct Fetch via Service Worker
     const bgResult = await this.fetchTranscriptFromBackground(currentVideoId, preferredLang);
-    if (bgResult?.segments?.length > 3) {
+    if (bgResult?.segments?.length > 0) {
       this.saveCachedTranscript(currentVideoId, bgResult.segments, false);
       return bgResult.segments;
     }
 
-    // STRATÉGIE 5 : Description Chapters / Timestamps (Zéro clic, extrait du texte de description)
-    const chapterSegments = YouTubeDOMContext.extractChaptersFromDescription();
-    if (chapterSegments && chapterSegments.length > 1) {
-      this.saveCachedTranscript(currentVideoId, chapterSegments, true);
-      return chapterSegments;
-    }
-
-    // STRATÉGIE 6 : Stealth Native Panel (Seulement si l'utilisateur a explicitement demandé et que tout le reste a échoué)
+    // STRATÉGIE 5 : Stealth Native Panel (Full dialogue transcript)
     if (isUserInitiated) {
       const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
-      if (stealthSegments && stealthSegments.length > 3) {
+      if (stealthSegments && stealthSegments.length > 0) {
         this.saveCachedTranscript(currentVideoId, stealthSegments, false);
         return stealthSegments;
       }
     }
 
+    // STRATÉGIE 6 : Description Chapters / Timestamps (Ultimate fallback)
+    const chapterSegments = YouTubeDOMContext.extractChaptersFromDescription();
+    if (chapterSegments && chapterSegments.length > 1) {
+      this.saveCachedTranscript(currentVideoId, chapterSegments, true);
+      return chapterSegments;
+    }
     return null;
   }
 
@@ -218,12 +224,14 @@ export class InPageTranscriptController {
     const wordCountEl = document.getElementById('ytAiWordCount');
     const wordCountTab = document.getElementById('ytAiWordCountTab');
     const transcriptBody = document.getElementById('ytAiTranscriptBody');
+    const currentLang = document.getElementById('ytAiLangSelect')?.value || 'en';
+    const t = I18N[currentLang] || I18N.en;
 
     if (wordCountEl) wordCountEl.textContent = wordsCount.toLocaleString();
     if (wordCountTab) {
       wordCountTab.textContent = isChapterOnly
-        ? `${wordsCount.toLocaleString()} words (Chapitres)`
-        : `${wordsCount.toLocaleString()} words`;
+        ? `${wordsCount.toLocaleString()} ${t.wordsBadge || 'words'} (Chapitres)`
+        : `${wordsCount.toLocaleString()} ${t.wordsBadge || 'words'}`;
     }
 
     if (transcriptBody) {

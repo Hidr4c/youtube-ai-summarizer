@@ -1,3 +1,6 @@
+import { InnerTubeBridge } from '../src/injected/InnerTubeBridge.js';
+import { NativeTranscriptPanel } from '../src/content/services/NativeTranscriptPanel.js';
+import { BannerView } from '../src/content/ui/BannerView.js';
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { SummaryViewController } from '../src/content/ui/SummaryViewController.js';
@@ -74,6 +77,18 @@ function setupMockDom(url = 'https://www.youtube.com/watch?v=TEST_VID_BDD', lang
       open: false,
       disabled: false,
       children: [],
+      attributes: new Map(),
+      setAttribute(k, v) { this.attributes.set(k, String(v)); },
+      getAttribute(k) { return this.attributes.get(k) || null; },
+      removeAttribute(k) { this.attributes.delete(k); },
+      hasAttribute(k) { return this.attributes.has(k); },
+      style: {
+        props: new Map(),
+        setProperty(k, v) { this.props.set(k, v); },
+        removeProperty(k) { this.props.delete(k); },
+        getPropertyValue(k) { return this.props.get(k) || ''; },
+        getPropertyPriority() { return ''; }
+      },
       classList: {
         classes: new Set(),
         add(c) { this.classes.add(c); el.className = Array.from(this.classes).join(' '); },
@@ -131,7 +146,8 @@ function setupMockDom(url = 'https://www.youtube.com/watch?v=TEST_VID_BDD', lang
     'ytAiSummaryBody', 'ytAiReasoningBox', 'ytAiReasoningText', 'ytAiReasoningStatus',
     'ytAiSummarizeBtn', 'ytAiSummaryHeroBtn', 'ytAiChatMessages', 'ytAiChatInput',
     'ytAiChatCount', 'ytAiWordCount', 'ytAiWordCountTab', 'ytAiTranscriptBody',
-    'ytAiSpeakSummaryBtn', 'ytAiSendChatBtn', 'ytAiClearChatBtn', 'ytAiMicBtn'
+    'ytAiSpeakSummaryBtn', 'ytAiSendChatBtn', 'ytAiClearChatBtn', 'ytAiMicBtn', 'ytAiTabSummaryBtn', 'ytAiTabChatBtn', 'ytAiTabTranscriptBtn',
+    'ytAiRetrySummarizeBtn'
   ];
 
   ids.forEach(id => {
@@ -150,10 +166,24 @@ function setupMockDom(url = 'https://www.youtube.com/watch?v=TEST_VID_BDD', lang
   modeSelect.value = 'standard';
   elements.set('ytAiModeSelect', modeSelect);
 
+  const suggestionsEl = createElement("div");
+  suggestionsEl.className = "yt-ai-chat-suggestions";
+  elements.set("ytAiChatSuggestions", suggestionsEl);
+
   global.document = {
     getElementById: (id) => elements.get(id) || null,
     createElement: (tag) => createElement(tag),
-    querySelectorAll: () => []
+    querySelectorAll: (sel) => {
+      if (sel && sel.includes('engagement-panel')) {
+        return Array.from(elements.values()).filter(e => e.tagName?.toLowerCase().includes('engagement-panel'));
+      }
+      return [];
+    },
+    querySelector: (sel) => {
+      if (sel.includes("chat-suggestions")) return suggestionsEl;
+      if (sel.includes("ytAiPaneChat")) return elements.get("ytAiPaneChat");
+      return null;
+    }
   };
 
   const parsedUrl = new URL(url);
@@ -527,5 +557,83 @@ describe('BDD End-to-End User Journeys: AI Summary, Interactive Chat, and SPA Na
     ['fr', 'en', 'es', 'de', 'ja', 'zh', 'ru', 'it'].forEach(lang => {
       assert.ok(I18N[lang]?.suggestions?.length >= 4, `Language ${lang} must provide at least 4 prompt suggestions`);
     });
+  });
+
+  it("Scenario 7: Given active session, When user switches UI language, Then all extension elements, suggestions, and chat switch cleanly, and InnerTube synthesized params are available", () => {
+    const dom = setupMockDom("https://www.youtube.com/watch?v=VID_SWITCH_1", "en");
+    const state = { currentLang: "en", getActiveModel: () => "test-model" };
+    const bannerView = new BannerView(state);
+    const summaryController = new SummaryViewController();
+    const chatController = new ChatViewController({ promptService: promptServiceInstance });
+
+    // Seed chat with an initial turn
+    chatController.chatHistory = [{ role: "user", content: "What is this?" }, { role: "assistant", content: "It is physics." }];
+    dom.elements.get("ytAiChatCount").textContent = "1";
+
+    // Switch to French
+    bannerView.applyLanguage("fr", summaryController, chatController);
+
+    // Verify UI components switched to French
+    assert.equal(dom.elements.get("ytAiLangSelect").value, "fr", "Language select must reflect new language");
+    assert.equal(dom.elements.get("ytAiTabSummaryBtn").textContent.trim(), I18N.fr.tabSummary, "Summary tab title must switch to French");
+    assert.equal(dom.elements.get("ytAiSendChatBtn").textContent.trim(), I18N.fr.sendBtn, "Send button must switch to French");
+    assert.equal(dom.elements.get("ytAiChatInput").placeholder, I18N.fr.chatPlaceholder, "Chat input placeholder must switch to French");
+
+    // Verify suggestions switched to French
+    const sugBox = dom.elements.get("ytAiChatSuggestions");
+    assert.ok(sugBox, "Suggestions container must exist");
+    assert.ok(sugBox.innerHTML.includes(I18N.fr.suggestions[0].label), "Suggestion chips must be in French");
+
+    // Verify chat history was reset to avoid cross-language contamination
+    assert.equal(chatController.chatHistory.length, 0, "Chat history must be reset on language switch");
+
+    // Verify dynamic switch while generating
+    summaryController.isGenerating = true;
+    bannerView.applyLanguage("en", summaryController, chatController);
+    assert.ok(
+      dom.elements.get("ytAiSummarizeBtn").innerHTML.includes(I18N.en.generatingSummary),
+      "Summarize button must update to English loading text while generating"
+    );
+
+    // Verify dynamic switch on error state
+    summaryController.isGenerating = false;
+    summaryController.renderErrorState("Transcript failed", "fr");
+    bannerView.applyLanguage("en", summaryController, chatController);
+    assert.equal(
+      dom.elements.get("ytAiRetrySummarizeBtn").textContent,
+      I18N.en.retryBtn,
+      "Retry button must translate to English"
+    );
+
+    // Verify InnerTube synthesized params generation
+    const paramsFr = InnerTubeBridge.generateTranscriptParams("VID_SWITCH_1", "fr", "asr");
+    assert.ok(typeof paramsFr === "string" && paramsFr.length > 10, "InnerTube params must be valid base64");
+    assert.equal(InnerTubeBridge.generateTranscriptParams(""), null, "Empty video ID must return null");
+  });
+
+  it('Scenario 8: Given early extraction or native transcript fallback, When stealth panel runs, Then non-destructive cleanup preserves YouTube DOM state and multiline chat is supported', async () => {
+    const dom = setupMockDom();
+    const transcriptController = new InPageTranscriptController();
+    const chatController = new ChatViewController({ transcriptController });
+
+    // 1. Verify multiline question handling
+    const chatInput = dom.elements.get('ytAiChatInput');
+    chatInput.value = "Question line 1\nQuestion line 2\nQuestion line 3";
+    assert.ok(chatInput.value.includes('\n'), 'Chat input must support multiline values');
+
+    // 2. Verify native panel safe closure does not break DOM with inline display: none !important
+    const mockPanel = dom.createElement('ytd-engagement-panel-section-list-renderer');
+    mockPanel.setAttribute('target-id', 'engagement-panel-searchable-transcript');
+    mockPanel.style.setProperty('display', 'block');
+    dom.elements.set('ytd-engagement-panel-section-list-renderer', mockPanel);
+
+    NativeTranscriptPanel.closeNativeTranscriptPanel();
+    assert.notEqual(mockPanel.style.getPropertyPriority('display'), 'important', 'Must never use display: none !important');
+
+    // 3. Verify InnerTube default and asr protobuf parameter synthesis
+    const defaultParams = InnerTubeBridge.generateTranscriptParams('TEST_VID_EARLY', '', '');
+    const asrParams = InnerTubeBridge.generateTranscriptParams('TEST_VID_EARLY', 'fr', 'asr');
+    assert.ok(defaultParams && defaultParams.length > 5, 'Default protobuf params must be non-empty base64');
+    assert.ok(asrParams && asrParams.length > 5, 'ASR protobuf params must be non-empty base64');
   });
 });

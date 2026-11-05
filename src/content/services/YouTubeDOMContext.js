@@ -11,14 +11,25 @@ export class YouTubeDOMContext {
   static extractChaptersFromDescription() {
     const results = [];
     const entries = document.querySelectorAll(
-      'ytd-macro-markers-entry-renderer, #structured-description ytd-macro-markers-entry-renderer, ytd-chapter-renderer'
+      'ytd-macro-markers-entry-renderer, #structured-description ytd-macro-markers-entry-renderer, ytd-chapter-renderer, ytd-macro-markers-list-item-renderer, macro-markers-panel-item-view-model'
     );
     if (entries && entries.length > 1) {
       entries.forEach(el => {
         const timeEl = el.querySelector('#time, [class*="time"], a[href*="t="]');
-        const titleEl = el.querySelector('#title, #details, [class*="title"], h4');
+        const titleEls = el.querySelectorAll ? el.querySelectorAll('h3, h4, #title, [class*="title"]') : [];
+        let titleEl = null;
+        for (const candidate of titleEls) {
+          if (!candidate.hasAttribute || !candidate.hasAttribute('hidden')) {
+            titleEl = candidate;
+            break;
+          }
+        }
+        if (!titleEl) titleEl = el.querySelector('h3, h4, #title, [class*="title"]');
         const timestamp = timeEl ? timeEl.textContent.trim() : '';
-        const text = titleEl ? titleEl.textContent.trim() : '';
+        let text = titleEl ? (titleEl.getAttribute?.('title') || titleEl.textContent.trim()) : '';
+        if (timestamp && text.endsWith(timestamp)) {
+          text = text.slice(0, -timestamp.length).trim();
+        }
         if (timestamp && text) {
           results.push({ timestamp, text });
         }
@@ -61,6 +72,7 @@ export class YouTubeDOMContext {
     const publishDate = safeMeta.publishDate || domDate || '';
     const viewCount = safeMeta.viewCount || '';
     const channelId = safeMeta.channelId || '';
+    const chapters = YouTubeDOMContext.extractChaptersFromDescription() || safeMeta.chapters || [];
 
     return {
       videoId: currentVideoId || safeMeta.videoId || '',
@@ -72,7 +84,8 @@ export class YouTubeDOMContext {
       category,
       publishDate,
       viewCount,
-      channelId
+      channelId,
+      chapters
     };
   }
 
@@ -114,6 +127,10 @@ export class YouTubeDOMContext {
     }
     if (description) {
       lines.push(isFr ? `- Description officielle :\n"""\n${description}\n"""` : `- Official Description:\n"""\n${description}\n"""`);
+    }
+    if (Array.isArray(meta.chapters) && meta.chapters.length > 0) {
+      const chapList = meta.chapters.slice(0, 20).map(c => `[${c.timestamp}] ${c.text}`).join('\n');
+      lines.push(isFr ? `- Plan des chapitres officiels :\n${chapList}` : `- Official video chapters:\n${chapList}`);
     }
 
     if (lines.length === 0) return '';

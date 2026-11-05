@@ -15,9 +15,11 @@ export class SummaryViewController {
     this.activePort = null;
     this.fullSummaryMarkdown = '';
     this.fullReasoningText = '';
+    this.onTriggerSummarize = null;
   }
 
   renderSummaryEmptyState(isNewVideo = false, currentLang = 'en', onTriggerSummarize = null) {
+    if (typeof onTriggerSummarize === 'function') this.onTriggerSummarize = onTriggerSummarize;
     const summaryBody = document.getElementById('ytAiSummaryBody');
     if (!summaryBody) return;
     const t = I18N[currentLang] || I18N.en;
@@ -37,11 +39,12 @@ export class SummaryViewController {
 
     const heroBtn = document.getElementById('ytAiSummaryHeroBtn');
     heroBtn?.addEventListener('click', () => {
-      if (typeof onTriggerSummarize === 'function') onTriggerSummarize();
+      if (typeof this.onTriggerSummarize === 'function') this.onTriggerSummarize();
     });
   }
 
   resetSummaryOutput(currentLang = 'en', onTriggerSummarize = null) {
+    if (typeof onTriggerSummarize === 'function') this.onTriggerSummarize = onTriggerSummarize;
     this.fullSummaryMarkdown = '';
     this.fullReasoningText = '';
     this.isGenerating = false;
@@ -55,7 +58,7 @@ export class SummaryViewController {
       summarizeBtn.disabled = false;
       summarizeBtn.innerHTML = t.summarizeBtn || '✨ Summarize video';
     }
-    this.renderSummaryEmptyState(true, currentLang, onTriggerSummarize);
+    this.renderSummaryEmptyState(true, currentLang, this.onTriggerSummarize);
     const reasoningBox = document.getElementById('ytAiReasoningBox');
     if (reasoningBox) reasoningBox.classList.add('yt-ai-hidden');
   }
@@ -101,6 +104,10 @@ export class SummaryViewController {
     if (heroBtn) {
       heroBtn.disabled = true;
       heroBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || 'Extracting transcript...'}`;
+    }
+    if (summaryBody) {
+      summaryBody.innerHTML = `<div class="yt-ai-loading"><span class="yt-ai-spinner"></span> ${escapeHtml(t.generatingSummary || 'Extracting transcript...')}</div>`;
+      summaryBody.classList.remove('yt-ai-typing');
     }
 
     try {
@@ -176,9 +183,7 @@ export class SummaryViewController {
           this.finishGeneration(lang);
         } else if (msg.type === 'ERROR') {
           if (typeof ctx.showStatusBanner === 'function') ctx.showStatusBanner(msg.error, true);
-          if (summaryBody) {
-            summaryBody.innerHTML = `<div style="color: #ff7b72; padding: 12px; background: rgba(248,81,73,0.1); border-radius: 6px;"><strong>${escapeHtml(t.errorLabel || 'Error: ')}</strong>${escapeHtml(msg.error)}</div>`;
-          }
+          this.renderErrorState(msg.error, lang, ctx);
           this.finishGeneration(lang);
         }
       });
@@ -189,11 +194,27 @@ export class SummaryViewController {
     } catch (err) {
       const cleanErr = (err.message || '').replace(/^❌\s*/, '');
       if (typeof ctx.showStatusBanner === 'function') ctx.showStatusBanner(cleanErr, true);
-      if (summaryBody) {
-        summaryBody.innerHTML = `<div style="color: #ff7b72; padding: 12px; background: rgba(248,81,73,0.1); border-radius: 6px;"><strong>${escapeHtml(t.errorLabel || 'Error: ')}</strong>${escapeHtml(cleanErr)}</div>`;
-      }
+      this.renderErrorState(cleanErr, lang, ctx);
       this.finishGeneration(lang);
     }
+  }
+
+  renderErrorState(errorMessage, currentLang = "en", ctx = {}) {
+    const summaryBody = document.getElementById("ytAiSummaryBody");
+    if (!summaryBody) return;
+    const t = I18N[currentLang] || I18N.en;
+    const cleanErr = (errorMessage || "").replace(/^❌\s*/, "");
+    summaryBody.innerHTML = `
+      <div class="yt-ai-error-box">
+        <div class="yt-ai-error-title"><strong>${escapeHtml(t.errorLabel || "Error: ")}</strong>${escapeHtml(cleanErr)}</div>
+        <button id="ytAiRetrySummarizeBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-retry-btn">
+          ${escapeHtml(t.retryBtn || "🔄 Retry")}
+        </button>
+      </div>
+    `;
+    document.getElementById("ytAiRetrySummarizeBtn")?.addEventListener("click", () => {
+      this.startSummarization(ctx);
+    });
   }
 
   finishGeneration(currentLang = 'en') {
@@ -213,8 +234,41 @@ export class SummaryViewController {
       heroBtn.innerHTML = t.summarizeBtn || '✨ Summarize video';
     }
     if (this.activePort) {
-      this.activePort.disconnect();
+      try { this.activePort.disconnect(); } catch (_) {}
       this.activePort = null;
+    }
+  }
+
+  applyLanguage(currentLang = 'en') {
+    const t = I18N[currentLang] || I18N.en;
+    const summarizeBtn = document.getElementById('ytAiSummarizeBtn');
+    const heroBtn = document.getElementById('ytAiSummaryHeroBtn');
+
+    if (this.isGenerating) {
+      if (summarizeBtn) {
+        summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || 'Generating summary...'}`;
+      }
+      if (heroBtn) {
+        heroBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || 'Generating summary...'}`;
+      }
+      const loadingEl = document.querySelector('#ytAiSummaryBody .yt-ai-loading');
+      if (loadingEl) {
+        loadingEl.innerHTML = `<span class="yt-ai-spinner"></span> ${escapeHtml(t.generatingSummary || 'Generating summary...')}`;
+      }
+    } else {
+      if (summarizeBtn) summarizeBtn.innerHTML = t.summarizeBtn || '✨ Summarize video';
+      if (heroBtn) heroBtn.innerHTML = t.summarizeBtn || '✨ Summarize video';
+
+      const retryBtn = document.getElementById('ytAiRetrySummarizeBtn');
+      if (retryBtn) retryBtn.textContent = t.retryBtn || '🔄 Retry';
+
+      const errTitle = document.querySelector('#ytAiSummaryBody .yt-ai-error-title strong');
+      if (errTitle) errTitle.textContent = t.errorLabel || 'Error: ';
+
+      const emptyTitle = document.querySelector('#ytAiSummaryBody .yt-ai-empty-title');
+      const emptySubtitle = document.querySelector('#ytAiSummaryBody .yt-ai-empty-subtitle');
+      if (emptyTitle) emptyTitle.textContent = t.newVideoTitle || t.emptyTitle || 'Nouvelle vidéo détectée';
+      if (emptySubtitle) emptySubtitle.textContent = t.newVideoPlaceholder || t.emptySubtitle || '';
     }
   }
 }

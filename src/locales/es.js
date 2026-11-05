@@ -147,7 +147,10 @@ export const es = {
   "chapterBadge": "(Capítulos)",
   "transcriptExtracted": "Transcripción extraída",
   "modelResponsive": "Modelo responsivo: {model}",
-  "extractingTranscriptNotice": "Extrayendo transcripción del video..."
+  "extractingTranscriptNotice": "Extrayendo transcripción del video...",
+  "fetchingExternalTranscriptNotice": "Obteniendo subtítulos para el video externo ({videoId})...",
+  "externalTranscriptError": "No se pudieron extraer subtítulos ni capítulos para el video externo ({videoId}). Posibles causas: sin subtítulos ni capítulos disponibles, o restricciones de YouTube. Puede abrir este video en una pestaña para resumirlo directamente.",
+  "retryBtn": "🔄 Reintentar"
 };
 
 export default es;
