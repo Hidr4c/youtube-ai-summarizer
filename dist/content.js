@@ -1839,9 +1839,13 @@
 
                 <!-- Zone Cloud (Cl\xE9 API) -->
                 <div id="ytAiCloudSettings" class="yt-ai-setting-item yt-ai-hidden">
-                  <label id="ytAiApiKeyLabel">${t.apiKeyLabel || "API Key:"}</label>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <label id="ytAiApiKeyLabel">${t.apiKeyLabel || "API Key:"}</label>
+                    <span id="ytAiApiKeyHint" style="font-size: 11px; color: var(--yt-ai-timestamp-text); opacity: 0.9;"></span>
+                  </div>
                   <div class="yt-ai-input-with-btn">
                     <input type="password" id="ytAiApiKeyInput" class="yt-ai-input yt-ai-api-key-input" placeholder="${t.apiKeyPlaceholder || "Paste your API key..."}" style="flex: 1;">
+                    <button id="ytAiPasteApiKeyBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.pasteTooltip || "Paste from clipboard"}" style="padding: 4px 8px; font-size: 11px;">\u{1F4CB} ${t.pasteBtn || "Paste"}</button>
                     <a id="ytAiGetApiKeyLink" class="yt-ai-link-pill" href="#" target="_blank" rel="noopener">${t.getApiKeyLink || "\u{1F511} Get Key"}</a>
                   </div>
                 </div>
@@ -2660,6 +2664,110 @@
     }
   };
 
+  // src/content/services/QuickOnboardingHelper.js
+  var QuickOnboardingHelper = class {
+    /**
+     * Retrieves quick-start guidance for a provider
+     * @param {string} provider
+     * @param {string} [lang='fr']
+     * @returns {{url: string, label: string, hint: string}}
+     */
+    static getQuickStartInfo(provider, lang = "fr") {
+      const p = String(provider).toLowerCase();
+      const isFr = lang === "fr";
+      const portal = API_KEY_PORTALS[p];
+      const defaultUrl = portal?.url || "https://aistudio.google.com/app/apikey";
+      if (p === "gemini") {
+        return {
+          url: defaultUrl,
+          label: isFr ? "\u26A1 Obtenir ma cl\xE9 Gemini gratuite (Google)" : "\u26A1 Get Free Gemini Key (with Google)",
+          hint: isFr ? "100% gratuit, sans carte bancaire, avec votre compte Google." : "100% free, no credit card required, with your Google account."
+        };
+      }
+      if (p === "openrouter") {
+        return {
+          url: defaultUrl,
+          label: isFr ? "\u{1F310} Lier mon compte OpenRouter" : "\u{1F310} Connect OpenRouter Account",
+          hint: isFr ? "Donne acc\xE8s \xE0 GPT-4o, Claude 3.5, Mistral et mod\xE8les gratuits." : "Access GPT-4o, Claude 3.5, Mistral, and free models."
+        };
+      }
+      if (p === "groq") {
+        return {
+          url: defaultUrl,
+          label: isFr ? "\u26A1 Obtenir ma cl\xE9 Groq (Gratuit)" : "\u26A1 Get Free Groq Key (Ultra-fast)",
+          hint: isFr ? "Inf\xE9rence ultra-rapide et gratuite (Llama 3.3)." : "Ultra-fast and free inference (Llama 3.3)."
+        };
+      }
+      const name = PROVIDER_NAMES[p] || p.toUpperCase();
+      return {
+        url: defaultUrl,
+        label: isFr ? `\u{1F511} Obtenir ma cl\xE9 ${name}` : `\u{1F511} Get ${name} API Key`,
+        hint: isFr ? `Liez votre compte ${name} pour r\xE9sumer et discuter.` : `Connect your ${name} account to summarize and chat.`
+      };
+    }
+    /**
+     * Reads clipboard content and updates target input with optional callback
+     * @param {HTMLInputElement} inputEl
+     * @param {Function} [onKeyUpdated]
+     * @returns {Promise<boolean>}
+     */
+    static async pasteApiKeyFromClipboard(inputEl, onKeyUpdated) {
+      if (!inputEl) return false;
+      try {
+        if (typeof navigator !== "undefined" && navigator.clipboard?.readText) {
+          const text = await navigator.clipboard.readText();
+          const clean = (text || "").trim();
+          if (clean) {
+            inputEl.value = clean;
+            if (typeof onKeyUpdated === "function") {
+              onKeyUpdated(clean);
+            }
+            return true;
+          }
+        }
+      } catch (_) {
+      }
+      return false;
+    }
+    /**
+     * Opens official external web chat pre-filled with video context (Zero-config fallback)
+     * @param {string} destination 'chatgpt' | 'claude'
+     * @param {string} promptText Text to send
+     */
+    static openExternalWebChat(destination = "chatgpt", promptText = "") {
+      const text = String(promptText || "").slice(0, 3500);
+      const encoded = encodeURIComponent(text);
+      if (destination === "claude") {
+        window.open("https://claude.ai/new", "_blank");
+      } else {
+        window.open(`https://chatgpt.com/?q=${encoded}`, "_blank");
+      }
+    }
+    /**
+     * Generates a sleek, non-intrusive notification banner for missing key guidance
+     * @param {string} provider
+     * @param {string} lang
+     * @param {Function} onOpenSettings
+     * @returns {string} HTML markup
+     */
+    static formatMissingKeyNotice(provider, lang = "fr") {
+      const info = this.getQuickStartInfo(provider, lang);
+      const isFr = lang === "fr";
+      const title = isFr ? "Cl\xE9 API requise" : "API key required";
+      const sub = isFr ? "Veuillez renseigner votre cl\xE9 API pour continuer." : "Please enter your API key to continue.";
+      return `
+      <div class="yt-ai-missing-key-card">
+        <div style="font-weight: 600; margin-bottom: 4px;">[!] ${title} (${provider.toUpperCase()})</div>
+        <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px;">${sub}</div>
+        <div style="font-size: 11px; opacity: 0.75; margin-bottom: 8px;">${info.hint}</div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <a href="${info.url}" target="_blank" rel="noopener" class="yt-ai-link-pill" style="font-size: 11px;">${info.label}</a>
+        </div>
+      </div>
+    `.trim();
+    }
+  };
+
   // src/content/ui/SettingsDrawerController.js
   var SettingsDrawerController = class _SettingsDrawerController {
     constructor(state2 = {}, dependencies = {}) {
@@ -2742,11 +2850,13 @@
       } else {
         lmSettings?.classList.add("yt-ai-hidden");
         cloudSettings?.classList.remove("yt-ai-hidden");
-        const portal = API_KEY_PORTALS[this.state.currentProvider];
-        if (getApiKeyLink && portal) {
-          getApiKeyLink.href = portal.url;
-          getApiKeyLink.textContent = portal.label;
+        const info = QuickOnboardingHelper.getQuickStartInfo(this.state.currentProvider, this.state.currentLang);
+        if (getApiKeyLink && info) {
+          getApiKeyLink.href = info.url;
+          getApiKeyLink.textContent = info.label;
         }
+        const hintEl = document.getElementById("ytAiApiKeyHint");
+        if (hintEl) hintEl.textContent = info?.hint || "";
         const t = I18N[this.state.currentLang] || I18N.en;
         if (apiKeyInput) {
           apiKeyInput.value = this.state.apiKeys[this.state.currentProvider] || "";
@@ -2756,6 +2866,7 @@
         if (summaryTitle) summaryTitle.textContent = `${t.summaryTitle} (${name})`;
         this.populateCloudModels(this.state.currentProvider);
       }
+      this.bindPasteButton();
       this.updateHeaderBadge();
       this.updateHeaderModelText();
     }
@@ -2867,6 +2978,21 @@
       }
       this.updateHeaderModelText();
     }
+    bindPasteButton() {
+      const btn = document.getElementById("ytAiPasteApiKeyBtn");
+      const input = document.getElementById("ytAiApiKeyInput");
+      if (!btn || !input || btn.dataset.bound === "true") return;
+      btn.dataset.bound = "true";
+      btn.addEventListener("click", async () => {
+        await QuickOnboardingHelper.pasteApiKeyFromClipboard(input, (val) => {
+          this.state.apiKeys[this.state.currentProvider] = val;
+          this.state.savePreference(`apiKey_${this.state.currentProvider}`, val);
+          this.updateHeaderBadge();
+          const msg = this.state.currentLang === "fr" ? "[\u2713] Cl\xE9 API coll\xE9e et enregistr\xE9e !" : "[\u2713] API key pasted and saved!";
+          this.showStatusBanner(msg, false);
+        });
+      });
+    }
     handleTestConnection() {
       const model = this.state.getActiveModel();
       this.showStatusBanner(`Testing connection to ${model}...`, false);
@@ -2960,8 +3086,12 @@
       const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : "";
       if (!isLocal && !key) {
         if (typeof ctx.showStatusBanner === "function") {
-          ctx.showStatusBanner(t.missingKeyAlert || `API key missing for ${currentProvider.toUpperCase()}. Please enter your key.`, true);
+          const hint = t.missingKeyAlert || `Cl\xE9 API requise pour ${currentProvider.toUpperCase()}.`;
+          ctx.showStatusBanner(`[!] ${hint}`, true);
         }
+        document.getElementById("ytAiSettingsDrawer")?.classList.remove("yt-ai-hidden");
+        document.getElementById("ytAiSettingsToggleBtn")?.classList.add("active");
+        document.getElementById("ytAiApiKeyInput")?.focus();
         return;
       }
       const mode = document.getElementById("ytAiModeSelect")?.value || "standard";
@@ -3797,7 +3927,8 @@ ${condenseFn(text, externalBudget)}`);
       const apiKeys = ctx.apiKeys || stateObj.apiKeys || {};
       const key = apiKeys[currentProvider] || "";
       if (!isLocal && !key) {
-        this.appendChatBubble("ai", t.missingKeyAlert || `Please provide your API key for ${currentProvider.toUpperCase()} to chat.`);
+        const card = QuickOnboardingHelper.formatMissingKeyNotice(currentProvider, lang);
+        this.appendChatBubble("ai", card);
         return;
       }
       const currentVideoId = getVideoId();

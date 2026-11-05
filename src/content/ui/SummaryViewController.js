@@ -83,8 +83,12 @@ export class SummaryViewController {
 
     if (!isLocal && !key) {
       if (typeof ctx.showStatusBanner === 'function') {
-        ctx.showStatusBanner(t.missingKeyAlert || `API key missing for ${currentProvider.toUpperCase()}. Please enter your key.`, true);
+        const hint = t.missingKeyAlert || `Clé API requise pour ${currentProvider.toUpperCase()}.`;
+        ctx.showStatusBanner(`[!] ${hint}`, true);
       }
+      document.getElementById('ytAiSettingsDrawer')?.classList.remove('yt-ai-hidden');
+      document.getElementById('ytAiSettingsToggleBtn')?.classList.add('active');
+      document.getElementById('ytAiApiKeyInput')?.focus();
       return;
     }
 

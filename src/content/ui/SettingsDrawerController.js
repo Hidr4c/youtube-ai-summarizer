@@ -2,6 +2,7 @@ import { I18N } from '../../locales/index.js';
 import { CLOUD_MODELS, API_KEY_PORTALS, PROVIDER_NAMES } from '../../config/AIProviderPresets.js';
 import { LocalModelDiscovery } from '../services/LocalModelDiscovery.js';
 import { ConnectionTester } from '../services/ConnectionTester.js';
+import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
 
 /**
  * Controller for Settings Drawer, provider options, model fetching, and connection testing
@@ -99,11 +100,13 @@ export class SettingsDrawerController {
       lmSettings?.classList.add('yt-ai-hidden');
       cloudSettings?.classList.remove('yt-ai-hidden');
 
-      const portal = API_KEY_PORTALS[this.state.currentProvider];
-      if (getApiKeyLink && portal) {
-        getApiKeyLink.href = portal.url;
-        getApiKeyLink.textContent = portal.label;
+      const info = QuickOnboardingHelper.getQuickStartInfo(this.state.currentProvider, this.state.currentLang);
+      if (getApiKeyLink && info) {
+        getApiKeyLink.href = info.url;
+        getApiKeyLink.textContent = info.label;
       }
+      const hintEl = document.getElementById("ytAiApiKeyHint");
+      if (hintEl) hintEl.textContent = info?.hint || "";
 
       const t = I18N[this.state.currentLang] || I18N.en;
       if (apiKeyInput) {
@@ -116,6 +119,7 @@ export class SettingsDrawerController {
       this.populateCloudModels(this.state.currentProvider);
     }
 
+    this.bindPasteButton();
     this.updateHeaderBadge();
     this.updateHeaderModelText();
   }
@@ -241,6 +245,22 @@ export class SettingsDrawerController {
       this.state.savePreference('selectedModel', activeVal);
     }
     this.updateHeaderModelText();
+  }
+
+  bindPasteButton() {
+    const btn = document.getElementById("ytAiPasteApiKeyBtn");
+    const input = document.getElementById("ytAiApiKeyInput");
+    if (!btn || !input || btn.dataset.bound === "true") return;
+    btn.dataset.bound = "true";
+    btn.addEventListener("click", async () => {
+      await QuickOnboardingHelper.pasteApiKeyFromClipboard(input, (val) => {
+        this.state.apiKeys[this.state.currentProvider] = val;
+        this.state.savePreference(`apiKey_${this.state.currentProvider}`, val);
+        this.updateHeaderBadge();
+        const msg = this.state.currentLang === "fr" ? "[✓] Clé API collée et enregistrée !" : "[✓] API key pasted and saved!";
+        this.showStatusBanner(msg, false);
+      });
+    });
   }
 
   handleTestConnection() {

@@ -7,6 +7,7 @@ import { ChannelIntelligenceManager } from '../services/ChannelIntelligenceManag
 import { VideoCommentsManager } from '../services/VideoCommentsManager.js';
 import { ChatStreamClient } from '../services/ChatStreamClient.js';
 import { ChatBubbleView } from './ChatBubbleView.js';
+import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
 
 /**
  * Controller for Interactive Video Q&A Chat Tab
@@ -131,7 +132,8 @@ export class ChatViewController {
     const apiKeys = ctx.apiKeys || stateObj.apiKeys || {};
     const key = apiKeys[currentProvider] || '';
     if (!isLocal && !key) {
-      this.appendChatBubble('ai', t.missingKeyAlert || `Please provide your API key for ${currentProvider.toUpperCase()} to chat.`);
+      const card = QuickOnboardingHelper.formatMissingKeyNotice(currentProvider, lang);
+      this.appendChatBubble('ai', card);
       return;
     }
 
