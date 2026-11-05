@@ -1387,7 +1387,7 @@
       return parts.map((s) => s.trim()).filter(Boolean);
     }
     /**
-     * Parses bullet point text into title and body sentences
+     * Parses bullet point text into title and body
      * @param {string} rawText
      * @returns {{ hasTitle: boolean, title: string, sentences: Array<string> }}
      */
@@ -1397,17 +1397,16 @@
         const rawTitle = colonMatch[1].trim();
         const cleanTitle = rawTitle.replace(/^\*\*|\*\*$/g, "").trim();
         const body = colonMatch[2].trim();
-        const sentences = _MarkdownRenderer.splitSentences(body);
         return {
           hasTitle: true,
           title: cleanTitle + " :",
-          sentences: sentences.length > 0 ? sentences : [body]
+          sentences: [body]
         };
       }
       return {
         hasTitle: false,
         title: "",
-        sentences: _MarkdownRenderer.splitSentences(rawText)
+        sentences: [rawText]
       };
     }
     /**
@@ -1430,26 +1429,12 @@
       return escaped;
     }
     /**
-     * Renders structured list item
+     * Renders structured list item ensuring bold keyword and explanation stay fluid on the same line
      * @param {string} rawText
      * @returns {string}
      */
     static renderListItem(rawText) {
-      const parsed = _MarkdownRenderer.parsePoint(rawText);
-      const sentenceDivs = parsed.sentences.map((s) => `<div class="yt-ai-point-sentence">${_MarkdownRenderer.formatInline(s)}</div>`).join("");
-      if (parsed.hasTitle) {
-        return `
-        <li class="yt-ai-point-item">
-          <div class="yt-ai-point-title"><strong>${_MarkdownRenderer.formatInline(parsed.title)}</strong></div>
-          <div class="yt-ai-point-body">${sentenceDivs}</div>
-        </li>
-      `;
-      }
-      return `
-      <li class="yt-ai-point-item">
-        <div class="yt-ai-point-body" style="padding-left: 14px;">${sentenceDivs}</div>
-      </li>
-    `;
+      return `<li class="yt-ai-point-item">${_MarkdownRenderer.formatInline(rawText)}</li>`;
     }
     /**
      * Renders complete Markdown document into target DOM container
@@ -5338,17 +5323,17 @@ ${lines.join("\n")}
       const systemPrompt = isFr ? `Tu es un assistant IA d'\xE9lite YouTube Summarizer AI sp\xE9cialis\xE9 dans la synth\xE8se et l'analyse de vid\xE9os.
 Ton but absolu est de produire un r\xE9sum\xE9 clair, naturel, bien structur\xE9 et fid\xE8le EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o.
 OBLIGATION STRICTE : R\xE9dige l'int\xE9gralit\xE9 du r\xE9sum\xE9, tous les titres et analyses en FRAN\xC7AIS.
-R\xC8GLES DE STYLE :
+R\xC8GLES DE STYLE & MISE EN PAGE :
 - Style naturel, direct et percutant : va droit au but sans phrases de remplissage.
-- \xC9vite les phrases inutilement longues, privil\xE9gie la fluidit\xE9 et la clart\xE9.
-- Mise en page a\xE9r\xE9e en Markdown avec des listes \xE0 puces et des mots-cl\xE9s en **gras** en d\xE9but de point.
+- R\xC8GLE ABSOLUE POUR LES PUCES : Chaque puce Markdown DOIT tenir d'un seul bloc avec le mot-cl\xE9 en gras ET son explication sur la M\xCAME ligne (ex: - **Mot-cl\xE9 :** Explication fluide et d'un seul bloc).
+- INTERDICTION FORMELLE : Ne jamais renvoyer l'explication \xE0 la ligne suivante et ne jamais cr\xE9er de sous-puces coup\xE9es. Chaque point doit \xEAtre une phrase fluide et compl\xE8te.
 - Fid\xE9lit\xE9 \xE0 100% \xE0 la transcription, z\xE9ro hallucination ou extrapolation.` : `You are an expert AI assistant YouTube Summarizer AI specializing in video summarization and insights.
 Your absolute goal is to produce a clear, natural, well-structured, and faithful summary EXCLUSIVELY in ${targetLangName}, regardless of the original video language.
 MANDATORY LANGUAGE DIRECTIVE: Write the ENTIRE summary, all section headings, bullet points, and analysis strictly in ${targetLangName}. Do NOT use English unless the requested language is English.
-STYLE RULES:
+STYLE & FORMATTING RULES:
 - Natural, direct, and engaging style: go straight to the point without filler phrases.
-- Avoid overly long and complex sentences, focus on clarity and flow.
-- Use airy Markdown formatting with bullet points and **bold** keywords at the start of each point.
+- STRICT BULLET FORMATTING: Every Markdown bullet point MUST be a single cohesive block with the bold keyword AND explanation on the SAME line (e.g. - **Keyword:** Clear, fluent explanation in a single block).
+- STRICT PROHIBITION: Never insert a line break between the keyword and its explanation, and never break ideas into fragmented sub-bullets.
 - 100% faithful to the transcript, with zero hallucinations or extrapolation.`;
       const formatInstructions = getFormatInstructions(mode, lang);
       const contextBlock = this.formatContextBlock(extraContext, lang);

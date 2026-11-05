@@ -67,7 +67,7 @@ export class MarkdownRenderer {
   }
 
   /**
-   * Parses bullet point text into title and body sentences
+   * Parses bullet point text into title and body
    * @param {string} rawText
    * @returns {{ hasTitle: boolean, title: string, sentences: Array<string> }}
    */
@@ -77,17 +77,16 @@ export class MarkdownRenderer {
       const rawTitle = colonMatch[1].trim();
       const cleanTitle = rawTitle.replace(/^\*\*|\*\*$/g, '').trim();
       const body = colonMatch[2].trim();
-      const sentences = MarkdownRenderer.splitSentences(body);
       return {
         hasTitle: true,
         title: cleanTitle + ' :',
-        sentences: sentences.length > 0 ? sentences : [body]
+        sentences: [body]
       };
     }
     return {
       hasTitle: false,
       title: '',
-      sentences: MarkdownRenderer.splitSentences(rawText)
+      sentences: [rawText]
     };
   }
 
@@ -114,29 +113,12 @@ export class MarkdownRenderer {
   }
 
   /**
-   * Renders structured list item
+   * Renders structured list item ensuring bold keyword and explanation stay fluid on the same line
    * @param {string} rawText
    * @returns {string}
    */
   static renderListItem(rawText) {
-    const parsed = MarkdownRenderer.parsePoint(rawText);
-    const sentenceDivs = parsed.sentences
-      .map(s => `<div class="yt-ai-point-sentence">${MarkdownRenderer.formatInline(s)}</div>`)
-      .join('');
-
-    if (parsed.hasTitle) {
-      return `
-        <li class="yt-ai-point-item">
-          <div class="yt-ai-point-title"><strong>${MarkdownRenderer.formatInline(parsed.title)}</strong></div>
-          <div class="yt-ai-point-body">${sentenceDivs}</div>
-        </li>
-      `;
-    }
-    return `
-      <li class="yt-ai-point-item">
-        <div class="yt-ai-point-body" style="padding-left: 14px;">${sentenceDivs}</div>
-      </li>
-    `;
+    return `<li class="yt-ai-point-item">${MarkdownRenderer.formatInline(rawText)}</li>`;
   }
 
   /**
