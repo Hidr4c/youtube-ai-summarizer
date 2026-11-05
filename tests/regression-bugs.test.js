@@ -142,10 +142,14 @@ describe('Regression Suite - Bug Prevention & Integration Contracts', () => {
 
     // Header bar MUST contain:
     assert.match(headerBarHtml, /ytAiBrandToggle/, 'Brand/logo must be in header');
+    assert.match(headerBarHtml, /ytAiModeSelect/, 'Format selector must be directly in header bar before language');
     assert.match(headerBarHtml, /ytAiLangSelect/, 'Language selector must be in header');
     assert.match(headerBarHtml, /ytAiSummarizeBtn/, 'Summarize CTA button must be in header');
     assert.match(headerBarHtml, /ytAiSettingsToggleBtn/, 'Settings button must be in header');
     assert.match(headerBarHtml, /ytAiToggleBtn/, 'Expand/collapse button must be in header');
+    assert.match(headerBarHtml, /value="quick"/);
+    assert.match(headerBarHtml, /value="standard"/);
+    assert.match(headerBarHtml, /value="detailed"/);
 
     // Header bar MUST NOT contain:
     assert.equal(headerBarHtml.includes('id="ytAiFormatPills"'), false, 'Format pills must be removed from header bar');
@@ -157,12 +161,6 @@ describe('Regression Suite - Bug Prevention & Integration Contracts', () => {
     const settingsDrawerMatch = contentSrc.match(/<div id="ytAiSettingsDrawer"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>\s*`;/);
     assert.ok(settingsDrawerMatch, 'Settings drawer must exist');
     const settingsDrawerHtml = settingsDrawerMatch[0];
-
-    // Mode format select in Settings Parameters
-    assert.match(settingsDrawerHtml, /id="ytAiModeSelect"/, 'Mode select must be inside Settings drawer');
-    assert.match(settingsDrawerHtml, /value="quick"/);
-    assert.match(settingsDrawerHtml, /value="standard"/);
-    assert.match(settingsDrawerHtml, /value="detailed"/);
 
     // AI Badge and Model display in Settings Model subpane
     assert.match(settingsDrawerHtml, /id="ytAiBadge"/, 'Status badge must be inside Settings drawer');

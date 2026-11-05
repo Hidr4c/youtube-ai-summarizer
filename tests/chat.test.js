@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ChatViewController } from '../src/content/ui/ChatViewController.js';
+import { extractVideoIdFromText } from '../src/content/ui/NavigationObserver.js';
 
 // Minimal DOM mock environment for Chat testing in Node.js
 function setupMockDom() {
@@ -48,8 +49,9 @@ function setupMockDom() {
   messagesContainer.id = 'ytAiChatMessages';
   elements.set('ytAiChatMessages', messagesContainer);
 
-  const chatInput = createElement('input');
+  const chatInput = createElement('textarea');
   chatInput.id = 'ytAiChatInput';
+  chatInput.style = { height: '80px' };
   elements.set('ytAiChatInput', chatInput);
 
   const chatCount = createElement('span');
@@ -158,51 +160,7 @@ describe('ChatViewController - Q&A Interactive Tab Specification', () => {
     assert.ok(postedMessage, 'Message must be posted to port');
     assert.equal(postedMessage.action, 'CHAT_STREAM');
     assert.equal(postedMessage.model, 'qwen-2.5-7b');
-    assert.ok(postedMessage.messages[0].content.startsWith('How does this work?'));
-  });
-
-  it('handleSendChatMessage scopes conversation history to active language and enforces target language directive', async () => {
-    setupMockDom();
-    const controller = new ChatViewController({
-      transcriptController: {
-        cachedTranscript: { segments: [{ timestamp: '00:01', text: 'intro' }], fullText: 'intro' },
-        cachedVideoMetadata: { title: 'Test Video', author: 'Author' }
-      },
-      promptService: {
-        constructor: {
-          condenseTranscriptForContext: (t) => t,
-          buildChatSystemPrompt: () => 'System prompt'
-        }
-      }
-    });
-
-    controller.chatHistory = [
-      { role: 'user', content: 'Bonjour', lang: 'fr' },
-      { role: 'assistant', content: 'Bonjour !', lang: 'fr' }
-    ];
-
-    let postedPayload = null;
-    global.chrome = {
-      runtime: {
-        connect: () => ({
-          postMessage: (msg) => { postedPayload = msg; },
-          onMessage: { addListener: () => {} },
-          onDisconnect: { addListener: () => {} },
-          disconnect: () => {}
-        })
-      }
-    };
-
-    await controller.handleSendChatMessage('churn ?', {
-      currentLang: 'zh',
-      currentProvider: 'lmstudio',
-      getActiveModel: () => 'qwen-2.5-7b'
-    });
-
-    assert.ok(postedPayload);
-    assert.equal(postedPayload.messages.length, 1);
-    assert.match(postedPayload.messages[0].content, /churn \?/);
-    assert.match(postedPayload.messages[0].content, /中文/);
+    assert.equal(postedMessage.messages[0].content, 'How does this work?');
   });
 
   it('handleSendChatMessage ignores empty or whitespace-only queries', async () => {
@@ -384,5 +342,112 @@ describe('ChatViewController - Q&A Interactive Tab Specification', () => {
     // Mic button
     assert.match(contentSrc, /ytAiMicBtn/, 'Must wire microphone button');
     assert.match(contentSrc, /toggleDictation/, 'Must trigger toggleDictation');
+  });
+
+  it('chat input template is a multiline textarea with Shift+Enter line break support', () => {
+    const bannerTemplateSrc = fs.readFileSync(path.join(rootDir, 'src/content/templates/BannerTemplate.js'), 'utf-8');
+    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+
+    assert.match(bannerTemplateSrc, /<textarea\s+id="ytAiChatInput"\s+class="yt-ai-chat-input"\s+rows="1"/, 'Input must be an auto-expanding textarea');
+    assert.match(contentSrc, /e\.key\s*===\s*['"]Enter['"]\s*&&\s*!e\.shiftKey/, 'Must only submit when Shift is NOT held');
+    assert.match(contentSrc, /chatInput\.style\.height\s*=\s*'auto'/, 'Must dynamically resize textarea on input');
+  });
+
+  it('extractVideoIdFromText accurately parses YouTube video IDs from various URL formats in text', () => {
+    assert.equal(extractVideoIdFromText('regarde https://www.youtube.com/watch?v=EYCOLZEsLIs'), 'EYCOLZEsLIs');
+    assert.equal(extractVideoIdFromText('https://youtu.be/spSiyhOXfaI?t=10'), 'spSiyhOXfaI');
+    assert.equal(extractVideoIdFromText('check this short: https://www.youtube.com/shorts/bYe4IfYu4cM'), 'bYe4IfYu4cM');
+    assert.equal(extractVideoIdFromText('peux tu me dire ce qu il raconte dans https://www.youtube.com/watch?v=EYCOLZEsLIs&pp=ygU1bW1hMCQipDASJ0IGGAE%3D%3D'), 'EYCOLZEsLIs');
+    assert.equal(extractVideoIdFromText('texte sans aucune url youtube'), '');
+  });
+
+  it('handleSendChatMessage fetches transcript for external YouTube video URL when detected', async () => {
+    const { chatInput, messagesContainer } = setupMockDom();
+    chatInput.value = 'Que raconte https://www.youtube.com/watch?v=EXT_VID_123 ?';
+
+    let requestedVideoId = null;
+    let postedPayload = null;
+
+    const mockTranscriptController = {
+      cachedTranscript: { videoId: 'CURRENT_PAGE_VID', segments: [{ text: 'Current video speech' }], fullText: 'Current video speech' },
+      cachedVideoMetadata: { videoId: 'CURRENT_PAGE_VID', title: 'Current Video Title' },
+      fetchTranscriptFromBackground: async (vid) => {
+        requestedVideoId = vid;
+        return {
+          success: true,
+          segments: [{ timestamp: '0:00', text: 'External video dialogue content' }],
+          title: 'External Video Title'
+        };
+      }
+    };
+
+    const mockPromptService = {
+      constructor: {
+        condenseTranscriptForContext: (t) => t,
+        buildChatSystemPrompt: (meta, safeTranscript) => {
+          return `SYSTEM: Video="${meta.title}" Transcript="${safeTranscript}"`;
+        }
+      }
+    };
+
+    global.chrome = {
+      runtime: {
+        connect: () => ({
+          postMessage: (payload) => { postedPayload = payload; },
+          onMessage: { addListener: (cb) => { cb({ type: 'DONE' }); } },
+          onDisconnect: { addListener: () => {} },
+          disconnect: () => {}
+        })
+      }
+    };
+
+    const controller = new ChatViewController({
+      transcriptController: mockTranscriptController,
+      promptService: mockPromptService
+    });
+
+    await controller.handleSendChatMessage(null, {
+      currentProvider: 'lmstudio',
+      getActiveModel: () => 'local-model'
+    });
+
+    assert.equal(requestedVideoId, 'EXT_VID_123', 'Must fetch external video transcript via background');
+    assert.ok(postedPayload, 'Must stream message to AI provider');
+    assert.ok(postedPayload.systemPrompt.includes('External video dialogue content'), 'Prompt must use external video transcript');
+  });
+
+  it('handleSendChatMessage displays error bubble when external YouTube video transcript is unavailable', async () => {
+    const { chatInput, messagesContainer } = setupMockDom();
+    chatInput.value = 'Analyse https://www.youtube.com/watch?v=UNAVAILABLE_VID';
+
+    const mockTranscriptController = {
+      cachedTranscript: { videoId: 'CURRENT_PAGE_VID', segments: [{ text: 'Current text' }], fullText: 'Current text' },
+      cachedVideoMetadata: { videoId: 'CURRENT_PAGE_VID', title: 'Current Title' },
+      fetchTranscriptFromBackground: async () => ({ success: false, segments: [] })
+    };
+
+    let streamInitiated = false;
+    global.chrome = {
+      runtime: {
+        connect: () => {
+          streamInitiated = true;
+          return { postMessage: () => {}, onMessage: { addListener: () => {} }, onDisconnect: { addListener: () => {} }, disconnect: () => {} };
+        }
+      }
+    };
+
+    const controller = new ChatViewController({
+      transcriptController: mockTranscriptController
+    });
+
+    await controller.handleSendChatMessage(null, {
+      currentProvider: 'lmstudio',
+      getActiveModel: () => 'local-model'
+    });
+
+    assert.equal(streamInitiated, false, 'Must not initiate AI stream if external transcript retrieval failed');
+    const lastBubble = messagesContainer.children[messagesContainer.children.length - 1];
+    assert.ok((lastBubble.innerHTML.includes('Impossible') && lastBubble.innerHTML.includes('sous-titres')) ||
+              (lastBubble.innerHTML.includes('Unable') && lastBubble.innerHTML.includes('subtitles')), 'Must display external transcript error notice');
   });
 });

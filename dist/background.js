@@ -138,6 +138,25 @@
         serverUrl,
         apiKey
       } = request;
+      let isDisconnected = false;
+      const abortController = new AbortController();
+      if (port?.onDisconnect?.addListener) {
+        port.onDisconnect.addListener(() => {
+          isDisconnected = true;
+          try {
+            abortController.abort();
+          } catch (_) {
+          }
+        });
+      }
+      const safePost = (msg) => {
+        if (isDisconnected) return;
+        try {
+          port.postMessage(msg);
+        } catch (_) {
+          isDisconnected = true;
+        }
+      };
       let chatMessages = messages;
       if (!chatMessages) {
         chatMessages = [
@@ -149,14 +168,15 @@
       }
       try {
         if (provider === "claude") {
-          await this.streamClaude(port, apiKey, model, systemPrompt, chatMessages, temperature, maxTokens);
+          await this.streamClaude(port, apiKey, model, systemPrompt, chatMessages, temperature, maxTokens, abortController.signal, safePost);
         } else {
-          await this.streamOpenAICompatible(port, provider, serverUrl, apiKey, model, chatMessages, temperature, maxTokens);
+          await this.streamOpenAICompatible(port, provider, serverUrl, apiKey, model, chatMessages, temperature, maxTokens, abortController.signal, safePost);
         }
-        port.postMessage({ type: "DONE" });
+        safePost({ type: "DONE" });
       } catch (err) {
+        if (isDisconnected || abortController.signal.aborted) return;
         const userFriendlyError = this.formatContextError(err.message || String(err), provider);
-        port.postMessage({ type: "ERROR", error: userFriendlyError });
+        safePost({ type: "ERROR", error: userFriendlyError });
       }
     }
     /**
@@ -177,7 +197,7 @@
     /**
      * Streams from OpenAI-compatible endpoints (LM Studio, Ollama, Groq, Gemini, DeepSeek, etc.)
      */
-    static async streamOpenAICompatible(port, provider, serverUrl, apiKey, model, messages, temperature, maxTokens) {
+    static async streamOpenAICompatible(port, provider, serverUrl, apiKey, model, messages, temperature, maxTokens, signal = null, safePost = null) {
       let endpoint = "";
       const headers = { "Content-Type": "application/json" };
       if (provider === "lmstudio") {
@@ -213,11 +233,13 @@
           bodyPayload.max_tokens = parsedMax;
         }
       }
-      const response = await fetch(endpoint, {
+      const fetchOptions = {
         method: "POST",
         headers,
         body: JSON.stringify(bodyPayload)
-      });
+      };
+      if (signal) fetchOptions.signal = signal;
+      const response = await fetch(endpoint, fetchOptions);
       if (!response.ok) {
         const errText = await response.text();
         throw new Error(`Erreur ${provider.toUpperCase()} (${response.status}) : ${errText || response.statusText}`);
@@ -226,6 +248,13 @@
       const decoder = new TextDecoder("utf-8");
       let buffer = "";
       while (true) {
+        if (signal?.aborted) {
+          try {
+            await reader.cancel();
+          } catch (_) {
+          }
+          break;
+        }
         const { done, value } = await reader.read();
         if (done) break;
         buffer += decoder.decode(value, { stream: true });
@@ -238,12 +267,14 @@
             try {
               const parsed = JSON.parse(trimmed.slice(6));
               const delta = parsed.choices?.[0]?.delta || {};
-              port.postMessage({
+              const chunkMsg = {
                 type: "CHUNK",
                 content: delta.content || "",
                 reasoning: delta.reasoning_content || "",
                 text: delta.content || ""
-              });
+              };
+              if (safePost) safePost(chunkMsg);
+              else port.postMessage(chunkMsg);
             } catch (e) {
             }
           }
@@ -253,7 +284,7 @@
     /**
      * Streams from Anthropic Claude API (/v1/messages)
      */
-    static async streamClaude(port, apiKey, model, systemPrompt, messages, temperature, maxTokens) {
+    static async streamClaude(port, apiKey, model, systemPrompt, messages, temperature, maxTokens, signal = null, safePost = null) {
       if (!apiKey) throw new Error("Cl\xE9 API Claude requise");
       const claudeMessages = messages.filter((m) => m.role !== "system");
       const systemContent = systemPrompt || (messages.find((m) => m.role === "system")?.content || "");
@@ -269,7 +300,7 @@
       if (!isNaN(parsedTemp)) {
         bodyPayload.temperature = Math.max(0, Math.min(parsedTemp, 1));
       }
-      const response = await fetch(PROVIDER_CONFIGS.claude.endpoint, {
+      const fetchOptions = {
         method: "POST",
         headers: {
           "x-api-key": apiKey.trim(),
@@ -277,7 +308,9 @@
           "content-type": "application/json"
         },
         body: JSON.stringify(bodyPayload)
-      });
+      };
+      if (signal) fetchOptions.signal = signal;
+      const response = await fetch(PROVIDER_CONFIGS.claude.endpoint, fetchOptions);
       if (!response.ok) {
         const errText = await response.text();
         throw new Error(`Erreur Claude (${response.status}) : ${errText}`);
@@ -286,6 +319,13 @@
       const decoder = new TextDecoder("utf-8");
       let buffer = "";
       while (true) {
+        if (signal?.aborted) {
+          try {
+            await reader.cancel();
+          } catch (_) {
+          }
+          break;
+        }
         const { done, value } = await reader.read();
         if (done) break;
         buffer += decoder.decode(value, { stream: true });
@@ -298,12 +338,14 @@
             try {
               const parsed = JSON.parse(trimmed.slice(6));
               if (parsed.type === "content_block_delta" && parsed.delta?.text) {
-                port.postMessage({
+                const chunkMsg = {
                   type: "CHUNK",
                   content: parsed.delta.text,
                   reasoning: "",
                   text: parsed.delta.text
-                });
+                };
+                if (safePost) safePost(chunkMsg);
+                else port.postMessage(chunkMsg);
               }
             } catch (e) {
             }
@@ -714,193 +756,261 @@
     }
   };
 
-  // src/background/WatchPageTranscriptFetcher.js
-  var WatchPageTranscriptFetcher = class {
+  // src/background/BackgroundTranscriptFetcher.js
+  var BackgroundTranscriptFetcher = class _BackgroundTranscriptFetcher {
     /**
-     * Extracts balanced JSON string starting from opening brace '{'
-     */
-    static extractBalancedJson(str, startFrom = 0) {
-      const start = str.indexOf("{", startFrom);
-      if (start === -1) return null;
-      let depth = 0;
-      let inString = false;
-      let escape = false;
-      for (let i = start; i < str.length; i++) {
-        const c = str[i];
-        if (escape) {
-          escape = false;
-          continue;
-        }
-        if (c === "\\") {
-          escape = true;
-          continue;
-        }
-        if (c === '"') {
-          inString = !inString;
-          continue;
-        }
-        if (!inString) {
-          if (c === "{") depth++;
-          else if (c === "}") {
-            depth--;
-            if (depth === 0) return str.slice(start, i + 1);
-          }
-        }
-      }
-      return null;
-    }
-    /**
-     * Extracts balanced array string starting from opening bracket '['
-     */
-    static extractBalancedArray(str, startFrom = 0) {
-      const start = str.indexOf("[", startFrom);
-      if (start === -1) return null;
-      let depth = 0;
-      let inString = false;
-      let escape = false;
-      for (let i = start; i < str.length; i++) {
-        const c = str[i];
-        if (escape) {
-          escape = false;
-          continue;
-        }
-        if (c === "\\") {
-          escape = true;
-          continue;
-        }
-        if (c === '"') {
-          inString = !inString;
-          continue;
-        }
-        if (!inString) {
-          if (c === "[") depth++;
-          else if (c === "]") {
-            depth--;
-            if (depth === 0) return str.slice(start, i + 1);
-          }
-        }
-      }
-      return null;
-    }
-    /**
-     * Parses timedtext JSON3 or XML payload into uniform segments
-     */
-    static parseTimedtextPayload(rawText) {
-      const segments = [];
-      if (!rawText || !rawText.trim()) return segments;
-      if (rawText.trim().startsWith("{")) {
-        try {
-          const json = JSON.parse(rawText);
-          if (Array.isArray(json.events)) {
-            for (const ev of json.events) {
-              if (!ev.segs) continue;
-              const sec = Math.floor((ev.tStartMs || 0) / 1e3);
-              const m = Math.floor(sec / 60);
-              const s = (sec % 60).toString().padStart(2, "0");
-              const text = ev.segs.map((seg) => seg.utf8 || "").join("").replace(/\s+/g, " ").trim();
-              if (text && text !== "\n") {
-                segments.push({ timestamp: `${m}:${s}`, startMs: ev.tStartMs || sec * 1e3, text });
-              }
-            }
-          }
-        } catch (_) {
-        }
-      }
-      if (segments.length > 0) return segments;
-      const regex = /<text\b[^>]*\bstart="([\d.]+)"[^>]*>([\s\S]*?)<\/text>/gi;
-      let match;
-      while ((match = regex.exec(rawText)) !== null) {
-        const sec = Math.floor(parseFloat(match[1]) || 0);
-        const m = Math.floor(sec / 60);
-        const s = (sec % 60).toString().padStart(2, "0");
-        const text = match[2].replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
-        if (text) {
-          segments.push({ timestamp: `${m}:${s}`, startMs: sec * 1e3, text });
-        }
-      }
-      return segments;
-    }
-    /**
-     * Fetches watch page and extracts full transcript and video metadata
+     * Main entry point to fetch transcript/chapters for a given video
      * @param {string} videoId
-     * @param {string} lang
-     * @returns {Promise<{success: boolean, videoId: string, title?: string, author?: string, segments?: Array, fullText?: string, error?: string}>}
+     * @param {string} [lang='fr']
+     * @returns {Promise<{success: boolean, segments?: Array, title?: string, error?: string}>}
      */
     static async fetchTranscript(videoId, lang = "fr") {
       if (!videoId) return { success: false, error: "No videoId provided" };
       try {
-        const res = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
-          headers: {
-            "Accept-Language": `${lang},en;q=0.8`,
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        const fastResult = await _BackgroundTranscriptFetcher.fetchDirect(videoId, lang);
+        if (fastResult?.segments?.length > 0) {
+          return { success: true, segments: fastResult.segments, title: fastResult.title };
+        }
+      } catch (_) {
+      }
+      if (chrome?.tabs?.create && chrome?.scripting?.executeScript) {
+        try {
+          const tabResult = await _BackgroundTranscriptFetcher.fetchViaBackgroundTab(videoId, lang);
+          if (tabResult?.segments?.length > 0) {
+            return { success: true, segments: tabResult.segments, title: tabResult.title };
           }
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const html = await res.text();
-        let captionTracks = [];
-        let title = "";
-        let author = "";
-        const respIdx = html.indexOf("ytInitialPlayerResponse =");
-        if (respIdx !== -1) {
-          const jsonStr = this.extractBalancedJson(html, respIdx);
-          if (jsonStr) {
-            try {
-              const parsed = JSON.parse(jsonStr);
-              title = parsed.videoDetails?.title || "";
-              author = parsed.videoDetails?.author || "";
-              captionTracks = parsed.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
-            } catch (_) {
+        } catch (_) {
+        }
+      }
+      return { success: false, error: "Unable to extract transcript for video " + videoId };
+    }
+    static async fetchDirect(videoId, lang = "fr") {
+      const res = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
+        headers: { "Accept-Language": `${lang},en;q=0.8`, "User-Agent": navigator.userAgent || "Mozilla/5.0" },
+        credentials: "include"
+      });
+      if (!res.ok) return null;
+      const html = await res.text();
+      let title = "";
+      const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
+      if (titleMatch) title = titleMatch[1].replace(/\s*-\s*YouTube\s*$/i, "").trim();
+      const timedtextSegments = _BackgroundTranscriptFetcher.extractTimedtextFromHtml(html, lang);
+      if (timedtextSegments?.length > 0) {
+        return { title, segments: timedtextSegments };
+      }
+      const chapters = _BackgroundTranscriptFetcher.extractChaptersFromHtml(html);
+      if (chapters?.length > 0) {
+        return { title, segments: chapters };
+      }
+      return null;
+    }
+    static async extractTimedtextFromHtml(html, lang = "fr") {
+      const key = '"captionTracks":';
+      const pos = html.indexOf(key);
+      if (pos === -1) return null;
+      const start = html.indexOf("[", pos);
+      if (start === -1) return null;
+      let depth = 0, end = -1, inStr = false, esc = false;
+      for (let i = start; i < html.length; i++) {
+        const c = html[i];
+        if (esc) {
+          esc = false;
+          continue;
+        }
+        if (c === "\\") {
+          esc = true;
+          continue;
+        }
+        if (c === '"') {
+          inStr = !inStr;
+          continue;
+        }
+        if (!inStr) {
+          if (c === "[") depth++;
+          else if (c === "]") {
+            depth--;
+            if (depth === 0) {
+              end = i + 1;
+              break;
             }
           }
         }
-        if (!captionTracks.length) {
-          const tracksIdx = html.indexOf('"captionTracks":');
-          if (tracksIdx !== -1) {
-            const arrStr = this.extractBalancedArray(html, tracksIdx);
-            if (arrStr) {
-              try {
-                captionTracks = JSON.parse(arrStr);
-              } catch (_) {
+      }
+      if (end === -1) return null;
+      try {
+        const tracks = JSON.parse(html.slice(start, end));
+        const track = tracks.find((t) => t.languageCode === lang) || tracks.find((t) => t.languageCode?.startsWith(lang)) || tracks.find((t) => t.languageCode === "en" || t.languageCode?.startsWith("en")) || tracks[0];
+        if (!track?.baseUrl) return null;
+        const ttUrl = track.baseUrl + (track.baseUrl.includes("?") ? "&" : "?") + "fmt=json3";
+        const ttRes = await fetch(ttUrl, { credentials: "include" });
+        if (!ttRes.ok) return null;
+        const raw = await ttRes.text();
+        if (!raw || !raw.trim().startsWith("{")) return null;
+        const ttJson = JSON.parse(raw);
+        const segments = [];
+        if (Array.isArray(ttJson.events)) {
+          for (const ev of ttJson.events) {
+            if (!ev.segs) continue;
+            const sec = Math.floor((ev.tStartMs || 0) / 1e3);
+            const m = Math.floor(sec / 60);
+            const s = (sec % 60).toString().padStart(2, "0");
+            const text = ev.segs.map((seg) => seg.utf8 || "").join("").replace(/\s+/g, " ").trim();
+            if (text && text !== "\n") segments.push({ timestamp: `${m}:${s}`, text });
+          }
+        }
+        return segments.length > 0 ? segments : null;
+      } catch (_) {
+        return null;
+      }
+    }
+    static extractChaptersFromHtml(html) {
+      const dataKey = "ytInitialData = ";
+      const dataPos = html.indexOf(dataKey);
+      if (dataPos === -1) return null;
+      const end = html.indexOf(";<\/script>", dataPos);
+      if (end === -1) return null;
+      try {
+        const data = JSON.parse(html.slice(dataPos + dataKey.length, end));
+        const panels = data.engagementPanels || [];
+        const chapters = [];
+        for (const p of panels) {
+          const list = p.engagementPanelSectionListRenderer?.content?.macroMarkersListRenderer?.contents;
+          if (Array.isArray(list)) {
+            for (const item of list) {
+              const r = item.macroMarkersListItemRenderer;
+              if (r) {
+                const time = r.timeDescription?.simpleText || r.timeDescription?.runs?.[0]?.text;
+                const txt = r.title?.simpleText || r.title?.runs?.[0]?.text;
+                if (time && txt) chapters.push({ timestamp: time.trim(), text: txt.trim() });
               }
             }
           }
         }
-        if (!title) {
-          const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
-          if (titleMatch) title = titleMatch[1].replace(" - YouTube", "").trim();
+        return chapters.length > 0 ? chapters : null;
+      } catch (_) {
+        return null;
+      }
+    }
+    static async fetchViaBackgroundTab(videoId, lang = "fr") {
+      let tab = null;
+      try {
+        tab = await chrome.tabs.create({
+          url: `https://www.youtube.com/watch?v=${videoId}`,
+          active: false
+        });
+        const results = await new Promise((resolve) => {
+          let done = false;
+          const timer = setTimeout(() => {
+            if (!done) {
+              done = true;
+              resolve(null);
+            }
+          }, 12e3);
+          const checkTab = async () => {
+            if (done) return;
+            try {
+              const execRes = await chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                world: "MAIN",
+                func: async () => {
+                  const player = document.getElementById("movie_player");
+                  try {
+                    player?.mute?.();
+                    player?.pauseVideo?.();
+                  } catch (_) {
+                  }
+                  const countEl = document.getElementById("ytAiWordCount");
+                  const initialCount = parseInt(countEl?.innerText?.replace(/\D/g, "") || "0", 10);
+                  if (initialCount > 0) {
+                    const lines = Array.from(document.querySelectorAll(".yt-ai-transcript-line") || []);
+                    const segments = lines.map((el) => {
+                      const m = el.innerText.match(/^\[([^\]]+)\]\s*(.*)$/);
+                      return m ? { timestamp: m[1], text: m[2] } : { timestamp: "", text: el.innerText };
+                    }).filter((s) => s.text);
+                    if (segments.length > 0) {
+                      return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, "").trim(), segments };
+                    }
+                  }
+                  let nativeBtn = document.querySelector('button[aria-label*="transcription" i], button[aria-label*="transcript" i]');
+                  if (!nativeBtn) {
+                    const expandBtn = document.querySelector("#expand, tp-yt-paper-button#expand, #description-inline-expander #expand");
+                    if (expandBtn) expandBtn.click();
+                    await new Promise((r) => setTimeout(r, 250));
+                    nativeBtn = document.querySelector('button[aria-label*="transcription" i], button[aria-label*="transcript" i], ytd-video-description-transcript-section-renderer button');
+                  }
+                  if (nativeBtn) nativeBtn.click();
+                  for (let retry = 0; retry < 12; retry++) {
+                    await new Promise((r) => setTimeout(r, 350));
+                    const chip = document.querySelector('chip-bar-view-model button[aria-label*="transcription" i], chip-bar-view-model button[aria-label*="transcript" i]') || Array.from(document.querySelectorAll("chip-bar-view-model button")).find((b) => /transcription|transcript/i.test(b.textContent));
+                    if (chip && chip.getAttribute("aria-selected") !== "true") chip.click();
+                    const modernSegs = document.querySelectorAll("transcript-segment-view-model, ytd-transcript-segment-renderer");
+                    if (modernSegs.length > 0) {
+                      const segments = Array.from(modernSegs).map((el) => {
+                        const timeEl = el.querySelector('.ytTranscriptSegmentViewModelTimestamp, .segment-timestamp, [class*="Timestamp"], [class*="timestamp"]');
+                        const textEl = el.querySelector('span[role="text"], .ytAttributedStringInlineHost, span.ytAttributedStringHost, .yt-core-attributed-string, .segment-text, yt-formatted-string');
+                        return { timestamp: timeEl?.textContent?.trim() || "", text: textEl?.textContent?.trim() || "" };
+                      }).filter((s) => s.text);
+                      if (segments.length > 0) {
+                        return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, "").trim(), segments };
+                      }
+                    }
+                  }
+                  const panels = window.ytInitialData?.engagementPanels || [];
+                  const chapters = [];
+                  for (const p of panels) {
+                    const list = p.engagementPanelSectionListRenderer?.content?.macroMarkersListRenderer?.contents;
+                    if (Array.isArray(list)) {
+                      for (const item of list) {
+                        const r = item.macroMarkersListItemRenderer;
+                        if (r) {
+                          const time = r.timeDescription?.simpleText || r.timeDescription?.runs?.[0]?.text;
+                          const txt = r.title?.simpleText || r.title?.runs?.[0]?.text;
+                          if (time && txt) chapters.push({ timestamp: time.trim(), text: txt.trim() });
+                        }
+                      }
+                    }
+                  }
+                  if (chapters.length > 0) {
+                    return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, "").trim(), segments: chapters };
+                  }
+                  const domMarkers = Array.from(document.querySelectorAll("ytd-macro-markers-list-item-renderer, macro-markers-panel-item-view-model"));
+                  if (domMarkers.length > 0) {
+                    const domChapters = domMarkers.map((el) => {
+                      const timeEl = el.querySelector('#time, [class*="time"]');
+                      const titleEl = el.querySelector("h3:not([hidden]), h4:not([hidden]), #title:not([hidden])");
+                      return { timestamp: timeEl?.textContent?.trim() || "", text: titleEl?.textContent?.trim() || "" };
+                    }).filter((c) => c.timestamp && c.text);
+                    if (domChapters.length > 0) {
+                      return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, "").trim(), segments: domChapters };
+                    }
+                  }
+                  return null;
+                }
+              });
+              const data = execRes?.[0]?.result;
+              if (data?.segments?.length > 0) {
+                if (!done) {
+                  done = true;
+                  clearTimeout(timer);
+                  resolve(data);
+                }
+              } else {
+                setTimeout(checkTab, 600);
+              }
+            } catch (_) {
+              setTimeout(checkTab, 600);
+            }
+          };
+          setTimeout(checkTab, 1500);
+        });
+        return results;
+      } finally {
+        if (tab?.id) {
+          try {
+            await chrome.tabs.remove(tab.id);
+          } catch (_) {
+          }
         }
-        if (!captionTracks.length) {
-          return { success: false, videoId, title, author, error: "No caption tracks found" };
-        }
-        let track = captionTracks.find((t) => t.languageCode === lang);
-        if (!track) track = captionTracks.find((t) => t.languageCode?.startsWith(lang));
-        if (!track) track = captionTracks.find((t) => t.languageCode === "en" || t.languageCode?.startsWith("en"));
-        if (!track) track = captionTracks[0];
-        if (!track?.baseUrl) {
-          return { success: false, videoId, title, author, error: "No track baseUrl" };
-        }
-        const ttUrl = track.baseUrl + (track.baseUrl.includes("?") ? "&" : "?") + "fmt=json3";
-        const ttRes = await fetch(ttUrl, { credentials: "include" });
-        let ttText = "";
-        if (ttRes.ok) {
-          ttText = await ttRes.text();
-        } else {
-          const fallbackRes = await fetch(track.baseUrl, { credentials: "include" });
-          if (fallbackRes.ok) ttText = await fallbackRes.text();
-        }
-        const segments = this.parseTimedtextPayload(ttText);
-        const fullText = segments.map((s) => s.text).join(" ");
-        return {
-          success: segments.length > 0,
-          videoId,
-          title,
-          author,
-          segments,
-          fullText,
-          captions: captionTracks
-        };
-      } catch (err) {
-        return { success: false, videoId, error: err.message };
       }
     }
   };
@@ -971,9 +1081,35 @@
           });
           return true;
         }
+        if (request.action === "TTS_FETCH_AUDIO") {
+          const text = (request.text || "").trim();
+          const lang = request.lang || "en";
+          if (!text) {
+            sendResponse({ success: false, error: "Empty text" });
+            return false;
+          }
+          (async () => {
+            try {
+              const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${encodeURIComponent(lang)}&client=tw-ob&q=${encodeURIComponent(text)}`;
+              const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              const buffer = await res.arrayBuffer();
+              let binary = "";
+              const bytes = new Uint8Array(buffer);
+              for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+              }
+              const b64 = btoa(binary);
+              sendResponse({ success: true, audioDataUrl: `data:audio/mpeg;base64,${b64}` });
+            } catch (err) {
+              sendResponse({ success: false, error: err.message });
+            }
+          })();
+          return true;
+        }
         if (request.action === "FETCH_WATCH_PAGE_TRANSCRIPT") {
           const { videoId, lang = "fr" } = request;
-          WatchPageTranscriptFetcher.fetchTranscript(videoId, lang).then((result) => sendResponse(result)).catch((err) => sendResponse({ success: false, videoId, error: err.message }));
+          BackgroundTranscriptFetcher.fetchTranscript(videoId, lang).then((res) => sendResponse(res)).catch((err) => sendResponse({ success: false, error: err.message }));
           return true;
         }
       });

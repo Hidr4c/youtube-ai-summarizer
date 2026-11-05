@@ -17,7 +17,7 @@ export function isNativeTranscriptPanelVisible() {
   );
   if (segs && segs.length > 3) {
     for (const seg of segs) {
-      if (seg.offsetParent !== null && !document.getElementById('yt-ai-stealth-style')) return true;
+      if (seg.offsetParent !== null) return true;
     }
   }
 
@@ -25,7 +25,7 @@ export function isNativeTranscriptPanelVisible() {
   for (const panel of panels) {
     if (panel.style.display === 'none' || panel.hasAttribute('hidden')) continue;
     const vis = panel.getAttribute('visibility');
-    if (vis === 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED' && panel.offsetParent !== null && panel.offsetWidth > 100) {
+    if (vis === 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED' && panel.offsetParent !== null && panel.offsetWidth > 50) {
       return true;
     }
   }
@@ -68,16 +68,13 @@ export function closeNativeTranscriptPanel() {
 
     if (closeBtn) {
       try { closeBtn.click(); } catch (_) {}
-    }
-    if (typeof panel.hide === 'function') {
+    } else if (typeof panel.close === 'function') {
+      try { panel.close(); } catch (_) {}
+    } else if (typeof panel.hide === 'function') {
       try { panel.hide(); } catch (_) {}
     }
-    if (typeof panel.close === 'function') {
-      try { panel.close(); } catch (_) {}
-    }
     panel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_HIDDEN');
-    panel.setAttribute('hidden', '');
-    panel.style.setProperty('display', 'none', 'important');
+    panel.style.setProperty('display', 'none');
   }
 }
 
@@ -89,29 +86,17 @@ export function collapseDescription() {
 }
 
 function findTranscriptButtonInDOM() {
-  const direct = document.querySelector(
-    'ytd-video-description-transcript-section-renderer button, ' +
-    'ytd-button-renderer[target-id="engagement-panel-searchable-transcript"] button, ' +
-    'ytd-button-renderer[target-id*="transcript"] button, ' +
-    '[target-id="engagement-panel-searchable-transcript"] button'
+  let btn = document.querySelector('ytd-video-description-transcript-section-renderer button, ytd-video-description-transcript-section-renderer [role="button"]');
+  if (btn) return btn;
+  const allBtns = document.querySelectorAll(
+    '#description button, #description [role="button"], ytd-watch-metadata button, ytd-watch-metadata [role="button"], ytd-structured-description-content-renderer button, ytd-structured-description-content-renderer [role="button"]'
   );
-  if (direct && direct.offsetParent !== null) return direct;
-
-  const candidates = document.querySelectorAll(
-    '#description button, #description [role="button"], ' +
-    'ytd-watch-metadata button, ytd-watch-metadata [role="button"], ' +
-    '#structured-description button, #structured-description [role="button"], ' +
-    'ytd-structured-description-content-renderer button'
-  );
-  for (const b of candidates) {
-    const aria = (b.getAttribute('aria-label') || '').trim();
-    const title = (b.getAttribute('title') || '').trim();
-    const text = (b.textContent || '').trim();
-    if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(title) || TRANSCRIPT_LANG_REGEX.test(text)) {
-      return b.querySelector('button') || b;
-    }
+  for (const b of allBtns) {
+    const aria = b.getAttribute('aria-label') || '';
+    const text = b.textContent || '';
+    if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) return b;
   }
-  return direct || null;
+  return null;
 }
 
 export async function ensureTranscriptTabActive(targetPanel) {
@@ -156,19 +141,24 @@ export async function ensureTranscriptTabActive(targetPanel) {
 }
 
 export async function triggerStealthNativeTranscript() {
+  if (!document.getElementById('movie_player') && !document.querySelector('video')) {
+    return null;
+  }
+
+  // Restore any previous display override so panels can render
+  for (const p of document.querySelectorAll(ENGAGEMENT_SELECTORS)) {
+    p.style.removeProperty('display');
+  }
+
   const wasPanelOpen = isNativeTranscriptPanelVisible();
   let didWeOpenPanel = false;
-  const expandDesc = document.querySelector(
-    'tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, ' +
-    '#description-inline-expander #expand, #description.ytd-watch-metadata, ' +
-    'ytd-text-inline-expander[collapsed] #expand'
-  );
+  const expandDesc = document.querySelector('tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand');
   const wasDescExpanded = !expandDesc || expandDesc.offsetParent === null;
 
   if (wasPanelOpen) {
     await ensureTranscriptTabActive();
     const direct = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
-    if (direct && direct.length > 5) return direct;
+    if (direct && direct.length > 0) return direct;
   }
 
   let stealthStyle = document.getElementById('yt-ai-stealth-style');
@@ -178,14 +168,7 @@ export async function triggerStealthNativeTranscript() {
     stealthStyle.textContent = `
       ytd-engagement-panel-section-list-renderer[target-id*="transcript"],
       ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"] {
-        opacity: 0.001 !important;
-        pointer-events: none !important;
-        position: fixed !important;
-        right: -9999px !important;
-        top: 0 !important;
-        width: 400px !important;
-        height: 600px !important;
-        z-index: -9999 !important;
+        opacity: 0.01 !important; pointer-events: none !important;
       }
     `;
     document.head.appendChild(stealthStyle);
@@ -193,7 +176,7 @@ export async function triggerStealthNativeTranscript() {
 
   try {
     let directBtn = findTranscriptButtonInDOM();
-    if (!directBtn && expandDesc && typeof expandDesc.click === 'function') {
+    if (!directBtn && expandDesc && expandDesc.offsetParent !== null) {
       expandDesc.click();
       await new Promise(r => setTimeout(r, 250));
       directBtn = findTranscriptButtonInDOM();
@@ -203,48 +186,47 @@ export async function triggerStealthNativeTranscript() {
       didWeOpenPanel = true;
       directBtn.click();
     } else {
-      const hiddenPanel = document.querySelector(
-        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ' +
-        'ytd-engagement-panel-section-list-renderer[target-id*="transcript"]'
-      );
-      if (hiddenPanel) {
+      const markersBtn = document.querySelector('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]');
+      if (markersBtn) {
         didWeOpenPanel = true;
-        hiddenPanel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED');
-        if (typeof hiddenPanel.show === 'function') hiddenPanel.show();
-        await ensureTranscriptTabActive(hiddenPanel);
+        markersBtn.click();
+        await new Promise(r => setTimeout(r, 250));
+        await ensureTranscriptTabActive();
       } else {
-        const markersBtn = document.querySelector('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]');
-        if (markersBtn) {
+        const hiddenPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]');
+        if (hiddenPanel) {
           didWeOpenPanel = true;
-          markersBtn.click();
-          await new Promise(r => setTimeout(r, 200));
-          await ensureTranscriptTabActive();
+          hiddenPanel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED');
+          if (typeof hiddenPanel.show === 'function') hiddenPanel.show();
+          await ensureTranscriptTabActive(hiddenPanel);
+        } else {
+          return null;
         }
       }
     }
 
     let segments = null;
-    for (let i = 0; i < 40; i++) {
-      await new Promise(r => setTimeout(r, 100));
+    for (let i = 0; i < 25; i++) {
+      await new Promise(r => setTimeout(r, 120));
       if (i % 3 === 0) await ensureTranscriptTabActive();
       segments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
-      if (segments && segments.length > 5) {
-        const words = segments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
-        if (segments.length >= 15 || words >= 100) break;
-      }
+      if (segments && segments.length > 0) break;
     }
     return segments;
   } catch (_) {
     return null;
   } finally {
+    setTimeout(() => {
+      if (stealthStyle?.parentNode) {
+        stealthStyle.parentNode.removeChild(stealthStyle);
+      }
+    }, 350);
     if (!wasPanelOpen) {
       closeNativeTranscriptPanel();
       if (!wasDescExpanded) collapseDescription();
-      setTimeout(() => {
-        if (stealthStyle?.parentNode) stealthStyle.parentNode.removeChild(stealthStyle);
-      }, 350);
-    } else {
-      if (stealthStyle?.parentNode) stealthStyle.parentNode.removeChild(stealthStyle);
+    }
+    for (const p of document.querySelectorAll(ENGAGEMENT_SELECTORS)) {
+      p.style.removeProperty('display');
     }
   }
 }

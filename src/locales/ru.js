@@ -147,9 +147,10 @@ export const ru = {
   "chapterBadge": "(Главы)",
   "transcriptExtracted": "Транскрипт извлечен",
   "modelResponsive": "Отзывчивая модель: {model}",
-  "extractingTranscriptNotice": "Извлечение транскрипции видео...",
-  "fetchingExternalVideo": "⏳ Анализ связанного видео YouTube...",
-  "externalVideoBadge": "📎 Связанное видео проанализировано"
+  "extractingTranscriptNotice": "Извлечение транскрипции видео...",
+  "fetchingExternalTranscriptNotice": "Получение субтитров внешнего видео ({videoId})...",
+  "externalTranscriptError": "Не удалось извлечь субтитры или главы для внешнего видео ({videoId}). Возможные причины: субтитры или главы отсутствуют, либо действуют ограничения YouTube.",
+  "retryBtn": "🔄 Повторить"
 };
 
 export default ru;

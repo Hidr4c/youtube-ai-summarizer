@@ -147,9 +147,10 @@ export const zh = {
   "chapterBadge": "(章节)",
   "transcriptExtracted": "已提取文字记录",
   "modelResponsive": "响应模型：{model}",
-  "extractingTranscriptNotice": "正在提取视频字幕...",
-  "fetchingExternalVideo": "⏳ 正在分析关联的 YouTube 视频逐字稿...",
-  "externalVideoBadge": "📎 已解析关联视频"
+  "extractingTranscriptNotice": "正在提取视频字幕...",
+  "fetchingExternalTranscriptNotice": "正在获取外部视频 ({videoId}) 的字幕...",
+  "externalTranscriptError": "无法提取外部视频 ({videoId}) 的字幕或章节。可能的原因：无可用字幕或章节，或存在 YouTube 访问限制。",
+  "retryBtn": "🔄 重试"
 };
 
 export default zh;

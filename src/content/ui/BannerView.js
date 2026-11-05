@@ -1,3 +1,4 @@
+import { BannerI18n } from './BannerI18n.js';
 import { I18N } from '../../locales/index.js';
 import { PROVIDER_NAMES } from '../../config/AIProviderPresets.js';
 import { BannerTemplate } from '../templates/BannerTemplate.js';
@@ -26,7 +27,7 @@ export class BannerView {
     if (existing && existing.isConnected) return;
     if (existing) existing.remove();
 
-    const watchContainer = document.querySelector('ytd-watch-flexy, ytd-watch-grid');
+    const watchContainer = document.querySelector?.('ytd-watch-flexy, ytd-watch-grid');
     let parent = null;
     let refChild = null;
 
@@ -36,7 +37,7 @@ export class BannerView {
                  watchContainer.querySelector('#columns') ||
                  watchContainer.firstChild;
     } else {
-      const columns = document.getElementById('columns') || document.querySelector('ytd-watch-flexy #columns, ytd-watch-grid #columns');
+      const columns = document.getElementById('columns') || document.querySelector?.('ytd-watch-flexy #columns, ytd-watch-grid #columns');
       if (columns && columns.parentNode) {
         parent = columns.parentNode;
         refChild = columns;
@@ -61,7 +62,11 @@ export class BannerView {
 
     const lang = this.state.currentLang || 'en';
     const t = I18N[lang] || I18N.en;
-    safeSetInnerHTML(banner, BannerTemplate.render(t, { version: 'v1.3.3' }));
+    safeSetInnerHTML(banner, BannerTemplate.render(t, {
+      version: 'v1.3.2',
+      currentMode: this.currentMode || this.state.summaryMode || 'standard',
+      currentLang: lang
+    }));
 
     parent.insertBefore(banner, refChild);
     if (typeof onInit === 'function') onInit(banner);
@@ -117,6 +122,7 @@ export class BannerView {
 
   setSummaryMode(mode) {
     this.currentMode = mode;
+    if (this.state) this.state.summaryMode = mode;
     const modeSelect = document.getElementById('ytAiModeSelect');
     if (modeSelect) {
       modeSelect.value = mode;
@@ -185,99 +191,8 @@ export class BannerView {
     }
   }
 
-  applyLanguage(lang, summaryViewController = null, settingsDrawer = null) {
-    this.state.currentLang = lang;
-    const t = I18N[lang] || I18N.en;
-
-    const setText = (id, txt) => {
-      const el = document.getElementById(id);
-      if (el && txt) el.textContent = txt;
-    };
-
-    const langSelect = document.getElementById('ytAiLangSelect');
-    if (langSelect && langSelect.value !== lang) langSelect.value = lang;
-
-    setText('ytAiBrandTitle', t.brandName || 'YT Summarizer AI');
-    if (!summaryViewController?.isGenerating) setText('ytAiSummarizeBtn', t.summarizeBtn || '✨ Summarize video');
-    setText('ytAiToggleText', this.isExpanded ? t.collapse : t.expand);
-    setText('ytAiSettingsBtnText', t.settingsBtn || 'Settings');
-    setText('ytAiTabSummaryBtn', t.tabSummary || '📝 AI Summary');
-
-    const tabChatBtn = document.getElementById('ytAiTabChatBtn');
-    if (tabChatBtn) {
-      const count = document.getElementById('ytAiChatCount')?.textContent || '0';
-      safeSetInnerHTML(tabChatBtn, `${escapeHtml(t.tabChat || '💬 Ask a question')} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`);
-    }
-    const tabTranscriptBtn = document.getElementById('ytAiTabTranscriptBtn');
-    if (tabTranscriptBtn) {
-      const rawCount = (document.getElementById('ytAiWordCountTab')?.textContent || '0').replace(/[^0-9]/g, '') || '0';
-      const formattedCount = Number(rawCount) > 0 ? Number(rawCount).toLocaleString() : '0';
-      safeSetInnerHTML(tabTranscriptBtn, `${escapeHtml(t.tabTranscript || '📜 Transcript')} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">${escapeHtml(formattedCount)} ${escapeHtml(t.wordsBadge || 'words')}</span>`);
-    }
-
-    const providerName = PROVIDER_NAMES[this.state.currentProvider] || (this.state.currentProvider === 'ollama' ? 'Ollama' : (this.state.currentProvider === 'lmstudio' ? 'LM Studio' : (this.state.currentProvider || 'AI')));
-    setText('ytAiSummaryHeaderTitle', `${t.summaryTitle || '📝 AI Summary'} (${providerName.toUpperCase()})`);
-
-    setText('ytAiSpeakSummaryBtn', t.listenBtn);
-    setText('ytAiCopyBtn', t.copyBtn);
-    setText('ytAiDownloadBtn', t.saveMdBtn);
-    setText('ytAiSaveTxtBtn', t.saveTxtBtn);
-    setText('ytAiSaveJsonBtn', t.saveJsonBtn);
-
-    const reasoningSummary = document.querySelector('#ytAiReasoningBox summary');
-    if (reasoningSummary) {
-      const statusSpan = document.getElementById('ytAiReasoningStatus');
-      const curStatus = statusSpan?.textContent || t.reasoningInProgress || 'in progress...';
-      safeSetInnerHTML(reasoningSummary, `${escapeHtml(t.reasoningModel || '💭 Model Reasoning')} (<span id="ytAiReasoningStatus">${escapeHtml(curStatus)}</span>)`);
-    }
-
-    if (!summaryViewController?.fullSummaryMarkdown) {
-      setText(document.querySelector('#ytAiSummaryBody .yt-ai-empty-title'), t.emptyTitle || 'No summary generated');
-      setText(document.querySelector('#ytAiSummaryBody .yt-ai-empty-subtitle'), t.emptySubtitle || t.summaryPlaceholder || 'Click below to generate the summary.');
-      if (!summaryViewController?.isGenerating) setText('ytAiSummaryHeroBtn', t.summarizeBtn || '✨ Summarize video');
-    }
-
-    const chatPaneTitle = document.querySelector('#ytAiPaneChat .yt-ai-pane-title span');
-    if (chatPaneTitle) chatPaneTitle.textContent = t.chatTitle || '💬 Video Q&A';
-    setText('ytAiClearChatBtn', t.clearChatBtn);
-    const chatInput = document.getElementById('ytAiChatInput');
-    if (chatInput && t.chatPlaceholder) chatInput.placeholder = t.chatPlaceholder;
-    const micBtn = document.getElementById('ytAiMicBtn');
-    if (micBtn && t.micTitle) micBtn.title = t.micTitle;
-    setText('ytAiSendChatBtn', t.sendBtn);
-
-    // Dynamic Suggestion Chips
-    const suggestionsContainer = document.querySelector('.yt-ai-chat-suggestions');
-    if (suggestionsContainer && Array.isArray(t.suggestions) && t.suggestions.length > 0) {
-      const suggestionsHtml = t.suggestions.map(s => `<span class="yt-ai-suggestion-chip" data-question="${escapeHtml(s.question || '')}">${escapeHtml(s.label)}</span>`).join('');
-      safeSetInnerHTML(suggestionsContainer, suggestionsHtml);
-    }
-
-    // Dynamic Welcome Greeting (if chat is not active)
-    const chatMessages = document.getElementById('ytAiChatMessages');
-    const userBubbles = chatMessages?.querySelectorAll('.yt-ai-chat-user, .yt-ai-chat-bubble.user');
-    if (chatMessages && (!userBubbles || userBubbles.length === 0)) {
-      const firstAiBubble = chatMessages.querySelector('.yt-ai-chat-bubble.ai, .yt-ai-chat-bubble');
-      if (firstAiBubble && t.chatWelcome) firstAiBubble.textContent = t.chatWelcome;
-    }
-
-    const transcriptTitle = document.querySelector('#ytAiPaneTranscript .yt-ai-pane-title span');
-    const rawWordCount = (document.getElementById('ytAiWordCount')?.textContent || '0').replace(/[^0-9]/g, '') || '0';
-    const formattedWordCount = Number(rawWordCount) > 0 ? Number(rawWordCount).toLocaleString() : '0';
-    if (transcriptTitle) {
-      safeSetInnerHTML(transcriptTitle, `${escapeHtml(t.transcriptTitle || '📜 Full Transcript')} (<span id="ytAiWordCount">${escapeHtml(formattedWordCount)}</span> ${escapeHtml(t.wordsBadge || 'words')})`);
-    }
-    setText('ytAiCopyTranscriptBtn', t.copyRawBtn);
-
-    const bugLink = document.getElementById('ytAiFooterBugLink');
-    if (bugLink) bugLink.textContent = `🐛 ${t.footerReportBug || 'Report a bug'}`;
-    const docsLink = document.getElementById('ytAiFooterDocsLink');
-    if (docsLink) docsLink.textContent = `📖 ${t.footerDocs || 'Documentation'}`;
-
-    if (typeof settingsDrawer?.applyLanguage === 'function') {
-      settingsDrawer.applyLanguage(lang);
-    }
-
+  applyLanguage(lang, summaryViewController = null, chatViewController = null) {
+    BannerI18n.applyLanguage(lang, this.state, summaryViewController, chatViewController, this.isExpanded);
     this.updateHeaderBadge();
     this.updateHeaderModelText();
   }

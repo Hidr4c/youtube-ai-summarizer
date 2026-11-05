@@ -12,7 +12,9 @@ export class BannerTemplate {
    */
   static render(t, options = {}) {
     const drawerHtml = SettingsDrawerTemplate.render(t, options);
-    const version = options.version || 'v1.3.3';
+    const version = options.version || 'v1.3.2';
+    const currentMode = options.currentMode || 'standard';
+    const currentLang = options.currentLang || 'fr';
     const suggestionsHtml = (Array.isArray(t.suggestions) && t.suggestions.length > 0)
       ? t.suggestions.map(s => `<span class="yt-ai-suggestion-chip" data-question="${(s.question || '').replace(/"/g, '&quot;')}">${s.label}</span>`).join('')
       : `<span class="yt-ai-suggestion-chip" data-question="What are the core key takeaways from this video?">💡 Key takeaways</span><span class="yt-ai-suggestion-chip" data-question="At what point in the video is the main topic discussed?">⏱️ Timestamps</span><span class="yt-ai-suggestion-chip" data-question="What specific figures, examples, or arguments are presented?">📊 Data & Figures</span><span class="yt-ai-suggestion-chip" data-question="What is the author's final conclusion or actionable advice?">🎯 Conclusion & Advice</span>`;
@@ -32,16 +34,26 @@ export class BannerTemplate {
 
         <div class="yt-ai-header-center">
           <div class="yt-ai-action-cluster">
-            <div class="yt-ai-header-lang-wrapper">
+            <!-- SÉLECTEUR DE FORMAT DU RÉSUMÉ -->
+            <div class="yt-ai-header-select-wrapper yt-ai-header-mode-wrapper">
+              <select id="ytAiModeSelect" class="yt-ai-select yt-ai-header-mode-select" title="${t.formatLabel || 'Format:'}">
+                <option value="quick" ${currentMode === 'quick' ? 'selected' : ''}>${t.formatQuick || '⚡ Quick'}</option>
+                <option value="standard" ${currentMode === 'standard' || !currentMode ? 'selected' : ''}>${t.formatStandard || '📌 Standard'}</option>
+                <option value="detailed" ${currentMode === 'detailed' ? 'selected' : ''}>${t.formatDetailed || '📝 Deep'}</option>
+              </select>
+            </div>
+
+            <!-- SÉLECTEUR DE LANGUE -->
+            <div class="yt-ai-header-select-wrapper yt-ai-header-lang-wrapper">
               <select id="ytAiLangSelect" class="yt-ai-select yt-ai-header-lang-select" title="${t.langLabel || 'Language:'}">
-                <option value="fr" selected>🇫🇷 Français</option>
-                <option value="en">🇬🇧 English</option>
-                <option value="es">🇪🇸 Español</option>
-                <option value="de">🇩🇪 Deutsch</option>
-                <option value="it">🇮🇹 Italiano</option>
-                <option value="ru">🇷🇺 Русский</option>
-                <option value="ja">🇯🇵 日本語</option>
-                <option value="zh">🇨🇳 中文</option>
+                <option value="fr" ${currentLang === 'fr' ? 'selected' : ''}>🇫🇷 Français</option>
+                <option value="en" ${currentLang === 'en' ? 'selected' : ''}>🇬🇧 English</option>
+                <option value="es" ${currentLang === 'es' ? 'selected' : ''}>🇪🇸 Español</option>
+                <option value="de" ${currentLang === 'de' ? 'selected' : ''}>🇩🇪 Deutsch</option>
+                <option value="it" ${currentLang === 'it' ? 'selected' : ''}>🇮🇹 Italiano</option>
+                <option value="ru" ${currentLang === 'ru' ? 'selected' : ''}>🇷🇺 Русский</option>
+                <option value="ja" ${currentLang === 'ja' ? 'selected' : ''}>🇯🇵 日本語</option>
+                <option value="zh" ${currentLang === 'zh' ? 'selected' : ''}>🇨🇳 中文</option>
               </select>
             </div>
 
@@ -134,7 +146,7 @@ export class BannerTemplate {
 
               <!-- Ligne de saisie avec bouton micro -->
               <div class="yt-ai-chat-input-row">
-                <input type="text" id="ytAiChatInput" class="yt-ai-chat-input" placeholder="${t.chatPlaceholder || 'Ask a question or dictate with mic...'}">
+                <textarea id="ytAiChatInput" class="yt-ai-chat-input" rows="1" placeholder="${t.chatPlaceholder || 'Ask a question or dictate with mic...'}"></textarea>
                 <button id="ytAiMicBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-mic-btn" title="${t.micTitle || 'Dictate your question with microphone'}">
                   <span class="yt-ai-mic-icon">🎤</span>
                 </button>

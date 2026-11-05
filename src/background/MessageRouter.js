@@ -1,6 +1,6 @@
 import { StreamRelay } from './StreamRelay.js';
 import { AIProviderFactory } from '../services/ai/providers/AIProviderFactory.js';
-import { WatchPageTranscriptFetcher } from './WatchPageTranscriptFetcher.js';
+import { BackgroundTranscriptFetcher } from './BackgroundTranscriptFetcher.js';
 
 /**
  * Message routing controller for background service worker
@@ -82,11 +82,39 @@ export class MessageRouter {
         return true;
       }
 
+      if (request.action === 'TTS_FETCH_AUDIO') {
+        const text = (request.text || '').trim();
+        const lang = request.lang || 'en';
+        if (!text) {
+          sendResponse({ success: false, error: 'Empty text' });
+          return false;
+        }
+
+        (async () => {
+          try {
+            const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${encodeURIComponent(lang)}&client=tw-ob&q=${encodeURIComponent(text)}`;
+            const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const buffer = await res.arrayBuffer();
+            let binary = '';
+            const bytes = new Uint8Array(buffer);
+            for (let i = 0; i < bytes.byteLength; i++) {
+              binary += String.fromCharCode(bytes[i]);
+            }
+            const b64 = btoa(binary);
+            sendResponse({ success: true, audioDataUrl: `data:audio/mpeg;base64,${b64}` });
+          } catch (err) {
+            sendResponse({ success: false, error: err.message });
+          }
+        })();
+        return true;
+      }
+
       if (request.action === 'FETCH_WATCH_PAGE_TRANSCRIPT') {
         const { videoId, lang = 'fr' } = request;
-        WatchPageTranscriptFetcher.fetchTranscript(videoId, lang)
-          .then(result => sendResponse(result))
-          .catch(err => sendResponse({ success: false, videoId, error: err.message }));
+        BackgroundTranscriptFetcher.fetchTranscript(videoId, lang)
+          .then(res => sendResponse(res))
+          .catch(err => sendResponse({ success: false, error: err.message }));
         return true;
       }
     });

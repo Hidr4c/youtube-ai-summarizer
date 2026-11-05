@@ -46,6 +46,58 @@ export class NavigationObserver {
   }
 
   /**
+   * Extracts YouTube video ID embedded within free-form text or URL
+   * @param {string} text
+   * @returns {string}
+   */
+  static extractVideoIdFromText(text) {
+    const ids = NavigationObserver.extractAllVideoIdsFromText(text);
+    return ids[0] || '';
+  }
+
+  /**
+   * Extracts all unique YouTube video IDs embedded within free-form text
+   * @param {string} text
+   * @returns {string[]}
+   */
+  static extractAllVideoIdsFromText(text) {
+    if (!text || typeof text !== 'string') return [];
+    const urlMatches = text.match(/https?:\/\/[^\s"'<>\)]+/gi) || [];
+    const ids = [];
+
+    const parseUrl = (rawUrl) => {
+      try {
+        const u = new URL(rawUrl);
+        const v = u.searchParams.get('v');
+        if (v && v.length >= 11) return v.slice(0, 11);
+        if (v) return v;
+        const liveMatch = u.pathname.match(/^\/(?:embed|shorts|live)\/([^/?#]+)/);
+        if (liveMatch) return liveMatch[1].slice(0, 11);
+        if (u.hostname === 'youtu.be' || u.hostname.endsWith('.youtu.be')) {
+          const id = u.pathname.replace(/^\//, '').split('?')[0];
+          if (id) return id.slice(0, 11);
+        }
+      } catch (_) {}
+      const fallback = rawUrl.match(/(?:(?:www|m)\.)?(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i);
+      return fallback ? fallback[1] : '';
+    };
+
+    for (const raw of urlMatches) {
+      const vid = parseUrl(raw);
+      if (vid && !ids.includes(vid)) ids.push(vid);
+    }
+
+    if (ids.length === 0) {
+      const genericMatch = text.matchAll(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/gi);
+      for (const gm of genericMatch) {
+        if (gm[1] && !ids.includes(gm[1])) ids.push(gm[1]);
+      }
+    }
+
+    return ids;
+  }
+
+  /**
    * Starts navigation and DOM listeners
    * @param {Object} handlers
    * @param {Function} handlers.onUrlChange
@@ -103,5 +155,7 @@ export class NavigationObserver {
 
 export const isWatchPage = NavigationObserver.isWatchPage;
 export const getVideoId = NavigationObserver.getVideoId;
+export const extractVideoIdFromText = NavigationObserver.extractVideoIdFromText;
+export const extractAllVideoIdsFromText = NavigationObserver.extractAllVideoIdsFromText;
 export const observeNavigation = NavigationObserver.observeNavigation;
 export default NavigationObserver;

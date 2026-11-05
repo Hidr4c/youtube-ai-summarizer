@@ -147,9 +147,10 @@ export const de = {
   "chapterBadge": "(Kapitel)",
   "transcriptExtracted": "Transkript extrahiert",
   "modelResponsive": "Reaktionsschnelles Modell: {model}",
-  "extractingTranscriptNotice": "Video-Transkript wird extrahiert...",
-  "fetchingExternalVideo": "⏳ Analysiere verlinktes YouTube-Video...",
-  "externalVideoBadge": "📎 Verlinktes Video analysiert"
+  "extractingTranscriptNotice": "Video-Transkript wird extrahiert...",
+  "fetchingExternalTranscriptNotice": "Untertitel für externes Video ({videoId}) werden abgerufen...",
+  "externalTranscriptError": "Untertitel oder Kapitel für das externe Video ({videoId}) konnten nicht extrahiert werden. Mögliche Ursachen: keine Untertitel oder Kapitel verfügbar oder YouTube-Zugriffsbeschränkungen.",
+  "retryBtn": "🔄 Wiederholen"
 };
 
 export default de;

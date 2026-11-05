@@ -49,59 +49,21 @@ export class SettingsDrawerController {
   }
 
   showStatusBanner(text, isError = false) {
-    if (this.bannerView) this.bannerView.showStatusBanner(text, isError);
+    if (this.bannerView) {
+      this.bannerView.showStatusBanner(text, isError);
+    }
   }
 
   updateHeaderBadge() {
-    if (this.bannerView) this.bannerView.updateHeaderBadge();
+    if (this.bannerView) {
+      this.bannerView.updateHeaderBadge();
+    }
   }
 
   updateHeaderModelText() {
-    if (this.bannerView) this.bannerView.updateHeaderModelText();
-  }
-
-  applyLanguage(lang) {
-    this.state.currentLang = lang;
-    const t = I18N[lang] || I18N.en;
-    const setText = (id, text) => {
-      const el = document.getElementById(id);
-      if (el && text) el.textContent = text;
-    };
-    setText('ytAiTabSettingsModelBtn', t.tabSettingsModel);
-    setText('ytAiTabSettingsParamsBtn', t.tabSettingsParams);
-    setText('ytAiTabSettingsAudioBtn', t.tabSettingsAudio);
-    setText('ytAiProviderLabel', t.providerLabel);
-    setText('ytAiModelSelectLabel', t.modelSelectLabel || t.modelLabel);
-    setText('ytAiModeLabel', t.formatLabel);
-    setText('ytAiTempLabel', t.tempLabel);
-    setText('ytAiMaxTokensLabel', t.maxTokensLabel);
-    setText('ytAiAutoSummarizeLabel', t.autoSummarizeLabel);
-    setText('ytAiCustomPromptLabel', t.customPromptLabel);
-    setText('ytAiVoiceLabel', t.voiceLabel);
-    setText('ytAiTtsSpeedLabel', t.ttsSpeedLabel);
-    setText('ytAiMicLabel', t.micLabel);
-    setText('ytAiWhisperUrlLabel', t.whisperUrlLabel);
-    setText('ytAiTestModelBtn', t.testModelBtn);
-    setText('ytAiTestWhisperBtn', t.testSttBtn);
-
-    const updateOpts = (id, map) => {
-      const sel = document.getElementById(id);
-      if (sel) Object.entries(map).forEach(([v, l]) => {
-        const o = sel.querySelector(`option[value="${v}"]`);
-        if (o && l) o.textContent = l;
-      });
-    };
-    updateOpts('ytAiModeSelect', { quick: t.formatQuick, standard: t.formatStandard, detailed: t.formatDetailed });
-    updateOpts('ytAiTemperatureSelect', { '0.0': t.tempStrict, '0.3': t.tempBalanced, '0.7': t.tempCreative, '1.0': t.tempWild });
-    updateOpts('ytAiMaxTokensSelect', { auto: t.tokensAuto, '1024': t.tokensShort, '2048': t.tokensStandard, '4096': t.tokensDetailed, '8192': t.tokensMax });
-    updateOpts('ytAiTtsSpeedSelect', { '0.75': t.speedSlow, '1.0': t.speedNormal, '1.25': t.speedFast, '1.5': t.speedVeryFast, '2.0': t.speedDouble });
-
-    const customInput = document.getElementById('ytAiCustomPromptInput');
-    if (customInput && t.customPromptPlaceholder) customInput.placeholder = t.customPromptPlaceholder;
-    const whisperInput = document.getElementById('ytAiWhisperUrlInput');
-    if (whisperInput && t.whisperUrlPlaceholder) whisperInput.placeholder = t.whisperUrlPlaceholder;
-
-    this.syncProviderUI();
+    if (this.bannerView) {
+      this.bannerView.updateHeaderModelText();
+    }
   }
 
   syncProviderUI() {
@@ -158,88 +120,113 @@ export class SettingsDrawerController {
     this.updateHeaderModelText();
   }
 
-  updateServerUrlUI() {
-    const serverSelect = document.getElementById('ytAiServerSelect');
-    if (!serverSelect) return;
-    const isOllama = this.state.currentProvider === 'ollama';
-    const def = isOllama ? 'http://localhost:11434' : 'http://192.168.56.1:1234';
-    const current = this.state.serverUrls[this.state.currentProvider] || def;
-
-    const optLocal = document.getElementById('ytAiServerOptionLocalhost');
-    const optLan = document.getElementById('ytAiServerOptionLan');
-    if (optLocal) optLocal.value = isOllama ? 'http://localhost:11434' : 'http://localhost:1234';
-    if (optLan) optLan.value = isOllama ? 'http://192.168.1.100:11434' : 'http://192.168.56.1:1234';
-
-    if (current === optLocal?.value || current === optLan?.value) {
-      serverSelect.value = current;
-    } else {
-      let customOpt = serverSelect.querySelector('option[data-custom="true"]');
-      if (!customOpt) {
-        customOpt = document.createElement('option');
-        customOpt.setAttribute('data-custom', 'true');
-        serverSelect.insertBefore(customOpt, serverSelect.lastElementChild);
-      }
-      customOpt.value = current;
-      customOpt.textContent = `Custom (${current})`;
-      serverSelect.value = current;
-    }
-  }
-
-  refreshModelsList() {
-    const isLocal = (this.state.currentProvider === 'lmstudio' || this.state.currentProvider === 'ollama');
-    if (!isLocal) return;
-    const t = I18N[this.state.currentLang] || I18N.en;
-
-    const badge = document.getElementById('ytAiBadge');
-    const badgeText = document.getElementById('ytAiBadgeText');
-    if (badge) badge.className = 'yt-ai-badge checking';
-    if (badgeText) badgeText.textContent = t.checking || 'Checking...';
-
-    const currentUrl = this.state.serverUrls[this.state.currentProvider];
-    LocalModelDiscovery.fetchLocalModels(
-      this.state.currentProvider,
-      currentUrl,
-      (models) => {
-        this.state.availableLocalModels[this.state.currentProvider] = models;
-        this.populateModelDropdown(models);
-        this.updateHeaderBadge();
-      },
-      (err) => {
-        this.populateModelDropdown([]);
-        if (badge) badge.className = 'yt-ai-badge offline';
-        if (badgeText) badgeText.textContent = t.offline || 'Offline';
-        this.updateHeaderModelText();
-      }
-    );
-  }
-
   populateCloudModels(provider) {
     const select = document.getElementById('ytAiModelSelect');
     if (!select) return;
     select.innerHTML = '';
-    const models = CLOUD_MODELS[provider] || [];
-    const savedModel = this.state.getActiveModel();
 
-    for (const m of models) {
+    const list = CLOUD_MODELS[provider] || [];
+    list.forEach(m => {
       const opt = document.createElement('option');
       opt.value = m.id;
       opt.textContent = m.name;
       select.appendChild(opt);
+    });
+
+    const activeM = this.state.getActiveModel();
+    if (select.options.length > 0) {
+      let found = false;
+      for (const opt of select.options) {
+        if (opt.value === activeM) {
+          select.value = activeM;
+          found = true;
+          break;
+        }
+      }
+      if (!found) select.selectedIndex = 0;
+      this.state.setActiveModel(select.value);
+      this.state.savePreference(`selectedModel_${provider}`, select.value);
+      this.state.savePreference('selectedModel', select.value);
     }
-    const match = models.find(m => m.id === savedModel);
-    if (match) {
-      select.value = savedModel;
-    } else if (models.length > 0) {
-      select.value = models[0].id;
-      this.state.setActiveModel(models[0].id);
-      this.state.savePreference(`selectedModel_${provider}`, models[0].id);
+  }
+
+  updateServerUrlUI() {
+    const serverSelect = document.getElementById('ytAiServerSelect');
+    if (!serverSelect) return;
+
+    const isOllama = this.state.currentProvider === 'ollama';
+    const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? 'http://localhost:11434' : 'http://192.168.56.1:1234');
+    serverSelect.innerHTML = '';
+    const presets = isOllama
+      ? ['http://localhost:11434', 'http://127.0.0.1:11434', 'http://192.168.56.1:11434']
+      : ['http://192.168.56.1:1234', 'http://localhost:1234', 'http://127.0.0.1:1234'];
+
+    presets.forEach(u => {
+      const opt = document.createElement('option');
+      opt.value = u;
+      opt.textContent = u.replace(/https?:\/\//, '');
+      if (u === currentUrl) opt.selected = true;
+      serverSelect.appendChild(opt);
+    });
+
+    const t = I18N[this.state.currentLang] || I18N.en;
+    const customOpt = document.createElement('option');
+    customOpt.value = 'custom';
+    customOpt.textContent = t.customServer || 'Custom IP...';
+    if (!presets.includes(currentUrl)) {
+      customOpt.selected = true;
+      customOpt.textContent = `Custom (${currentUrl.replace(/https?:\/\//, '')})`;
     }
-    this.updateHeaderModelText();
+    serverSelect.appendChild(customOpt);
+  }
+
+  refreshModelsList(showFeedback = false) {
+    const badge = document.getElementById('ytAiBadge');
+    const badgeText = document.getElementById('ytAiBadgeText');
+    const t = I18N[this.state.currentLang] || I18N.en;
+    if (badgeText) badgeText.textContent = t.checking || 'Connecting...';
+
+    LocalModelDiscovery.refreshModelsList(this.state, showFeedback, (models, currentUrl) => {
+      this.state.availableLocalModels[this.state.currentProvider] = models;
+      const isOllama = this.state.currentProvider === 'ollama';
+      const providerLabel = isOllama ? 'Ollama' : 'LM Studio';
+      if (badge) badge.className = 'yt-ai-badge online';
+      if (badgeText) badgeText.textContent = `${providerLabel} (${currentUrl.replace(/https?:\/\//, '')})`;
+
+      this.populateModelDropdown(models);
+      if (showFeedback) {
+        this.showStatusBanner(`✅ Connected to ${providerLabel} (${models.length} models ready)`, false);
+      }
+    }, () => {
+      this.tryFallbackUrls();
+    });
+  }
+
+  tryFallbackUrls(testedUrls = []) {
+    const badge = document.getElementById('ytAiBadge');
+    const badgeText = document.getElementById('ytAiBadgeText');
+    const t = I18N[this.state.currentLang] || I18N.en;
+    const isOllama = this.state.currentProvider === 'ollama';
+    const providerLabel = isOllama ? 'Ollama' : 'LM Studio';
+
+    LocalModelDiscovery.tryFallbackUrls(this.state, testedUrls, (candidate, models) => {
+      this.state.serverUrls[this.state.currentProvider] = candidate;
+      this.state.savePreference(`serverUrl_${this.state.currentProvider}`, candidate);
+      this.updateServerUrlUI();
+      this.state.availableLocalModels[this.state.currentProvider] = models;
+      if (badge) badge.className = 'yt-ai-badge online';
+      if (badgeText) badgeText.textContent = `${providerLabel} (${candidate.replace(/https?:\/\//, '')})`;
+      this.populateModelDropdown(models);
+      this.showStatusBanner(`✅ Connected to ${providerLabel} (${models.length} models ready)`, false);
+    }, () => {
+      if (badge) badge.className = 'yt-ai-badge offline';
+      if (badgeText) badgeText.textContent = `${providerLabel} (${t.offlineBadge || 'Offline'})`;
+      this.populateModelDropdown([]);
+    });
   }
 
   populateModelDropdown(models) {
     const select = document.getElementById('ytAiModelSelect');
-    if (!select) return;
     const currentSaved = this.state.getActiveModel();
     const activeVal = LocalModelDiscovery.populateModelSelect(
       select,
