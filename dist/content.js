@@ -148,6 +148,7 @@
     "modelResponsive": "Mod\xE8le r\xE9actif : {model}",
     "extractingTranscriptNotice": "Extraction de la transcription de la vid\xE9o en cours...",
     "fetchingExternalTranscriptNotice": "R\xE9cup\xE9ration des sous-titres de la vid\xE9o externe ({videoId})...",
+    "analyzingChannelNotice": "Recherche du dossier officiel de la cha\xEEne ({query})...",
     "externalTranscriptError": "Impossible d'extraire les sous-titres ou chapitres pour la vid\xE9o externe ({videoId}). Raisons possibles : aucun sous-titre ni chapitre disponible, ou restriction d'acc\xE8s YouTube. Vous pouvez ouvrir l'onglet de cette vid\xE9o pour la r\xE9sumer directement.",
     "retryBtn": "\u{1F504} R\xE9essayer"
   };
@@ -302,6 +303,7 @@
     "modelResponsive": "Responsive model: {model}",
     "extractingTranscriptNotice": "Extracting video transcript...",
     "fetchingExternalTranscriptNotice": "Fetching subtitles for external video ({videoId})...",
+    "analyzingChannelNotice": "Fetching official channel dossier for {query}...",
     "externalTranscriptError": "Unable to extract subtitles or chapters for external video ({videoId}). Possible reasons: no captions or chapters available, or YouTube access restrictions. You can open this video in a tab to summarize it directly.",
     "retryBtn": "\u{1F504} Retry"
   };
@@ -456,6 +458,7 @@
     "modelResponsive": "Modelo responsivo: {model}",
     "extractingTranscriptNotice": "Extrayendo transcripci\xF3n del video...",
     "fetchingExternalTranscriptNotice": "Obteniendo subt\xEDtulos para el video externo ({videoId})...",
+    "analyzingChannelNotice": "Obteniendo el expediente oficial del canal de {query}...",
     "externalTranscriptError": "No se pudieron extraer subt\xEDtulos ni cap\xEDtulos para el video externo ({videoId}). Posibles causas: sin subt\xEDtulos ni cap\xEDtulos disponibles, o restricciones de YouTube. Puede abrir este video en una pesta\xF1a para resumirlo directamente.",
     "retryBtn": "\u{1F504} Reintentar"
   };
@@ -610,6 +613,7 @@
     "modelResponsive": "Reaktionsschnelles Modell: {model}",
     "extractingTranscriptNotice": "Video-Transkript wird extrahiert...",
     "fetchingExternalTranscriptNotice": "Untertitel f\xFCr externes Video ({videoId}) werden abgerufen...",
+    "analyzingChannelNotice": "Offizielles Kanaldossier f\xFCr {query} wird abgerufen...",
     "externalTranscriptError": "Untertitel oder Kapitel f\xFCr das externe Video ({videoId}) konnten nicht extrahiert werden. M\xF6gliche Ursachen: keine Untertitel oder Kapitel verf\xFCgbar oder YouTube-Zugriffsbeschr\xE4nkungen.",
     "retryBtn": "\u{1F504} Wiederholen"
   };
@@ -764,6 +768,7 @@
     "modelResponsive": "Modello reattivo: {model}",
     "extractingTranscriptNotice": "Estrazione della trascrizione del video in corso...",
     "fetchingExternalTranscriptNotice": "Recupero dei sottotitoli per il video esterno ({videoId})...",
+    "analyzingChannelNotice": "Recupero del dossier ufficiale del canale di {query}...",
     "externalTranscriptError": "Impossibile estrarre sottotitoli o capitoli per il video esterno ({videoId}). Possibili cause: nessun sottotitolo o capitolo disponibile, o restrizioni di accesso YouTube.",
     "retryBtn": "\u{1F504} Riprova"
   };
@@ -918,6 +923,7 @@
     "modelResponsive": "\u041E\u0442\u0437\u044B\u0432\u0447\u0438\u0432\u0430\u044F \u043C\u043E\u0434\u0435\u043B\u044C: {model}",
     "extractingTranscriptNotice": "\u0418\u0437\u0432\u043B\u0435\u0447\u0435\u043D\u0438\u0435 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u0438 \u0432\u0438\u0434\u0435\u043E...",
     "fetchingExternalTranscriptNotice": "\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u043E\u0432 \u0432\u043D\u0435\u0448\u043D\u0435\u0433\u043E \u0432\u0438\u0434\u0435\u043E ({videoId})...",
+    "analyzingChannelNotice": "\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0434\u043E\u0441\u044C\u0435 \u043A\u0430\u043D\u0430\u043B\u0430 {query}...",
     "externalTranscriptError": "\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u0438\u0437\u0432\u043B\u0435\u0447\u044C \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u044B \u0438\u043B\u0438 \u0433\u043B\u0430\u0432\u044B \u0434\u043B\u044F \u0432\u043D\u0435\u0448\u043D\u0435\u0433\u043E \u0432\u0438\u0434\u0435\u043E ({videoId}). \u0412\u043E\u0437\u043C\u043E\u0436\u043D\u044B\u0435 \u043F\u0440\u0438\u0447\u0438\u043D\u044B: \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u044B \u0438\u043B\u0438 \u0433\u043B\u0430\u0432\u044B \u043E\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u044E\u0442, \u043B\u0438\u0431\u043E \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u044E\u0442 \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u0438\u044F YouTube.",
     "retryBtn": "\u{1F504} \u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u044C"
   };
@@ -1072,6 +1078,7 @@
     "modelResponsive": "\u5FDC\u7B54\u30E2\u30C7\u30EB: {model}",
     "extractingTranscriptNotice": "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3092\u62BD\u51FA\u4E2D...",
     "fetchingExternalTranscriptNotice": "\u5916\u90E8\u52D5\u753B\uFF08{videoId}\uFF09\u306E\u5B57\u5E55\u3092\u53D6\u5F97\u4E2D...",
+    "analyzingChannelNotice": "{query} \u306E\u516C\u5F0F\u30C1\u30E3\u30F3\u30CD\u30EB\u60C5\u5831\u3092\u53D6\u5F97\u3057\u3066\u3044\u307E\u3059...",
     "externalTranscriptError": "\u5916\u90E8\u52D5\u753B\uFF08{videoId}\uFF09\u306E\u5B57\u5E55\u307E\u305F\u306F\u30C1\u30E3\u30D7\u30BF\u30FC\u3092\u62BD\u51FA\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F\u3002\u7406\u7531\uFF1A\u5B57\u5E55\u3084\u30C1\u30E3\u30D7\u30BF\u30FC\u304C\u5B58\u5728\u3057\u306A\u3044\u304B\u3001YouTube\u306E\u30A2\u30AF\u30BB\u30B9\u5236\u9650\u304C\u3042\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002",
     "retryBtn": "\u{1F504} \u518D\u8A66\u884C"
   };
@@ -1226,6 +1233,7 @@
     "modelResponsive": "\u54CD\u5E94\u6A21\u578B\uFF1A{model}",
     "extractingTranscriptNotice": "\u6B63\u5728\u63D0\u53D6\u89C6\u9891\u5B57\u5E55...",
     "fetchingExternalTranscriptNotice": "\u6B63\u5728\u83B7\u53D6\u5916\u90E8\u89C6\u9891 ({videoId}) \u7684\u5B57\u5E55...",
+    "analyzingChannelNotice": "\u6B63\u5728\u83B7\u53D6 {query} \u7684\u5B98\u65B9\u9891\u9053\u6863\u6848...",
     "externalTranscriptError": "\u65E0\u6CD5\u63D0\u53D6\u5916\u90E8\u89C6\u9891 ({videoId}) \u7684\u5B57\u5E55\u6216\u7AE0\u8282\u3002\u53EF\u80FD\u7684\u539F\u56E0\uFF1A\u65E0\u53EF\u7528\u5B57\u5E55\u6216\u7AE0\u8282\uFF0C\u6216\u5B58\u5728 YouTube \u8BBF\u95EE\u9650\u5236\u3002",
     "retryBtn": "\u{1F504} \u91CD\u8BD5"
   };
@@ -3246,36 +3254,129 @@ ${condenseFn(text, externalBudget)}`);
     }
   };
 
-  // src/content/ui/ChatViewController.js
-  var ChatViewController = class _ChatViewController {
-    constructor(dependencies = {}) {
-      this.transcriptController = dependencies.transcriptController;
-      this.promptService = dependencies.promptService;
-      this.audioController = dependencies.audioController;
-      this.summaryViewController = dependencies.summaryViewController;
-      this.transcriptManager = new ChatTranscriptManager();
-      this.chatHistory = [];
-      this.chatPort = null;
-      this.lastLang = null;
+  // src/content/services/ChannelIntelligenceManager.js
+  var ChannelIntelligenceManager = class {
+    constructor() {
+      this.cachedDossiers = /* @__PURE__ */ new Map();
     }
-    get cachedExternalTranscripts() {
-      return this.transcriptManager.cachedExternalTranscripts;
+    /**
+     * Detects whether user message is asking for channel or creator analysis
+     * @param {string} text User prompt
+     * @param {string} [currentAuthor=''] Author of active video
+     * @param {string} [currentChannelUrl=''] Channel URL/handle of active video
+     * @returns {{isChannelIntent: boolean, query: string, targetCreator: string}}
+     */
+    detectChannelIntent(text = "", currentAuthor = "", currentChannelUrl = "") {
+      if (!text || typeof text !== "string") {
+        return { isChannelIntent: false, query: "", targetCreator: "" };
+      }
+      const clean = text.trim();
+      const handleMatch = clean.match(/@([a-zA-Z0-9_\-\.]{3,35})/);
+      if (handleMatch) {
+        return {
+          isChannelIntent: true,
+          query: handleMatch[0],
+          targetCreator: handleMatch[0]
+        };
+      }
+      const channelIntentRegex = /(?:analys|pr[ée]sent|d[ée]tail|d[ée]cris|parle|explore|avis\s+sur|qu['’]est-ce\s+que\s+raconte|ligne\s+[ée]ditoriale|qui\s+est|sponsor|travail|partenariat|derni[èe]res?\s+vid[ée]os?|autres?\s+vid[ée]os?)\s+.*?(?:cha[îi]ne|cr[ée]ateur|youtubeur|vid[ée]aste|channel|creator|youtuber)/i;
+      const reverseChannelRegex = /(?:cha[îi]ne|cr[ée]ateur|channel|creator)\s+.*?(?:analys|qui\s+est|avis|derni[èe]res?\s+vid[ée]os?|autres?\s+vid[ée]os?|sponsor|travail)/i;
+      const isMatch = channelIntentRegex.test(clean) || reverseChannelRegex.test(clean);
+      const namedMatch = clean.match(/(?:cha[îi]ne\s+de|cha[îi]ne\s+d['’]|channel\s+of)\s+([A-Za-z0-9\u00C0-\u017F\s\-]{3,40})/i);
+      let targetCreator = "";
+      let query = "";
+      if (namedMatch && namedMatch[1]) {
+        targetCreator = namedMatch[1].replace(/[?!.,;].*$/, "").trim();
+        query = targetCreator;
+        return { isChannelIntent: true, query, targetCreator };
+      }
+      if (isMatch) {
+        query = currentChannelUrl || currentAuthor || "";
+        targetCreator = currentAuthor || "Cr\xE9ateur de la vid\xE9o";
+        return { isChannelIntent: true, query, targetCreator };
+      }
+      if (currentAuthor && currentAuthor.length > 2 && clean.toLowerCase().includes(currentAuthor.toLowerCase())) {
+        const creatorInquiry = /(?:analyse|avis|qui\s+est|travail|sponsor|vid[ée]os?|style|parcours)/i;
+        if (creatorInquiry.test(clean)) {
+          return {
+            isChannelIntent: true,
+            query: currentChannelUrl || currentAuthor,
+            targetCreator: currentAuthor
+          };
+        }
+      }
+      return { isChannelIntent: false, query: "", targetCreator: "" };
     }
+    /**
+     * Fetches or retrieves cached channel dossier
+     * @param {string} query Handle, URL, or channel name
+     * @param {number} [limit=30]
+     * @returns {Promise<{success: boolean, channel?: Object, error?: string}>}
+     */
+    async getOrFetchChannelDossier(query, limit = 30) {
+      if (!query) return { success: false, error: "Empty query" };
+      const cacheKey = String(query).trim().toLowerCase();
+      if (this.cachedDossiers.has(cacheKey)) {
+        return { success: true, channel: this.cachedDossiers.get(cacheKey) };
+      }
+      try {
+        const response = await new Promise((resolve) => {
+          if (typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
+            chrome.runtime.sendMessage(
+              { action: "FETCH_CHANNEL_DOSSIER", query, limit },
+              (res) => resolve(res || { success: false, error: "No response from background" })
+            );
+          } else {
+            resolve({ success: false, error: "Chrome runtime unavailable" });
+          }
+        });
+        if (response && response.success && response.channel) {
+          this.cachedDossiers.set(cacheKey, response.channel);
+          if (response.channel.handle) {
+            this.cachedDossiers.set(response.channel.handle.toLowerCase(), response.channel);
+          }
+          return { success: true, channel: response.channel };
+        }
+        return { success: false, error: response?.error || "Failed to fetch channel dossier" };
+      } catch (err) {
+        return { success: false, error: err.message || String(err) };
+      }
+    }
+    /**
+     * Formats channel dossier into prompt context block
+     * @param {Object} channel
+     * @param {string} [lang='fr']
+     * @returns {string}
+     */
+    formatContextBlock(channel, lang = "fr") {
+      if (!channel || typeof channel !== "object") return "";
+      return channel.markdownDossier || "";
+    }
+    /**
+     * Clears in-memory session cache
+     */
+    reset() {
+      this.cachedDossiers.clear();
+    }
+  };
+
+  // src/content/ui/ChatBubbleView.js
+  var ChatBubbleView = class {
     static scrollToBottom(el) {
       if (el) el.scrollTop = el.scrollHeight;
     }
-    appendChatBubble(role, contentHtml) {
+    static appendChatBubble(role, contentHtml) {
       const container = document.getElementById("ytAiChatMessages");
       if (!container) return null;
       const bubble = document.createElement("div");
       bubble.className = `yt-ai-chat-bubble ${role} ${role === "ai" ? "yt-ai-markdown" : ""}`;
       bubble.innerHTML = contentHtml;
       container.appendChild(bubble);
-      _ChatViewController.scrollToBottom(container);
+      this.scrollToBottom(container);
       return bubble;
     }
-    attachAudioButtonToBubble(bubble, answerText, currentLang = "en") {
-      if (!bubble) return;
+    static attachAudioButton(bubble, answerText, audioController2, currentLang = "en") {
+      if (!bubble || !audioController2) return;
       const existingToolbar = bubble.querySelector(".yt-ai-bubble-toolbar");
       if (existingToolbar) return;
       const t = I18N[currentLang] || I18N.en;
@@ -3286,17 +3387,43 @@ ${condenseFn(text, externalBudget)}`);
       ttsBtn.title = t.listenBubbleTitle || "Listen to this answer";
       ttsBtn.textContent = t.listenBtn || "\u{1F50A} Listen";
       ttsBtn.addEventListener("click", () => {
-        if (this.audioController) {
-          const activeLang = document.getElementById("ytAiLangSelect")?.value || currentLang;
-          this.audioController.speakText(answerText, ttsBtn, { lang: activeLang });
-        }
+        const activeLang = document.getElementById("ytAiLangSelect")?.value || currentLang;
+        audioController2.speakText(answerText, ttsBtn, { lang: activeLang });
       });
       toolbar.appendChild(ttsBtn);
       bubble.appendChild(toolbar);
     }
+  };
+
+  // src/content/ui/ChatViewController.js
+  var ChatViewController = class _ChatViewController {
+    constructor(dependencies = {}) {
+      this.transcriptController = dependencies.transcriptController;
+      this.promptService = dependencies.promptService;
+      this.audioController = dependencies.audioController;
+      this.summaryViewController = dependencies.summaryViewController;
+      this.transcriptManager = new ChatTranscriptManager();
+      this.channelManager = new ChannelIntelligenceManager();
+      this.chatHistory = [];
+      this.chatPort = null;
+      this.lastLang = null;
+    }
+    get cachedExternalTranscripts() {
+      return this.transcriptManager.cachedExternalTranscripts;
+    }
+    static scrollToBottom(el) {
+      ChatBubbleView.scrollToBottom(el);
+    }
+    appendChatBubble(role, contentHtml) {
+      return ChatBubbleView.appendChatBubble(role, contentHtml);
+    }
+    attachAudioButtonToBubble(bubble, answerText, currentLang = "en") {
+      return ChatBubbleView.attachAudioButton(bubble, answerText, this.audioController, currentLang);
+    }
     handleClearChat(currentLang = "en") {
       this.chatHistory = [];
       this.transcriptManager.reset();
+      this.channelManager.reset();
       if (this.audioController) {
         this.audioController.stopSpeech();
         this.audioController.stopDictation();
@@ -3415,11 +3542,30 @@ ${condenseFn(text, externalBudget)}`);
         maxChars,
         condenseFn
       );
+      let channelDossierBlock = "";
+      const channelIntent = this.channelManager.detectChannelIntent(text, meta?.author, meta?.channelUrl);
+      if (channelIntent.isChannelIntent && channelIntent.query) {
+        const notice = (t.analyzingChannelNotice || "Recherche du dossier officiel de la cha\xEEne ({query})...").replace("{query}", channelIntent.targetCreator);
+        const waitBubble = this.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${escapeHtml(notice)}`);
+        waitBubble?.classList?.add("yt-ai-status-bubble");
+        const dossierRes = await this.channelManager.getOrFetchChannelDossier(channelIntent.query);
+        waitBubble?.remove?.();
+        if (dossierRes.success && dossierRes.channel) {
+          channelDossierBlock = this.channelManager.formatContextBlock(dossierRes.channel, lang);
+        }
+      }
       const summaryText = isMultiVideo ? "" : this.summaryViewController?.fullSummaryMarkdown || ctx.summaryText || "";
       const aiBubble = this.appendChatBubble("ai", "");
       aiBubble.classList.add("yt-ai-typing");
       const selectedChatMode = document.getElementById("ytAiModeSelect")?.value || "standard";
-      const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText);
+      const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(
+        meta,
+        safeTranscript,
+        lang,
+        selectedChatMode,
+        summaryText,
+        channelDossierBlock
+      );
       const historyPayload = this.chatHistory.slice(-8);
       historyPayload.push({ role: "user", content: text });
       let fullAnswer = "";
@@ -3888,6 +4034,7 @@ ${condenseFn(text, externalBudget)}`);
       const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || "";
       const domDate = dateEl?.textContent?.trim() || "";
       const domKeywords = Array.from(tagEls).map((el) => el.textContent.trim().replace(/^#/, "")).filter(Boolean);
+      const domChannelUrl = authorEl?.getAttribute("href") || authorEl?.href || "";
       const title = titleEl?.textContent?.trim() || safeMeta.title || document.title.replace(" - YouTube", "").trim();
       const author = authorEl?.textContent?.trim() || safeMeta.author || "Cha\xEEne YouTube";
       const subscribers = domSubscribers || safeMeta.subscribers || "";
@@ -3897,6 +4044,7 @@ ${condenseFn(text, externalBudget)}`);
       const publishDate = safeMeta.publishDate || domDate || "";
       const viewCount = safeMeta.viewCount || "";
       const channelId = safeMeta.channelId || "";
+      const channelUrl = safeMeta.channelUrl || domChannelUrl || "";
       const chapters = _YouTubeDOMContext.extractChaptersFromDescription() || safeMeta.chapters || [];
       return {
         videoId: currentVideoId || safeMeta.videoId || "",
@@ -5154,6 +5302,9 @@ ${description}
 """
 ${description}
 """`);
+      if (extraContext.channelDossier) {
+        lines.push("\n" + extraContext.channelDossier);
+      }
       if (lines.length === 0) return "";
       const header = isFr ? "CONTEXTE DE LA VID\xC9O & DE LA CHA\xCENE :" : "VIDEO & CHANNEL CONTEXT:";
       return `${header}
@@ -5256,7 +5407,7 @@ You answer questions accurately based on the video transcript and the provided o
 Video Title: "${title}"
 ${contextBlock ? `${contextBlock}
 ` : ""}Always answer in ${targetLangName}.
-If the answer is not mentioned in the transcript or description, state clearly that the video does not mention it.
+If an official channel dossier is provided above, use it authoritatively to answer questions regarding the channel, creator, recent videos, and editorial background. Otherwise, if the answer is not mentioned in the transcript or video context, state clearly that the video does not mention it.
 Be concise, helpful, and quote timestamps in [m:ss] format if applicable.
 
 TRANSCRIPT:
@@ -5425,17 +5576,22 @@ ${cfg.summaryLabel}
 ${summaryText.trim()}
 """
 ` : "";
+      const channelDossier = meta?.channelDossier || arguments[5] || "";
+      const channelBlock = channelDossier ? `
+${channelDossier}
+` : "";
+      const channelDirective = channelDossier ? cleanLang === "fr" ? "\nDOSSIER DE CHA\xCENE : Un dossier officiel de la cha\xEEne et des derni\xE8res vid\xE9os est fourni ci-dessous. Utilise-le pour analyser le cr\xE9ateur, son parcours, ses th\xE8mes r\xE9cents et son ind\xE9pendance.\n" : "\nCHANNEL DOSSIER: An official channel dossier with recent videos is provided below. Use it to analyze the creator, topics, and editorial stance.\n" : "";
       const multiVideoDirective = safeTranscript.includes("[VID\xC9O EXTERNE") ? cleanLang === "fr" ? "\nCONTEXTE MULTI-VID\xC9OS : La discussion porte sur plusieurs vid\xE9os fournies dans la transcription ([VID\xC9O ACTUELLE] et [VID\xC9O EXTERNE ...]). Conserve la m\xE9moire et le contenu de chacune de ces vid\xE9os tout au long de la conversation. Compare leurs informations avec pr\xE9cision et ne pr\xE9tends jamais que tu ne peux pas acc\xE9der aux vid\xE9os externes d\xE9j\xE0 fournies.\n" : "\nMULTI-VIDEO CONTEXT: This discussion involves multiple YouTube videos provided in the transcript section ([VID\xC9O ACTUELLE] and [VID\xC9O EXTERNE ...]). Maintain continuous awareness of all referenced videos across the discussion. Accurately compare them and never claim you lack access to the provided external videos.\n" : "";
       return `${cfg.persona}
 ${cfg.role}
 ${cfg.identity}
 
-${cfg.rule}${multiVideoDirective}
+${cfg.rule}${multiVideoDirective}${channelDirective}
 
 Title: "${meta?.title || ""}"
 Channel: "${meta?.author || ""}"${subStr}
 ${contextBlock ? `
-${contextBlock}` : ""}${summaryBlock}
+${contextBlock}` : ""}${summaryBlock}${channelBlock}
 ${cfg.transcriptLabel}
 """
 ${safeTranscript}

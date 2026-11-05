@@ -49,6 +49,9 @@ export class PromptBuilder extends IPromptBuilder {
     if (publishDate) lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
     if (keywords) lines.push(isFr ? `- Mots-clés : ${keywords}` : `- Keywords: ${keywords}`);
     if (description) lines.push(isFr ? `- Description officielle :\n"""\n${description}\n"""` : `- Official Description:\n"""\n${description}\n"""`);
+    if (extraContext.channelDossier) {
+      lines.push('\n' + extraContext.channelDossier);
+    }
     if (lines.length === 0) return '';
 
     const header = isFr ? 'CONTEXTE DE LA VIDÉO & DE LA CHAÎNE :' : 'VIDEO & CHANNEL CONTEXT:';
@@ -109,7 +112,7 @@ export class PromptBuilder extends IPromptBuilder {
     const targetLangName = langNames[targetLang] || 'English';
     const contextBlock = this.formatContextBlock(extraContext, targetLang);
 
-    const systemPrompt = `You are a conversational AI video assistant YouTube Summarizer AI.\nYou answer questions accurately based on the video transcript and the provided official video context (description, channel information, tags).\nVideo Title: "${title}"\n${contextBlock ? `${contextBlock}\n` : ''}Always answer in ${targetLangName}.\nIf the answer is not mentioned in the transcript or description, state clearly that the video does not mention it.\nBe concise, helpful, and quote timestamps in [m:ss] format if applicable.\n\nTRANSCRIPT:\n${transcriptText}`;
+    const systemPrompt = `You are a conversational AI video assistant YouTube Summarizer AI.\nYou answer questions accurately based on the video transcript and the provided official video context (description, channel information, tags).\nVideo Title: "${title}"\n${contextBlock ? `${contextBlock}\n` : ''}Always answer in ${targetLangName}.\nIf an official channel dossier is provided above, use it authoritatively to answer questions regarding the channel, creator, recent videos, and editorial background. Otherwise, if the answer is not mentioned in the transcript or video context, state clearly that the video does not mention it.\nBe concise, helpful, and quote timestamps in [m:ss] format if applicable.\n\nTRANSCRIPT:\n${transcriptText}`;
 
     const messages = [];
     if (Array.isArray(chatHistory)) {

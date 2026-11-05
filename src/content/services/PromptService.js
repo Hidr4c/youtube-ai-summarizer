@@ -151,6 +151,14 @@ export class PromptService {
       ? `\n${cfg.summaryLabel}\n"""\n${summaryText.trim()}\n"""\n`
       : '';
 
+    const channelDossier = meta?.channelDossier || arguments[5] || '';
+    const channelBlock = channelDossier ? `\n${channelDossier}\n` : '';
+    const channelDirective = channelDossier
+      ? (cleanLang === 'fr'
+        ? '\nDOSSIER DE CHAÎNE : Un dossier officiel de la chaîne et des dernières vidéos est fourni ci-dessous. Utilise-le pour analyser le créateur, son parcours, ses thèmes récents et son indépendance.\n'
+        : '\nCHANNEL DOSSIER: An official channel dossier with recent videos is provided below. Use it to analyze the creator, topics, and editorial stance.\n')
+      : '';
+
     const multiVideoDirective = safeTranscript.includes('[VIDÉO EXTERNE')
       ? (cleanLang === 'fr'
         ? '\nCONTEXTE MULTI-VIDÉOS : La discussion porte sur plusieurs vidéos fournies dans la transcription ([VIDÉO ACTUELLE] et [VIDÉO EXTERNE ...]). Conserve la mémoire et le contenu de chacune de ces vidéos tout au long de la conversation. Compare leurs informations avec précision et ne prétends jamais que tu ne peux pas accéder aux vidéos externes déjà fournies.\n'
@@ -161,11 +169,11 @@ export class PromptService {
 ${cfg.role}
 ${cfg.identity}
 
-${cfg.rule}${multiVideoDirective}
+${cfg.rule}${multiVideoDirective}${channelDirective}
 
 Title: "${meta?.title || ''}"
 Channel: "${meta?.author || ''}"${subStr}
-${contextBlock ? `\n${contextBlock}` : ''}${summaryBlock}
+${contextBlock ? `\n${contextBlock}` : ''}${summaryBlock}${channelBlock}
 ${cfg.transcriptLabel}
 """
 ${safeTranscript}

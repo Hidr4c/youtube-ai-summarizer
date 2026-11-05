@@ -149,6 +149,7 @@ export const es = {
   "modelResponsive": "Modelo responsivo: {model}",
   "extractingTranscriptNotice": "Extrayendo transcripción del video...",
   "fetchingExternalTranscriptNotice": "Obteniendo subtítulos para el video externo ({videoId})...",
+  "analyzingChannelNotice": "Obteniendo el expediente oficial del canal de {query}...",
   "externalTranscriptError": "No se pudieron extraer subtítulos ni capítulos para el video externo ({videoId}). Posibles causas: sin subtítulos ni capítulos disponibles, o restricciones de YouTube. Puede abrir este video en una pestaña para resumirlo directamente.",
   "retryBtn": "🔄 Reintentar"
 };

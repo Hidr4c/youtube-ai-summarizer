@@ -149,6 +149,7 @@ export const de = {
   "modelResponsive": "Reaktionsschnelles Modell: {model}",
   "extractingTranscriptNotice": "Video-Transkript wird extrahiert...",
   "fetchingExternalTranscriptNotice": "Untertitel für externes Video ({videoId}) werden abgerufen...",
+  "analyzingChannelNotice": "Offizielles Kanaldossier für {query} wird abgerufen...",
   "externalTranscriptError": "Untertitel oder Kapitel für das externe Video ({videoId}) konnten nicht extrahiert werden. Mögliche Ursachen: keine Untertitel oder Kapitel verfügbar oder YouTube-Zugriffsbeschränkungen.",
   "retryBtn": "🔄 Wiederholen"
 };

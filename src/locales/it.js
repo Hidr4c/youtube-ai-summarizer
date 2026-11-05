@@ -149,6 +149,7 @@ export const it = {
   "modelResponsive": "Modello reattivo: {model}",
   "extractingTranscriptNotice": "Estrazione della trascrizione del video in corso...",
   "fetchingExternalTranscriptNotice": "Recupero dei sottotitoli per il video esterno ({videoId})...",
+  "analyzingChannelNotice": "Recupero del dossier ufficiale del canale di {query}...",
   "externalTranscriptError": "Impossibile estrarre sottotitoli o capitoli per il video esterno ({videoId}). Possibili cause: nessun sottotitolo o capitolo disponibile, o restrizioni di accesso YouTube.",
   "retryBtn": "🔄 Riprova"
 };

@@ -450,4 +450,48 @@ describe('ChatViewController - Q&A Interactive Tab Specification', () => {
     assert.ok((lastBubble.innerHTML.includes('Impossible') && lastBubble.innerHTML.includes('sous-titres')) ||
               (lastBubble.innerHTML.includes('Unable') && lastBubble.innerHTML.includes('subtitles')), 'Must display external transcript error notice');
   });
+  it('handleSendChatMessage fetches channel dossier and includes it in system prompt when channel analysis is requested', async () => {
+    const { chatInput } = setupMockDom();
+    chatInput.value = 'Peux-tu analyser la chaîne de Julien Chièze ?';
+
+    const mockTranscriptController = {
+      cachedTranscript: { videoId: 'CURRENT_VID', segments: [{ text: 'Current text' }], fullText: 'Current text' },
+      cachedVideoMetadata: { videoId: 'CURRENT_VID', title: 'Video Title', author: 'Julien Chièze' }
+    };
+
+    let capturedSystemPrompt = '';
+    global.chrome = {
+      runtime: {
+        connect: () => ({
+          postMessage: (payload) => { capturedSystemPrompt = payload.systemPrompt; },
+          onMessage: { addListener: () => {} },
+          onDisconnect: { addListener: () => {} },
+          disconnect: () => {}
+        })
+      }
+    };
+
+    const controller = new ChatViewController({
+      transcriptController: mockTranscriptController,
+      promptService: {
+        constructor: {
+          buildChatSystemPrompt: (meta, safeTranscript, lang, mode, summary, dossier) => 'SYSTEM_PROMPT::' + (dossier || ''),
+          condenseTranscriptForContext: (t) => t
+        }
+      }
+    });
+
+    controller.channelManager.cachedDossiers.set('julien chièze', {
+      title: 'Julien Chièze',
+      handle: '@julienchieze',
+      markdownDossier: '### DOSSIER JULIEN CHIEZE 30 VIDEOS'
+    });
+
+    await controller.handleSendChatMessage(null, {
+      currentProvider: 'lmstudio',
+      getActiveModel: () => 'local-model'
+    });
+
+    assert.ok(capturedSystemPrompt.includes('DOSSIER JULIEN CHIEZE'), 'System prompt must include the channel dossier');
+  });
 });

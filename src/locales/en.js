@@ -149,6 +149,7 @@ export const en = {
   "modelResponsive": "Responsive model: {model}",
   "extractingTranscriptNotice": "Extracting video transcript...",
   "fetchingExternalTranscriptNotice": "Fetching subtitles for external video ({videoId})...",
+  "analyzingChannelNotice": "Fetching official channel dossier for {query}...",
   "externalTranscriptError": "Unable to extract subtitles or chapters for external video ({videoId}). Possible reasons: no captions or chapters available, or YouTube access restrictions. You can open this video in a tab to summarize it directly.",
   "retryBtn": "🔄 Retry"
 };

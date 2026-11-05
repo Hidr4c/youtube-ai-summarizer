@@ -3,6 +3,8 @@ import { CONTEXT_LIMITS } from '../../config/AIProviderPresets.js';
 import { renderMarkdown, escapeHtml } from './MarkdownRenderer.js';
 import { getVideoId, extractAllVideoIdsFromText } from './NavigationObserver.js';
 import { ChatTranscriptManager } from '../services/ChatTranscriptManager.js';
+import { ChannelIntelligenceManager } from '../services/ChannelIntelligenceManager.js';
+import { ChatBubbleView } from './ChatBubbleView.js';
 
 /**
  * Controller for Interactive Video Q&A Chat Tab
@@ -14,6 +16,7 @@ export class ChatViewController {
     this.audioController = dependencies.audioController;
     this.summaryViewController = dependencies.summaryViewController;
     this.transcriptManager = new ChatTranscriptManager();
+    this.channelManager = new ChannelIntelligenceManager();
     this.chatHistory = [];
     this.chatPort = null;
     this.lastLang = null;
@@ -24,49 +27,21 @@ export class ChatViewController {
   }
 
   static scrollToBottom(el) {
-    if (el) el.scrollTop = el.scrollHeight;
+    ChatBubbleView.scrollToBottom(el);
   }
 
   appendChatBubble(role, contentHtml) {
-    const container = document.getElementById('ytAiChatMessages');
-    if (!container) return null;
-
-    const bubble = document.createElement('div');
-    bubble.className = `yt-ai-chat-bubble ${role} ${role === 'ai' ? 'yt-ai-markdown' : ''}`;
-    bubble.innerHTML = contentHtml;
-    container.appendChild(bubble);
-    ChatViewController.scrollToBottom(container);
-    return bubble;
+    return ChatBubbleView.appendChatBubble(role, contentHtml);
   }
 
   attachAudioButtonToBubble(bubble, answerText, currentLang = 'en') {
-    if (!bubble) return;
-    const existingToolbar = bubble.querySelector('.yt-ai-bubble-toolbar');
-    if (existingToolbar) return;
-
-    const t = I18N[currentLang] || I18N.en;
-    const toolbar = document.createElement('div');
-    toolbar.className = 'yt-ai-bubble-toolbar';
-
-    const ttsBtn = document.createElement('button');
-    ttsBtn.className = 'yt-ai-tts-btn';
-    ttsBtn.title = t.listenBubbleTitle || 'Listen to this answer';
-    ttsBtn.textContent = t.listenBtn || '🔊 Listen';
-
-    ttsBtn.addEventListener('click', () => {
-      if (this.audioController) {
-        const activeLang = document.getElementById('ytAiLangSelect')?.value || currentLang;
-        this.audioController.speakText(answerText, ttsBtn, { lang: activeLang });
-      }
-    });
-
-    toolbar.appendChild(ttsBtn);
-    bubble.appendChild(toolbar);
+    return ChatBubbleView.attachAudioButton(bubble, answerText, this.audioController, currentLang);
   }
 
   handleClearChat(currentLang = 'en') {
     this.chatHistory = [];
     this.transcriptManager.reset();
+    this.channelManager.reset();
     if (this.audioController) {
       this.audioController.stopSpeech();
       this.audioController.stopDictation();
@@ -132,8 +107,7 @@ export class ChatViewController {
                         (typeof stateObj.getActiveModel === 'function' ? stateObj.getActiveModel() : null) ||
                         ctx.selectedModel ||
                         stateObj.selectedModels?.[stateObj.currentProvider] ||
-                        stateObj.selectedModel ||
-                        '';
+                        stateObj.selectedModel || '';
     if (!activeModel) {
       this.appendChatBubble('ai', t.selectModelAlert || 'Please select an AI model in the settings toolbar above.');
       return;
@@ -211,13 +185,33 @@ export class ChatViewController {
       condenseFn
     );
 
-    const summaryText = isMultiVideo ? '' : (this.summaryViewController?.fullSummaryMarkdown || ctx.summaryText || '');
+    // Channel intelligence intent detection and background fetching
+    let channelDossierBlock = '';
+    const channelIntent = this.channelManager.detectChannelIntent(text, meta?.author, meta?.channelUrl);
+    if (channelIntent.isChannelIntent && channelIntent.query) {
+      const notice = (t.analyzingChannelNotice || 'Recherche du dossier officiel de la chaîne ({query})...').replace('{query}', channelIntent.targetCreator);
+      const waitBubble = this.appendChatBubble('ai', `<span class="yt-ai-spinner"></span> ${escapeHtml(notice)}`);
+      waitBubble?.classList?.add('yt-ai-status-bubble');
+      const dossierRes = await this.channelManager.getOrFetchChannelDossier(channelIntent.query);
+      waitBubble?.remove?.();
+      if (dossierRes.success && dossierRes.channel) {
+        channelDossierBlock = this.channelManager.formatContextBlock(dossierRes.channel, lang);
+      }
+    }
 
+    const summaryText = isMultiVideo ? '' : (this.summaryViewController?.fullSummaryMarkdown || ctx.summaryText || '');
     const aiBubble = this.appendChatBubble('ai', '');
     aiBubble.classList.add('yt-ai-typing');
 
     const selectedChatMode = document.getElementById('ytAiModeSelect')?.value || 'standard';
-    const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText);
+    const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(
+      meta,
+      safeTranscript,
+      lang,
+      selectedChatMode,
+      summaryText,
+      channelDossierBlock
+    );
 
     const historyPayload = this.chatHistory.slice(-8);
     historyPayload.push({ role: 'user', content: text });

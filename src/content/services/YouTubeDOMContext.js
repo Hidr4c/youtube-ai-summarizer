@@ -60,6 +60,7 @@ export class YouTubeDOMContext {
     const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || '';
     const domDate = dateEl?.textContent?.trim() || '';
     const domKeywords = Array.from(tagEls).map(el => el.textContent.trim().replace(/^#/, '')).filter(Boolean);
+    const domChannelUrl = authorEl?.getAttribute('href') || authorEl?.href || '';
 
     const title = titleEl?.textContent?.trim() || safeMeta.title || document.title.replace(' - YouTube', '').trim();
     const author = authorEl?.textContent?.trim() || safeMeta.author || 'Chaîne YouTube';
@@ -72,6 +73,7 @@ export class YouTubeDOMContext {
     const publishDate = safeMeta.publishDate || domDate || '';
     const viewCount = safeMeta.viewCount || '';
     const channelId = safeMeta.channelId || '';
+    const channelUrl = safeMeta.channelUrl || domChannelUrl || '';
     const chapters = YouTubeDOMContext.extractChaptersFromDescription() || safeMeta.chapters || [];
 
     return {

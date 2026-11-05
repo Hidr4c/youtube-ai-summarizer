@@ -1,6 +1,7 @@
 import { StreamRelay } from './StreamRelay.js';
 import { AIProviderFactory } from '../services/ai/providers/AIProviderFactory.js';
 import { BackgroundTranscriptFetcher } from './BackgroundTranscriptFetcher.js';
+import { ChannelIntelligenceFetcher } from './ChannelIntelligenceFetcher.js';
 
 /**
  * Message routing controller for background service worker
@@ -107,6 +108,14 @@ export class MessageRouter {
             sendResponse({ success: false, error: err.message });
           }
         })();
+        return true;
+      }
+
+      if (request.action === 'FETCH_CHANNEL_DOSSIER') {
+        const { query, limit = 30 } = request;
+        ChannelIntelligenceFetcher.fetchChannelDossier(query, limit)
+          .then(res => sendResponse(res))
+          .catch(err => sendResponse({ success: false, error: err.message }));
         return true;
       }
 
