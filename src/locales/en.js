@@ -150,6 +150,7 @@ export const en = {
   "extractingTranscriptNotice": "Extracting video transcript...",
   "fetchingExternalTranscriptNotice": "Fetching subtitles for external video ({videoId})...",
   "analyzingChannelNotice": "Fetching official channel dossier for {query}...",
+  "fetchingCommentsNotice": "Fetching top public comments and audience reactions...",
   "externalTranscriptError": "Unable to extract subtitles or chapters for external video ({videoId}). Possible reasons: no captions or chapters available, or YouTube access restrictions. You can open this video in a tab to summarize it directly.",
   "retryBtn": "🔄 Retry"
 };

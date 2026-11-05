@@ -149,6 +149,7 @@
     "extractingTranscriptNotice": "Extraction de la transcription de la vid\xE9o en cours...",
     "fetchingExternalTranscriptNotice": "R\xE9cup\xE9ration des sous-titres de la vid\xE9o externe ({videoId})...",
     "analyzingChannelNotice": "Recherche du dossier officiel de la cha\xEEne ({query})...",
+    "fetchingCommentsNotice": "R\xE9cup\xE9ration des commentaires et avis du public...",
     "externalTranscriptError": "Impossible d'extraire les sous-titres ou chapitres pour la vid\xE9o externe ({videoId}). Raisons possibles : aucun sous-titre ni chapitre disponible, ou restriction d'acc\xE8s YouTube. Vous pouvez ouvrir l'onglet de cette vid\xE9o pour la r\xE9sumer directement.",
     "retryBtn": "\u{1F504} R\xE9essayer"
   };
@@ -304,6 +305,7 @@
     "extractingTranscriptNotice": "Extracting video transcript...",
     "fetchingExternalTranscriptNotice": "Fetching subtitles for external video ({videoId})...",
     "analyzingChannelNotice": "Fetching official channel dossier for {query}...",
+    "fetchingCommentsNotice": "Fetching top public comments and audience reactions...",
     "externalTranscriptError": "Unable to extract subtitles or chapters for external video ({videoId}). Possible reasons: no captions or chapters available, or YouTube access restrictions. You can open this video in a tab to summarize it directly.",
     "retryBtn": "\u{1F504} Retry"
   };
@@ -459,6 +461,7 @@
     "extractingTranscriptNotice": "Extrayendo transcripci\xF3n del video...",
     "fetchingExternalTranscriptNotice": "Obteniendo subt\xEDtulos para el video externo ({videoId})...",
     "analyzingChannelNotice": "Obteniendo el expediente oficial del canal de {query}...",
+    "fetchingCommentsNotice": "Obteniendo comentarios y reacciones del p\xFAblico...",
     "externalTranscriptError": "No se pudieron extraer subt\xEDtulos ni cap\xEDtulos para el video externo ({videoId}). Posibles causas: sin subt\xEDtulos ni cap\xEDtulos disponibles, o restricciones de YouTube. Puede abrir este video en una pesta\xF1a para resumirlo directamente.",
     "retryBtn": "\u{1F504} Reintentar"
   };
@@ -614,6 +617,7 @@
     "extractingTranscriptNotice": "Video-Transkript wird extrahiert...",
     "fetchingExternalTranscriptNotice": "Untertitel f\xFCr externes Video ({videoId}) werden abgerufen...",
     "analyzingChannelNotice": "Offizielles Kanaldossier f\xFCr {query} wird abgerufen...",
+    "fetchingCommentsNotice": "Top-Kommentare und Publikumsreaktionen werden abgerufen...",
     "externalTranscriptError": "Untertitel oder Kapitel f\xFCr das externe Video ({videoId}) konnten nicht extrahiert werden. M\xF6gliche Ursachen: keine Untertitel oder Kapitel verf\xFCgbar oder YouTube-Zugriffsbeschr\xE4nkungen.",
     "retryBtn": "\u{1F504} Wiederholen"
   };
@@ -769,6 +773,7 @@
     "extractingTranscriptNotice": "Estrazione della trascrizione del video in corso...",
     "fetchingExternalTranscriptNotice": "Recupero dei sottotitoli per il video esterno ({videoId})...",
     "analyzingChannelNotice": "Recupero del dossier ufficiale del canale di {query}...",
+    "fetchingCommentsNotice": "Recupero dei commenti e delle reazioni del pubblico...",
     "externalTranscriptError": "Impossibile estrarre sottotitoli o capitoli per il video esterno ({videoId}). Possibili cause: nessun sottotitolo o capitolo disponibile, o restrizioni di accesso YouTube.",
     "retryBtn": "\u{1F504} Riprova"
   };
@@ -924,6 +929,7 @@
     "extractingTranscriptNotice": "\u0418\u0437\u0432\u043B\u0435\u0447\u0435\u043D\u0438\u0435 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u0438 \u0432\u0438\u0434\u0435\u043E...",
     "fetchingExternalTranscriptNotice": "\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u043E\u0432 \u0432\u043D\u0435\u0448\u043D\u0435\u0433\u043E \u0432\u0438\u0434\u0435\u043E ({videoId})...",
     "analyzingChannelNotice": "\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0434\u043E\u0441\u044C\u0435 \u043A\u0430\u043D\u0430\u043B\u0430 {query}...",
+    "fetchingCommentsNotice": "\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u043F\u043E\u043F\u0443\u043B\u044F\u0440\u043D\u044B\u0445 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0435\u0432 \u0438 \u0440\u0435\u0430\u043A\u0446\u0438\u0439 \u0430\u0443\u0434\u0438\u0442\u043E\u0440\u0438\u0438...",
     "externalTranscriptError": "\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u0438\u0437\u0432\u043B\u0435\u0447\u044C \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u044B \u0438\u043B\u0438 \u0433\u043B\u0430\u0432\u044B \u0434\u043B\u044F \u0432\u043D\u0435\u0448\u043D\u0435\u0433\u043E \u0432\u0438\u0434\u0435\u043E ({videoId}). \u0412\u043E\u0437\u043C\u043E\u0436\u043D\u044B\u0435 \u043F\u0440\u0438\u0447\u0438\u043D\u044B: \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u044B \u0438\u043B\u0438 \u0433\u043B\u0430\u0432\u044B \u043E\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u044E\u0442, \u043B\u0438\u0431\u043E \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u044E\u0442 \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u0438\u044F YouTube.",
     "retryBtn": "\u{1F504} \u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u044C"
   };
@@ -1079,6 +1085,7 @@
     "extractingTranscriptNotice": "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3092\u62BD\u51FA\u4E2D...",
     "fetchingExternalTranscriptNotice": "\u5916\u90E8\u52D5\u753B\uFF08{videoId}\uFF09\u306E\u5B57\u5E55\u3092\u53D6\u5F97\u4E2D...",
     "analyzingChannelNotice": "{query} \u306E\u516C\u5F0F\u30C1\u30E3\u30F3\u30CD\u30EB\u60C5\u5831\u3092\u53D6\u5F97\u3057\u3066\u3044\u307E\u3059...",
+    "fetchingCommentsNotice": "\u4EBA\u6C17\u30B3\u30E1\u30F3\u30C8\u3068\u8996\u8074\u8005\u306E\u53CD\u5FDC\u3092\u53D6\u5F97\u3057\u3066\u3044\u307E\u3059...",
     "externalTranscriptError": "\u5916\u90E8\u52D5\u753B\uFF08{videoId}\uFF09\u306E\u5B57\u5E55\u307E\u305F\u306F\u30C1\u30E3\u30D7\u30BF\u30FC\u3092\u62BD\u51FA\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F\u3002\u7406\u7531\uFF1A\u5B57\u5E55\u3084\u30C1\u30E3\u30D7\u30BF\u30FC\u304C\u5B58\u5728\u3057\u306A\u3044\u304B\u3001YouTube\u306E\u30A2\u30AF\u30BB\u30B9\u5236\u9650\u304C\u3042\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002",
     "retryBtn": "\u{1F504} \u518D\u8A66\u884C"
   };
@@ -1234,6 +1241,7 @@
     "extractingTranscriptNotice": "\u6B63\u5728\u63D0\u53D6\u89C6\u9891\u5B57\u5E55...",
     "fetchingExternalTranscriptNotice": "\u6B63\u5728\u83B7\u53D6\u5916\u90E8\u89C6\u9891 ({videoId}) \u7684\u5B57\u5E55...",
     "analyzingChannelNotice": "\u6B63\u5728\u83B7\u53D6 {query} \u7684\u5B98\u65B9\u9891\u9053\u6863\u6848...",
+    "fetchingCommentsNotice": "\u6B63\u5728\u83B7\u53D6\u70ED\u95E8\u8BC4\u8BBA\u548C\u89C2\u4F17\u53CD\u9988...",
     "externalTranscriptError": "\u65E0\u6CD5\u63D0\u53D6\u5916\u90E8\u89C6\u9891 ({videoId}) \u7684\u5B57\u5E55\u6216\u7AE0\u8282\u3002\u53EF\u80FD\u7684\u539F\u56E0\uFF1A\u65E0\u53EF\u7528\u5B57\u5E55\u6216\u7AE0\u8282\uFF0C\u6216\u5B58\u5728 YouTube \u8BBF\u95EE\u9650\u5236\u3002",
     "retryBtn": "\u{1F504} \u91CD\u8BD5"
   };
@@ -3345,6 +3353,308 @@ ${condenseFn(text, externalBudget)}`);
     }
   };
 
+  // src/background/VideoCommentsFetcher.js
+  var VideoCommentsFetcher = class {
+    /**
+     * Fetches top public comments for a YouTube video
+     * @param {string} videoId 11-character YouTube video ID
+     * @param {number} [limit=25]
+     * @returns {Promise<{success: boolean, comments?: Array<Object>, markdownDossier?: string, error?: string}>}
+     */
+    static async fetchVideoComments(videoId, limit = 25) {
+      try {
+        if (!videoId || typeof videoId !== "string") {
+          throw new Error("Valid video ID is required");
+        }
+        const watchUrl = `https://www.youtube.com/watch?v=${videoId.trim()}`;
+        const watchRes = await fetch(watchUrl, {
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept-Language": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7"
+          }
+        });
+        if (!watchRes.ok) {
+          throw new Error(`HTTP ${watchRes.status} loading watch page`);
+        }
+        const html = await watchRes.text();
+        const ytDataMatch = html.match(/ytInitialData\s*=\s*({.+?});<\/script>/);
+        if (!ytDataMatch) {
+          throw new Error("Unable to extract ytInitialData for comments");
+        }
+        const data = JSON.parse(ytDataMatch[1]);
+        const token = this.extractCommentsContinuationToken(data);
+        if (!token) {
+          return {
+            success: true,
+            comments: [],
+            markdownDossier: "Les commentaires sont d\xE9sactiv\xE9s ou indisponibles pour cette vid\xE9o."
+          };
+        }
+        const comments = await this.fetchCommentsFromInnerTube(token, limit);
+        const markdownDossier = this.formatCommentsMarkdown(comments, videoId);
+        return {
+          success: true,
+          comments,
+          markdownDossier
+        };
+      } catch (err) {
+        return { success: false, error: err.message || String(err) };
+      }
+    }
+    /**
+     * Extracts continuation token for comments section from ytInitialData
+     */
+    static extractCommentsContinuationToken(data) {
+      const contents = data.contents?.twoColumnWatchNextResults?.results?.results?.contents || [];
+      const itemSection = contents.find((c) => c.itemSectionRenderer?.sectionIdentifier === "comment-item-section");
+      return itemSection?.itemSectionRenderer?.contents?.[0]?.continuationItemRenderer?.continuationEndpoint?.continuationCommand?.token || null;
+    }
+    /**
+     * Fetches comment entities via YouTube InnerTube /next endpoint
+     */
+    static async fetchCommentsFromInnerTube(token, limit = 25) {
+      const response = await fetch("https://www.youtube.com/youtubei/v1/next", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+          "Accept-Language": "fr-FR,fr;q=0.9"
+        },
+        body: JSON.stringify({
+          context: {
+            client: { clientName: "WEB", clientVersion: "2.20240101.00.00", hl: "fr", gl: "FR" }
+          },
+          continuation: token
+        })
+      });
+      if (!response.ok) {
+        throw new Error(`InnerTube comment endpoint returned HTTP ${response.status}`);
+      }
+      const json = await response.json();
+      const mutations = json.frameworkUpdates?.entityBatchUpdate?.mutations || [];
+      const comments = [];
+      for (const m of mutations) {
+        if (comments.length >= limit) break;
+        const p = m.payload?.commentEntityPayload;
+        if (p) {
+          const author = p.author?.displayName || "Anonyme";
+          const text = p.properties?.content?.content || "";
+          const time = p.properties?.publishedTime || "";
+          const likes = p.toolbar?.likeCountNotliked || "0";
+          if (text) {
+            comments.push({ author, text, time, likes });
+          }
+        }
+      }
+      if (comments.length === 0) {
+        const actions = json.onResponseReceivedEndpoints || [];
+        const actionContents = actions[1]?.reloadContinuationItemsCommand?.continuationItems || actions[0]?.appendContinuationItemsAction?.continuationItems || actions[0]?.reloadContinuationItemsCommand?.continuationItems || [];
+        for (const item of actionContents) {
+          if (comments.length >= limit) break;
+          const thread = item.commentThreadRenderer?.comment?.commentRenderer;
+          if (thread) {
+            const author = thread.authorText?.simpleText || "Anonyme";
+            const text = thread.contentText?.runs?.map((r) => r.text).join("") || thread.contentText?.simpleText || "";
+            const likes = thread.voteCount?.simpleText || "0";
+            const time = thread.publishedTimeText?.runs?.[0]?.text || "";
+            if (text) {
+              comments.push({ author, text, time, likes });
+            }
+          }
+        }
+      }
+      return comments;
+    }
+    /**
+     * Formats comments into clean, structured Markdown block for prompt injection
+     */
+    static formatCommentsMarkdown(comments, videoId) {
+      if (!comments || comments.length === 0) {
+        return "Aucun commentaire disponible sous cette vid\xE9o.";
+      }
+      const lines = [
+        `### [Avis du Public] Commentaires et r\xE9actions (${comments.length} avis populaires) :`
+      ];
+      comments.forEach((c, idx) => {
+        const cleanText = c.text.replace(/\n+/g, " ").slice(0, 300);
+        lines.push(`- **${c.author}** (${c.likes} likes, ${c.time}) : "${cleanText}"`);
+      });
+      return lines.join("\n");
+    }
+  };
+
+  // src/content/services/VideoCommentsManager.js
+  var VideoCommentsManager = class {
+    constructor() {
+      this.cachedComments = /* @__PURE__ */ new Map();
+    }
+    /**
+     * Detects whether user message is inquiring about video comments or public reaction
+     * @param {string} text User prompt
+     * @returns {boolean}
+     */
+    detectCommentsIntent(text = "") {
+      if (!text || typeof text !== "string") return false;
+      const clean = text.trim();
+      const patterns = [
+        /commentaires?/i,
+        /avis\s+(?:des\s+gens|du\s+public|des\s+spectateurs|des\s+abonn[ée]s|de\s+la\s+communaut[ée]|g[ée]n[ée]ral)/i,
+        /r[ée]actions?\s+(?:des\s+gens|du\s+public|des\s+spectateurs|de\s+la\s+communaut[ée]|des\s+abonn[ée]s)/i,
+        /(?:ce\s+)?qu['’]\s*en\s+pensent?\s+(?:les\s+gens|le\s+public|les\s+spectateurs|la\s+communaut[ée])/i,
+        /que\s+pensent?\s+(?:les\s+gens|le\s+public|les\s+spectateurs|la\s+communaut[ée])/i,
+        /qu['’]en\s+dit\s+la\s+communaut[ée]/i,
+        /avis\s+g[ée]n[ée]ral\s+sous\s+la\s+vid[ée]o/i,
+        /critiques?\s+dans\s+les\s+commentaires/i,
+        /(?:public|audience|community|viewer)\s+(?:feedback|reaction|opinion)/i,
+        /(?:what\s+do|how\s+do)\s+people\s+(?:think|react)/i,
+        /video\s+comments/i
+      ];
+      return patterns.some((p) => p.test(clean));
+    }
+    /**
+     * Fetches or retrieves cached comments for a video
+     * @param {string} videoId
+     * @param {number} [limit=25]
+     * @returns {Promise<{success: boolean, comments?: Array<Object>, markdownDossier?: string, error?: string}>}
+     */
+    async getOrFetchComments(videoId, limit = 25) {
+      if (!videoId) return { success: false, error: "Empty videoId" };
+      const cacheKey = String(videoId).trim();
+      if (this.cachedComments.has(cacheKey)) {
+        return { success: true, ...this.cachedComments.get(cacheKey) };
+      }
+      try {
+        if (typeof VideoCommentsFetcher?.fetchVideoComments === "function") {
+          const directRes = await VideoCommentsFetcher.fetchVideoComments(videoId, limit);
+          if (directRes && directRes.success && directRes.comments?.length > 0) {
+            this.cachedComments.set(cacheKey, directRes);
+            return directRes;
+          }
+        }
+        const response = await new Promise((resolve) => {
+          if (typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
+            chrome.runtime.sendMessage(
+              { action: "FETCH_VIDEO_COMMENTS", videoId, limit },
+              (res) => resolve(res || { success: false, error: "No response from background" })
+            );
+          } else {
+            resolve({ success: false, error: "Chrome runtime unavailable" });
+          }
+        });
+        if (response && response.success) {
+          this.cachedComments.set(cacheKey, response);
+          return response;
+        }
+        return { success: false, error: response?.error || "Failed to fetch comments" };
+      } catch (err) {
+        return { success: false, error: err.message || String(err) };
+      }
+    }
+    /**
+     * Formats comments into prompt context block
+     * @param {Object} commentsData
+     * @returns {string}
+     */
+    formatContextBlock(commentsData) {
+      if (!commentsData) return "";
+      return commentsData.markdownDossier || "";
+    }
+    /**
+     * Clears in-memory session cache
+     */
+    reset() {
+      this.cachedComments.clear();
+    }
+  };
+
+  // src/content/services/ChatStreamClient.js
+  var ChatStreamClient = class {
+    constructor() {
+      this.port = null;
+    }
+    /**
+     * Disconnects active stream port if connected
+     */
+    disconnect() {
+      if (this.port) {
+        try {
+          this.port.disconnect();
+        } catch (_) {
+        }
+        this.port = null;
+      }
+    }
+    /**
+     * Starts AI streaming session over background port
+     * @param {Object} options
+     * @param {string} options.provider
+     * @param {string} options.serverUrl
+     * @param {string} options.apiKey
+     * @param {string} options.model
+     * @param {string} options.systemPrompt
+     * @param {Array<Object>} options.messages
+     * @param {string|number} [options.temperature='0.3']
+     * @param {string|number} [options.maxTokens='auto']
+     * @param {Function} options.onChunk
+     * @param {Function} options.onDone
+     * @param {Function} options.onError
+     */
+    startStream({
+      provider,
+      serverUrl,
+      apiKey,
+      model,
+      systemPrompt,
+      messages,
+      temperature = "0.3",
+      maxTokens = "auto",
+      onChunk,
+      onDone,
+      onError
+    }) {
+      this.disconnect();
+      try {
+        this.port = chrome.runtime.connect({ name: "ai-stream" });
+      } catch (err) {
+        if (typeof onError === "function") {
+          onError(err.message || String(err));
+        }
+        return;
+      }
+      const port = this.port;
+      if (port.onDisconnect?.addListener) {
+        port.onDisconnect.addListener(() => {
+          this.disconnect();
+          if (typeof onDone === "function") onDone();
+        });
+      }
+      if (port.onMessage?.addListener) {
+        port.onMessage.addListener((msg) => {
+          if (msg.type === "CHUNK" && msg.content) {
+            if (typeof onChunk === "function") onChunk(msg.content);
+          } else if (msg.type === "DONE") {
+            this.disconnect();
+            if (typeof onDone === "function") onDone();
+          } else if (msg.type === "ERROR") {
+            this.disconnect();
+            if (typeof onError === "function") onError(msg.error || "Stream error");
+          }
+        });
+      }
+      port.postMessage({
+        action: "CHAT_STREAM",
+        provider,
+        serverUrl,
+        apiKey,
+        model,
+        systemPrompt,
+        messages,
+        temperature,
+        maxTokens
+      });
+    }
+  };
+
   // src/content/ui/ChatBubbleView.js
   var ChatBubbleView = class {
     static scrollToBottom(el) {
@@ -3389,9 +3699,16 @@ ${condenseFn(text, externalBudget)}`);
       this.summaryViewController = dependencies.summaryViewController;
       this.transcriptManager = new ChatTranscriptManager();
       this.channelManager = new ChannelIntelligenceManager();
+      this.commentsManager = new VideoCommentsManager();
+      this.streamClient = new ChatStreamClient();
       this.chatHistory = [];
-      this.chatPort = null;
       this.lastLang = null;
+    }
+    get chatPort() {
+      return this.streamClient.port;
+    }
+    set chatPort(val) {
+      this.streamClient.port = val;
     }
     get cachedExternalTranscripts() {
       return this.transcriptManager.cachedExternalTranscripts;
@@ -3409,6 +3726,8 @@ ${condenseFn(text, externalBudget)}`);
       this.chatHistory = [];
       this.transcriptManager.reset();
       this.channelManager.reset();
+      this.commentsManager.reset();
+      this.streamClient.disconnect();
       if (this.audioController) {
         this.audioController.stopSpeech();
         this.audioController.stopDictation();
@@ -3486,7 +3805,7 @@ ${condenseFn(text, externalBudget)}`);
         const segments = await this.transcriptController.extractYouTubeTranscript(lang, true);
         waitBubble?.remove?.();
         if ((!segments || segments.length === 0) && !isMultiVideo) {
-          this.appendChatBubble("ai", `<span style="color: #ff7b72;">\u274C ${escapeHtml(t.noTranscriptError || "Unable to extract video transcript.")}</span>`);
+          this.appendChatBubble("ai", `<span style="color: #ff7b72;">[x] ${escapeHtml(t.noTranscriptError || "Unable to extract video transcript.")}</span>`);
           return;
         }
       }
@@ -3508,7 +3827,7 @@ ${condenseFn(text, externalBudget)}`);
         );
         if (loaded.length === 0 && failed.length > 0) {
           const errorMsg = (t.externalTranscriptError || "Unable to retrieve subtitles for external video ({videoId}).").replace("{videoId}", failed.join(", "));
-          this.appendChatBubble("ai", `<span style="color: #ff7b72;">\u274C ${escapeHtml(errorMsg)}</span>`);
+          this.appendChatBubble("ai", `<span style="color: #ff7b72;">[x] ${escapeHtml(errorMsg)}</span>`);
           return;
         }
       }
@@ -3539,6 +3858,17 @@ ${condenseFn(text, externalBudget)}`);
           channelDossierBlock = this.channelManager.formatContextBlock(dossierRes.channel, lang);
         }
       }
+      let commentsBlock = "";
+      if (this.commentsManager.detectCommentsIntent(text) && currentVideoId) {
+        const notice = t.fetchingCommentsNotice || "R\xE9cup\xE9ration des commentaires et avis du public...";
+        const waitBubble = this.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${escapeHtml(notice)}`);
+        waitBubble?.classList?.add("yt-ai-status-bubble");
+        const commentsRes = await this.commentsManager.getOrFetchComments(currentVideoId);
+        waitBubble?.remove?.();
+        if (commentsRes.success && commentsRes.markdownDossier) {
+          commentsBlock = commentsRes.markdownDossier;
+        }
+      }
       const summaryText = isMultiVideo ? "" : this.summaryViewController?.fullSummaryMarkdown || ctx.summaryText || "";
       const aiBubble = this.appendChatBubble("ai", "");
       aiBubble.classList.add("yt-ai-typing");
@@ -3549,69 +3879,44 @@ ${condenseFn(text, externalBudget)}`);
         lang,
         selectedChatMode,
         summaryText,
-        channelDossierBlock
+        channelDossierBlock,
+        commentsBlock
       );
       const historyPayload = this.chatHistory.slice(-8);
       historyPayload.push({ role: "user", content: text });
       let fullAnswer = "";
-      const closePort = () => {
-        if (this.chatPort) {
-          try {
-            this.chatPort.disconnect();
-          } catch (_) {
-          }
-          this.chatPort = null;
-        }
-      };
-      closePort();
       const serverUrls = ctx.serverUrls || stateObj.serverUrls || {};
       const currentUrl = serverUrls[currentProvider] || "";
-      try {
-        this.chatPort = chrome.runtime.connect({ name: "ai-stream" });
-        this.chatPort.postMessage({
-          action: "CHAT_STREAM",
-          provider: currentProvider,
-          serverUrl: currentUrl,
-          apiKey: key,
-          model: activeModel,
-          systemPrompt,
-          messages: historyPayload,
-          temperature: ctx.temperature || stateObj.temperature || "0.3",
-          maxTokens: ctx.maxTokens || stateObj.maxTokens || "auto"
-        });
-      } catch (err) {
-        aiBubble.classList.remove("yt-ai-typing");
-        aiBubble.innerHTML = `<span style="color: #ff7b72;">\u274C ${escapeHtml(err.message || String(err))}</span>`;
-        return;
-      }
-      this.chatPort.onMessage.addListener((msg) => {
-        if (msg.type === "CHUNK" && msg.content) {
-          fullAnswer += msg.content;
+      this.streamClient.startStream({
+        provider: currentProvider,
+        serverUrl: currentUrl,
+        apiKey: key,
+        model: activeModel,
+        systemPrompt,
+        messages: historyPayload,
+        temperature: ctx.temperature || stateObj.temperature || "0.3",
+        maxTokens: ctx.maxTokens || stateObj.maxTokens || "auto",
+        onChunk: (chunk) => {
+          fullAnswer += chunk;
           renderMarkdown(fullAnswer, aiBubble);
           _ChatViewController.scrollToBottom(messagesContainer);
-        } else if (msg.type === "DONE") {
+        },
+        onDone: () => {
           aiBubble.classList.remove("yt-ai-typing");
           if (!fullAnswer.trim()) {
-            aiBubble.innerHTML = `<span style="color: #ff7b72;">\u26A0\uFE0F ${escapeHtml(t.connectionError || "No response received from AI model.")}</span>`;
+            aiBubble.innerHTML = `<span style="color: #ff7b72;">[!] ${escapeHtml(t.connectionError || "No response received from AI model.")}</span>`;
           } else {
             this.chatHistory.push({ role: "user", content: text });
             this.chatHistory.push({ role: "assistant", content: fullAnswer });
             if (chatCountBadge) chatCountBadge.textContent = String(Math.floor(this.chatHistory.length / 2));
             this.attachAudioButtonToBubble(aiBubble, fullAnswer, lang);
           }
-          closePort();
-        } else if (msg.type === "ERROR") {
+        },
+        onError: (errorMsg) => {
           aiBubble.classList.remove("yt-ai-typing");
-          aiBubble.innerHTML = `<span style="color: #ff7b72;">\u274C ${escapeHtml(msg.error)}</span>`;
-          closePort();
+          aiBubble.innerHTML = `<span style="color: #ff7b72;">[x] ${escapeHtml(errorMsg)}</span>`;
         }
       });
-      if (this.chatPort?.onDisconnect?.addListener) {
-        this.chatPort.onDisconnect.addListener(() => {
-          aiBubble.classList.remove("yt-ai-typing");
-          closePort();
-        });
-      }
     }
   };
 
@@ -5566,17 +5871,22 @@ ${summaryText.trim()}
 ${channelDossier}
 ` : "";
       const channelDirective = channelDossier ? cleanLang === "fr" ? "\nDOSSIER DE CHA\xCENE : Un dossier officiel de la cha\xEEne et des derni\xE8res vid\xE9os est fourni ci-dessous. Utilise-le pour analyser le cr\xE9ateur, son parcours, ses th\xE8mes r\xE9cents et son ind\xE9pendance.\n" : "\nCHANNEL DOSSIER: An official channel dossier with recent videos is provided below. Use it to analyze the creator, topics, and editorial stance.\n" : "";
+      const commentsDossier = meta?.commentsDossier || arguments[6] || "";
+      const commentsBlock = commentsDossier ? `
+${commentsDossier}
+` : "";
+      const commentsDirective = commentsDossier ? cleanLang === "fr" ? "\nAVIS ET R\xC9ACTIONS DU PUBLIC : Une s\xE9lection de commentaires et r\xE9actions de la communaut\xE9 sous la vid\xE9o est fournie ci-dessous. Utilise-la fid\xE8lement pour analyser le ressenti g\xE9n\xE9ral, les d\xE9bats, les critiques et les r\xE9actions du public.\n" : "\nAUDIENCE & COMMUNITY REACTIONS: A selection of public comments and viewer feedback is provided below. Use them to accurately analyze community sentiment, praise, criticisms, and audience reception.\n" : "";
       const multiVideoDirective = safeTranscript.includes("[VID\xC9O EXTERNE") ? cleanLang === "fr" ? "\nCONTEXTE MULTI-VID\xC9OS : La discussion porte sur plusieurs vid\xE9os fournies dans la transcription ([VID\xC9O ACTUELLE] et [VID\xC9O EXTERNE ...]). Conserve la m\xE9moire et le contenu de chacune de ces vid\xE9os tout au long de la conversation. Compare leurs informations avec pr\xE9cision et ne pr\xE9tends jamais que tu ne peux pas acc\xE9der aux vid\xE9os externes d\xE9j\xE0 fournies.\n" : "\nMULTI-VIDEO CONTEXT: This discussion involves multiple YouTube videos provided in the transcript section ([VID\xC9O ACTUELLE] and [VID\xC9O EXTERNE ...]). Maintain continuous awareness of all referenced videos across the discussion. Accurately compare them and never claim you lack access to the provided external videos.\n" : "";
       return `${cfg.persona}
 ${cfg.role}
 ${cfg.identity}
 
-${cfg.rule}${multiVideoDirective}${channelDirective}
+${cfg.rule}${multiVideoDirective}${channelDirective}${commentsDirective}
 
 Title: "${meta?.title || ""}"
 Channel: "${meta?.author || ""}"${subStr}
 ${contextBlock ? `
-${contextBlock}` : ""}${summaryBlock}${channelBlock}
+${contextBlock}` : ""}${summaryBlock}${channelBlock}${commentsBlock}
 ${cfg.transcriptLabel}
 """
 ${safeTranscript}

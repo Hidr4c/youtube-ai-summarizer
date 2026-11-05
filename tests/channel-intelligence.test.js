@@ -150,10 +150,11 @@ describe('ChannelIntelligenceFetcher - Data Parsing & Formatting', () => {
 describe('AgentToolRegistry - Function Calling Definitions', () => {
   it('provides fetch_channel_dossier and fetch_video_transcript schemas', () => {
     const tools = AgentToolRegistry.getTools('fr');
-    assert.equal(tools.length, 2);
+    assert.ok(tools.length >= 2);
     const names = tools.map(t => t.function.name);
     assert.ok(names.includes('fetch_channel_dossier'));
     assert.ok(names.includes('fetch_video_transcript'));
+    assert.ok(names.includes('fetch_video_comments'));
   });
 
   it('provides bilingual agent system directives', () => {

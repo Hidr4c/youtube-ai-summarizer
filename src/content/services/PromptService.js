@@ -159,6 +159,14 @@ export class PromptService {
         : '\nCHANNEL DOSSIER: An official channel dossier with recent videos is provided below. Use it to analyze the creator, topics, and editorial stance.\n')
       : '';
 
+    const commentsDossier = meta?.commentsDossier || arguments[6] || '';
+    const commentsBlock = commentsDossier ? `\n${commentsDossier}\n` : '';
+    const commentsDirective = commentsDossier
+      ? (cleanLang === 'fr'
+        ? '\nAVIS ET RÉACTIONS DU PUBLIC : Une sélection de commentaires et réactions de la communauté sous la vidéo est fournie ci-dessous. Utilise-la fidèlement pour analyser le ressenti général, les débats, les critiques et les réactions du public.\n'
+        : '\nAUDIENCE & COMMUNITY REACTIONS: A selection of public comments and viewer feedback is provided below. Use them to accurately analyze community sentiment, praise, criticisms, and audience reception.\n')
+      : '';
+
     const multiVideoDirective = safeTranscript.includes('[VIDÉO EXTERNE')
       ? (cleanLang === 'fr'
         ? '\nCONTEXTE MULTI-VIDÉOS : La discussion porte sur plusieurs vidéos fournies dans la transcription ([VIDÉO ACTUELLE] et [VIDÉO EXTERNE ...]). Conserve la mémoire et le contenu de chacune de ces vidéos tout au long de la conversation. Compare leurs informations avec précision et ne prétends jamais que tu ne peux pas accéder aux vidéos externes déjà fournies.\n'
@@ -169,11 +177,11 @@ export class PromptService {
 ${cfg.role}
 ${cfg.identity}
 
-${cfg.rule}${multiVideoDirective}${channelDirective}
+${cfg.rule}${multiVideoDirective}${channelDirective}${commentsDirective}
 
 Title: "${meta?.title || ''}"
 Channel: "${meta?.author || ''}"${subStr}
-${contextBlock ? `\n${contextBlock}` : ''}${summaryBlock}${channelBlock}
+${contextBlock ? `\n${contextBlock}` : ''}${summaryBlock}${channelBlock}${commentsBlock}
 ${cfg.transcriptLabel}
 """
 ${safeTranscript}
@@ -200,7 +208,7 @@ export function buildPrompts(title, author, safeTranscript, lang, mode, meta = n
 
 export function buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode) {
   const summaryText = arguments[4] || '';
-  return PromptService.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText);
+  return PromptService.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, arguments[4] || '', arguments[5] || '', arguments[6] || '');
 }
 
 export default PromptService;

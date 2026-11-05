@@ -150,6 +150,7 @@ export const zh = {
   "extractingTranscriptNotice": "正在提取视频字幕...",
   "fetchingExternalTranscriptNotice": "正在获取外部视频 ({videoId}) 的字幕...",
   "analyzingChannelNotice": "正在获取 {query} 的官方频道档案...",
+  "fetchingCommentsNotice": "正在获取热门评论和观众反馈...",
   "externalTranscriptError": "无法提取外部视频 ({videoId}) 的字幕或章节。可能的原因：无可用字幕或章节，或存在 YouTube 访问限制。",
   "retryBtn": "🔄 重试"
 };

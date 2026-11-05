@@ -150,6 +150,7 @@ export const fr = {
   "extractingTranscriptNotice": "Extraction de la transcription de la vidéo en cours...",
   "fetchingExternalTranscriptNotice": "Récupération des sous-titres de la vidéo externe ({videoId})...",
   "analyzingChannelNotice": "Recherche du dossier officiel de la chaîne ({query})...",
+  "fetchingCommentsNotice": "Récupération des commentaires et avis du public...",
   "externalTranscriptError": "Impossible d'extraire les sous-titres ou chapitres pour la vidéo externe ({videoId}). Raisons possibles : aucun sous-titre ni chapitre disponible, ou restriction d'accès YouTube. Vous pouvez ouvrir l'onglet de cette vidéo pour la résumer directement.",
   "retryBtn": "🔄 Réessayer"
 };

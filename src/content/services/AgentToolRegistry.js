@@ -50,26 +50,44 @@ export class AgentToolRegistry {
             required: ['video_url_or_id']
           }
         }
+      },
+      {
+        type: 'function',
+        function: {
+          name: 'fetch_video_comments',
+          description: isFr
+            ? 'Récupère les commentaires les plus populaires et les réactions du public sous une vidéo YouTube pour analyser le sentiment de la communauté, les avis des spectateurs ou les controverses.'
+            : 'Fetches top public comments and audience reactions under a YouTube video to analyze community sentiment, viewer opinions, and debates.',
+          parameters: {
+            type: 'object',
+            properties: {
+              video_id: {
+                type: 'string',
+                description: isFr ? 'ID de la vidéo YouTube' : 'YouTube video ID'
+              }
+            }
+          }
+        }
       }
     ];
   }
 
   /**
-   * System directive teaching the LLM how to utilize channel dossiers
+   * System directive teaching the LLM how to utilize channel dossiers and comments
    * @param {string} [lang='fr']
    * @returns {string}
    */
   static getAgentSystemDirective(lang = 'fr') {
     if (lang === 'fr') {
-      return `\nCAPACITÉS D'ANALYSE AVANCÉES & DOSSIERS DE CHAÎNE :\n` +
-        `- Si un dossier de chaîne officielle est fourni dans le contexte, utilise-le de manière approfondie et factuelle pour répondre aux questions sur le créateur, sa ligne éditoriale, son indépendance, ses sponsors et la fréquence de ses publications.\n` +
-        `- Base toujours tes conclusions sur des preuves concrètes : titres récents, volume d'abonnés, diversité des sujets abordés.\n` +
+      return `\nCAPACITÉS D'ANALYSE AVANCÉES & DOSSIERS DE CHAÎNE ET AGENTIQUES :\n` +
+        `- Si un dossier de chaîne officielle est fourni, utilise-le de manière approfondie et factuelle pour répondre aux questions sur le créateur, sa ligne éditoriale, ses sponsors et son parcours.\n` +
+        `- Si les commentaires et réactions de la communauté sont fournis, analyse-les pour restituer fidèlement l'avis du public, les critiques et le sentiment des spectateurs.\n` +
         `- Reste objectif, nuancé et factuel.`;
     }
 
-    return `\nADVANCED CHANNEL INTELLIGENCE CAPABILITIES:\n` +
-      `- If an official channel dossier is provided in the context, leverage it thoroughly and factually to answer questions about the creator, editorial direction, independence, sponsors, and upload frequency.\n` +
-      `- Always ground your conclusions in concrete evidence from recent video titles, audience metrics, and covered topics.\n` +
+    return `\nADVANCED AGENT & CHANNEL INTELLIGENCE CAPABILITIES:\n` +
+      `- If an official channel dossier is provided, leverage it thoroughly and factually to answer questions about the creator, editorial direction, sponsors, and background.\n` +
+      `- If community comments are provided, analyze them to accurately reflect viewer sentiment, debates, and public reception.\n` +
       `- Remain objective, balanced, and factual.`;
   }
 }

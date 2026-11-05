@@ -2,6 +2,7 @@ import { StreamRelay } from './StreamRelay.js';
 import { AIProviderFactory } from '../services/ai/providers/AIProviderFactory.js';
 import { BackgroundTranscriptFetcher } from './BackgroundTranscriptFetcher.js';
 import { ChannelIntelligenceFetcher } from './ChannelIntelligenceFetcher.js';
+import { VideoCommentsFetcher } from './VideoCommentsFetcher.js';
 
 /**
  * Message routing controller for background service worker
@@ -108,6 +109,14 @@ export class MessageRouter {
             sendResponse({ success: false, error: err.message });
           }
         })();
+        return true;
+      }
+
+      if (request.action === 'FETCH_VIDEO_COMMENTS') {
+        const { videoId, limit = 25 } = request;
+        VideoCommentsFetcher.fetchVideoComments(videoId, limit)
+          .then(res => sendResponse(res))
+          .catch(err => sendResponse({ success: false, error: err.message }));
         return true;
       }
 

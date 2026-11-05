@@ -36,3 +36,5 @@ scripts/deploy.ps1
 
 # Chrome Web Store marketing assets (local only, not part of the app)
 store-assets/
+
+scratch/

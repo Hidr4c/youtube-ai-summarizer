@@ -150,6 +150,7 @@ export const ru = {
   "extractingTranscriptNotice": "Извлечение транскрипции видео...",
   "fetchingExternalTranscriptNotice": "Получение субтитров внешнего видео ({videoId})...",
   "analyzingChannelNotice": "Получение официального досье канала {query}...",
+  "fetchingCommentsNotice": "Получение популярных комментариев и реакций аудитории...",
   "externalTranscriptError": "Не удалось извлечь субтитры или главы для внешнего видео ({videoId}). Возможные причины: субтитры или главы отсутствуют, либо действуют ограничения YouTube.",
   "retryBtn": "🔄 Повторить"
 };
