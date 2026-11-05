@@ -20,6 +20,8 @@ export const ja = {
   "serverLabelOllama": "Ollama サーバー:",
   "noModelSelected": "モデルが選択されていません",
   "keyOk": "キー OK",
+  "keySaved": "キーが保存されました",
+  "invalidKey": "無効なキー",
   "keyRequired": "キーが必要",
   "customServer": "カスタムIP...",
   "refreshTooltip": "ローカルモデルを再読み込み",

@@ -1,5 +1,6 @@
 import { API_KEY_PORTALS, PROVIDER_NAMES } from '../../config/AIProviderPresets.js';
 import { I18N } from '../../locales/index.js';
+import { ConnectionTester } from './ConnectionTester.js';
 
 /**
  * Helper service for simplified 1-click AI account linking, clipboard pasting, and onboarding
@@ -73,6 +74,49 @@ export class QuickOnboardingHelper {
       // Clipboard access might require user gesture or permission
     }
     return false;
+  }
+
+  /**
+   * Tests and validates API key in real-time with provider servers
+   * @param {Object} params
+   */
+  static testAndValidateKey({ state, provider, key, model, showStatusBanner, updateHeaderBadge }) {
+    if (!state.keyVerified) state.keyVerified = {};
+    if (!key) {
+      delete state.keyVerified[provider];
+      if (typeof updateHeaderBadge === 'function') updateHeaderBadge();
+      return;
+    }
+
+    state.keyVerified[provider] = 'checking';
+    if (typeof updateHeaderBadge === 'function') updateHeaderBadge();
+
+    const isFr = (state.currentLang === 'fr');
+    const checking = isFr
+      ? `[i] Clé enregistrée. Test de connexion en cours auprès de ${provider.toUpperCase()}...`
+      : `[i] Key saved. Testing live connection with ${provider.toUpperCase()}...`;
+    if (typeof showStatusBanner === 'function') showStatusBanner(checking, false);
+
+    ConnectionTester.testModelConnection({
+      provider,
+      serverUrl: state.serverUrls?.[provider] || '',
+      apiKey: key,
+      model,
+      lang: state.currentLang
+    }, ({ message, error, isError, latencyMs }) => {
+      state.keyVerified[provider] = !isError;
+      if (typeof updateHeaderBadge === 'function') updateHeaderBadge();
+      if (typeof showStatusBanner === 'function') {
+        if (!isError) {
+          const successMsg = isFr
+            ? `[✓] Clé API validée avec succès par ${provider.toUpperCase()} (${latencyMs || 0}ms) !`
+            : `[✓] API key verified successfully by ${provider.toUpperCase()} (${latencyMs || 0}ms)!`;
+          showStatusBanner(successMsg, false);
+        } else {
+          showStatusBanner(message || error, true);
+        }
+      }
+    });
   }
 
   /**

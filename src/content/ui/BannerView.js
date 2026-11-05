@@ -173,12 +173,20 @@ export class BannerView {
 
     const hasKey = !!this.state.apiKeys[this.state.currentProvider];
     const name = PROVIDER_NAMES[this.state.currentProvider] || this.state.currentProvider;
-    if (hasKey) {
-      badge.className = 'yt-ai-badge online';
-      badgeText.textContent = `${name} (${t.keyOk || 'Key OK'})`;
-    } else {
+    const isVerified = this.state.keyVerified ? this.state.keyVerified[this.state.currentProvider] : null;
+
+    if (!hasKey) {
       badge.className = 'yt-ai-badge offline';
       badgeText.textContent = `${name} (${t.keyRequired || 'Key required'})`;
+    } else if (isVerified === true) {
+      badge.className = 'yt-ai-badge online';
+      badgeText.textContent = `${name} (${t.keyOk || 'Key OK'})`;
+    } else if (isVerified === false) {
+      badge.className = 'yt-ai-badge offline';
+      badgeText.textContent = `${name} (${t.invalidKey || 'Invalid key'})`;
+    } else {
+      badge.className = 'yt-ai-badge';
+      badgeText.textContent = `${name} (${t.keySaved || 'Key saved'})`;
     }
   }
 

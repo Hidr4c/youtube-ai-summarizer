@@ -20,6 +20,8 @@ export const zh = {
   "serverLabelOllama": "Ollama 服务器:",
   "noModelSelected": "未选择模型",
   "keyOk": "密钥正常",
+  "keySaved": "密钥已保存",
+  "invalidKey": "密钥无效",
   "keyRequired": "需要密钥",
   "customServer": "自定义IP...",
   "refreshTooltip": "刷新本地模型",

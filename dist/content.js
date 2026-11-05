@@ -19,6 +19,8 @@
     "serverLabelOllama": "Serveur Ollama :",
     "noModelSelected": "Aucun mod\xE8le s\xE9lectionn\xE9",
     "keyOk": "Cl\xE9 OK",
+    "keySaved": "Cl\xE9 enregistr\xE9e",
+    "invalidKey": "Cl\xE9 invalide",
     "keyRequired": "Cl\xE9 requise",
     "customServer": "Autre IP...",
     "refreshTooltip": "Actualiser les mod\xE8les locaux",
@@ -175,6 +177,8 @@
     "serverLabelOllama": "Ollama Server:",
     "noModelSelected": "No model selected",
     "keyOk": "Key OK",
+    "keySaved": "Key saved",
+    "invalidKey": "Invalid key",
     "keyRequired": "Key required",
     "customServer": "Custom IP...",
     "refreshTooltip": "Refresh local models",
@@ -331,6 +335,8 @@
     "serverLabelOllama": "Servidor Ollama:",
     "noModelSelected": "Ning\xFAn modelo seleccionado",
     "keyOk": "Clave OK",
+    "keySaved": "Clave guardada",
+    "invalidKey": "Clave inv\xE1lida",
     "keyRequired": "Clave requerida",
     "customServer": "Otra IP...",
     "refreshTooltip": "Actualizar modelos locales",
@@ -487,6 +493,8 @@
     "serverLabelOllama": "Ollama Server:",
     "noModelSelected": "Kein Modell ausgew\xE4hlt",
     "keyOk": "Schl\xFCssel OK",
+    "keySaved": "Schl\xFCssel gespeichert",
+    "invalidKey": "Ung\xFCltiger Schl\xFCssel",
     "keyRequired": "Schl\xFCssel erforderlich",
     "customServer": "Andere IP...",
     "refreshTooltip": "Lokale Modelle aktualisieren",
@@ -643,6 +651,8 @@
     "serverLabelOllama": "Server Ollama:",
     "noModelSelected": "Nessun modello selezionato",
     "keyOk": "Chiave OK",
+    "keySaved": "Chiave salvata",
+    "invalidKey": "Chiave non valida",
     "keyRequired": "Chiave richiesta",
     "customServer": "Altro IP...",
     "refreshTooltip": "Aggiorna modelli locali",
@@ -799,6 +809,8 @@
     "serverLabelOllama": "\u0421\u0435\u0440\u0432\u0435\u0440 Ollama:",
     "noModelSelected": "\u041C\u043E\u0434\u0435\u043B\u044C \u043D\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u0430",
     "keyOk": "\u041A\u043B\u044E\u0447 OK",
+    "keySaved": "\u041A\u043B\u044E\u0447 \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D",
+    "invalidKey": "\u041D\u0435\u0432\u0435\u0440\u043D\u044B\u0439 \u043A\u043B\u044E\u0447",
     "keyRequired": "\u0422\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044F \u043A\u043B\u044E\u0447",
     "customServer": "\u0414\u0440\u0443\u0433\u043E\u0439 IP...",
     "refreshTooltip": "\u041E\u0431\u043D\u043E\u0432\u0438\u0442\u044C \u043B\u043E\u043A\u0430\u043B\u044C\u043D\u044B\u0435 \u043C\u043E\u0434\u0435\u043B\u0438",
@@ -955,6 +967,8 @@
     "serverLabelOllama": "Ollama \u30B5\u30FC\u30D0\u30FC:",
     "noModelSelected": "\u30E2\u30C7\u30EB\u304C\u9078\u629E\u3055\u308C\u3066\u3044\u307E\u305B\u3093",
     "keyOk": "\u30AD\u30FC OK",
+    "keySaved": "\u30AD\u30FC\u304C\u4FDD\u5B58\u3055\u308C\u307E\u3057\u305F",
+    "invalidKey": "\u7121\u52B9\u306A\u30AD\u30FC",
     "keyRequired": "\u30AD\u30FC\u304C\u5FC5\u8981",
     "customServer": "\u30AB\u30B9\u30BF\u30E0IP...",
     "refreshTooltip": "\u30ED\u30FC\u30AB\u30EB\u30E2\u30C7\u30EB\u3092\u518D\u8AAD\u307F\u8FBC\u307F",
@@ -1111,6 +1125,8 @@
     "serverLabelOllama": "Ollama \u670D\u52A1\u5668:",
     "noModelSelected": "\u672A\u9009\u62E9\u6A21\u578B",
     "keyOk": "\u5BC6\u94A5\u6B63\u5E38",
+    "keySaved": "\u5BC6\u94A5\u5DF2\u4FDD\u5B58",
+    "invalidKey": "\u5BC6\u94A5\u65E0\u6548",
     "keyRequired": "\u9700\u8981\u5BC6\u94A5",
     "customServer": "\u81EA\u5B9A\u4E49IP...",
     "refreshTooltip": "\u5237\u65B0\u672C\u5730\u6A21\u578B",
@@ -2457,12 +2473,19 @@
       }
       const hasKey = !!this.state.apiKeys[this.state.currentProvider];
       const name = PROVIDER_NAMES[this.state.currentProvider] || this.state.currentProvider;
-      if (hasKey) {
-        badge.className = "yt-ai-badge online";
-        badgeText.textContent = `${name} (${t.keyOk || "Key OK"})`;
-      } else {
+      const isVerified = this.state.keyVerified ? this.state.keyVerified[this.state.currentProvider] : null;
+      if (!hasKey) {
         badge.className = "yt-ai-badge offline";
         badgeText.textContent = `${name} (${t.keyRequired || "Key required"})`;
+      } else if (isVerified === true) {
+        badge.className = "yt-ai-badge online";
+        badgeText.textContent = `${name} (${t.keyOk || "Key OK"})`;
+      } else if (isVerified === false) {
+        badge.className = "yt-ai-badge offline";
+        badgeText.textContent = `${name} (${t.invalidKey || "Invalid key"})`;
+      } else {
+        badge.className = "yt-ai-badge";
+        badgeText.textContent = `${name} (${t.keySaved || "Key saved"})`;
       }
     }
     updateHeaderModelText() {
@@ -2629,10 +2652,10 @@
       }, (res) => {
         if (res && (res.success || res.ok)) {
           const msg = (t.modelReady || 'Model "{model}" ready ({latency}ms)!').replace("{model}", model).replace("{latency}", res.latency || res.latencyMs || 0);
-          callback({ message: `\u2705 ${msg}`, isError: false });
+          callback({ message: `[\u2713] ${msg}`, isError: false, latencyMs: res.latency || res.latencyMs || 0 });
         } else {
           const errText = (t.connectionFailed || "Failed: {error}").replace("{error}", res?.error || t.connectionError || "Connection error");
-          callback({ message: `\u274C ${errText}`, isError: true });
+          callback({ message: `[!] ${errText}`, isError: true, error: res?.error });
         }
       });
     }
@@ -2728,6 +2751,41 @@
       } catch (_) {
       }
       return false;
+    }
+    /**
+     * Tests and validates API key in real-time with provider servers
+     * @param {Object} params
+     */
+    static testAndValidateKey({ state: state2, provider, key, model, showStatusBanner, updateHeaderBadge }) {
+      if (!state2.keyVerified) state2.keyVerified = {};
+      if (!key) {
+        delete state2.keyVerified[provider];
+        if (typeof updateHeaderBadge === "function") updateHeaderBadge();
+        return;
+      }
+      state2.keyVerified[provider] = "checking";
+      if (typeof updateHeaderBadge === "function") updateHeaderBadge();
+      const isFr = state2.currentLang === "fr";
+      const checking = isFr ? `[i] Cl\xE9 enregistr\xE9e. Test de connexion en cours aupr\xE8s de ${provider.toUpperCase()}...` : `[i] Key saved. Testing live connection with ${provider.toUpperCase()}...`;
+      if (typeof showStatusBanner === "function") showStatusBanner(checking, false);
+      ConnectionTester.testModelConnection({
+        provider,
+        serverUrl: state2.serverUrls?.[provider] || "",
+        apiKey: key,
+        model,
+        lang: state2.currentLang
+      }, ({ message, error, isError, latencyMs }) => {
+        state2.keyVerified[provider] = !isError;
+        if (typeof updateHeaderBadge === "function") updateHeaderBadge();
+        if (typeof showStatusBanner === "function") {
+          if (!isError) {
+            const successMsg = isFr ? `[\u2713] Cl\xE9 API valid\xE9e avec succ\xE8s par ${provider.toUpperCase()} (${latencyMs || 0}ms) !` : `[\u2713] API key verified successfully by ${provider.toUpperCase()} (${latencyMs || 0}ms)!`;
+            showStatusBanner(successMsg, false);
+          } else {
+            showStatusBanner(message || error, true);
+          }
+        }
+      });
     }
     /**
      * Opens official external web chat pre-filled with video context (Zero-config fallback)
@@ -2985,11 +3043,17 @@
       btn.dataset.bound = "true";
       btn.addEventListener("click", async () => {
         await QuickOnboardingHelper.pasteApiKeyFromClipboard(input, (val) => {
-          this.state.apiKeys[this.state.currentProvider] = val;
-          this.state.savePreference(`apiKey_${this.state.currentProvider}`, val);
-          this.updateHeaderBadge();
-          const msg = this.state.currentLang === "fr" ? "[\u2713] Cl\xE9 API coll\xE9e et enregistr\xE9e !" : "[\u2713] API key pasted and saved!";
-          this.showStatusBanner(msg, false);
+          const provider = this.state.currentProvider;
+          this.state.apiKeys[provider] = val;
+          this.state.savePreference(`apiKey_${provider}`, val);
+          QuickOnboardingHelper.testAndValidateKey({
+            state: this.state,
+            provider,
+            key: val,
+            model: this.state.getActiveModel(),
+            showStatusBanner: (m, e) => this.showStatusBanner(m, e),
+            updateHeaderBadge: () => this.updateHeaderBadge()
+          });
         });
       });
     }
@@ -6137,6 +6201,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       const val = e.target.value.trim();
       state.apiKeys[state.currentProvider] = val;
       state.savePreference(`apiKey_${state.currentProvider}`, val);
+      if (state.keyVerified) delete state.keyVerified[state.currentProvider];
       bannerView.updateHeaderBadge();
     });
     document.getElementById("ytAiServerSelect")?.addEventListener("change", (e) => {

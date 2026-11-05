@@ -184,4 +184,94 @@ describe('QuickOnboardingHelper - 1-Click Account Linking & Onboarding', () => {
       assert.equal(openedTarget, '_blank');
     });
   });
+  describe('testAndValidateKey', () => {
+    let mockState;
+    let originalChrome;
+
+    beforeEach(() => {
+      mockState = {
+        currentLang: 'fr',
+        serverUrls: {},
+        keyVerified: {}
+      };
+      originalChrome = global.chrome;
+    });
+
+    afterEach(() => {
+      global.chrome = originalChrome;
+    });
+
+    it('sets state to true and shows success banner when API ping succeeds', () => {
+      let bannerMsg = null;
+      let badgeUpdated = 0;
+
+      global.chrome = {
+        runtime: {
+          sendMessage: (req, cb) => {
+            cb({ success: true, latency: 135 });
+          }
+        }
+      };
+
+      QuickOnboardingHelper.testAndValidateKey({
+        state: mockState,
+        provider: 'gemini',
+        key: 'AIzaTestValidKey',
+        model: 'gemini-2.0-flash',
+        showStatusBanner: (msg) => { bannerMsg = msg; },
+        updateHeaderBadge: () => { badgeUpdated++; }
+      });
+
+      assert.equal(mockState.keyVerified.gemini, true);
+      assert.ok(badgeUpdated >= 2);
+      assert.ok(bannerMsg.includes('[✓]'));
+      assert.ok(bannerMsg.includes('135ms'));
+    });
+
+    it('sets state to false and shows error banner when API ping fails', () => {
+      let bannerMsg = null;
+      let isErrorFlag = false;
+
+      global.chrome = {
+        runtime: {
+          sendMessage: (req, cb) => {
+            cb({ success: false, error: 'HTTP 401 Unauthorized' });
+          }
+        }
+      };
+
+      QuickOnboardingHelper.testAndValidateKey({
+        state: mockState,
+        provider: 'gemini',
+        key: 'bad_key',
+        model: 'gemini-2.0-flash',
+        showStatusBanner: (msg, isErr) => {
+          bannerMsg = msg;
+          isErrorFlag = isErr;
+        },
+        updateHeaderBadge: () => {}
+      });
+
+      assert.equal(mockState.keyVerified.gemini, false);
+      assert.equal(isErrorFlag, true);
+      assert.ok(bannerMsg.includes('401'));
+    });
+
+    it('clears verification and returns early if key is empty', () => {
+      mockState.keyVerified.gemini = true;
+      let badgeCalled = false;
+
+      QuickOnboardingHelper.testAndValidateKey({
+        state: mockState,
+        provider: 'gemini',
+        key: '',
+        model: 'gemini-2.0-flash',
+        showStatusBanner: () => {},
+        updateHeaderBadge: () => { badgeCalled = true; }
+      });
+
+      assert.equal(mockState.keyVerified.gemini, undefined);
+      assert.equal(badgeCalled, true);
+    });
+  });
 });

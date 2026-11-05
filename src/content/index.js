@@ -119,6 +119,7 @@ function bindBannerEvents(banner) {
     const val = e.target.value.trim();
     state.apiKeys[state.currentProvider] = val;
     state.savePreference(`apiKey_${state.currentProvider}`, val);
+    if (state.keyVerified) delete state.keyVerified[state.currentProvider];
     bannerView.updateHeaderBadge();
   });
   document.getElementById('ytAiServerSelect')?.addEventListener('change', (e) => {

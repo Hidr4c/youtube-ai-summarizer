@@ -20,6 +20,8 @@ export const it = {
   "serverLabelOllama": "Server Ollama:",
   "noModelSelected": "Nessun modello selezionato",
   "keyOk": "Chiave OK",
+  "keySaved": "Chiave salvata",
+  "invalidKey": "Chiave non valida",
   "keyRequired": "Chiave richiesta",
   "customServer": "Altro IP...",
   "refreshTooltip": "Aggiorna modelli locali",

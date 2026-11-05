@@ -20,6 +20,8 @@ export const ru = {
   "serverLabelOllama": "Сервер Ollama:",
   "noModelSelected": "Модель не выбрана",
   "keyOk": "Ключ OK",
+  "keySaved": "Ключ сохранен",
+  "invalidKey": "Неверный ключ",
   "keyRequired": "Требуется ключ",
   "customServer": "Другой IP...",
   "refreshTooltip": "Обновить локальные модели",

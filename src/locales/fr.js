@@ -20,6 +20,8 @@ export const fr = {
   "serverLabelOllama": "Serveur Ollama :",
   "noModelSelected": "Aucun modèle sélectionné",
   "keyOk": "Clé OK",
+  "keySaved": "Clé enregistrée",
+  "invalidKey": "Clé invalide",
   "keyRequired": "Clé requise",
   "customServer": "Autre IP...",
   "refreshTooltip": "Actualiser les modèles locaux",

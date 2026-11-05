@@ -254,11 +254,17 @@ export class SettingsDrawerController {
     btn.dataset.bound = "true";
     btn.addEventListener("click", async () => {
       await QuickOnboardingHelper.pasteApiKeyFromClipboard(input, (val) => {
-        this.state.apiKeys[this.state.currentProvider] = val;
-        this.state.savePreference(`apiKey_${this.state.currentProvider}`, val);
-        this.updateHeaderBadge();
-        const msg = this.state.currentLang === "fr" ? "[✓] Clé API collée et enregistrée !" : "[✓] API key pasted and saved!";
-        this.showStatusBanner(msg, false);
+        const provider = this.state.currentProvider;
+        this.state.apiKeys[provider] = val;
+        this.state.savePreference(`apiKey_${provider}`, val);
+        QuickOnboardingHelper.testAndValidateKey({
+          state: this.state,
+          provider,
+          key: val,
+          model: this.state.getActiveModel(),
+          showStatusBanner: (m, e) => this.showStatusBanner(m, e),
+          updateHeaderBadge: () => this.updateHeaderBadge()
+        });
       });
     });
   }
