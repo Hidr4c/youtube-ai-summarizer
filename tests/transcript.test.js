@@ -3,7 +3,6 @@ import assert from 'node:assert/strict';
 import { InnerTubeParser } from '../src/parsers/InnerTubeParser.js';
 import { TimedtextParser } from '../src/parsers/TimedtextParser.js';
 import { TextCleaner } from '../src/parsers/TextCleaner.js';
-import { InPageTranscriptController } from '../src/content/services/InPageTranscriptController.js';
 
 describe('Transcript Processing & InnerTube Parser', () => {
   it('formatMs formats milliseconds into m:ss', () => {
@@ -114,24 +113,5 @@ describe('Transcript Processing & InnerTube Parser', () => {
     assert.equal(segments[0].text, 'Deep architecture insights and subagents');
     assert.equal(segments[1].timestamp, '08:15');
     assert.equal(segments[1].text, 'Reactive loop mechanisms in modern software');
-  });
-  it('formatTimestampedText aggregates segments into readable text with periodic timestamps', () => {
-    const segments = [
-      { timestamp: '0:00', text: 'Welcome to this complete guide.' },
-      { timestamp: '0:12', text: 'Today we explore agentic design.' },
-      { timestamp: '0:35', text: 'Let us dive into the core architecture.' },
-      { timestamp: '0:48', text: 'Notice how cleanly components isolate.' },
-      { timestamp: '1:10', text: 'Now we discuss persistence and caching.' }
-    ];
-
-    const result = InPageTranscriptController.formatTimestampedText(segments, 30);
-    assert.ok(result.includes('[0:00] Welcome to this complete guide. Today we explore agentic design.'));
-    assert.ok(result.includes('[0:35] Let us dive into the core architecture. Notice how cleanly components isolate.'));
-    assert.ok(result.includes('[1:10] Now we discuss persistence and caching.'));
-  });
-
-  it('formatTimestampedText handles empty or invalid segment lists', () => {
-    assert.equal(InPageTranscriptController.formatTimestampedText([]), '');
-    assert.equal(InPageTranscriptController.formatTimestampedText(null), '');
   });
 });

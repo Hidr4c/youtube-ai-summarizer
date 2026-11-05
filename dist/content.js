@@ -3481,87 +3481,6 @@ ${condenseFn(text, externalBudget)}`);
           closePort();
         });
       }
-      const activeModel = (typeof ctx.getActiveModel === "function" ? ctx.getActiveModel() : null) || (typeof stateObj.getActiveModel === "function" ? stateObj.getActiveModel() : null) || ctx.selectedModel || stateObj.selectedModels?.[stateObj.currentProvider] || stateObj.selectedModel || "";
-      if (!activeModel) {
-        this.appendChatBubble("ai", t.selectModelAlert || "Please select an AI model in the settings toolbar above.");
-        return;
-      }
-      const currentProvider = ctx.currentProvider || stateObj.currentProvider || "lmstudio";
-      const isLocal = currentProvider === "lmstudio" || currentProvider === "ollama";
-      const apiKeys = ctx.apiKeys || stateObj.apiKeys || {};
-      const key = apiKeys[currentProvider] || "";
-      if (!isLocal && !key) {
-        this.appendChatBubble("ai", t.missingKeyAlert || `Please provide your API key for ${currentProvider.toUpperCase()} to chat.`);
-        return;
-      }
-      const aiBubble = this.appendChatBubble("ai", "");
-      aiBubble.classList.add("yt-ai-typing");
-      if (typeof this.transcriptController?.requestPlayerDataFromMainWorld === "function" && (!this.transcriptController.cachedVideoMetadata?.description || this.transcriptController.cachedVideoMetadata?.videoId !== currentVideoId)) {
-        await this.transcriptController.requestPlayerDataFromMainWorld(currentVideoId, lang).catch(() => {
-        });
-      }
-      const meta = ctx.getVideoMetadata ? ctx.getVideoMetadata() : this.transcriptController.cachedVideoMetadata;
-      const maxChars = CONTEXT_LIMITS[currentProvider] || 2e4;
-      const transcriptSource = this.transcriptController.cachedTranscript.timestampedText || this.transcriptController.cachedTranscript.fullText;
-      const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(transcriptSource, maxChars);
-      const selectedChatMode = document.getElementById("ytAiModeSelect")?.value || "standard";
-      const summaryText = this.summaryViewController?.fullSummaryMarkdown || ctx.summaryText || "";
-      const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText, externalContextBlock);
-      const relevantHistory = this.chatHistory.filter((m) => !m.lang || m.lang === lang).slice(-8).map((m) => ({ role: m.role, content: m.content }));
-      const userPayloadContent = `${text}${CHAT_USER_DIRECTIVES[lang] || ""}`;
-      relevantHistory.push({ role: "user", content: userPayloadContent });
-      let fullAnswer = "";
-      if (this.chatPort) {
-        try {
-          this.chatPort.disconnect();
-        } catch (_) {
-        }
-      }
-      const serverUrls = ctx.serverUrls || stateObj.serverUrls || {};
-      const currentUrl = serverUrls[currentProvider] || "";
-      this.chatPort = chrome.runtime.connect({ name: "ai-stream" });
-      this.chatPort.postMessage({
-        action: "CHAT_STREAM",
-        provider: currentProvider,
-        serverUrl: currentUrl,
-        apiKey: key,
-        model: activeModel,
-        systemPrompt,
-        messages: relevantHistory,
-        temperature: ctx.temperature || stateObj.temperature || "0.3",
-        maxTokens: ctx.maxTokens || stateObj.maxTokens || "auto"
-      });
-      this.chatPort.onMessage.addListener((msg) => {
-        if (msg.type === "CHUNK" && msg.content) {
-          fullAnswer += msg.content;
-          renderMarkdown(fullAnswer, aiBubble);
-          _ChatViewController.scrollToBottom(messagesContainer);
-        } else if (msg.type === "DONE") {
-          aiBubble.classList.remove("yt-ai-typing");
-          if (!fullAnswer.trim()) {
-            aiBubble.innerHTML = `<span style="color: #ff7b72;">\u26A0\uFE0F ${escapeHtml(t.connectionError || "No response received from AI model.")}</span>`;
-          } else {
-            this.chatHistory.push({ role: "user", content: text, lang });
-            this.chatHistory.push({ role: "assistant", content: fullAnswer, lang });
-            if (chatCountBadge) chatCountBadge.textContent = String(Math.floor(this.chatHistory.length / 2));
-            this.attachAudioButtonToBubble(aiBubble, fullAnswer, lang);
-          }
-          if (this.chatPort) {
-            this.chatPort.disconnect();
-            this.chatPort = null;
-          }
-        } else if (msg.type === "ERROR") {
-          aiBubble.classList.remove("yt-ai-typing");
-          aiBubble.innerHTML = `<span style="color: #ff7b72;">\u274C ${escapeHtml(msg.error)}</span>`;
-          if (this.chatPort) {
-            this.chatPort.disconnect();
-            this.chatPort = null;
-          }
-        }
-      });
-      this.chatPort.onDisconnect.addListener(() => {
-        aiBubble.classList.remove("yt-ai-typing");
-      });
     }
   };
 
@@ -5648,28 +5567,6 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         settingsDrawer.updateServerUrlUI();
         settingsDrawer.refreshModelsList();
       }
-    };
-  }
-  function loadPreferences(state2, callback) {
-    if (!chrome?.storage?.local) return callback?.();
-    chrome.storage.local.get(null, (items = {}) => {
-      if (typeof items.extensionEnabled === "boolean") state2.extensionEnabled = items.extensionEnabled;
-      if (items.aiProvider) state2.currentProvider = items.aiProvider;
-      if (items.targetLang) state2.currentLang = items.targetLang;
-      if (items.selectedModel) state2.setActiveModel(items.selectedModel);
-      if (items.summaryMode) state2.summaryMode = items.summaryMode;
-      if (items.temperature) state2.temperature = items.temperature;
-      if (items.maxTokens) state2.maxTokens = items.maxTokens;
-      if (typeof items.autoSummarize === "boolean") state2.autoSummarize = items.autoSummarize;
-      if (items.localWhisperUrl) state2.localWhisperUrl = items.localWhisperUrl;
-      if (items.ttsSpeed) state2.ttsSpeed = items.ttsSpeed;
-      if (items.selectedVoiceURI) state2.selectedVoiceURI = items.selectedVoiceURI;
-      ["openai", "gemini", "claude", "groq", "deepseek", "lmstudio", "ollama"].forEach((p) => {
-        if (items[`apiKey_${p}`]) state2.apiKeys[p] = items[`apiKey_${p}`];
-        if (items[`serverUrl_${p}`]) state2.serverUrls[p] = items[`serverUrl_${p}`];
-        if (items[`selectedModel_${p}`]) state2.selectedModels[p] = items[`selectedModel_${p}`];
-      });
-      callback?.();
     });
     document.getElementById("ytAiRefreshModelsBtn")?.addEventListener("click", () => settingsDrawer.refreshModelsList(true));
     document.getElementById("ytAiTestModelBtn")?.addEventListener("click", () => settingsDrawer.handleTestConnection());

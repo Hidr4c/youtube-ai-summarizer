@@ -179,13 +179,6 @@ export class YouTubeContextExtractor {
         }, '*');
         return;
       }
-      const captions = this.resolveCaptionTracks(playerResponse, requestedVideoId);
-      const isInitialMatch = (!requestedVideoId || window.ytInitialPlayerResponse?.videoDetails?.videoId === requestedVideoId);
-      const videoDetails = playerResponse?.videoDetails || (isInitialMatch ? window.ytInitialPlayerResponse?.videoDetails : {}) || {};
-
-      if (!captions || captions.length === 0) {
-        captions = this.resolveCaptionTracks(playerResponse, requestedVideoId);
-      }
       const isInitialMatch = (!requestedVideoId || window.ytInitialPlayerResponse?.videoDetails?.videoId === requestedVideoId);
       const videoDetails = playerResponse?.videoDetails || (isInitialMatch ? window.ytInitialPlayerResponse?.videoDetails : {}) || {};
 

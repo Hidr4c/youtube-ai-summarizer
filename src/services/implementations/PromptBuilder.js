@@ -4,15 +4,15 @@ import { getFormatInstructions, TARGET_LANG_NAMES } from './PromptTemplates.js';
 export { getFormatInstructions, TARGET_LANG_NAMES };
 
 /**
- * Concrete implementation of IPromptBuilder
+ * Service for prompt generation, context compression, and system instructions
  */
 export class PromptBuilder extends IPromptBuilder {
   /**
    * Smart 3-part condensation algorithm (40% intro, 25% middle, 35% conclusion)
    */
-  condenseTranscript(safeTranscript, maxChars = 20000) {
-    if (!safeTranscript || safeTranscript.length <= maxChars) {
-      return safeTranscript || '';
+  condenseTranscript(transcript, maxChars) {
+    if (!transcript || transcript.length <= maxChars) {
+      return transcript || '';
     }
     const introSize = Math.floor(maxChars * 0.40);
     const middleSize = Math.floor(maxChars * 0.25);
