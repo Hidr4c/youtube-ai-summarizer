@@ -10,10 +10,31 @@ import { NativeTranscriptPanel } from './services/NativeTranscriptPanel.js';
 import { InPageAudioController } from './services/InPageAudioController.js';
 import { ExportHandler } from './services/ExportHandler.js';
 import { PromptService } from './services/PromptService.js';
-import { createInPageState, loadPreferences } from './services/InPageState.js';
 
 // Application State Container
-const state = createInPageState();
+const state = {
+  extensionEnabled: true,
+  currentProvider: 'lmstudio',
+  serverUrls: { lmstudio: 'http://192.168.56.1:1234', ollama: 'http://localhost:11434' },
+  apiKeys: { openai: '', gemini: '', claude: '', groq: '', deepseek: '' },
+  selectedModels: {},
+  availableLocalModels: {},
+  currentLang: 'fr',
+  summaryMode: 'standard',
+  temperature: '0.3',
+  maxTokens: 'auto',
+  ttsSpeed: '1.0',
+  localWhisperUrl: 'http://127.0.0.1:8000',
+  autoSummarize: false,
+  customPrompt: '',
+  selectedVoiceURI: '',
+  selectedMicDeviceId: '',
+  getActiveModel() { return this.selectedModels[this.currentProvider] || ''; },
+  setActiveModel(m) { this.selectedModels[this.currentProvider] = m; },
+  savePreference(key, val) {
+    if (chrome?.storage?.local) chrome.storage.local.set({ [key]: val });
+  }
+};
 
 // Clean Architecture Service Collaborators
 const transcriptController = new InPageTranscriptController();
@@ -21,16 +42,9 @@ const audioController = new InPageAudioController();
 const promptService = new PromptService();
 const bannerView = new BannerView(state);
 const settingsDrawer = new SettingsDrawerController(state, { bannerView });
-const summaryViewController = new SummaryViewController({
-  transcriptController,
-  promptService,
-  audioController
-});
+const summaryViewController = new SummaryViewController({ transcriptController, promptService, audioController });
 const chatViewController = new ChatViewController({
-  transcriptController,
-  promptService,
-  audioController,
-  summaryViewController
+  transcriptController, promptService, audioController, summaryViewController
 });
 
 const triggerSummarize = () => {
@@ -58,7 +72,7 @@ function bindBannerEvents(banner) {
           if (!transcriptController.cachedTranscript.segments ||
               transcriptController.cachedTranscript.segments.length === 0 ||
               transcriptController.cachedTranscript.videoId !== currentVideoId) {
-            transcriptController.extractYouTubeTranscript(state.currentLang, false);
+            transcriptController.extractYouTubeTranscript(state.currentLang, true);
           }
         }
       }
@@ -91,7 +105,7 @@ function bindBannerEvents(banner) {
   document.getElementById('ytAiLangSelect')?.addEventListener('change', (e) => {
     state.currentLang = e.target.value;
     state.savePreference('targetLang', state.currentLang);
-    bannerView.applyLanguage(state.currentLang, summaryViewController, settingsDrawer);
+    bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController);
     audioController.populateVoiceDropdown(state.currentLang);
   });
 
@@ -105,6 +119,7 @@ function bindBannerEvents(banner) {
     const val = e.target.value.trim();
     state.apiKeys[state.currentProvider] = val;
     state.savePreference(`apiKey_${state.currentProvider}`, val);
+    if (state.keyVerified) delete state.keyVerified[state.currentProvider];
     bannerView.updateHeaderBadge();
   });
   document.getElementById('ytAiServerSelect')?.addEventListener('change', (e) => {
@@ -143,7 +158,7 @@ function bindBannerEvents(banner) {
   document.getElementById('ytAiSpeakSummaryBtn')?.addEventListener('click', (e) => {
     const text = summaryViewController.fullSummaryMarkdown || document.getElementById('ytAiSummaryBody')?.innerText || '';
     if (text.trim()) {
-      audioController.speakText(text, e.currentTarget);
+      audioController.speakText(text, e.currentTarget, { lang: state.currentLang });
     } else {
       bannerView.showStatusBanner(I18N[state.currentLang]?.noSummaryToRead || 'No summary to read', true);
     }
@@ -152,29 +167,24 @@ function bindBannerEvents(banner) {
   // Chat Q&A events
   const sendChat = (customText = null) => {
     chatViewController.handleSendChatMessage(customText, {
-      state,
-      currentLang: state.currentLang,
-      currentProvider: state.currentProvider,
-      apiKeys: state.apiKeys,
-      serverUrls: state.serverUrls,
-      temperature: state.temperature,
-      maxTokens: state.maxTokens,
-      getActiveModel: () => state.getActiveModel(),
-      setExpanded: exp => bannerView.setExpanded(exp),
-      switchTab: tab => bannerView.switchTab(tab)
+      state, currentLang: state.currentLang, currentProvider: state.currentProvider,
+      apiKeys: state.apiKeys, serverUrls: state.serverUrls, temperature: state.temperature,
+      maxTokens: state.maxTokens, getActiveModel: () => state.getActiveModel(),
+      setExpanded: exp => bannerView.setExpanded(exp), switchTab: tab => bannerView.switchTab(tab)
     });
   };
 
   document.getElementById('ytAiSendChatBtn')?.addEventListener('click', () => sendChat());
-  document.getElementById('ytAiChatInput')?.addEventListener('keydown', (e) => {
+  const chatInput = document.getElementById('ytAiChatInput');
+  chatInput?.addEventListener('input', () => {
+    chatInput.style.height = 'auto';
+    chatInput.style.height = Math.min(chatInput.scrollHeight, 140) + 'px';
+  });
+  chatInput?.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendChat();
     }
-  });
-  banner.querySelector('.yt-ai-chat-suggestions')?.addEventListener('click', (e) => {
-    const chip = e.target.closest('.yt-ai-suggestion-chip');
-    if (chip) sendChat(chip.getAttribute('data-question') || chip.textContent.trim());
   });
   document.getElementById('ytAiMicBtn')?.addEventListener('click', () => {
     audioController.toggleDictation({
@@ -193,8 +203,16 @@ function bindBannerEvents(banner) {
   document.getElementById('ytAiSaveTxtBtn')?.addEventListener('click', () => ExportHandler.downloadTxt(summaryViewController.fullSummaryMarkdown, getVideoId()));
   document.getElementById('ytAiSaveJsonBtn')?.addEventListener('click', () => ExportHandler.downloadJson(summaryViewController.fullSummaryMarkdown, getVideoId(), transcriptController.cachedTranscript));
 
-  // Timestamp navigation delegation
+  // Delegated click handlers on banner (suggestion chips, timestamp jumps)
   banner.addEventListener('click', (e) => {
+    const chip = e.target.closest('.yt-ai-suggestion-chip');
+    if (chip) {
+      e.preventDefault();
+      const q = chip.getAttribute('data-question') || chip.textContent.trim();
+      if (q) sendChat(q);
+      return;
+    }
+
     const link = e.target.closest('.yt-ai-timestamp-link');
     if (link && link.dataset.time !== undefined) {
       e.preventDefault();
@@ -211,17 +229,39 @@ function bindBannerEvents(banner) {
   });
 
   // Initial UI state synchronization
-  bannerView.applyLanguage(state.currentLang, summaryViewController, settingsDrawer);
+  bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController);
   settingsDrawer.syncProviderUI();
   if (state.summaryMode) bannerView.setSummaryMode(state.summaryMode);
   summaryViewController.renderSummaryEmptyState(false, state.currentLang, triggerSummarize);
 }
 
+function loadPreferences(callback) {
+  if (!chrome?.storage?.local) return callback?.();
+  chrome.storage.local.get(null, (items = {}) => {
+    if (typeof items.extensionEnabled === 'boolean') state.extensionEnabled = items.extensionEnabled;
+    if (items.aiProvider) state.currentProvider = items.aiProvider;
+    if (items.targetLang) state.currentLang = items.targetLang;
+    if (items.selectedModel) state.setActiveModel(items.selectedModel);
+    if (items.summaryMode) { state.summaryMode = items.summaryMode; bannerView.currentMode = items.summaryMode; }
+    if (items.temperature) state.temperature = items.temperature;
+    if (items.maxTokens) state.maxTokens = items.maxTokens;
+    if (typeof items.autoSummarize === 'boolean') state.autoSummarize = items.autoSummarize;
+    if (items.localWhisperUrl) state.localWhisperUrl = items.localWhisperUrl;
+    if (items.ttsSpeed) state.ttsSpeed = items.ttsSpeed;
+    if (items.selectedVoiceURI) state.selectedVoiceURI = items.selectedVoiceURI;
+    ['openai', 'gemini', 'claude', 'groq', 'deepseek', 'lmstudio', 'ollama'].forEach(p => {
+      if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`];
+      if (items[`serverUrl_${p}`]) state.serverUrls[p] = items[`serverUrl_${p}`];
+      if (items[`selectedModel_${p}`]) state.selectedModels[p] = items[`selectedModel_${p}`];
+    });
+    callback?.();
+  });
+}
+
 function initContentScript() {
   ThemeManager.initThemeSync();
 
-  loadPreferences(state, () => {
-    if (state.summaryMode) bannerView.currentMode = state.summaryMode;
+  loadPreferences(() => {
     bannerView.tryInjectBanner(bindBannerEvents);
 
     NavigationObserver.observeNavigation(({ isNewVideo }) => {
@@ -245,11 +285,7 @@ function initContentScript() {
       else if (act === 'TOGGLE_IN_PAGE_BANNER') { bannerView.toggleExpand(); sendResponse({ success: true, isExpanded: bannerView.isExpanded }); }
       else if (act === 'TRIGGER_SUMMARIZE') { triggerSummarize(); sendResponse({ success: true }); }
       else if (act === 'SET_LANGUAGE') {
-        if (req.lang) {
-          state.currentLang = req.lang;
-          bannerView.applyLanguage(state.currentLang, summaryViewController, settingsDrawer);
-          audioController.populateVoiceDropdown(state.currentLang);
-        }
+        if (req.lang) { state.currentLang = req.lang; bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController); audioController.populateVoiceDropdown(state.currentLang); }
         sendResponse({ success: true });
       }
       return true;

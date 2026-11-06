@@ -87,9 +87,13 @@ export class SettingsDrawerTemplate {
 
                 <!-- Zone Cloud (Clé API) -->
                 <div id="ytAiCloudSettings" class="yt-ai-setting-item yt-ai-hidden">
-                  <label id="ytAiApiKeyLabel">${t.apiKeyLabel || 'API Key:'}</label>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <label id="ytAiApiKeyLabel">${t.apiKeyLabel || 'API Key:'}</label>
+                    <span id="ytAiApiKeyHint" style="font-size: 11px; color: var(--yt-ai-timestamp-text); opacity: 0.9;"></span>
+                  </div>
                   <div class="yt-ai-input-with-btn">
                     <input type="password" id="ytAiApiKeyInput" class="yt-ai-input yt-ai-api-key-input" placeholder="${t.apiKeyPlaceholder || 'Paste your API key...'}" style="flex: 1;">
+                    <button id="ytAiPasteApiKeyBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.pasteTooltip || 'Paste from clipboard'}" style="padding: 4px 8px; font-size: 11px;">📋 ${t.pasteBtn || 'Paste'}</button>
                     <a id="ytAiGetApiKeyLink" class="yt-ai-link-pill" href="#" target="_blank" rel="noopener">${t.getApiKeyLink || '🔑 Get Key'}</a>
                   </div>
                 </div>
@@ -110,15 +114,6 @@ export class SettingsDrawerTemplate {
             <!-- SOUS-ONGLET 2 : PARAMÈTRES IA & PROMPT -->
             <div id="ytAiSettingsSubpaneParams" class="yt-ai-settings-subpane">
               <div class="yt-ai-settings-grid">
-                <div class="yt-ai-setting-item">
-                  <label id="ytAiModeLabel">${t.formatLabel || 'Format:'}</label>
-                  <select id="ytAiModeSelect" class="yt-ai-select">
-                    <option value="quick">${t.formatQuick || '⚡ Quick'}</option>
-                    <option value="standard" selected>${t.formatStandard || '📌 Standard'}</option>
-                    <option value="detailed">${t.formatDetailed || '📝 Deep'}</option>
-                  </select>
-                </div>
-
                 <div class="yt-ai-setting-item">
                   <label id="ytAiTempLabel">${t.tempLabel || 'AI Creativity (Temperature):'}</label>
                   <select id="ytAiTemperatureSelect" class="yt-ai-select">

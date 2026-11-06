@@ -15,6 +15,13 @@ export class YouTubeContextExtractor {
   }
 
   setupListeners() {
+    this.lastNavResponse = null;
+    const navHandler = (e) => {
+      const resp = e.detail?.response?.playerResponse || e.detail?.playerResponse;
+      if (resp) this.lastNavResponse = resp;
+    };
+    window.addEventListener("yt-navigate-finish", navHandler);
+    window.addEventListener("yt-page-data-updated", navHandler);
     window.addEventListener('message', async (event) => {
       if (event.source !== window || !event.data) return;
 
@@ -72,6 +79,10 @@ export class YouTubeContextExtractor {
         }
       }
 
+      if ((!directSegments || directSegments.length === 0) && requestedVideoId) {
+        directSegments = await InnerTubeBridge.fetchTranscriptDirect(requestedVideoId, preferredLang);
+      }
+
       if (!directSegments || directSegments.length === 0) {
         directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
       }
@@ -100,12 +111,13 @@ export class YouTubeContextExtractor {
       const initId = window.ytInitialPlayerResponse?.videoDetails?.videoId;
       if (!requestedVideoId || initId === requestedVideoId) return window.ytInitialPlayerResponse;
     }
-    const flexy = document.querySelector('ytd-watch-flexy');
+    const flexy = document.querySelector('ytd-watch-flexy, ytd-watch-grid');
     const flexyData = flexy?.playerData || flexy?.data;
     if (flexyData) {
       const fId = flexyData?.videoDetails?.videoId;
       if (!requestedVideoId || fId === requestedVideoId) return flexyData;
     }
+    if (this.lastNavResponse?.videoDetails?.videoId === requestedVideoId) return this.lastNavResponse;
     return requestedVideoId ? null : (window.ytInitialPlayerResponse || null);
   }
 
@@ -113,8 +125,9 @@ export class YouTubeContextExtractor {
     let captions = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
     if (!captions || captions.length === 0) {
       const player = document.getElementById('movie_player');
+      try { player?.loadModule?.('captions'); } catch (_) {}
       const activeId = player?.getVideoData?.()?.video_id;
-      if (!requestedVideoId || activeId === requestedVideoId) {
+      if (!requestedVideoId || !activeId || activeId === requestedVideoId) {
         if (player && typeof player.getOption === 'function') {
           try {
             const pt = player.getOption('captions', 'tracklist');
@@ -145,18 +158,27 @@ export class YouTubeContextExtractor {
   async handlePlayerDataRequest(requestedVideoId, preferredLang) {
     try {
       let playerResponse = null;
-      for (let attempt = 0; attempt < 15; attempt++) {
+      let captions = [];
+      for (let attempt = 0; attempt < 16; attempt++) {
         playerResponse = this.resolvePlayerResponse(requestedVideoId);
-        if (playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks?.length > 0) break;
-        await new Promise(r => setTimeout(r, 100));
+        captions = this.resolveCaptionTracks(playerResponse, requestedVideoId);
+        if (captions && captions.length > 0) break;
+        await new Promise(r => setTimeout(r, 120));
       }
 
       const player = document.getElementById('movie_player');
       const activeId = player?.getVideoData?.()?.video_id || '';
-      if (requestedVideoId && activeId !== requestedVideoId && !playerResponse) {
-        throw new Error('Video ID mismatch during transition');
+      if (requestedVideoId && activeId && activeId !== requestedVideoId && !playerResponse) {
+        window.postMessage({
+          type: 'YT_AI_RES_PLAYER_DATA',
+          success: false,
+          error: 'Video ID mismatch during transition',
+          videoId: requestedVideoId,
+          captions: [],
+          segments: null
+        }, '*');
+        return;
       }
-      const captions = this.resolveCaptionTracks(playerResponse, requestedVideoId);
       const isInitialMatch = (!requestedVideoId || window.ytInitialPlayerResponse?.videoDetails?.videoId === requestedVideoId);
       const videoDetails = playerResponse?.videoDetails || (isInitialMatch ? window.ytInitialPlayerResponse?.videoDetails : {}) || {};
 
@@ -173,6 +195,11 @@ export class YouTubeContextExtractor {
         if (transcriptParams) {
           directSegments = await this.fetchTranscriptFromInnerTube(transcriptParams);
         }
+      }
+
+      const targetId = requestedVideoId || activeId;
+      if ((!directSegments || directSegments.length === 0) && targetId) {
+        directSegments = await InnerTubeBridge.fetchTranscriptDirect(targetId, preferredLang);
       }
 
       if (!directSegments || directSegments.length === 0) {

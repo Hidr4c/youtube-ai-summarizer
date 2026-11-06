@@ -5,31 +5,6 @@ import { I18N } from '../../locales/index.js';
  */
 export class LocalModelDiscovery {
   /**
-   * Directly fetches models for a local provider and server URL
-   */
-  static fetchLocalModels(provider, currentUrl, onSuccess = null, onError = null) {
-    if (!chrome?.runtime?.sendMessage) return;
-    chrome.runtime.sendMessage({
-      action: 'FETCH_MODELS',
-      provider,
-      serverUrl: currentUrl
-    }, (response) => {
-      if (chrome.runtime.lastError || !response || (!response.success && !response.ok)) {
-        if (typeof onError === 'function') onError(chrome.runtime.lastError || 'Fetch failed');
-        return;
-      }
-      const data = response.data;
-      const models = Array.isArray(data?.data)
-        ? data.data
-        : (Array.isArray(data?.models)
-          ? data.models
-          : (Array.isArray(data)
-            ? data
-            : (Array.isArray(response.models) ? response.models : [])));
-      if (typeof onSuccess === 'function') onSuccess(models);
-    });
-  }
-  /**
    * Refreshes model list for local providers (LM Studio / Ollama)
    * @param {Object} ctx
    * @param {boolean} showFeedback

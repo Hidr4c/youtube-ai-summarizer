@@ -20,6 +20,8 @@ export const en = {
   "serverLabelOllama": "Ollama Server:",
   "noModelSelected": "No model selected",
   "keyOk": "Key OK",
+  "keySaved": "Key saved",
+  "invalidKey": "Invalid key",
   "keyRequired": "Key required",
   "customServer": "Custom IP...",
   "refreshTooltip": "Refresh local models",
@@ -147,9 +149,12 @@ export const en = {
   "chapterBadge": "(Chapters)",
   "transcriptExtracted": "Transcript extracted",
   "modelResponsive": "Responsive model: {model}",
-  "extractingTranscriptNotice": "Extracting video transcript...",
-  "fetchingExternalVideo": "⏳ Analyzing linked YouTube video...",
-  "externalVideoBadge": "📎 Linked video analyzed"
+  "extractingTranscriptNotice": "Extracting video transcript...",
+  "fetchingExternalTranscriptNotice": "Fetching subtitles for external video ({videoId})...",
+  "analyzingChannelNotice": "Fetching official channel dossier for {query}...",
+  "fetchingCommentsNotice": "Fetching top public comments and audience reactions...",
+  "externalTranscriptError": "Unable to extract subtitles or chapters for external video ({videoId}). Possible reasons: no captions or chapters available, or YouTube access restrictions. You can open this video in a tab to summarize it directly.",
+  "retryBtn": "🔄 Retry"
 };
 
 export default en;

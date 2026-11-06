@@ -20,6 +20,8 @@ export const zh = {
   "serverLabelOllama": "Ollama 服务器:",
   "noModelSelected": "未选择模型",
   "keyOk": "密钥正常",
+  "keySaved": "密钥已保存",
+  "invalidKey": "密钥无效",
   "keyRequired": "需要密钥",
   "customServer": "自定义IP...",
   "refreshTooltip": "刷新本地模型",
@@ -147,9 +149,12 @@ export const zh = {
   "chapterBadge": "(章节)",
   "transcriptExtracted": "已提取文字记录",
   "modelResponsive": "响应模型：{model}",
-  "extractingTranscriptNotice": "正在提取视频字幕...",
-  "fetchingExternalVideo": "⏳ 正在分析关联的 YouTube 视频逐字稿...",
-  "externalVideoBadge": "📎 已解析关联视频"
+  "extractingTranscriptNotice": "正在提取视频字幕...",
+  "fetchingExternalTranscriptNotice": "正在获取外部视频 ({videoId}) 的字幕...",
+  "analyzingChannelNotice": "正在获取 {query} 的官方频道档案...",
+  "fetchingCommentsNotice": "正在获取热门评论和观众反馈...",
+  "externalTranscriptError": "无法提取外部视频 ({videoId}) 的字幕或章节。可能的原因：无可用字幕或章节，或存在 YouTube 访问限制。",
+  "retryBtn": "🔄 重试"
 };
 
 export default zh;

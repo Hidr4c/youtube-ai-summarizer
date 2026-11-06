@@ -20,6 +20,8 @@ export const ja = {
   "serverLabelOllama": "Ollama サーバー:",
   "noModelSelected": "モデルが選択されていません",
   "keyOk": "キー OK",
+  "keySaved": "キーが保存されました",
+  "invalidKey": "無効なキー",
   "keyRequired": "キーが必要",
   "customServer": "カスタムIP...",
   "refreshTooltip": "ローカルモデルを再読み込み",
@@ -147,9 +149,12 @@ export const ja = {
   "chapterBadge": "(チャプター)",
   "transcriptExtracted": "文字起こしを抽出しました",
   "modelResponsive": "応答モデル: {model}",
-  "extractingTranscriptNotice": "動画の文字起こしを抽出中...",
-  "fetchingExternalVideo": "⏳ リンクされたYouTube動画を解析中...",
-  "externalVideoBadge": "📎 リンクされた動画を解析完了"
+  "extractingTranscriptNotice": "動画の文字起こしを抽出中...",
+  "fetchingExternalTranscriptNotice": "外部動画（{videoId}）の字幕を取得中...",
+  "analyzingChannelNotice": "{query} の公式チャンネル情報を取得しています...",
+  "fetchingCommentsNotice": "人気コメントと視聴者の反応を取得しています...",
+  "externalTranscriptError": "外部動画（{videoId}）の字幕またはチャプターを抽出できませんでした。理由：字幕やチャプターが存在しないか、YouTubeのアクセス制限がある可能性があります。",
+  "retryBtn": "🔄 再試行"
 };
 
 export default ja;

@@ -38,11 +38,11 @@ export class ConnectionTester {
         const msg = (t.modelReady || 'Model "{model}" ready ({latency}ms)!')
           .replace('{model}', model)
           .replace('{latency}', res.latency || res.latencyMs || 0);
-        callback({ message: `✅ ${msg}`, isError: false });
+        callback({ message: `[✓] ${msg}`, isError: false, latencyMs: res.latency || res.latencyMs || 0 });
       } else {
         const errText = (t.connectionFailed || 'Failed: {error}')
           .replace('{error}', res?.error || t.connectionError || 'Connection error');
-        callback({ message: `❌ ${errText}`, isError: true });
+        callback({ message: `[!] ${errText}`, isError: true, error: res?.error });
       }
     });
   }

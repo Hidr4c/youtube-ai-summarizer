@@ -20,6 +20,8 @@ export const it = {
   "serverLabelOllama": "Server Ollama:",
   "noModelSelected": "Nessun modello selezionato",
   "keyOk": "Chiave OK",
+  "keySaved": "Chiave salvata",
+  "invalidKey": "Chiave non valida",
   "keyRequired": "Chiave richiesta",
   "customServer": "Altro IP...",
   "refreshTooltip": "Aggiorna modelli locali",
@@ -147,9 +149,12 @@ export const it = {
   "chapterBadge": "(Capitoli)",
   "transcriptExtracted": "Trascrizione estratta",
   "modelResponsive": "Modello reattivo: {model}",
-  "extractingTranscriptNotice": "Estrazione della trascrizione del video in corso...",
-  "fetchingExternalVideo": "⏳ Analisi del video YouTube collegato in corso...",
-  "externalVideoBadge": "📎 Video collegato analizzato"
+  "extractingTranscriptNotice": "Estrazione della trascrizione del video in corso...",
+  "fetchingExternalTranscriptNotice": "Recupero dei sottotitoli per il video esterno ({videoId})...",
+  "analyzingChannelNotice": "Recupero del dossier ufficiale del canale di {query}...",
+  "fetchingCommentsNotice": "Recupero dei commenti e delle reazioni del pubblico...",
+  "externalTranscriptError": "Impossibile estrarre sottotitoli o capitoli per il video esterno ({videoId}). Possibili cause: nessun sottotitolo o capitolo disponibile, o restrizioni di accesso YouTube.",
+  "retryBtn": "🔄 Riprova"
 };
 
 export default it;

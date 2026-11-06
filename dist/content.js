@@ -19,6 +19,8 @@
     "serverLabelOllama": "Serveur Ollama :",
     "noModelSelected": "Aucun mod\xE8le s\xE9lectionn\xE9",
     "keyOk": "Cl\xE9 OK",
+    "keySaved": "Cl\xE9 enregistr\xE9e",
+    "invalidKey": "Cl\xE9 invalide",
     "keyRequired": "Cl\xE9 requise",
     "customServer": "Autre IP...",
     "refreshTooltip": "Actualiser les mod\xE8les locaux",
@@ -147,8 +149,11 @@
     "transcriptExtracted": "Transcription extraite",
     "modelResponsive": "Mod\xE8le r\xE9actif : {model}",
     "extractingTranscriptNotice": "Extraction de la transcription de la vid\xE9o en cours...",
-    "fetchingExternalVideo": "\u23F3 Analyse de la vid\xE9o YouTube li\xE9e en cours...",
-    "externalVideoBadge": "\u{1F4CE} Vid\xE9o li\xE9e analys\xE9e"
+    "fetchingExternalTranscriptNotice": "R\xE9cup\xE9ration des sous-titres de la vid\xE9o externe ({videoId})...",
+    "analyzingChannelNotice": "Recherche du dossier officiel de la cha\xEEne ({query})...",
+    "fetchingCommentsNotice": "R\xE9cup\xE9ration des commentaires et avis du public...",
+    "externalTranscriptError": "Impossible d'extraire les sous-titres ou chapitres pour la vid\xE9o externe ({videoId}). Raisons possibles : aucun sous-titre ni chapitre disponible, ou restriction d'acc\xE8s YouTube. Vous pouvez ouvrir l'onglet de cette vid\xE9o pour la r\xE9sumer directement.",
+    "retryBtn": "\u{1F504} R\xE9essayer"
   };
   var fr_default = fr;
 
@@ -172,6 +177,8 @@
     "serverLabelOllama": "Ollama Server:",
     "noModelSelected": "No model selected",
     "keyOk": "Key OK",
+    "keySaved": "Key saved",
+    "invalidKey": "Invalid key",
     "keyRequired": "Key required",
     "customServer": "Custom IP...",
     "refreshTooltip": "Refresh local models",
@@ -300,8 +307,11 @@
     "transcriptExtracted": "Transcript extracted",
     "modelResponsive": "Responsive model: {model}",
     "extractingTranscriptNotice": "Extracting video transcript...",
-    "fetchingExternalVideo": "\u23F3 Analyzing linked YouTube video...",
-    "externalVideoBadge": "\u{1F4CE} Linked video analyzed"
+    "fetchingExternalTranscriptNotice": "Fetching subtitles for external video ({videoId})...",
+    "analyzingChannelNotice": "Fetching official channel dossier for {query}...",
+    "fetchingCommentsNotice": "Fetching top public comments and audience reactions...",
+    "externalTranscriptError": "Unable to extract subtitles or chapters for external video ({videoId}). Possible reasons: no captions or chapters available, or YouTube access restrictions. You can open this video in a tab to summarize it directly.",
+    "retryBtn": "\u{1F504} Retry"
   };
   var en_default = en;
 
@@ -325,6 +335,8 @@
     "serverLabelOllama": "Servidor Ollama:",
     "noModelSelected": "Ning\xFAn modelo seleccionado",
     "keyOk": "Clave OK",
+    "keySaved": "Clave guardada",
+    "invalidKey": "Clave inv\xE1lida",
     "keyRequired": "Clave requerida",
     "customServer": "Otra IP...",
     "refreshTooltip": "Actualizar modelos locales",
@@ -453,8 +465,11 @@
     "transcriptExtracted": "Transcripci\xF3n extra\xEDda",
     "modelResponsive": "Modelo responsivo: {model}",
     "extractingTranscriptNotice": "Extrayendo transcripci\xF3n del video...",
-    "fetchingExternalVideo": "\u23F3 Analizando v\xEDdeo de YouTube vinculado...",
-    "externalVideoBadge": "\u{1F4CE} V\xEDdeo vinculado analizado"
+    "fetchingExternalTranscriptNotice": "Obteniendo subt\xEDtulos para el video externo ({videoId})...",
+    "analyzingChannelNotice": "Obteniendo el expediente oficial del canal de {query}...",
+    "fetchingCommentsNotice": "Obteniendo comentarios y reacciones del p\xFAblico...",
+    "externalTranscriptError": "No se pudieron extraer subt\xEDtulos ni cap\xEDtulos para el video externo ({videoId}). Posibles causas: sin subt\xEDtulos ni cap\xEDtulos disponibles, o restricciones de YouTube. Puede abrir este video en una pesta\xF1a para resumirlo directamente.",
+    "retryBtn": "\u{1F504} Reintentar"
   };
   var es_default = es;
 
@@ -478,6 +493,8 @@
     "serverLabelOllama": "Ollama Server:",
     "noModelSelected": "Kein Modell ausgew\xE4hlt",
     "keyOk": "Schl\xFCssel OK",
+    "keySaved": "Schl\xFCssel gespeichert",
+    "invalidKey": "Ung\xFCltiger Schl\xFCssel",
     "keyRequired": "Schl\xFCssel erforderlich",
     "customServer": "Andere IP...",
     "refreshTooltip": "Lokale Modelle aktualisieren",
@@ -606,8 +623,11 @@
     "transcriptExtracted": "Transkript extrahiert",
     "modelResponsive": "Reaktionsschnelles Modell: {model}",
     "extractingTranscriptNotice": "Video-Transkript wird extrahiert...",
-    "fetchingExternalVideo": "\u23F3 Analysiere verlinktes YouTube-Video...",
-    "externalVideoBadge": "\u{1F4CE} Verlinktes Video analysiert"
+    "fetchingExternalTranscriptNotice": "Untertitel f\xFCr externes Video ({videoId}) werden abgerufen...",
+    "analyzingChannelNotice": "Offizielles Kanaldossier f\xFCr {query} wird abgerufen...",
+    "fetchingCommentsNotice": "Top-Kommentare und Publikumsreaktionen werden abgerufen...",
+    "externalTranscriptError": "Untertitel oder Kapitel f\xFCr das externe Video ({videoId}) konnten nicht extrahiert werden. M\xF6gliche Ursachen: keine Untertitel oder Kapitel verf\xFCgbar oder YouTube-Zugriffsbeschr\xE4nkungen.",
+    "retryBtn": "\u{1F504} Wiederholen"
   };
   var de_default = de;
 
@@ -631,6 +651,8 @@
     "serverLabelOllama": "Server Ollama:",
     "noModelSelected": "Nessun modello selezionato",
     "keyOk": "Chiave OK",
+    "keySaved": "Chiave salvata",
+    "invalidKey": "Chiave non valida",
     "keyRequired": "Chiave richiesta",
     "customServer": "Altro IP...",
     "refreshTooltip": "Aggiorna modelli locali",
@@ -759,8 +781,11 @@
     "transcriptExtracted": "Trascrizione estratta",
     "modelResponsive": "Modello reattivo: {model}",
     "extractingTranscriptNotice": "Estrazione della trascrizione del video in corso...",
-    "fetchingExternalVideo": "\u23F3 Analisi del video YouTube collegato in corso...",
-    "externalVideoBadge": "\u{1F4CE} Video collegato analizzato"
+    "fetchingExternalTranscriptNotice": "Recupero dei sottotitoli per il video esterno ({videoId})...",
+    "analyzingChannelNotice": "Recupero del dossier ufficiale del canale di {query}...",
+    "fetchingCommentsNotice": "Recupero dei commenti e delle reazioni del pubblico...",
+    "externalTranscriptError": "Impossibile estrarre sottotitoli o capitoli per il video esterno ({videoId}). Possibili cause: nessun sottotitolo o capitolo disponibile, o restrizioni di accesso YouTube.",
+    "retryBtn": "\u{1F504} Riprova"
   };
   var it_default = it;
 
@@ -784,6 +809,8 @@
     "serverLabelOllama": "\u0421\u0435\u0440\u0432\u0435\u0440 Ollama:",
     "noModelSelected": "\u041C\u043E\u0434\u0435\u043B\u044C \u043D\u0435 \u0432\u044B\u0431\u0440\u0430\u043D\u0430",
     "keyOk": "\u041A\u043B\u044E\u0447 OK",
+    "keySaved": "\u041A\u043B\u044E\u0447 \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D",
+    "invalidKey": "\u041D\u0435\u0432\u0435\u0440\u043D\u044B\u0439 \u043A\u043B\u044E\u0447",
     "keyRequired": "\u0422\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044F \u043A\u043B\u044E\u0447",
     "customServer": "\u0414\u0440\u0443\u0433\u043E\u0439 IP...",
     "refreshTooltip": "\u041E\u0431\u043D\u043E\u0432\u0438\u0442\u044C \u043B\u043E\u043A\u0430\u043B\u044C\u043D\u044B\u0435 \u043C\u043E\u0434\u0435\u043B\u0438",
@@ -912,8 +939,11 @@
     "transcriptExtracted": "\u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442 \u0438\u0437\u0432\u043B\u0435\u0447\u0435\u043D",
     "modelResponsive": "\u041E\u0442\u0437\u044B\u0432\u0447\u0438\u0432\u0430\u044F \u043C\u043E\u0434\u0435\u043B\u044C: {model}",
     "extractingTranscriptNotice": "\u0418\u0437\u0432\u043B\u0435\u0447\u0435\u043D\u0438\u0435 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u0438 \u0432\u0438\u0434\u0435\u043E...",
-    "fetchingExternalVideo": "\u23F3 \u0410\u043D\u0430\u043B\u0438\u0437 \u0441\u0432\u044F\u0437\u0430\u043D\u043D\u043E\u0433\u043E \u0432\u0438\u0434\u0435\u043E YouTube...",
-    "externalVideoBadge": "\u{1F4CE} \u0421\u0432\u044F\u0437\u0430\u043D\u043D\u043E\u0435 \u0432\u0438\u0434\u0435\u043E \u043F\u0440\u043E\u0430\u043D\u0430\u043B\u0438\u0437\u0438\u0440\u043E\u0432\u0430\u043D\u043E"
+    "fetchingExternalTranscriptNotice": "\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u043E\u0432 \u0432\u043D\u0435\u0448\u043D\u0435\u0433\u043E \u0432\u0438\u0434\u0435\u043E ({videoId})...",
+    "analyzingChannelNotice": "\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0434\u043E\u0441\u044C\u0435 \u043A\u0430\u043D\u0430\u043B\u0430 {query}...",
+    "fetchingCommentsNotice": "\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u043F\u043E\u043F\u0443\u043B\u044F\u0440\u043D\u044B\u0445 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0435\u0432 \u0438 \u0440\u0435\u0430\u043A\u0446\u0438\u0439 \u0430\u0443\u0434\u0438\u0442\u043E\u0440\u0438\u0438...",
+    "externalTranscriptError": "\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u0438\u0437\u0432\u043B\u0435\u0447\u044C \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u044B \u0438\u043B\u0438 \u0433\u043B\u0430\u0432\u044B \u0434\u043B\u044F \u0432\u043D\u0435\u0448\u043D\u0435\u0433\u043E \u0432\u0438\u0434\u0435\u043E ({videoId}). \u0412\u043E\u0437\u043C\u043E\u0436\u043D\u044B\u0435 \u043F\u0440\u0438\u0447\u0438\u043D\u044B: \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u044B \u0438\u043B\u0438 \u0433\u043B\u0430\u0432\u044B \u043E\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u044E\u0442, \u043B\u0438\u0431\u043E \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u044E\u0442 \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u0438\u044F YouTube.",
+    "retryBtn": "\u{1F504} \u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u044C"
   };
   var ru_default = ru;
 
@@ -937,6 +967,8 @@
     "serverLabelOllama": "Ollama \u30B5\u30FC\u30D0\u30FC:",
     "noModelSelected": "\u30E2\u30C7\u30EB\u304C\u9078\u629E\u3055\u308C\u3066\u3044\u307E\u305B\u3093",
     "keyOk": "\u30AD\u30FC OK",
+    "keySaved": "\u30AD\u30FC\u304C\u4FDD\u5B58\u3055\u308C\u307E\u3057\u305F",
+    "invalidKey": "\u7121\u52B9\u306A\u30AD\u30FC",
     "keyRequired": "\u30AD\u30FC\u304C\u5FC5\u8981",
     "customServer": "\u30AB\u30B9\u30BF\u30E0IP...",
     "refreshTooltip": "\u30ED\u30FC\u30AB\u30EB\u30E2\u30C7\u30EB\u3092\u518D\u8AAD\u307F\u8FBC\u307F",
@@ -1065,8 +1097,11 @@
     "transcriptExtracted": "\u6587\u5B57\u8D77\u3053\u3057\u3092\u62BD\u51FA\u3057\u307E\u3057\u305F",
     "modelResponsive": "\u5FDC\u7B54\u30E2\u30C7\u30EB: {model}",
     "extractingTranscriptNotice": "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3092\u62BD\u51FA\u4E2D...",
-    "fetchingExternalVideo": "\u23F3 \u30EA\u30F3\u30AF\u3055\u308C\u305FYouTube\u52D5\u753B\u3092\u89E3\u6790\u4E2D...",
-    "externalVideoBadge": "\u{1F4CE} \u30EA\u30F3\u30AF\u3055\u308C\u305F\u52D5\u753B\u3092\u89E3\u6790\u5B8C\u4E86"
+    "fetchingExternalTranscriptNotice": "\u5916\u90E8\u52D5\u753B\uFF08{videoId}\uFF09\u306E\u5B57\u5E55\u3092\u53D6\u5F97\u4E2D...",
+    "analyzingChannelNotice": "{query} \u306E\u516C\u5F0F\u30C1\u30E3\u30F3\u30CD\u30EB\u60C5\u5831\u3092\u53D6\u5F97\u3057\u3066\u3044\u307E\u3059...",
+    "fetchingCommentsNotice": "\u4EBA\u6C17\u30B3\u30E1\u30F3\u30C8\u3068\u8996\u8074\u8005\u306E\u53CD\u5FDC\u3092\u53D6\u5F97\u3057\u3066\u3044\u307E\u3059...",
+    "externalTranscriptError": "\u5916\u90E8\u52D5\u753B\uFF08{videoId}\uFF09\u306E\u5B57\u5E55\u307E\u305F\u306F\u30C1\u30E3\u30D7\u30BF\u30FC\u3092\u62BD\u51FA\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F\u3002\u7406\u7531\uFF1A\u5B57\u5E55\u3084\u30C1\u30E3\u30D7\u30BF\u30FC\u304C\u5B58\u5728\u3057\u306A\u3044\u304B\u3001YouTube\u306E\u30A2\u30AF\u30BB\u30B9\u5236\u9650\u304C\u3042\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002",
+    "retryBtn": "\u{1F504} \u518D\u8A66\u884C"
   };
   var ja_default = ja;
 
@@ -1090,6 +1125,8 @@
     "serverLabelOllama": "Ollama \u670D\u52A1\u5668:",
     "noModelSelected": "\u672A\u9009\u62E9\u6A21\u578B",
     "keyOk": "\u5BC6\u94A5\u6B63\u5E38",
+    "keySaved": "\u5BC6\u94A5\u5DF2\u4FDD\u5B58",
+    "invalidKey": "\u5BC6\u94A5\u65E0\u6548",
     "keyRequired": "\u9700\u8981\u5BC6\u94A5",
     "customServer": "\u81EA\u5B9A\u4E49IP...",
     "refreshTooltip": "\u5237\u65B0\u672C\u5730\u6A21\u578B",
@@ -1218,8 +1255,11 @@
     "transcriptExtracted": "\u5DF2\u63D0\u53D6\u6587\u5B57\u8BB0\u5F55",
     "modelResponsive": "\u54CD\u5E94\u6A21\u578B\uFF1A{model}",
     "extractingTranscriptNotice": "\u6B63\u5728\u63D0\u53D6\u89C6\u9891\u5B57\u5E55...",
-    "fetchingExternalVideo": "\u23F3 \u6B63\u5728\u5206\u6790\u5173\u8054\u7684 YouTube \u89C6\u9891\u9010\u5B57\u7A3F...",
-    "externalVideoBadge": "\u{1F4CE} \u5DF2\u89E3\u6790\u5173\u8054\u89C6\u9891"
+    "fetchingExternalTranscriptNotice": "\u6B63\u5728\u83B7\u53D6\u5916\u90E8\u89C6\u9891 ({videoId}) \u7684\u5B57\u5E55...",
+    "analyzingChannelNotice": "\u6B63\u5728\u83B7\u53D6 {query} \u7684\u5B98\u65B9\u9891\u9053\u6863\u6848...",
+    "fetchingCommentsNotice": "\u6B63\u5728\u83B7\u53D6\u70ED\u95E8\u8BC4\u8BBA\u548C\u89C2\u4F17\u53CD\u9988...",
+    "externalTranscriptError": "\u65E0\u6CD5\u63D0\u53D6\u5916\u90E8\u89C6\u9891 ({videoId}) \u7684\u5B57\u5E55\u6216\u7AE0\u8282\u3002\u53EF\u80FD\u7684\u539F\u56E0\uFF1A\u65E0\u53EF\u7528\u5B57\u5E55\u6216\u7AE0\u8282\uFF0C\u6216\u5B58\u5728 YouTube \u8BBF\u95EE\u9650\u5236\u3002",
+    "retryBtn": "\u{1F504} \u91CD\u8BD5"
   };
   var zh_default = zh;
 
@@ -1233,6 +1273,387 @@
     ru: ru_default,
     ja: ja_default,
     zh: zh_default
+  };
+
+  // src/content/ui/SettingsDrawerI18n.js
+  var SettingsDrawerI18n = class {
+    /**
+     * Applies localized labels, placeholders, and tooltips to Settings Drawer DOM
+     * @param {string} lang
+     */
+    static applyLanguage(lang) {
+      const t = I18N[lang] || I18N.en;
+      const tabModel = document.getElementById("ytAiTabSettingsModelBtn");
+      if (tabModel) tabModel.textContent = t.tabSettingsModel || "\u{1F916} AI Model & Server";
+      const tabParams = document.getElementById("ytAiTabSettingsParamsBtn");
+      if (tabParams) tabParams.textContent = t.tabSettingsParams || "\u2699\uFE0F Parameters & Prompt";
+      const tabAudio = document.getElementById("ytAiTabSettingsAudioBtn");
+      if (tabAudio) tabAudio.textContent = t.tabSettingsAudio || "\u{1F399}\uFE0F Voice & Audio";
+      const closeBtn = document.getElementById("ytAiSettingsCloseBtn");
+      if (closeBtn) closeBtn.title = t.settingsHideBtn || "Close Settings";
+      const providerLabel = document.getElementById("ytAiProviderLabel");
+      if (providerLabel) providerLabel.textContent = t.providerLabel || "AI Provider:";
+      const serverLabel = document.getElementById("ytAiServerLabel");
+      if (serverLabel) serverLabel.textContent = t.serverLabel || "Server:";
+      const apiKeyLabel = document.getElementById("ytAiApiKeyLabel");
+      if (apiKeyLabel) apiKeyLabel.textContent = t.apiKeyLabel || "API Key:";
+      const apiKeyInput = document.getElementById("ytAiApiKeyInput");
+      if (apiKeyInput) apiKeyInput.placeholder = t.apiKeyPlaceholder || "Paste your API key...";
+      const modelLabel = document.getElementById("ytAiModelLabel");
+      if (modelLabel) modelLabel.textContent = t.modelLabel || "Model:";
+      const testModelBtn = document.getElementById("ytAiTestModelBtn");
+      if (testModelBtn) testModelBtn.textContent = t.testModelBtn || "\u26A1 Test";
+      const tempLabel = document.getElementById("ytAiTempLabel");
+      if (tempLabel) tempLabel.textContent = t.tempLabel || "AI Creativity (Temperature):";
+      const tempSelect = document.getElementById("ytAiTemperatureSelect");
+      if (tempSelect) {
+        const opt0 = tempSelect.querySelector('option[value="0.0"]');
+        if (opt0) opt0.textContent = t.tempStrict || "0.0 - Strict & Precise";
+        const opt3 = tempSelect.querySelector('option[value="0.3"]');
+        if (opt3) opt3.textContent = t.tempBalanced || "0.3 - Balanced (Default)";
+        const opt7 = tempSelect.querySelector('option[value="0.7"]');
+        if (opt7) opt7.textContent = t.tempCreative || "0.7 - Creative & Detailed";
+        const opt1 = tempSelect.querySelector('option[value="1.0"]');
+        if (opt1) opt1.textContent = t.tempWild || "1.0 - Highly Inventive";
+      }
+      const maxTokensLabel = document.getElementById("ytAiMaxTokensLabel");
+      if (maxTokensLabel) maxTokensLabel.textContent = t.maxTokensLabel || "Max Length (Tokens):";
+      const tokensSelect = document.getElementById("ytAiMaxTokensSelect");
+      if (tokensSelect) {
+        const optAuto = tokensSelect.querySelector('option[value="auto"]');
+        if (optAuto) optAuto.textContent = t.tokensAuto || "Automatic (Default)";
+        const opt1k = tokensSelect.querySelector('option[value="1024"]');
+        if (opt1k) opt1k.textContent = t.tokensShort || "Short (1,024)";
+        const opt2k = tokensSelect.querySelector('option[value="2048"]');
+        if (opt2k) opt2k.textContent = t.tokensStandard || "Standard (2,048)";
+        const opt4k = tokensSelect.querySelector('option[value="4096"]');
+        if (opt4k) opt4k.textContent = t.tokensDetailed || "Detailed (4,096)";
+        const opt8k = tokensSelect.querySelector('option[value="8192"]');
+        if (opt8k) opt8k.textContent = t.tokensMax || "Maximum (8,192)";
+      }
+      const autoSummarizeLabel = document.getElementById("ytAiAutoSummarizeLabel");
+      if (autoSummarizeLabel) autoSummarizeLabel.textContent = t.autoSummarizeLabel || "Auto-summarize";
+      const customPromptLabel = document.getElementById("ytAiCustomPromptLabel");
+      if (customPromptLabel) customPromptLabel.textContent = t.customPromptLabel || "Custom AI Instructions:";
+      const customPromptInput = document.getElementById("ytAiCustomPromptInput");
+      if (customPromptInput) customPromptInput.placeholder = t.customPromptPlaceholder || "e.g. Focus on technical details...";
+      const voiceLabel = document.getElementById("ytAiVoiceLabel");
+      if (voiceLabel) voiceLabel.textContent = t.voiceSelectLabel || "Voice:";
+      const ttsSpeedLabel = document.getElementById("ytAiTtsSpeedLabel");
+      if (ttsSpeedLabel) ttsSpeedLabel.textContent = t.ttsSpeedLabel || "Voice Speed:";
+      const testSpeechBtn = document.getElementById("ytAiTestSpeechBtn");
+      if (testSpeechBtn) testSpeechBtn.textContent = t.testTtsBtn || "\u{1F50A} Test Voice";
+      const whisperUrlLabel = document.getElementById("ytAiWhisperUrlLabel");
+      if (whisperUrlLabel) whisperUrlLabel.textContent = t.whisperUrlLabel || "Local Whisper Server:";
+      const whisperUrlInput = document.getElementById("ytAiWhisperUrlInput");
+      if (whisperUrlInput) whisperUrlInput.placeholder = t.whisperUrlPlaceholder || "e.g. http://localhost:8000/...";
+      const testWhisperBtn = document.getElementById("ytAiTestWhisperBtn");
+      if (testWhisperBtn) testWhisperBtn.textContent = t.testSttBtn || "\u26A1 Test STT";
+    }
+  };
+
+  // src/content/ui/MarkdownRenderer.js
+  var MarkdownRenderer = class _MarkdownRenderer {
+    /**
+     * Safe HTML injection with Trusted Types fallback
+     * @param {HTMLElement} element
+     * @param {string} html
+     */
+    static safeSetInnerHTML(element, html) {
+      if (!element) return;
+      try {
+        if (window.trustedTypes && window.trustedTypes.defaultPolicy) {
+          element.innerHTML = window.trustedTypes.defaultPolicy.createHTML(html);
+          return;
+        }
+        if (window.trustedTypes && window.trustedTypes.createPolicy) {
+          if (!window.__ytAiPolicy) {
+            try {
+              window.__ytAiPolicy = window.trustedTypes.createPolicy("yt-ai-policy", {
+                createHTML: (s) => s
+              });
+            } catch (e) {
+            }
+          }
+          if (window.__ytAiPolicy) {
+            element.innerHTML = window.__ytAiPolicy.createHTML(html);
+            return;
+          }
+        }
+        element.innerHTML = html;
+      } catch (e) {
+        try {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+          element.replaceChildren(...doc.body.childNodes);
+        } catch (err) {
+          element.textContent = (html || "").replace(/<[^>]*>/g, "");
+        }
+      }
+    }
+    /**
+     * HTML entity escaping
+     * @param {string} str
+     * @returns {string}
+     */
+    static escapeHtml(str) {
+      if (!str) return "";
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+    /**
+     * Splits text into natural sentences
+     * @param {string} text
+     * @returns {Array<string>}
+     */
+    static splitSentences(text) {
+      if (!text) return [];
+      const parts = text.split(/(?<=[.!?])\s+(?=[A-ZÀ-ÖØ-ß«"'])/u);
+      return parts.map((s) => s.trim()).filter(Boolean);
+    }
+    /**
+     * Parses bullet point text into title and body
+     * @param {string} rawText
+     * @returns {{ hasTitle: boolean, title: string, sentences: Array<string> }}
+     */
+    static parsePoint(rawText) {
+      const colonMatch = rawText.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\s'\-_–—]{2,60})\s*:\s*(.*)$/);
+      if (colonMatch) {
+        const rawTitle = colonMatch[1].trim();
+        const cleanTitle = rawTitle.replace(/^\*\*|\*\*$/g, "").trim();
+        const body = colonMatch[2].trim();
+        return {
+          hasTitle: true,
+          title: cleanTitle + " :",
+          sentences: [body]
+        };
+      }
+      return {
+        hasTitle: false,
+        title: "",
+        sentences: [rawText]
+      };
+    }
+    /**
+     * Formats inline Markdown (bold, italic, code, clickable timestamps)
+     * @param {string} text
+     * @returns {string}
+     */
+    static formatInline(text) {
+      let escaped = _MarkdownRenderer.escapeHtml(text);
+      escaped = escaped.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+      escaped = escaped.replace(/\*(.*?)\*/g, "<em>$1</em>");
+      escaped = escaped.replace(/`([^`]+)`/g, "<code>$1</code>");
+      escaped = escaped.replace(/\b(?:(\d{1,2}):)?(\d{1,2}):(\d{2})\b/g, (match, h, m, s) => {
+        const hours = h ? parseInt(h, 10) : 0;
+        const minutes = parseInt(m, 10);
+        const seconds = parseInt(s, 10);
+        const totalSec = hours * 3600 + minutes * 60 + seconds;
+        return `<a href="javascript:void(0)" class="yt-ai-timestamp-link" data-time="${totalSec}" title="Go to ${match}">\u23F1\uFE0F ${match}</a>`;
+      });
+      return escaped;
+    }
+    /**
+     * Renders structured list item ensuring bold keyword and explanation stay fluid on the same line
+     * @param {string} rawText
+     * @returns {string}
+     */
+    static renderListItem(rawText) {
+      return `<li class="yt-ai-point-item">${_MarkdownRenderer.formatInline(rawText)}</li>`;
+    }
+    /**
+     * Renders complete Markdown document into target DOM container
+     * @param {string} mdText
+     * @param {HTMLElement} container
+     */
+    static renderMarkdown(mdText, container) {
+      if (!mdText) {
+        container.innerHTML = "";
+        return;
+      }
+      const lines = mdText.split("\n");
+      let html = "";
+      let inUl = false;
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (line.startsWith("### ")) {
+          if (inUl) {
+            html += "</ul>";
+            inUl = false;
+          }
+          html += `<h3>${_MarkdownRenderer.formatInline(line.slice(4))}</h3>`;
+          continue;
+        }
+        if (line.startsWith("## ") || line.startsWith("# ")) {
+          if (inUl) {
+            html += "</ul>";
+            inUl = false;
+          }
+          html += `<h2>${_MarkdownRenderer.formatInline(line.replace(/^#+\s*/, ""))}</h2>`;
+          continue;
+        }
+        const ulMatch = line.match(/^[-*•]\s+(.*)$/);
+        if (ulMatch) {
+          if (!inUl) {
+            html += '<ul class="yt-ai-points-list">';
+            inUl = true;
+          }
+          html += _MarkdownRenderer.renderListItem(ulMatch[1]);
+          continue;
+        }
+        if (inUl) {
+          html += "</ul>";
+          inUl = false;
+        }
+        const trimmed = line.trim();
+        if (trimmed.length > 0) {
+          const pointMatch = trimmed.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\s'\-_–—]{2,60})\s*:\s+(.*[.!?].*)$/);
+          if (pointMatch) {
+            html += `<ul class="yt-ai-points-list">${_MarkdownRenderer.renderListItem(trimmed)}</ul>`;
+          } else {
+            html += `<p>${_MarkdownRenderer.formatInline(trimmed)}</p>`;
+          }
+        }
+      }
+      if (inUl) html += "</ul>";
+      _MarkdownRenderer.safeSetInnerHTML(container, html);
+    }
+  };
+  var safeSetInnerHTML = MarkdownRenderer.safeSetInnerHTML;
+  var escapeHtml = MarkdownRenderer.escapeHtml;
+  var formatInline = MarkdownRenderer.formatInline;
+  var renderMarkdown = MarkdownRenderer.renderMarkdown;
+  var renderListItem = MarkdownRenderer.renderListItem;
+  var splitSentences = MarkdownRenderer.splitSentences;
+  var parsePoint = MarkdownRenderer.parsePoint;
+
+  // src/content/ui/BannerI18n.js
+  var BannerI18n = class _BannerI18n {
+    /**
+     * Applies localized strings to all banner elements
+     * @param {string} lang
+     * @param {Object} state
+     * @param {Object} [summaryViewController]
+     * @param {Object} [chatViewController]
+     * @param {boolean} [isExpanded=false]
+     */
+    static applyLanguage(lang, state2, summaryViewController2 = null, chatViewController2 = null, isExpanded = false) {
+      if (state2) state2.currentLang = lang;
+      const t = I18N[lang] || I18N.en;
+      const langSelect = document.getElementById("ytAiLangSelect");
+      if (langSelect) {
+        langSelect.title = t.langLabel || "Language:";
+        if (langSelect.value !== lang) langSelect.value = lang;
+      }
+      const modeSelect = document.getElementById("ytAiModeSelect");
+      if (modeSelect) {
+        modeSelect.title = t.formatLabel || "Format:";
+        const optQuick = modeSelect.querySelector('option[value="quick"]');
+        if (optQuick) optQuick.textContent = t.formatQuick || "\u26A1 Quick";
+        const optStandard = modeSelect.querySelector('option[value="standard"]');
+        if (optStandard) optStandard.textContent = t.formatStandard || "\u{1F4CC} Standard";
+        const optDetailed = modeSelect.querySelector('option[value="detailed"]');
+        if (optDetailed) optDetailed.textContent = t.formatDetailed || "\u{1F4DD} Deep";
+      }
+      const brandTitle = document.getElementById("ytAiBrandTitle");
+      if (brandTitle) brandTitle.textContent = t.brandName || "YT Summarizer AI";
+      const summarizeBtn = document.getElementById("ytAiSummarizeBtn");
+      if (summarizeBtn) {
+        if (summaryViewController2?.isGenerating) {
+          summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || "Generating summary..."}`;
+        } else {
+          summarizeBtn.textContent = t.summarizeBtn || "\u2728 Summarize video";
+        }
+      }
+      const toggleText = document.getElementById("ytAiToggleText");
+      if (toggleText) toggleText.textContent = isExpanded ? t.collapse : t.expand;
+      const toggleIcon = document.getElementById("ytAiToggleIcon");
+      if (toggleIcon) toggleIcon.textContent = isExpanded ? "\u25B2" : "\u25BE";
+      const settingsBtnText = document.getElementById("ytAiSettingsBtnText");
+      if (settingsBtnText) settingsBtnText.textContent = t.settingsBtn || "Settings";
+      const tabSummaryBtn = document.getElementById("ytAiTabSummaryBtn");
+      if (tabSummaryBtn) tabSummaryBtn.textContent = t.tabSummary || "\u{1F4DD} AI Summary";
+      const tabChatBtn = document.getElementById("ytAiTabChatBtn");
+      if (tabChatBtn) {
+        const count = document.getElementById("ytAiChatCount")?.textContent || "0";
+        tabChatBtn.innerHTML = `${escapeHtml(t.tabChat || "\u{1F4AC} Ask a question")} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
+      }
+      const tabTranscriptBtn = document.getElementById("ytAiTabTranscriptBtn");
+      if (tabTranscriptBtn) {
+        const rawCount = (document.getElementById("ytAiWordCount")?.textContent || "0").trim();
+        tabTranscriptBtn.innerHTML = `${escapeHtml(t.tabTranscript || "\u{1F4DC} Transcript")} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">${escapeHtml(rawCount)} ${escapeHtml(t.wordsBadge || "words")}</span>`;
+      }
+      SettingsDrawerI18n.applyLanguage(lang);
+      _BannerI18n.applySummaryLanguage(t, state2, summaryViewController2);
+      _BannerI18n.applyChatLanguage(t, state2, chatViewController2);
+      _BannerI18n.applyTranscriptAndFooter(t);
+    }
+    static applySummaryLanguage(t, state2, summaryViewController2) {
+      const title = document.getElementById("ytAiSummaryHeaderTitle");
+      if (title) title.textContent = t.summaryTitle || "\u{1F4DD} AI Summary";
+      const speakBtn = document.getElementById("ytAiSpeakSummaryBtn");
+      if (speakBtn) speakBtn.textContent = t.listenBtn || "\u{1F50A} Listen";
+      const copyBtn = document.getElementById("ytAiCopyBtn");
+      if (copyBtn) copyBtn.textContent = t.copyBtn || "\u{1F4CB} Copy";
+      const dlBtn = document.getElementById("ytAiDownloadBtn");
+      if (dlBtn) dlBtn.textContent = t.saveMdBtn || "\u{1F4BE} .md";
+      const saveTxtBtn = document.getElementById("ytAiSaveTxtBtn");
+      if (saveTxtBtn) saveTxtBtn.textContent = t.saveTxtBtn || "\u{1F4C4} .txt";
+      const saveJsonBtn = document.getElementById("ytAiSaveJsonBtn");
+      if (saveJsonBtn) saveJsonBtn.textContent = t.saveJsonBtn || "\u{1F4E6} .json";
+      if (typeof summaryViewController2?.applyLanguage === "function") {
+        summaryViewController2.applyLanguage(state2?.currentLang || "en");
+      } else {
+        const emptyTitle = document.querySelector("#ytAiSummaryBody .yt-ai-empty-title");
+        const emptySubtitle = document.querySelector("#ytAiSummaryBody .yt-ai-empty-subtitle");
+        const heroBtn = document.getElementById("ytAiSummaryHeroBtn");
+        if (emptyTitle) emptyTitle.textContent = t.newVideoTitle || t.emptyTitle || "Nouvelle vid\xE9o d\xE9tect\xE9e";
+        if (emptySubtitle) emptySubtitle.textContent = t.newVideoPlaceholder || t.emptySubtitle || "";
+        if (heroBtn) heroBtn.textContent = t.summarizeBtn || "\u2728 Summarize video";
+      }
+      const placeholderP = document.querySelector("#ytAiSummaryBody > p");
+      if (placeholderP && !document.querySelector("#ytAiSummaryBody .yt-ai-empty-title")) {
+        placeholderP.textContent = t.summaryPlaceholder || 'Click "\u2728 Summarize video" to generate the summary.';
+      }
+      const hasError = !!document.getElementById("ytAiRetrySummarizeBtn");
+      if (!hasError && summaryViewController2 && !summaryViewController2.fullSummaryMarkdown && !summaryViewController2.isGenerating) {
+        summaryViewController2.renderSummaryEmptyState(true, state2?.currentLang || "en");
+      }
+    }
+    static applyChatLanguage(t, state2, chatViewController2) {
+      const sugBox = document.querySelector?.(".yt-ai-chat-suggestions");
+      if (sugBox && Array.isArray(t.suggestions) && t.suggestions.length > 0) {
+        sugBox.innerHTML = t.suggestions.map(
+          (s) => `<span class="yt-ai-suggestion-chip" data-question="${(s.question || "").replace(/"/g, "&quot;")}">${escapeHtml(s.label)}</span>`
+        ).join("");
+      }
+      const input = document.getElementById("ytAiChatInput");
+      if (input) input.placeholder = t.chatPlaceholder || "Ask a question...";
+      const sendBtn = document.getElementById("ytAiSendChatBtn");
+      if (sendBtn) sendBtn.textContent = t.sendBtn || "Send \u27A4";
+      const clearBtn = document.getElementById("ytAiClearChatBtn");
+      if (clearBtn) clearBtn.textContent = t.clearChatBtn || "\u{1F5D1}\uFE0F Clear";
+      const chatTitle = document.querySelector?.("#ytAiPaneChat .yt-ai-pane-title span");
+      if (chatTitle) chatTitle.textContent = t.chatTitle || "\u{1F4AC} Video Q&A";
+      const micBtn = document.getElementById("ytAiMicBtn");
+      if (micBtn) micBtn.title = t.micTitle || "Dictate question";
+      if (typeof chatViewController2?.applyLanguage === "function") chatViewController2.applyLanguage(state2?.currentLang || "en");
+    }
+    static applyTranscriptAndFooter(t) {
+      const copyRawBtn = document.getElementById("ytAiCopyTranscriptBtn");
+      if (copyRawBtn) copyRawBtn.textContent = t.copyRawBtn || "\u{1F4CB} Copy raw";
+      const body = document.getElementById("ytAiTranscriptBody");
+      if (body && (body.querySelector(".yt-ai-loading") || body.textContent.includes("..."))) {
+        body.innerHTML = `<div class="yt-ai-loading">${escapeHtml(t.transcriptWaiting || "Waiting...")}</div>`;
+      }
+      const footerAuthor = document.getElementById("ytAiFooterAuthor");
+      if (footerAuthor) {
+        footerAuthor.innerHTML = `YouTube Summarizer AI <strong>v1.3.2</strong> ${escapeHtml(t.footerBy || "by")} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
+      }
+      const bugLink = document.getElementById("ytAiFooterBugLink");
+      if (bugLink) bugLink.textContent = `\u{1F41B} ${t.footerReportBug || "Report a bug"}`;
+      const docsLink = document.getElementById("ytAiFooterDocsLink");
+      if (docsLink) docsLink.textContent = `\u{1F4D6} ${t.footerDocs || "Documentation"}`;
+    }
   };
 
   // src/config/AIProviderPresets.js
@@ -1434,9 +1855,13 @@
 
                 <!-- Zone Cloud (Cl\xE9 API) -->
                 <div id="ytAiCloudSettings" class="yt-ai-setting-item yt-ai-hidden">
-                  <label id="ytAiApiKeyLabel">${t.apiKeyLabel || "API Key:"}</label>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <label id="ytAiApiKeyLabel">${t.apiKeyLabel || "API Key:"}</label>
+                    <span id="ytAiApiKeyHint" style="font-size: 11px; color: var(--yt-ai-timestamp-text); opacity: 0.9;"></span>
+                  </div>
                   <div class="yt-ai-input-with-btn">
                     <input type="password" id="ytAiApiKeyInput" class="yt-ai-input yt-ai-api-key-input" placeholder="${t.apiKeyPlaceholder || "Paste your API key..."}" style="flex: 1;">
+                    <button id="ytAiPasteApiKeyBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.pasteTooltip || "Paste from clipboard"}" style="padding: 4px 8px; font-size: 11px;">\u{1F4CB} ${t.pasteBtn || "Paste"}</button>
                     <a id="ytAiGetApiKeyLink" class="yt-ai-link-pill" href="#" target="_blank" rel="noopener">${t.getApiKeyLink || "\u{1F511} Get Key"}</a>
                   </div>
                 </div>
@@ -1457,15 +1882,6 @@
             <!-- SOUS-ONGLET 2 : PARAM\xC8TRES IA & PROMPT -->
             <div id="ytAiSettingsSubpaneParams" class="yt-ai-settings-subpane">
               <div class="yt-ai-settings-grid">
-                <div class="yt-ai-setting-item">
-                  <label id="ytAiModeLabel">${t.formatLabel || "Format:"}</label>
-                  <select id="ytAiModeSelect" class="yt-ai-select">
-                    <option value="quick">${t.formatQuick || "\u26A1 Quick"}</option>
-                    <option value="standard" selected>${t.formatStandard || "\u{1F4CC} Standard"}</option>
-                    <option value="detailed">${t.formatDetailed || "\u{1F4DD} Deep"}</option>
-                  </select>
-                </div>
-
                 <div class="yt-ai-setting-item">
                   <label id="ytAiTempLabel">${t.tempLabel || "AI Creativity (Temperature):"}</label>
                   <select id="ytAiTemperatureSelect" class="yt-ai-select">
@@ -1556,7 +1972,9 @@
      */
     static render(t, options = {}) {
       const drawerHtml = SettingsDrawerTemplate.render(t, options);
-      const version = options.version || "v1.3.3";
+      const version = options.version || "v1.3.2";
+      const currentMode = options.currentMode || "standard";
+      const currentLang = options.currentLang || "fr";
       const suggestionsHtml = Array.isArray(t.suggestions) && t.suggestions.length > 0 ? t.suggestions.map((s) => `<span class="yt-ai-suggestion-chip" data-question="${(s.question || "").replace(/"/g, "&quot;")}">${s.label}</span>`).join("") : `<span class="yt-ai-suggestion-chip" data-question="What are the core key takeaways from this video?">\u{1F4A1} Key takeaways</span><span class="yt-ai-suggestion-chip" data-question="At what point in the video is the main topic discussed?">\u23F1\uFE0F Timestamps</span><span class="yt-ai-suggestion-chip" data-question="What specific figures, examples, or arguments are presented?">\u{1F4CA} Data & Figures</span><span class="yt-ai-suggestion-chip" data-question="What is the author's final conclusion or actionable advice?">\u{1F3AF} Conclusion & Advice</span>`;
       return `
       <!-- BARRE SUP\xC9RIEURE ULTRA-MINIMALISTE -->
@@ -1573,16 +1991,26 @@
 
         <div class="yt-ai-header-center">
           <div class="yt-ai-action-cluster">
-            <div class="yt-ai-header-lang-wrapper">
+            <!-- S\xC9LECTEUR DE FORMAT DU R\xC9SUM\xC9 -->
+            <div class="yt-ai-header-select-wrapper yt-ai-header-mode-wrapper">
+              <select id="ytAiModeSelect" class="yt-ai-select yt-ai-header-mode-select" title="${t.formatLabel || "Format:"}">
+                <option value="quick" ${currentMode === "quick" ? "selected" : ""}>${t.formatQuick || "\u26A1 Quick"}</option>
+                <option value="standard" ${currentMode === "standard" || !currentMode ? "selected" : ""}>${t.formatStandard || "\u{1F4CC} Standard"}</option>
+                <option value="detailed" ${currentMode === "detailed" ? "selected" : ""}>${t.formatDetailed || "\u{1F4DD} Deep"}</option>
+              </select>
+            </div>
+
+            <!-- S\xC9LECTEUR DE LANGUE -->
+            <div class="yt-ai-header-select-wrapper yt-ai-header-lang-wrapper">
               <select id="ytAiLangSelect" class="yt-ai-select yt-ai-header-lang-select" title="${t.langLabel || "Language:"}">
-                <option value="fr" selected>\u{1F1EB}\u{1F1F7} Fran\xE7ais</option>
-                <option value="en">\u{1F1EC}\u{1F1E7} English</option>
-                <option value="es">\u{1F1EA}\u{1F1F8} Espa\xF1ol</option>
-                <option value="de">\u{1F1E9}\u{1F1EA} Deutsch</option>
-                <option value="it">\u{1F1EE}\u{1F1F9} Italiano</option>
-                <option value="ru">\u{1F1F7}\u{1F1FA} \u0420\u0443\u0441\u0441\u043A\u0438\u0439</option>
-                <option value="ja">\u{1F1EF}\u{1F1F5} \u65E5\u672C\u8A9E</option>
-                <option value="zh">\u{1F1E8}\u{1F1F3} \u4E2D\u6587</option>
+                <option value="fr" ${currentLang === "fr" ? "selected" : ""}>\u{1F1EB}\u{1F1F7} Fran\xE7ais</option>
+                <option value="en" ${currentLang === "en" ? "selected" : ""}>\u{1F1EC}\u{1F1E7} English</option>
+                <option value="es" ${currentLang === "es" ? "selected" : ""}>\u{1F1EA}\u{1F1F8} Espa\xF1ol</option>
+                <option value="de" ${currentLang === "de" ? "selected" : ""}>\u{1F1E9}\u{1F1EA} Deutsch</option>
+                <option value="it" ${currentLang === "it" ? "selected" : ""}>\u{1F1EE}\u{1F1F9} Italiano</option>
+                <option value="ru" ${currentLang === "ru" ? "selected" : ""}>\u{1F1F7}\u{1F1FA} \u0420\u0443\u0441\u0441\u043A\u0438\u0439</option>
+                <option value="ja" ${currentLang === "ja" ? "selected" : ""}>\u{1F1EF}\u{1F1F5} \u65E5\u672C\u8A9E</option>
+                <option value="zh" ${currentLang === "zh" ? "selected" : ""}>\u{1F1E8}\u{1F1F3} \u4E2D\u6587</option>
               </select>
             </div>
 
@@ -1675,7 +2103,7 @@
 
               <!-- Ligne de saisie avec bouton micro -->
               <div class="yt-ai-chat-input-row">
-                <input type="text" id="ytAiChatInput" class="yt-ai-chat-input" placeholder="${t.chatPlaceholder || "Ask a question or dictate with mic..."}">
+                <textarea id="ytAiChatInput" class="yt-ai-chat-input" rows="1" placeholder="${t.chatPlaceholder || "Ask a question or dictate with mic..."}"></textarea>
                 <button id="ytAiMicBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-mic-btn" title="${t.micTitle || "Dictate your question with microphone"}">
                   <span class="yt-ai-mic-icon">\u{1F3A4}</span>
                 </button>
@@ -1758,195 +2186,6 @@
     initThemeSync
   };
 
-  // src/content/ui/MarkdownRenderer.js
-  var MarkdownRenderer = class _MarkdownRenderer {
-    /**
-     * Safe HTML injection with Trusted Types fallback
-     * @param {HTMLElement} element
-     * @param {string} html
-     */
-    static safeSetInnerHTML(element, html) {
-      if (!element) return;
-      try {
-        if (window.trustedTypes && window.trustedTypes.defaultPolicy) {
-          element.innerHTML = window.trustedTypes.defaultPolicy.createHTML(html);
-          return;
-        }
-        if (window.trustedTypes && window.trustedTypes.createPolicy) {
-          if (!window.__ytAiPolicy) {
-            try {
-              window.__ytAiPolicy = window.trustedTypes.createPolicy("yt-ai-policy", {
-                createHTML: (s) => s
-              });
-            } catch (e) {
-            }
-          }
-          if (window.__ytAiPolicy) {
-            element.innerHTML = window.__ytAiPolicy.createHTML(html);
-            return;
-          }
-        }
-        element.innerHTML = html;
-      } catch (e) {
-        try {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, "text/html");
-          element.replaceChildren(...doc.body.childNodes);
-        } catch (err) {
-          element.textContent = (html || "").replace(/<[^>]*>/g, "");
-        }
-      }
-    }
-    /**
-     * HTML entity escaping
-     * @param {string} str
-     * @returns {string}
-     */
-    static escapeHtml(str) {
-      if (!str) return "";
-      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-    }
-    /**
-     * Splits text into natural sentences
-     * @param {string} text
-     * @returns {Array<string>}
-     */
-    static splitSentences(text) {
-      if (!text) return [];
-      const parts = text.split(/(?<=[.!?])\s+(?=[A-ZÀ-ÖØ-ß«"'])/u);
-      return parts.map((s) => s.trim()).filter(Boolean);
-    }
-    /**
-     * Parses bullet point text into title and body sentences
-     * @param {string} rawText
-     * @returns {{ hasTitle: boolean, title: string, sentences: Array<string> }}
-     */
-    static parsePoint(rawText) {
-      const colonMatch = rawText.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\s'\-_–—]{2,60})\s*:\s*(.*)$/);
-      if (colonMatch) {
-        const rawTitle = colonMatch[1].trim();
-        const cleanTitle = rawTitle.replace(/^\*\*|\*\*$/g, "").trim();
-        const body = colonMatch[2].trim();
-        const sentences = _MarkdownRenderer.splitSentences(body);
-        return {
-          hasTitle: true,
-          title: cleanTitle + " :",
-          sentences: sentences.length > 0 ? sentences : [body]
-        };
-      }
-      return {
-        hasTitle: false,
-        title: "",
-        sentences: _MarkdownRenderer.splitSentences(rawText)
-      };
-    }
-    /**
-     * Formats inline Markdown (bold, italic, code, clickable timestamps)
-     * @param {string} text
-     * @returns {string}
-     */
-    static formatInline(text) {
-      let escaped = _MarkdownRenderer.escapeHtml(text);
-      escaped = escaped.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-      escaped = escaped.replace(/\*(.*?)\*/g, "<em>$1</em>");
-      escaped = escaped.replace(/`([^`]+)`/g, "<code>$1</code>");
-      escaped = escaped.replace(/\b(?:(\d{1,2}):)?(\d{1,2}):(\d{2})\b/g, (match, h, m, s) => {
-        const hours = h ? parseInt(h, 10) : 0;
-        const minutes = parseInt(m, 10);
-        const seconds = parseInt(s, 10);
-        const totalSec = hours * 3600 + minutes * 60 + seconds;
-        return `<a href="javascript:void(0)" class="yt-ai-timestamp-link" data-time="${totalSec}" title="Go to ${match}">\u23F1\uFE0F ${match}</a>`;
-      });
-      return escaped;
-    }
-    /**
-     * Renders structured list item
-     * @param {string} rawText
-     * @returns {string}
-     */
-    static renderListItem(rawText) {
-      const parsed = _MarkdownRenderer.parsePoint(rawText);
-      const sentenceDivs = parsed.sentences.map((s) => `<div class="yt-ai-point-sentence">${_MarkdownRenderer.formatInline(s)}</div>`).join("");
-      if (parsed.hasTitle) {
-        return `
-        <li class="yt-ai-point-item">
-          <div class="yt-ai-point-title"><strong>${_MarkdownRenderer.formatInline(parsed.title)}</strong></div>
-          <div class="yt-ai-point-body">${sentenceDivs}</div>
-        </li>
-      `;
-      }
-      return `
-      <li class="yt-ai-point-item">
-        <div class="yt-ai-point-body" style="padding-left: 14px;">${sentenceDivs}</div>
-      </li>
-    `;
-    }
-    /**
-     * Renders complete Markdown document into target DOM container
-     * @param {string} mdText
-     * @param {HTMLElement} container
-     */
-    static renderMarkdown(mdText, container) {
-      if (!mdText) {
-        container.innerHTML = "";
-        return;
-      }
-      const lines = mdText.split("\n");
-      let html = "";
-      let inUl = false;
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        if (line.startsWith("### ")) {
-          if (inUl) {
-            html += "</ul>";
-            inUl = false;
-          }
-          html += `<h3>${_MarkdownRenderer.formatInline(line.slice(4))}</h3>`;
-          continue;
-        }
-        if (line.startsWith("## ") || line.startsWith("# ")) {
-          if (inUl) {
-            html += "</ul>";
-            inUl = false;
-          }
-          html += `<h2>${_MarkdownRenderer.formatInline(line.replace(/^#+\s*/, ""))}</h2>`;
-          continue;
-        }
-        const ulMatch = line.match(/^[-*•]\s+(.*)$/);
-        if (ulMatch) {
-          if (!inUl) {
-            html += '<ul class="yt-ai-points-list">';
-            inUl = true;
-          }
-          html += _MarkdownRenderer.renderListItem(ulMatch[1]);
-          continue;
-        }
-        if (inUl) {
-          html += "</ul>";
-          inUl = false;
-        }
-        const trimmed = line.trim();
-        if (trimmed.length > 0) {
-          const pointMatch = trimmed.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\s'\-_–—]{2,60})\s*:\s+(.*[.!?].*)$/);
-          if (pointMatch) {
-            html += `<ul class="yt-ai-points-list">${_MarkdownRenderer.renderListItem(trimmed)}</ul>`;
-          } else {
-            html += `<p>${_MarkdownRenderer.formatInline(trimmed)}</p>`;
-          }
-        }
-      }
-      if (inUl) html += "</ul>";
-      _MarkdownRenderer.safeSetInnerHTML(container, html);
-    }
-  };
-  var safeSetInnerHTML = MarkdownRenderer.safeSetInnerHTML;
-  var escapeHtml = MarkdownRenderer.escapeHtml;
-  var formatInline = MarkdownRenderer.formatInline;
-  var renderMarkdown = MarkdownRenderer.renderMarkdown;
-  var renderListItem = MarkdownRenderer.renderListItem;
-  var splitSentences = MarkdownRenderer.splitSentences;
-  var parsePoint = MarkdownRenderer.parsePoint;
-
   // src/content/ui/NavigationObserver.js
   var NavigationObserver = class _NavigationObserver {
     /**
@@ -1989,6 +2228,53 @@
       } catch (_) {
         return "";
       }
+    }
+    /**
+     * Extracts YouTube video ID embedded within free-form text or URL
+     * @param {string} text
+     * @returns {string}
+     */
+    static extractVideoIdFromText(text) {
+      const ids = _NavigationObserver.extractAllVideoIdsFromText(text);
+      return ids[0] || "";
+    }
+    /**
+     * Extracts all unique YouTube video IDs embedded within free-form text
+     * @param {string} text
+     * @returns {string[]}
+     */
+    static extractAllVideoIdsFromText(text) {
+      if (!text || typeof text !== "string") return [];
+      const urlMatches = text.match(/https?:\/\/[^\s"'<>\)]+/gi) || [];
+      const ids = [];
+      const parseUrl = (rawUrl) => {
+        try {
+          const u = new URL(rawUrl);
+          const v = u.searchParams.get("v");
+          if (v && v.length >= 11) return v.slice(0, 11);
+          if (v) return v;
+          const liveMatch = u.pathname.match(/^\/(?:embed|shorts|live)\/([^/?#]+)/);
+          if (liveMatch) return liveMatch[1].slice(0, 11);
+          if (u.hostname === "youtu.be" || u.hostname.endsWith(".youtu.be")) {
+            const id = u.pathname.replace(/^\//, "").split("?")[0];
+            if (id) return id.slice(0, 11);
+          }
+        } catch (_) {
+        }
+        const fallback = rawUrl.match(/(?:(?:www|m)\.)?(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i);
+        return fallback ? fallback[1] : "";
+      };
+      for (const raw of urlMatches) {
+        const vid = parseUrl(raw);
+        if (vid && !ids.includes(vid)) ids.push(vid);
+      }
+      if (ids.length === 0) {
+        const genericMatch = text.matchAll(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/gi);
+        for (const gm of genericMatch) {
+          if (gm[1] && !ids.includes(gm[1])) ids.push(gm[1]);
+        }
+      }
+      return ids;
     }
     /**
      * Starts navigation and DOM listeners
@@ -2040,6 +2326,8 @@
   };
   var isWatchPage = NavigationObserver.isWatchPage;
   var getVideoId = NavigationObserver.getVideoId;
+  var extractVideoIdFromText = NavigationObserver.extractVideoIdFromText;
+  var extractAllVideoIdsFromText = NavigationObserver.extractAllVideoIdsFromText;
   var observeNavigation = NavigationObserver.observeNavigation;
 
   // src/content/ui/BannerView.js
@@ -2059,14 +2347,14 @@
       const existing = document.getElementById("yt-ai-summarizer-container");
       if (existing && existing.isConnected) return;
       if (existing) existing.remove();
-      const watchContainer = document.querySelector("ytd-watch-flexy, ytd-watch-grid");
+      const watchContainer = document.querySelector?.("ytd-watch-flexy, ytd-watch-grid");
       let parent = null;
       let refChild = null;
       if (watchContainer && watchContainer.isConnected) {
         parent = watchContainer;
         refChild = watchContainer.querySelector("#player-theater-container") || watchContainer.querySelector("#columns") || watchContainer.firstChild;
       } else {
-        const columns = document.getElementById("columns") || document.querySelector("ytd-watch-flexy #columns, ytd-watch-grid #columns");
+        const columns = document.getElementById("columns") || document.querySelector?.("ytd-watch-flexy #columns, ytd-watch-grid #columns");
         if (columns && columns.parentNode) {
           parent = columns.parentNode;
           refChild = columns;
@@ -2088,7 +2376,11 @@
       ThemeManager.syncThemeWithYouTube(banner);
       const lang = this.state.currentLang || "en";
       const t = I18N[lang] || I18N.en;
-      safeSetInnerHTML(banner, BannerTemplate.render(t, { version: "v1.3.3" }));
+      safeSetInnerHTML(banner, BannerTemplate.render(t, {
+        version: "v1.3.2",
+        currentMode: this.currentMode || this.state.summaryMode || "standard",
+        currentLang: lang
+      }));
       parent.insertBefore(banner, refChild);
       if (typeof onInit === "function") onInit(banner);
     }
@@ -2135,6 +2427,7 @@
     }
     setSummaryMode(mode) {
       this.currentMode = mode;
+      if (this.state) this.state.summaryMode = mode;
       const modeSelect = document.getElementById("ytAiModeSelect");
       if (modeSelect) {
         modeSelect.value = mode;
@@ -2180,12 +2473,19 @@
       }
       const hasKey = !!this.state.apiKeys[this.state.currentProvider];
       const name = PROVIDER_NAMES[this.state.currentProvider] || this.state.currentProvider;
-      if (hasKey) {
-        badge.className = "yt-ai-badge online";
-        badgeText.textContent = `${name} (${t.keyOk || "Key OK"})`;
-      } else {
+      const isVerified = this.state.keyVerified ? this.state.keyVerified[this.state.currentProvider] : null;
+      if (!hasKey) {
         badge.className = "yt-ai-badge offline";
         badgeText.textContent = `${name} (${t.keyRequired || "Key required"})`;
+      } else if (isVerified === true) {
+        badge.className = "yt-ai-badge online";
+        badgeText.textContent = `${name} (${t.keyOk || "Key OK"})`;
+      } else if (isVerified === false) {
+        badge.className = "yt-ai-badge offline";
+        badgeText.textContent = `${name} (${t.invalidKey || "Invalid key"})`;
+      } else {
+        badge.className = "yt-ai-badge";
+        badgeText.textContent = `${name} (${t.keySaved || "Key saved"})`;
       }
     }
     updateHeaderModelText() {
@@ -2196,82 +2496,8 @@
         el.textContent = activeM ? `${t.modelPrefix || "Model: "}${activeM}` : t.noModelSelected || "No model";
       }
     }
-    applyLanguage(lang, summaryViewController2 = null, settingsDrawer2 = null) {
-      this.state.currentLang = lang;
-      const t = I18N[lang] || I18N.en;
-      const setText = (id, txt) => {
-        const el = document.getElementById(id);
-        if (el && txt) el.textContent = txt;
-      };
-      const langSelect = document.getElementById("ytAiLangSelect");
-      if (langSelect && langSelect.value !== lang) langSelect.value = lang;
-      setText("ytAiBrandTitle", t.brandName || "YT Summarizer AI");
-      if (!summaryViewController2?.isGenerating) setText("ytAiSummarizeBtn", t.summarizeBtn || "\u2728 Summarize video");
-      setText("ytAiToggleText", this.isExpanded ? t.collapse : t.expand);
-      setText("ytAiSettingsBtnText", t.settingsBtn || "Settings");
-      setText("ytAiTabSummaryBtn", t.tabSummary || "\u{1F4DD} AI Summary");
-      const tabChatBtn = document.getElementById("ytAiTabChatBtn");
-      if (tabChatBtn) {
-        const count = document.getElementById("ytAiChatCount")?.textContent || "0";
-        safeSetInnerHTML(tabChatBtn, `${escapeHtml(t.tabChat || "\u{1F4AC} Ask a question")} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`);
-      }
-      const tabTranscriptBtn = document.getElementById("ytAiTabTranscriptBtn");
-      if (tabTranscriptBtn) {
-        const rawCount = (document.getElementById("ytAiWordCountTab")?.textContent || "0").replace(/[^0-9]/g, "") || "0";
-        const formattedCount = Number(rawCount) > 0 ? Number(rawCount).toLocaleString() : "0";
-        safeSetInnerHTML(tabTranscriptBtn, `${escapeHtml(t.tabTranscript || "\u{1F4DC} Transcript")} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">${escapeHtml(formattedCount)} ${escapeHtml(t.wordsBadge || "words")}</span>`);
-      }
-      const providerName = PROVIDER_NAMES[this.state.currentProvider] || (this.state.currentProvider === "ollama" ? "Ollama" : this.state.currentProvider === "lmstudio" ? "LM Studio" : this.state.currentProvider || "AI");
-      setText("ytAiSummaryHeaderTitle", `${t.summaryTitle || "\u{1F4DD} AI Summary"} (${providerName.toUpperCase()})`);
-      setText("ytAiSpeakSummaryBtn", t.listenBtn);
-      setText("ytAiCopyBtn", t.copyBtn);
-      setText("ytAiDownloadBtn", t.saveMdBtn);
-      setText("ytAiSaveTxtBtn", t.saveTxtBtn);
-      setText("ytAiSaveJsonBtn", t.saveJsonBtn);
-      const reasoningSummary = document.querySelector("#ytAiReasoningBox summary");
-      if (reasoningSummary) {
-        const statusSpan = document.getElementById("ytAiReasoningStatus");
-        const curStatus = statusSpan?.textContent || t.reasoningInProgress || "in progress...";
-        safeSetInnerHTML(reasoningSummary, `${escapeHtml(t.reasoningModel || "\u{1F4AD} Model Reasoning")} (<span id="ytAiReasoningStatus">${escapeHtml(curStatus)}</span>)`);
-      }
-      if (!summaryViewController2?.fullSummaryMarkdown) {
-        setText(document.querySelector("#ytAiSummaryBody .yt-ai-empty-title"), t.emptyTitle || "No summary generated");
-        setText(document.querySelector("#ytAiSummaryBody .yt-ai-empty-subtitle"), t.emptySubtitle || t.summaryPlaceholder || "Click below to generate the summary.");
-        if (!summaryViewController2?.isGenerating) setText("ytAiSummaryHeroBtn", t.summarizeBtn || "\u2728 Summarize video");
-      }
-      const chatPaneTitle = document.querySelector("#ytAiPaneChat .yt-ai-pane-title span");
-      if (chatPaneTitle) chatPaneTitle.textContent = t.chatTitle || "\u{1F4AC} Video Q&A";
-      setText("ytAiClearChatBtn", t.clearChatBtn);
-      const chatInput = document.getElementById("ytAiChatInput");
-      if (chatInput && t.chatPlaceholder) chatInput.placeholder = t.chatPlaceholder;
-      const micBtn = document.getElementById("ytAiMicBtn");
-      if (micBtn && t.micTitle) micBtn.title = t.micTitle;
-      setText("ytAiSendChatBtn", t.sendBtn);
-      const suggestionsContainer = document.querySelector(".yt-ai-chat-suggestions");
-      if (suggestionsContainer && Array.isArray(t.suggestions) && t.suggestions.length > 0) {
-        const suggestionsHtml = t.suggestions.map((s) => `<span class="yt-ai-suggestion-chip" data-question="${escapeHtml(s.question || "")}">${escapeHtml(s.label)}</span>`).join("");
-        safeSetInnerHTML(suggestionsContainer, suggestionsHtml);
-      }
-      const chatMessages = document.getElementById("ytAiChatMessages");
-      const userBubbles = chatMessages?.querySelectorAll(".yt-ai-chat-user, .yt-ai-chat-bubble.user");
-      if (chatMessages && (!userBubbles || userBubbles.length === 0)) {
-        const firstAiBubble = chatMessages.querySelector(".yt-ai-chat-bubble.ai, .yt-ai-chat-bubble");
-        if (firstAiBubble && t.chatWelcome) firstAiBubble.textContent = t.chatWelcome;
-      }
-      const transcriptTitle = document.querySelector("#ytAiPaneTranscript .yt-ai-pane-title span");
-      const rawWordCount = (document.getElementById("ytAiWordCount")?.textContent || "0").replace(/[^0-9]/g, "") || "0";
-      const formattedWordCount = Number(rawWordCount) > 0 ? Number(rawWordCount).toLocaleString() : "0";
-      if (transcriptTitle) {
-        safeSetInnerHTML(transcriptTitle, `${escapeHtml(t.transcriptTitle || "\u{1F4DC} Full Transcript")} (<span id="ytAiWordCount">${escapeHtml(formattedWordCount)}</span> ${escapeHtml(t.wordsBadge || "words")})`);
-      }
-      setText("ytAiCopyTranscriptBtn", t.copyRawBtn);
-      const bugLink = document.getElementById("ytAiFooterBugLink");
-      if (bugLink) bugLink.textContent = `\u{1F41B} ${t.footerReportBug || "Report a bug"}`;
-      const docsLink = document.getElementById("ytAiFooterDocsLink");
-      if (docsLink) docsLink.textContent = `\u{1F4D6} ${t.footerDocs || "Documentation"}`;
-      if (typeof settingsDrawer2?.applyLanguage === "function") {
-        settingsDrawer2.applyLanguage(lang);
-      }
+    applyLanguage(lang, summaryViewController2 = null, chatViewController2 = null) {
+      BannerI18n.applyLanguage(lang, this.state, summaryViewController2, chatViewController2, this.isExpanded);
       this.updateHeaderBadge();
       this.updateHeaderModelText();
     }
@@ -2279,25 +2505,6 @@
 
   // src/content/services/LocalModelDiscovery.js
   var LocalModelDiscovery = class _LocalModelDiscovery {
-    /**
-     * Directly fetches models for a local provider and server URL
-     */
-    static fetchLocalModels(provider, currentUrl, onSuccess = null, onError = null) {
-      if (!chrome?.runtime?.sendMessage) return;
-      chrome.runtime.sendMessage({
-        action: "FETCH_MODELS",
-        provider,
-        serverUrl: currentUrl
-      }, (response) => {
-        if (chrome.runtime.lastError || !response || !response.success && !response.ok) {
-          if (typeof onError === "function") onError(chrome.runtime.lastError || "Fetch failed");
-          return;
-        }
-        const data = response.data;
-        const models = Array.isArray(data?.data) ? data.data : Array.isArray(data?.models) ? data.models : Array.isArray(data) ? data : Array.isArray(response.models) ? response.models : [];
-        if (typeof onSuccess === "function") onSuccess(models);
-      });
-    }
     /**
      * Refreshes model list for local providers (LM Studio / Ollama)
      * @param {Object} ctx
@@ -2445,10 +2652,10 @@
       }, (res) => {
         if (res && (res.success || res.ok)) {
           const msg = (t.modelReady || 'Model "{model}" ready ({latency}ms)!').replace("{model}", model).replace("{latency}", res.latency || res.latencyMs || 0);
-          callback({ message: `\u2705 ${msg}`, isError: false });
+          callback({ message: `[\u2713] ${msg}`, isError: false, latencyMs: res.latency || res.latencyMs || 0 });
         } else {
           const errText = (t.connectionFailed || "Failed: {error}").replace("{error}", res?.error || t.connectionError || "Connection error");
-          callback({ message: `\u274C ${errText}`, isError: true });
+          callback({ message: `[!] ${errText}`, isError: true, error: res?.error });
         }
       });
     }
@@ -2477,6 +2684,145 @@
         const err = (t.whisperFailed || "Whisper STT failed: {error}").replace("{error}", e.message);
         return { message: `\u274C ${err}`, isError: true };
       }
+    }
+  };
+
+  // src/content/services/QuickOnboardingHelper.js
+  var QuickOnboardingHelper = class {
+    /**
+     * Retrieves quick-start guidance for a provider
+     * @param {string} provider
+     * @param {string} [lang='fr']
+     * @returns {{url: string, label: string, hint: string}}
+     */
+    static getQuickStartInfo(provider, lang = "fr") {
+      const p = String(provider).toLowerCase();
+      const isFr = lang === "fr";
+      const portal = API_KEY_PORTALS[p];
+      const defaultUrl = portal?.url || "https://aistudio.google.com/app/apikey";
+      if (p === "gemini") {
+        return {
+          url: defaultUrl,
+          label: isFr ? "\u26A1 Obtenir ma cl\xE9 Gemini gratuite (Google)" : "\u26A1 Get Free Gemini Key (with Google)",
+          hint: isFr ? "100% gratuit, sans carte bancaire, avec votre compte Google." : "100% free, no credit card required, with your Google account."
+        };
+      }
+      if (p === "openrouter") {
+        return {
+          url: defaultUrl,
+          label: isFr ? "\u{1F310} Lier mon compte OpenRouter" : "\u{1F310} Connect OpenRouter Account",
+          hint: isFr ? "Donne acc\xE8s \xE0 GPT-4o, Claude 3.5, Mistral et mod\xE8les gratuits." : "Access GPT-4o, Claude 3.5, Mistral, and free models."
+        };
+      }
+      if (p === "groq") {
+        return {
+          url: defaultUrl,
+          label: isFr ? "\u26A1 Obtenir ma cl\xE9 Groq (Gratuit)" : "\u26A1 Get Free Groq Key (Ultra-fast)",
+          hint: isFr ? "Inf\xE9rence ultra-rapide et gratuite (Llama 3.3)." : "Ultra-fast and free inference (Llama 3.3)."
+        };
+      }
+      const name = PROVIDER_NAMES[p] || p.toUpperCase();
+      return {
+        url: defaultUrl,
+        label: isFr ? `\u{1F511} Obtenir ma cl\xE9 ${name}` : `\u{1F511} Get ${name} API Key`,
+        hint: isFr ? `Liez votre compte ${name} pour r\xE9sumer et discuter.` : `Connect your ${name} account to summarize and chat.`
+      };
+    }
+    /**
+     * Reads clipboard content and updates target input with optional callback
+     * @param {HTMLInputElement} inputEl
+     * @param {Function} [onKeyUpdated]
+     * @returns {Promise<boolean>}
+     */
+    static async pasteApiKeyFromClipboard(inputEl, onKeyUpdated) {
+      if (!inputEl) return false;
+      try {
+        if (typeof navigator !== "undefined" && navigator.clipboard?.readText) {
+          const text = await navigator.clipboard.readText();
+          const clean = (text || "").trim();
+          if (clean) {
+            inputEl.value = clean;
+            if (typeof onKeyUpdated === "function") {
+              onKeyUpdated(clean);
+            }
+            return true;
+          }
+        }
+      } catch (_) {
+      }
+      return false;
+    }
+    /**
+     * Tests and validates API key in real-time with provider servers
+     * @param {Object} params
+     */
+    static testAndValidateKey({ state: state2, provider, key, model, showStatusBanner, updateHeaderBadge }) {
+      if (!state2.keyVerified) state2.keyVerified = {};
+      if (!key) {
+        delete state2.keyVerified[provider];
+        if (typeof updateHeaderBadge === "function") updateHeaderBadge();
+        return;
+      }
+      state2.keyVerified[provider] = "checking";
+      if (typeof updateHeaderBadge === "function") updateHeaderBadge();
+      const isFr = state2.currentLang === "fr";
+      const checking = isFr ? `[i] Cl\xE9 enregistr\xE9e. Test de connexion en cours aupr\xE8s de ${provider.toUpperCase()}...` : `[i] Key saved. Testing live connection with ${provider.toUpperCase()}...`;
+      if (typeof showStatusBanner === "function") showStatusBanner(checking, false);
+      ConnectionTester.testModelConnection({
+        provider,
+        serverUrl: state2.serverUrls?.[provider] || "",
+        apiKey: key,
+        model,
+        lang: state2.currentLang
+      }, ({ message, error, isError, latencyMs }) => {
+        state2.keyVerified[provider] = !isError;
+        if (typeof updateHeaderBadge === "function") updateHeaderBadge();
+        if (typeof showStatusBanner === "function") {
+          if (!isError) {
+            const successMsg = isFr ? `[\u2713] Cl\xE9 API valid\xE9e avec succ\xE8s par ${provider.toUpperCase()} (${latencyMs || 0}ms) !` : `[\u2713] API key verified successfully by ${provider.toUpperCase()} (${latencyMs || 0}ms)!`;
+            showStatusBanner(successMsg, false);
+          } else {
+            showStatusBanner(message || error, true);
+          }
+        }
+      });
+    }
+    /**
+     * Opens official external web chat pre-filled with video context (Zero-config fallback)
+     * @param {string} destination 'chatgpt' | 'claude'
+     * @param {string} promptText Text to send
+     */
+    static openExternalWebChat(destination = "chatgpt", promptText = "") {
+      const text = String(promptText || "").slice(0, 3500);
+      const encoded = encodeURIComponent(text);
+      if (destination === "claude") {
+        window.open("https://claude.ai/new", "_blank");
+      } else {
+        window.open(`https://chatgpt.com/?q=${encoded}`, "_blank");
+      }
+    }
+    /**
+     * Generates a sleek, non-intrusive notification banner for missing key guidance
+     * @param {string} provider
+     * @param {string} lang
+     * @param {Function} onOpenSettings
+     * @returns {string} HTML markup
+     */
+    static formatMissingKeyNotice(provider, lang = "fr") {
+      const info = this.getQuickStartInfo(provider, lang);
+      const isFr = lang === "fr";
+      const title = isFr ? "Cl\xE9 API requise" : "API key required";
+      const sub = isFr ? "Veuillez renseigner votre cl\xE9 API pour continuer." : "Please enter your API key to continue.";
+      return `
+      <div class="yt-ai-missing-key-card">
+        <div style="font-weight: 600; margin-bottom: 4px;">[!] ${title} (${provider.toUpperCase()})</div>
+        <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px;">${sub}</div>
+        <div style="font-size: 11px; opacity: 0.75; margin-bottom: 8px;">${info.hint}</div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <a href="${info.url}" target="_blank" rel="noopener" class="yt-ai-link-pill" style="font-size: 11px;">${info.label}</a>
+        </div>
+      </div>
+    `.trim();
     }
   };
 
@@ -2520,53 +2866,19 @@
       }
     }
     showStatusBanner(text, isError = false) {
-      if (this.bannerView) this.bannerView.showStatusBanner(text, isError);
+      if (this.bannerView) {
+        this.bannerView.showStatusBanner(text, isError);
+      }
     }
     updateHeaderBadge() {
-      if (this.bannerView) this.bannerView.updateHeaderBadge();
+      if (this.bannerView) {
+        this.bannerView.updateHeaderBadge();
+      }
     }
     updateHeaderModelText() {
-      if (this.bannerView) this.bannerView.updateHeaderModelText();
-    }
-    applyLanguage(lang) {
-      this.state.currentLang = lang;
-      const t = I18N[lang] || I18N.en;
-      const setText = (id, text) => {
-        const el = document.getElementById(id);
-        if (el && text) el.textContent = text;
-      };
-      setText("ytAiTabSettingsModelBtn", t.tabSettingsModel);
-      setText("ytAiTabSettingsParamsBtn", t.tabSettingsParams);
-      setText("ytAiTabSettingsAudioBtn", t.tabSettingsAudio);
-      setText("ytAiProviderLabel", t.providerLabel);
-      setText("ytAiModelSelectLabel", t.modelSelectLabel || t.modelLabel);
-      setText("ytAiModeLabel", t.formatLabel);
-      setText("ytAiTempLabel", t.tempLabel);
-      setText("ytAiMaxTokensLabel", t.maxTokensLabel);
-      setText("ytAiAutoSummarizeLabel", t.autoSummarizeLabel);
-      setText("ytAiCustomPromptLabel", t.customPromptLabel);
-      setText("ytAiVoiceLabel", t.voiceLabel);
-      setText("ytAiTtsSpeedLabel", t.ttsSpeedLabel);
-      setText("ytAiMicLabel", t.micLabel);
-      setText("ytAiWhisperUrlLabel", t.whisperUrlLabel);
-      setText("ytAiTestModelBtn", t.testModelBtn);
-      setText("ytAiTestWhisperBtn", t.testSttBtn);
-      const updateOpts = (id, map) => {
-        const sel = document.getElementById(id);
-        if (sel) Object.entries(map).forEach(([v, l]) => {
-          const o = sel.querySelector(`option[value="${v}"]`);
-          if (o && l) o.textContent = l;
-        });
-      };
-      updateOpts("ytAiModeSelect", { quick: t.formatQuick, standard: t.formatStandard, detailed: t.formatDetailed });
-      updateOpts("ytAiTemperatureSelect", { "0.0": t.tempStrict, "0.3": t.tempBalanced, "0.7": t.tempCreative, "1.0": t.tempWild });
-      updateOpts("ytAiMaxTokensSelect", { auto: t.tokensAuto, "1024": t.tokensShort, "2048": t.tokensStandard, "4096": t.tokensDetailed, "8192": t.tokensMax });
-      updateOpts("ytAiTtsSpeedSelect", { "0.75": t.speedSlow, "1.0": t.speedNormal, "1.25": t.speedFast, "1.5": t.speedVeryFast, "2.0": t.speedDouble });
-      const customInput = document.getElementById("ytAiCustomPromptInput");
-      if (customInput && t.customPromptPlaceholder) customInput.placeholder = t.customPromptPlaceholder;
-      const whisperInput = document.getElementById("ytAiWhisperUrlInput");
-      if (whisperInput && t.whisperUrlPlaceholder) whisperInput.placeholder = t.whisperUrlPlaceholder;
-      this.syncProviderUI();
+      if (this.bannerView) {
+        this.bannerView.updateHeaderModelText();
+      }
     }
     syncProviderUI() {
       const providerSelect = document.getElementById("ytAiProviderSelect");
@@ -2596,11 +2908,13 @@
       } else {
         lmSettings?.classList.add("yt-ai-hidden");
         cloudSettings?.classList.remove("yt-ai-hidden");
-        const portal = API_KEY_PORTALS[this.state.currentProvider];
-        if (getApiKeyLink && portal) {
-          getApiKeyLink.href = portal.url;
-          getApiKeyLink.textContent = portal.label;
+        const info = QuickOnboardingHelper.getQuickStartInfo(this.state.currentProvider, this.state.currentLang);
+        if (getApiKeyLink && info) {
+          getApiKeyLink.href = info.url;
+          getApiKeyLink.textContent = info.label;
         }
+        const hintEl = document.getElementById("ytAiApiKeyHint");
+        if (hintEl) hintEl.textContent = info?.hint || "";
         const t = I18N[this.state.currentLang] || I18N.en;
         if (apiKeyInput) {
           apiKeyInput.value = this.state.apiKeys[this.state.currentProvider] || "";
@@ -2610,83 +2924,103 @@
         if (summaryTitle) summaryTitle.textContent = `${t.summaryTitle} (${name})`;
         this.populateCloudModels(this.state.currentProvider);
       }
+      this.bindPasteButton();
       this.updateHeaderBadge();
       this.updateHeaderModelText();
-    }
-    updateServerUrlUI() {
-      const serverSelect = document.getElementById("ytAiServerSelect");
-      if (!serverSelect) return;
-      const isOllama = this.state.currentProvider === "ollama";
-      const def = isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234";
-      const current = this.state.serverUrls[this.state.currentProvider] || def;
-      const optLocal = document.getElementById("ytAiServerOptionLocalhost");
-      const optLan = document.getElementById("ytAiServerOptionLan");
-      if (optLocal) optLocal.value = isOllama ? "http://localhost:11434" : "http://localhost:1234";
-      if (optLan) optLan.value = isOllama ? "http://192.168.1.100:11434" : "http://192.168.56.1:1234";
-      if (current === optLocal?.value || current === optLan?.value) {
-        serverSelect.value = current;
-      } else {
-        let customOpt = serverSelect.querySelector('option[data-custom="true"]');
-        if (!customOpt) {
-          customOpt = document.createElement("option");
-          customOpt.setAttribute("data-custom", "true");
-          serverSelect.insertBefore(customOpt, serverSelect.lastElementChild);
-        }
-        customOpt.value = current;
-        customOpt.textContent = `Custom (${current})`;
-        serverSelect.value = current;
-      }
-    }
-    refreshModelsList() {
-      const isLocal = this.state.currentProvider === "lmstudio" || this.state.currentProvider === "ollama";
-      if (!isLocal) return;
-      const t = I18N[this.state.currentLang] || I18N.en;
-      const badge = document.getElementById("ytAiBadge");
-      const badgeText = document.getElementById("ytAiBadgeText");
-      if (badge) badge.className = "yt-ai-badge checking";
-      if (badgeText) badgeText.textContent = t.checking || "Checking...";
-      const currentUrl = this.state.serverUrls[this.state.currentProvider];
-      LocalModelDiscovery.fetchLocalModels(
-        this.state.currentProvider,
-        currentUrl,
-        (models) => {
-          this.state.availableLocalModels[this.state.currentProvider] = models;
-          this.populateModelDropdown(models);
-          this.updateHeaderBadge();
-        },
-        (err) => {
-          this.populateModelDropdown([]);
-          if (badge) badge.className = "yt-ai-badge offline";
-          if (badgeText) badgeText.textContent = t.offline || "Offline";
-          this.updateHeaderModelText();
-        }
-      );
     }
     populateCloudModels(provider) {
       const select = document.getElementById("ytAiModelSelect");
       if (!select) return;
       select.innerHTML = "";
-      const models = CLOUD_MODELS[provider] || [];
-      const savedModel = this.state.getActiveModel();
-      for (const m of models) {
+      const list = CLOUD_MODELS[provider] || [];
+      list.forEach((m) => {
         const opt = document.createElement("option");
         opt.value = m.id;
         opt.textContent = m.name;
         select.appendChild(opt);
+      });
+      const activeM = this.state.getActiveModel();
+      if (select.options.length > 0) {
+        let found = false;
+        for (const opt of select.options) {
+          if (opt.value === activeM) {
+            select.value = activeM;
+            found = true;
+            break;
+          }
+        }
+        if (!found) select.selectedIndex = 0;
+        this.state.setActiveModel(select.value);
+        this.state.savePreference(`selectedModel_${provider}`, select.value);
+        this.state.savePreference("selectedModel", select.value);
       }
-      const match = models.find((m) => m.id === savedModel);
-      if (match) {
-        select.value = savedModel;
-      } else if (models.length > 0) {
-        select.value = models[0].id;
-        this.state.setActiveModel(models[0].id);
-        this.state.savePreference(`selectedModel_${provider}`, models[0].id);
+    }
+    updateServerUrlUI() {
+      const serverSelect = document.getElementById("ytAiServerSelect");
+      if (!serverSelect) return;
+      const isOllama = this.state.currentProvider === "ollama";
+      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234");
+      serverSelect.innerHTML = "";
+      const presets = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434", "http://192.168.56.1:11434"] : ["http://192.168.56.1:1234", "http://localhost:1234", "http://127.0.0.1:1234"];
+      presets.forEach((u) => {
+        const opt = document.createElement("option");
+        opt.value = u;
+        opt.textContent = u.replace(/https?:\/\//, "");
+        if (u === currentUrl) opt.selected = true;
+        serverSelect.appendChild(opt);
+      });
+      const t = I18N[this.state.currentLang] || I18N.en;
+      const customOpt = document.createElement("option");
+      customOpt.value = "custom";
+      customOpt.textContent = t.customServer || "Custom IP...";
+      if (!presets.includes(currentUrl)) {
+        customOpt.selected = true;
+        customOpt.textContent = `Custom (${currentUrl.replace(/https?:\/\//, "")})`;
       }
-      this.updateHeaderModelText();
+      serverSelect.appendChild(customOpt);
+    }
+    refreshModelsList(showFeedback = false) {
+      const badge = document.getElementById("ytAiBadge");
+      const badgeText = document.getElementById("ytAiBadgeText");
+      const t = I18N[this.state.currentLang] || I18N.en;
+      if (badgeText) badgeText.textContent = t.checking || "Connecting...";
+      LocalModelDiscovery.refreshModelsList(this.state, showFeedback, (models, currentUrl) => {
+        this.state.availableLocalModels[this.state.currentProvider] = models;
+        const isOllama = this.state.currentProvider === "ollama";
+        const providerLabel = isOllama ? "Ollama" : "LM Studio";
+        if (badge) badge.className = "yt-ai-badge online";
+        if (badgeText) badgeText.textContent = `${providerLabel} (${currentUrl.replace(/https?:\/\//, "")})`;
+        this.populateModelDropdown(models);
+        if (showFeedback) {
+          this.showStatusBanner(`\u2705 Connected to ${providerLabel} (${models.length} models ready)`, false);
+        }
+      }, () => {
+        this.tryFallbackUrls();
+      });
+    }
+    tryFallbackUrls(testedUrls = []) {
+      const badge = document.getElementById("ytAiBadge");
+      const badgeText = document.getElementById("ytAiBadgeText");
+      const t = I18N[this.state.currentLang] || I18N.en;
+      const isOllama = this.state.currentProvider === "ollama";
+      const providerLabel = isOllama ? "Ollama" : "LM Studio";
+      LocalModelDiscovery.tryFallbackUrls(this.state, testedUrls, (candidate, models) => {
+        this.state.serverUrls[this.state.currentProvider] = candidate;
+        this.state.savePreference(`serverUrl_${this.state.currentProvider}`, candidate);
+        this.updateServerUrlUI();
+        this.state.availableLocalModels[this.state.currentProvider] = models;
+        if (badge) badge.className = "yt-ai-badge online";
+        if (badgeText) badgeText.textContent = `${providerLabel} (${candidate.replace(/https?:\/\//, "")})`;
+        this.populateModelDropdown(models);
+        this.showStatusBanner(`\u2705 Connected to ${providerLabel} (${models.length} models ready)`, false);
+      }, () => {
+        if (badge) badge.className = "yt-ai-badge offline";
+        if (badgeText) badgeText.textContent = `${providerLabel} (${t.offlineBadge || "Offline"})`;
+        this.populateModelDropdown([]);
+      });
     }
     populateModelDropdown(models) {
       const select = document.getElementById("ytAiModelSelect");
-      if (!select) return;
       const currentSaved = this.state.getActiveModel();
       const activeVal = LocalModelDiscovery.populateModelSelect(
         select,
@@ -2701,6 +3035,27 @@
         this.state.savePreference("selectedModel", activeVal);
       }
       this.updateHeaderModelText();
+    }
+    bindPasteButton() {
+      const btn = document.getElementById("ytAiPasteApiKeyBtn");
+      const input = document.getElementById("ytAiApiKeyInput");
+      if (!btn || !input || btn.dataset.bound === "true") return;
+      btn.dataset.bound = "true";
+      btn.addEventListener("click", async () => {
+        await QuickOnboardingHelper.pasteApiKeyFromClipboard(input, (val) => {
+          const provider = this.state.currentProvider;
+          this.state.apiKeys[provider] = val;
+          this.state.savePreference(`apiKey_${provider}`, val);
+          QuickOnboardingHelper.testAndValidateKey({
+            state: this.state,
+            provider,
+            key: val,
+            model: this.state.getActiveModel(),
+            showStatusBanner: (m, e) => this.showStatusBanner(m, e),
+            updateHeaderBadge: () => this.updateHeaderBadge()
+          });
+        });
+      });
     }
     handleTestConnection() {
       const model = this.state.getActiveModel();
@@ -2723,77 +3078,8 @@
     }
   };
 
-  // src/content/services/TimestampEnricher.js
-  var TimestampEnricher = class {
-    /**
-     * Enriches markdown with timestamps if the LLM output dropped them
-     * @param {string} markdown
-     * @param {Array<Object>} segments
-     * @returns {string}
-     */
-    static injectTimestampsIfMissing(markdown, segments) {
-      if (!markdown || !Array.isArray(segments) || segments.length === 0) return markdown;
-      if (/\[\d{1,2}:\d{2}(?::\d{2})?\]/.test(markdown)) return markdown;
-      const lines = markdown.split("\n");
-      let items = [];
-      lines.forEach((line, idx) => {
-        const match = line.match(/^(\s*(?:[-*]|\d+\.)\s+)(.*)$/);
-        if (match && match[2].trim().length > 3) {
-          items.push({ idx, prefix: match[1], content: match[2] });
-        }
-      });
-      if (items.length === 0) {
-        let inKeySection = false;
-        lines.forEach((line, idx) => {
-          const trimmed = line.trim();
-          if (/^#{1,4}\s+.*(?:point|temps|fort|key|takeaway|d[eé]roul|moment|chapitre|puntos|punti|kernpunkte)/i.test(trimmed)) {
-            inKeySection = true;
-            return;
-          }
-          if (/^#{1,4}\s+/.test(trimmed)) {
-            inKeySection = false;
-            return;
-          }
-          if (inKeySection && trimmed.length > 8 && !trimmed.startsWith(">") && !trimmed.startsWith("|")) {
-            items.push({ idx, prefix: "- ", content: trimmed });
-          }
-        });
-      }
-      if (items.length === 0) return markdown;
-      const total = items.length;
-      items.forEach((item, bIndex) => {
-        const textToSearch = item.content.toLowerCase().replace(/[*_#`:]/g, " ");
-        const words = textToSearch.split(/\s+/).filter((w) => w.length > 3);
-        let bestSeg = null;
-        let maxScore = 0;
-        for (const seg of segments) {
-          const segText = (seg.text || "").toLowerCase();
-          let score = 0;
-          for (const w of words) {
-            if (segText.includes(w)) score++;
-          }
-          if (score > maxScore) {
-            maxScore = score;
-            bestSeg = seg;
-          }
-        }
-        if (!bestSeg || maxScore === 0) {
-          const segIndex = Math.min(segments.length - 1, Math.floor(bIndex / total * segments.length));
-          bestSeg = segments[segIndex];
-        }
-        const timeStr = bestSeg?.timestamp || "00:00";
-        if (item.content.startsWith("**")) {
-          lines[item.idx] = `${item.prefix}**[${timeStr}] ${item.content.slice(2)}`;
-        } else {
-          lines[item.idx] = `${item.prefix}**[${timeStr}]** ${item.content}`;
-        }
-      });
-      return lines.join("\n");
-    }
-  };
-
   // src/content/ui/SummaryViewController.js
-  var SummaryViewController = class _SummaryViewController {
+  var SummaryViewController = class {
     constructor(dependencies = {}) {
       this.transcriptController = dependencies.transcriptController;
       this.promptService = dependencies.promptService;
@@ -2802,8 +3088,10 @@
       this.activePort = null;
       this.fullSummaryMarkdown = "";
       this.fullReasoningText = "";
+      this.onTriggerSummarize = null;
     }
     renderSummaryEmptyState(isNewVideo = false, currentLang = "en", onTriggerSummarize = null) {
+      if (typeof onTriggerSummarize === "function") this.onTriggerSummarize = onTriggerSummarize;
       const summaryBody = document.getElementById("ytAiSummaryBody");
       if (!summaryBody) return;
       const t = I18N[currentLang] || I18N.en;
@@ -2821,10 +3109,11 @@
     `);
       const heroBtn = document.getElementById("ytAiSummaryHeroBtn");
       heroBtn?.addEventListener("click", () => {
-        if (typeof onTriggerSummarize === "function") onTriggerSummarize();
+        if (typeof this.onTriggerSummarize === "function") this.onTriggerSummarize();
       });
     }
     resetSummaryOutput(currentLang = "en", onTriggerSummarize = null) {
+      if (typeof onTriggerSummarize === "function") this.onTriggerSummarize = onTriggerSummarize;
       this.fullSummaryMarkdown = "";
       this.fullReasoningText = "";
       this.isGenerating = false;
@@ -2841,12 +3130,9 @@
         summarizeBtn.disabled = false;
         summarizeBtn.innerHTML = t.summarizeBtn || "\u2728 Summarize video";
       }
-      this.renderSummaryEmptyState(true, currentLang, onTriggerSummarize);
+      this.renderSummaryEmptyState(true, currentLang, this.onTriggerSummarize);
       const reasoningBox = document.getElementById("ytAiReasoningBox");
       if (reasoningBox) reasoningBox.classList.add("yt-ai-hidden");
-    }
-    static injectTimestampsIfMissing(markdown, segments) {
-      return TimestampEnricher.injectTimestampsIfMissing(markdown, segments);
     }
     async startSummarization(ctx = {}) {
       if (this.isGenerating) return;
@@ -2859,13 +3145,17 @@
         }
         return;
       }
-      const currentProvider = ctx.currentProvider || ctx.state?.currentProvider || "lmstudio";
+      const currentProvider = ctx.currentProvider || "lmstudio";
       const isLocal = currentProvider === "lmstudio" || currentProvider === "ollama";
-      const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : ctx.state?.apiKeys ? ctx.state.apiKeys[currentProvider] : "";
+      const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : "";
       if (!isLocal && !key) {
         if (typeof ctx.showStatusBanner === "function") {
-          ctx.showStatusBanner(t.missingKeyAlert || `API key missing for ${currentProvider.toUpperCase()}. Please enter your key.`, true);
+          const hint = t.missingKeyAlert || `Cl\xE9 API requise pour ${currentProvider.toUpperCase()}.`;
+          ctx.showStatusBanner(`[!] ${hint}`, true);
         }
+        document.getElementById("ytAiSettingsDrawer")?.classList.remove("yt-ai-hidden");
+        document.getElementById("ytAiSettingsToggleBtn")?.classList.add("active");
+        document.getElementById("ytAiApiKeyInput")?.focus();
         return;
       }
       const mode = document.getElementById("ytAiModeSelect")?.value || "standard";
@@ -2883,6 +3173,10 @@
       if (heroBtn) {
         heroBtn.disabled = true;
         heroBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || "Extracting transcript..."}`;
+      }
+      if (summaryBody) {
+        summaryBody.innerHTML = `<div class="yt-ai-loading"><span class="yt-ai-spinner"></span> ${escapeHtml(t.generatingSummary || "Extracting transcript...")}</div>`;
+        summaryBody.classList.remove("yt-ai-typing");
       }
       try {
         const segments = await this.transcriptController.extractYouTubeTranscript(lang, true);
@@ -2912,14 +3206,10 @@
         }
         const meta = ctx.getVideoMetadata ? ctx.getVideoMetadata() : this.transcriptController.cachedVideoMetadata;
         const maxAllowedChars = CONTEXT_LIMITS[currentProvider] || 25e3;
-        const transcriptSource = this.transcriptController.cachedTranscript.timestampedText || fullText;
-        const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(transcriptSource, maxAllowedChars);
+        const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(fullText, maxAllowedChars);
         const { systemPrompt, userPrompt } = this.promptService.constructor.buildPrompts(meta.title, meta.author, safeTranscript, lang, mode, meta);
-        const serverUrl = ctx.serverUrls ? ctx.serverUrls[currentProvider] || "" : ctx.state?.serverUrls ? ctx.state.serverUrls[currentProvider] : "";
+        const serverUrl = ctx.serverUrls ? ctx.serverUrls[currentProvider] || "" : "";
         this.activePort = chrome.runtime.connect({ name: "ai-stream" });
-        const maxTokensByMode = { quick: "800", standard: "1400", detailed: "3500" };
-        const configuredTokens = ctx.maxTokens || ctx.state?.maxTokens;
-        const resolvedMaxTokens = configuredTokens && configuredTokens !== "auto" ? configuredTokens : maxTokensByMode[mode] || "auto";
         this.activePort.postMessage({
           action: "START_STREAM",
           provider: currentProvider,
@@ -2928,8 +3218,8 @@
           model: activeModel,
           systemPrompt,
           userPrompt,
-          temperature: ctx.temperature || ctx.state?.temperature || "0.3",
-          maxTokens: resolvedMaxTokens
+          temperature: ctx.temperature || "0.3",
+          maxTokens: ctx.maxTokens || "auto"
         });
         this.activePort.onMessage.addListener((msg) => {
           if (msg.type === "CHUNK") {
@@ -2954,9 +3244,7 @@
             this.finishGeneration(lang);
           } else if (msg.type === "ERROR") {
             if (typeof ctx.showStatusBanner === "function") ctx.showStatusBanner(msg.error, true);
-            if (summaryBody) {
-              summaryBody.innerHTML = `<div style="color: #ff7b72; padding: 12px; background: rgba(248,81,73,0.1); border-radius: 6px;"><strong>${escapeHtml(t.errorLabel || "Error: ")}</strong>${escapeHtml(msg.error)}</div>`;
-            }
+            this.renderErrorState(msg.error, lang, ctx);
             this.finishGeneration(lang);
           }
         });
@@ -2966,11 +3254,26 @@
       } catch (err) {
         const cleanErr = (err.message || "").replace(/^❌\s*/, "");
         if (typeof ctx.showStatusBanner === "function") ctx.showStatusBanner(cleanErr, true);
-        if (summaryBody) {
-          summaryBody.innerHTML = `<div style="color: #ff7b72; padding: 12px; background: rgba(248,81,73,0.1); border-radius: 6px;"><strong>${escapeHtml(t.errorLabel || "Error: ")}</strong>${escapeHtml(cleanErr)}</div>`;
-        }
+        this.renderErrorState(cleanErr, lang, ctx);
         this.finishGeneration(lang);
       }
+    }
+    renderErrorState(errorMessage, currentLang = "en", ctx = {}) {
+      const summaryBody = document.getElementById("ytAiSummaryBody");
+      if (!summaryBody) return;
+      const t = I18N[currentLang] || I18N.en;
+      const cleanErr = (errorMessage || "").replace(/^❌\s*/, "");
+      summaryBody.innerHTML = `
+      <div class="yt-ai-error-box">
+        <div class="yt-ai-error-title"><strong>${escapeHtml(t.errorLabel || "Error: ")}</strong>${escapeHtml(cleanErr)}</div>
+        <button id="ytAiRetrySummarizeBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-retry-btn">
+          ${escapeHtml(t.retryBtn || "\u{1F504} Retry")}
+        </button>
+      </div>
+    `;
+      document.getElementById("ytAiRetrySummarizeBtn")?.addEventListener("click", () => {
+        this.startSummarization(ctx);
+      });
     }
     finishGeneration(currentLang = "en") {
       this.isGenerating = false;
@@ -2978,16 +3281,6 @@
       const summarizeBtn = document.getElementById("ytAiSummarizeBtn");
       const heroBtn = document.getElementById("ytAiSummaryHeroBtn");
       const t = I18N[currentLang] || I18N.en;
-      if (this.fullSummaryMarkdown && this.transcriptController?.cachedTranscript?.segments?.length > 0) {
-        const enriched = _SummaryViewController.injectTimestampsIfMissing(
-          this.fullSummaryMarkdown,
-          this.transcriptController.cachedTranscript.segments
-        );
-        if (enriched !== this.fullSummaryMarkdown) {
-          this.fullSummaryMarkdown = enriched;
-          if (summaryBody) renderMarkdown(this.fullSummaryMarkdown, summaryBody);
-        }
-      }
       if (summaryBody) summaryBody.classList.remove("yt-ai-typing");
       if (summarizeBtn) {
         summarizeBtn.disabled = false;
@@ -2998,1117 +3291,589 @@
         heroBtn.innerHTML = t.summarizeBtn || "\u2728 Summarize video";
       }
       if (this.activePort) {
-        this.activePort.disconnect();
+        try {
+          this.activePort.disconnect();
+        } catch (_) {
+        }
         this.activePort = null;
       }
     }
+    applyLanguage(currentLang = "en") {
+      const t = I18N[currentLang] || I18N.en;
+      const summarizeBtn = document.getElementById("ytAiSummarizeBtn");
+      const heroBtn = document.getElementById("ytAiSummaryHeroBtn");
+      if (this.isGenerating) {
+        if (summarizeBtn) {
+          summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || "Generating summary..."}`;
+        }
+        if (heroBtn) {
+          heroBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || "Generating summary..."}`;
+        }
+        const loadingEl = document.querySelector("#ytAiSummaryBody .yt-ai-loading");
+        if (loadingEl) {
+          loadingEl.innerHTML = `<span class="yt-ai-spinner"></span> ${escapeHtml(t.generatingSummary || "Generating summary...")}`;
+        }
+      } else {
+        if (summarizeBtn) summarizeBtn.innerHTML = t.summarizeBtn || "\u2728 Summarize video";
+        if (heroBtn) heroBtn.innerHTML = t.summarizeBtn || "\u2728 Summarize video";
+        const retryBtn = document.getElementById("ytAiRetrySummarizeBtn");
+        if (retryBtn) retryBtn.textContent = t.retryBtn || "\u{1F504} Retry";
+        const errTitle = document.querySelector("#ytAiSummaryBody .yt-ai-error-title strong");
+        if (errTitle) errTitle.textContent = t.errorLabel || "Error: ";
+        const emptyTitle = document.querySelector("#ytAiSummaryBody .yt-ai-empty-title");
+        const emptySubtitle = document.querySelector("#ytAiSummaryBody .yt-ai-empty-subtitle");
+        if (emptyTitle) emptyTitle.textContent = t.newVideoTitle || t.emptyTitle || "Nouvelle vid\xE9o d\xE9tect\xE9e";
+        if (emptySubtitle) emptySubtitle.textContent = t.newVideoPlaceholder || t.emptySubtitle || "";
+      }
+    }
   };
 
-  // src/content/services/ExternalVideoManager.js
-  var ExternalVideoManager = class {
+  // src/content/services/ChatTranscriptManager.js
+  var ChatTranscriptManager = class {
     constructor() {
-      this.cache = /* @__PURE__ */ new Map();
+      this.cachedExternalTranscripts = /* @__PURE__ */ new Map();
+      this.activeExternalVideoIds = /* @__PURE__ */ new Set();
     }
     /**
-     * Extracts unique external YouTube video IDs from prompt text, ignoring the current active video
-     * @param {string} text
-     * @param {string} currentVideoId
+     * Resets active external video session
+     */
+    reset() {
+      this.activeExternalVideoIds.clear();
+    }
+    /**
+     * Gets list of active external video IDs in this chat session
      * @returns {string[]}
      */
-    extractYouTubeVideoIds(text, currentVideoId = "") {
-      if (!text || typeof text !== "string") return [];
-      const ytRegex = /(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?.*v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/gi;
-      const matches = /* @__PURE__ */ new Set();
-      let m;
-      while ((m = ytRegex.exec(text)) !== null) {
-        const id = m[1];
-        if (id && id !== currentVideoId) {
-          matches.add(id);
-        }
-      }
-      return Array.from(matches);
+    getActiveExternalIds() {
+      return Array.from(this.activeExternalVideoIds);
     }
     /**
-     * Fetches an external video's transcript and metadata via background service worker
-     * @param {string} videoId
+     * Registers newly detected external video IDs into the active chat session
+     * @param {string[]} ids
+     */
+    registerExternalIds(ids = []) {
+      for (const id of ids) {
+        if (id && typeof id === "string") {
+          this.activeExternalVideoIds.add(id);
+        }
+      }
+    }
+    /**
+     * Fetches transcripts for any active external videos not yet cached
+     * @param {string[]} externalIds
+     * @param {Object} transcriptController
      * @param {string} lang
-     * @returns {Promise<Object|null>}
+     * @param {Function} [onStatusNotice]
+     * @returns {Promise<{loaded: string[], failed: string[]}>}
      */
-    async fetchExternalVideo(videoId, lang = "fr") {
-      if (!videoId) return null;
-      if (this.cache.has(videoId)) {
-        return this.cache.get(videoId);
+    async ensureTranscriptsLoaded(externalIds, transcriptController2, lang = "fr", onStatusNotice = null) {
+      const loaded = [];
+      const failed = [];
+      for (const videoId of externalIds) {
+        if (this.cachedExternalTranscripts.has(videoId)) {
+          loaded.push(videoId);
+          continue;
+        }
+        if (typeof onStatusNotice === "function") {
+          onStatusNotice(videoId, true);
+        }
+        const res = await transcriptController2?.fetchTranscriptFromBackground(videoId, lang);
+        if (typeof onStatusNotice === "function") {
+          onStatusNotice(videoId, false);
+        }
+        if (res && res.segments && res.segments.length > 0) {
+          this.cachedExternalTranscripts.set(videoId, res);
+          loaded.push(videoId);
+        } else {
+          failed.push(videoId);
+        }
       }
-      if (!chrome?.runtime?.sendMessage) return null;
-      return new Promise((resolve) => {
-        chrome.runtime.sendMessage(
-          { action: "FETCH_WATCH_PAGE_TRANSCRIPT", videoId, lang },
-          (res) => {
-            if (chrome.runtime.lastError || !res || !res.success) {
-              resolve(null);
-            } else {
-              const data = {
-                videoId,
-                title: res.title || `Video ${videoId}`,
-                author: res.author || "YouTube Creator",
-                segments: res.segments || [],
-                fullText: res.fullText || (res.segments ? res.segments.map((s) => s.text).join(" ") : "")
-              };
-              this.cache.set(videoId, data);
-              resolve(data);
-            }
-          }
-        );
-      });
+      return { loaded, failed };
     }
     /**
-     * Formats external video transcripts into a structured prompt context block
-     * @param {Array<Object>} externalVideos
-     * @param {number} maxCharsPerVideo
-     * @returns {string}
+     * Builds combined multi-video transcript text and composite metadata
+     * @param {string} currentVideoId
+     * @param {Object} currentMeta
+     * @param {string} currentFullText
+     * @param {number} maxChars
+     * @param {Function} condenseFn
+     * @returns {{safeTranscript: string, meta: Object, isMultiVideo: boolean}}
      */
-    formatExternalContextBlock(externalVideos, maxCharsPerVideo = 5e3) {
-      if (!Array.isArray(externalVideos) || externalVideos.length === 0) return "";
-      const blocks = externalVideos.map((vid) => {
-        let text = (vid.fullText || "").trim();
-        if (text.length > maxCharsPerVideo) {
-          const half = Math.floor(maxCharsPerVideo / 2);
-          text = `${text.slice(0, half)}
-
-[... transcription condens\xE9e ...]
-
-${text.slice(-half)}`;
-        }
-        return `---
-[VID\xC9O EXTERNE FOURNIE PAR L'UTILISATEUR]
-Titre : "${vid.title}"
-Auteur / Cha\xEEne : "${vid.author}"
-ID Vid\xE9o : ${vid.videoId}
-Transcription :
-"""
-${text}
-"""`;
-      });
-      return `
-### INFORMATIONS & TRANSCRIPTIONS DES VID\xC9OS EXTERNES MENTIONN\xC9ES :
-${blocks.join("\n\n")}
-`;
+    buildMultiVideoContext(currentVideoId, currentMeta, currentFullText, maxChars, condenseFn) {
+      const activeIds = this.getActiveExternalIds();
+      const availableExternal = activeIds.map((id) => ({ id, data: this.cachedExternalTranscripts.get(id) })).filter((item) => item.data && Array.isArray(item.data.segments) && item.data.segments.length > 0);
+      if (availableExternal.length === 0) {
+        return {
+          safeTranscript: condenseFn(currentFullText || "", maxChars),
+          meta: currentMeta,
+          isMultiVideo: false
+        };
+      }
+      const totalCount = 1 + availableExternal.length;
+      const currentWeight = 1 / (totalCount + 0.5);
+      const currentBudget = Math.max(1200, Math.floor(maxChars * currentWeight));
+      const externalBudget = Math.max(1200, Math.floor((maxChars - currentBudget) / availableExternal.length));
+      const parts = [];
+      const currentTitle = currentMeta?.title || "Vid\xE9o actuelle";
+      if (currentFullText && currentFullText.length > 30) {
+        parts.push(`[VID\xC9O ACTUELLE : "${currentTitle}" (https://www.youtube.com/watch?v=${currentVideoId})]
+${condenseFn(currentFullText, currentBudget)}`);
+      }
+      for (let i = 0; i < availableExternal.length; i++) {
+        const { id, data } = availableExternal[i];
+        const title = data.title || `Vid\xE9o externe (${id})`;
+        const text = data.segments.map((s) => s.text).join(" ");
+        parts.push(`[VID\xC9O EXTERNE R\xC9F\xC9RENC\xC9E ${i + 1} : "${title}" (https://www.youtube.com/watch?v=${id})]
+${condenseFn(text, externalBudget)}`);
+      }
+      const titlesSummary = availableExternal.map((e) => e.data?.title || e.id).join(" | ");
+      const compositeMeta = {
+        videoId: currentVideoId,
+        title: `${currentTitle} [vs: ${titlesSummary}]`,
+        author: currentMeta?.author || "",
+        description: `Discussion comparative multi-vid\xE9os (${totalCount} vid\xE9os).`
+      };
+      return {
+        safeTranscript: parts.join("\n\n"),
+        meta: compositeMeta,
+        isMultiVideo: true
+      };
     }
   };
 
-  // src/content/services/YouTubeDOMContext.js
-  var YouTubeDOMContext = class {
+  // src/content/services/ChannelIntelligenceManager.js
+  var ChannelIntelligenceManager = class {
+    constructor() {
+      this.cachedDossiers = /* @__PURE__ */ new Map();
+    }
     /**
-     * Extracts chapters / timeline markers directly from YouTube video description
-     * @returns {Array<{timestamp: string, text: string}> | null}
+     * Detects whether user message is asking for channel or creator analysis
+     * @param {string} text User prompt
+     * @param {string} [currentAuthor=''] Author of active video
+     * @param {string} [currentChannelUrl=''] Channel URL/handle of active video
+     * @returns {{isChannelIntent: boolean, query: string, targetCreator: string}}
      */
-    static extractChaptersFromDescription() {
-      const results = [];
-      const entries = document.querySelectorAll(
-        "ytd-macro-markers-entry-renderer, #structured-description ytd-macro-markers-entry-renderer, ytd-chapter-renderer"
-      );
-      if (entries && entries.length > 1) {
-        entries.forEach((el) => {
-          const timeEl = el.querySelector('#time, [class*="time"], a[href*="t="]');
-          const titleEl = el.querySelector('#title, #details, [class*="title"], h4');
-          const timestamp = timeEl ? timeEl.textContent.trim() : "";
-          const text = titleEl ? titleEl.textContent.trim() : "";
-          if (timestamp && text) {
-            results.push({ timestamp, text });
+    detectChannelIntent(text = "", currentAuthor = "", currentChannelUrl = "") {
+      if (!text || typeof text !== "string") {
+        return { isChannelIntent: false, query: "", targetCreator: "" };
+      }
+      const clean = text.trim();
+      const handleMatch = clean.match(/@([a-zA-Z0-9_\-\.]{3,35})/);
+      if (handleMatch) {
+        return {
+          isChannelIntent: true,
+          query: handleMatch[0],
+          targetCreator: handleMatch[0]
+        };
+      }
+      const channelIntentRegex = /(?:analys|pr[ée]sent|d[ée]tail|d[ée]cris|parle|explore|avis\s+sur|qu['’]est-ce\s+que\s+raconte|ligne\s+[ée]ditoriale|qui\s+est|sponsor|travail|partenariat|derni[èe]res?\s+vid[ée]os?|autres?\s+vid[ée]os?)\s+.*?(?:cha[îi]ne|cr[ée]ateur|youtubeur|vid[ée]aste|channel|creator|youtuber)/i;
+      const reverseChannelRegex = /(?:cha[îi]ne|cr[ée]ateur|channel|creator)\s+.*?(?:analys|qui\s+est|avis|derni[èe]res?\s+vid[ée]os?|autres?\s+vid[ée]os?|sponsor|travail)/i;
+      const isMatch = channelIntentRegex.test(clean) || reverseChannelRegex.test(clean);
+      const namedMatch = clean.match(/(?:cha[îi]ne\s+de|cha[îi]ne\s+d['’]|channel\s+of)\s+([A-Za-z0-9\u00C0-\u017F\s\-]{3,40})/i);
+      let targetCreator = "";
+      let query = "";
+      if (namedMatch && namedMatch[1]) {
+        targetCreator = namedMatch[1].replace(/[?!.,;].*$/, "").trim();
+        query = targetCreator;
+        return { isChannelIntent: true, query, targetCreator };
+      }
+      if (isMatch) {
+        query = currentChannelUrl || currentAuthor || "";
+        targetCreator = currentAuthor || "Cr\xE9ateur de la vid\xE9o";
+        return { isChannelIntent: true, query, targetCreator };
+      }
+      if (currentAuthor && currentAuthor.length > 2 && clean.toLowerCase().includes(currentAuthor.toLowerCase())) {
+        const creatorInquiry = /(?:analyse|avis|qui\s+est|travail|sponsor|vid[ée]os?|style|parcours)/i;
+        if (creatorInquiry.test(clean)) {
+          return {
+            isChannelIntent: true,
+            query: currentChannelUrl || currentAuthor,
+            targetCreator: currentAuthor
+          };
+        }
+      }
+      return { isChannelIntent: false, query: "", targetCreator: "" };
+    }
+    /**
+     * Fetches or retrieves cached channel dossier
+     * @param {string} query Handle, URL, or channel name
+     * @param {number} [limit=30]
+     * @returns {Promise<{success: boolean, channel?: Object, error?: string}>}
+     */
+    async getOrFetchChannelDossier(query, limit = 30) {
+      if (!query) return { success: false, error: "Empty query" };
+      const cacheKey = String(query).trim().toLowerCase();
+      if (this.cachedDossiers.has(cacheKey)) {
+        return { success: true, channel: this.cachedDossiers.get(cacheKey) };
+      }
+      try {
+        const response = await new Promise((resolve) => {
+          if (typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
+            chrome.runtime.sendMessage(
+              { action: "FETCH_CHANNEL_DOSSIER", query, limit },
+              (res) => resolve(res || { success: false, error: "No response from background" })
+            );
+          } else {
+            resolve({ success: false, error: "Chrome runtime unavailable" });
           }
         });
-        if (results.length > 1) return results;
+        if (response && response.success && response.channel) {
+          this.cachedDossiers.set(cacheKey, response.channel);
+          if (response.channel.handle) {
+            this.cachedDossiers.set(response.channel.handle.toLowerCase(), response.channel);
+          }
+          return { success: true, channel: response.channel };
+        }
+        return { success: false, error: response?.error || "Failed to fetch channel dossier" };
+      } catch (err) {
+        return { success: false, error: err.message || String(err) };
       }
-      return null;
     }
     /**
-     * Extracts rich metadata from YouTube DOM elements with cached fallback
-     * @param {Object} [cachedVideoMetadata]
-     * @returns {Object}
-     */
-    static getVideoMetadata(cachedVideoMetadata = {}) {
-      const currentVideoId = getVideoId();
-      const isCacheValid = cachedVideoMetadata?.videoId === currentVideoId;
-      const safeMeta = isCacheValid ? cachedVideoMetadata : {};
-      const titleEl = document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title");
-      const authorEl = document.querySelector("ytd-channel-name a, #channel-name a, #owner-name a");
-      const subEl = document.querySelector("#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count");
-      const descEl = document.querySelector("#description-inline-expander yt-attributed-string, #description, #description-inline-expander");
-      const dateEl = document.querySelector("#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date");
-      const tagEls = document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]');
-      const domSubscribers = subEl?.textContent?.trim() || "";
-      const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || "";
-      const domDate = dateEl?.textContent?.trim() || "";
-      const domKeywords = Array.from(tagEls).map((el) => el.textContent.trim().replace(/^#/, "")).filter(Boolean);
-      const title = titleEl?.textContent?.trim() || safeMeta.title || document.title.replace(" - YouTube", "").trim();
-      const author = authorEl?.textContent?.trim() || safeMeta.author || "Cha\xEEne YouTube";
-      const subscribers = domSubscribers || safeMeta.subscribers || "";
-      const description = safeMeta.description || domDescription || "";
-      const keywords = safeMeta.keywords && safeMeta.keywords.length > 0 ? safeMeta.keywords : domKeywords;
-      const category = safeMeta.category || "";
-      const publishDate = safeMeta.publishDate || domDate || "";
-      const viewCount = safeMeta.viewCount || "";
-      const channelId = safeMeta.channelId || "";
-      return {
-        videoId: currentVideoId || safeMeta.videoId || "",
-        title,
-        author,
-        subscribers,
-        description,
-        keywords,
-        category,
-        publishDate,
-        viewCount,
-        channelId
-      };
-    }
-    /**
-     * Formats video context block for AI prompts
-     * @param {Object} meta
-     * @param {string} [lang]
+     * Formats channel dossier into prompt context block
+     * @param {Object} channel
+     * @param {string} [lang='fr']
      * @returns {string}
      */
-    static formatContextInfo(meta, lang = "fr") {
-      if (!meta || typeof meta !== "object") return "";
-      const subscribers = meta.subscribers || "";
-      const category = meta.category || "";
-      const publishDate = meta.publishDate || "";
-      const rawKeywords = meta.keywords || [];
-      const keywords = Array.isArray(rawKeywords) ? rawKeywords.slice(0, 10).join(", ") : typeof rawKeywords === "string" ? rawKeywords : "";
-      let description = String(meta.description || "").trim();
-      if (description.length > 2e3) {
-        description = description.slice(0, 1950) + "... [description condens\xE9e]";
-      }
-      const lines = [];
-      const isFr = lang === "fr";
-      if (subscribers) {
-        lines.push(isFr ? `- Abonn\xE9s cha\xEEne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
-      }
-      if (category) {
-        lines.push(isFr ? `- Cat\xE9gorie : ${category}` : `- Category: ${category}`);
-      }
-      if (publishDate) {
-        lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
-      }
-      if (keywords) {
-        lines.push(isFr ? `- Mots-cl\xE9s : ${keywords}` : `- Keywords: ${keywords}`);
-      }
-      if (description) {
-        lines.push(isFr ? `- Description officielle :
-"""
-${description}
-"""` : `- Official Description:
-"""
-${description}
-"""`);
-      }
-      if (lines.length === 0) return "";
-      const header = isFr ? "CONTEXTE DE LA VID\xC9O & DE LA CHA\xCENE :" : "VIDEO & CHANNEL CONTEXT:";
-      return `${header}
-${lines.join("\n")}
-`;
-    }
-  };
-  function formatContextInfo(meta, lang) {
-    return YouTubeDOMContext.formatContextInfo(meta, lang);
-  }
-
-  // src/services/interfaces/IPromptBuilder.js
-  var IPromptBuilder = class {
-    /**
-     * Condenses a long transcript if it exceeds character limits
-     * @param {string} text
-     * @param {number} maxChars
-     * @returns {string}
-     */
-    condenseTranscript(text, maxChars) {
-      throw new Error("Not implemented");
+    formatContextBlock(channel, lang = "fr") {
+      if (!channel || typeof channel !== "object") return "";
+      return channel.markdownDossier || "";
     }
     /**
-     * Builds system and user prompts for video summarization
-     * @param {string} title
-     * @param {string} author
-     * @param {string} transcriptText
-     * @param {string} targetLang
-     * @param {string} formatMode
-     * @param {string} [customDirectives]
-     * @param {Object} [extraContext]
-     * @returns {{ systemPrompt: string, userPrompt: string }}
+     * Clears in-memory session cache
      */
-    buildSummaryPrompts(title, author, transcriptText, targetLang, formatMode, customDirectives = "", extraContext = {}) {
-      throw new Error("Not implemented");
-    }
-    /**
-     * Builds system and user prompts for Q&A chat
-     * @param {string} title
-     * @param {string} transcriptText
-     * @param {string} targetLang
-     * @param {Array<Object>} chatHistory
-     * @param {string} userQuestion
-     * @param {Object} [extraContext]
-     * @returns {{ systemPrompt: string, messages: Array<Object> }}
-     */
-    buildChatPrompts(title, transcriptText, targetLang, chatHistory, userQuestion, extraContext = {}) {
-      throw new Error("Not implemented");
+    reset() {
+      this.cachedDossiers.clear();
     }
   };
 
-  // src/services/implementations/templates/WesternTemplates.js
-  var WESTERN_TEMPLATES = {
-    fr: {
-      quick: `Produis un r\xE9sum\xE9 COURT, CONCIS et DIRECT sous cette forme :
-### \u26A1 En Bref
-(2 \xE0 3 phrases percutantes r\xE9sumant l'essentiel absolu)
-
-### \u{1F3AF} Points Cl\xE9s \xE0 Retenir
-- **[00:00] [Point 1]** : Explication courte et concr\xE8te en 1 phrase.
-- **[02:15] [Point 2]** : Explication courte et concr\xE8te en 1 phrase.
-- **[04:48] [Point 3]** : Explication courte et concr\xE8te en 1 phrase.
-(Cite obligatoirement les horodatages r\xE9els [mm:ss] de la transcription pour chaque point)
-
-### \u{1F4CC} Conclusion
-(1 phrase de conclusion finale)`,
-      detailed: `Produis une synth\xE8se COMPL\xC8TE, D\xC9TAILL\xC9E et EXHAUSTIVE :
-### \u{1F3AF} Vue d'ensemble & Enjeux
-(Contexte, probl\xE8me abord\xE9 et th\xE8se de la vid\xE9o)
-
-### \u23F1\uFE0F D\xE9roul\xE9 chronologique & Chapitres cl\xE9s
-- **[00:00] [\xC9tape 1]** : Analyse et faits marquants.
-- **[02:15] [\xC9tape 2]** : Analyse et faits marquants.
-- **[04:48] [\xC9tape 3]** : Analyse et faits marquants.
-(Reconstitue les grandes \xE9tapes avec leurs horodatages r\xE9els [mm:ss] de la transcription)
-
-### \u{1F4A1} Analyses, Arguments & Exemples cit\xE9s
-(D\xE9cortique les donn\xE9es, anecdotes ou concepts expliqu\xE9s)
-
-### \u{1F6E0}\uFE0F Conseils pratiques & Actions concr\xE8tes
-(Tout ce qui est actionnable pour le spectateur)
-
-### \u{1F4CC} Conclusion & Perspective
-(Message final et conclusion de l'auteur)`,
-      standard: `Produis un r\xE9sum\xE9 \xC9QUILIBR\xC9, NATUREL et STRUCTUR\xC9 (format interm\xE9diaire d'environ 350 \xE0 450 mots) :
-
-DIRECTIVE DE CALIBRAGE : Ne sois ni trop exp\xE9ditif comme le format court, ni trop exhaustif comme le format d\xE9taill\xE9. Reste direct, fluide et percutant en \xE9vitant les digressions.
-
-### \u{1F3AF} Synth\xE8se Globale
-(Un paragraphe fluide de 3 \xE0 4 phrases r\xE9sumant le sujet central, les enjeux et l'int\xE9r\xEAt principal de la vid\xE9o)
-
-### \u23F1\uFE0F D\xE9roul\xE9 & Temps Forts
-- **[00:00] [\xC9tape 1]** : Analyse claire et fait marquant en 2 phrases concr\xE8tes.
-- **[02:15] [\xC9tape 2]** : Analyse claire et fait marquant en 2 phrases concr\xE8tes.
-- **[04:48] [\xC9tape 3]** : Analyse claire et fait marquant en 2 phrases concr\xE8tes.
-- **[07:30] [\xC9tape 4]** : Analyse claire et fait marquant en 2 phrases concr\xE8tes.
-(Reconstitue les 4 \xE0 5 \xE9tapes majeures avec leurs horodatages r\xE9els [mm:ss] de la transcription)
-
-### \u{1F4CC} L'Enseignement Cl\xE9 & Conclusion
-(2 phrases synth\xE9tisant le conseil majeur de l'auteur et ce qu'il faut absolument en retenir)`
-    },
-    es: {
-      quick: `Produce un resumen CORTO, CONCISO y DIRECTO en este formato:
-### \u26A1 En Breve
-(2 a 3 frases impactantes resumiendo lo esencial)
-
-### \u{1F3AF} Puntos Clave a Recordar
-- **[00:00] [Punto 1]** : Explicaci\xF3n corta y concreta en 1 frase.
-- **[02:15] [Punto 2]** : Explicaci\xF3n corta y concreta en 1 frase.
-- **[04:48] [Punto 3]** : Explicaci\xF3n corta y concreta en 1 frase.
-(Cita obligatoriamente las marcas de tiempo reales [mm:ss] de la transcripci\xF3n)
-
-### \u{1F4CC} Conclusi\xF3n
-(1 frase de conclusi\xF3n final)`,
-      detailed: `Produce una s\xEDntesis COMPLETA, DETALLADA y EXHAUSTIVA:
-### \u{1F3AF} Visi\xF3n General & Contexto
-(Contexto, problema abordado y tesis del v\xEDdeo)
-
-### \u23F1\uFE0F Desarrollo Cronol\xF3gico & Cap\xEDtulos Clave
-- **[00:00] [Etapa 1]** : An\xE1lisis y hechos destacados.
-- **[02:15] [Etapa 2]** : An\xE1lisis y hechos destacados.
-- **[04:48] [Etapa 3]** : An\xE1lisis y hechos destacados.
-(Reconstruye las etapas principales con marcas de tiempo reales [mm:ss])
-
-### \u{1F4A1} An\xE1lisis, Argumentos & Ejemplos
-(Detalla datos, an\xE9cdotas o conceptos expuestos)
-
-### \u{1F6E0}\uFE0F Consejos Pr\xE1cticos & Acciones Concretas
-(Todo lo accionable para el espectador)
-
-### \u{1F4CC} Conclusi\xF3n & Perspectiva
-(Mensaje final y conclusi\xF3n del autor)`,
-      standard: `Produce un resumen EQUILIBRADO, NATURAL y BIEN ESTRUCTURADO (formato intermedio de ~350 a 450 palabras):
-
-DIRECTIVA DE CALIBRACI\xD3N: No seas demasiado breve como en el modo r\xE1pido, ni excesivamente extenso como en el modo detallado. Mant\xE9n un aut\xE9ntico t\xE9rmino medio: fluido, conciso y sustancioso.
-
-### \u{1F3AF} S\xEDntesis Global
-(Un p\xE1rrafo fluido de 3 a 4 frases resumiendo el tema principal, el contexto y el mensaje central)
-
-### \u23F1\uFE0F Momentos Clave & Desarrollo
-- **[00:00] [Hito 1]** : Explicaci\xF3n concreta y punto clave en 2 frases concisas.
-- **[02:15] [Hito 2]** : Explicaci\xF3n concreta y punto clave en 2 frases concisas.
-- **[04:48] [Hito 3]** : Explicaci\xF3n concreta y punto clave en 2 frases concisas.
-- **[07:30] [Hito 4]** : Explicaci\xF3n concreta y punto clave en 2 frases concisas.
-(Re\xFAne 4 a 5 momentos clave con sus marcas de tiempo reales [mm:ss] de la transcripci\xF3n)
-
-### \u{1F4CC} Conclusi\xF3n & Aprendizaje Clave
-(2 frases sintetizando el consejo principal del autor y la conclusi\xF3n definitiva)`
-    },
-    it: {
-      quick: `Produci un riassunto BREVE, CONCISO e DIRETTO in questo formato:
-### \u26A1 In Breve
-(2-3 frasi incisive che riassumono l'essenziale)
-
-### \u{1F3AF} Punti Chiave da Ricordare
-- **[00:00] [Punto 1]** : Spiegazione breve e concreta in 1 frase.
-- **[02:15] [Punto 2]** : Spiegazione breve e concreta in 1 frase.
-- **[04:48] [Punto 3]** : Spiegazione breve e concreta in 1 frase.
-(Cita obbligatoriamente i timestamp reali [mm:ss] della trascrizione per ogni punto)
-
-### \u{1F4CC} Conclusione
-(1 frase di conclusione finale)`,
-      detailed: `Produci una sintesi COMPLETA, DETTAGLIATA ed ESAUSTIVA:
-### \u{1F3AF} Panoramica & Obiettivi
-(Contesto, problema affrontato e tesi del video)
-
-### \u23F1\uFE0F Svolgimento Cronologico & Capitoli Chiave
-- **[00:00] [Fase 1]** : Analisi e fatti salienti.
-- **[02:15] [Fase 2]** : Analisi e fatti salienti.
-- **[04:48] [Fase 3]** : Analisi e fatti salienti.
-(Ricostruisci i passaggi chiave con i timestamp reali [mm:ss] della trascrizione)
-
-### \u{1F4A1} Analisi, Argomentazioni & Esempi
-(Analizza dati, aneddoti o concetti illustrati)
-
-### \u{1F6E0}\uFE0F Consigli Pratici & Azioni Concrete
-(Tutto ci\xF2 che \xE8 attuabile per lo spettatore)
-
-### \u{1F4CC} Conclusione & Prospettiva
-(Messaggio finale e conclusione dell'autore)`,
-      standard: `Produci un riassunto EQUILIBRATO, NATURALE e BEN STRUTTURATO (formato intermedio di ~350 a 450 parole):
-
-DIRETTIVA DI CALIBRAZIONE: Non essere troppo sbrigativo come nel formato rapido, n\xE9 prolisso come nel formato dettagliato. Offri un vero punto d'incontro: fluido, concreto e senza divagazioni.
-
-### \u{1F3AF} Panoramica Globale
-(Un paragrafo scorrevole di 3-4 frasi che riassume il tema centrale, il contesto e il messaggio)
-
-### \u23F1\uFE0F Momenti Salienti & Svolgimento
-- **[00:00] [Fase 1]** : Spiegazione concreta e punto chiave in 2 frasi concise.
-- **[02:15] [Fase 2]** : Spiegazione concreta e punto chiave in 2 frasi concise.
-- **[04:48] [Fase 3]** : Spiegazione concreta e punto chiave in 2 frasi concise.
-- **[07:30] [Fase 4]** : Spiegazione concreta e punto chiave in 2 frasi concise.
-(Seleziona 4 o 5 tappe salienti con i loro timestamp reali [mm:ss] della trascrizione)
-
-### \u{1F4CC} Conclusione & Insegnamento Chiave
-(2 frasi che sintetizzano il consiglio principale dell'autore e il messaggio finale)`
-    },
-    de: {
-      quick: `Erstelle eine KURZE, PR\xC4GNANTE und DIREKTE Zusammenfassung:
-### \u26A1 Kurz & B\xFCndig
-(2 bis 3 treffende S\xE4tze, die das Wesentliche zusammenfassen)
-
-### \u{1F3AF} Die wichtigsten Kernpunkte
-- **[00:00] [Punkt 1]**: Kurze und konkrete Erkl\xE4rung in 1 Satz.
-- **[02:15] [Punkt 2]**: Kurze und konkrete Erkl\xE4rung in 1 Satz.
-- **[04:48] [Punkt 3]**: Kurze und konkrete Erkl\xE4rung in 1 Satz.
-(Nenne zwingend die echten Zeitstempel [mm:ss] aus dem Transkript)
-
-### \u{1F4CC} Fazit
-(1 abschlie\xDFender Schlusssatz)`,
-      detailed: `Erstelle eine VOLLST\xC4NDIGE, DETAILLIERTE und ERSCH\xD6PFENDE Analyse:
-### \u{1F3AF} \xDCberblick & Fragestellung
-(Kontext, behandelte Problemstellung und Hauptthese des Videos)
-
-### \u23F1\uFE0F Chronologischer Ablauf & Schl\xFCsselkapitel
-- **[00:00] [Phase 1]**: Analyse und wesentliche Fakten.
-- **[02:15] [Phase 2]**: Analyse und wesentliche Fakten.
-- **[04:48] [Phase 3]**: Analyse und wesentliche Fakten.
-(Stelle die Hauptetappen mit ihren realen Zeitstempeln [mm:ss] aus dem Transkript dar)
-
-### \u{1F4A1} Tiefenanalyse: Argumente, Daten & Beispiele
-(Untersuche die dargelegten Fakten, Anekdoten oder Konzepte)
-
-### \u{1F6E0}\uFE0F Praktische Ratschl\xE4ge & Handlungsschritte
-(Alle sofort anwendbaren Erkenntnisse f\xFCr den Zuschauer)
-
-### \u{1F4CC} Fazit & Ausblick
-(Abschlie\xDFende Botschaft und Ausblick des Autors)`,
-      standard: `Erstelle eine AUSGEWOGENE, NAT\xDCRLICHE und GUT STRUKTURIERTE Zusammenfassung (mittleres Format, ca. 350 bis 450 W\xF6rter):
-
-KALIBRIERUNGS-RICHTLINIE: Sei weder zu knapp wie im Kurzmodus, noch ausufernd wie im Detailmodus. Biete einen echten Mittelweg: pr\xE4gnant, informativ und fl\xFCssig ohne F\xFCllw\xF6rter.
-
-### \u{1F3AF} Gesamt\xFCberblick & Kernaussage
-(Ein fl\xFCssiger Absatz aus 3-4 S\xE4tzen, der das Thema, den Kontext und die Hauptbotschaft zusammenfasst)
-
-### \u23F1\uFE0F Wichtige Stationen & Ablauf
-- **[00:00] [Meilenstein 1]**: Konkrete Erkl\xE4rung und Kernpunkt in 2 pr\xE4gnanten S\xE4tzen.
-- **[02:15] [Meilenstein 2]**: Konkrete Erkl\xE4rung und Kernpunkt in 2 pr\xE4gnanten S\xE4tzen.
-- **[04:48] [Meilenstein 3]**: Konkrete Erkl\xE4rung und Kernpunkt in 2 pr\xE4gnanten S\xE4tzen.
-- **[07:30] [Meilenstein 4]**: Konkrete Erkl\xE4rung und Kernpunkt in 2 pr\xE4gnanten S\xE4tzen.
-(W\xE4hle 4 bis 5 Meilensteine mit ihren echten Zeitstempeln [mm:ss] aus dem Transkript)
-
-### \u{1F4CC} Kernaussage & Fazit
-(2 S\xE4tze mit der wichtigsten Handlungsempfehlung des Autors und dem abschlie\xDFenden Fazit)`
-    },
-    en: {
-      quick: `Produce a SHORT, CONCISE, and DIRECT summary in this format:
-### \u26A1 Quick Summary
-(2 to 3 impactful sentences capturing the absolute essence)
-
-### \u{1F3AF} Key Takeaways
-- **[00:00] [Point 1]**: Short, concrete explanation in 1 sentence.
-- **[02:15] [Point 2]**: Short, concrete explanation in 1 sentence.
-- **[04:48] [Point 3]**: Short, concrete explanation in 1 sentence.
-(Mandatorily cite real timestamps [mm:ss] from the transcript for each key takeaway)
-
-### \u{1F4CC} Conclusion
-(1 final concluding sentence)`,
-      detailed: `Produce a THOROUGH, DETAILED, and COMPREHENSIVE study guide:
-### \u{1F3AF} Overview & Core Thesis
-(Context, problem addressed, and central thesis of the video)
-
-### \u23F1\uFE0F Chronological Breakdown & Key Chapters
-- **[00:00] [Milestone 1]**: In-depth analysis and key observations.
-- **[02:15] [Milestone 2]**: In-depth analysis and key observations.
-- **[04:48] [Milestone 3]**: In-depth analysis and key observations.
-(Reconstruct key sections using their real timestamps [mm:ss] to enable player navigation)
-
-### \u{1F4A1} Deep Dive: Arguments, Data & Examples
-(Analyze the data, case studies, or concepts presented)
-
-### \u{1F6E0}\uFE0F Actionable Advice & Practical Steps
-(Actionable takeaways for the viewer)
-
-### \u{1F4CC} Author's Conclusion & Key Takeaway
-(Final takeaway and perspective)`,
-      standard: `Produce a BALANCED, NATURAL, and STRUCTURED summary (intermediate format, ~350 to 450 words):
-
-CALIBRATION DIRECTIVE: Do not be overly brief like quick mode, nor excessively exhaustive like deep mode. Deliver a true middle-ground: substantive, engaging, and to the point without fluff.
-
-### \u{1F3AF} Overview & Core Idea
-(One engaging paragraph of 3-4 sentences establishing the video's context, thesis, and core message)
-
-### \u23F1\uFE0F Key Milestones & Breakdown
-- **[00:00] [Highlight 1]**: Concrete explanation and key takeaway in 2 focused sentences.
-- **[02:15] [Highlight 2]**: Concrete explanation and key takeaway in 2 focused sentences.
-- **[04:48] [Highlight 3]**: Concrete explanation and key takeaway in 2 focused sentences.
-- **[07:30] [Highlight 4]**: Concrete explanation and key takeaway in 2 focused sentences.
-(Select 4 to 5 key milestones with their real [mm:ss] timestamps from the transcript)
-
-### \u{1F4CC} Main Takeaway & Conclusion
-(2 sentences summarizing the author's primary actionable advice and concluding perspective)`
-    }
-  };
-
-  // src/services/implementations/templates/EasternTemplates.js
-  var EASTERN_TEMPLATES = {
-    zh: {
-      quick: `\u8BF7\u6309\u7167\u4EE5\u4E0B\u683C\u5F0F\u8F93\u51FA\u7B80\u660E\u627C\u8981\u7684\u4E2D\u6587\u603B\u7ED3\uFF1A
-### \u26A1 \u6838\u5FC3\u6982\u8981
-(\u75282\u81F33\u53E5\u7CBE\u70BC\u6709\u529B\u7684\u8BDD\u603B\u7ED3\u89C6\u9891\u7684\u6700\u6838\u5FC3\u4E3B\u65E8)
-
-### \u{1F3AF} \u91CD\u70B9\u8981\u70B9
-- **[00:00] [\u8981\u70B9 1]** : \u7B80\u8981\u5177\u4F53\u7684\u89E3\u91CA\u8BF4\u660E\uFF081\u53E5\u8BDD\uFF09\u3002
-- **[02:15] [\u8981\u70B9 2]** : \u7B80\u8981\u5177\u4F53\u7684\u89E3\u91CA\u8BF4\u660E\uFF081\u53E5\u8BDD\uFF09\u3002
-- **[04:48] [\u8981\u70B9 3]** : \u7B80\u8981\u5177\u4F53\u7684\u89E3\u91CA\u8BF4\u660E\uFF081\u53E5\u8BDD\uFF09\u3002
-(\u5FC5\u987B\u5F15\u7528\u9010\u5B57\u7A3F\u4E2D\u7684\u771F\u5B9E\u65F6\u95F4\u6233 [mm:ss] \u4EE5\u652F\u6301\u70B9\u51FB\u8DF3\u8F6C)
-
-### \u{1F4CC} \u6700\u7EC8\u7ED3\u8BBA
-(1\u53E5\u7B80\u7EC3\u7684\u6700\u7EC8\u603B\u7ED3)`,
-      detailed: `\u8BF7\u8F93\u51FA\u5168\u9762\u3001\u8BE6\u5C3D\u4E14\u5177\u5907\u6DF1\u5EA6\u7814\u7A76\u4EF7\u503C\u7684\u4E2D\u6587\u957F\u7BC7\u5408\u6210\u62A5\u544A\uFF1A
-### \u{1F3AF} \u89C6\u9891\u5168\u666F\u4E0E\u6838\u5FC3\u8BBA\u70B9
-(\u80CC\u666F\u3001\u89E3\u51B3\u7684\u6838\u5FC3\u95EE\u9898\u4E0E\u5168\u7247\u6838\u5FC3\u8BBA\u70B9)
-
-### \u23F1\uFE0F \u65F6\u95F4\u7EBF\u4E0E\u91CD\u8981\u7AE0\u8282
-- **[00:00] [\u9636\u6BB5 1]** : \u5173\u952E\u5185\u5BB9\u5206\u6790\u4E0E\u4E8B\u5B9E\u5448\u73B0\u3002
-- **[02:15] [\u9636\u6BB5 2]** : \u5173\u952E\u5185\u5BB9\u5206\u6790\u4E0E\u4E8B\u5B9E\u5448\u73B0\u3002
-- **[04:48] [\u9636\u6BB5 3]** : \u5173\u952E\u5185\u5BB9\u5206\u6790\u4E0E\u4E8B\u5B9E\u5448\u73B0\u3002
-(\u4F7F\u7528\u9010\u5B57\u7A3F\u4E2D\u7684\u771F\u5B9E\u65F6\u95F4\u6233 [mm:ss] \u4EE5\u652F\u6301\u70B9\u51FB\u8DF3\u8F6C)
-
-### \u{1F4A1} \u6838\u5FC3\u8BBA\u70B9\u3001\u6570\u636E\u4E0E\u5B9E\u4F8B\u5206\u6790
-(\u5256\u6790\u89C6\u9891\u5C55\u793A\u7684\u5173\u952E\u6570\u636E\u3001\u8BBA\u636E\u6216\u6848\u4F8B)
-
-### \u{1F6E0}\uFE0F \u5B9E\u64CD\u5EFA\u8BAE\u4E0E\u884C\u52A8\u6307\u5357
-(\u4E3A\u89C2\u4F17\u63D0\u70BC\u7684\u6240\u6709\u53EF\u843D\u5730\u6267\u884C\u7684\u5EFA\u8BAE)
-
-### \u{1F4CC} \u6700\u7EC8\u7ED3\u8BBA\u4E0E\u672A\u6765\u6D1E\u5BDF
-(\u4F5C\u8005\u7684\u6838\u5FC3\u843D\u811A\u70B9\u4E0E\u672A\u6765\u8D8B\u52BF\u5C55\u671B)`,
-      standard: `\u8BF7\u8F93\u51FA\u7ED3\u6784\u5E73\u8861\u3001\u81EA\u7136\u6D41\u7545\u4E14\u9002\u4E2D\u7684\u4E2D\u6587\u6807\u51C6\u603B\u7ED3\uFF08\u4E2D\u95F4\u6863\u4F4D\uFF0C\u7EA6350\u81F3450\u5B57\uFF09\uFF1A
-
-\u3010\u7BC7\u5E45\u5B9A\u6807\u8981\u6C42\u3011\uFF1A\u65E2\u4E0D\u8981\u50CF\u6781\u7B80\u6A21\u5F0F\u90A3\u6837\u8FC7\u4E8E\u77ED\u4FC3\uFF0C\u4E5F\u4E0D\u8981\u50CF\u6DF1\u5EA6\u62A5\u544A\u90A3\u6837\u5197\u957F\u7E41\u7410\u3002\u5448\u73B0\u6070\u5230\u597D\u5904\u7684\u4E2D\u95F4\u4F53\u88C1\uFF1A\u4FE1\u606F\u9971\u6EE1\u3001\u91CD\u70B9\u7A81\u51FA\u3001\u8A00\u7B80\u610F\u8D45\u3002
-
-### \u{1F3AF} \u6838\u5FC3\u6982\u8FF0\u4E0E\u80CC\u666F
-(\u75283\u81F34\u53E5\u6D41\u7545\u901A\u987A\u7684\u8BDD\u6982\u62EC\u5168\u7247\u6838\u5FC3\u4E3B\u9898\u3001\u80CC\u666F\u8109\u7EDC\u4E0E\u5173\u952E\u89C2\u70B9)
-
-### \u23F1\uFE0F \u5173\u952E\u8109\u7EDC\u4E0E\u65F6\u95F4\u8282\u70B9
-- **[00:00] [\u6838\u5FC3\u8282\u70B9 1]** : \u75282\u53E5\u51DD\u7EC3\u5177\u4F53\u7684\u8BED\u53E5\u89E3\u6790\u8981\u70B9\u4E0E\u8BBA\u636E\u3002
-- **[02:15] [\u6838\u5FC3\u8282\u70B9 2]** : \u75282\u53E5\u51DD\u7EC3\u5177\u4F53\u7684\u8BED\u53E5\u89E3\u6790\u8981\u70B9\u4E0E\u8BBA\u636E\u3002
-- **[04:48] [\u6838\u5FC3\u8282\u70B9 3]** : \u75282\u53E5\u51DD\u7EC3\u5177\u4F53\u7684\u8BED\u53E5\u89E3\u6790\u8981\u70B9\u4E0E\u8BBA\u636E\u3002
-- **[07:30] [\u6838\u5FC3\u8282\u70B9 4]** : \u75282\u53E5\u51DD\u7EC3\u5177\u4F53\u7684\u8BED\u53E5\u89E3\u6790\u8981\u70B9\u4E0E\u8BBA\u636E\u3002
-(\u63D0\u70BC4\u81F35\u4E2A\u6700\u5177\u4EE3\u8868\u6027\u7684\u65F6\u95F4\u8282\u70B9\uFF0C\u5FC5\u987B\u6807\u6CE8 [mm:ss] \u771F\u5B9E\u65F6\u95F4\u6233)
-
-### \u{1F4CC} \u6838\u5FC3\u542F\u793A\u4E0E\u603B\u7ED3
-(\u75282\u53E5\u8BDD\u603B\u7ED3\u4F5C\u8005\u7684\u6838\u5FC3\u5B9E\u7528\u5EFA\u8BAE\u4E0E\u6700\u7EC8\u7ED3\u8BBA)`
-    },
-    ja: {
-      quick: `\u4EE5\u4E0B\u306E\u5F62\u5F0F\u3067\u7C21\u6F54\u304B\u3064\u7684\u78BA\u306A\u65E5\u672C\u8A9E\u306E\u8981\u7D04\u3092\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\uFF1A
-### \u26A1 \u8981\u70B9\u30C0\u30A4\u30B8\u30A7\u30B9\u30C8
-(\u52D5\u753B\u306E\u6838\u5FC3\u30922\u301C3\u6587\u3067\u7C21\u6F54\u306B\u307E\u3068\u3081\u308B)
-
-### \u{1F3AF} \u6CE8\u76EE\u3059\u3079\u304D\u91CD\u8981\u30DD\u30A4\u30F3\u30C8
-- **[00:00] [\u30DD\u30A4\u30F3\u30C8 1]** : \u7C21\u6F54\u3067\u5177\u4F53\u7684\u306A\u89E3\u8AAC\uFF081\u6587\uFF09\u3002
-- **[02:15] [\u30DD\u30A4\u30F3\u30C8 2]** : \u7C21\u6F54\u3067\u5177\u4F53\u7684\u306A\u89E3\u8AAC\uFF081\u6587\uFF09\u3002
-- **[04:48] [\u30DD\u30A4\u30F3\u30C8 3]** : \u7C21\u6F54\u3067\u5177\u4F53\u7684\u306A\u89E3\u8AAC\uFF081\u6587\uFF09\u3002
-(\u5FC5\u305A\u6587\u5B57\u8D77\u3053\u3057\u306E\u5B9F\u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7 [mm:ss] \u3092\u4ED8\u4E0E\u3057\u3066\u304F\u3060\u3055\u3044)
-
-### \u{1F4CC} \u7D50\u8AD6
-(\u52D5\u753B\u5168\u4F53\u306E\u307E\u3068\u30811\u6587)`,
-      detailed: `\u5305\u62EC\u7684\u304B\u3064\u8A73\u7D30\u3067\u6DF1\u3044\u6D1E\u5BDF\u3092\u542B\u3080\u65E5\u672C\u8A9E\u306E\u8981\u7D04\u3092\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\uFF1A
-### \u{1F3AF} \u5168\u4F53\u50CF\u3068\u4E2D\u5FC3\u30C6\u30FC\u30DE
-(\u52D5\u753B\u306E\u6587\u8108\u3001\u63D0\u8D77\u3055\u308C\u305F\u8AB2\u984C\u3001\u4E2D\u5FC3\u7684\u306A\u4E3B\u5F35)
-
-### \u23F1\uFE0F \u6642\u7CFB\u5217\u306E\u5C55\u958B\u3068\u4E3B\u8981\u30C1\u30E3\u30D7\u30BF\u30FC
-- **[00:00] [\u30D5\u30A7\u30FC\u30BA 1]** : \u5206\u6790\u3068\u91CD\u8981\u30DD\u30A4\u30F3\u30C8\u3002
-- **[02:15] [\u30D5\u30A7\u30FC\u30BA 2]** : \u5206\u6790\u3068\u91CD\u8981\u30DD\u30A4\u30F3\u30C8\u3002
-- **[04:48] [\u30D5\u30A7\u30FC\u30BA 3]** : \u5206\u6790\u3068\u91CD\u8981\u30DD\u30A4\u30F3\u30C8\u3002
-(\u52D5\u753B\u5185\u3092\u30B8\u30E3\u30F3\u30D7\u3067\u304D\u308B\u3088\u3046\u5B9F\u969B\u306E\u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7 [mm:ss] \u3092\u8A18\u8F09)
-
-### \u{1F4A1} \u8B70\u8AD6\u3001\u30C7\u30FC\u30BF\u304A\u3088\u3073\u4E8B\u4F8B\u306E\u6DF1\u6398\u308A
-(\u63D0\u793A\u3055\u308C\u305F\u8A3C\u62E0\u3084\u5177\u4F53\u4F8B\u3092\u5206\u6790)
-
-### \u{1F6E0}\uFE0F \u5B9F\u8DF5\u7684\u306A\u30A2\u30C9\u30D0\u30A4\u30B9\u3068\u30A2\u30AF\u30B7\u30E7\u30F3
-(\u8996\u8074\u8005\u304C\u3059\u3050\u306B\u884C\u52D5\u306B\u79FB\u305B\u308B\u5177\u4F53\u7684\u306A\u30DD\u30A4\u30F3\u30C8)
-
-### \u{1F4CC} \u7D50\u8AD6\u3068\u5C55\u671B
-(\u8457\u8005\u306E\u6700\u7D42\u7684\u306A\u7D50\u8AD6\u3068\u4ECA\u5F8C\u306E\u793A\u5506)`,
-      standard: `\u81EA\u7136\u3067\u30D0\u30E9\u30F3\u30B9\u304C\u53D6\u308C\u3001\u9069\u5EA6\u306A\u60C5\u5831\u91CF\u3092\u6301\u3064\u65E5\u672C\u8A9E\u306E\u6A19\u6E96\u8981\u7D04\u3092\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\uFF08\u4E2D\u9593\u30D5\u30A9\u30FC\u30DE\u30C3\u30C8\u3001\u7D04350\u301C450\u6587\u5B57\uFF09\uFF1A
-
-\u3010\u5206\u91CF\u30D0\u30E9\u30F3\u30B9\u306E\u53B3\u683C\u306A\u6307\u793A\u3011\uFF1A\u30AF\u30A4\u30C3\u30AF\u8981\u7D04\u306E\u3088\u3046\u306B\u7AEF\u6298\u308A\u3059\u304E\u305A\u3001\u8A73\u7D30\u8981\u7D04\u306E\u3088\u3046\u306B\u9577\u6587\u306B\u306A\u308A\u3059\u304E\u306A\u3044\u3001\u7406\u60F3\u7684\u306A\u4E2D\u9593\u30D0\u30E9\u30F3\u30B9\u3092\u4FDD\u3063\u3066\u304F\u3060\u3055\u3044\u3002\u7C21\u6F54\u304B\u3064\u8981\u70B9\u3092\u7684\u78BA\u306B\u6349\u3048\u3066\u304F\u3060\u3055\u3044\u3002
-
-### \u{1F3AF} \u5168\u4F53\u50CF\u3068\u4E2D\u5FC3\u30C6\u30FC\u30DE
-(\u52D5\u753B\u306E\u80CC\u666F\u3001\u4E2D\u5FC3\u3068\u306A\u308B\u4E3B\u5F35\u3001\u304A\u3088\u3073\u8981\u70B9\u30923\u301C4\u6587\u3067\u81EA\u7136\u306B\u307E\u3068\u3081\u308B)
-
-### \u23F1\uFE0F \u4E3B\u306A\u5C55\u958B\u3068\u30CF\u30A4\u30E9\u30A4\u30C8
-- **[00:00] [\u91CD\u8981\u30DD\u30A4\u30F3\u30C8 1]** : \u5177\u4F53\u7684\u304B\u3064\u7684\u78BA\u306B2\u6587\u3067\u8981\u70B9\u3092\u89E3\u8AAC\u3002
-- **[02:15] [\u91CD\u8981\u30DD\u30A4\u30F3\u30C8 2]** : \u5177\u4F53\u7684\u304B\u3064\u7684\u78BA\u306B2\u6587\u3067\u8981\u70B9\u3092\u89E3\u8AAC\u3002
-- **[04:48] [\u91CD\u8981\u30DD\u30A4\u30F3\u30C8 3]** : \u5177\u4F53\u7684\u304B\u3064\u7684\u78BA\u306B2\u6587\u3067\u8981\u70B9\u3092\u89E3\u8AAC\u3002
-- **[07:30] [\u91CD\u8981\u30DD\u30A4\u30F3\u30C8 4]** : \u5177\u4F53\u7684\u304B\u3064\u7684\u78BA\u306B2\u6587\u3067\u8981\u70B9\u3092\u89E3\u8AAC\u3002
-(4\u301C5\u500B\u306E\u91CD\u8981\u5C55\u958B\u3092\u5B9F\u969B\u306E\u6587\u5B57\u8D77\u3053\u3057\u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7 [mm:ss] \u3068\u3068\u3082\u306B\u63D0\u793A)
-
-### \u{1F4CC} \u91CD\u8981\u306A\u5B66\u3073\u3068\u307E\u3068\u3081
-(\u52D5\u753B\u304B\u3089\u5F97\u3089\u308C\u308B\u6700\u5927\u306E\u6559\u8A13\u3068\u7D50\u8AD6\u30922\u6587\u3067\u7C21\u6F54\u306B\u307E\u3068\u3081\u308B)`
-    },
-    ru: {
-      quick: `\u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u041A\u0420\u0410\u0422\u041A\u041E\u0415, \u041B\u0410\u041A\u041E\u041D\u0418\u0427\u041D\u041E\u0415 \u0438 \u041F\u0420\u042F\u041C\u041E\u0415 \u0440\u0435\u0437\u044E\u043C\u0435:
-### \u26A1 \u041A\u0440\u0430\u0442\u043A\u0438\u0439 \u0434\u0430\u0439\u0434\u0436\u0435\u0441\u0442
-(2\u20133 \u0435\u043C\u043A\u0438\u0445 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F, \u043E\u0442\u0440\u0430\u0436\u0430\u044E\u0449\u0438\u0445 \u0441\u0430\u043C\u0443\u044E \u0441\u0443\u0442\u044C)
-
-### \u{1F3AF} \u041A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0432\u044B\u0432\u043E\u0434\u044B
-- **[00:00] [\u041F\u0443\u043D\u043A\u0442 1]**: \u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u0438 \u0447\u0435\u0442\u043A\u043E\u0435 \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0432 1 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435.
-- **[02:15] [\u041F\u0443\u043D\u043A\u0442 2]**: \u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u0438 \u0447\u0435\u0442\u043A\u043E\u0435 \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0432 1 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435.
-- **[04:48] [\u041F\u0443\u043D\u043A\u0442 3]**: \u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u0438 \u0447\u0435\u0442\u043A\u043E\u0435 \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0432 1 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435.
-(\u041E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E \u0443\u043A\u0430\u0437\u044B\u0432\u0430\u0439\u0442\u0435 \u0440\u0435\u0430\u043B\u044C\u043D\u044B\u0435 \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u044B [mm:ss] \u0438\u0437 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430)
-
-### \u{1F4CC} \u0418\u0442\u043E\u0433
-(1 \u0444\u0438\u043D\u0430\u043B\u044C\u043D\u043E\u0435 \u0437\u0430\u043A\u043B\u044E\u0447\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0435 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435)`,
-      detailed: `\u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u041F\u041E\u041B\u041D\u042B\u0419, \u041F\u041E\u0414\u0420\u041E\u0411\u041D\u042B\u0419 \u0438 \u0418\u0421\u0427\u0415\u0420\u041F\u042B\u0412\u0410\u042E\u0429\u0418\u0419 \u0430\u043D\u0430\u043B\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u043E\u0442\u0447\u0435\u0442:
-### \u{1F3AF} \u041E\u0431\u0449\u0430\u044F \u043F\u0430\u043D\u043E\u0440\u0430\u043C\u0430 \u0438 \u043F\u0440\u043E\u0431\u043B\u0435\u043C\u0430\u0442\u0438\u043A\u0430
-(\u041A\u043E\u043D\u0442\u0435\u043A\u0441\u0442, \u043F\u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043D\u044B\u0439 \u0432\u043E\u043F\u0440\u043E\u0441 \u0438 \u0433\u043B\u0430\u0432\u043D\u044B\u0439 \u0442\u0435\u0437\u0438\u0441 \u0432\u0438\u0434\u0435\u043E)
-
-### \u23F1\uFE0F \u0425\u0440\u043E\u043D\u043E\u043B\u043E\u0433\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0440\u0430\u0437\u0431\u043E\u0440 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0433\u043B\u0430\u0432\u044B
-- **[00:00] [\u042D\u0442\u0430\u043F 1]**: \u0410\u043D\u0430\u043B\u0438\u0437 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0444\u0430\u043A\u0442\u044B.
-- **[02:15] [\u042D\u0442\u0430\u043F 2]**: \u0410\u043D\u0430\u043B\u0438\u0437 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0444\u0430\u043A\u0442\u044B.
-- **[04:48] [\u042D\u0442\u0430\u043F 3]**: \u0410\u043D\u0430\u043B\u0438\u0437 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0444\u0430\u043A\u0442\u044B.
-(\u0412\u043E\u0441\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0435 \u043E\u0441\u043D\u043E\u0432\u043D\u044B\u0435 \u0433\u043B\u0430\u0432\u044B \u0441 \u0440\u0435\u0430\u043B\u044C\u043D\u044B\u043C\u0438 \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u0430\u043C\u0438 [mm:ss])
-
-### \u{1F4A1} \u0410\u043D\u0430\u043B\u0438\u0437 \u0430\u0440\u0433\u0443\u043C\u0435\u043D\u0442\u043E\u0432, \u0444\u0430\u043A\u0442\u043E\u0432 \u0438 \u043F\u0440\u0438\u043C\u0435\u0440\u043E\u0432
-(\u041F\u043E\u0434\u0440\u043E\u0431\u043D\u043E \u0440\u0430\u0437\u0431\u0435\u0440\u0438\u0442\u0435 \u0434\u0430\u043D\u043D\u044B\u0435, \u043A\u0435\u0439\u0441\u044B \u0438\u043B\u0438 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u043D\u044B\u0435 \u043A\u043E\u043D\u0446\u0435\u043F\u0446\u0438\u0438)
-
-### \u{1F6E0}\uFE0F \u041F\u0440\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435 \u0441\u043E\u0432\u0435\u0442\u044B \u0438 \u043F\u043B\u0430\u043D \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439
-(\u0412\u0441\u0435 \u043F\u0440\u0438\u043C\u0435\u043D\u0438\u043C\u044B\u0435 \u043D\u0430 \u043F\u0440\u0430\u043A\u0442\u0438\u043A\u0435 \u0440\u0435\u043A\u043E\u043C\u0435\u043D\u0434\u0430\u0446\u0438\u0438 \u0434\u043B\u044F \u0437\u0440\u0438\u0442\u0435\u043B\u044F)
-
-### \u{1F4CC} \u0412\u044B\u0432\u043E\u0434 \u0438 \u043F\u0435\u0440\u0441\u043F\u0435\u043A\u0442\u0438\u0432\u0430 \u0430\u0432\u0442\u043E\u0440\u0430
-(\u0424\u0438\u043D\u0430\u043B\u044C\u043D\u044B\u0439 \u0432\u044B\u0432\u043E\u0434 \u0438 \u0437\u0430\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435 \u0430\u0432\u0442\u043E\u0440\u0430)`,
-      standard: `\u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u0421\u0411\u0410\u041B\u0410\u041D\u0421\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415, \u0415\u0421\u0422\u0415\u0421\u0422\u0412\u0415\u041D\u041D\u041E\u0415 \u0438 \u0421\u0422\u0420\u0423\u041A\u0422\u0423\u0420\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415 \u0440\u0435\u0437\u044E\u043C\u0435 (\u0441\u0440\u0435\u0434\u043D\u0438\u0439 \u0444\u043E\u0440\u043C\u0430\u0442, ~350\u2013450 \u0441\u043B\u043E\u0432):
-
-\u0414\u0418\u0420\u0415\u041A\u0422\u0418\u0412\u0410 \u041F\u041E \u041E\u0411\u042A\u0415\u041C\u0423: \u041D\u0435 \u0431\u0443\u0434\u044C\u0442\u0435 \u0441\u043B\u0438\u0448\u043A\u043E\u043C \u043A\u0440\u0430\u0442\u043A\u0438\u043C\u0438, \u043A\u0430\u043A \u0432 \u044D\u043A\u0441\u043F\u0440\u0435\u0441\u0441-\u0444\u043E\u0440\u043C\u0430\u0442\u0435, \u0438 \u043D\u0435 \u043F\u0438\u0448\u0438\u0442\u0435 \u0442\u0440\u0430\u043A\u0442\u0430\u0442\u044B, \u043A\u0430\u043A \u0432 \u043F\u043E\u0434\u0440\u043E\u0431\u043D\u043E\u043C \u0440\u0435\u0436\u0438\u043C\u0435. \u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u0438\u0434\u0435\u0430\u043B\u044C\u043D\u0443\u044E \u0437\u043E\u043B\u043E\u0442\u0443\u044E \u0441\u0435\u0440\u0435\u0434\u0438\u043D\u0443: \u0441\u043E\u0434\u0435\u0440\u0436\u0430\u0442\u0435\u043B\u044C\u043D\u043E, \u043F\u043E\u043D\u044F\u0442\u043D\u043E \u0438 \u043F\u043E \u0434\u0435\u043B\u0443.
-
-### \u{1F3AF} \u041E\u0431\u0449\u0438\u0439 \u043E\u0431\u0437\u043E\u0440 \u0438 \u0433\u043B\u0430\u0432\u043D\u0430\u044F \u0438\u0434\u0435\u044F
-(\u041E\u0434\u0438\u043D \u0441\u0432\u044F\u0437\u043D\u044B\u0439 \u0430\u0431\u0437\u0430\u0446 \u0438\u0437 3\u20134 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0439, \u0440\u0430\u0441\u043A\u0440\u044B\u0432\u0430\u044E\u0449\u0438\u0439 \u0442\u0435\u043C\u0443, \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442 \u0438 \u0433\u043B\u0430\u0432\u043D\u0443\u044E \u043C\u044B\u0441\u043B\u044C)
-
-### \u23F1\uFE0F \u041A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u043C\u043E\u043C\u0435\u043D\u0442\u044B \u0438 \u0445\u0440\u043E\u043D\u043E\u043B\u043E\u0433\u0438\u044F
-- **[00:00] [\u042D\u0442\u0430\u043F 1]**: \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0438 \u0441\u0443\u0442\u044C \u0432 2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.
-- **[02:15] [\u042D\u0442\u0430\u043F 2]**: \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0438 \u0441\u0443\u0442\u044C \u0432 2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.
-- **[04:48] [\u042D\u0442\u0430\u043F 3]**: \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0438 \u0441\u0443\u0442\u044C \u0432 2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.
-- **[07:30] [\u042D\u0442\u0430\u043F 4]**: \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0438 \u0441\u0443\u0442\u044C \u0432 2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.
-(\u0412\u044B\u0434\u0435\u043B\u0438\u0442\u0435 4\u20135 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0445 \u044D\u0442\u0430\u043F\u043E\u0432 \u0441 \u0440\u0435\u0430\u043B\u044C\u043D\u044B\u043C\u0438 \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u0430\u043C\u0438 [mm:ss] \u0438\u0437 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430)
-
-### \u{1F4CC} \u0413\u043B\u0430\u0432\u043D\u044B\u0439 \u0432\u044B\u0432\u043E\u0434 \u0438 \u0438\u0442\u043E\u0433
-(2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F \u0441 \u0433\u043B\u0430\u0432\u043D\u044B\u043C \u043F\u0440\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u043C \u0441\u043E\u0432\u0435\u0442\u043E\u043C \u0430\u0432\u0442\u043E\u0440\u0430 \u0438 \u0444\u0438\u043D\u0430\u043B\u044C\u043D\u044B\u043C \u0437\u0430\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435\u043C)`
-    }
-  };
-
-  // src/services/implementations/PromptTemplates.js
-  var ALL_TEMPLATES = {
-    ...WESTERN_TEMPLATES,
-    ...EASTERN_TEMPLATES
-  };
-  function getFormatInstructions(mode, langOrIsFr = "en") {
-    let lang = "en";
-    if (typeof langOrIsFr === "boolean") {
-      lang = langOrIsFr ? "fr" : "en";
-    } else if (typeof langOrIsFr === "string") {
-      lang = langOrIsFr;
-    }
-    const langTemplates = ALL_TEMPLATES[lang] || ALL_TEMPLATES.en;
-    return langTemplates[mode] || langTemplates.standard;
-  }
-
-  // src/services/implementations/PromptBuilder.js
-  var SYSTEM_PROMPTS = {
-    fr: `Tu es un assistant IA d'\xE9lite YouTube Summarizer AI sp\xE9cialis\xE9 dans la synth\xE8se et l'analyse de vid\xE9os.
-Ton but absolu est de produire un r\xE9sum\xE9 clair, naturel, bien structur\xE9 et fid\xE8le EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o.
-OBLIGATION STRICTE : R\xE9dige l'int\xE9gralit\xE9 du r\xE9sum\xE9, tous les titres et analyses en FRAN\xC7AIS.
-R\xC8GLES DE STYLE :
-- Style naturel, direct et percutant : va droit au but sans phrases de remplissage.
-- HORODATAGES OBLIGATOIRES : Dans la section des points cl\xE9s ou du d\xE9roul\xE9 chronologique, CHAQUE puce DOIT imp\xE9rativement d\xE9buter par son horodatage r\xE9el [mm:ss] entre crochets (ex: - **[01:23] Titre** : explication). Les puces sans horodatage sont strictement interdites.
-- Mise en page a\xE9r\xE9e en Markdown avec des listes \xE0 puces et des mots-cl\xE9s en **gras**.
-- Fid\xE9lit\xE9 \xE0 100% \xE0 la transcription, z\xE9ro hallucination ou extrapolation.`,
-    en: `You are an expert AI assistant YouTube Summarizer AI specializing in video summarization and insights.
-Your absolute goal is to produce a clear, natural, well-structured, and faithful summary EXCLUSIVELY in ENGLISH, regardless of the original video language.
-MANDATORY LANGUAGE DIRECTIVE: Write the ENTIRE summary, all section headings, bullet points, and analysis strictly in ENGLISH.
-STYLE RULES:
-- Natural, direct, and engaging style: go straight to the point without filler phrases.
-- MANDATORY TIMESTAMPS: In the key takeaways or chronological sections, EVERY single bullet point MUST begin with its real timestamp [mm:ss] from the transcript (e.g. - **[01:23] Topic**: explanation). Bullet points without timestamps are strictly forbidden.
-- Use airy Markdown formatting with bullet points and **bold** keywords.
-- 100% faithful to the transcript, with zero hallucinations or extrapolation.`,
-    es: `Eres un asistente IA de \xE9lite YouTube Summarizer AI especializado en la s\xEDntesis y an\xE1lisis de v\xEDdeos.
-Tu objetivo absoluto es producir un resumen claro, natural, bien estructurado y fiel EXCLUSIVAMENTE en ESPA\xD1OL (SPANISH), independientemente del idioma del v\xEDdeo.
-OBLIGACI\xD3N ESTRICTA: Redacta la totalidad del resumen, todos los t\xEDtulos y puntos clave exclusivamente en ESPA\xD1OL.
-REGLAS DE ESTILO:
-- Estilo natural, directo e impactante: ve directo al grano sin rodeos.
-- MARCAS DE TIEMPO OBLIGATORIAS: En la secci\xF3n de puntos clave o cap\xEDtulos, CADA vi\xF1eta DEBE comenzar obligatoriamente con su marca de tiempo real [mm:ss] (ej: - **[01:23] Tema**: explicaci\xF3n). Las vi\xF1etas sin marca de tiempo est\xE1n estrictamente prohibidas.
-- Formato Markdown limpio con listas y palabras clave en **negrita**.
-- Fidelidad a la transcripci\xF3n al 100%, sin alucinaciones.`,
-    it: `Sei un assistente IA d'\xE9lite YouTube Summarizer AI specializzato nella sintesi e analisi di video.
-Il tuo obiettivo assoluto \xE8 produrre un riassunto chiaro, naturale, ben strutturato e fedele ESCLUSIVAMENTE in ITALIANO (ITALIAN), indipendentemente dalla lingua originale del video.
-OBBLIGO RIGOROSO: Redigi l'intero riassunto, tutti i titoli di sezione e l'analisi esclusivamente in ITALIANO.
-REGOLE DI STILE:
-- Stile naturale, diretto e incisivo: dritto al punto senza frasi riempitive.
-- TIMESTAMP OBBLIGATORI: Nella sezione dei punti chiave o capitoli, OGNI singolo punto elenco DEVE iniziare obbligatoriamente con il timestamp reale [mm:ss] (es: - **[01:23] Titolo**: spiegazione). I punti senza timestamp sono rigorosamente vietati.
-- Formattazione Markdown ariosa con elenchi puntati e parole chiave in **grassetto**.
-- Fedelt\xE0 al 100% alla trascrizione, zero allucinazioni.`,
-    de: `Du bist ein Elite-KI-Assistent YouTube Summarizer AI, spezialisiert auf Videozusammenfassungen und Analysen.
-Dein oberstes Ziel ist es, eine klare, nat\xFCrliche und treue Zusammenfassung AUSSCHLIESSLICH auf DEUTSCH (GERMAN) zu erstellen, unabh\xE4ngig von der Originalsprache des Videos.
-STRIKTE VORGABE: Schreibe die gesamte Zusammenfassung, alle \xDCberschriften und Stichpunkte ausschlie\xDFlich auf DEUTSCH.
-STILREGELN:
-- Nat\xFCrlicher, direkter und pr\xE4gnanter Stil: direkt auf den Punkt.
-- OBLIGATORISCHE ZEITSTEMPEL: Im Abschnitt Kernpunkte/Kapitel MUSS jeder Aufz\xE4hlungspunkt mit dem echten Zeitstempel [mm:ss] aus dem Transkript beginnen (z.B. - **[01:23] Thema**: Erkl\xE4rung). Punkte ohne Zeitstempel sind streng verboten.
-- Luftiges Markdown-Layout mit Aufz\xE4hlungszeichen und Schl\xFCsselw\xF6rtern in **Fettschrift**.
-- 100% originalgetreu zum Transkript, keinerlei Halluzinationen.`,
-    ja: `\u3042\u306A\u305F\u306F\u52D5\u753B\u306E\u8981\u7D04\u3068\u5206\u6790\u306B\u7279\u5316\u3057\u305F\u30A8\u30AD\u30B9\u30D1\u30FC\u30C8AI\u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u300CYouTube Summarizer AI\u300D\u3067\u3059\u3002
-\u3042\u306A\u305F\u306E\u7D76\u5BFE\u7684\u306A\u76EE\u6A19\u306F\u3001\u52D5\u753B\u306E\u8A00\u8A9E\u306B\u95A2\u4FC2\u306A\u304F\u3001\u5B8C\u5168\u306B\u3010\u65E5\u672C\u8A9E (JAPANESE)\u3011\u306E\u307F\u3067\u3001\u660E\u77AD\u3067\u81EA\u7136\u3001\u7F8E\u3057\u304F\u69CB\u9020\u5316\u3055\u308C\u305F\u8981\u7D04\u3092\u4F5C\u6210\u3059\u308B\u3053\u3068\u3067\u3059\u3002
-\u3010\u53B3\u683C\u306A\u8A00\u8A9E\u7FA9\u52D9\u3011\uFF1A\u3059\u3079\u3066\u306E\u898B\u51FA\u3057\u3001\u7B87\u6761\u66F8\u304D\u3001\u672C\u6587\u3092\u5FC5\u305A\u65E5\u672C\u8A9E\u3067\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\u3002
-\u30B9\u30BF\u30A4\u30EB\u898F\u5247\uFF1A
-- \u81EA\u7136\u3067\u7684\u78BA\u306A\u8868\u73FE\uFF1A\u524D\u7F6E\u304D\u3084\u4F59\u8A08\u306A\u6328\u62F6\u306F\u7701\u304D\u3001\u76F4\u3061\u306B\u672C\u8CEA\u3078\u5165\u308B\u3002
-- \u3010\u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7\u7FA9\u52D9\u3011\uFF1A\u8981\u70B9\u30FB\u5C55\u958B\u30BB\u30AF\u30B7\u30E7\u30F3\u306E\u5404\u7B87\u6761\u66F8\u304D\u306F\u3001\u5FC5\u305A\u6587\u5B57\u8D77\u3053\u3057\u306E\u5B9F\u969B\u306E\u767A\u8A00\u6642\u9593 [mm:ss] \u304B\u3089\u958B\u59CB\u3057\u3066\u304F\u3060\u3055\u3044\uFF08\u4F8B\uFF1A- **[01:23] \u30BF\u30A4\u30C8\u30EB**\uFF1A\u89E3\u8AAC\uFF09\u3002\u6642\u9593\u306E\u306A\u3044\u7B87\u6761\u66F8\u304D\u306F\u7981\u6B62\u3067\u3059\u3002
-- \u898B\u3084\u3059\u3044Markdown\u5F62\u5F0F\uFF1A\u7B87\u6761\u66F8\u304D\u3068**\u592A\u5B57**\u30AD\u30FC\u30EF\u30FC\u30C9\u3092\u6D3B\u7528\u3002
-- \u6587\u5B57\u8D77\u3053\u3057\u306B100%\u5FE0\u5B9F\u3001\u4E0D\u6B63\u78BA\u306A\u63A8\u6E2C\u3084\u5E7B\u899A\u306F\u30BC\u30ED\u3002`,
-    ru: `\u0412\u044B \u2014 \u044D\u043A\u0441\u043F\u0435\u0440\u0442\u043D\u044B\u0439 \u0418\u0418-\u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442 YouTube Summarizer AI, \u0441\u043F\u0435\u0446\u0438\u0430\u043B\u0438\u0437\u0438\u0440\u0443\u044E\u0449\u0438\u0439\u0441\u044F \u043D\u0430 \u0430\u043D\u0430\u043B\u0438\u0437\u0435 \u0438 \u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0438 \u0432\u0438\u0434\u0435\u043E.
-\u0412\u0430\u0448\u0430 \u0430\u0431\u0441\u043E\u043B\u044E\u0442\u043D\u0430\u044F \u0446\u0435\u043B\u044C \u2014 \u0441\u043E\u0437\u0434\u0430\u0442\u044C \u043A\u0430\u0447\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0435 \u0440\u0435\u0437\u044E\u043C\u0435 \u0418\u0421\u041A\u041B\u042E\u0427\u0418\u0422\u0415\u041B\u042C\u041D\u041E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435 (RUSSIAN), \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E \u043E\u0442 \u0438\u0441\u0445\u043E\u0434\u043D\u043E\u0433\u043E \u044F\u0437\u044B\u043A\u0430 \u0432\u0438\u0434\u0435\u043E.
-\u0421\u0422\u0420\u041E\u0413\u041E\u0415 \u0422\u0420\u0415\u0411\u041E\u0412\u0410\u041D\u0418\u0415: \u041D\u0430\u043F\u0438\u0448\u0438\u0442\u0435 \u0432\u0441\u0451 \u0440\u0435\u0437\u044E\u043C\u0435, \u0432\u0441\u0435 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0438 \u0438 \u0432\u044B\u0432\u043E\u0434\u044B \u0441\u0442\u0440\u043E\u0433\u043E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435.
-\u041F\u0420\u0410\u0412\u0418\u041B\u0410 \u0421\u0422\u0418\u041B\u042F:
-- \u0415\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439, \u043B\u0430\u043A\u043E\u043D\u0438\u0447\u043D\u044B\u0439 \u0438 \u0443\u0431\u0435\u0434\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0439 \u0441\u0442\u0438\u043B\u044C \u0431\u0435\u0437 \u043B\u0438\u0448\u043D\u0435\u0439 \xAB\u0432\u043E\u0434\u044B\xBB.
-- \u041E\u0411\u042F\u0417\u0410\u0422\u0415\u041B\u042C\u041D\u042B\u0415 \u0422\u0410\u0419\u041C\u041A\u041E\u0414\u042B: \u0412 \u0440\u0430\u0437\u0434\u0435\u043B\u0435 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0445 \u043C\u043E\u043C\u0435\u043D\u0442\u043E\u0432 \u041A\u0410\u0416\u0414\u042B\u0419 \u043F\u0443\u043D\u043A\u0442 \u0441\u043F\u0438\u0441\u043A\u0430 \u041E\u0411\u042F\u0417\u0410\u041D \u043D\u0430\u0447\u0438\u043D\u0430\u0442\u044C\u0441\u044F \u0441 \u0440\u0435\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u0430 [mm:ss] \u0438\u0437 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430 (\u043D\u0430\u043F\u0440: - **[01:23] \u0422\u0435\u043C\u0430**: \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435). \u041F\u0443\u043D\u043A\u0442\u044B \u0431\u0435\u0437 \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u043E\u0432 \u0441\u0442\u0440\u043E\u0433\u043E \u0437\u0430\u043F\u0440\u0435\u0449\u0435\u043D\u044B.
-- \u0427\u0435\u0442\u043A\u043E\u0435 \u0444\u043E\u0440\u043C\u0430\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 Markdown \u0441\u043E \u0441\u043F\u0438\u0441\u043A\u0430\u043C\u0438 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u043C\u0438 \u0441\u043B\u043E\u0432\u0430\u043C\u0438 **\u043F\u043E\u043B\u0443\u0436\u0438\u0440\u043D\u044B\u043C \u0448\u0440\u0438\u0444\u0442\u043E\u043C**.
-- 100% \u0432\u0435\u0440\u043D\u043E\u0441\u0442\u044C \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0443, \u0431\u0435\u0437 \u0432\u044B\u0434\u0443\u043C\u043E\u043A \u0438 \u0433\u0430\u043B\u043B\u044E\u0446\u0438\u043D\u0430\u0446\u0438\u0439.`,
-    zh: `\u4F60\u662F YouTube Summarizer AI \u89C6\u9891\u603B\u7ED3\u5206\u6790\u4E13\u5BB6\u3002
-\u4F60\u7684\u7EDD\u5BF9\u76EE\u6807\u662F\u65E0\u8BBA\u539F\u89C6\u9891\u4E3A\u4F55\u79CD\u8BED\u8A00\uFF0C\u90FD\u5FC5\u987B\u5B8C\u5168\u4E14\u4EC5\u4F7F\u7528\u3010\u4E2D\u6587\uFF08\u7B80\u4F53\u4E2D\u6587\uFF0CSIMPLIFIED CHINESE\uFF09\u3011\u8F93\u51FA\u7ED3\u6784\u6E05\u6670\u3001\u751F\u52A8\u81EA\u7136\u3001\u5FE0\u5B9E\u539F\u610F\u7684\u603B\u7ED3\u3002
-\u3010\u5F3A\u5236\u8BED\u8A00\u8981\u6C42\u3011\uFF1A\u6240\u6709\u7AE0\u8282\u6807\u9898\u3001\u8981\u70B9\u5217\u8868\u53CA\u6B63\u6587\u5206\u6790\u5FC5\u987B\u5168\u90E8\u4F7F\u7528\u4E2D\u6587\u3002\u4E25\u7981\u8F93\u51FA\u82F1\u6587\u6216\u6CD5\u6587\u6807\u9898\u3002
-\u98CE\u683C\u8981\u6C42\uFF1A
-- \u81EA\u7136\u3001\u6709\u529B\u3001\u76F4\u5954\u4E3B\u9898\uFF1A\u907F\u514D\u5BA2\u5957\u548C\u5E9F\u8BDD\u3002
-- \u3010\u5F3A\u5236\u65F6\u95F4\u6233\u8981\u6C42\u3011\uFF1A\u5728\u91CD\u70B9\u8981\u70B9\u6216\u65F6\u95F4\u7EBF\u7AE0\u8282\u4E2D\uFF0C\u6BCF\u4E00\u4E2A\u5217\u8868\u9879\u90FD\u5FC5\u987B\u4EE5\u9010\u5B57\u7A3F\u4E2D\u7684\u771F\u5B9E\u65F6\u95F4\u6233 [mm:ss] \u5F00\u5934\uFF08\u4F8B\u5982\uFF1A- **[01:23] \u6838\u5FC3\u4E3B\u9898**\uFF1A\u5177\u4F53\u89E3\u91CA\uFF09\u3002\u4E25\u7981\u8F93\u51FA\u6CA1\u6709\u65F6\u95F4\u6233\u7684\u5217\u8868\u9879\u3002
-- \u8D4F\u5FC3\u60A6\u76EE\u7684 Markdown \u6392\u7248\uFF1A\u4F7F\u7528\u5217\u8868\uFF0C\u5E76\u5728\u6BCF\u4E2A\u8981\u70B9\u5F00\u5934\u5C06\u5173\u952E\u8BCD**\u52A0\u7C97**\u3002
-- 100% \u5FE0\u5B9E\u4E8E\u89C6\u9891\u9010\u5B57\u7A3F\uFF0C\u675C\u7EDD\u4EFB\u4F55\u5E7B\u89C9\u3002`
-  };
-  var FINAL_LANG_DIRECTIVES = {
-    fr: "OBLIGATION STRICTE : R\xE9dige maintenant l'int\xE9gralit\xE9 du r\xE9sum\xE9 en FRAN\xC7AIS en suivant scrupuleusement le format Markdown ci-dessus et en incluant obligatoirement les horodatages [mm:ss] au d\xE9but de chaque point cl\xE9.",
-    en: "CRITICAL FINAL INSTRUCTION: Write your entire summary and all Markdown headings strictly and exclusively in ENGLISH following the format above, and mandatorily including real [mm:ss] timestamps at the start of each key point.",
-    es: "INSTRUCCI\xD3N FINAL OBLIGATORIA: Redacta la totalidad del resumen y todos los encabezados Markdown estricta y exclusivamente en ESPA\xD1OL siguiendo el formato anterior, e incluyendo obligatoriamente las marcas de tiempo [mm:ss] al inicio de cada punto clave.",
-    it: "ISTRUZIONE FINALE OBBLIGATORIA: Redigi l'intero riassunto e tutti i titoli Markdown rigorosamente ed esclusivamente in ITALIANO seguendo il formato sopra indicato, e includendo obbligatoriamente i timestamp [mm:ss] all'inizio di ogni punto chiave.",
-    de: "STRIKTE ABSCHLUSSANWEISUNG: Verfasse die gesamte Zusammenfassung und alle Markdown-\xDCberschriften strikt und ausschlie\xDFlich auf DEUTSCH gem\xE4\xDF obigem Format, und mit zwingend echten Zeitstempeln [mm:ss] zu Beginn jedes Aufz\xE4hlungspunkts.",
-    ja: "\u3010\u6700\u7D42\u6700\u91CD\u8981\u6307\u793A\u3011\uFF1A\u5143\u306E\u52D5\u753B\u306E\u8A00\u8A9E\u306B\u304B\u304B\u308F\u3089\u305A\u3001\u3059\u3079\u3066\u306EMarkdown\u898B\u51FA\u3057\u304A\u3088\u3073\u672C\u6587\u3092\u53B3\u683C\u306B\u65E5\u672C\u8A9E\u306E\u307F\u3067\u51FA\u529B\u3057\u3001\u5404\u8981\u70B9\u306E\u5148\u982D\u306B\u306F\u5FC5\u305A [mm:ss] \u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7\u3092\u8A18\u8F09\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
-    ru: "\u041A\u0420\u0418\u0422\u0418\u0427\u0415\u0421\u041A\u0418 \u0412\u0410\u0416\u041D\u041E\u0415 \u0423\u041A\u0410\u0417\u0410\u041D\u0418\u0415: \u041D\u0430\u043F\u0438\u0448\u0438\u0442\u0435 \u0432\u0441\u0435 \u0440\u0435\u0437\u044E\u043C\u0435 \u0438 \u0432\u0441\u0435 \u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043A\u0438 Markdown \u0438\u0441\u043A\u043B\u044E\u0447\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435 \u0432 \u0441\u043E\u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0438 \u0441 \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u044B\u043C \u0444\u043E\u0440\u043C\u0430\u0442\u043E\u043C, \u0438 \u043E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E \u0443\u043A\u0430\u0437\u044B\u0432\u0430\u044F \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u044B [mm:ss] \u0432 \u043D\u0430\u0447\u0430\u043B\u0435 \u043A\u0430\u0436\u0434\u043E\u0433\u043E \u043A\u043B\u044E\u0447\u0435\u0432\u043E\u0433\u043E \u043F\u0443\u043D\u043A\u0442\u0430.",
-    zh: "\u3010\u6700\u7EC8\u6700\u5173\u952E\u6307\u793A\u3011\uFF1A\u65E0\u8BBA\u9010\u5B57\u7A3F\u539F\u59CB\u8BED\u8A00\u4E3A\u4F55\uFF0C\u5FC5\u987B\u4E25\u683C\u4E14\u5B8C\u5168\u4F7F\u7528\u4E2D\u6587\u8F93\u51FA\u6574\u7BC7\u603B\u7ED3\uFF0C\u6240\u6709Markdown\u7AE0\u8282\u6807\u9898\u548C\u6B63\u6587\u5FC5\u987B\u5747\u4E3A\u4E2D\u6587\uFF0C\u4E14\u6BCF\u4E2A\u8981\u70B9\u5F00\u5934\u5FC5\u987B\u5305\u542B\u771F\u5B9E\u7684 [mm:ss] \u65F6\u95F4\u6233\u3002"
-  };
-  var PromptBuilder = class extends IPromptBuilder {
+  // src/background/VideoCommentsFetcher.js
+  var VideoCommentsFetcher = class {
     /**
-     * Truncates and condenses safe transcript text
+     * Fetches top public comments for a YouTube video
+     * @param {string} videoId 11-character YouTube video ID
+     * @param {number} [limit=25]
+     * @returns {Promise<{success: boolean, comments?: Array<Object>, markdownDossier?: string, error?: string}>}
      */
-    condenseTranscript(safeTranscript, maxChars = 2e4) {
-      if (!safeTranscript || safeTranscript.length <= maxChars) {
-        return safeTranscript || "";
+    static async fetchVideoComments(videoId, limit = 25) {
+      try {
+        if (!videoId || typeof videoId !== "string") {
+          throw new Error("Valid video ID is required");
+        }
+        const watchUrl = `https://www.youtube.com/watch?v=${videoId.trim()}`;
+        const watchRes = await fetch(watchUrl, {
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept-Language": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7"
+          }
+        });
+        if (!watchRes.ok) {
+          throw new Error(`HTTP ${watchRes.status} loading watch page`);
+        }
+        const html = await watchRes.text();
+        const ytDataMatch = html.match(/ytInitialData\s*=\s*({.+?});<\/script>/);
+        if (!ytDataMatch) {
+          throw new Error("Unable to extract ytInitialData for comments");
+        }
+        const data = JSON.parse(ytDataMatch[1]);
+        const token = this.extractCommentsContinuationToken(data);
+        if (!token) {
+          return {
+            success: true,
+            comments: [],
+            markdownDossier: "Les commentaires sont d\xE9sactiv\xE9s ou indisponibles pour cette vid\xE9o."
+          };
+        }
+        const comments = await this.fetchCommentsFromInnerTube(token, limit);
+        const markdownDossier = this.formatCommentsMarkdown(comments, videoId);
+        return {
+          success: true,
+          comments,
+          markdownDossier
+        };
+      } catch (err) {
+        return { success: false, error: err.message || String(err) };
       }
-      const introSize = Math.floor(maxChars * 0.4);
-      const middleSize = Math.floor(maxChars * 0.25);
-      const endSize = Math.floor(maxChars * 0.35);
-      const intro = safeTranscript.slice(0, introSize);
-      const middleStart = Math.floor((safeTranscript.length - middleSize) / 2);
-      const middle = safeTranscript.slice(middleStart, middleStart + middleSize);
-      const end = safeTranscript.slice(-endSize);
-      return `${intro}
-
-[... Progression de la vid\xE9o condens\xE9e pour respecter la fen\xEAtre de contexte de l'IA ...]
-
-${middle}
-
-[... Suite et conclusion de la vid\xE9o ...]
-
-${end}`;
     }
     /**
-     * Formats video description, channel, category and tag context for AI prompts
+     * Extracts continuation token for comments section from ytInitialData
      */
-    formatContextBlock(extraContext, lang = "en") {
-      if (!extraContext || typeof extraContext !== "object") return "";
-      const subscribers = extraContext.subscribers || "";
-      const category = extraContext.category || "";
-      const publishDate = extraContext.publishDate || "";
-      const rawKeywords = extraContext.keywords || [];
-      const keywords = Array.isArray(rawKeywords) ? rawKeywords.slice(0, 10).join(", ") : typeof rawKeywords === "string" ? rawKeywords : "";
-      let description = String(extraContext.description || "").trim();
-      if (description.length > 2e3) {
-        description = description.slice(0, 1950) + "... [description condens\xE9e]";
+    static extractCommentsContinuationToken(data) {
+      const contents = data.contents?.twoColumnWatchNextResults?.results?.results?.contents || [];
+      const itemSection = contents.find((c) => c.itemSectionRenderer?.sectionIdentifier === "comment-item-section");
+      return itemSection?.itemSectionRenderer?.contents?.[0]?.continuationItemRenderer?.continuationEndpoint?.continuationCommand?.token || null;
+    }
+    /**
+     * Fetches comment entities via YouTube InnerTube /next endpoint
+     */
+    static async fetchCommentsFromInnerTube(token, limit = 25) {
+      const response = await fetch("https://www.youtube.com/youtubei/v1/next", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+          "Accept-Language": "fr-FR,fr;q=0.9"
+        },
+        body: JSON.stringify({
+          context: {
+            client: { clientName: "WEB", clientVersion: "2.20240101.00.00", hl: "fr", gl: "FR" }
+          },
+          continuation: token
+        })
+      });
+      if (!response.ok) {
+        throw new Error(`InnerTube comment endpoint returned HTTP ${response.status}`);
       }
-      const lines = [];
-      const isFr = lang === "fr";
-      if (subscribers) lines.push(isFr ? `- Abonn\xE9s cha\xEEne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
-      if (category) lines.push(isFr ? `- Cat\xE9gorie : ${category}` : `- Category: ${category}`);
-      if (publishDate) lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
-      if (keywords) lines.push(isFr ? `- Mots-cl\xE9s : ${keywords}` : `- Keywords: ${keywords}`);
-      if (description) lines.push(isFr ? `- Description officielle :
-"""
-${description}
-"""` : `- Official Description:
-"""
-${description}
-"""`);
-      if (lines.length === 0) return "";
-      const header = isFr ? "CONTEXTE DE LA VID\xC9O & DE LA CHA\xCENE :" : "VIDEO & CHANNEL CONTEXT:";
-      return `${header}
-${lines.join("\n")}
-`;
-    }
-    /**
-     * Builds system and user prompts for video summarization
-     */
-    buildSummaryPrompts(title, author, safeTranscript, lang, mode, customDirectives = "", extraContext = {}) {
-      if (typeof title === "object" && title !== null) {
-        const opts = title;
-        title = opts.title;
-        author = opts.author;
-        safeTranscript = opts.safeTranscript || opts.transcript;
-        lang = opts.lang || opts.targetLang;
-        mode = opts.mode || opts.formatMode;
-        customDirectives = typeof opts.customDirectives === "string" ? opts.customDirectives : "";
-        extraContext = opts.extra || opts.metadata || opts;
-      } else if (typeof author === "object" && author !== null) {
-        extraContext = author;
-        author = extraContext.author || "";
-      } else if (typeof customDirectives === "object" && customDirectives !== null) {
-        extraContext = customDirectives;
-        customDirectives = "";
-      } else if (typeof arguments[6] === "object" && arguments[6] !== null) {
-        extraContext = arguments[6];
-      }
-      const cleanLang = lang && SYSTEM_PROMPTS[lang] ? lang : "en";
-      const isFr = cleanLang === "fr";
-      const systemPrompt = SYSTEM_PROMPTS[cleanLang] || SYSTEM_PROMPTS.en;
-      const formatInstructions = getFormatInstructions(mode, cleanLang);
-      const contextBlock = this.formatContextBlock(extraContext, cleanLang);
-      const finalDirective = FINAL_LANG_DIRECTIVES[cleanLang] || FINAL_LANG_DIRECTIVES.en;
-      const headerTitle = isFr ? "Voici la transcription de la vid\xE9o YouTube :" : "Here is the transcript of the YouTube video:";
-      const titleLabel = isFr ? "Titre :" : "Title:";
-      const authorLabel = isFr ? "Auteur/Cha\xEEne :" : "Author/Channel:";
-      const transcriptLabel = isFr ? "TRANSCRIPTION :" : "TRANSCRIPT:";
-      const userPrompt = `${headerTitle}
-${titleLabel} "${title}"
-${authorLabel} "${author}"${contextBlock ? `
-
-${contextBlock}` : ""}
-
-${transcriptLabel}
-"""
-${safeTranscript}
-"""
-
----
-${formatInstructions}${customDirectives ? `
-
-${isFr ? "DIRECTIVES PERSONNALIS\xC9ES DE L'UTILISATEUR :" : "USER CUSTOM DIRECTIVES:"}
-${customDirectives}` : ""}
-
-${finalDirective}`;
-      return { systemPrompt, userPrompt };
-    }
-    /**
-     * Builds system and user messages for interactive Q&A chat
-     */
-    buildChatPrompts(title, transcriptText, targetLang, chatHistory, userQuestion, extraContext = {}) {
-      const langNames = {
-        en: "English",
-        fr: "French",
-        es: "Spanish",
-        de: "German",
-        it: "Italian",
-        ru: "Russian",
-        ja: "Japanese",
-        zh: "Simplified Chinese"
-      };
-      const targetLangName = langNames[targetLang] || "English";
-      const contextBlock = this.formatContextBlock(extraContext, targetLang);
-      const systemPrompt = `You are a conversational AI video assistant YouTube Summarizer AI.
-You answer questions accurately based on the video transcript and the provided official video context (description, channel information, tags).
-Video Title: "${title}"
-${contextBlock ? `${contextBlock}
-` : ""}Always answer in ${targetLangName}.
-If the answer is not mentioned in the transcript or description, state clearly that the video does not mention it.
-Be concise, helpful, and quote timestamps in [m:ss] format if applicable.
-
-TRANSCRIPT:
-${transcriptText}`;
-      const messages = [];
-      if (Array.isArray(chatHistory)) {
-        for (const msg of chatHistory) {
-          if (msg.role && msg.content) {
-            messages.push({ role: msg.role, content: msg.content });
+      const json = await response.json();
+      const mutations = json.frameworkUpdates?.entityBatchUpdate?.mutations || [];
+      const comments = [];
+      for (const m of mutations) {
+        if (comments.length >= limit) break;
+        const p = m.payload?.commentEntityPayload;
+        if (p) {
+          const author = p.author?.displayName || "Anonyme";
+          const text = p.properties?.content?.content || "";
+          const time = p.properties?.publishedTime || "";
+          const likes = p.toolbar?.likeCountNotliked || "0";
+          if (text) {
+            comments.push({ author, text, time, likes });
           }
         }
       }
-      messages.push({ role: "user", content: userQuestion });
-      return { systemPrompt, messages };
-    }
-  };
-
-  // src/content/services/PromptService.js
-  var promptBuilder = new PromptBuilder();
-  var CHAT_LANG_MAP = {
-    fr: {
-      persona: "Tu es YouTube Summarizer AI, une extension Chrome intelligente int\xE9gr\xE9e directement sous la vid\xE9o YouTube.",
-      role: "Tu r\xE9ponds aux questions de l'utilisateur sur cette vid\xE9o YouTube en t'appuyant rigoureusement sur sa transcription et sur le contexte officiel fourni (description, cha\xEEne, cat\xE9gorie) ainsi que sur le r\xE9sum\xE9 vid\xE9o.",
-      identity: "Si l'utilisateur mentionne l'extension ou te demande qui tu es, confirme explicitement que tu es l'assistant de l'extension YouTube Summarizer AI.",
-      rule: "OBLIGATION STRICTE DE LANGUE : Tu DOIS r\xE9pondre EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o ou de la question.",
-      quick: "Longueur souhait\xE9e : r\xE9ponse courte, concise et directe (1 ou 2 courts paragraphes).",
-      detailed: "Longueur souhait\xE9e : r\xE9ponse d\xE9taill\xE9e et approfondie.",
-      standard: "Longueur souhait\xE9e : r\xE9ponse \xE9quilibr\xE9e et naturelle, allant droit au but.",
-      summaryLabel: "R\xC9SUM\xC9 VID\xC9O PR\xC9C\xC9DEMMENT G\xC9N\xC9R\xC9 DANS L'EXTENSION (POUR R\xC9F\xC9RENCE) :",
-      transcriptLabel: "Transcription de la vid\xE9o :"
-    },
-    en: {
-      persona: "You are YouTube Summarizer AI, an intelligent Chrome extension built directly into YouTube.",
-      role: "You answer the user's questions about this YouTube video, strictly based on its transcript and official video context (description, channel information, tags) along with the generated summary.",
-      identity: "If the user mentions the extension or asks who you are, explicitly confirm that you are the YouTube Summarizer AI Chrome extension assistant.",
-      rule: "MANDATORY LANGUAGE RULE: You MUST write your ENTIRE response EXCLUSIVELY in ENGLISH, regardless of the video or question language.",
-      quick: "Desired length: short and concise answer (1-2 short paragraphs), straight to the point.",
-      detailed: "Desired length: detailed and comprehensive explanation.",
-      standard: "Desired length: balanced, natural response, not too long, straight to the point.",
-      summaryLabel: "PREVIOUSLY GENERATED VIDEO SUMMARY (FOR USER REFERENCE):",
-      transcriptLabel: "Video Transcript:"
-    },
-    es: {
-      persona: "Eres YouTube Summarizer AI, una extensi\xF3n inteligente de Chrome integrada directamente en YouTube.",
-      role: "Respondes a las preguntas del usuario sobre este v\xEDdeo de YouTube bas\xE1ndote estrictamente en su transcripci\xF3n, contexto oficial y resumen.",
-      identity: "Si el usuario menciona la extensi\xF3n o pregunta qui\xE9n eres, confirma expl\xEDcitamente que eres el asistente de la extensi\xF3n YouTube Summarizer AI.",
-      rule: "REGLA OBLIGATORIA DE IDIOMA: Debes responder \xDANICA Y EXCLUSIVAMENTE en ESPA\xD1OL, sea cual sea el idioma de la pregunta o del v\xEDdeo.",
-      quick: "Longitud deseada: respuesta corta y concisa (1 o 2 p\xE1rrafos cortos).",
-      detailed: "Longitud deseada: respuesta detallada y completa.",
-      standard: "Longitud deseada: respuesta equilibrada y natural, sin rodeos.",
-      summaryLabel: "RESUMEN DEL V\xCDDEO PREVIAMENTE GENERADO EN LA EXTENSI\xD3N (PARA REFERENCIA):",
-      transcriptLabel: "Transcripci\xF3n del v\xEDdeo:"
-    },
-    it: {
-      persona: "Sei YouTube Summarizer AI, un'estensione intelligente per Chrome integrata direttamente in YouTube.",
-      role: "Rispondi alle domande dell'utente su questo video di YouTube basandoti rigorosamente sulla trascrizione, sul contesto ufficiale e sul riassunto.",
-      identity: "Se l'utente menziona l'estensione o chiede chi sei, conferma esplicitamente di essere l'assistente dell'estensione YouTube Summarizer AI.",
-      rule: "REGOLA OBBLIGATORIA SULLA LINGUA: Devi rispondere ESCLUSIVAMENTE in ITALIANO, indipendentemente dalla lingua della domanda o del video.",
-      quick: "Lunghezza desiderata: risposta breve e concisa (1 o 2 brevi paragrafi).",
-      detailed: "Lunghezza desiderata: spiegazione dettagliata e approfondita.",
-      standard: "Lunghezza desiderata: risposta equilibrata e naturale, dritta al punto.",
-      summaryLabel: "RIASSUNTO DEL VIDEO PRECEDENTEMENTE GENERATO NELL'ESTENSIONE (PER RIFERIMENTO):",
-      transcriptLabel: "Trascrizione del video:"
-    },
-    de: {
-      persona: "Du bist YouTube Summarizer AI, eine intelligente Chrome-Erweiterung, die direkt in YouTube integriert ist.",
-      role: "Du beantwortest Fragen des Nutzers basierend auf dem Videotranskript, offiziellen Kontextdaten und der Videozusammenfassung.",
-      identity: "Wenn der Nutzer die Erweiterung erw\xE4hnt oder fragt wer du bist, best\xE4tige explizit, dass du der Assistent der YouTube Summarizer AI Chrome-Erweiterung bist.",
-      rule: "STRIKTE SPRACHVORGABE: Antworte AUSSCHLIESSLICH auf DEUTSCH, unabh\xE4ngig von der Sprache der Frage oder des Videos.",
-      quick: "Gew\xFCnschte L\xE4nge: kurze und pr\xE4gnante Antwort (1-2 kurze Abs\xE4tze).",
-      detailed: "Gew\xFCnschte L\xE4nge: ausf\xFChrliche und detaillierte Erkl\xE4rung.",
-      standard: "Gew\xFCnschte L\xE4nge: ausgewogene, nat\xFCrliche Antwort, direkt auf den Punkt.",
-      summaryLabel: "ZUVOR GENERIERTE VIDEO-ZUSAMMENFASSUNG (ALS REFERENZ):",
-      transcriptLabel: "Transkript des Videos:"
-    },
-    ja: {
-      persona: "\u3042\u306A\u305F\u306F YouTube Summarizer AI\u3001YouTube \u753B\u9762\u306B\u76F4\u63A5\u7D71\u5408\u3055\u308C\u305F\u30A4\u30F3\u30C6\u30EA\u30B8\u30A7\u30F3\u30C8\u306A Chrome \u62E1\u5F35\u6A5F\u80FD\u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u3067\u3059\u3002",
-      role: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3001\u516C\u5F0F\u30B3\u30F3\u30C6\u30AD\u30B9\u30C8\uFF08\u8AAC\u660E\u6587\u3001\u30C1\u30E3\u30F3\u30CD\u30EB\u60C5\u5831\u3001\u30BF\u30B0\uFF09\u3001\u304A\u3088\u3073\u751F\u6210\u3055\u308C\u305F\u8981\u7D04\u306B\u57FA\u3065\u3044\u3066\u6B63\u78BA\u306B\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
-      identity: "\u62E1\u5F35\u6A5F\u80FD\u306B\u3064\u3044\u3066\u8A00\u53CA\u3055\u308C\u305F\u5834\u5408\u3001YouTube Summarizer AI \u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u3067\u3042\u308B\u3053\u3068\u3092\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
-      rule: "\u3010\u8A00\u8A9E\u306E\u7D76\u5BFE\u7FA9\u52D9\u3011\u52D5\u753B\u3084\u8CEA\u554F\u306E\u8A00\u8A9E\u306B\u304B\u304B\u308F\u3089\u305A\u3001\u5FC5\u305A\u3010\u65E5\u672C\u8A9E\u3011\u306E\u307F\u3067\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
-      quick: "\u5E0C\u671B\u306E\u9577\u3055\uFF1A\u7C21\u6F54\u3067\u8981\u70B9\u306E\u307F\u306E\u77ED\u3044\u56DE\u7B54\uFF081\u301C2\u306E\u77ED\u3044\u6BB5\u843D\uFF09\u3002",
-      detailed: "\u5E0C\u671B\u306E\u9577\u3055\uFF1A\u8A73\u7D30\u3067\u5145\u5B9F\u3057\u305F\u89E3\u8AAC\u3002",
-      standard: "\u5E0C\u671B\u306E\u9577\u3055\uFF1A\u81EA\u7136\u3067\u30D0\u30E9\u30F3\u30B9\u306E\u53D6\u308C\u305F\u3001\u8981\u70B9\u3092\u5F97\u305F\u56DE\u7B54\u3002",
-      summaryLabel: "\u4EE5\u524D\u306B\u751F\u6210\u3055\u308C\u305F\u52D5\u753B\u306E\u8981\u7D04\uFF08\u53C2\u8003\u7528\uFF09\uFF1A",
-      transcriptLabel: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\uFF1A"
-    },
-    ru: {
-      persona: "\u0412\u044B \u2014 YouTube Summarizer AI, \u0438\u043D\u0442\u0435\u043B\u043B\u0435\u043A\u0442\u0443\u0430\u043B\u044C\u043D\u044B\u0439 Chrome-\u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442, \u0432\u0441\u0442\u0440\u043E\u0435\u043D\u043D\u044B\u0439 \u0432 YouTube.",
-      role: "\u0412\u044B \u043E\u0442\u0432\u0435\u0447\u0430\u0435\u0442\u0435 \u043D\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F \u0441\u0442\u0440\u043E\u0433\u043E \u043D\u0430 \u043E\u0441\u043D\u043E\u0432\u0435 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430 \u0432\u0438\u0434\u0435\u043E, \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442\u0430 (\u043E\u043F\u0438\u0441\u0430\u043D\u0438\u044F, \u043A\u0430\u043D\u0430\u043B\u0430, \u0442\u0435\u0433\u043E\u0432) \u0438 \u0441\u0433\u0435\u043D\u0435\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u043E\u0433\u043E \u0440\u0435\u0437\u044E\u043C\u0435.",
-      identity: "\u0415\u0441\u043B\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0441\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0442, \u043A\u0442\u043E \u0432\u044B, \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u0435, \u0447\u0442\u043E \u0432\u044B \u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u044F YouTube Summarizer AI.",
-      rule: "\u0421\u0422\u0420\u041E\u0413\u041E\u0415 \u041F\u0420\u0410\u0412\u0418\u041B\u041E: \u041E\u0442\u0432\u0435\u0447\u0430\u0439\u0442\u0435 \u0418\u0421\u041A\u041B\u042E\u0427\u0418\u0422\u0415\u041B\u042C\u041D\u041E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435, \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E \u043E\u0442 \u044F\u0437\u044B\u043A\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u0430 \u0438\u043B\u0438 \u0432\u0438\u0434\u0435\u043E.",
-      quick: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u043A\u0440\u0430\u0442\u043A\u0438\u0439 \u0438 \u0447\u0435\u0442\u043A\u0438\u0439 \u043E\u0442\u0432\u0435\u0442 (1-2 \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0445 \u0430\u0431\u0437\u0430\u0446\u0430).",
-      detailed: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u043F\u043E\u0434\u0440\u043E\u0431\u043D\u043E\u0435 \u0438 \u0438\u0441\u0447\u0435\u0440\u043F\u044B\u0432\u0430\u044E\u0449\u0435\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435.",
-      standard: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u0441\u0431\u0430\u043B\u0430\u043D\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0439 \u0438 \u0435\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442 \u043F\u043E \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443.",
-      summaryLabel: "\u0420\u0410\u041D\u0415\u0415 \u0421\u0424\u041E\u0420\u041C\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415 \u0420\u0415\u0417\u042E\u041C\u0415 \u0412\u0418\u0414\u0415\u041E \u0412 \u0420\u0410\u0421\u0428\u0418\u0420\u0415\u041D\u0418\u0418 (\u0414\u041B\u042F \u0421\u041F\u0420\u0410\u0412\u041A\u0418):",
-      transcriptLabel: "\u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442 \u0432\u0438\u0434\u0435\u043E:"
-    },
-    zh: {
-      persona: "\u4F60\u662F YouTube Summarizer AI\uFF0C\u4E00\u6B3E\u76F4\u63A5\u5185\u5D4C\u4E8E YouTube \u7684\u667A\u80FD Chrome \u6269\u5C55\u7A0B\u5E8F\u52A9\u624B\u3002",
-      role: "\u8BF7\u4E25\u683C\u4F9D\u636E\u89C6\u9891\u9010\u5B57\u7A3F\u3001\u5B98\u65B9\u89C6\u9891\u4FE1\u606F\u548C\u5DF2\u751F\u6210\u7684\u89C6\u9891\u6458\u8981\u56DE\u7B54\u7528\u6237\u7684\u95EE\u9898\u3002",
-      identity: "\u5982\u679C\u7528\u6237\u63D0\u5230\u6269\u5C55\u7A0B\u5E8F\u6216\u8BE2\u95EE\u4F60\u7684\u8EAB\u4EFD\uFF0C\u8BF7\u660E\u786E\u786E\u8BA4\u4F60\u662F YouTube Summarizer AI \u6269\u5C55\u7A0B\u5E8F\u52A9\u624B\u3002",
-      rule: "\u3010\u5F3A\u5236\u8BED\u8A00\u8981\u6C42\u3011\u65E0\u8BBA\u63D0\u95EE\u6216\u89C6\u9891\u539F\u59CB\u8BED\u8A00\u4E3A\u4F55\uFF0C\u5FC5\u987B\u5168\u90E8\u4F7F\u7528\u4E2D\u6587\uFF08\u7B80\u4F53\u4E2D\u6587\uFF09\u56DE\u7B54\u3002",
-      quick: "\u671F\u671B\u957F\u5EA6\uFF1A\u7B80\u660E\u627C\u8981\u7684\u56DE\u7B54\uFF081-2\u4E2A\u7B80\u77ED\u6BB5\u843D\uFF09\u3002",
-      detailed: "\u671F\u671B\u957F\u5EA6\uFF1A\u8BE6\u5C3D\u800C\u6DF1\u5165\u7684\u89E3\u91CA\u5206\u6790\u3002",
-      standard: "\u671F\u671B\u957F\u5EA6\uFF1A\u81EA\u7136\u5E73\u8861\u3001\u76F4\u5954\u4E3B\u9898\u7684\u56DE\u7B54\u3002",
-      summaryLabel: "\u6B64\u524D\u5728\u6269\u5C55\u7A0B\u5E8F\u4E2D\u751F\u6210\u7684\u89C6\u9891\u6458\u8981\uFF08\u4F9B\u53C2\u8003\uFF09\uFF1A",
-      transcriptLabel: "\u89C6\u9891\u9010\u5B57\u7A3F\uFF1A"
-    }
-  };
-  var CHAT_USER_DIRECTIVES = {
-    fr: "\n\n(Consigne imp\xE9rative : R\xE9ponds EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la question, de la vid\xE9o ou des \xE9changes pr\xE9c\xE9dents.)",
-    en: "\n\n(Mandatory directive: Answer EXCLUSIVELY in ENGLISH, regardless of the question, video, or prior conversation language.)",
-    es: "\n\n(Instrucci\xF3n obligatoria: Responde EXCLUSIVAMENTE en ESPA\xD1OL, independientemente del idioma de la pregunta, del v\xEDdeo o del historial.)",
-    it: "\n\n(Obbligo rigoroso: Rispondi ESCLUSIVAMENTE in ITALIANO, indipendentemente dalla lingua della domanda, del video o dei messaggi precedenti.)",
-    de: "\n\n(Strikte Vorgabe: Antworte AUSSCHLIESSLICH auf DEUTSCH, unabh\xE4ngig von der Sprache der Frage, des Videos oder des bisherigen Verlaufs.)",
-    ja: "\n\n\u3010\u8A00\u8A9E\u6307\u793A\uFF1A\u52D5\u753B\u3084\u8CEA\u554F\u3001\u904E\u53BB\u306E\u4F1A\u8A71\u5C65\u6B74\u306B\u304B\u304B\u308F\u3089\u305A\u3001\u5FC5\u305A\u3010\u65E5\u672C\u8A9E\u3011\u306E\u307F\u3067\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002\u3011",
-    ru: "\n\n(\u0421\u0442\u0440\u043E\u0433\u043E\u0435 \u0443\u043A\u0430\u0437\u0430\u043D\u0438\u0435: \u041E\u0442\u0432\u0435\u0447\u0430\u0439\u0442\u0435 \u0418\u0421\u041A\u041B\u042E\u0427\u0418\u0422\u0415\u041B\u042C\u041D\u041E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435, \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E \u043E\u0442 \u044F\u0437\u044B\u043A\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u0430, \u0432\u0438\u0434\u0435\u043E \u0438\u043B\u0438 \u043F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0438\u0445 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0439.)",
-    zh: "\n\n\u3010\u8BED\u8A00\u5F3A\u5236\u6307\u4EE4\uFF1A\u65E0\u8BBA\u63D0\u95EE\u3001\u539F\u89C6\u9891\u6216\u6B64\u524D\u5BF9\u8BDD\u4E3A\u4F55\u79CD\u8BED\u8A00\uFF0C\u672C\u56DE\u7B54\u5FC5\u987B\u5168\u90E8\u4E14\u4EC5\u4F7F\u7528\u3010\u4E2D\u6587\uFF08\u7B80\u4F53\u4E2D\u6587\uFF09\u3011\u8F93\u51FA\u3002\u4E25\u7981\u4F7F\u7528\u6CD5\u8BED\u6216\u82F1\u8BED\u3002\u3011"
-  };
-  var PromptService = class {
-    /**
-     * Condenses transcript to fit within AI model context limits
-     */
-    static condenseTranscriptForContext(transcript, maxChars) {
-      if (transcript.length <= maxChars) {
-        return transcript;
+      if (comments.length === 0) {
+        const actions = json.onResponseReceivedEndpoints || [];
+        const actionContents = actions[1]?.reloadContinuationItemsCommand?.continuationItems || actions[0]?.appendContinuationItemsAction?.continuationItems || actions[0]?.reloadContinuationItemsCommand?.continuationItems || [];
+        for (const item of actionContents) {
+          if (comments.length >= limit) break;
+          const thread = item.commentThreadRenderer?.comment?.commentRenderer;
+          if (thread) {
+            const author = thread.authorText?.simpleText || "Anonyme";
+            const text = thread.contentText?.runs?.map((r) => r.text).join("") || thread.contentText?.simpleText || "";
+            const likes = thread.voteCount?.simpleText || "0";
+            const time = thread.publishedTimeText?.runs?.[0]?.text || "";
+            if (text) {
+              comments.push({ author, text, time, likes });
+            }
+          }
+        }
       }
-      const introSize = Math.floor(maxChars * 0.4);
-      const middleSize = Math.floor(maxChars * 0.25);
-      const endSize = Math.floor(maxChars * 0.35);
-      const intro = transcript.slice(0, introSize);
-      const middleStart = Math.floor((transcript.length - middleSize) / 2);
-      const middle = transcript.slice(middleStart, middleStart + middleSize);
-      const end = transcript.slice(-endSize);
-      return `${intro}
-
-[... Progression de la vid\xE9o condens\xE9e pour respecter la m\xE9moire du mod\xE8le ...]
-
-${middle}
-
-[... Progression vers la conclusion ...]
-
-${end}`;
+      return comments;
     }
     /**
-     * Builds system and user prompts for in-page video summarization
+     * Formats comments into clean, structured Markdown block for prompt injection
      */
-    static buildPrompts(title, author, safeTranscript, lang, mode, meta = null) {
-      const resolvedMeta = meta || { title, author };
-      const { systemPrompt, userPrompt } = promptBuilder.buildSummaryPrompts(
-        title,
-        author,
-        safeTranscript,
-        lang,
-        mode,
-        "",
-        resolvedMeta
-      );
-      return { systemPrompt, userPrompt };
-    }
-    /**
-     * Builds chat system prompt for interactive Q&A
-     */
-    static buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText = "", externalContext = "") {
-      const contextBlock = formatContextInfo(meta, lang);
-      const subStr = meta?.subscribers ? ` (${meta.subscribers})` : "";
-      const cleanLang = lang && CHAT_LANG_MAP[lang] ? lang : "fr";
-      const cfg = CHAT_LANG_MAP[cleanLang];
-      let lenDir = cfg.standard;
-      if (selectedChatMode === "quick") lenDir = cfg.quick;
-      else if (selectedChatMode === "detailed") lenDir = cfg.detailed;
-      const summaryBlock = summaryText && summaryText.trim() ? `
-${cfg.summaryLabel}
-"""
-${summaryText.trim()}
-"""
-` : "";
-      const extBlock = externalContext && externalContext.trim() ? `
-${externalContext.trim()}
-
-DIRECTIVES DE COMPARAISON MULTI-VID\xC9OS :
-- L'utilisateur a fourni le contexte d'une ou plusieurs vid\xE9os YouTube externes.
-- R\xE9ponds aux questions en comparant et recoupant les informations des vid\xE9os avec rigueur.
-- Attribue explicitement les faits \xE0 leur vid\xE9o ou auteur respectif.
-` : "";
-      return `${cfg.persona}
-${cfg.role}
-${cfg.identity}
-
-${cfg.rule}
-
-Title: "${meta?.title || ""}"
-Channel: "${meta?.author || ""}"${subStr}
-${contextBlock ? `
-${contextBlock}` : ""}${summaryBlock}${extBlock}
-${cfg.transcriptLabel}
-"""
-${safeTranscript}
-"""
-
-WRITING & AUDIO PLAYBACK GUIDELINES:
-1. ${cfg.rule}
-2. ${lenDir}
-3. CONTINUOUS PROSE (TTS READY):
-   - Write in flowing, natural prose paragraphs without disjointed lists or decorative emojis for smooth audio playback.
-4. READABLE STRUCTURE:
-   - Break answers into short paragraphs with **bold** key terms.
-   - 100% faithful to the video content, transcript, and summary without hallucinations.
-5. FINAL MANDATORY DIRECTIVE:
-   - ${cfg.rule}`;
+    static formatCommentsMarkdown(comments, videoId) {
+      if (!comments || comments.length === 0) {
+        return "Aucun commentaire disponible sous cette vid\xE9o.";
+      }
+      const lines = [
+        `### [Avis du Public] Commentaires et r\xE9actions (${comments.length} avis populaires) :`
+      ];
+      comments.forEach((c, idx) => {
+        const cleanText = c.text.replace(/\n+/g, " ").slice(0, 300);
+        lines.push(`- **${c.author}** (${c.likes} likes, ${c.time}) : "${cleanText}"`);
+      });
+      return lines.join("\n");
     }
   };
 
-  // src/content/ui/ChatViewController.js
-  var ChatViewController = class _ChatViewController {
-    constructor(dependencies = {}) {
-      this.transcriptController = dependencies.transcriptController;
-      this.promptService = dependencies.promptService;
-      this.audioController = dependencies.audioController;
-      this.summaryViewController = dependencies.summaryViewController;
-      this.externalVideoManager = dependencies.externalVideoManager || new ExternalVideoManager();
-      this.chatHistory = [];
-      this.chatPort = null;
+  // src/content/services/VideoCommentsManager.js
+  var VideoCommentsManager = class {
+    constructor() {
+      this.cachedComments = /* @__PURE__ */ new Map();
     }
+    /**
+     * Detects whether user message is inquiring about video comments or public reaction
+     * @param {string} text User prompt
+     * @returns {boolean}
+     */
+    detectCommentsIntent(text = "") {
+      if (!text || typeof text !== "string") return false;
+      const clean = text.trim();
+      const patterns = [
+        /commentaires?/i,
+        /avis\s+(?:des\s+gens|du\s+public|des\s+spectateurs|des\s+abonn[ée]s|de\s+la\s+communaut[ée]|g[ée]n[ée]ral)/i,
+        /r[ée]actions?\s+(?:des\s+gens|du\s+public|des\s+spectateurs|de\s+la\s+communaut[ée]|des\s+abonn[ée]s)/i,
+        /(?:ce\s+)?qu['’]\s*en\s+pensent?\s+(?:les\s+gens|le\s+public|les\s+spectateurs|la\s+communaut[ée])/i,
+        /que\s+pensent?\s+(?:les\s+gens|le\s+public|les\s+spectateurs|la\s+communaut[ée])/i,
+        /qu['’]en\s+dit\s+la\s+communaut[ée]/i,
+        /avis\s+g[ée]n[ée]ral\s+sous\s+la\s+vid[ée]o/i,
+        /critiques?\s+dans\s+les\s+commentaires/i,
+        /(?:retrouve|cherche|trouve|voir)\s+(?:le\s+|un\s+)?(?:commentaire|message|avis|post)/i,
+        /(?:quelqu['’]un|un\s+gars|un\s+spectateur|un\s+abonn[ée])\s+(?:a\s+dit|a\s+[ée]crit|disait|parle|demandait)/i,
+        /(?:qui|quelqu['’]un)\s+(?:a\s+post[ée]|a\s+comment[ée])/i,
+        /un\s+commentaire\s+(?:qui|sur|de)/i,
+        /@[a-zA-Z0-9_-]{3,}/,
+        /(?:public|audience|community|viewer)\s+(?:feedback|reaction|opinion)/i,
+        /(?:what\s+do|how\s+do)\s+people\s+(?:think|react)/i,
+        /(?:find|search|lookup)\s+(?:the\s+|a\s+)?comment/i,
+        /(?:someone|a\s+user|a\s+viewer)\s+(?:said|wrote|posted|commented)/i,
+        /who\s+commented/i,
+        /video\s+comments/i
+      ];
+      return patterns.some((p) => p.test(clean));
+    }
+    /**
+     * Fetches or retrieves cached comments for a video
+     * @param {string} videoId
+     * @param {number} [limit=25]
+     * @returns {Promise<{success: boolean, comments?: Array<Object>, markdownDossier?: string, error?: string}>}
+     */
+    async getOrFetchComments(videoId, limit = 25) {
+      if (!videoId) return { success: false, error: "Empty videoId" };
+      const cacheKey = String(videoId).trim();
+      if (this.cachedComments.has(cacheKey)) {
+        return { success: true, ...this.cachedComments.get(cacheKey) };
+      }
+      try {
+        if (typeof VideoCommentsFetcher?.fetchVideoComments === "function") {
+          const directRes = await VideoCommentsFetcher.fetchVideoComments(videoId, limit);
+          if (directRes && directRes.success && directRes.comments?.length > 0) {
+            this.cachedComments.set(cacheKey, directRes);
+            return directRes;
+          }
+        }
+        const response = await new Promise((resolve) => {
+          if (typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
+            chrome.runtime.sendMessage(
+              { action: "FETCH_VIDEO_COMMENTS", videoId, limit },
+              (res) => resolve(res || { success: false, error: "No response from background" })
+            );
+          } else {
+            resolve({ success: false, error: "Chrome runtime unavailable" });
+          }
+        });
+        if (response && response.success) {
+          this.cachedComments.set(cacheKey, response);
+          return response;
+        }
+        return { success: false, error: response?.error || "Failed to fetch comments" };
+      } catch (err) {
+        return { success: false, error: err.message || String(err) };
+      }
+    }
+    /**
+     * Formats comments into prompt context block
+     * @param {Object} commentsData
+     * @returns {string}
+     */
+    formatContextBlock(commentsData) {
+      if (!commentsData) return "";
+      return commentsData.markdownDossier || "";
+    }
+    /**
+     * Clears in-memory session cache
+     */
+    reset() {
+      this.cachedComments.clear();
+    }
+  };
+
+  // src/content/services/ChatStreamClient.js
+  var ChatStreamClient = class {
+    constructor() {
+      this.port = null;
+    }
+    /**
+     * Disconnects active stream port if connected
+     */
+    disconnect() {
+      if (this.port) {
+        try {
+          this.port.disconnect();
+        } catch (_) {
+        }
+        this.port = null;
+      }
+    }
+    /**
+     * Starts AI streaming session over background port
+     * @param {Object} options
+     * @param {string} options.provider
+     * @param {string} options.serverUrl
+     * @param {string} options.apiKey
+     * @param {string} options.model
+     * @param {string} options.systemPrompt
+     * @param {Array<Object>} options.messages
+     * @param {string|number} [options.temperature='0.3']
+     * @param {string|number} [options.maxTokens='auto']
+     * @param {Function} options.onChunk
+     * @param {Function} options.onDone
+     * @param {Function} options.onError
+     */
+    startStream({
+      provider,
+      serverUrl,
+      apiKey,
+      model,
+      systemPrompt,
+      messages,
+      temperature = "0.3",
+      maxTokens = "auto",
+      onChunk,
+      onDone,
+      onError
+    }) {
+      this.disconnect();
+      try {
+        this.port = chrome.runtime.connect({ name: "ai-stream" });
+      } catch (err) {
+        if (typeof onError === "function") {
+          onError(err.message || String(err));
+        }
+        return;
+      }
+      const port = this.port;
+      if (port.onDisconnect?.addListener) {
+        port.onDisconnect.addListener(() => {
+          this.disconnect();
+          if (typeof onDone === "function") onDone();
+        });
+      }
+      if (port.onMessage?.addListener) {
+        port.onMessage.addListener((msg) => {
+          if (msg.type === "CHUNK" && msg.content) {
+            if (typeof onChunk === "function") onChunk(msg.content);
+          } else if (msg.type === "DONE") {
+            this.disconnect();
+            if (typeof onDone === "function") onDone();
+          } else if (msg.type === "ERROR") {
+            this.disconnect();
+            if (typeof onError === "function") onError(msg.error || "Stream error");
+          }
+        });
+      }
+      port.postMessage({
+        action: "CHAT_STREAM",
+        provider,
+        serverUrl,
+        apiKey,
+        model,
+        systemPrompt,
+        messages,
+        temperature,
+        maxTokens
+      });
+    }
+  };
+
+  // src/content/ui/ChatBubbleView.js
+  var ChatBubbleView = class {
     static scrollToBottom(el) {
       if (el) el.scrollTop = el.scrollHeight;
     }
-    appendChatBubble(role, contentHtml) {
+    static appendChatBubble(role, contentHtml) {
       const container = document.getElementById("ytAiChatMessages");
       if (!container) return null;
       const bubble = document.createElement("div");
-      bubble.className = `yt-ai-chat-bubble ${role}`;
+      bubble.className = `yt-ai-chat-bubble ${role} ${role === "ai" ? "yt-ai-markdown" : ""}`;
       bubble.innerHTML = contentHtml;
       container.appendChild(bubble);
-      _ChatViewController.scrollToBottom(container);
+      this.scrollToBottom(container);
       return bubble;
     }
-    attachAudioButtonToBubble(bubble, answerText, currentLang = "en") {
-      if (!bubble) return;
+    static attachAudioButton(bubble, answerText, audioController2, currentLang = "en") {
+      if (!bubble || !audioController2) return;
       const existingToolbar = bubble.querySelector(".yt-ai-bubble-toolbar");
       if (existingToolbar) return;
       const t = I18N[currentLang] || I18N.en;
@@ -4119,15 +3884,52 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       ttsBtn.title = t.listenBubbleTitle || "Listen to this answer";
       ttsBtn.textContent = t.listenBtn || "\u{1F50A} Listen";
       ttsBtn.addEventListener("click", () => {
-        if (this.audioController) {
-          this.audioController.speakText(answerText, ttsBtn);
-        }
+        const activeLang = document.getElementById("ytAiLangSelect")?.value || currentLang;
+        audioController2.speakText(answerText, ttsBtn, { lang: activeLang });
       });
       toolbar.appendChild(ttsBtn);
       bubble.appendChild(toolbar);
     }
+  };
+
+  // src/content/ui/ChatViewController.js
+  var ChatViewController = class _ChatViewController {
+    constructor(dependencies = {}) {
+      this.transcriptController = dependencies.transcriptController;
+      this.promptService = dependencies.promptService;
+      this.audioController = dependencies.audioController;
+      this.summaryViewController = dependencies.summaryViewController;
+      this.transcriptManager = new ChatTranscriptManager();
+      this.channelManager = new ChannelIntelligenceManager();
+      this.commentsManager = new VideoCommentsManager();
+      this.streamClient = new ChatStreamClient();
+      this.chatHistory = [];
+      this.lastLang = null;
+    }
+    get chatPort() {
+      return this.streamClient.port;
+    }
+    set chatPort(val) {
+      this.streamClient.port = val;
+    }
+    get cachedExternalTranscripts() {
+      return this.transcriptManager.cachedExternalTranscripts;
+    }
+    static scrollToBottom(el) {
+      ChatBubbleView.scrollToBottom(el);
+    }
+    appendChatBubble(role, contentHtml) {
+      return ChatBubbleView.appendChatBubble(role, contentHtml);
+    }
+    attachAudioButtonToBubble(bubble, answerText, currentLang = "en") {
+      return ChatBubbleView.attachAudioButton(bubble, answerText, this.audioController, currentLang);
+    }
     handleClearChat(currentLang = "en") {
       this.chatHistory = [];
+      this.transcriptManager.reset();
+      this.channelManager.reset();
+      this.commentsManager.reset();
+      this.streamClient.disconnect();
       if (this.audioController) {
         this.audioController.stopSpeech();
         this.audioController.stopDictation();
@@ -4137,65 +3939,48 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       const t = I18N[currentLang] || I18N.en;
       if (container) {
         container.innerHTML = `
-        <div class="yt-ai-chat-bubble ai">
+        <div class="yt-ai-chat-bubble ai yt-ai-markdown">
           ${t.chatResetNotice || "Conversation reset. Ask any question about the video content!"}
         </div>
       `;
       }
       if (chatCountBadge) chatCountBadge.textContent = "0";
+      const inputEl = document.getElementById("ytAiChatInput");
+      if (inputEl?.style) inputEl.style.height = "auto";
     }
     resetChatOutput(currentLang = "en") {
       this.handleClearChat(currentLang);
     }
-    toggleDictation(options) {
-      if (this.audioController) {
-        return this.audioController.toggleDictation(options);
+    applyLanguage(lang) {
+      const t = I18N[lang] || I18N.en;
+      if (this.chatHistory.length === 0) {
+        const container = document.getElementById("ytAiChatMessages");
+        if (container) container.innerHTML = `<div class="yt-ai-chat-bubble ai yt-ai-markdown">${escapeHtml(t.chatWelcome || "Hello! Ask me any question about the content of this video.")}</div>`;
+      } else {
+        this.handleClearChat(lang);
       }
+      this.lastLang = lang;
+    }
+    toggleDictation(options) {
+      return this.audioController?.toggleDictation(options);
     }
     async handleSendChatMessage(customText = null, ctx = {}) {
-      if (this.audioController) {
-        this.audioController.stopDictation();
-      }
+      this.audioController?.stopDictation();
       const inputEl = document.getElementById("ytAiChatInput");
       const text = (customText || inputEl?.value || "").trim();
       if (!text) return;
-      if (inputEl) inputEl.value = "";
+      if (inputEl) {
+        inputEl.value = "";
+        if (inputEl.style) inputEl.style.height = "auto";
+      }
       if (typeof ctx.setExpanded === "function") ctx.setExpanded(true);
       if (typeof ctx.switchTab === "function") ctx.switchTab("chat");
       const stateObj = ctx && typeof ctx === "object" ? ctx.state || ctx : {};
       const messagesContainer = document.getElementById("ytAiChatMessages");
       const chatCountBadge = document.getElementById("ytAiChatCount");
-      const lang = ctx.currentLang || stateObj.currentLang || document.getElementById("ytAiLangSelect")?.value || "en";
+      const lang = document.getElementById("ytAiLangSelect")?.value || ctx.currentLang || stateObj.currentLang || "en";
       const t = I18N[lang] || I18N.en;
       this.appendChatBubble("user", escapeHtml(text));
-      const currentVideoId = getVideoId();
-      const isCachedValid = this.transcriptController.cachedTranscript.segments?.length > 0 && (!currentVideoId || this.transcriptController.cachedTranscript.videoId === currentVideoId);
-      if (!isCachedValid) {
-        const waitBubble = this.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${escapeHtml(t.extractingTranscriptNotice || "Extracting video transcript...")}`);
-        const segments = await this.transcriptController.extractYouTubeTranscript(lang, true);
-        if (!segments || segments.length === 0) {
-          waitBubble.innerHTML = `<span style="color: #ff7b72;">\u274C ${escapeHtml(t.noTranscriptError || "Unable to extract video transcript.")}</span>`;
-          return;
-        }
-        waitBubble?.remove?.();
-      }
-      let externalContextBlock = "";
-      const externalIds = this.externalVideoManager.extractYouTubeVideoIds(text, currentVideoId);
-      if (externalIds.length > 0) {
-        const waitLinkedBubble = this.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${escapeHtml(t.fetchingExternalVideo || "Analyzing linked YouTube video...")}`);
-        try {
-          const extVideos = await Promise.all(externalIds.map((id) => this.externalVideoManager.fetchExternalVideo(id, lang)));
-          const validVideos = extVideos.filter((v) => v && v.fullText);
-          if (validVideos.length > 0) {
-            externalContextBlock = this.externalVideoManager.formatExternalContextBlock(validVideos);
-            waitLinkedBubble.innerHTML = `<span style="color: #58a6ff; font-size: 12px;">${escapeHtml(t.externalVideoBadge || "\u{1F4CE} Linked video analyzed")}: <strong>${escapeHtml(validVideos.map((v) => v.title).join(", "))}</strong></span>`;
-          } else {
-            waitLinkedBubble?.remove?.();
-          }
-        } catch (_) {
-          waitLinkedBubble?.remove?.();
-        }
-      }
       const activeModel = (typeof ctx.getActiveModel === "function" ? ctx.getActiveModel() : null) || (typeof stateObj.getActiveModel === "function" ? stateObj.getActiveModel() : null) || ctx.selectedModel || stateObj.selectedModels?.[stateObj.currentProvider] || stateObj.selectedModel || "";
       if (!activeModel) {
         this.appendChatBubble("ai", t.selectModelAlert || "Please select an AI model in the settings toolbar above.");
@@ -4206,76 +3991,134 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       const apiKeys = ctx.apiKeys || stateObj.apiKeys || {};
       const key = apiKeys[currentProvider] || "";
       if (!isLocal && !key) {
-        this.appendChatBubble("ai", t.missingKeyAlert || `Please provide your API key for ${currentProvider.toUpperCase()} to chat.`);
+        const card = QuickOnboardingHelper.formatMissingKeyNotice(currentProvider, lang);
+        this.appendChatBubble("ai", card);
         return;
       }
-      const aiBubble = this.appendChatBubble("ai", "");
-      aiBubble.classList.add("yt-ai-typing");
+      const currentVideoId = getVideoId();
+      const newExternalIds = extractAllVideoIdsFromText(text).filter((id) => id && id !== currentVideoId);
+      if (newExternalIds.length > 0) this.transcriptManager.registerExternalIds(newExternalIds);
+      const activeExternalIds = this.transcriptManager.getActiveExternalIds();
+      const isMultiVideo = activeExternalIds.length > 0;
+      const isCurrentValid = this.transcriptController.cachedTranscript?.segments?.length > 0 && (!currentVideoId || this.transcriptController.cachedTranscript.videoId === currentVideoId);
+      if (!isCurrentValid) {
+        const waitNotice = t.extractingTranscriptNotice || "Extracting video transcript...";
+        const waitBubble = this.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${escapeHtml(waitNotice)}`);
+        waitBubble?.classList?.add("yt-ai-status-bubble");
+        const segments = await this.transcriptController.extractYouTubeTranscript(lang, true);
+        waitBubble?.remove?.();
+        if ((!segments || segments.length === 0) && !isMultiVideo) {
+          this.appendChatBubble("ai", `<span style="color: #ff7b72;">[x] ${escapeHtml(t.noTranscriptError || "Unable to extract video transcript.")}</span>`);
+          return;
+        }
+      }
+      if (isMultiVideo) {
+        let waitBubble = null;
+        const { loaded, failed } = await this.transcriptManager.ensureTranscriptsLoaded(
+          activeExternalIds,
+          this.transcriptController,
+          lang,
+          (vid, isStart) => {
+            if (isStart) {
+              const notice = (t.fetchingExternalTranscriptNotice || "Fetching subtitles for external video ({videoId})...").replace("{videoId}", vid);
+              waitBubble = this.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${escapeHtml(notice)}`);
+              waitBubble?.classList?.add("yt-ai-status-bubble");
+            } else {
+              waitBubble?.remove?.();
+            }
+          }
+        );
+        if (loaded.length === 0 && failed.length > 0) {
+          const errorMsg = (t.externalTranscriptError || "Unable to retrieve subtitles for external video ({videoId}).").replace("{videoId}", failed.join(", "));
+          this.appendChatBubble("ai", `<span style="color: #ff7b72;">[x] ${escapeHtml(errorMsg)}</span>`);
+          return;
+        }
+      }
       if (typeof this.transcriptController?.requestPlayerDataFromMainWorld === "function" && (!this.transcriptController.cachedVideoMetadata?.description || this.transcriptController.cachedVideoMetadata?.videoId !== currentVideoId)) {
         await this.transcriptController.requestPlayerDataFromMainWorld(currentVideoId, lang).catch(() => {
         });
       }
-      const meta = ctx.getVideoMetadata ? ctx.getVideoMetadata() : this.transcriptController.cachedVideoMetadata;
+      const currentMeta = ctx.getVideoMetadata ? ctx.getVideoMetadata() : this.transcriptController.cachedVideoMetadata;
+      const currentFullText = this.transcriptController.cachedTranscript?.fullText || "";
       const maxChars = CONTEXT_LIMITS[currentProvider] || 2e4;
-      const transcriptSource = this.transcriptController.cachedTranscript.timestampedText || this.transcriptController.cachedTranscript.fullText;
-      const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(transcriptSource, maxChars);
-      const selectedChatMode = document.getElementById("ytAiModeSelect")?.value || "standard";
-      const summaryText = this.summaryViewController?.fullSummaryMarkdown || ctx.summaryText || "";
-      const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, summaryText, externalContextBlock);
-      const relevantHistory = this.chatHistory.filter((m) => !m.lang || m.lang === lang).slice(-8).map((m) => ({ role: m.role, content: m.content }));
-      const userPayloadContent = `${text}${CHAT_USER_DIRECTIVES[lang] || ""}`;
-      relevantHistory.push({ role: "user", content: userPayloadContent });
-      let fullAnswer = "";
-      if (this.chatPort) {
-        try {
-          this.chatPort.disconnect();
-        } catch (_) {
+      const condenseFn = this.promptService.constructor.condenseTranscriptForContext;
+      const { safeTranscript, meta } = this.transcriptManager.buildMultiVideoContext(
+        currentVideoId,
+        currentMeta,
+        currentFullText,
+        maxChars,
+        condenseFn
+      );
+      let channelDossierBlock = "";
+      const channelIntent = this.channelManager.detectChannelIntent(text, meta?.author, meta?.channelUrl);
+      if (channelIntent.isChannelIntent && channelIntent.query) {
+        const notice = (t.analyzingChannelNotice || "Recherche du dossier officiel de la cha\xEEne ({query})...").replace("{query}", channelIntent.targetCreator);
+        const waitBubble = this.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${escapeHtml(notice)}`);
+        waitBubble?.classList?.add("yt-ai-status-bubble");
+        const dossierRes = await this.channelManager.getOrFetchChannelDossier(channelIntent.query);
+        waitBubble?.remove?.();
+        if (dossierRes.success && dossierRes.channel) {
+          channelDossierBlock = this.channelManager.formatContextBlock(dossierRes.channel, lang);
         }
       }
+      let commentsBlock = "";
+      if (this.commentsManager.detectCommentsIntent(text) && currentVideoId) {
+        const notice = t.fetchingCommentsNotice || "R\xE9cup\xE9ration des commentaires et avis du public...";
+        const waitBubble = this.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${escapeHtml(notice)}`);
+        waitBubble?.classList?.add("yt-ai-status-bubble");
+        const commentsRes = await this.commentsManager.getOrFetchComments(currentVideoId);
+        waitBubble?.remove?.();
+        if (commentsRes.success && commentsRes.markdownDossier) {
+          commentsBlock = commentsRes.markdownDossier;
+        }
+      }
+      const summaryText = isMultiVideo ? "" : this.summaryViewController?.fullSummaryMarkdown || ctx.summaryText || "";
+      const aiBubble = this.appendChatBubble("ai", "");
+      aiBubble.classList.add("yt-ai-typing");
+      const selectedChatMode = document.getElementById("ytAiModeSelect")?.value || "standard";
+      const systemPrompt = this.promptService.constructor.buildChatSystemPrompt(
+        meta,
+        safeTranscript,
+        lang,
+        selectedChatMode,
+        summaryText,
+        channelDossierBlock,
+        commentsBlock
+      );
+      const historyPayload = this.chatHistory.slice(-8);
+      historyPayload.push({ role: "user", content: text });
+      let fullAnswer = "";
       const serverUrls = ctx.serverUrls || stateObj.serverUrls || {};
       const currentUrl = serverUrls[currentProvider] || "";
-      this.chatPort = chrome.runtime.connect({ name: "ai-stream" });
-      this.chatPort.postMessage({
-        action: "CHAT_STREAM",
+      this.streamClient.startStream({
         provider: currentProvider,
         serverUrl: currentUrl,
         apiKey: key,
         model: activeModel,
         systemPrompt,
-        messages: relevantHistory,
+        messages: historyPayload,
         temperature: ctx.temperature || stateObj.temperature || "0.3",
-        maxTokens: ctx.maxTokens || stateObj.maxTokens || "auto"
-      });
-      this.chatPort.onMessage.addListener((msg) => {
-        if (msg.type === "CHUNK" && msg.content) {
-          fullAnswer += msg.content;
+        maxTokens: ctx.maxTokens || stateObj.maxTokens || "auto",
+        onChunk: (chunk) => {
+          fullAnswer += chunk;
           renderMarkdown(fullAnswer, aiBubble);
           _ChatViewController.scrollToBottom(messagesContainer);
-        } else if (msg.type === "DONE") {
+        },
+        onDone: () => {
           aiBubble.classList.remove("yt-ai-typing");
           if (!fullAnswer.trim()) {
-            aiBubble.innerHTML = `<span style="color: #ff7b72;">\u26A0\uFE0F ${escapeHtml(t.connectionError || "No response received from AI model.")}</span>`;
+            aiBubble.innerHTML = `<span style="color: #ff7b72;">[!] ${escapeHtml(t.connectionError || "No response received from AI model.")}</span>`;
           } else {
-            this.chatHistory.push({ role: "user", content: text, lang });
-            this.chatHistory.push({ role: "assistant", content: fullAnswer, lang });
+            this.chatHistory.push({ role: "user", content: text });
+            this.chatHistory.push({ role: "assistant", content: fullAnswer });
             if (chatCountBadge) chatCountBadge.textContent = String(Math.floor(this.chatHistory.length / 2));
             this.attachAudioButtonToBubble(aiBubble, fullAnswer, lang);
           }
-          if (this.chatPort) {
-            this.chatPort.disconnect();
-            this.chatPort = null;
-          }
-        } else if (msg.type === "ERROR") {
+        },
+        onError: (errorMsg) => {
           aiBubble.classList.remove("yt-ai-typing");
-          aiBubble.innerHTML = `<span style="color: #ff7b72;">\u274C ${escapeHtml(msg.error)}</span>`;
-          if (this.chatPort) {
-            this.chatPort.disconnect();
-            this.chatPort = null;
-          }
+          aiBubble.innerHTML = `<span style="color: #ff7b72;">[x] ${escapeHtml(errorMsg)}</span>`;
         }
-      });
-      this.chatPort.onDisconnect.addListener(() => {
-        aiBubble.classList.remove("yt-ai-typing");
       });
     }
   };
@@ -4292,13 +4135,13 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       const modernNodes = document.querySelectorAll(
         'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"]:not(transcript-segment-view-model *)'
       );
-      if (modernNodes && modernNodes.length > 3) {
+      if (modernNodes && modernNodes.length > 0) {
         modernNodes.forEach((node) => {
           const timeEl = node.querySelector(
-            '.ytTranscriptSegmentViewModelTimestamp, .segment-timestamp, [class*="Timestamp"], [class*="timestamp"]'
+            '.ytTranscriptSegmentViewModelTimestamp, .segment-timestamp, #time, [class*="Timestamp"], [class*="timestamp"]'
           );
           const textEl = node.querySelector(
-            'span[role="text"], .ytAttributedStringInlineHost, span.ytAttributedStringHost, .yt-core-attributed-string, .segment-text, yt-formatted-string'
+            'span[role="text"], .ytAttributedStringInlineHost, span.ytAttributedStringHost, .yt-core-attributed-string, .segment-text, #title, #details, [class*="Title"], yt-formatted-string'
           );
           let timestamp = timeEl ? timeEl.textContent.trim() : "";
           let text = textEl ? textEl.textContent.trim() : "";
@@ -4318,11 +4161,25 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
             }
           }
         });
-        if (results.length > 3) return results;
+        if (results.length > 0) return results;
       }
-      const panel = document.querySelector(
+      const candidatePanels = Array.from(document.querySelectorAll(
         'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]:not([target-id*="macro-markers"])'
-      );
+      ));
+      let panel = candidatePanels.find((p) => {
+        const vis = p.getAttribute("visibility");
+        return vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" || p.offsetParent !== null && p.offsetWidth > 50;
+      }) || candidatePanels[0];
+      if (!panel) {
+        const macroPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]');
+        if (macroPanel) {
+          const tab = macroPanel.querySelector('[role="tab"][aria-selected="true"], yt-chip-cloud-chip-renderer.selected, button[aria-selected="true"]');
+          const tabText = (tab?.textContent || "").toLowerCase();
+          if (tabText.includes("transcription") || tabText.includes("transcript")) {
+            panel = macroPanel;
+          }
+        }
+      }
       if (panel) {
         const panelText = panel.innerText || "";
         const lines = panelText.split("\n").map((l) => l.trim()).filter(Boolean);
@@ -4330,6 +4187,10 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         let curTime = "";
         let curText = "";
         const ignoredHeaders = [
+          "dans cette vid\xE9o",
+          "in this video",
+          "chapitres",
+          "chapters",
           "transcription",
           "transcript",
           "rechercher dans",
@@ -4339,12 +4200,26 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
           "tout",
           "all",
           "source :",
-          "podcast"
+          "podcast",
+          "g\xE9n\xE9r\xE9s automatiquement",
+          "auto-generated",
+          "english",
+          "fran\xE7ais"
         ];
         for (let i = 0; i < lines.length; i++) {
           const line = lines[i];
           const lower = line.toLowerCase();
           if (ignoredHeaders.some((h) => lower.includes(h))) continue;
+          const inlineMatch = line.match(/^\[?(\d{1,2}:\d{2}(?::\d{2})?)\]?\s+(.+)$/);
+          if (inlineMatch) {
+            if (curTime && curText) {
+              parsed.push({ timestamp: curTime, text: curText.trim() });
+              curText = "";
+            }
+            parsed.push({ timestamp: inlineMatch[1], text: inlineMatch[2].trim() });
+            curTime = "";
+            continue;
+          }
           const match = line.match(/^(\d{1,2}:\d{2}(?::\d{2})?)$/);
           if (match) {
             if (curTime && curText) {
@@ -4359,9 +4234,8 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         if (curTime && curText) {
           parsed.push({ timestamp: curTime, text: curText.trim() });
         }
-        if (parsed.length >= 15) {
-          const totalWords = parsed.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
-          if (totalWords >= 120) return parsed;
+        if (parsed.length > 0) {
+          return parsed;
         }
       }
       return null;
@@ -4385,14 +4259,14 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     );
     if (segs && segs.length > 3) {
       for (const seg of segs) {
-        if (seg.offsetParent !== null && !document.getElementById("yt-ai-stealth-style")) return true;
+        if (seg.offsetParent !== null) return true;
       }
     }
     const panels = document.querySelectorAll(ENGAGEMENT_SELECTORS);
     for (const panel of panels) {
       if (panel.style.display === "none" || panel.hasAttribute("hidden")) continue;
       const vis = panel.getAttribute("visibility");
-      if (vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" && panel.offsetParent !== null && panel.offsetWidth > 100) {
+      if (vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" && panel.offsetParent !== null && panel.offsetWidth > 50) {
         return true;
       }
     }
@@ -4436,22 +4310,19 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
           closeBtn.click();
         } catch (_) {
         }
-      }
-      if (typeof panel.hide === "function") {
+      } else if (typeof panel.close === "function") {
+        try {
+          panel.close();
+        } catch (_) {
+        }
+      } else if (typeof panel.hide === "function") {
         try {
           panel.hide();
         } catch (_) {
         }
       }
-      if (typeof panel.close === "function") {
-        try {
-          panel.close();
-        } catch (_) {
-        }
-      }
       panel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_HIDDEN");
-      panel.setAttribute("hidden", "");
-      panel.style.setProperty("display", "none", "important");
+      panel.style.setProperty("display", "none");
     }
   }
   function collapseDescription() {
@@ -4461,22 +4332,17 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     if (collapseBtn && collapseBtn.offsetParent !== null) collapseBtn.click();
   }
   function findTranscriptButtonInDOM() {
-    const direct = document.querySelector(
-      'ytd-video-description-transcript-section-renderer button, ytd-button-renderer[target-id="engagement-panel-searchable-transcript"] button, ytd-button-renderer[target-id*="transcript"] button, [target-id="engagement-panel-searchable-transcript"] button'
+    let btn = document.querySelector('ytd-video-description-transcript-section-renderer button, ytd-video-description-transcript-section-renderer [role="button"]');
+    if (btn) return btn;
+    const allBtns = document.querySelectorAll(
+      '#description button, #description [role="button"], ytd-watch-metadata button, ytd-watch-metadata [role="button"], ytd-structured-description-content-renderer button, ytd-structured-description-content-renderer [role="button"]'
     );
-    if (direct && direct.offsetParent !== null) return direct;
-    const candidates = document.querySelectorAll(
-      '#description button, #description [role="button"], ytd-watch-metadata button, ytd-watch-metadata [role="button"], #structured-description button, #structured-description [role="button"], ytd-structured-description-content-renderer button'
-    );
-    for (const b of candidates) {
-      const aria = (b.getAttribute("aria-label") || "").trim();
-      const title = (b.getAttribute("title") || "").trim();
-      const text = (b.textContent || "").trim();
-      if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(title) || TRANSCRIPT_LANG_REGEX.test(text)) {
-        return b.querySelector("button") || b;
-      }
+    for (const b of allBtns) {
+      const aria = b.getAttribute("aria-label") || "";
+      const text = b.textContent || "";
+      if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) return b;
     }
-    return direct || null;
+    return null;
   }
   async function ensureTranscriptTabActive(targetPanel) {
     const panels = document.querySelectorAll(ENGAGEMENT_SELECTORS);
@@ -4517,16 +4383,20 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     return false;
   }
   async function triggerStealthNativeTranscript() {
+    if (!document.getElementById("movie_player") && !document.querySelector("video")) {
+      return null;
+    }
+    for (const p of document.querySelectorAll(ENGAGEMENT_SELECTORS)) {
+      p.style.removeProperty("display");
+    }
     const wasPanelOpen = isNativeTranscriptPanelVisible();
     let didWeOpenPanel = false;
-    const expandDesc = document.querySelector(
-      "tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand, #description.ytd-watch-metadata, ytd-text-inline-expander[collapsed] #expand"
-    );
+    const expandDesc = document.querySelector("tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand");
     const wasDescExpanded = !expandDesc || expandDesc.offsetParent === null;
     if (wasPanelOpen) {
       await ensureTranscriptTabActive();
       const direct = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
-      if (direct && direct.length > 5) return direct;
+      if (direct && direct.length > 0) return direct;
     }
     let stealthStyle = document.getElementById("yt-ai-stealth-style");
     if (!stealthStyle) {
@@ -4535,21 +4405,14 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       stealthStyle.textContent = `
       ytd-engagement-panel-section-list-renderer[target-id*="transcript"],
       ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"] {
-        opacity: 0.001 !important;
-        pointer-events: none !important;
-        position: fixed !important;
-        right: -9999px !important;
-        top: 0 !important;
-        width: 400px !important;
-        height: 600px !important;
-        z-index: -9999 !important;
+        opacity: 0.01 !important; pointer-events: none !important;
       }
     `;
       document.head.appendChild(stealthStyle);
     }
     try {
       let directBtn = findTranscriptButtonInDOM();
-      if (!directBtn && expandDesc && typeof expandDesc.click === "function") {
+      if (!directBtn && expandDesc && expandDesc.offsetParent !== null) {
         expandDesc.click();
         await new Promise((r) => setTimeout(r, 250));
         directBtn = findTranscriptButtonInDOM();
@@ -4558,46 +4421,46 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         didWeOpenPanel = true;
         directBtn.click();
       } else {
-        const hiddenPanel = document.querySelector(
-          'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]'
-        );
-        if (hiddenPanel) {
+        const markersBtn = document.querySelector('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]');
+        if (markersBtn) {
           didWeOpenPanel = true;
-          hiddenPanel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED");
-          if (typeof hiddenPanel.show === "function") hiddenPanel.show();
-          await ensureTranscriptTabActive(hiddenPanel);
+          markersBtn.click();
+          await new Promise((r) => setTimeout(r, 250));
+          await ensureTranscriptTabActive();
         } else {
-          const markersBtn = document.querySelector('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]');
-          if (markersBtn) {
+          const hiddenPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]');
+          if (hiddenPanel) {
             didWeOpenPanel = true;
-            markersBtn.click();
-            await new Promise((r) => setTimeout(r, 200));
-            await ensureTranscriptTabActive();
+            hiddenPanel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED");
+            if (typeof hiddenPanel.show === "function") hiddenPanel.show();
+            await ensureTranscriptTabActive(hiddenPanel);
+          } else {
+            return null;
           }
         }
       }
       let segments = null;
-      for (let i = 0; i < 40; i++) {
-        await new Promise((r) => setTimeout(r, 100));
+      for (let i = 0; i < 25; i++) {
+        await new Promise((r) => setTimeout(r, 120));
         if (i % 3 === 0) await ensureTranscriptTabActive();
         segments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
-        if (segments && segments.length > 5) {
-          const words = segments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
-          if (segments.length >= 15 || words >= 100) break;
-        }
+        if (segments && segments.length > 0) break;
       }
       return segments;
     } catch (_) {
       return null;
     } finally {
+      setTimeout(() => {
+        if (stealthStyle?.parentNode) {
+          stealthStyle.parentNode.removeChild(stealthStyle);
+        }
+      }, 350);
       if (!wasPanelOpen) {
         closeNativeTranscriptPanel();
         if (!wasDescExpanded) collapseDescription();
-        setTimeout(() => {
-          if (stealthStyle?.parentNode) stealthStyle.parentNode.removeChild(stealthStyle);
-        }, 350);
-      } else {
-        if (stealthStyle?.parentNode) stealthStyle.parentNode.removeChild(stealthStyle);
+      }
+      for (const p of document.querySelectorAll(ENGAGEMENT_SELECTORS)) {
+        p.style.removeProperty("display");
       }
     }
   }
@@ -4609,10 +4472,148 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     triggerStealthNativeTranscript
   };
 
+  // src/content/services/YouTubeDOMContext.js
+  var YouTubeDOMContext = class _YouTubeDOMContext {
+    /**
+     * Extracts chapters / timeline markers directly from YouTube video description
+     * @returns {Array<{timestamp: string, text: string}> | null}
+     */
+    static extractChaptersFromDescription() {
+      const results = [];
+      const entries = document.querySelectorAll(
+        "ytd-macro-markers-entry-renderer, #structured-description ytd-macro-markers-entry-renderer, ytd-chapter-renderer, ytd-macro-markers-list-item-renderer, macro-markers-panel-item-view-model"
+      );
+      if (entries && entries.length > 1) {
+        entries.forEach((el) => {
+          const timeEl = el.querySelector('#time, [class*="time"], a[href*="t="]');
+          const titleEls = el.querySelectorAll ? el.querySelectorAll('h3, h4, #title, [class*="title"]') : [];
+          let titleEl = null;
+          for (const candidate of titleEls) {
+            if (!candidate.hasAttribute || !candidate.hasAttribute("hidden")) {
+              titleEl = candidate;
+              break;
+            }
+          }
+          if (!titleEl) titleEl = el.querySelector('h3, h4, #title, [class*="title"]');
+          const timestamp = timeEl ? timeEl.textContent.trim() : "";
+          let text = titleEl ? titleEl.getAttribute?.("title") || titleEl.textContent.trim() : "";
+          if (timestamp && text.endsWith(timestamp)) {
+            text = text.slice(0, -timestamp.length).trim();
+          }
+          if (timestamp && text) {
+            results.push({ timestamp, text });
+          }
+        });
+        if (results.length > 1) return results;
+      }
+      return null;
+    }
+    /**
+     * Extracts rich metadata from YouTube DOM elements with cached fallback
+     * @param {Object} [cachedVideoMetadata]
+     * @returns {Object}
+     */
+    static getVideoMetadata(cachedVideoMetadata = {}) {
+      const currentVideoId = getVideoId();
+      const isCacheValid = cachedVideoMetadata?.videoId === currentVideoId;
+      const safeMeta = isCacheValid ? cachedVideoMetadata : {};
+      const titleEl = document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title");
+      const authorEl = document.querySelector("ytd-channel-name a, #channel-name a, #owner-name a");
+      const subEl = document.querySelector("#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count");
+      const descEl = document.querySelector("#description-inline-expander yt-attributed-string, #description, #description-inline-expander");
+      const dateEl = document.querySelector("#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date");
+      const tagEls = document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]');
+      const domSubscribers = subEl?.textContent?.trim() || "";
+      const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || "";
+      const domDate = dateEl?.textContent?.trim() || "";
+      const domKeywords = Array.from(tagEls).map((el) => el.textContent.trim().replace(/^#/, "")).filter(Boolean);
+      const domChannelUrl = authorEl?.getAttribute("href") || authorEl?.href || "";
+      const title = titleEl?.textContent?.trim() || safeMeta.title || document.title.replace(" - YouTube", "").trim();
+      const author = authorEl?.textContent?.trim() || safeMeta.author || "Cha\xEEne YouTube";
+      const subscribers = domSubscribers || safeMeta.subscribers || "";
+      const description = safeMeta.description || domDescription || "";
+      const keywords = safeMeta.keywords && safeMeta.keywords.length > 0 ? safeMeta.keywords : domKeywords;
+      const category = safeMeta.category || "";
+      const publishDate = safeMeta.publishDate || domDate || "";
+      const viewCount = safeMeta.viewCount || "";
+      const channelId = safeMeta.channelId || "";
+      const channelUrl = safeMeta.channelUrl || domChannelUrl || "";
+      const chapters = _YouTubeDOMContext.extractChaptersFromDescription() || safeMeta.chapters || [];
+      return {
+        videoId: currentVideoId || safeMeta.videoId || "",
+        title,
+        author,
+        subscribers,
+        description,
+        keywords,
+        category,
+        publishDate,
+        viewCount,
+        channelId,
+        chapters
+      };
+    }
+    /**
+     * Formats video context block for AI prompts
+     * @param {Object} meta
+     * @param {string} [lang]
+     * @returns {string}
+     */
+    static formatContextInfo(meta, lang = "fr") {
+      if (!meta || typeof meta !== "object") return "";
+      const subscribers = meta.subscribers || "";
+      const category = meta.category || "";
+      const publishDate = meta.publishDate || "";
+      const rawKeywords = meta.keywords || [];
+      const keywords = Array.isArray(rawKeywords) ? rawKeywords.slice(0, 10).join(", ") : typeof rawKeywords === "string" ? rawKeywords : "";
+      let description = String(meta.description || "").trim();
+      if (description.length > 2e3) {
+        description = description.slice(0, 1950) + "... [description condens\xE9e]";
+      }
+      const lines = [];
+      const isFr = lang === "fr";
+      if (subscribers) {
+        lines.push(isFr ? `- Abonn\xE9s cha\xEEne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
+      }
+      if (category) {
+        lines.push(isFr ? `- Cat\xE9gorie : ${category}` : `- Category: ${category}`);
+      }
+      if (publishDate) {
+        lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
+      }
+      if (keywords) {
+        lines.push(isFr ? `- Mots-cl\xE9s : ${keywords}` : `- Keywords: ${keywords}`);
+      }
+      if (description) {
+        lines.push(isFr ? `- Description officielle :
+"""
+${description}
+"""` : `- Official Description:
+"""
+${description}
+"""`);
+      }
+      if (Array.isArray(meta.chapters) && meta.chapters.length > 0) {
+        const chapList = meta.chapters.slice(0, 20).map((c) => `[${c.timestamp}] ${c.text}`).join("\n");
+        lines.push(isFr ? `- Plan des chapitres officiels :
+${chapList}` : `- Official video chapters:
+${chapList}`);
+      }
+      if (lines.length === 0) return "";
+      const header = isFr ? "CONTEXTE DE LA VID\xC9O & DE LA CHA\xCENE :" : "VIDEO & CHANNEL CONTEXT:";
+      return `${header}
+${lines.join("\n")}
+`;
+    }
+  };
+  function formatContextInfo(meta, lang) {
+    return YouTubeDOMContext.formatContextInfo(meta, lang);
+  }
+
   // src/content/services/InPageTranscriptController.js
   var InPageTranscriptController = class _InPageTranscriptController {
     constructor() {
-      this.cachedTranscript = { videoId: "", segments: [], fullText: "", timestampedText: "", isChapterOnly: false };
+      this.cachedTranscript = { videoId: "", segments: [], fullText: "", isChapterOnly: false };
       this.cachedVideoMetadata = {
         videoId: "",
         title: "",
@@ -4646,7 +4647,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
               const txt = _InPageTranscriptController.cleanTranscriptText(ev.segs.map((s2) => s2.utf8 || "").join(""));
               if (txt && txt !== "\n") segs.push({ timestamp: `${m}:${s}`, text: txt });
             }
-            if (segs.length > 5) return segs;
+            if (segs.length > 0) return segs;
           }
         } catch (_) {
         }
@@ -4654,7 +4655,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       try {
         const doc = new DOMParser().parseFromString(trimmed, "text/xml");
         const nodes = Array.from(doc.querySelectorAll("text, p"));
-        if (nodes.length > 5) {
+        if (nodes.length > 0) {
           return nodes.map((n) => {
             const tAttr = n.getAttribute("t");
             const sec = tAttr ? Math.floor(parseInt(tAttr, 10) / 1e3) : Math.floor(parseFloat(n.getAttribute("start") || n.getAttribute("begin") || "0"));
@@ -4741,91 +4742,74 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       if (this.cachedTranscript.videoId && this.cachedTranscript.videoId !== currentVideoId) {
         this.resetAllState(preferredLang);
       }
-      if (NativeTranscriptPanel.isNativeTranscriptPanelVisible()) {
-        const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
-        if (domSegments && domSegments.length > 5) {
-          const words = domSegments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
-          if (domSegments.length >= 15 || words >= 150) {
-            this.saveCachedTranscript(currentVideoId, domSegments, false);
-            return domSegments;
-          }
+      const segments = await this.executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated);
+      if (segments && segments.length > 0) return segments;
+      if (isUserInitiated) {
+        const retryDelays = [600, 1200];
+        for (const delay of retryDelays) {
+          await new Promise((r) => setTimeout(r, delay));
+          const retrySegments = await this.executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated);
+          if (retrySegments && retrySegments.length > 0) return retrySegments;
         }
       }
+      return null;
+    }
+    async executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated) {
+      const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
+      if (domSegments && domSegments.length > 0) {
+        this.saveCachedTranscript(currentVideoId, domSegments, false);
+        return domSegments;
+      }
       const playerData = await this.requestPlayerDataFromMainWorld(currentVideoId, preferredLang);
-      if (playerData?.videoId === currentVideoId && playerData?.segments?.length > 3) {
-        const words = playerData.segments.reduce((acc, s) => acc + s.text.split(/\s+/).length, 0);
-        if (playerData.segments.length >= 15 || words >= 150) {
-          this.saveCachedTranscript(currentVideoId, playerData.segments, false);
-          return playerData.segments;
-        }
+      if (playerData?.videoId === currentVideoId && playerData?.segments?.length > 0) {
+        this.saveCachedTranscript(currentVideoId, playerData.segments, false);
+        return playerData.segments;
       }
       if (playerData?.videoId === currentVideoId && playerData?.captions?.length > 0) {
         let track = playerData.captions.find((t) => t.languageCode === preferredLang) || playerData.captions.find((t) => t.languageCode?.startsWith(preferredLang)) || playerData.captions.find((t) => t.languageCode === "en" || t.languageCode?.startsWith("en")) || playerData.captions[0];
         if (track?.baseUrl) {
           const segments = await this.fetchTimedtextSegments(track.baseUrl);
-          if (segments && segments.length > 3) {
+          if (segments && segments.length > 0) {
             this.saveCachedTranscript(currentVideoId, segments, false);
             return segments;
           }
         }
       }
       const bgResult = await this.fetchTranscriptFromBackground(currentVideoId, preferredLang);
-      if (bgResult?.segments?.length > 3) {
+      if (bgResult?.segments?.length > 0) {
         this.saveCachedTranscript(currentVideoId, bgResult.segments, false);
         return bgResult.segments;
+      }
+      if (isUserInitiated) {
+        const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
+        if (stealthSegments && stealthSegments.length > 0) {
+          this.saveCachedTranscript(currentVideoId, stealthSegments, false);
+          return stealthSegments;
+        }
       }
       const chapterSegments = YouTubeDOMContext.extractChaptersFromDescription();
       if (chapterSegments && chapterSegments.length > 1) {
         this.saveCachedTranscript(currentVideoId, chapterSegments, true);
         return chapterSegments;
       }
-      const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
-      if (stealthSegments && stealthSegments.length > 3) {
-        this.saveCachedTranscript(currentVideoId, stealthSegments, false);
-        return stealthSegments;
-      }
       return null;
-    }
-    static formatTimestampedText(segments, intervalSec = 30) {
-      if (!Array.isArray(segments) || segments.length === 0) return "";
-      const parts = [];
-      let lastSec = -1;
-      for (const s of segments) {
-        const text = (s.text || "").trim();
-        if (!text) continue;
-        let sec = 0;
-        if (typeof s.startMs === "number") {
-          sec = Math.floor(s.startMs / 1e3);
-        } else if (s.timestamp) {
-          const timeParts = s.timestamp.split(":").map(Number);
-          if (timeParts.length === 3) sec = timeParts[0] * 3600 + timeParts[1] * 60 + timeParts[2];
-          else if (timeParts.length === 2) sec = timeParts[0] * 60 + timeParts[1];
-        }
-        if (lastSec === -1 || sec - lastSec >= intervalSec) {
-          const timeStr = s.timestamp || (s.formatTime ? s.formatTime() : `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")}`);
-          parts.push(`[${timeStr}] ${text}`);
-          lastSec = sec;
-        } else {
-          parts.push(text);
-        }
-      }
-      return parts.join(" ").replace(/\s{2,}/g, " ").trim();
     }
     saveCachedTranscript(videoId, segments, isChapterOnly = false) {
       this.cachedTranscript = {
         videoId,
         segments,
         fullText: segments.map((s) => s.text).join(" "),
-        timestampedText: _InPageTranscriptController.formatTimestampedText(segments, 30),
         isChapterOnly: !!isChapterOnly
       };
       const wordsCount = this.cachedTranscript.fullText.trim().split(/\s+/).filter(Boolean).length;
       const wordCountEl = document.getElementById("ytAiWordCount");
       const wordCountTab = document.getElementById("ytAiWordCountTab");
       const transcriptBody = document.getElementById("ytAiTranscriptBody");
+      const currentLang = document.getElementById("ytAiLangSelect")?.value || "en";
+      const t = I18N[currentLang] || I18N.en;
       if (wordCountEl) wordCountEl.textContent = wordsCount.toLocaleString();
       if (wordCountTab) {
-        wordCountTab.textContent = isChapterOnly ? `${wordsCount.toLocaleString()} words (Chapitres)` : `${wordsCount.toLocaleString()} words`;
+        wordCountTab.textContent = isChapterOnly ? `${wordsCount.toLocaleString()} ${t.wordsBadge || "words"} (Chapitres)` : `${wordsCount.toLocaleString()} ${t.wordsBadge || "words"}`;
       }
       if (transcriptBody) {
         transcriptBody.innerHTML = segments.map((s) => {
@@ -4840,7 +4824,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       }
     }
     resetAllState(currentLang = "en") {
-      this.cachedTranscript = { videoId: "", segments: [], fullText: "", timestampedText: "", isChapterOnly: false };
+      this.cachedTranscript = { videoId: "", segments: [], fullText: "", isChapterOnly: false };
       this.cachedVideoMetadata = {
         videoId: "",
         title: "",
@@ -4919,6 +4903,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       this.isSpeakingActive = false;
       this.activeUtterance = null;
       this.speechKeepAliveTimer = null;
+      this.activeAudio = null;
       this.ttsSpeed = "1.0";
     }
     static cleanMarkdownForSpeech(md) {
@@ -4947,19 +4932,23 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       const langCode = (targetLang || "fr").toLowerCase();
       const matchingVoices = this.availableVoices.filter((v) => v.lang && v.lang.toLowerCase().startsWith(langCode));
       const voicesToShow = matchingVoices.length > 0 ? matchingVoices : this.availableVoices;
+      let hasSelected = false;
       voicesToShow.forEach((voice) => {
         const opt = document.createElement("option");
         opt.value = voice.voiceURI;
         opt.textContent = `${voice.name} (${voice.lang})`;
-        if (voice.voiceURI === this.selectedVoiceURI) opt.selected = true;
+        if (voice.voiceURI === this.selectedVoiceURI && matchingVoices.some((m) => m.voiceURI === this.selectedVoiceURI)) {
+          opt.selected = true;
+          hasSelected = true;
+        }
         select.appendChild(opt);
       });
-      if (!select.value && select.options.length > 0) {
+      if (!hasSelected && select.options.length > 0) {
         select.selectedIndex = 0;
         this.selectedVoiceURI = select.value;
       }
     }
-    speakText(rawText, triggerBtn) {
+    speakText(rawText, triggerBtn, options = {}) {
       if (!("speechSynthesis" in window)) return;
       if (this.isSpeakingActive) {
         this.stopSpeech();
@@ -4972,27 +4961,81 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       this.speechQueueIndex = 0;
       this.isSpeakingActive = true;
       this.activeSpeakingButton = triggerBtn;
+      const targetLang = options?.lang || document.getElementById("ytAiLangSelect")?.value || "fr";
+      const targetLocale = typeof LANG_LOCALES !== "undefined" && LANG_LOCALES[targetLang] || DEFAULT_LANG_LOCALES[targetLang] || "fr-FR";
+      const rate = parseFloat(options?.rate || this.ttsSpeed) || 1;
       if (triggerBtn) {
         triggerBtn.classList.add("speaking");
         if (triggerBtn.id === "ytAiSpeakSummaryBtn") {
           triggerBtn.textContent = "\u23F9 Stop";
         }
       }
-      const targetLang = document.getElementById("ytAiLangSelect")?.value || "fr";
-      const targetLocale = typeof LANG_LOCALES !== "undefined" && LANG_LOCALES[targetLang] || DEFAULT_LANG_LOCALES[targetLang] || "fr-FR";
-      const rate = parseFloat(this.ttsSpeed) || 1;
-      const playNextChunk = () => {
+      if (!this.availableVoices || this.availableVoices.length === 0) {
+        this.availableVoices = window.speechSynthesis.getVoices();
+      }
+      let voiceToUse = null;
+      if (this.selectedVoiceURI) {
+        const chosen = this.availableVoices.find((v) => v.voiceURI === this.selectedVoiceURI);
+        if (chosen && chosen.lang && chosen.lang.toLowerCase().startsWith(targetLang.toLowerCase())) {
+          voiceToUse = chosen;
+        }
+      }
+      if (!voiceToUse && this.availableVoices.length > 0) {
+        voiceToUse = this.availableVoices.find((v) => v.lang && v.lang.toLowerCase() === targetLocale.toLowerCase()) || this.availableVoices.find((v) => v.lang && v.lang.toLowerCase().startsWith(targetLang.toLowerCase())) || this.availableVoices.find((v) => v.lang && v.lang.toLowerCase().startsWith(targetLocale.split("-")[0].toLowerCase()));
+        if (voiceToUse) {
+          this.selectedVoiceURI = voiceToUse.voiceURI;
+        }
+      }
+      const playAudioDataUrl = (dataUrl) => {
+        return new Promise((resolve) => {
+          if (!this.isSpeakingActive) return resolve();
+          const audio = new Audio(dataUrl);
+          audio.playbackRate = rate;
+          this.activeAudio = audio;
+          audio.onended = () => {
+            this.activeAudio = null;
+            resolve();
+          };
+          audio.onerror = () => {
+            this.activeAudio = null;
+            resolve();
+          };
+          audio.play().catch(() => {
+            this.activeAudio = null;
+            resolve();
+          });
+        });
+      };
+      const playNextChunk = async () => {
         if (!this.isSpeakingActive || this.speechQueueIndex >= this.speechQueue.length) {
           this.stopSpeech();
           return;
         }
         const chunk = this.speechQueue[this.speechQueueIndex++];
+        if (!voiceToUse && typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
+          try {
+            const resp = await new Promise((resolve) => {
+              chrome.runtime.sendMessage({
+                action: "TTS_FETCH_AUDIO",
+                text: chunk,
+                lang: targetLang
+              }, resolve);
+            });
+            if (resp?.success && resp.audioDataUrl && this.isSpeakingActive) {
+              await playAudioDataUrl(resp.audioDataUrl);
+              if (this.isSpeakingActive) playNextChunk();
+              return;
+            }
+          } catch (_) {
+          }
+        }
         const utterance = new SpeechSynthesisUtterance(chunk);
-        utterance.lang = targetLocale;
         utterance.rate = rate;
-        if (this.selectedVoiceURI) {
-          const found = this.availableVoices.find((v) => v.voiceURI === this.selectedVoiceURI);
-          if (found) utterance.voice = found;
+        if (voiceToUse) {
+          utterance.voice = voiceToUse;
+          utterance.lang = voiceToUse.lang || targetLocale;
+        } else {
+          utterance.lang = targetLocale;
         }
         this.activeUtterance = utterance;
         activeUtterance = utterance;
@@ -5006,7 +5049,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         };
         clearInterval(this.speechKeepAliveTimer);
         this.speechKeepAliveTimer = setInterval(() => {
-          if (window.speechSynthesis.speaking) {
+          if (window.speechSynthesis?.speaking) {
             window.speechSynthesis.pause();
             window.speechSynthesis.resume();
           } else {
@@ -5020,6 +5063,14 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     stopSpeech() {
       this.isSpeakingActive = false;
       clearInterval(this.speechKeepAliveTimer);
+      if (this.activeAudio) {
+        try {
+          this.activeAudio.pause();
+          this.activeAudio.currentTime = 0;
+        } catch (_) {
+        }
+        this.activeAudio = null;
+      }
       if ("speechSynthesis" in window) {
         window.speechSynthesis.cancel();
       }
@@ -5035,10 +5086,12 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     resetSpeakingButton(btn) {
       if (!btn) return;
       btn.classList.remove("speaking");
+      const lang = document.getElementById("ytAiLangSelect")?.value || "en";
+      const t = I18N[lang] || I18N.en;
       if (btn.id === "ytAiSpeakSummaryBtn") {
-        btn.textContent = "\u{1F50A} Listen";
+        btn.textContent = t.listenBtn || "\u{1F50A} Listen";
       } else {
-        btn.textContent = "\u{1F50A}";
+        btn.textContent = t.listenBtn || "\u{1F50A}";
       }
     }
   };
@@ -5410,70 +5463,683 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
   };
   var copyToClipboard = ExportHandler.copyToClipboard;
 
-  // src/content/services/InPageState.js
-  function createInPageState() {
-    return {
-      extensionEnabled: true,
-      currentProvider: "lmstudio",
-      serverUrls: { lmstudio: "http://192.168.56.1:1234", ollama: "http://localhost:11434" },
-      apiKeys: { openai: "", gemini: "", claude: "", groq: "", deepseek: "" },
-      selectedModels: {},
-      availableLocalModels: {},
-      currentLang: "fr",
-      temperature: "0.3",
-      maxTokens: "auto",
-      ttsSpeed: "1.0",
-      localWhisperUrl: "http://127.0.0.1:8000",
-      autoSummarize: false,
-      customPrompt: "",
-      selectedVoiceURI: "",
-      selectedMicDeviceId: "",
-      getActiveModel() {
-        return this.selectedModels[this.currentProvider] || "";
-      },
-      setActiveModel(m) {
-        this.selectedModels[this.currentProvider] = m;
-      },
-      savePreference(key, val) {
-        if (chrome?.storage?.local) chrome.storage.local.set({ [key]: val });
-      }
-    };
-  }
-  function loadPreferences(state2, callback) {
-    if (!chrome?.storage?.local) return callback?.();
-    chrome.storage.local.get(null, (items = {}) => {
-      if (typeof items.extensionEnabled === "boolean") state2.extensionEnabled = items.extensionEnabled;
-      if (items.aiProvider) state2.currentProvider = items.aiProvider;
-      if (items.targetLang) state2.currentLang = items.targetLang;
-      if (items.selectedModel) state2.setActiveModel(items.selectedModel);
-      if (items.summaryMode) state2.summaryMode = items.summaryMode;
-      if (items.temperature) state2.temperature = items.temperature;
-      if (items.maxTokens) state2.maxTokens = items.maxTokens;
-      if (typeof items.autoSummarize === "boolean") state2.autoSummarize = items.autoSummarize;
-      if (items.localWhisperUrl) state2.localWhisperUrl = items.localWhisperUrl;
-      if (items.ttsSpeed) state2.ttsSpeed = items.ttsSpeed;
-      if (items.selectedVoiceURI) state2.selectedVoiceURI = items.selectedVoiceURI;
-      ["openai", "gemini", "claude", "groq", "deepseek", "lmstudio", "ollama"].forEach((p) => {
-        if (items[`apiKey_${p}`]) state2.apiKeys[p] = items[`apiKey_${p}`];
-        if (items[`serverUrl_${p}`]) state2.serverUrls[p] = items[`serverUrl_${p}`];
-        if (items[`selectedModel_${p}`]) state2.selectedModels[p] = items[`selectedModel_${p}`];
-      });
-      callback?.();
-    });
+  // src/services/interfaces/IPromptBuilder.js
+  var IPromptBuilder = class {
+    /**
+     * Condenses a long transcript if it exceeds character limits
+     * @param {string} text
+     * @param {number} maxChars
+     * @returns {string}
+     */
+    condenseTranscript(text, maxChars) {
+      throw new Error("Not implemented");
+    }
+    /**
+     * Builds system and user prompts for video summarization
+     * @param {string} title
+     * @param {string} author
+     * @param {string} transcriptText
+     * @param {string} targetLang
+     * @param {string} formatMode
+     * @param {string} [customDirectives]
+     * @param {Object} [extraContext]
+     * @returns {{ systemPrompt: string, userPrompt: string }}
+     */
+    buildSummaryPrompts(title, author, transcriptText, targetLang, formatMode, customDirectives = "", extraContext = {}) {
+      throw new Error("Not implemented");
+    }
+    /**
+     * Builds system and user prompts for Q&A chat
+     * @param {string} title
+     * @param {string} transcriptText
+     * @param {string} targetLang
+     * @param {Array<Object>} chatHistory
+     * @param {string} userQuestion
+     * @param {Object} [extraContext]
+     * @returns {{ systemPrompt: string, messages: Array<Object> }}
+     */
+    buildChatPrompts(title, transcriptText, targetLang, chatHistory, userQuestion, extraContext = {}) {
+      throw new Error("Not implemented");
+    }
+  };
+
+  // src/services/implementations/PromptTemplates.js
+  var TARGET_LANG_NAMES = {
+    fr: "FRAN\xC7AIS",
+    en: "ENGLISH",
+    es: "ESPA\xD1OL",
+    it: "ITALIANO",
+    de: "DEUTSCH",
+    ja: "\u65E5\u672C\u8A9E (JAPANESE)",
+    ru: "\u0420\u0423\u0421\u0421\u041A\u0418\u0419",
+    zh: "\u4E2D\u6587 (SIMPLIFIED CHINESE)"
+  };
+  var TEMPLATES = {
+    fr: {
+      quick: `Produis un r\xE9sum\xE9 COURT, CONCIS et DIRECT sous cette forme :
+### \u26A1 En Bref
+(2 \xE0 3 phrases percutantes r\xE9sumant l'essentiel absolu)
+
+### \u{1F3AF} Points Cl\xE9s \xE0 Retenir
+- **[Point 1]** : Explication courte et concr\xE8te.
+- **[Point 2]** : Explication courte et concr\xE8te.
+- **[Point 3]** : Explication courte et concr\xE8te.
+
+### \u{1F4CC} Conclusion
+(1 phrase de conclusion finale)`,
+      detailed: `Produis une synth\xE8se COMPL\xC8TE, D\xC9TAILL\xC9E et EXHAUSTIVE :
+### \u{1F3AF} Vue d'ensemble & Enjeux
+(Contexte, probl\xE8me abord\xE9 et th\xE8se de la vid\xE9o)
+
+### \u23F1\uFE0F D\xE9roul\xE9 chronologique & Chapitres cl\xE9s
+(Reconstitue les grandes \xE9tapes avec timestamps si mentionn\xE9s)
+
+### \u{1F4A1} Analyses, Arguments & Exemples cit\xE9s
+(D\xE9cortique les donn\xE9es, anecdotes ou concepts expliqu\xE9s)
+
+### \u{1F6E0}\uFE0F Conseils pratiques & Actions concr\xE8tes
+(Tout ce qui est actionnable pour le spectateur)
+
+### \u{1F4CC} Conclusion & Perspective
+(Message final et conclusion de l'auteur)`,
+      standard: `Produis un r\xE9sum\xE9 \xC9QUILIBR\xC9, NATUREL et STRUCTUR\xC9 :
+### \u{1F3AF} L'Essentiel
+(2-3 phrases r\xE9sumant le sujet et le message central)
+
+### \u23F1\uFE0F Moments Cl\xE9s & D\xE9roulement
+- **[Th\xE8me 1]** : Ce qui est expliqu\xE9 ou d\xE9montr\xE9.
+- **[Th\xE8me 2]** : Ce qui est expliqu\xE9 ou d\xE9montr\xE9.
+- **[Th\xE8me 3]** : Ce qui est expliqu\xE9 ou d\xE9montr\xE9.
+
+### \u{1F4A1} Enseignements & Conseils
+- **[Le\xE7on cl\xE9]** : D\xE9tail concret et utile.
+- **[Actionable]** : Recommandation de l'auteur.
+
+### \u{1F4CC} Ce qu'il faut en retenir
+(Conclusion synth\xE9tique)`
+    },
+    es: {
+      quick: `Produce un resumen CORTO, CONCISO y DIRECTO en este formato:
+### \u26A1 En Breve
+(2 a 3 frases impactantes resumiendo lo esencial)
+
+### \u{1F3AF} Puntos Clave a Recordar
+- **[Punto 1]** : Explicaci\xF3n corta y concreta.
+- **[Punto 2]** : Explicaci\xF3n corta y concreta.
+- **[Punto 3]** : Explicaci\xF3n corta y concreta.
+
+### \u{1F4CC} Conclusi\xF3n
+(1 frase de conclusi\xF3n final)`,
+      detailed: `Produce una s\xEDntesis COMPLETA, DETALLADA y EXHAUSTIVA:
+### \u{1F3AF} Visi\xF3n General & Contexto
+(Contexto, problema abordado y tesis del v\xEDdeo)
+
+### \u23F1\uFE0F Desarrollo Cronol\xF3gico & Cap\xEDtulos Clave
+(Reconstruye las etapas principales con marcas de tiempo)
+
+### \u{1F4A1} An\xE1lisis, Argumentos & Ejemplos
+(Detalla datos, an\xE9cdotas o conceptos expuestos)
+
+### \u{1F6E0}\uFE0F Consejos Pr\xE1cticos & Acciones Concretas
+(Todo lo accionable para el espectador)
+
+### \u{1F4CC} Conclusi\xF3n & Perspectiva
+(Mensaje final y conclusi\xF3n del autor)`,
+      standard: `Produce un resumen EQUILIBRADO, NATURAL y ESTRUCTURADO:
+### \u{1F3AF} Lo Esencial
+(2-3 frases resumiendo el tema y mensaje principal)
+
+### \u23F1\uFE0F Momentos Clave & Desarrollo
+- **[Tema 1]** : Lo que se explica o demuestra.
+- **[Tema 2]** : Lo que se explica o demuestra.
+- **[Tema 3]** : Lo que se explica o demuestra.
+
+### \u{1F4A1} Ense\xF1anzas & Consejos
+- **[Lecci\xF3n clave]** : Detalle concreto y \xFAtil.
+- **[Acci\xF3n pr\xE1ctica]** : Recomendaci\xF3n del autor.
+
+### \u{1F4CC} Conclusi\xF3n General
+(Conclusi\xF3n sint\xE9tica)`
+    },
+    it: {
+      quick: `Produci un riassunto BREVE, CONCISO e DIRETTO in questo formato:
+### \u26A1 In Breve
+(2-3 frasi incisive che riassumono l'essenziale)
+
+### \u{1F3AF} Punti Chiave da Ricordare
+- **[Punto 1]** : Spiegazione breve e concreta.
+- **[Punto 2]** : Spiegazione breve e concreta.
+- **[Punto 3]** : Spiegazione breve e concreta.
+
+### \u{1F4CC} Conclusione
+(1 frase di conclusione finale)`,
+      detailed: `Produci una sintesi COMPLETA, DETTAGLIATA ed ESAUSTIVA:
+### \u{1F3AF} Panoramica & Obiettivi
+(Contesto, problema affrontato e tesi del video)
+
+### \u23F1\uFE0F Svolgimento Cronologico & Capitoli Chiave
+(Ricostruisci i passaggi chiave con timestamp se presenti)
+
+### \u{1F4A1} Analisi, Argomentazioni & Esempi
+(Analizza dati, aneddoti o concetti illustrati)
+
+### \u{1F6E0}\uFE0F Consigli Pratici & Azioni Concrete
+(Tutto ci\xF2 che \xE8 attuabile per lo spettatore)
+
+### \u{1F4CC} Conclusione & Prospettiva
+(Messaggio finale e conclusione dell'autore)`,
+      standard: `Produci un riassunto EQUILIBRATO, NATURALE e STRUTTURATO:
+### \u{1F3AF} L'Essenziale
+(2-3 frasi che riassumono l'argomento e il messaggio centrale)
+
+### \u23F1\uFE0F Momenti Chiave & Svolgimento
+- **[Tema 1]** : Spiegazione o dimostrazione.
+- **[Tema 2]** : Spiegazione o dimostrazione.
+- **[Tema 3]** : Spiegazione o dimostrazione.
+
+### \u{1F4A1} Insegnamenti & Consigli Pratici
+- **[Lezione chiave]** : Dettaglio concreto e utile.
+- **[Azione pratica]** : Raccomandazione dell'autore.
+
+### \u{1F4CC} Da Ricordare
+(Conclusione sintetica)`
+    },
+    de: {
+      quick: `Erstelle eine KURZE, PR\xC4ZISE und DIREKTE Zusammenfassung:
+### \u26A1 Kurz & B\xFCndig
+(2 bis 3 pr\xE4gnante S\xE4tze mit dem Wesentlichen)
+
+### \u{1F3AF} Wichtigste Erkenntnisse
+- **[Punkt 1]** : Kurze, konkrete Erkl\xE4rung.
+- **[Punkt 2]** : Kurze, konkrete Erkl\xE4rung.
+- **[Punkt 3]** : Kurze, konkrete Erkl\xE4rung.
+
+### \u{1F4CC} Fazit
+(1 abschlie\xDFender Schlusssatz)`,
+      detailed: `Erstelle eine VOLLST\xC4NDIGE, DETAILLIERTE und UMFASSENDE Analyse:
+### \u{1F3AF} \xDCberblick & Kernfrage
+(Kontext, Thema und Hauptthese des Videos)
+
+### \u23F1\uFE0F Chronologischer Ablauf & Wichtige Kapitel
+(Hauptabschnitte mit Zeitstempeln)
+
+### \u{1F4A1} Analysen, Argumente & Beispiele
+(Daten, Fakten oder erkl\xE4rte Konzepte)
+
+### \u{1F6E0}\uFE0F Praktische Ratschl\xE4ge & Handlungsschritte
+(Konkret anwendbare Tipps f\xFCr den Zuschauer)
+
+### \u{1F4CC} Fazit & Ausblick
+(Schlussgedanke des Autors)`,
+      standard: `Erstelle eine AUSGEWOGENE, NAT\xDCRLICHE und STRUKTURIERTE Zusammenfassung:
+### \u{1F3AF} Das Wesentliche
+(2-3 S\xE4tze als Zusammenfassung des Themas)
+
+### \u23F1\uFE0F Wichtige Abschnitte & Verlauf
+- **[Thema 1]** : Was erkl\xE4rt oder gezeigt wird.
+- **[Thema 2]** : Was erkl\xE4rt oder gezeigt wird.
+- **[Thema 3]** : Was erkl\xE4rt oder gezeigt wird.
+
+### \u{1F4A1} Erkenntnisse & Praktische Tipps
+- **[Kernlektion]** : Konkretes und n\xFCtzliches Detail.
+- **[Handlungsempfehlung]** : Empfehlung des Autors.
+
+### \u{1F4CC} Wichtigste Erkenntnis
+(Synthetisches Fazit)`
+    },
+    en: {
+      quick: `Produce a SHORT, CONCISE, and DIRECT summary in this format:
+### \u26A1 Quick Summary
+(2 to 3 impactful sentences capturing the absolute essence)
+
+### \u{1F3AF} Key Takeaways
+- **[Point 1]**: Short, concrete explanation.
+- **[Point 2]**: Short, concrete explanation.
+- **[Point 3]**: Short, concrete explanation.
+
+### \u{1F4CC} Conclusion
+(1 final concluding sentence)`,
+      detailed: `Produce a THOROUGH, DETAILED, and COMPREHENSIVE study guide:
+### \u{1F3AF} Overview & Core Thesis
+(Context, problem addressed, and central thesis of the video)
+
+### \u23F1\uFE0F Chronological Breakdown & Key Chapters
+(Reconstruct key sections with timestamps if present)
+
+### \u{1F4A1} Deep Dive: Arguments, Data & Examples
+(Analyze the data, case studies, or concepts presented)
+
+### \u{1F6E0}\uFE0F Actionable Advice & Practical Steps
+(Actionable takeaways for the viewer)
+
+### \u{1F4CC} Author's Conclusion & Key Takeaway
+(Final takeaway and perspective)`,
+      standard: `Produce a BALANCED, NATURAL, and STRUCTURED summary:
+### \u{1F3AF} Core Takeaways
+(2-3 sentences summarizing the topic and central message)
+
+### \u23F1\uFE0F Key Highlights & Chapters
+- **[Topic 1]**: What is explained or demonstrated.
+- **[Topic 2]**: What is explained or demonstrated.
+- **[Topic 3]**: What is explained or demonstrated.
+
+### \u{1F4A1} Insights & Practical Advice
+- **[Key insight]**: Concrete and actionable takeaway.
+- **[Actionable item]**: Author recommendation.
+
+### \u{1F4CC} Final Summary
+(Synthetic concluding thought)`
+    }
+  };
+  function getFormatInstructions(mode, langOrIsFr = "en") {
+    let lang = "en";
+    if (typeof langOrIsFr === "boolean") {
+      lang = langOrIsFr ? "fr" : "en";
+    } else if (typeof langOrIsFr === "string") {
+      lang = langOrIsFr;
+    }
+    const langTemplates = TEMPLATES[lang] || TEMPLATES.en;
+    return langTemplates[mode] || langTemplates.standard;
   }
 
+  // src/services/implementations/PromptBuilder.js
+  var PromptBuilder = class extends IPromptBuilder {
+    /**
+     * Smart 3-part condensation algorithm (40% intro, 25% middle, 35% conclusion)
+     */
+    condenseTranscript(transcript, maxChars) {
+      if (!transcript || transcript.length <= maxChars) {
+        return transcript || "";
+      }
+      const introSize = Math.floor(maxChars * 0.4);
+      const middleSize = Math.floor(maxChars * 0.25);
+      const endSize = Math.floor(maxChars * 0.35);
+      const intro = transcript.slice(0, introSize);
+      const middleStart = Math.floor((transcript.length - middleSize) / 2);
+      const middle = transcript.slice(middleStart, middleStart + middleSize);
+      const end = transcript.slice(-endSize);
+      return `${intro}
+
+[... Progression de la vid\xE9o condens\xE9e pour respecter la fen\xEAtre de contexte de l'IA ...]
+
+${middle}
+
+[... Suite et conclusion de la vid\xE9o ...]
+
+${end}`;
+    }
+    /**
+     * Formats video description, channel, category and tag context for AI prompts
+     */
+    formatContextBlock(extraContext, lang = "en") {
+      if (!extraContext || typeof extraContext !== "object") return "";
+      const subscribers = extraContext.subscribers || "";
+      const category = extraContext.category || "";
+      const publishDate = extraContext.publishDate || "";
+      const rawKeywords = extraContext.keywords || [];
+      const keywords = Array.isArray(rawKeywords) ? rawKeywords.slice(0, 10).join(", ") : typeof rawKeywords === "string" ? rawKeywords : "";
+      let description = String(extraContext.description || "").trim();
+      if (description.length > 2e3) {
+        description = description.slice(0, 1950) + "... [description condens\xE9e]";
+      }
+      const lines = [];
+      const isFr = lang === "fr";
+      if (subscribers) lines.push(isFr ? `- Abonn\xE9s cha\xEEne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
+      if (category) lines.push(isFr ? `- Cat\xE9gorie : ${category}` : `- Category: ${category}`);
+      if (publishDate) lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
+      if (keywords) lines.push(isFr ? `- Mots-cl\xE9s : ${keywords}` : `- Keywords: ${keywords}`);
+      if (description) lines.push(isFr ? `- Description officielle :
+"""
+${description}
+"""` : `- Official Description:
+"""
+${description}
+"""`);
+      if (extraContext.channelDossier) {
+        lines.push("\n" + extraContext.channelDossier);
+      }
+      if (lines.length === 0) return "";
+      const header = isFr ? "CONTEXTE DE LA VID\xC9O & DE LA CHA\xCENE :" : "VIDEO & CHANNEL CONTEXT:";
+      return `${header}
+${lines.join("\n")}
+`;
+    }
+    /**
+     * Builds system and user prompts for video summarization
+     */
+    buildSummaryPrompts(title, author, safeTranscript, lang, mode, customDirectives = "", extraContext = {}) {
+      if (typeof title === "object" && title !== null) {
+        const opts = title;
+        title = opts.title;
+        author = opts.author;
+        safeTranscript = opts.safeTranscript || opts.transcript;
+        lang = opts.lang || opts.targetLang;
+        mode = opts.mode || opts.formatMode;
+        customDirectives = typeof opts.customDirectives === "string" ? opts.customDirectives : "";
+        extraContext = opts.extra || opts.metadata || opts;
+      } else if (typeof author === "object" && author !== null) {
+        extraContext = author;
+        author = extraContext.author || "";
+      } else if (typeof customDirectives === "object" && customDirectives !== null) {
+        extraContext = customDirectives;
+        customDirectives = "";
+      } else if (typeof arguments[6] === "object" && arguments[6] !== null) {
+        extraContext = arguments[6];
+      }
+      const isFr = lang === "fr";
+      const targetLangName = TARGET_LANG_NAMES[lang] || "ENGLISH";
+      const systemPrompt = isFr ? `Tu es un assistant IA d'\xE9lite YouTube Summarizer AI sp\xE9cialis\xE9 dans la synth\xE8se et l'analyse de vid\xE9os.
+Ton but absolu est de produire un r\xE9sum\xE9 clair, naturel, bien structur\xE9 et fid\xE8le EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o.
+OBLIGATION STRICTE : R\xE9dige l'int\xE9gralit\xE9 du r\xE9sum\xE9, tous les titres et analyses en FRAN\xC7AIS.
+R\xC8GLES DE STYLE & MISE EN PAGE :
+- Style naturel, direct et percutant : va droit au but sans phrases de remplissage.
+- R\xC8GLE ABSOLUE POUR LES PUCES : Chaque puce Markdown DOIT tenir d'un seul bloc avec le mot-cl\xE9 en gras ET son explication sur la M\xCAME ligne (ex: - **Mot-cl\xE9 :** Explication fluide et d'un seul bloc).
+- INTERDICTION FORMELLE : Ne jamais renvoyer l'explication \xE0 la ligne suivante et ne jamais cr\xE9er de sous-puces coup\xE9es. Chaque point doit \xEAtre une phrase fluide et compl\xE8te.
+- Fid\xE9lit\xE9 \xE0 100% \xE0 la transcription, z\xE9ro hallucination ou extrapolation.` : `You are an expert AI assistant YouTube Summarizer AI specializing in video summarization and insights.
+Your absolute goal is to produce a clear, natural, well-structured, and faithful summary EXCLUSIVELY in ${targetLangName}, regardless of the original video language.
+MANDATORY LANGUAGE DIRECTIVE: Write the ENTIRE summary, all section headings, bullet points, and analysis strictly in ${targetLangName}. Do NOT use English unless the requested language is English.
+STYLE & FORMATTING RULES:
+- Natural, direct, and engaging style: go straight to the point without filler phrases.
+- STRICT BULLET FORMATTING: Every Markdown bullet point MUST be a single cohesive block with the bold keyword AND explanation on the SAME line (e.g. - **Keyword:** Clear, fluent explanation in a single block).
+- STRICT PROHIBITION: Never insert a line break between the keyword and its explanation, and never break ideas into fragmented sub-bullets.
+- 100% faithful to the transcript, with zero hallucinations or extrapolation.`;
+      const formatInstructions = getFormatInstructions(mode, lang);
+      const contextBlock = this.formatContextBlock(extraContext, lang);
+      const langRule = isFr ? `OBLIGATION : R\xE9dige l'int\xE9gralit\xE9 du r\xE9sum\xE9 en FRAN\xC7AIS.` : `MANDATORY: Write the entire summary exclusively in ${targetLangName}.`;
+      const userPrompt = isFr ? `Voici la transcription de la vid\xE9o YouTube :
+Titre : "${title}"
+Auteur/Cha\xEEne : "${author}"${contextBlock ? `
+
+${contextBlock}` : ""}
+
+${langRule}
+
+Format demand\xE9 :
+${formatInstructions}${customDirectives ? `
+DIRECTIVES PERSONNALIS\xC9ES DE L'UTILISATEUR :
+${customDirectives}
+` : ""}
+
+TRANSCRIPTION :
+${safeTranscript}` : `Here is the transcript of the YouTube video:
+Title: "${title}"
+Author/Channel: "${author}"${contextBlock ? `
+
+${contextBlock}` : ""}
+
+${langRule}
+
+Requested format:
+${formatInstructions}${customDirectives ? `
+USER CUSTOM DIRECTIVES:
+${customDirectives}
+` : ""}
+
+TRANSCRIPT:
+${safeTranscript}`;
+      return { systemPrompt, userPrompt };
+    }
+    /**
+     * Builds system and user messages for interactive Q&A chat
+     */
+    buildChatPrompts(title, transcriptText, targetLang, chatHistory, userQuestion, extraContext = {}) {
+      const langNames = {
+        en: "English",
+        fr: "French",
+        es: "Spanish",
+        de: "German",
+        it: "Italian",
+        ru: "Russian",
+        ja: "Japanese",
+        zh: "Simplified Chinese"
+      };
+      const targetLangName = langNames[targetLang] || "English";
+      const contextBlock = this.formatContextBlock(extraContext, targetLang);
+      const systemPrompt = `You are a conversational AI video assistant YouTube Summarizer AI.
+You answer questions accurately based on the video transcript and the provided official video context (description, channel information, tags).
+Video Title: "${title}"
+${contextBlock ? `${contextBlock}
+` : ""}Always answer in ${targetLangName}.
+If an official channel dossier is provided above, use it authoritatively to answer questions regarding the channel, creator, recent videos, and editorial background. Otherwise, if the answer is not mentioned in the transcript or video context, state clearly that the video does not mention it.
+Be concise, helpful, and quote timestamps in [m:ss] format if applicable.
+
+TRANSCRIPT:
+${transcriptText}`;
+      const messages = [];
+      if (Array.isArray(chatHistory)) {
+        for (const msg of chatHistory) {
+          if (msg.role && msg.content) {
+            messages.push({ role: msg.role, content: msg.content });
+          }
+        }
+      }
+      messages.push({ role: "user", content: userQuestion });
+      return { systemPrompt, messages };
+    }
+  };
+
+  // src/content/services/PromptService.js
+  var promptBuilder = new PromptBuilder();
+  var CHAT_LANG_MAP = {
+    fr: {
+      persona: "Tu es YouTube Summarizer AI, une extension Chrome intelligente int\xE9gr\xE9e directement sous la vid\xE9o YouTube.",
+      role: "Tu r\xE9ponds aux questions de l'utilisateur sur cette vid\xE9o YouTube en t'appuyant rigoureusement sur sa transcription et sur le contexte officiel fourni (description, cha\xEEne, cat\xE9gorie) ainsi que sur le r\xE9sum\xE9 vid\xE9o.",
+      identity: "Si l'utilisateur mentionne l'extension ou te demande qui tu es, confirme explicitement que tu es l'assistant de l'extension YouTube Summarizer AI.",
+      rule: "OBLIGATION STRICTE DE LANGUE : Tu DOIS r\xE9pondre EXCLUSIVEMENT en FRAN\xC7AIS, quelle que soit la langue de la vid\xE9o ou de la question.",
+      quick: "Longueur souhait\xE9e : r\xE9ponse courte, concise et directe (1 ou 2 courts paragraphes).",
+      detailed: "Longueur souhait\xE9e : r\xE9ponse d\xE9taill\xE9e et approfondie.",
+      standard: "Longueur souhait\xE9e : r\xE9ponse \xE9quilibr\xE9e et naturelle, allant droit au but.",
+      summaryLabel: "R\xC9SUM\xC9 VID\xC9O PR\xC9C\xC9DEMMENT G\xC9N\xC9R\xC9 DANS L'EXTENSION (POUR R\xC9F\xC9RENCE) :",
+      transcriptLabel: "Transcription de la vid\xE9o :"
+    },
+    en: {
+      persona: "You are YouTube Summarizer AI, an intelligent Chrome extension built directly into YouTube.",
+      role: "You answer the user's questions about this YouTube video, strictly based on its transcript and official video context (description, channel information, tags) along with the generated summary.",
+      identity: "If the user mentions the extension or asks who you are, explicitly confirm that you are the YouTube Summarizer AI Chrome extension assistant.",
+      rule: "MANDATORY LANGUAGE RULE: You MUST write your ENTIRE response EXCLUSIVELY in ENGLISH, regardless of the video or question language.",
+      quick: "Desired length: short and concise answer (1-2 short paragraphs), straight to the point.",
+      detailed: "Desired length: detailed and comprehensive explanation.",
+      standard: "Desired length: balanced, natural response, not too long, straight to the point.",
+      summaryLabel: "PREVIOUSLY GENERATED VIDEO SUMMARY (FOR USER REFERENCE):",
+      transcriptLabel: "Video Transcript:"
+    },
+    es: {
+      persona: "Eres YouTube Summarizer AI, una extensi\xF3n inteligente de Chrome integrada directamente en YouTube.",
+      role: "Respondes a las preguntas del usuario sobre este v\xEDdeo de YouTube bas\xE1ndote estrictamente en su transcripci\xF3n, contexto oficial y resumen.",
+      identity: "Si el usuario menciona la extensi\xF3n o pregunta qui\xE9n eres, confirma expl\xEDcitamente que eres el asistente de la extensi\xF3n YouTube Summarizer AI.",
+      rule: "REGLA OBLIGATORIA DE IDIOMA: Debes responder \xDANICA Y EXCLUSIVAMENTE en ESPA\xD1OL, sea cual sea el idioma de la pregunta o del v\xEDdeo.",
+      quick: "Longitud deseada: respuesta corta y concisa (1 o 2 p\xE1rrafos cortos).",
+      detailed: "Longitud deseada: respuesta detallada y completa.",
+      standard: "Longitud deseada: respuesta equilibrada y natural, sin rodeos.",
+      summaryLabel: "RESUMEN DEL V\xCDDEO PREVIAMENTE GENERADO EN LA EXTENSI\xD3N (PARA REFERENCIA):",
+      transcriptLabel: "Transcripci\xF3n del v\xEDdeo:"
+    },
+    it: {
+      persona: "Sei YouTube Summarizer AI, un'estensione intelligente per Chrome integrata direttamente in YouTube.",
+      role: "Rispondi alle domande dell'utente su questo video di YouTube basandoti rigorosamente sulla trascrizione, sul contesto ufficiale e sul riassunto.",
+      identity: "Se l'utente menziona l'estensione o chiede chi sei, conferma esplicitamente di essere l'assistente dell'estensione YouTube Summarizer AI.",
+      rule: "REGOLA OBBLIGATORIA SULLA LINGUA: Devi rispondere ESCLUSIVAMENTE in ITALIANO, indipendentemente dalla lingua della domanda o del video.",
+      quick: "Lunghezza desiderata: risposta breve e concisa (1 o 2 brevi paragrafi).",
+      detailed: "Lunghezza desiderata: spiegazione dettagliata e approfondita.",
+      standard: "Lunghezza desiderata: risposta equilibrata e naturale, dritta al punto.",
+      summaryLabel: "RIASSUNTO DEL VIDEO PRECEDENTEMENTE GENERATO NELL'ESTENSIONE (PER RIFERIMENTO):",
+      transcriptLabel: "Trascrizione del video:"
+    },
+    de: {
+      persona: "Du bist YouTube Summarizer AI, eine intelligente Chrome-Erweiterung, die direkt in YouTube integriert ist.",
+      role: "Du beantwortest Fragen des Nutzers basierend auf dem Videotranskript, offiziellen Kontextdaten und der Videozusammenfassung.",
+      identity: "Wenn der Nutzer die Erweiterung erw\xE4hnt oder fragt wer du bist, best\xE4tige explizit, dass du der Assistent der YouTube Summarizer AI Chrome-Erweiterung bist.",
+      rule: "STRIKTE SPRACHVORGABE: Antworte AUSSCHLIESSLICH auf DEUTSCH, unabh\xE4ngig von der Sprache der Frage oder des Videos.",
+      quick: "Gew\xFCnschte L\xE4nge: kurze und pr\xE4gnante Antwort (1-2 kurze Abs\xE4tze).",
+      detailed: "Gew\xFCnschte L\xE4nge: ausf\xFChrliche und detaillierte Erkl\xE4rung.",
+      standard: "Gew\xFCnschte L\xE4nge: ausgewogene, nat\xFCrliche Antwort, direkt auf den Punkt.",
+      summaryLabel: "ZUVOR GENERIERTE VIDEOZUSAMMENFASSUNG IN DER ERWEITERUNG (ZUR REFERENZ):",
+      transcriptLabel: "Videotranskript:"
+    },
+    ja: {
+      persona: "\u3042\u306A\u305F\u306FYouTube\u306B\u76F4\u63A5\u7D71\u5408\u3055\u308C\u305F\u30A4\u30F3\u30C6\u30EA\u30B8\u30A7\u30F3\u30C8\u306AChrome\u62E1\u5F35\u6A5F\u80FD\u300CYouTube Summarizer AI\u300D\u3067\u3059\u3002",
+      role: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3001\u516C\u5F0F\u6982\u8981\u3001\u304A\u3088\u3073\u751F\u6210\u3055\u308C\u305F\u8981\u7D04\u306B\u57FA\u3065\u3044\u3066\u6B63\u78BA\u306B\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+      identity: "\u30E6\u30FC\u30B6\u30FC\u304C\u62E1\u5F35\u6A5F\u80FD\u306B\u3064\u3044\u3066\u8A00\u53CA\u3057\u305F\u5834\u5408\u306F\u3001\u81EA\u8EAB\u304CYouTube Summarizer AI\u62E1\u5F35\u6A5F\u80FD\u306E\u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u3067\u3042\u308B\u3053\u3068\u3092\u8A8D\u3081\u3066\u304F\u3060\u3055\u3044\u3002",
+      rule: "\u3010\u6700\u91CD\u8981\u8A00\u8A9E\u30EB\u30FC\u30EB\u3011\u8CEA\u554F\u3084\u52D5\u753B\u306E\u8A00\u8A9E\u306B\u95A2\u4FC2\u306A\u304F\u3001\u5FC5\u305A\u81EA\u7136\u306A\u65E5\u672C\u8A9E\u306E\u307F\u3067\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+      quick: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u7C21\u6F54\u306A\u56DE\u7B54\uFF081\u301C2\u6BB5\u843D\uFF09\u3002",
+      detailed: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u8A73\u7D30\u3067\u7DB2\u7F85\u7684\u306A\u8AAC\u660E\u3002",
+      standard: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u8981\u70B9\u3092\u62BC\u3055\u3048\u305F\u81EA\u7136\u306A\u56DE\u7B54\u3002",
+      summaryLabel: "\u62E1\u5F35\u6A5F\u80FD\u3067\u4EE5\u524D\u306B\u751F\u6210\u3055\u308C\u305F\u52D5\u753B\u306E\u8981\u7D04\uFF08\u53C2\u8003\u7528\uFF09\uFF1A",
+      transcriptLabel: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\uFF1A"
+    },
+    ru: {
+      persona: "\u0412\u044B \u2014 YouTube Summarizer AI, \u0438\u043D\u0442\u0435\u043B\u043B\u0435\u043A\u0442\u0443\u0430\u043B\u044C\u043D\u043E\u0435 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435 Chrome, \u0432\u0441\u0442\u0440\u043E\u0435\u043D\u043D\u043E\u0435 \u043F\u0440\u044F\u043C\u043E \u0432 YouTube.",
+      role: "\u0412\u044B \u043E\u0442\u0432\u0435\u0447\u0430\u0435\u0442\u0435 \u043D\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F \u043E \u0432\u0438\u0434\u0435\u043E strictly \u043D\u0430 \u043E\u0441\u043D\u043E\u0432\u0435 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430, \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442\u0430 \u0438 \u0433\u043E\u0442\u043E\u0432\u043E\u0433\u043E \u0440\u0435\u0437\u044E\u043C\u0435.",
+      identity: "\u0415\u0441\u043B\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0443\u043F\u043E\u043C\u0438\u043D\u0430\u0435\u0442 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435 \u0438\u043B\u0438 \u0441\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0442 \u043A\u0442\u043E \u0432\u044B, \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u0435, \u0447\u0442\u043E \u0432\u044B \u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u044F YouTube Summarizer AI.",
+      rule: "\u0421\u0422\u0420\u041E\u0413\u041E\u0415 \u0422\u0420\u0415\u0411\u041E\u0412\u0410\u041D\u0418\u0415 \u041A \u042F\u0417\u042B\u041A\u0423: \u041E\u0442\u0432\u0435\u0447\u0430\u0439\u0442\u0435 \u0418\u0421\u041A\u041B\u042E\u0427\u0418\u0422\u0415\u041B\u042C\u041D\u041E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435, \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E \u043E\u0442 \u044F\u0437\u044B\u043A\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u0430 \u0438\u043B\u0438 \u0432\u0438\u0434\u0435\u043E.",
+      quick: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u043A\u0440\u0430\u0442\u043A\u0438\u0439 \u0438 \u0447\u0435\u0442\u043A\u0438\u0439 \u043E\u0442\u0432\u0435\u0442 (1-2 \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0445 \u0430\u0431\u0437\u0430\u0446\u0430).",
+      detailed: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u043F\u043E\u0434\u0440\u043E\u0431\u043D\u043E\u0435 \u0438 \u0438\u0441\u0447\u0435\u0440\u043F\u044B\u0432\u0430\u044E\u0449\u0435\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435.",
+      standard: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u0441\u0431\u0430\u043B\u0430\u043D\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0439 \u0438 \u0435\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442 \u043F\u043E \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443.",
+      summaryLabel: "\u0420\u0410\u041D\u0415\u0415 \u0421\u0424\u041E\u0420\u041C\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415 \u0420\u0415\u0417\u042E\u041C\u0415 \u0412\u0418\u0414\u0415\u041E \u0412 \u0420\u0410\u0421\u0428\u0418\u0420\u0415\u041D\u0418\u0418 (\u0414\u041B\u042F \u0421\u041F\u0420\u0410\u0412\u041A\u0418):",
+      transcriptLabel: "\u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442 \u0432\u0438\u0434\u0435\u043E:"
+    },
+    zh: {
+      persona: "\u4F60\u662F YouTube Summarizer AI\uFF0C\u4E00\u6B3E\u76F4\u63A5\u5185\u5D4C\u4E8E YouTube \u7684\u667A\u80FD Chrome \u6269\u5C55\u7A0B\u5E8F\u52A9\u624B\u3002",
+      role: "\u8BF7\u4E25\u683C\u4F9D\u636E\u89C6\u9891\u9010\u5B57\u7A3F\u3001\u5B98\u65B9\u89C6\u9891\u4FE1\u606F\u548C\u5DF2\u751F\u6210\u7684\u89C6\u9891\u6458\u8981\u56DE\u7B54\u7528\u6237\u7684\u95EE\u9898\u3002",
+      identity: "\u5982\u679C\u7528\u6237\u63D0\u5230\u6269\u5C55\u7A0B\u5E8F\u6216\u8BE2\u95EE\u4F60\u7684\u8EAB\u4EFD\uFF0C\u8BF7\u660E\u786E\u786E\u8BA4\u4F60\u662F YouTube Summarizer AI \u6269\u5C55\u7A0B\u5E8F\u52A9\u624B\u3002",
+      rule: "\u3010\u5F3A\u5236\u8BED\u8A00\u8981\u6C42\u3011\u65E0\u8BBA\u63D0\u95EE\u6216\u89C6\u9891\u539F\u59CB\u8BED\u8A00\u4E3A\u4F55\uFF0C\u5FC5\u987B\u5168\u90E8\u4F7F\u7528\u4E2D\u6587\uFF08\u7B80\u4F53\u4E2D\u6587\uFF09\u56DE\u7B54\u3002",
+      quick: "\u671F\u671B\u957F\u5EA6\uFF1A\u7B80\u660E\u627C\u8981\u7684\u56DE\u7B54\uFF081-2\u4E2A\u7B80\u77ED\u6BB5\u843D\uFF09\u3002",
+      detailed: "\u671F\u671B\u957F\u5EA6\uFF1A\u8BE6\u5C3D\u800C\u6DF1\u5165\u7684\u89E3\u91CA\u5206\u6790\u3002",
+      standard: "\u671F\u671B\u957F\u5EA6\uFF1A\u81EA\u7136\u5E73\u8861\u3001\u76F4\u5954\u4E3B\u9898\u7684\u56DE\u7B54\u3002",
+      summaryLabel: "\u6B64\u524D\u5728\u6269\u5C55\u7A0B\u5E8F\u4E2D\u751F\u6210\u7684\u89C6\u9891\u6458\u8981\uFF08\u4F9B\u53C2\u8003\uFF09\uFF1A",
+      transcriptLabel: "\u89C6\u9891\u9010\u5B57\u7A3F\uFF1A"
+    }
+  };
+  var PromptService = class {
+    /**
+     * Condenses transcript to fit within AI model context limits
+     */
+    static condenseTranscriptForContext(transcript, maxChars) {
+      if (transcript.length <= maxChars) {
+        return transcript;
+      }
+      const introSize = Math.floor(maxChars * 0.4);
+      const middleSize = Math.floor(maxChars * 0.25);
+      const endSize = Math.floor(maxChars * 0.35);
+      const intro = transcript.slice(0, introSize);
+      const middleStart = Math.floor((transcript.length - middleSize) / 2);
+      const middle = transcript.slice(middleStart, middleStart + middleSize);
+      const end = transcript.slice(-endSize);
+      return `${intro}
+
+[... Progression de la vid\xE9o condens\xE9e pour respecter la m\xE9moire du mod\xE8le ...]
+
+${middle}
+
+[... Progression vers la conclusion ...]
+
+${end}`;
+    }
+    /**
+     * Builds system and user prompts for in-page video summarization
+     */
+    static buildPrompts(title, author, safeTranscript, lang, mode, meta = null) {
+      const resolvedMeta = meta || { title, author };
+      const { systemPrompt, userPrompt } = promptBuilder.buildSummaryPrompts(
+        title,
+        author,
+        safeTranscript,
+        lang,
+        mode,
+        "",
+        resolvedMeta
+      );
+      return { systemPrompt, userPrompt };
+    }
+    /**
+     * Builds chat system prompt for interactive Q&A
+     */
+    static buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode) {
+      const summaryText = arguments[4] || "";
+      const contextBlock = formatContextInfo(meta, lang);
+      const subStr = meta?.subscribers ? ` (${meta.subscribers})` : "";
+      const cleanLang = lang && CHAT_LANG_MAP[lang] ? lang : "fr";
+      const cfg = CHAT_LANG_MAP[cleanLang];
+      let lenDir = cfg.standard;
+      if (selectedChatMode === "quick") lenDir = cfg.quick;
+      else if (selectedChatMode === "detailed") lenDir = cfg.detailed;
+      const summaryBlock = summaryText && summaryText.trim() ? `
+${cfg.summaryLabel}
+"""
+${summaryText.trim()}
+"""
+` : "";
+      const channelDossier = meta?.channelDossier || arguments[5] || "";
+      const channelBlock = channelDossier ? `
+${channelDossier}
+` : "";
+      const channelDirective = channelDossier ? cleanLang === "fr" ? "\nDOSSIER DE CHA\xCENE : Un dossier officiel de la cha\xEEne et des derni\xE8res vid\xE9os est fourni ci-dessous. Utilise-le pour analyser le cr\xE9ateur, son parcours, ses th\xE8mes r\xE9cents et son ind\xE9pendance.\n" : "\nCHANNEL DOSSIER: An official channel dossier with recent videos is provided below. Use it to analyze the creator, topics, and editorial stance.\n" : "";
+      const commentsDossier = meta?.commentsDossier || arguments[6] || "";
+      const commentsBlock = commentsDossier ? `
+${commentsDossier}
+` : "";
+      const commentsDirective = commentsDossier ? cleanLang === "fr" ? "\nAVIS ET R\xC9ACTIONS DU PUBLIC : Une s\xE9lection de commentaires et r\xE9actions de la communaut\xE9 sous la vid\xE9o est fournie ci-dessous. Utilise-la fid\xE8lement pour analyser le ressenti g\xE9n\xE9ral, les d\xE9bats, les critiques et les r\xE9actions du public. Si l'utilisateur demande de retrouver un commentaire pr\xE9cis, mentionne un auteur (@pseudo) ou recherche un message particulier, identifie-le formellement dans la liste et cite-le textuellement avec son auteur et ses m\xE9tadonn\xE9es.\n" : "\nAUDIENCE & COMMUNITY REACTIONS: A selection of public comments and viewer feedback is provided below. Use them to accurately analyze community sentiment, praise, criticisms, and audience reception. If the user asks to find a specific comment, mentions a user handle (@handle), or searches for a particular message, locate it explicitly in the list and quote it verbatim with author and metadata.\n" : "";
+      const multiVideoDirective = safeTranscript.includes("[VID\xC9O EXTERNE") ? cleanLang === "fr" ? "\nCONTEXTE MULTI-VID\xC9OS : La discussion porte sur plusieurs vid\xE9os fournies dans la transcription ([VID\xC9O ACTUELLE] et [VID\xC9O EXTERNE ...]). Conserve la m\xE9moire et le contenu de chacune de ces vid\xE9os tout au long de la conversation. Compare leurs informations avec pr\xE9cision et ne pr\xE9tends jamais que tu ne peux pas acc\xE9der aux vid\xE9os externes d\xE9j\xE0 fournies.\n" : "\nMULTI-VIDEO CONTEXT: This discussion involves multiple YouTube videos provided in the transcript section ([VID\xC9O ACTUELLE] and [VID\xC9O EXTERNE ...]). Maintain continuous awareness of all referenced videos across the discussion. Accurately compare them and never claim you lack access to the provided external videos.\n" : "";
+      return `${cfg.persona}
+${cfg.role}
+${cfg.identity}
+
+${cfg.rule}${multiVideoDirective}${channelDirective}${commentsDirective}
+
+Title: "${meta?.title || ""}"
+Channel: "${meta?.author || ""}"${subStr}
+${contextBlock ? `
+${contextBlock}` : ""}${summaryBlock}${channelBlock}${commentsBlock}
+${cfg.transcriptLabel}
+"""
+${safeTranscript}
+"""
+
+WRITING & AUDIO PLAYBACK GUIDELINES:
+1. ${cfg.rule}
+2. ${lenDir}
+3. CONTINUOUS PROSE (TTS READY):
+   - Write in flowing, natural prose paragraphs without disjointed lists or decorative emojis for smooth audio playback.
+4. READABLE STRUCTURE:
+   - Break answers into short paragraphs with **bold** key terms.
+   - 100% faithful to the video content, transcript, and summary without hallucinations.`;
+    }
+  };
+
   // src/content/index.js
-  var state = createInPageState();
+  var state = {
+    extensionEnabled: true,
+    currentProvider: "lmstudio",
+    serverUrls: { lmstudio: "http://192.168.56.1:1234", ollama: "http://localhost:11434" },
+    apiKeys: { openai: "", gemini: "", claude: "", groq: "", deepseek: "" },
+    selectedModels: {},
+    availableLocalModels: {},
+    currentLang: "fr",
+    summaryMode: "standard",
+    temperature: "0.3",
+    maxTokens: "auto",
+    ttsSpeed: "1.0",
+    localWhisperUrl: "http://127.0.0.1:8000",
+    autoSummarize: false,
+    customPrompt: "",
+    selectedVoiceURI: "",
+    selectedMicDeviceId: "",
+    getActiveModel() {
+      return this.selectedModels[this.currentProvider] || "";
+    },
+    setActiveModel(m) {
+      this.selectedModels[this.currentProvider] = m;
+    },
+    savePreference(key, val) {
+      if (chrome?.storage?.local) chrome.storage.local.set({ [key]: val });
+    }
+  };
   var transcriptController = new InPageTranscriptController();
   var audioController = new InPageAudioController();
   var promptService = new PromptService();
   var bannerView = new BannerView(state);
   var settingsDrawer = new SettingsDrawerController(state, { bannerView });
-  var summaryViewController = new SummaryViewController({
-    transcriptController,
-    promptService,
-    audioController
-  });
+  var summaryViewController = new SummaryViewController({ transcriptController, promptService, audioController });
   var chatViewController = new ChatViewController({
     transcriptController,
     promptService,
@@ -5500,7 +6166,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
           if (tab === "transcript") {
             const currentVideoId = getVideoId();
             if (!transcriptController.cachedTranscript.segments || transcriptController.cachedTranscript.segments.length === 0 || transcriptController.cachedTranscript.videoId !== currentVideoId) {
-              transcriptController.extractYouTubeTranscript(state.currentLang, false);
+              transcriptController.extractYouTubeTranscript(state.currentLang, true);
             }
           }
         }
@@ -5523,7 +6189,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     document.getElementById("ytAiLangSelect")?.addEventListener("change", (e) => {
       state.currentLang = e.target.value;
       state.savePreference("targetLang", state.currentLang);
-      bannerView.applyLanguage(state.currentLang, summaryViewController, settingsDrawer);
+      bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController);
       audioController.populateVoiceDropdown(state.currentLang);
     });
     document.getElementById("ytAiProviderSelect")?.addEventListener("change", (e) => {
@@ -5535,6 +6201,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       const val = e.target.value.trim();
       state.apiKeys[state.currentProvider] = val;
       state.savePreference(`apiKey_${state.currentProvider}`, val);
+      if (state.keyVerified) delete state.keyVerified[state.currentProvider];
       bannerView.updateHeaderBadge();
     });
     document.getElementById("ytAiServerSelect")?.addEventListener("change", (e) => {
@@ -5569,7 +6236,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     document.getElementById("ytAiSpeakSummaryBtn")?.addEventListener("click", (e) => {
       const text = summaryViewController.fullSummaryMarkdown || document.getElementById("ytAiSummaryBody")?.innerText || "";
       if (text.trim()) {
-        audioController.speakText(text, e.currentTarget);
+        audioController.speakText(text, e.currentTarget, { lang: state.currentLang });
       } else {
         bannerView.showStatusBanner(I18N[state.currentLang]?.noSummaryToRead || "No summary to read", true);
       }
@@ -5589,15 +6256,16 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       });
     };
     document.getElementById("ytAiSendChatBtn")?.addEventListener("click", () => sendChat());
-    document.getElementById("ytAiChatInput")?.addEventListener("keydown", (e) => {
+    const chatInput = document.getElementById("ytAiChatInput");
+    chatInput?.addEventListener("input", () => {
+      chatInput.style.height = "auto";
+      chatInput.style.height = Math.min(chatInput.scrollHeight, 140) + "px";
+    });
+    chatInput?.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         sendChat();
       }
-    });
-    banner.querySelector(".yt-ai-chat-suggestions")?.addEventListener("click", (e) => {
-      const chip = e.target.closest(".yt-ai-suggestion-chip");
-      if (chip) sendChat(chip.getAttribute("data-question") || chip.textContent.trim());
     });
     document.getElementById("ytAiMicBtn")?.addEventListener("click", () => {
       audioController.toggleDictation({
@@ -5614,6 +6282,13 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     document.getElementById("ytAiSaveTxtBtn")?.addEventListener("click", () => ExportHandler.downloadTxt(summaryViewController.fullSummaryMarkdown, getVideoId()));
     document.getElementById("ytAiSaveJsonBtn")?.addEventListener("click", () => ExportHandler.downloadJson(summaryViewController.fullSummaryMarkdown, getVideoId(), transcriptController.cachedTranscript));
     banner.addEventListener("click", (e) => {
+      const chip = e.target.closest(".yt-ai-suggestion-chip");
+      if (chip) {
+        e.preventDefault();
+        const q = chip.getAttribute("data-question") || chip.textContent.trim();
+        if (q) sendChat(q);
+        return;
+      }
       const link = e.target.closest(".yt-ai-timestamp-link");
       if (link && link.dataset.time !== void 0) {
         e.preventDefault();
@@ -5629,15 +6304,39 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         }
       }
     });
-    bannerView.applyLanguage(state.currentLang, summaryViewController, settingsDrawer);
+    bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController);
     settingsDrawer.syncProviderUI();
     if (state.summaryMode) bannerView.setSummaryMode(state.summaryMode);
     summaryViewController.renderSummaryEmptyState(false, state.currentLang, triggerSummarize);
   }
+  function loadPreferences(callback) {
+    if (!chrome?.storage?.local) return callback?.();
+    chrome.storage.local.get(null, (items = {}) => {
+      if (typeof items.extensionEnabled === "boolean") state.extensionEnabled = items.extensionEnabled;
+      if (items.aiProvider) state.currentProvider = items.aiProvider;
+      if (items.targetLang) state.currentLang = items.targetLang;
+      if (items.selectedModel) state.setActiveModel(items.selectedModel);
+      if (items.summaryMode) {
+        state.summaryMode = items.summaryMode;
+        bannerView.currentMode = items.summaryMode;
+      }
+      if (items.temperature) state.temperature = items.temperature;
+      if (items.maxTokens) state.maxTokens = items.maxTokens;
+      if (typeof items.autoSummarize === "boolean") state.autoSummarize = items.autoSummarize;
+      if (items.localWhisperUrl) state.localWhisperUrl = items.localWhisperUrl;
+      if (items.ttsSpeed) state.ttsSpeed = items.ttsSpeed;
+      if (items.selectedVoiceURI) state.selectedVoiceURI = items.selectedVoiceURI;
+      ["openai", "gemini", "claude", "groq", "deepseek", "lmstudio", "ollama"].forEach((p) => {
+        if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`];
+        if (items[`serverUrl_${p}`]) state.serverUrls[p] = items[`serverUrl_${p}`];
+        if (items[`selectedModel_${p}`]) state.selectedModels[p] = items[`selectedModel_${p}`];
+      });
+      callback?.();
+    });
+  }
   function initContentScript() {
     ThemeManager.initThemeSync();
-    loadPreferences(state, () => {
-      if (state.summaryMode) bannerView.currentMode = state.summaryMode;
+    loadPreferences(() => {
       bannerView.tryInjectBanner(bindBannerEvents);
       NavigationObserver.observeNavigation(({ isNewVideo }) => {
         if (isNewVideo) {
@@ -5668,7 +6367,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         } else if (act === "SET_LANGUAGE") {
           if (req.lang) {
             state.currentLang = req.lang;
-            bannerView.applyLanguage(state.currentLang, summaryViewController, settingsDrawer);
+            bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController);
             audioController.populateVoiceDropdown(state.currentLang);
           }
           sendResponse({ success: true });
