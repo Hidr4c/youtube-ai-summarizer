@@ -11,7 +11,7 @@ export const ACTIONS = {
 };
 
 export const DEFAULT_URLS = {
-  LMSTUDIO: 'http://192.168.56.1:1234',
+  LMSTUDIO: 'http://127.0.0.1:1234',
   OLLAMA: 'http://localhost:11434'
 };
 
@@ -25,7 +25,7 @@ export const DEFAULT_SETTINGS = {
   aiProvider: 'lmstudio',
   targetLang: 'en',
   summaryMode: 'standard',
-  serverUrl_lmstudio: 'http://192.168.56.1:1234',
+  serverUrl_lmstudio: 'http://127.0.0.1:1234',
   serverUrl_ollama: 'http://localhost:11434',
   temperature: '0.3',
   maxTokens: 'auto',

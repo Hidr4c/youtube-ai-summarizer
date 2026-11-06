@@ -15,7 +15,7 @@ import { PromptService } from './services/PromptService.js';
 const state = {
   extensionEnabled: true,
   currentProvider: 'lmstudio',
-  serverUrls: { lmstudio: 'http://192.168.56.1:1234', ollama: 'http://localhost:11434' },
+  serverUrls: { lmstudio: 'http://127.0.0.1:1234', ollama: 'http://localhost:11434' },
   apiKeys: { openai: '', gemini: '', claude: '', groq: '', deepseek: '' },
   selectedModels: {},
   availableLocalModels: {},
@@ -124,7 +124,7 @@ function bindBannerEvents(banner) {
   });
   document.getElementById('ytAiServerSelect')?.addEventListener('change', (e) => {
     const isOllama = state.currentProvider === 'ollama';
-    const def = isOllama ? 'http://localhost:11434' : 'http://192.168.56.1:1234';
+    const def = isOllama ? 'http://localhost:11434' : 'http://127.0.0.1:1234';
     if (e.target.value === 'custom') {
       const custom = prompt(`Address for ${isOllama ? 'Ollama' : 'LM Studio'}:`, state.serverUrls[state.currentProvider] || def);
       if (custom) {

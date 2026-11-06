@@ -466,8 +466,8 @@
      * @param {string} serverUrl
      * @returns {Promise<Array<{ id: string, name?: string }>>}
      */
-    async fetchModels(serverUrl = "http://192.168.56.1:1234") {
-      const cleanUrl = this.normalizeUrl(serverUrl, "http://192.168.56.1:1234");
+    async fetchModels(serverUrl = "http://127.0.0.1:1234") {
+      const cleanUrl = this.normalizeUrl(serverUrl, "http://127.0.0.1:1234");
       const res = await this.fetchWithTimeout(`${cleanUrl}/v1/models`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json = await res.json();
@@ -478,10 +478,10 @@
      * @param {string} serverUrl
      * @returns {Promise<{ ok: boolean, latencyMs?: number, error?: string }>}
      */
-    async testConnection(serverUrl = "http://192.168.56.1:1234") {
+    async testConnection(serverUrl = "http://127.0.0.1:1234") {
       const start = performance.now();
       try {
-        const cleanUrl = this.normalizeUrl(serverUrl, "http://192.168.56.1:1234");
+        const cleanUrl = this.normalizeUrl(serverUrl, "http://127.0.0.1:1234");
         const res = await this.fetchWithTimeout(`${cleanUrl}/v1/models`, {}, 3e3);
         const latencyMs = Math.round(performance.now() - start);
         return { ok: res.ok, latencyMs };

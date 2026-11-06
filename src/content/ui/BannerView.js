@@ -158,7 +158,7 @@ export class BannerView {
     if (this.state.currentProvider === 'lmstudio' || this.state.currentProvider === 'ollama') {
       const name = this.state.currentProvider === 'ollama' ? 'Ollama' : 'LM Studio';
       const models = this.state.availableLocalModels[this.state.currentProvider] || [];
-      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (this.state.currentProvider === 'ollama' ? 'http://localhost:11434' : 'http://192.168.56.1:1234');
+      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (this.state.currentProvider === 'ollama' ? 'http://localhost:11434' : 'http://127.0.0.1:1234');
       const cleanHost = currentUrl.replace(/https?:\/\//, '');
 
       if (models.length > 0) {

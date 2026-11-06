@@ -1845,7 +1845,7 @@
                   <label id="ytAiServerLabel">${t.serverLabel || "Server:"}</label>
                   <div class="yt-ai-input-with-btn">
                     <select id="ytAiServerSelect" class="yt-ai-select" style="flex: 1;">
-                      <option value="http://192.168.56.1:1234">192.168.56.1:1234</option>
+                      <option value="http://127.0.0.1:1234">127.0.0.1:1234</option>
                       <option value="http://localhost:1234">localhost:1234</option>
                       <option value="http://127.0.0.1:1234">127.0.0.1:1234</option>
                       <option value="custom">${t.customServer || "Custom IP..."}</option>
@@ -2461,7 +2461,7 @@
       if (this.state.currentProvider === "lmstudio" || this.state.currentProvider === "ollama") {
         const name2 = this.state.currentProvider === "ollama" ? "Ollama" : "LM Studio";
         const models = this.state.availableLocalModels[this.state.currentProvider] || [];
-        const currentUrl = this.state.serverUrls[this.state.currentProvider] || (this.state.currentProvider === "ollama" ? "http://localhost:11434" : "http://192.168.56.1:1234");
+        const currentUrl = this.state.serverUrls[this.state.currentProvider] || (this.state.currentProvider === "ollama" ? "http://localhost:11434" : "http://127.0.0.1:1234");
         const cleanHost = currentUrl.replace(/https?:\/\//, "");
         if (models.length > 0) {
           badge.className = "yt-ai-badge online";
@@ -2516,7 +2516,7 @@
     static refreshModelsList(ctx, showFeedback = false, onModelsLoaded = null, onFallbackNeeded = null) {
       if (ctx.currentProvider !== "lmstudio" && ctx.currentProvider !== "ollama") return;
       const isOllama = ctx.currentProvider === "ollama";
-      const defaultHost = isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234";
+      const defaultHost = isOllama ? "http://localhost:11434" : "http://127.0.0.1:1234";
       const currentUrl = ctx.serverUrls[ctx.currentProvider] || defaultHost;
       chrome.runtime.sendMessage({
         action: "FETCH_MODELS",
@@ -2543,8 +2543,8 @@
      */
     static tryFallbackUrls(ctx, testedUrls = [], onSuccess = null, onExhausted = null) {
       const isOllama = ctx.currentProvider === "ollama";
-      const defaults = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434", "http://192.168.56.1:11434"] : ["http://192.168.56.1:1234", "http://localhost:1234", "http://127.0.0.1:1234"];
-      const currentUrl = ctx.serverUrls[ctx.currentProvider] || (isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234");
+      const defaults = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434"] : ["http://127.0.0.1:1234", "http://localhost:1234"];
+      const currentUrl = ctx.serverUrls[ctx.currentProvider] || (isOllama ? "http://localhost:11434" : "http://127.0.0.1:1234");
       if (!testedUrls.includes(currentUrl)) testedUrls.push(currentUrl);
       const candidate = defaults.find((u) => !testedUrls.includes(u));
       if (!candidate) {
@@ -2960,9 +2960,9 @@
       const serverSelect = document.getElementById("ytAiServerSelect");
       if (!serverSelect) return;
       const isOllama = this.state.currentProvider === "ollama";
-      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234");
+      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? "http://localhost:11434" : "http://127.0.0.1:1234");
       serverSelect.innerHTML = "";
-      const presets = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434", "http://192.168.56.1:11434"] : ["http://192.168.56.1:1234", "http://localhost:1234", "http://127.0.0.1:1234"];
+      const presets = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434"] : ["http://127.0.0.1:1234", "http://localhost:1234"];
       presets.forEach((u) => {
         const opt = document.createElement("option");
         opt.value = u;
@@ -6113,7 +6113,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
   var state = {
     extensionEnabled: true,
     currentProvider: "lmstudio",
-    serverUrls: { lmstudio: "http://192.168.56.1:1234", ollama: "http://localhost:11434" },
+    serverUrls: { lmstudio: "http://127.0.0.1:1234", ollama: "http://localhost:11434" },
     apiKeys: { openai: "", gemini: "", claude: "", groq: "", deepseek: "" },
     selectedModels: {},
     availableLocalModels: {},
@@ -6212,7 +6212,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     });
     document.getElementById("ytAiServerSelect")?.addEventListener("change", (e) => {
       const isOllama = state.currentProvider === "ollama";
-      const def = isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234";
+      const def = isOllama ? "http://localhost:11434" : "http://127.0.0.1:1234";
       if (e.target.value === "custom") {
         const custom = prompt(`Address for ${isOllama ? "Ollama" : "LM Studio"}:`, state.serverUrls[state.currentProvider] || def);
         if (custom) {

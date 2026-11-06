@@ -185,10 +185,10 @@ describe('Regression Suite - Bug Prevention & Integration Contracts', () => {
   it('URL Normalization: guarantees local endpoints are properly formatted', () => {
     const provider = new BaseAIProvider('lmstudio', 'LM Studio', true);
 
-    assert.equal(provider.normalizeUrl('192.168.56.1:1234'), 'http://192.168.56.1:1234');
+    assert.equal(provider.normalizeUrl('192.168.1.50:1234'), 'http://192.168.1.50:1234');
     assert.equal(provider.normalizeUrl('localhost:11434'), 'http://localhost:11434');
     assert.equal(provider.normalizeUrl('http://localhost:11434/'), 'http://localhost:11434');
-    assert.equal(provider.normalizeUrl('http://192.168.56.1:1234///'), 'http://192.168.56.1:1234');
+    assert.equal(provider.normalizeUrl('http://192.168.1.50:1234///'), 'http://192.168.1.50:1234');
     assert.equal(provider.normalizeUrl('https://api.deepseek.com/v1'), 'https://api.deepseek.com/v1');
   });
 

@@ -76,7 +76,7 @@ export class SettingsDrawerTemplate {
                   <label id="ytAiServerLabel">${t.serverLabel || 'Server:'}</label>
                   <div class="yt-ai-input-with-btn">
                     <select id="ytAiServerSelect" class="yt-ai-select" style="flex: 1;">
-                      <option value="http://192.168.56.1:1234">192.168.56.1:1234</option>
+                      <option value="http://127.0.0.1:1234">127.0.0.1:1234</option>
                       <option value="http://localhost:1234">localhost:1234</option>
                       <option value="http://127.0.0.1:1234">127.0.0.1:1234</option>
                       <option value="custom">${t.customServer || 'Custom IP...'}</option>

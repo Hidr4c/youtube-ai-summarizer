@@ -159,11 +159,11 @@ export class SettingsDrawerController {
     if (!serverSelect) return;
 
     const isOllama = this.state.currentProvider === 'ollama';
-    const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? 'http://localhost:11434' : 'http://192.168.56.1:1234');
+    const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? 'http://localhost:11434' : 'http://127.0.0.1:1234');
     serverSelect.innerHTML = '';
     const presets = isOllama
-      ? ['http://localhost:11434', 'http://127.0.0.1:11434', 'http://192.168.56.1:11434']
-      : ['http://192.168.56.1:1234', 'http://localhost:1234', 'http://127.0.0.1:1234'];
+      ? ['http://localhost:11434', 'http://127.0.0.1:11434']
+      : ['http://127.0.0.1:1234', 'http://localhost:1234'];
 
     presets.forEach(u => {
       const opt = document.createElement('option');
