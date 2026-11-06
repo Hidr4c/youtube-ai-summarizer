@@ -1647,7 +1647,8 @@
       }
       const footerAuthor = document.getElementById("ytAiFooterAuthor");
       if (footerAuthor) {
-        footerAuthor.innerHTML = `YouTube Summarizer AI <strong>v1.3.2</strong> ${escapeHtml(t.footerBy || "by")} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
+        const extVer = typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v1.4.0";
+        footerAuthor.innerHTML = `YouTube Summarizer AI <strong>${extVer}</strong> ${escapeHtml(t.footerBy || "by")} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
       }
       const bugLink = document.getElementById("ytAiFooterBugLink");
       if (bugLink) bugLink.textContent = `\u{1F41B} ${t.footerReportBug || "Report a bug"}`;
@@ -1972,7 +1973,7 @@
      */
     static render(t, options = {}) {
       const drawerHtml = SettingsDrawerTemplate.render(t, options);
-      const version = options.version || "v1.3.2";
+      const version = options.version || (typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v1.4.0");
       const currentMode = options.currentMode || "standard";
       const currentLang = options.currentLang || "fr";
       const suggestionsHtml = Array.isArray(t.suggestions) && t.suggestions.length > 0 ? t.suggestions.map((s) => `<span class="yt-ai-suggestion-chip" data-question="${(s.question || "").replace(/"/g, "&quot;")}">${s.label}</span>`).join("") : `<span class="yt-ai-suggestion-chip" data-question="What are the core key takeaways from this video?">\u{1F4A1} Key takeaways</span><span class="yt-ai-suggestion-chip" data-question="At what point in the video is the main topic discussed?">\u23F1\uFE0F Timestamps</span><span class="yt-ai-suggestion-chip" data-question="What specific figures, examples, or arguments are presented?">\u{1F4CA} Data & Figures</span><span class="yt-ai-suggestion-chip" data-question="What is the author's final conclusion or actionable advice?">\u{1F3AF} Conclusion & Advice</span>`;
@@ -2377,7 +2378,7 @@
       const lang = this.state.currentLang || "en";
       const t = I18N[lang] || I18N.en;
       safeSetInnerHTML(banner, BannerTemplate.render(t, {
-        version: "v1.3.2",
+        version: typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v1.4.0",
         currentMode: this.currentMode || this.state.summaryMode || "standard",
         currentLang: lang
       }));

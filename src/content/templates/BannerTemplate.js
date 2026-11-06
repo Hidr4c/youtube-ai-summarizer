@@ -12,7 +12,7 @@ export class BannerTemplate {
    */
   static render(t, options = {}) {
     const drawerHtml = SettingsDrawerTemplate.render(t, options);
-    const version = options.version || 'v1.3.2';
+    const version = options.version || ((typeof chrome !== 'undefined' && chrome.runtime?.getManifest) ? `v${chrome.runtime.getManifest().version}` : 'v1.4.0');
     const currentMode = options.currentMode || 'standard';
     const currentLang = options.currentLang || 'fr';
     const suggestionsHtml = (Array.isArray(t.suggestions) && t.suggestions.length > 0)

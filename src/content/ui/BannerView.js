@@ -63,7 +63,7 @@ export class BannerView {
     const lang = this.state.currentLang || 'en';
     const t = I18N[lang] || I18N.en;
     safeSetInnerHTML(banner, BannerTemplate.render(t, {
-      version: 'v1.3.2',
+      version: (typeof chrome !== 'undefined' && chrome.runtime?.getManifest) ? `v${chrome.runtime.getManifest().version}` : 'v1.4.0',
       currentMode: this.currentMode || this.state.summaryMode || 'standard',
       currentLang: lang
     }));

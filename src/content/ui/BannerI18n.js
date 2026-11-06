@@ -152,7 +152,8 @@ export class BannerI18n {
     // Dynamic Footer Author & Links translation
     const footerAuthor = document.getElementById('ytAiFooterAuthor');
     if (footerAuthor) {
-      footerAuthor.innerHTML = `YouTube Summarizer AI <strong>v1.3.2</strong> ${escapeHtml(t.footerBy || 'by')} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
+      const extVer = (typeof chrome !== 'undefined' && chrome.runtime?.getManifest) ? `v${chrome.runtime.getManifest().version}` : 'v1.4.0';
+      footerAuthor.innerHTML = `YouTube Summarizer AI <strong>${extVer}</strong> ${escapeHtml(t.footerBy || 'by')} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
     }
     const bugLink = document.getElementById('ytAiFooterBugLink');
     if (bugLink) bugLink.textContent = `🐛 ${t.footerReportBug || 'Report a bug'}`;

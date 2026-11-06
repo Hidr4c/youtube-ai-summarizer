@@ -352,6 +352,9 @@
       if (disabledDesc) disabledDesc.textContent = t.disabledDesc;
       const summarizeBtnText = document.getElementById("summarizeBtnText");
       if (summarizeBtnText) summarizeBtnText.textContent = t.summarize;
+      const extVersion = typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v1.4.0";
+      const versionEl = document.getElementById("brandVersion");
+      if (versionEl) versionEl.textContent = `${extVersion} \u2022 Privacy-First`;
       this.updateStatusPill(this.extensionEnabled);
       this.renderCards();
     }
