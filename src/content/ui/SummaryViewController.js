@@ -77,9 +77,10 @@ export class SummaryViewController {
       return;
     }
 
-    const currentProvider = ctx.currentProvider || 'lmstudio';
+    const stateObj = ctx.state || ctx;
+    const currentProvider = ctx.currentProvider || stateObj.currentProvider || 'lmstudio';
     const isLocal = (currentProvider === 'lmstudio' || currentProvider === 'ollama');
-    const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : '';
+    const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : (stateObj.apiKeys ? stateObj.apiKeys[currentProvider] : '');
 
     if (!isLocal && !key) {
       if (typeof ctx.showStatusBanner === 'function') {
@@ -148,7 +149,8 @@ export class SummaryViewController {
       const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(fullText, maxAllowedChars);
       const { systemPrompt, userPrompt } = this.promptService.constructor.buildPrompts(meta.title, meta.author, safeTranscript, lang, mode, meta);
 
-      const serverUrl = ctx.serverUrls ? (ctx.serverUrls[currentProvider] || '') : '';
+      const serverUrls = ctx.serverUrls || stateObj.serverUrls || {};
+      const serverUrl = serverUrls[currentProvider] || (stateObj.serverUrl || '');
       this.activePort = chrome.runtime.connect({ name: 'ai-stream' });
 
       this.activePort.postMessage({

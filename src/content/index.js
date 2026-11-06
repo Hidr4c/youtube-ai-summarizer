@@ -51,8 +51,8 @@ const triggerSummarize = () => {
   bannerView.setExpanded(true);
   bannerView.switchTab('summary');
   summaryViewController.startSummarization({
-    state,
-    currentLang: state.currentLang,
+    state, currentLang: state.currentLang, currentProvider: state.currentProvider,
+    serverUrls: state.serverUrls, apiKeys: state.apiKeys,
     getActiveModel: () => state.getActiveModel(),
     showStatusBanner: (msg, isErr) => bannerView.showStatusBanner(msg, isErr)
   });

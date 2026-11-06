@@ -201,7 +201,7 @@
       let endpoint = "";
       const headers = { "Content-Type": "application/json" };
       if (provider === "lmstudio") {
-        let base = (serverUrl || "http://192.168.56.1:1234").trim().replace(/\/+$/, "");
+        let base = (serverUrl || "http://127.0.0.1:1234").trim().replace(/\/+$/, "");
         if (!/^https?:\/\//i.test(base)) base = "http://" + base;
         endpoint = `${base}/v1/chat/completions`;
       } else if (provider === "ollama") {
