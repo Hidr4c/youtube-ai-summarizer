@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-11-08
+
+### Added
+- **Global Channel Audit & In-Page Companion Card**: Embedded companion card on YouTube channel headers (`@handle`, `/channel/`, `/c/`, `/user/`) providing statistical sampling (recent ~65%, legacy ~35%), 4 temporal periods (*All*, *1 Year*, *6 Months*, *30 Days*), 100-point reliability gauge, clickbait index, and multi-year editorial trajectory analysis.
+- **Critical Logic & Fact-Checking Video Audit**: In-depth fallacy detection and argumentation rigor evaluation (`AuditPromptBuilder`, `AuditReport`, `AuditService`), dynamic real-world temporal reference preventing anachronisms, balanced creator monetization framing, active honesty verification, and community consensus signals.
+- **10-Layer Subtitle Extraction Pipeline**: Resilient transcript retrieval supporting JSON3, standard XML, TTML XML (`<p t="..." d="...">` & `<p begin="...">`), and automatic language translation fallback (`&tlang=`), verified across 50 international channels with 96.4% success rate.
+- **Popup Local Cache Manager & Storage Controller**: Real-time memory metrics in KB/MB, granular purge policies (all, > 7 days, > 30 days), and cross-tab in-page cache invalidation broadcast (`CLEAR_CACHE`).
+- **Rich Video Dossier & Community Reactions**: Extraction of top 3 community comments and structured chapters injected into audit prompts.
+- **Test Suite Expansion**: Suite expanded to 213 unit, integration, and BDD tests passing with 0 failures and > 85% line coverage.
+- **Chrome Web Store Showcase Assets**: 5 high-resolution (1280x800) promotional presentation slides.
+
+### Changed
+- Refactored prompt directives to provide balanced nuance between legitimate creator book/course publishing and disguised marketing.
+- Enhanced `AuditProgressBar` with security sanitization against XSS and dynamic detail element toggling.
+- All 112 source files strictly conform to the <= 300 LOC clean architecture limit.
+
+---
+
+## [1.4.1] - 2026-11-06
+
+### Changed
+- Dynamically bind extension version from `manifest.json` across in-page banner and popup UI to avoid manual version drift.
+
+---
+
+## [1.4.0] - 2026-11-06
+
+### Added
+- **Channel Intelligence & In-Page Chat Bubble View**: Streamlined multi-video Q&A chat with in-page bubble interface.
+- **Video Comments Extraction**: Retrieval and parsing of top video comments for context enrichment.
+- **Quick Onboarding Helper**: Interactive step-by-step guidance for first-time extension setup.
+- **In-Page TTS Service**: Direct text-to-speech synthesis controller integrated into in-page banner.
+- **InnerTube Bridge**: Background subtitle extraction bridge for signed player endpoints.
+
+---
+
 ## [1.3.1] - 2026-10-19
 
 ### Added

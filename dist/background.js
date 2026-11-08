@@ -794,7 +794,7 @@
       let title = "";
       const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
       if (titleMatch) title = titleMatch[1].replace(/\s*-\s*YouTube\s*$/i, "").trim();
-      const timedtextSegments = _BackgroundTranscriptFetcher.extractTimedtextFromHtml(html, lang);
+      const timedtextSegments = await _BackgroundTranscriptFetcher.extractTimedtextFromHtml(html, lang);
       if (timedtextSegments?.length > 0) {
         return { title, segments: timedtextSegments };
       }
@@ -1173,7 +1173,7 @@
       if (bio) {
         lines.push(`- **Bio Officielle** :
 """
-${bio.slice(0, 1e3)}
+${bio.trim()}
 """`);
       }
       if (recentVideos.length > 0) {
@@ -1309,10 +1309,106 @@ ${bio.slice(0, 1e3)}
         `### [Avis du Public] Commentaires et r\xE9actions (${comments.length} avis populaires) :`
       ];
       comments.forEach((c, idx) => {
-        const cleanText = c.text.replace(/\n+/g, " ").slice(0, 300);
+        const cleanText = c.text.replace(/\n+/g, " ").trim();
         lines.push(`- **${c.author}** (${c.likes} likes, ${c.time}) : "${cleanText}"`);
       });
       return lines.join("\n");
+    }
+  };
+
+  // src/background/VideoDossierFetcher.js
+  var VideoDossierFetcher = class _VideoDossierFetcher {
+    /**
+     * Fetches rich dossier for a single video ID
+     * @param {string} videoId
+     * @param {string} [lang='fr']
+     * @returns {Promise<Object>}
+     */
+    static async fetchDossier(videoId, lang = "fr") {
+      if (!videoId) return null;
+      const url = `https://www.youtube.com/watch?v=${videoId}`;
+      try {
+        const res = await fetch(url, {
+          headers: {
+            "Accept-Language": `${lang},en;q=0.8`,
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+          },
+          credentials: "include"
+        });
+        if (!res.ok) return null;
+        const html = await res.text();
+        let title = "";
+        const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
+        if (titleMatch) title = titleMatch[1].replace(/\s*-\s*YouTube\s*$/i, "").trim();
+        let description = "";
+        const descIdx = html.indexOf('"shortDescription":"');
+        if (descIdx !== -1) {
+          const start = descIdx + '"shortDescription":"'.length;
+          let end = start, esc = false;
+          while (end < html.length) {
+            if (esc) esc = false;
+            else if (html[end] === "\\") esc = true;
+            else if (html[end] === '"') break;
+            end++;
+          }
+          try {
+            description = JSON.parse(`"${html.substring(start, end)}"`);
+          } catch (_) {
+            description = html.substring(start, end);
+          }
+        }
+        const chapters = [];
+        const lines = description.split("\n");
+        for (const line of lines) {
+          const m = line.match(/^(\d{1,2}:\d{2}(?::\d{2})?)\s*[-–—]?\s*(.+)$/);
+          if (m) chapters.push(`[${m[1]}] ${m[2].trim()}`);
+        }
+        const hasCaptions = html.includes('"captionTracks":');
+        let comments = [];
+        try {
+          const comRes = await VideoCommentsFetcher.fetchVideoComments(videoId, 3);
+          if (comRes?.success && Array.isArray(comRes.comments)) {
+            comments = comRes.comments.map((c) => ({
+              author: c.author || "Anonyme",
+              text: (c.text || "").replace(/\s+/g, " ").trim().slice(0, 140),
+              likes: c.likes || "0"
+            }));
+          }
+        } catch (_) {
+        }
+        return {
+          videoId,
+          title,
+          description: description.slice(0, 1200),
+          chapters: chapters.slice(0, 12),
+          hasCaptions,
+          comments
+        };
+      } catch (_) {
+        return null;
+      }
+    }
+    /**
+     * Fetches multiple video dossiers in parallel batches
+     * @param {Array<string>} videoIds
+     * @param {string} [lang='fr']
+     * @param {number} [concurrency=4]
+     * @returns {Promise<Map<string, Object>>}
+     */
+    static async fetchDossiersBatch(videoIds = [], lang = "fr", concurrency = 4) {
+      const results = /* @__PURE__ */ new Map();
+      if (!Array.isArray(videoIds) || videoIds.length === 0) return results;
+      const queue = [...videoIds];
+      const workers = Array.from({ length: Math.min(concurrency, queue.length) }, async () => {
+        while (queue.length > 0) {
+          const vId = queue.shift();
+          if (!vId) continue;
+          const dossier = await _VideoDossierFetcher.fetchDossier(vId, lang);
+          if (dossier) results.set(vId, dossier);
+        }
+      });
+      await Promise.all(workers);
+      return results;
     }
   };
 
@@ -1322,7 +1418,7 @@ ${bio.slice(0, 1e3)}
       chrome.runtime.onConnect.addListener((port) => {
         if (port.name === "ai-stream" || port.name === "lm-studio-stream" || port.name === "YT_AI_STREAM") {
           port.onMessage.addListener((msg) => {
-            if (msg.action === "START_STREAM" || msg.action === "CHAT_STREAM" || msg.action === "STREAM_CHAT") {
+            if (msg.action === "START_STREAM" || msg.action === "CHAT_STREAM" || msg.action === "STREAM_CHAT" || msg.action === "GENERATE_STREAM" || msg.action === "AUDIT_STREAM") {
               StreamRelay.handleStream(msg, port);
             }
           });
@@ -1421,6 +1517,15 @@ ${bio.slice(0, 1e3)}
         if (request.action === "FETCH_WATCH_PAGE_TRANSCRIPT") {
           const { videoId, lang = "fr" } = request;
           BackgroundTranscriptFetcher.fetchTranscript(videoId, lang).then((res) => sendResponse(res)).catch((err) => sendResponse({ success: false, error: err.message }));
+          return true;
+        }
+        if (request.action === "FETCH_BATCH_DOSSIERS") {
+          const { videoIds = [], lang = "fr" } = request;
+          VideoDossierFetcher.fetchDossiersBatch(videoIds, lang).then((map) => {
+            const obj = {};
+            for (const [k, v] of map.entries()) obj[k] = v;
+            sendResponse({ success: true, dossiers: obj });
+          }).catch((err) => sendResponse({ success: false, error: err.message }));
           return true;
         }
       });
