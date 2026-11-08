@@ -39,6 +39,24 @@ export class IStorageService {
   async setMultiple(items) {
     throw new Error('Not implemented');
   }
+
+  /**
+   * Removes value for a specific key
+   * @param {string} key
+   * @returns {Promise<void>}
+   */
+  async remove(key) {
+    throw new Error('Not implemented');
+  }
+
+  /**
+   * Removes multiple keys at once
+   * @param {Array<string>} keys
+   * @returns {Promise<void>}
+   */
+  async removeMultiple(keys) {
+    throw new Error('Not implemented');
+  }
 }
 
 export default IStorageService;

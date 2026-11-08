@@ -86,6 +86,40 @@ export class ChromeStorageService extends IStorageService {
       await this.set(k, v);
     }
   }
+
+  /**
+   * @param {string} key
+   * @returns {Promise<void>}
+   */
+  async remove(key) {
+    if (this.isChromeStorageAvailable) {
+      return new Promise((resolve) => {
+        chrome.storage.local.remove([key], () => resolve());
+      });
+    }
+
+    try {
+      localStorage.removeItem(key);
+    } catch {}
+  }
+
+  /**
+   * @param {Array<string>} keys
+   * @returns {Promise<void>}
+   */
+  async removeMultiple(keys) {
+    if (this.isChromeStorageAvailable) {
+      return new Promise((resolve) => {
+        chrome.storage.local.remove(keys, () => resolve());
+      });
+    }
+
+    for (const k of keys) {
+      try {
+        localStorage.removeItem(k);
+      } catch {}
+    }
+  }
 }
 
 export default ChromeStorageService;
