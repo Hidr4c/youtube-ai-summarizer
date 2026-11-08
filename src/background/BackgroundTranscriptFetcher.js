@@ -46,7 +46,7 @@ export class BackgroundTranscriptFetcher {
     if (titleMatch) title = titleMatch[1].replace(/\s*-\s*YouTube\s*$/i, '').trim();
 
     // 1. Try timedtext captions
-    const timedtextSegments = BackgroundTranscriptFetcher.extractTimedtextFromHtml(html, lang);
+    const timedtextSegments = await BackgroundTranscriptFetcher.extractTimedtextFromHtml(html, lang);
     if (timedtextSegments?.length > 0) {
       return { title, segments: timedtextSegments };
     }

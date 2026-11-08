@@ -144,7 +144,7 @@ export class VideoCommentsFetcher {
     ];
 
     comments.forEach((c, idx) => {
-      const cleanText = c.text.replace(/\n+/g, ' ').slice(0, 300);
+      const cleanText = c.text.replace(/\n+/g, ' ').trim();
       lines.push(`- **${c.author}** (${c.likes} likes, ${c.time}) : "${cleanText}"`);
     });
 

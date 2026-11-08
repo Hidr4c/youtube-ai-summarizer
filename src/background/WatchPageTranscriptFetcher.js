@@ -102,6 +102,29 @@ export class WatchPageTranscriptFetcher {
       }
     }
 
+    if (segments.length > 0) return segments;
+
+    // 3. Try parsing TTML / XML format (<p t="1500" d="2000">...</p> or <p begin="1.5s">...</p>)
+    const pRegex = /<p\b[^>]*\b(?:t="(\d+)"|begin="([\d.]+)s?"?)[^>]*>([\s\S]*?)<\/p>/gi;
+    let pMatch;
+    while ((pMatch = pRegex.exec(rawText)) !== null) {
+      const sec = pMatch[1] ? Math.floor(parseInt(pMatch[1], 10) / 1000) : Math.floor(parseFloat(pMatch[2]) || 0);
+      const m = Math.floor(sec / 60);
+      const s = (sec % 60).toString().padStart(2, '0');
+      const text = pMatch[3]
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/<[^>]+>/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+      if (text) {
+        segments.push({ timestamp: `${m}:${s}`, startMs: sec * 1000, text });
+      }
+    }
+
     return segments;
   }
 
@@ -169,12 +192,25 @@ export class WatchPageTranscriptFetcher {
         return { success: false, videoId, title, author, error: 'No track baseUrl' };
       }
 
-      const ttUrl = track.baseUrl + (track.baseUrl.includes('?') ? '&' : '?') + 'fmt=json3';
-      const ttRes = await fetch(ttUrl, { credentials: 'include' });
+      // 1. Try language-translated JSON3 if target language differs from track
       let ttText = '';
-      if (ttRes.ok) {
-        ttText = await ttRes.text();
-      } else {
+      if (track.languageCode !== lang && !track.languageCode?.startsWith(lang)) {
+        const transUrl = track.baseUrl + (track.baseUrl.includes('?') ? '&' : '?') + `tlang=${lang}&fmt=json3`;
+        try {
+          const transRes = await fetch(transUrl, { credentials: 'include' });
+          if (transRes.ok) ttText = await transRes.text();
+        } catch (_) {}
+      }
+
+      // 2. Try direct JSON3
+      if (!ttText || !ttText.trim()) {
+        const ttUrl = track.baseUrl + (track.baseUrl.includes('?') ? '&' : '?') + 'fmt=json3';
+        const ttRes = await fetch(ttUrl, { credentials: 'include' });
+        if (ttRes.ok) ttText = await ttRes.text();
+      }
+
+      // 3. Fallback to raw XML / TTML
+      if (!ttText || !ttText.trim()) {
         const fallbackRes = await fetch(track.baseUrl, { credentials: 'include' });
         if (fallbackRes.ok) ttText = await fallbackRes.text();
       }

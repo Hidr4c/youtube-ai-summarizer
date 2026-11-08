@@ -3,6 +3,7 @@ import { AIProviderFactory } from '../services/ai/providers/AIProviderFactory.js
 import { BackgroundTranscriptFetcher } from './BackgroundTranscriptFetcher.js';
 import { ChannelIntelligenceFetcher } from './ChannelIntelligenceFetcher.js';
 import { VideoCommentsFetcher } from './VideoCommentsFetcher.js';
+import { VideoDossierFetcher } from './VideoDossierFetcher.js';
 
 /**
  * Message routing controller for background service worker
@@ -13,7 +14,7 @@ export class MessageRouter {
     chrome.runtime.onConnect.addListener((port) => {
       if (port.name === 'ai-stream' || port.name === 'lm-studio-stream' || port.name === 'YT_AI_STREAM') {
         port.onMessage.addListener((msg) => {
-          if (msg.action === 'START_STREAM' || msg.action === 'CHAT_STREAM' || msg.action === 'STREAM_CHAT') {
+          if (msg.action === 'START_STREAM' || msg.action === 'CHAT_STREAM' || msg.action === 'STREAM_CHAT' || msg.action === 'GENERATE_STREAM' || msg.action === 'AUDIT_STREAM') {
             StreamRelay.handleStream(msg, port);
           }
         });
@@ -132,6 +133,18 @@ export class MessageRouter {
         const { videoId, lang = 'fr' } = request;
         BackgroundTranscriptFetcher.fetchTranscript(videoId, lang)
           .then(res => sendResponse(res))
+          .catch(err => sendResponse({ success: false, error: err.message }));
+        return true;
+      }
+
+      if (request.action === 'FETCH_BATCH_DOSSIERS') {
+        const { videoIds = [], lang = 'fr' } = request;
+        VideoDossierFetcher.fetchDossiersBatch(videoIds, lang)
+          .then(map => {
+            const obj = {};
+            for (const [k, v] of map.entries()) obj[k] = v;
+            sendResponse({ success: true, dossiers: obj });
+          })
           .catch(err => sendResponse({ success: false, error: err.message }));
         return true;
       }
