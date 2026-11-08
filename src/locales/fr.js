@@ -154,7 +154,23 @@ export const fr = {
   "analyzingChannelNotice": "Recherche du dossier officiel de la chaîne ({query})...",
   "fetchingCommentsNotice": "Récupération des commentaires et avis du public...",
   "externalTranscriptError": "Impossible d'extraire les sous-titres ou chapitres pour la vidéo externe ({videoId}). Raisons possibles : aucun sous-titre ni chapitre disponible, ou restriction d'accès YouTube. Vous pouvez ouvrir l'onglet de cette vidéo pour la résumer directement.",
-  "retryBtn": "🔄 Réessayer"
+  "retryBtn": "🔄 Réessayer",
+  "tabAudit": "🛡️ Audit & Fact-Check",
+  "auditTitle": "🛡️ Critical Audit, Logic & Veracity",
+  "runAuditBtn": "⚡ Lancer l'audit",
+  "relaunchAuditBtn": "⚡ Relancer l'audit",
+  "auditInProgress": "Audit en cours...",
+  "auditStarting": "Préparation du dossier d'audit...",
+  "auditAnalyzing": "Examen de la cohérence logique et des faits en cours...",
+  "auditPlaceholder": "Cliquez sur « ⚡ Lancer l'audit » pour analyser la rigueur logique, les sophismes et la véracité des faits.",
+  "discussInChatBtn": "💬 Discuter dans le Chat",
+  "auditChannelBtn": "🔍 Auditer la chaîne",
+  "channelAuditTitle": "📊 Audit Global de la Chaîne",
+  "channelSampleInfo": "Échantillonnage temporel pondéré",
+  "periodFilterLabel": "Période analysée :",
+  "periodAll": "Tout l'historique",
+  "periodMonth": "Dernier mois",
+  "periodYear": "Année en cours",
+  "period6Months": "6 derniers mois"
 };
-
 export default fr;

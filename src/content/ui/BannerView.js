@@ -106,6 +106,7 @@ export class BannerView {
     const tabMap = {
       summary: { btn: 'ytAiTabSummaryBtn', pane: 'ytAiPaneSummary' },
       chat: { btn: 'ytAiTabChatBtn', pane: 'ytAiPaneChat' },
+      audit: { btn: 'ytAiTabAuditBtn', pane: 'ytAiPaneAudit' },
       transcript: { btn: 'ytAiTabTranscriptBtn', pane: 'ytAiPaneTranscript' }
     };
 

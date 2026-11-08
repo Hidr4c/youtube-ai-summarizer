@@ -18,6 +18,7 @@ export function createInPageState() {
     customPrompt: '',
     selectedVoiceURI: '',
     selectedMicDeviceId: '',
+    cachedAuditReport: null,
     getActiveModel() {
       return this.selectedModels[this.currentProvider] || '';
     },

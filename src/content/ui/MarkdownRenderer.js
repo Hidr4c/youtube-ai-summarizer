@@ -171,7 +171,8 @@ export class MarkdownRenderer {
     }
 
     if (inUl) html += '</ul>';
-    MarkdownRenderer.safeSetInnerHTML(container, html);
+    if (container) { MarkdownRenderer.safeSetInnerHTML(container, html); }
+    return html;
   }
 }
 

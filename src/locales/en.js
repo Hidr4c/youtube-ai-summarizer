@@ -154,7 +154,23 @@ export const en = {
   "analyzingChannelNotice": "Fetching official channel dossier for {query}...",
   "fetchingCommentsNotice": "Fetching top public comments and audience reactions...",
   "externalTranscriptError": "Unable to extract subtitles or chapters for external video ({videoId}). Possible reasons: no captions or chapters available, or YouTube access restrictions. You can open this video in a tab to summarize it directly.",
-  "retryBtn": "🔄 Retry"
+  "retryBtn": "🔄 Retry",
+  "tabAudit": "🛡️ Audit & Fact-Check",
+  "auditTitle": "🛡️ Critical Audit, Logic & Veracity",
+  "runAuditBtn": "⚡ Run Audit",
+  "relaunchAuditBtn": "⚡ Re-run Audit",
+  "auditInProgress": "Audit in progress...",
+  "auditStarting": "Preparing audit dossier...",
+  "auditAnalyzing": "Examining logical consistency and facts...",
+  "auditPlaceholder": "Click \"⚡ Run Audit\" to analyze logical rigor, fallacies, and factual accuracy.",
+  "discussInChatBtn": "💬 Discuss in Chat",
+  "auditChannelBtn": "🔍 Audit Channel",
+  "channelAuditTitle": "📊 Global Channel Audit",
+  "channelSampleInfo": "Weighted temporal sampling",
+  "periodFilterLabel": "Analyzed period:",
+  "periodAll": "All history",
+  "periodMonth": "Last month",
+  "periodYear": "Current year",
+  "period6Months": "Last 6 months"
 };
-
 export default en;

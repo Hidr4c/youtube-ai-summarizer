@@ -18,6 +18,7 @@ export class ChatViewController {
     this.promptService = dependencies.promptService;
     this.audioController = dependencies.audioController;
     this.summaryViewController = dependencies.summaryViewController;
+    this.auditViewController = dependencies.auditViewController;
     this.transcriptManager = new ChatTranscriptManager();
     this.channelManager = new ChannelIntelligenceManager();
     this.commentsManager = new VideoCommentsManager();
@@ -77,6 +78,10 @@ export class ChatViewController {
   }
 
   resetChatOutput(currentLang = 'en') {
+    this.handleClearChat(currentLang);
+  }
+
+  resetChatForNewVideo(currentLang = 'en') {
     this.handleClearChat(currentLang);
   }
 
@@ -228,6 +233,9 @@ export class ChatViewController {
     }
 
     const summaryText = isMultiVideo ? '' : (this.summaryViewController?.fullSummaryMarkdown || ctx.summaryText || '');
+    const auditReport = stateObj.cachedAuditReport || this.auditViewController?.lastReport || null;
+    const auditBlock = auditReport?.toChatContextBlock?.() || '';
+
     const aiBubble = this.appendChatBubble('ai', '');
     aiBubble.classList.add('yt-ai-typing');
 
@@ -239,7 +247,8 @@ export class ChatViewController {
       selectedChatMode,
       summaryText,
       channelDossierBlock,
-      commentsBlock
+      commentsBlock,
+      auditBlock
     );
 
     const historyPayload = this.chatHistory.slice(-8);
