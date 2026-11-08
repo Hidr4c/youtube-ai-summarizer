@@ -63,7 +63,7 @@ export class BannerView {
     const lang = this.state.currentLang || 'en';
     const t = I18N[lang] || I18N.en;
     safeSetInnerHTML(banner, BannerTemplate.render(t, {
-      version: 'v1.3.2',
+      version: (typeof chrome !== 'undefined' && chrome.runtime?.getManifest) ? `v${chrome.runtime.getManifest().version}` : 'v1.4.0',
       currentMode: this.currentMode || this.state.summaryMode || 'standard',
       currentLang: lang
     }));
@@ -106,6 +106,7 @@ export class BannerView {
     const tabMap = {
       summary: { btn: 'ytAiTabSummaryBtn', pane: 'ytAiPaneSummary' },
       chat: { btn: 'ytAiTabChatBtn', pane: 'ytAiPaneChat' },
+      audit: { btn: 'ytAiTabAuditBtn', pane: 'ytAiPaneAudit' },
       transcript: { btn: 'ytAiTabTranscriptBtn', pane: 'ytAiPaneTranscript' }
     };
 
@@ -158,7 +159,7 @@ export class BannerView {
     if (this.state.currentProvider === 'lmstudio' || this.state.currentProvider === 'ollama') {
       const name = this.state.currentProvider === 'ollama' ? 'Ollama' : 'LM Studio';
       const models = this.state.availableLocalModels[this.state.currentProvider] || [];
-      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (this.state.currentProvider === 'ollama' ? 'http://localhost:11434' : 'http://192.168.56.1:1234');
+      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (this.state.currentProvider === 'ollama' ? 'http://localhost:11434' : 'http://127.0.0.1:1234');
       const cleanHost = currentUrl.replace(/https?:\/\//, '');
 
       if (models.length > 0) {

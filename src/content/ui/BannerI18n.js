@@ -14,8 +14,9 @@ export class BannerI18n {
    * @param {Object} [summaryViewController]
    * @param {Object} [chatViewController]
    * @param {boolean} [isExpanded=false]
+   * @param {Object} [auditViewController]
    */
-  static applyLanguage(lang, state, summaryViewController = null, chatViewController = null, isExpanded = false) {
+  static applyLanguage(lang, state, summaryViewController = null, chatViewController = null, isExpanded = false, auditViewController = null) {
     if (state) state.currentLang = lang;
     const t = I18N[lang] || I18N.en;
 
@@ -69,6 +70,9 @@ export class BannerI18n {
       tabChatBtn.innerHTML = `${escapeHtml(t.tabChat || '💬 Ask a question')} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
     }
 
+    const tabAuditBtn = document.getElementById('ytAiTabAuditBtn');
+    if (tabAuditBtn) tabAuditBtn.textContent = t.tabAudit || '🛡️ Audit & Fact-Check';
+
     const tabTranscriptBtn = document.getElementById('ytAiTabTranscriptBtn');
     if (tabTranscriptBtn) {
       const rawCount = (document.getElementById('ytAiWordCount')?.textContent || '0').trim();
@@ -81,6 +85,7 @@ export class BannerI18n {
     // Tab Panes & Footer
     BannerI18n.applySummaryLanguage(t, state, summaryViewController);
     BannerI18n.applyChatLanguage(t, state, chatViewController);
+    BannerI18n.applyAuditLanguage(t, auditViewController, lang);
     BannerI18n.applyTranscriptAndFooter(t);
   }
 
@@ -98,7 +103,6 @@ export class BannerI18n {
     const saveJsonBtn = document.getElementById('ytAiSaveJsonBtn');
     if (saveJsonBtn) saveJsonBtn.textContent = t.saveJsonBtn || '📦 .json';
 
-    // Live state and empty/loading/error translation
     if (typeof summaryViewController?.applyLanguage === 'function') {
       summaryViewController.applyLanguage(state?.currentLang || 'en');
     } else {
@@ -141,6 +145,23 @@ export class BannerI18n {
     if (typeof chatViewController?.applyLanguage === 'function') chatViewController.applyLanguage(state?.currentLang || 'en');
   }
 
+  static applyAuditLanguage(t, auditViewController, lang) {
+    if (typeof auditViewController?.applyLanguage === 'function') {
+      auditViewController.applyLanguage(lang);
+    } else {
+      const headerTitle = document.getElementById('ytAiAuditHeaderTitle');
+      if (headerTitle) headerTitle.textContent = t.auditTitle || '🛡️ Audit Critique, Logique & Véracité';
+      const runBtn = document.getElementById('ytAiRunAuditBtn');
+      if (runBtn) runBtn.textContent = t.runAuditBtn || '⚡ Lancer l\'audit';
+      const discussBtn = document.getElementById('ytAiAuditChatDiscussBtn');
+      if (discussBtn) discussBtn.textContent = t.discussInChatBtn || '💬 Discuter dans le Chat';
+      const copyBtn = document.getElementById('ytAiCopyAuditBtn');
+      if (copyBtn) copyBtn.textContent = t.copyBtn || '📋 Copier';
+      const placeholder = document.querySelector('#ytAiAuditBody > p');
+      if (placeholder) placeholder.textContent = t.auditPlaceholder || 'Cliquez sur "⚡ Lancer l\'audit" pour analyser la rigueur logique, les sophismes et la véracité des faits.';
+    }
+  }
+
   static applyTranscriptAndFooter(t) {
     const copyRawBtn = document.getElementById('ytAiCopyTranscriptBtn');
     if (copyRawBtn) copyRawBtn.textContent = t.copyRawBtn || '📋 Copy raw';
@@ -149,10 +170,10 @@ export class BannerI18n {
       body.innerHTML = `<div class="yt-ai-loading">${escapeHtml(t.transcriptWaiting || 'Waiting...')}</div>`;
     }
 
-    // Dynamic Footer Author & Links translation
     const footerAuthor = document.getElementById('ytAiFooterAuthor');
     if (footerAuthor) {
-      footerAuthor.innerHTML = `YouTube Summarizer AI <strong>v1.3.2</strong> ${escapeHtml(t.footerBy || 'by')} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
+      const extVer = (typeof chrome !== 'undefined' && chrome.runtime?.getManifest) ? `v${chrome.runtime.getManifest().version}` : 'v1.4.2';
+      footerAuthor.innerHTML = `YouTube Summarizer AI <strong>${extVer}</strong> ${escapeHtml(t.footerBy || 'by')} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
     }
     const bugLink = document.getElementById('ytAiFooterBugLink');
     if (bugLink) bugLink.textContent = `🐛 ${t.footerReportBug || 'Report a bug'}`;

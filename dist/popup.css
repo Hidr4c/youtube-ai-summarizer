@@ -347,6 +347,37 @@ input:checked + .slider:before {
   border-color: #58a6ff;
 }
 
+/* Cache Manager Card */
+.cache-card {
+  padding: 10px 12px;
+}
+
+.cache-desc {
+  font-size: 11px;
+  color: #8b949e;
+  line-height: 1.4;
+  margin: 6px 0 8px 0;
+}
+
+.cache-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cache-select {
+  flex: 1;
+  padding: 5px 8px;
+  font-size: 11px;
+}
+
+.cache-notice {
+  font-size: 10.5px;
+  color: #3fb950;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
 /* Utility */
 .hidden {
   display: none !important;

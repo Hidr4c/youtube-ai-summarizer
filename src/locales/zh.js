@@ -154,7 +154,23 @@ export const zh = {
   "analyzingChannelNotice": "正在获取 {query} 的官方频道档案...",
   "fetchingCommentsNotice": "正在获取热门评论和观众反馈...",
   "externalTranscriptError": "无法提取外部视频 ({videoId}) 的字幕或章节。可能的原因：无可用字幕或章节，或存在 YouTube 访问限制。",
-  "retryBtn": "🔄 重试"
+  "retryBtn": "🔄 重试",
+  "tabAudit": "🛡️ Audit & Fact-Check",
+  "auditTitle": "🛡️ 批判性逻辑审计与事实核查",
+  "runAuditBtn": "⚡ 开始审计",
+  "relaunchAuditBtn": "⚡ 重新审计",
+  "auditInProgress": "正在进行审计...",
+  "auditStarting": "正在准备审计档案...",
+  "auditAnalyzing": "正在核查逻辑一致性与事实...",
+  "auditPlaceholder": "点击“⚡ 开始审计”以分析逻辑严密性与事实真伪。",
+  "discussInChatBtn": "💬 在聊天中讨论",
+  "auditChannelBtn": "🔍 审计频道",
+  "channelAuditTitle": "📊 全频道总体审计",
+  "channelSampleInfo": "时间加权抽样",
+  "periodFilterLabel": "分析时间范围:",
+  "periodAll": "全部历史",
+  "periodMonth": "最近一个月",
+  "periodYear": "今年",
+  "period6Months": "最近6个月"
 };
-
 export default zh;

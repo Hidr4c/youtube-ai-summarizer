@@ -5,7 +5,7 @@ export function createInPageState() {
   return {
     extensionEnabled: true,
     currentProvider: 'lmstudio',
-    serverUrls: { lmstudio: 'http://192.168.56.1:1234', ollama: 'http://localhost:11434' },
+    serverUrls: { lmstudio: 'http://127.0.0.1:1234', ollama: 'http://localhost:11434' },
     apiKeys: { openai: '', gemini: '', claude: '', groq: '', deepseek: '' },
     selectedModels: {},
     availableLocalModels: {},
@@ -18,6 +18,7 @@ export function createInPageState() {
     customPrompt: '',
     selectedVoiceURI: '',
     selectedMicDeviceId: '',
+    cachedAuditReport: null,
     getActiveModel() {
       return this.selectedModels[this.currentProvider] || '';
     },

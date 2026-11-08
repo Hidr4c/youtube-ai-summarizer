@@ -1,15 +1,16 @@
 # Privacy Policy for YouTube Summarizer AI
 
-**Last updated:** October 19, 2026  
+**Last updated:** November 8, 2026  
 **Author:** Hidr4c ([https://github.com/Hidr4c](https://github.com/Hidr4c))  
 **Repository:** [https://github.com/Hidr4c/youtube-ai-summarizer](https://github.com/Hidr4c/youtube-ai-summarizer)
 
 ## 1. Overview
-YouTube Summarizer AI is a browser extension designed with a **privacy-first** architecture. It enables users to summarize YouTube videos and chat interactively with video transcripts using either **100% local AI models** (via LM Studio or Ollama) or user-configured Cloud AI providers (Google Gemini, Groq, OpenAI, Anthropic, etc.).
+YouTube Summarizer AI is a browser extension designed with a **privacy-first** architecture. It enables users to summarize YouTube videos, perform logical consistency audits, evaluate channel credibility, and chat interactively with video transcripts using either **100% local AI models** (via LM Studio or Ollama) or user-configured Cloud AI providers (Google Gemini, Groq, OpenAI, Anthropic, etc.).
 
 ## 2. Data Collection & Processing
 - **No Personal Data Collected:** The extension does not collect, log, track, or sell any personal data, browsing history, or analytics.
 - **Local Storage:** Your settings (selected language, model preferences, and API keys) are stored strictly inside your browser's local storage (`chrome.storage.local`). They never leave your device except when directly communicating with the AI service you have chosen.
+- **Local Video & Channel Cache:** Summaries, transcript snippets, and channel audit dossiers are cached locally in your browser's `chrome.storage.local` to conserve bandwidth and inference compute. You have full granular control over this cache via the popup Cache Manager and can purge items at any time.
 - **Audio & Microphone Access:** Microphone access is requested solely when you deliberately click the dictation button to speak a question. 
   - On Chrome: Transcription is handled by your browser's native Web Speech API.
   - On Whisper STT / Local Whisper: Audio is recorded in-memory via `MediaRecorder` and sent directly to your configured local Whisper server (e.g., `http://localhost:8000/v1/audio/transcriptions`) or Groq/OpenAI if you provided an API key. No audio recordings are permanently stored on disk or shared with third parties.

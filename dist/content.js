@@ -153,7 +153,24 @@
     "analyzingChannelNotice": "Recherche du dossier officiel de la cha\xEEne ({query})...",
     "fetchingCommentsNotice": "R\xE9cup\xE9ration des commentaires et avis du public...",
     "externalTranscriptError": "Impossible d'extraire les sous-titres ou chapitres pour la vid\xE9o externe ({videoId}). Raisons possibles : aucun sous-titre ni chapitre disponible, ou restriction d'acc\xE8s YouTube. Vous pouvez ouvrir l'onglet de cette vid\xE9o pour la r\xE9sumer directement.",
-    "retryBtn": "\u{1F504} R\xE9essayer"
+    "retryBtn": "\u{1F504} R\xE9essayer",
+    "tabAudit": "\u{1F6E1}\uFE0F Audit & Fact-Check",
+    "auditTitle": "\u{1F6E1}\uFE0F Critical Audit, Logic & Veracity",
+    "runAuditBtn": "\u26A1 Lancer l'audit",
+    "relaunchAuditBtn": "\u26A1 Relancer l'audit",
+    "auditInProgress": "Audit en cours...",
+    "auditStarting": "Pr\xE9paration du dossier d'audit...",
+    "auditAnalyzing": "Examen de la coh\xE9rence logique et des faits en cours...",
+    "auditPlaceholder": "Cliquez sur \xAB \u26A1 Lancer l'audit \xBB pour analyser la rigueur logique, les sophismes et la v\xE9racit\xE9 des faits.",
+    "discussInChatBtn": "\u{1F4AC} Discuter dans le Chat",
+    "auditChannelBtn": "\u{1F50D} Auditer la cha\xEEne",
+    "channelAuditTitle": "\u{1F4CA} Audit Global de la Cha\xEEne",
+    "channelSampleInfo": "\xC9chantillonnage temporel pond\xE9r\xE9",
+    "periodFilterLabel": "P\xE9riode analys\xE9e :",
+    "periodAll": "Tout l'historique",
+    "periodMonth": "Dernier mois",
+    "periodYear": "Ann\xE9e en cours",
+    "period6Months": "6 derniers mois"
   };
   var fr_default = fr;
 
@@ -311,7 +328,24 @@
     "analyzingChannelNotice": "Fetching official channel dossier for {query}...",
     "fetchingCommentsNotice": "Fetching top public comments and audience reactions...",
     "externalTranscriptError": "Unable to extract subtitles or chapters for external video ({videoId}). Possible reasons: no captions or chapters available, or YouTube access restrictions. You can open this video in a tab to summarize it directly.",
-    "retryBtn": "\u{1F504} Retry"
+    "retryBtn": "\u{1F504} Retry",
+    "tabAudit": "\u{1F6E1}\uFE0F Audit & Fact-Check",
+    "auditTitle": "\u{1F6E1}\uFE0F Critical Audit, Logic & Veracity",
+    "runAuditBtn": "\u26A1 Run Audit",
+    "relaunchAuditBtn": "\u26A1 Re-run Audit",
+    "auditInProgress": "Audit in progress...",
+    "auditStarting": "Preparing audit dossier...",
+    "auditAnalyzing": "Examining logical consistency and facts...",
+    "auditPlaceholder": 'Click "\u26A1 Run Audit" to analyze logical rigor, fallacies, and factual accuracy.',
+    "discussInChatBtn": "\u{1F4AC} Discuss in Chat",
+    "auditChannelBtn": "\u{1F50D} Audit Channel",
+    "channelAuditTitle": "\u{1F4CA} Global Channel Audit",
+    "channelSampleInfo": "Weighted temporal sampling",
+    "periodFilterLabel": "Analyzed period:",
+    "periodAll": "All history",
+    "periodMonth": "Last month",
+    "periodYear": "Current year",
+    "period6Months": "Last 6 months"
   };
   var en_default = en;
 
@@ -469,7 +503,24 @@
     "analyzingChannelNotice": "Obteniendo el expediente oficial del canal de {query}...",
     "fetchingCommentsNotice": "Obteniendo comentarios y reacciones del p\xFAblico...",
     "externalTranscriptError": "No se pudieron extraer subt\xEDtulos ni cap\xEDtulos para el video externo ({videoId}). Posibles causas: sin subt\xEDtulos ni cap\xEDtulos disponibles, o restricciones de YouTube. Puede abrir este video en una pesta\xF1a para resumirlo directamente.",
-    "retryBtn": "\u{1F504} Reintentar"
+    "retryBtn": "\u{1F504} Reintentar",
+    "tabAudit": "\u{1F6E1}\uFE0F Audit & Fact-Check",
+    "auditTitle": "\u{1F6E1}\uFE0F Auditor\xEDa Cr\xEDtica, L\xF3gica y Veracidad",
+    "runAuditBtn": "\u26A1 Iniciar auditor\xEDa",
+    "relaunchAuditBtn": "\u26A1 Reiniciar auditor\xEDa",
+    "auditInProgress": "Auditor\xEDa en curso...",
+    "auditStarting": "Preparando expediente de auditor\xEDa...",
+    "auditAnalyzing": "Examinando coherencia l\xF3gica y hechos...",
+    "auditPlaceholder": "Haga clic en '\u26A1 Iniciar auditor\xEDa' para analizar rigor l\xF3gico y hechos.",
+    "discussInChatBtn": "\u{1F4AC} Conversar en el Chat",
+    "auditChannelBtn": "\u{1F50D} Auditar canal",
+    "channelAuditTitle": "\u{1F4CA} Auditor\xEDa Global del Canal",
+    "channelSampleInfo": "Muestreo temporal ponderado",
+    "periodFilterLabel": "Per\xEDodo analizado:",
+    "periodAll": "Todo el historial",
+    "periodMonth": "\xDAltimo mes",
+    "periodYear": "A\xF1o actual",
+    "period6Months": "\xDAltimos 6 meses"
   };
   var es_default = es;
 
@@ -627,7 +678,24 @@
     "analyzingChannelNotice": "Offizielles Kanaldossier f\xFCr {query} wird abgerufen...",
     "fetchingCommentsNotice": "Top-Kommentare und Publikumsreaktionen werden abgerufen...",
     "externalTranscriptError": "Untertitel oder Kapitel f\xFCr das externe Video ({videoId}) konnten nicht extrahiert werden. M\xF6gliche Ursachen: keine Untertitel oder Kapitel verf\xFCgbar oder YouTube-Zugriffsbeschr\xE4nkungen.",
-    "retryBtn": "\u{1F504} Wiederholen"
+    "retryBtn": "\u{1F504} Wiederholen",
+    "tabAudit": "\u{1F6E1}\uFE0F Audit & Fact-Check",
+    "auditTitle": "\u{1F6E1}\uFE0F Kritisches Audit, Logik & Faktencheck",
+    "runAuditBtn": "\u26A1 Audit starten",
+    "relaunchAuditBtn": "\u26A1 Audit wiederholen",
+    "auditInProgress": "Audit l\xE4uft...",
+    "auditStarting": "Audit-Dossier wird vorbereitet...",
+    "auditAnalyzing": "Logische Konsistenz und Fakten werden gepr\xFCft...",
+    "auditPlaceholder": "Klicken Sie auf '\u26A1 Audit starten', um logische Strenge und Fakten zu analysieren.",
+    "discussInChatBtn": "\u{1F4AC} Im Chat diskutieren",
+    "auditChannelBtn": "\u{1F50D} Kanal pr\xFCfen",
+    "channelAuditTitle": "\u{1F4CA} Globales Kanal-Audit",
+    "channelSampleInfo": "Gewichtete Zeitstichprobe",
+    "periodFilterLabel": "Analysierter Zeitraum:",
+    "periodAll": "Gesamter Verlauf",
+    "periodMonth": "Letzter Monat",
+    "periodYear": "Aktuelles Jahr",
+    "period6Months": "Letzte 6 Monate"
   };
   var de_default = de;
 
@@ -785,7 +853,24 @@
     "analyzingChannelNotice": "Recupero del dossier ufficiale del canale di {query}...",
     "fetchingCommentsNotice": "Recupero dei commenti e delle reazioni del pubblico...",
     "externalTranscriptError": "Impossibile estrarre sottotitoli o capitoli per il video esterno ({videoId}). Possibili cause: nessun sottotitolo o capitolo disponibile, o restrizioni di accesso YouTube.",
-    "retryBtn": "\u{1F504} Riprova"
+    "retryBtn": "\u{1F504} Riprova",
+    "tabAudit": "\u{1F6E1}\uFE0F Audit & Fact-Check",
+    "auditTitle": "\u{1F6E1}\uFE0F Audit Critico, Logica & Veridicit\xE0",
+    "runAuditBtn": "\u26A1 Avvia audit",
+    "relaunchAuditBtn": "\u26A1 Riavvia audit",
+    "auditInProgress": "Audit in corso...",
+    "auditStarting": "Preparazione dossier audit...",
+    "auditAnalyzing": "Verifica della coerenza logica e dei fatti...",
+    "auditPlaceholder": "Clicca su '\u26A1 Avvia audit' per analizzare il rigore logico e la veridicit\xE0.",
+    "discussInChatBtn": "\u{1F4AC} Discuti nella Chat",
+    "auditChannelBtn": "\u{1F50D} Esamina canale",
+    "channelAuditTitle": "\u{1F4CA} Audit Globale del Canale",
+    "channelSampleInfo": "Campionamento temporale ponderato",
+    "periodFilterLabel": "Periodo analizzato:",
+    "periodAll": "Tutta la cronologia",
+    "periodMonth": "Ultimo mese",
+    "periodYear": "Anno in corso",
+    "period6Months": "Ultimi 6 mesi"
   };
   var it_default = it;
 
@@ -943,7 +1028,24 @@
     "analyzingChannelNotice": "\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0434\u043E\u0441\u044C\u0435 \u043A\u0430\u043D\u0430\u043B\u0430 {query}...",
     "fetchingCommentsNotice": "\u041F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u0435 \u043F\u043E\u043F\u0443\u043B\u044F\u0440\u043D\u044B\u0445 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0435\u0432 \u0438 \u0440\u0435\u0430\u043A\u0446\u0438\u0439 \u0430\u0443\u0434\u0438\u0442\u043E\u0440\u0438\u0438...",
     "externalTranscriptError": "\u041D\u0435 \u0443\u0434\u0430\u043B\u043E\u0441\u044C \u0438\u0437\u0432\u043B\u0435\u0447\u044C \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u044B \u0438\u043B\u0438 \u0433\u043B\u0430\u0432\u044B \u0434\u043B\u044F \u0432\u043D\u0435\u0448\u043D\u0435\u0433\u043E \u0432\u0438\u0434\u0435\u043E ({videoId}). \u0412\u043E\u0437\u043C\u043E\u0436\u043D\u044B\u0435 \u043F\u0440\u0438\u0447\u0438\u043D\u044B: \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u044B \u0438\u043B\u0438 \u0433\u043B\u0430\u0432\u044B \u043E\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u044E\u0442, \u043B\u0438\u0431\u043E \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u044E\u0442 \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u0438\u044F YouTube.",
-    "retryBtn": "\u{1F504} \u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u044C"
+    "retryBtn": "\u{1F504} \u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u044C",
+    "tabAudit": "\u{1F6E1}\uFE0F Audit & Fact-Check",
+    "auditTitle": "\u{1F6E1}\uFE0F \u041A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0430\u0443\u0434\u0438\u0442, \u043B\u043E\u0433\u0438\u043A\u0430 \u0438 \u043F\u0440\u043E\u0432\u0435\u0440\u043A\u0430 \u0444\u0430\u043A\u0442\u043E\u0432",
+    "runAuditBtn": "\u26A1 \u0417\u0430\u043F\u0443\u0441\u0442\u0438\u0442\u044C \u0430\u0443\u0434\u0438\u0442",
+    "relaunchAuditBtn": "\u26A1 \u041F\u0435\u0440\u0435\u0437\u0430\u043F\u0443\u0441\u0442\u0438\u0442\u044C \u0430\u0443\u0434\u0438\u0442",
+    "auditInProgress": "\u0410\u0443\u0434\u0438\u0442 \u0432\u044B\u043F\u043E\u043B\u043D\u044F\u0435\u0442\u0441\u044F...",
+    "auditStarting": "\u041F\u043E\u0434\u0433\u043E\u0442\u043E\u0432\u043A\u0430 \u0434\u043E\u0441\u044C\u0435 \u0430\u0443\u0434\u0438\u0442\u0430...",
+    "auditAnalyzing": "\u041F\u0440\u043E\u0432\u0435\u0440\u043A\u0430 \u043B\u043E\u0433\u0438\u0447\u0435\u0441\u043A\u043E\u0439 \u043F\u043E\u0441\u043B\u0435\u0434\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438 \u0438 \u0444\u0430\u043A\u0442\u043E\u0432...",
+    "auditPlaceholder": "\u041D\u0430\u0436\u043C\u0438\u0442\u0435 \xAB\u26A1 \u0417\u0430\u043F\u0443\u0441\u0442\u0438\u0442\u044C \u0430\u0443\u0434\u0438\u0442\xBB \u0434\u043B\u044F \u0430\u043D\u0430\u043B\u0438\u0437\u0430 \u043B\u043E\u0433\u0438\u043A\u0438 \u0438 \u0444\u0430\u043A\u0442\u043E\u0432.",
+    "discussInChatBtn": "\u{1F4AC} \u041E\u0431\u0441\u0443\u0434\u0438\u0442\u044C \u0432 \u0447\u0430\u0442\u0435",
+    "auditChannelBtn": "\u{1F50D} \u0410\u0443\u0434\u0438\u0442 \u043A\u0430\u043D\u0430\u043B\u0430",
+    "channelAuditTitle": "\u{1F4CA} \u041E\u0431\u0449\u0438\u0439 \u0430\u0443\u0434\u0438\u0442 \u043A\u0430\u043D\u0430\u043B\u0430",
+    "channelSampleInfo": "\u0412\u0437\u0432\u0435\u0448\u0435\u043D\u043D\u0430\u044F \u0432\u0440\u0435\u043C\u0435\u043D\u043D\u0430\u044F \u0432\u044B\u0431\u043E\u0440\u043A\u0430",
+    "periodFilterLabel": "\u041F\u0435\u0440\u0438\u043E\u0434 \u0430\u043D\u0430\u043B\u0438\u0437\u0430:",
+    "periodAll": "\u0412\u0441\u044F \u0438\u0441\u0442\u043E\u0440\u0438\u044F",
+    "periodMonth": "\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0439 \u043C\u0435\u0441\u044F\u0446",
+    "periodYear": "\u0422\u0435\u043A\u0443\u0449\u0438\u0439 \u0433\u043E\u0434",
+    "period6Months": "\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 6 \u043C\u0435\u0441\u044F\u0446\u0435\u0432"
   };
   var ru_default = ru;
 
@@ -1101,7 +1203,24 @@
     "analyzingChannelNotice": "{query} \u306E\u516C\u5F0F\u30C1\u30E3\u30F3\u30CD\u30EB\u60C5\u5831\u3092\u53D6\u5F97\u3057\u3066\u3044\u307E\u3059...",
     "fetchingCommentsNotice": "\u4EBA\u6C17\u30B3\u30E1\u30F3\u30C8\u3068\u8996\u8074\u8005\u306E\u53CD\u5FDC\u3092\u53D6\u5F97\u3057\u3066\u3044\u307E\u3059...",
     "externalTranscriptError": "\u5916\u90E8\u52D5\u753B\uFF08{videoId}\uFF09\u306E\u5B57\u5E55\u307E\u305F\u306F\u30C1\u30E3\u30D7\u30BF\u30FC\u3092\u62BD\u51FA\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F\u3002\u7406\u7531\uFF1A\u5B57\u5E55\u3084\u30C1\u30E3\u30D7\u30BF\u30FC\u304C\u5B58\u5728\u3057\u306A\u3044\u304B\u3001YouTube\u306E\u30A2\u30AF\u30BB\u30B9\u5236\u9650\u304C\u3042\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002",
-    "retryBtn": "\u{1F504} \u518D\u8A66\u884C"
+    "retryBtn": "\u{1F504} \u518D\u8A66\u884C",
+    "tabAudit": "\u{1F6E1}\uFE0F Audit & Fact-Check",
+    "auditTitle": "\u{1F6E1}\uFE0F \u6279\u5224\u7684\u76E3\u67FB\u30FB\u8AD6\u7406\u6027\u3068\u4E8B\u5B9F\u691C\u8A3C",
+    "runAuditBtn": "\u26A1 \u76E3\u67FB\u3092\u5B9F\u884C",
+    "relaunchAuditBtn": "\u26A1 \u76E3\u67FB\u3092\u518D\u5B9F\u884C",
+    "auditInProgress": "\u76E3\u67FB\u3092\u5B9F\u884C\u4E2D...",
+    "auditStarting": "\u76E3\u67FB\u30C9\u30AD\u30E5\u30E1\u30F3\u30C8\u3092\u6E96\u5099\u4E2D...",
+    "auditAnalyzing": "\u8AD6\u7406\u7684\u4E00\u8CAB\u6027\u3068\u4E8B\u5B9F\u95A2\u4FC2\u3092\u691C\u8A3C\u4E2D...",
+    "auditPlaceholder": "\u300C\u26A1 \u76E3\u67FB\u3092\u5B9F\u884C\u300D\u3092\u30AF\u30EA\u30C3\u30AF\u3057\u3066\u8AD6\u7406\u7684\u59A5\u5F53\u6027\u3068\u4E8B\u5B9F\u3092\u691C\u8A3C\u3057\u307E\u3059\u3002",
+    "discussInChatBtn": "\u{1F4AC} \u30C1\u30E3\u30C3\u30C8\u3067\u8B70\u8AD6",
+    "auditChannelBtn": "\u{1F50D} \u30C1\u30E3\u30F3\u30CD\u30EB\u3092\u76E3\u67FB",
+    "channelAuditTitle": "\u{1F4CA} \u30C1\u30E3\u30F3\u30CD\u30EB\u5168\u4F53\u76E3\u67FB",
+    "channelSampleInfo": "\u6642\u9593\u52A0\u91CD\u30B5\u30F3\u30D7\u30EA\u30F3\u30B0",
+    "periodFilterLabel": "\u5206\u6790\u671F\u9593:",
+    "periodAll": "\u5168\u5C65\u6B74",
+    "periodMonth": "\u904E\u53BB1\u304B\u6708",
+    "periodYear": "\u4ECA\u5E74",
+    "period6Months": "\u904E\u53BB6\u304B\u6708"
   };
   var ja_default = ja;
 
@@ -1259,7 +1378,24 @@
     "analyzingChannelNotice": "\u6B63\u5728\u83B7\u53D6 {query} \u7684\u5B98\u65B9\u9891\u9053\u6863\u6848...",
     "fetchingCommentsNotice": "\u6B63\u5728\u83B7\u53D6\u70ED\u95E8\u8BC4\u8BBA\u548C\u89C2\u4F17\u53CD\u9988...",
     "externalTranscriptError": "\u65E0\u6CD5\u63D0\u53D6\u5916\u90E8\u89C6\u9891 ({videoId}) \u7684\u5B57\u5E55\u6216\u7AE0\u8282\u3002\u53EF\u80FD\u7684\u539F\u56E0\uFF1A\u65E0\u53EF\u7528\u5B57\u5E55\u6216\u7AE0\u8282\uFF0C\u6216\u5B58\u5728 YouTube \u8BBF\u95EE\u9650\u5236\u3002",
-    "retryBtn": "\u{1F504} \u91CD\u8BD5"
+    "retryBtn": "\u{1F504} \u91CD\u8BD5",
+    "tabAudit": "\u{1F6E1}\uFE0F Audit & Fact-Check",
+    "auditTitle": "\u{1F6E1}\uFE0F \u6279\u5224\u6027\u903B\u8F91\u5BA1\u8BA1\u4E0E\u4E8B\u5B9E\u6838\u67E5",
+    "runAuditBtn": "\u26A1 \u5F00\u59CB\u5BA1\u8BA1",
+    "relaunchAuditBtn": "\u26A1 \u91CD\u65B0\u5BA1\u8BA1",
+    "auditInProgress": "\u6B63\u5728\u8FDB\u884C\u5BA1\u8BA1...",
+    "auditStarting": "\u6B63\u5728\u51C6\u5907\u5BA1\u8BA1\u6863\u6848...",
+    "auditAnalyzing": "\u6B63\u5728\u6838\u67E5\u903B\u8F91\u4E00\u81F4\u6027\u4E0E\u4E8B\u5B9E...",
+    "auditPlaceholder": "\u70B9\u51FB\u201C\u26A1 \u5F00\u59CB\u5BA1\u8BA1\u201D\u4EE5\u5206\u6790\u903B\u8F91\u4E25\u5BC6\u6027\u4E0E\u4E8B\u5B9E\u771F\u4F2A\u3002",
+    "discussInChatBtn": "\u{1F4AC} \u5728\u804A\u5929\u4E2D\u8BA8\u8BBA",
+    "auditChannelBtn": "\u{1F50D} \u5BA1\u8BA1\u9891\u9053",
+    "channelAuditTitle": "\u{1F4CA} \u5168\u9891\u9053\u603B\u4F53\u5BA1\u8BA1",
+    "channelSampleInfo": "\u65F6\u95F4\u52A0\u6743\u62BD\u6837",
+    "periodFilterLabel": "\u5206\u6790\u65F6\u95F4\u8303\u56F4:",
+    "periodAll": "\u5168\u90E8\u5386\u53F2",
+    "periodMonth": "\u6700\u8FD1\u4E00\u4E2A\u6708",
+    "periodYear": "\u4ECA\u5E74",
+    "period6Months": "\u6700\u8FD16\u4E2A\u6708"
   };
   var zh_default = zh;
 
@@ -1515,7 +1651,10 @@
         }
       }
       if (inUl) html += "</ul>";
-      _MarkdownRenderer.safeSetInnerHTML(container, html);
+      if (container) {
+        _MarkdownRenderer.safeSetInnerHTML(container, html);
+      }
+      return html;
     }
   };
   var safeSetInnerHTML = MarkdownRenderer.safeSetInnerHTML;
@@ -1535,8 +1674,9 @@
      * @param {Object} [summaryViewController]
      * @param {Object} [chatViewController]
      * @param {boolean} [isExpanded=false]
+     * @param {Object} [auditViewController]
      */
-    static applyLanguage(lang, state2, summaryViewController2 = null, chatViewController2 = null, isExpanded = false) {
+    static applyLanguage(lang, state2, summaryViewController2 = null, chatViewController2 = null, isExpanded = false, auditViewController2 = null) {
       if (state2) state2.currentLang = lang;
       const t = I18N[lang] || I18N.en;
       const langSelect = document.getElementById("ytAiLangSelect");
@@ -1577,6 +1717,8 @@
         const count = document.getElementById("ytAiChatCount")?.textContent || "0";
         tabChatBtn.innerHTML = `${escapeHtml(t.tabChat || "\u{1F4AC} Ask a question")} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
       }
+      const tabAuditBtn = document.getElementById("ytAiTabAuditBtn");
+      if (tabAuditBtn) tabAuditBtn.textContent = t.tabAudit || "\u{1F6E1}\uFE0F Audit & Fact-Check";
       const tabTranscriptBtn = document.getElementById("ytAiTabTranscriptBtn");
       if (tabTranscriptBtn) {
         const rawCount = (document.getElementById("ytAiWordCount")?.textContent || "0").trim();
@@ -1585,6 +1727,7 @@
       SettingsDrawerI18n.applyLanguage(lang);
       _BannerI18n.applySummaryLanguage(t, state2, summaryViewController2);
       _BannerI18n.applyChatLanguage(t, state2, chatViewController2);
+      _BannerI18n.applyAuditLanguage(t, auditViewController2, lang);
       _BannerI18n.applyTranscriptAndFooter(t);
     }
     static applySummaryLanguage(t, state2, summaryViewController2) {
@@ -1638,6 +1781,22 @@
       if (micBtn) micBtn.title = t.micTitle || "Dictate question";
       if (typeof chatViewController2?.applyLanguage === "function") chatViewController2.applyLanguage(state2?.currentLang || "en");
     }
+    static applyAuditLanguage(t, auditViewController2, lang) {
+      if (typeof auditViewController2?.applyLanguage === "function") {
+        auditViewController2.applyLanguage(lang);
+      } else {
+        const headerTitle = document.getElementById("ytAiAuditHeaderTitle");
+        if (headerTitle) headerTitle.textContent = t.auditTitle || "\u{1F6E1}\uFE0F Audit Critique, Logique & V\xE9racit\xE9";
+        const runBtn = document.getElementById("ytAiRunAuditBtn");
+        if (runBtn) runBtn.textContent = t.runAuditBtn || "\u26A1 Lancer l'audit";
+        const discussBtn = document.getElementById("ytAiAuditChatDiscussBtn");
+        if (discussBtn) discussBtn.textContent = t.discussInChatBtn || "\u{1F4AC} Discuter dans le Chat";
+        const copyBtn = document.getElementById("ytAiCopyAuditBtn");
+        if (copyBtn) copyBtn.textContent = t.copyBtn || "\u{1F4CB} Copier";
+        const placeholder = document.querySelector("#ytAiAuditBody > p");
+        if (placeholder) placeholder.textContent = t.auditPlaceholder || `Cliquez sur "\u26A1 Lancer l'audit" pour analyser la rigueur logique, les sophismes et la v\xE9racit\xE9 des faits.`;
+      }
+    }
     static applyTranscriptAndFooter(t) {
       const copyRawBtn = document.getElementById("ytAiCopyTranscriptBtn");
       if (copyRawBtn) copyRawBtn.textContent = t.copyRawBtn || "\u{1F4CB} Copy raw";
@@ -1647,7 +1806,8 @@
       }
       const footerAuthor = document.getElementById("ytAiFooterAuthor");
       if (footerAuthor) {
-        footerAuthor.innerHTML = `YouTube Summarizer AI <strong>v1.3.2</strong> ${escapeHtml(t.footerBy || "by")} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
+        const extVer = typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v1.4.2";
+        footerAuthor.innerHTML = `YouTube Summarizer AI <strong>${extVer}</strong> ${escapeHtml(t.footerBy || "by")} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
       }
       const bugLink = document.getElementById("ytAiFooterBugLink");
       if (bugLink) bugLink.textContent = `\u{1F41B} ${t.footerReportBug || "Report a bug"}`;
@@ -1844,7 +2004,7 @@
                   <label id="ytAiServerLabel">${t.serverLabel || "Server:"}</label>
                   <div class="yt-ai-input-with-btn">
                     <select id="ytAiServerSelect" class="yt-ai-select" style="flex: 1;">
-                      <option value="http://192.168.56.1:1234">192.168.56.1:1234</option>
+                      <option value="http://127.0.0.1:1234">127.0.0.1:1234</option>
                       <option value="http://localhost:1234">localhost:1234</option>
                       <option value="http://127.0.0.1:1234">127.0.0.1:1234</option>
                       <option value="custom">${t.customServer || "Custom IP..."}</option>
@@ -1972,7 +2132,7 @@
      */
     static render(t, options = {}) {
       const drawerHtml = SettingsDrawerTemplate.render(t, options);
-      const version = options.version || "v1.3.2";
+      const version = options.version || (typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v1.4.2");
       const currentMode = options.currentMode || "standard";
       const currentLang = options.currentLang || "fr";
       const suggestionsHtml = Array.isArray(t.suggestions) && t.suggestions.length > 0 ? t.suggestions.map((s) => `<span class="yt-ai-suggestion-chip" data-question="${(s.question || "").replace(/"/g, "&quot;")}">${s.label}</span>`).join("") : `<span class="yt-ai-suggestion-chip" data-question="What are the core key takeaways from this video?">\u{1F4A1} Key takeaways</span><span class="yt-ai-suggestion-chip" data-question="At what point in the video is the main topic discussed?">\u23F1\uFE0F Timestamps</span><span class="yt-ai-suggestion-chip" data-question="What specific figures, examples, or arguments are presented?">\u{1F4CA} Data & Figures</span><span class="yt-ai-suggestion-chip" data-question="What is the author's final conclusion or actionable advice?">\u{1F3AF} Conclusion & Advice</span>`;
@@ -2041,13 +2201,16 @@
         <!-- BANNI\xC8RE DE STATUT / MESSAGES INFORMATIFS -->
         <div id="ytAiStatusBanner" class="yt-ai-reasoning yt-ai-hidden"></div>
 
-        <!-- NAVIGATION PAR ONGLETS (SYNTH\xC8SE / CHAT / TRANSCRIPTION) -->
+        <!-- NAVIGATION PAR ONGLETS (SYNTH\xC8SE / CHAT / AUDIT / TRANSCRIPTION) -->
         <div class="yt-ai-tabs-nav">
           <button id="ytAiTabSummaryBtn" class="yt-ai-tab-btn active" data-tab="summary">
             ${t.tabSummary || "\u{1F4DD} AI Summary"}
           </button>
           <button id="ytAiTabChatBtn" class="yt-ai-tab-btn" data-tab="chat">
             ${t.tabChat || "\u{1F4AC} Ask a question"} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">0</span>
+          </button>
+          <button id="ytAiTabAuditBtn" class="yt-ai-tab-btn" data-tab="audit">
+            ${t.tabAudit || "\u{1F6E1}\uFE0F Audit & Fact-Check"}
           </button>
           <button id="ytAiTabTranscriptBtn" class="yt-ai-tab-btn" data-tab="transcript">
             ${t.tabTranscript || "\u{1F4DC} Transcript"} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">0 ${t.wordsBadge || "words"}</span>
@@ -2116,7 +2279,60 @@
           </div>
         </div>
 
-        <!-- ONGLET 3 : TRANSCRIPTION BRUTE -->
+        <!-- ONGLET 3 : AUDIT & FACT-CHECKING (VID\xC9O VS CHA\xCENE) -->
+        <div id="ytAiPaneAudit" class="yt-ai-tab-pane">
+          <div class="yt-ai-summary-pane" style="max-height: 480px;">
+            <!-- S\xE9lecteur distinct : Audit Vid\xE9o vs Audit Cha\xEEne -->
+            <div class="yt-ai-audit-mode-switcher" style="display: flex; gap: 8px; margin-bottom: 10px; border-bottom: 1px solid var(--yt-ai-border); padding-bottom: 8px;">
+              <button id="ytAiAuditSubtabVideoBtn" class="yt-ai-format-pill active" style="font-size: 11px;">\u{1F4F9} ${t.subtabAuditVideo || "Audit de cette vid\xE9o"}</button>
+              <button id="ytAiAuditSubtabChannelBtn" class="yt-ai-format-pill" style="font-size: 11px;">\u{1F4CA} ${t.subtabAuditChannel || "Audit de toute la cha\xEEne"}</button>
+            </div>
+
+            <!-- VUE 1 : AUDIT DE LA VID\xC9O SP\xC9CIFIQUE -->
+            <div id="ytAiAuditVideoView">
+              <div class="yt-ai-pane-title">
+                <span id="ytAiAuditHeaderTitle">${t.auditTitle || "\u{1F6E1}\uFE0F Audit Critique, Logique & V\xE9racit\xE9"}</span>
+                <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
+                  <button id="ytAiRunAuditBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 3px 10px; font-size: 11px;">${t.runAuditBtn || "\u26A1 Auditer cette vid\xE9o"}</button>
+                  <button id="ytAiCopyAuditBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-hidden" style="padding: 3px 8px; font-size: 11px;">${t.copyBtn || "\u{1F4CB} Copier"}</button>
+                </div>
+              </div>
+
+              <div id="ytAiAuditStatus" class="yt-ai-reasoning yt-ai-hidden"></div>
+              <div id="ytAiAuditProgressContainer" class="yt-ai-hidden"></div>
+
+              <div id="ytAiAuditBody" class="yt-ai-markdown">
+                <p style="color: #8b949e; font-style: italic;">${t.auditPlaceholder || "Cliquez sur \xAB \u26A1 Auditer cette vid\xE9o \xBB pour analyser la rigueur logique, les sophismes et la v\xE9racit\xE9 des faits."}</p>
+              </div>
+            </div>
+
+            <!-- VUE 2 : AUDIT GLOBAL DE TOUTE LA CHA\xCENE -->
+            <div id="ytAiChannelAuditContainer" class="yt-ai-hidden">
+              <div class="yt-ai-pane-title">
+                <span>${t.channelAuditTitle || "\u{1F4CA} Audit Global de la Cha\xEEne"}</span>
+                <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
+                  <button id="ytAiAuditChannelBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 3px 10px; font-size: 11px;">${t.runChannelAuditBtn || "\u26A1 Lancer l'audit de la cha\xEEne"}</button>
+                </div>
+              </div>
+
+              <!-- S\xE9lecteur rapide de p\xE9riode temporelle -->
+              <div class="yt-ai-period-selector" style="display: flex; gap: 6px; margin: 4px 0 8px 0; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 11px; color: var(--yt-ai-text-secondary);">${t.periodFilterLabel || "P\xE9riode :"}</span>
+                <button class="yt-ai-period-pill yt-ai-format-pill active" data-period="all">\u{1F310} ${t.periodAll || "Tout"}</button>
+                <button class="yt-ai-period-pill yt-ai-format-pill" data-period="month">\u26A1 ${t.periodMonth || "Dernier mois"}</button>
+                <button class="yt-ai-period-pill yt-ai-format-pill" data-period="year">\u{1F4C5} ${t.periodYear || "Ann\xE9e en cours"}</button>
+                <button class="yt-ai-period-pill yt-ai-format-pill" data-period="6months">\u{1F3AF} ${t.period6Months || "6 derniers mois"}</button>
+              </div>
+
+              <div id="ytAiChannelAuditProgressContainer" class="yt-ai-hidden"></div>
+              <div id="ytAiChannelAuditBody">
+                <p style="color: #8b949e; font-style: italic;">Cliquez sur \xAB \u26A1 Lancer l'audit de la cha\xEEne \xBB pour \xE9valuer l'\xE9chantillon statistique des vid\xE9os, la note globale et l'\xE9volution temporelle.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ONGLET 4 : TRANSCRIPTION BRUTE -->
         <div id="ytAiPaneTranscript" class="yt-ai-tab-pane">
           <div class="yt-ai-transcript-pane" style="max-height: 480px;">
             <div class="yt-ai-pane-title">
@@ -2207,6 +2423,47 @@
       }
     }
     /**
+     * Checks if current URL is a YouTube channel page (@handle, /channel/, /c/, /user/)
+     * @param {string} [url]
+     * @returns {boolean}
+     */
+    static isChannelPage(url) {
+      try {
+        const base = typeof window !== "undefined" && window.location?.origin ? window.location.origin : "https://www.youtube.com";
+        const u = url ? new URL(url, base) : typeof window !== "undefined" ? window.location : null;
+        if (!u) return false;
+        const path = u.pathname;
+        if (path.startsWith("/@") && path.length > 2) return true;
+        if (path.startsWith("/channel/") && path.length > 9) return true;
+        if (path.startsWith("/c/") && path.length > 3) return true;
+        if (path.startsWith("/user/") && path.length > 6) return true;
+        return false;
+      } catch (_) {
+        return false;
+      }
+    }
+    /**
+     * Extracts YouTube channel handle or ID from URL
+     * @param {string} [url]
+     * @returns {string}
+     */
+    static getChannelIdentifier(url) {
+      try {
+        const base = typeof window !== "undefined" && window.location?.origin ? window.location.origin : "https://www.youtube.com";
+        const u = url ? new URL(url, base) : typeof window !== "undefined" ? window.location : null;
+        if (!u) return "";
+        const path = u.pathname;
+        if (path.startsWith("/@")) {
+          return path.split("/")[1] || "";
+        }
+        const match = path.match(/^\/(channel|c|user)\/([^\/?#]+)/);
+        if (match) return match[2];
+        return "";
+      } catch (_) {
+        return "";
+      }
+    }
+    /**
      * Extracts YouTube video ID from URL (watch, live, shorts, embed)
      * @param {string} [url]
      * @returns {string}
@@ -2294,7 +2551,14 @@
         if (currentVideoId) {
           lastVideoId = currentVideoId;
         }
-        const payload = { isNewVideo, currentVideoId, prevVideoId, url: currentUrl };
+        const payload = {
+          isNewVideo,
+          currentVideoId,
+          prevVideoId,
+          url: currentUrl,
+          isChannel: _NavigationObserver.isChannelPage(currentUrl),
+          channelIdentifier: _NavigationObserver.getChannelIdentifier(currentUrl)
+        };
         if (typeof handlers === "function") {
           handlers(payload);
         } else {
@@ -2325,6 +2589,8 @@
     }
   };
   var isWatchPage = NavigationObserver.isWatchPage;
+  var isChannelPage = NavigationObserver.isChannelPage;
+  var getChannelIdentifier = NavigationObserver.getChannelIdentifier;
   var getVideoId = NavigationObserver.getVideoId;
   var extractVideoIdFromText = NavigationObserver.extractVideoIdFromText;
   var extractAllVideoIdsFromText = NavigationObserver.extractAllVideoIdsFromText;
@@ -2377,7 +2643,7 @@
       const lang = this.state.currentLang || "en";
       const t = I18N[lang] || I18N.en;
       safeSetInnerHTML(banner, BannerTemplate.render(t, {
-        version: "v1.3.2",
+        version: typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v1.4.0",
         currentMode: this.currentMode || this.state.summaryMode || "standard",
         currentLang: lang
       }));
@@ -2414,6 +2680,7 @@
       const tabMap = {
         summary: { btn: "ytAiTabSummaryBtn", pane: "ytAiPaneSummary" },
         chat: { btn: "ytAiTabChatBtn", pane: "ytAiPaneChat" },
+        audit: { btn: "ytAiTabAuditBtn", pane: "ytAiPaneAudit" },
         transcript: { btn: "ytAiTabTranscriptBtn", pane: "ytAiPaneTranscript" }
       };
       const target = tabMap[tabName];
@@ -2460,7 +2727,7 @@
       if (this.state.currentProvider === "lmstudio" || this.state.currentProvider === "ollama") {
         const name2 = this.state.currentProvider === "ollama" ? "Ollama" : "LM Studio";
         const models = this.state.availableLocalModels[this.state.currentProvider] || [];
-        const currentUrl = this.state.serverUrls[this.state.currentProvider] || (this.state.currentProvider === "ollama" ? "http://localhost:11434" : "http://192.168.56.1:1234");
+        const currentUrl = this.state.serverUrls[this.state.currentProvider] || (this.state.currentProvider === "ollama" ? "http://localhost:11434" : "http://127.0.0.1:1234");
         const cleanHost = currentUrl.replace(/https?:\/\//, "");
         if (models.length > 0) {
           badge.className = "yt-ai-badge online";
@@ -2515,7 +2782,7 @@
     static refreshModelsList(ctx, showFeedback = false, onModelsLoaded = null, onFallbackNeeded = null) {
       if (ctx.currentProvider !== "lmstudio" && ctx.currentProvider !== "ollama") return;
       const isOllama = ctx.currentProvider === "ollama";
-      const defaultHost = isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234";
+      const defaultHost = isOllama ? "http://localhost:11434" : "http://127.0.0.1:1234";
       const currentUrl = ctx.serverUrls[ctx.currentProvider] || defaultHost;
       chrome.runtime.sendMessage({
         action: "FETCH_MODELS",
@@ -2542,8 +2809,8 @@
      */
     static tryFallbackUrls(ctx, testedUrls = [], onSuccess = null, onExhausted = null) {
       const isOllama = ctx.currentProvider === "ollama";
-      const defaults = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434", "http://192.168.56.1:11434"] : ["http://192.168.56.1:1234", "http://localhost:1234", "http://127.0.0.1:1234"];
-      const currentUrl = ctx.serverUrls[ctx.currentProvider] || (isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234");
+      const defaults = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434"] : ["http://127.0.0.1:1234", "http://localhost:1234"];
+      const currentUrl = ctx.serverUrls[ctx.currentProvider] || (isOllama ? "http://localhost:11434" : "http://127.0.0.1:1234");
       if (!testedUrls.includes(currentUrl)) testedUrls.push(currentUrl);
       const candidate = defaults.find((u) => !testedUrls.includes(u));
       if (!candidate) {
@@ -2959,9 +3226,9 @@
       const serverSelect = document.getElementById("ytAiServerSelect");
       if (!serverSelect) return;
       const isOllama = this.state.currentProvider === "ollama";
-      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234");
+      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? "http://localhost:11434" : "http://127.0.0.1:1234");
       serverSelect.innerHTML = "";
-      const presets = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434", "http://192.168.56.1:11434"] : ["http://192.168.56.1:1234", "http://localhost:1234", "http://127.0.0.1:1234"];
+      const presets = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434"] : ["http://127.0.0.1:1234", "http://localhost:1234"];
       presets.forEach((u) => {
         const opt = document.createElement("option");
         opt.value = u;
@@ -3145,9 +3412,10 @@
         }
         return;
       }
-      const currentProvider = ctx.currentProvider || "lmstudio";
+      const stateObj = ctx.state || ctx;
+      const currentProvider = ctx.currentProvider || stateObj.currentProvider || "lmstudio";
       const isLocal = currentProvider === "lmstudio" || currentProvider === "ollama";
-      const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : "";
+      const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : stateObj.apiKeys ? stateObj.apiKeys[currentProvider] : "";
       if (!isLocal && !key) {
         if (typeof ctx.showStatusBanner === "function") {
           const hint = t.missingKeyAlert || `Cl\xE9 API requise pour ${currentProvider.toUpperCase()}.`;
@@ -3208,7 +3476,8 @@
         const maxAllowedChars = CONTEXT_LIMITS[currentProvider] || 25e3;
         const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(fullText, maxAllowedChars);
         const { systemPrompt, userPrompt } = this.promptService.constructor.buildPrompts(meta.title, meta.author, safeTranscript, lang, mode, meta);
-        const serverUrl = ctx.serverUrls ? ctx.serverUrls[currentProvider] || "" : "";
+        const serverUrls = ctx.serverUrls || stateObj.serverUrls || {};
+        const serverUrl = serverUrls[currentProvider] || (stateObj.serverUrl || "");
         this.activePort = chrome.runtime.connect({ name: "ai-stream" });
         this.activePort.postMessage({
           action: "START_STREAM",
@@ -3670,7 +3939,7 @@ ${condenseFn(text, externalBudget)}`);
         `### [Avis du Public] Commentaires et r\xE9actions (${comments.length} avis populaires) :`
       ];
       comments.forEach((c, idx) => {
-        const cleanText = c.text.replace(/\n+/g, " ").slice(0, 300);
+        const cleanText = c.text.replace(/\n+/g, " ").trim();
         lines.push(`- **${c.author}** (${c.likes} likes, ${c.time}) : "${cleanText}"`);
       });
       return lines.join("\n");
@@ -3899,6 +4168,7 @@ ${condenseFn(text, externalBudget)}`);
       this.promptService = dependencies.promptService;
       this.audioController = dependencies.audioController;
       this.summaryViewController = dependencies.summaryViewController;
+      this.auditViewController = dependencies.auditViewController;
       this.transcriptManager = new ChatTranscriptManager();
       this.channelManager = new ChannelIntelligenceManager();
       this.commentsManager = new VideoCommentsManager();
@@ -3949,6 +4219,9 @@ ${condenseFn(text, externalBudget)}`);
       if (inputEl?.style) inputEl.style.height = "auto";
     }
     resetChatOutput(currentLang = "en") {
+      this.handleClearChat(currentLang);
+    }
+    resetChatForNewVideo(currentLang = "en") {
       this.handleClearChat(currentLang);
     }
     applyLanguage(lang) {
@@ -4073,6 +4346,8 @@ ${condenseFn(text, externalBudget)}`);
         }
       }
       const summaryText = isMultiVideo ? "" : this.summaryViewController?.fullSummaryMarkdown || ctx.summaryText || "";
+      const auditReport = stateObj.cachedAuditReport || this.auditViewController?.lastReport || null;
+      const auditBlock = auditReport?.toChatContextBlock?.() || "";
       const aiBubble = this.appendChatBubble("ai", "");
       aiBubble.classList.add("yt-ai-typing");
       const selectedChatMode = document.getElementById("ytAiModeSelect")?.value || "standard";
@@ -4083,7 +4358,8 @@ ${condenseFn(text, externalBudget)}`);
         selectedChatMode,
         summaryText,
         channelDossierBlock,
-        commentsBlock
+        commentsBlock,
+        auditBlock
       );
       const historyPayload = this.chatHistory.slice(-8);
       historyPayload.push({ role: "user", content: text });
@@ -4120,6 +4396,2281 @@ ${condenseFn(text, externalBudget)}`);
           aiBubble.innerHTML = `<span style="color: #ff7b72;">[x] ${escapeHtml(errorMsg)}</span>`;
         }
       });
+    }
+  };
+
+  // src/content/services/YouTubeDOMContext.js
+  var YouTubeDOMContext = class _YouTubeDOMContext {
+    /**
+     * Extracts chapters / timeline markers directly from YouTube video description
+     * @returns {Array<{timestamp: string, text: string}> | null}
+     */
+    static extractChaptersFromDescription() {
+      if (typeof document === "undefined") return null;
+      const results = [];
+      const entries = document.querySelectorAll(
+        "ytd-macro-markers-entry-renderer, #structured-description ytd-macro-markers-entry-renderer, ytd-chapter-renderer, ytd-macro-markers-list-item-renderer, macro-markers-panel-item-view-model"
+      );
+      if (entries && entries.length > 1) {
+        entries.forEach((el) => {
+          const timeEl = el.querySelector('#time, [class*="time"], a[href*="t="]');
+          const titleEls = el.querySelectorAll ? el.querySelectorAll('h3, h4, #title, [class*="title"]') : [];
+          let titleEl = null;
+          for (const candidate of titleEls) {
+            if (!candidate.hasAttribute || !candidate.hasAttribute("hidden")) {
+              titleEl = candidate;
+              break;
+            }
+          }
+          if (!titleEl) titleEl = el.querySelector('h3, h4, #title, [class*="title"]');
+          const timestamp = timeEl ? timeEl.textContent.trim() : "";
+          let text = titleEl ? titleEl.getAttribute?.("title") || titleEl.textContent.trim() : "";
+          if (timestamp && text.endsWith(timestamp)) {
+            text = text.slice(0, -timestamp.length).trim();
+          }
+          if (timestamp && text) {
+            results.push({ timestamp, text });
+          }
+        });
+        if (results.length > 1) return results;
+      }
+      return null;
+    }
+    /**
+     * Extracts rich metadata from YouTube DOM elements with cached fallback
+     * @param {Object} [cachedVideoMetadata]
+     * @returns {Object}
+     */
+    static getVideoMetadata(cachedVideoMetadata = {}) {
+      const currentVideoId = getVideoId();
+      const isCacheValid = cachedVideoMetadata?.videoId === currentVideoId;
+      const safeMeta = isCacheValid ? cachedVideoMetadata : {};
+      const hasDoc = typeof document !== "undefined";
+      const titleEl = hasDoc ? document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title") : null;
+      const authorEl = hasDoc ? document.querySelector("ytd-channel-name a, #channel-name a, #owner-name a") : null;
+      const subEl = hasDoc ? document.querySelector("#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count") : null;
+      const descEl = hasDoc ? document.querySelector("#description-inline-expander yt-attributed-string, #description, #description-inline-expander") : null;
+      const dateEl = hasDoc ? document.querySelector("#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date") : null;
+      const tagEls = hasDoc ? document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]') : [];
+      const domSubscribers = subEl?.textContent?.trim() || "";
+      const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || "";
+      const domDate = dateEl?.textContent?.trim() || "";
+      const domKeywords = Array.from(tagEls).map((el) => el.textContent.trim().replace(/^#/, "")).filter(Boolean);
+      const domChannelUrl = authorEl?.getAttribute("href") || authorEl?.href || "";
+      const title = titleEl?.textContent?.trim() || safeMeta.title || (hasDoc ? document.title.replace(" - YouTube", "").trim() : "");
+      const author = authorEl?.textContent?.trim() || safeMeta.author || "Cha\xEEne YouTube";
+      const subscribers = domSubscribers || safeMeta.subscribers || "";
+      const description = safeMeta.description || domDescription || "";
+      const keywords = safeMeta.keywords && safeMeta.keywords.length > 0 ? safeMeta.keywords : domKeywords;
+      const category = safeMeta.category || "";
+      const publishDate = safeMeta.publishDate || domDate || "";
+      const viewCount = safeMeta.viewCount || "";
+      const channelId = safeMeta.channelId || "";
+      const channelUrl = safeMeta.channelUrl || domChannelUrl || "";
+      const chapters = (hasDoc ? _YouTubeDOMContext.extractChaptersFromDescription() : null) || safeMeta.chapters || [];
+      return {
+        videoId: currentVideoId || safeMeta.videoId || "",
+        title,
+        author,
+        subscribers,
+        description,
+        keywords,
+        category,
+        publishDate,
+        viewCount,
+        channelId,
+        channelUrl,
+        chapters
+      };
+    }
+    /**
+     * Formats video context block for AI prompts
+     * @param {Object} meta
+     * @param {string} [lang]
+     * @returns {string}
+     */
+    static formatContextInfo(meta, lang = "fr") {
+      if (!meta) return "";
+      const parts = [];
+      if (meta.publishDate) {
+        parts.push(lang === "fr" ? `Date de mise en ligne : ${meta.publishDate}` : `Publish date: ${meta.publishDate}`);
+      }
+      if (meta.viewCount) {
+        parts.push(lang === "fr" ? `Vues : ${meta.viewCount}` : `Views: ${meta.viewCount}`);
+      }
+      if (meta.category) {
+        parts.push(lang === "fr" ? `Cat\xE9gorie officielle : ${meta.category}` : `Category: ${meta.category}`);
+      }
+      if (meta.keywords && meta.keywords.length > 0) {
+        parts.push(lang === "fr" ? `Mots-cl\xE9s / Tags : ${meta.keywords.join(", ")}` : `Keywords: ${meta.keywords.join(", ")}`);
+      }
+      if (meta.chapters && meta.chapters.length > 0) {
+        const chapterList = meta.chapters.map((c) => `  - [${c.timestamp}] ${c.text}`).join("\n");
+        parts.push(lang === "fr" ? `Structure des chapitres officiels :
+${chapterList}` : `Official chapters structure:
+${chapterList}`);
+      }
+      if (meta.description && meta.description.trim()) {
+        const cleanDesc = meta.description.trim();
+        parts.push(lang === "fr" ? `Description officielle de la vid\xE9o :
+"""
+${cleanDesc}
+"""` : `Official description:
+"""
+${cleanDesc}
+"""`);
+      }
+      if (parts.length === 0) return "";
+      const header = lang === "fr" ? "CONTEXTE OFFICIEL DE LA VID\xC9O YOUTUBE :" : "OFFICIAL YOUTUBE VIDEO CONTEXT:";
+      return `${header}
+${parts.join("\n\n")}`;
+    }
+  };
+  function formatContextInfo(meta, lang = "fr") {
+    return YouTubeDOMContext.formatContextInfo(meta, lang);
+  }
+
+  // src/content/ui/AuditProgressBar.js
+  var AuditProgressBar = class {
+    /**
+     * Generates the initial HTML markup for the visual progress widget
+     * @param {Object} options
+     * @param {number} [options.percent=0] - Current percentage (0 to 100)
+     * @param {string} [options.title='Initialisation...'] - Main step title
+     * @param {string} [options.detail=''] - Sub-detail (e.g. video/segment name)
+     * @param {number} [options.currentStep=1] - Active step index
+     * @param {number} [options.totalSteps=4] - Total number of steps
+     * @returns {string} HTML markup
+     */
+    static renderWidget({
+      percent = 0,
+      title = "Initialisation...",
+      detail = "",
+      currentStep = null,
+      totalSteps = null
+    } = {}) {
+      const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
+      const shouldShowBadge = typeof currentStep === "number" && typeof totalSteps === "number" && totalSteps > 1;
+      const stepBadge = shouldShowBadge ? `[${currentStep}/${totalSteps}] ` : "";
+      return `
+      <div class="yt-ai-progress-widget" role="progressbar" aria-valuenow="${safePercent}" aria-valuemin="0" aria-valuemax="100">
+        <div class="yt-ai-progress-header">
+          <span class="yt-ai-progress-title">
+            <span class="yt-ai-spinner yt-ai-progress-spinner"></span>
+            <span class="yt-ai-progress-step-text">${escapeHtml(stepBadge)}${escapeHtml(title)}</span>
+          </span>
+          <span class="yt-ai-progress-percentage">${safePercent}%</span>
+        </div>
+        <div class="yt-ai-progress-track">
+          <div class="yt-ai-progress-bar-fill" style="width: ${safePercent}%;"></div>
+        </div>
+        ${detail ? `<div class="yt-ai-progress-detail">${escapeHtml(detail)}</div>` : '<div class="yt-ai-progress-detail yt-ai-hidden"></div>'}
+      </div>
+    `;
+    }
+    /**
+     * Smoothly updates an existing progress widget DOM element
+     * @param {HTMLElement} container
+     * @param {Object} options
+     */
+    static updateWidget(container, {
+      percent,
+      title,
+      detail,
+      currentStep = null,
+      totalSteps = null
+    } = {}) {
+      if (!container) return;
+      const widget = container.querySelector(".yt-ai-progress-widget") || container;
+      if (typeof percent === "number") {
+        const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
+        const fill = widget.querySelector(".yt-ai-progress-bar-fill");
+        const pctText = widget.querySelector(".yt-ai-progress-percentage");
+        if (fill) fill.style.width = `${safePercent}%`;
+        if (pctText) pctText.textContent = `${safePercent}%`;
+        widget.setAttribute("aria-valuenow", String(safePercent));
+      }
+      if (title) {
+        const stepText = widget.querySelector(".yt-ai-progress-step-text");
+        if (stepText) {
+          const shouldShowBadge = typeof currentStep === "number" && typeof totalSteps === "number" && totalSteps > 1;
+          const stepBadge = shouldShowBadge ? `[${currentStep}/${totalSteps}] ` : "";
+          stepText.textContent = `${stepBadge}${title}`;
+        }
+      }
+      if (typeof detail === "string") {
+        const detailEl = widget.querySelector(".yt-ai-progress-detail");
+        if (detailEl) {
+          if (detail.trim()) {
+            detailEl.textContent = detail;
+            detailEl.classList.remove("yt-ai-hidden");
+          } else {
+            detailEl.classList.add("yt-ai-hidden");
+          }
+        }
+      }
+    }
+  };
+
+  // src/content/ui/AuditViewController.js
+  var AuditViewController = class {
+    /**
+     * @param {Object} dependencies
+     * @param {Object} dependencies.auditService
+     * @param {Object} dependencies.chatViewController
+     * @param {Object} [dependencies.bannerView]
+     * @param {Object} [dependencies.channelAuditService]
+     * @param {Object} [dependencies.channelAuditViewController]
+     */
+    constructor(dependencies = {}) {
+      this.auditService = dependencies.auditService;
+      this.chatViewController = dependencies.chatViewController;
+      this.bannerView = dependencies.bannerView;
+      this.channelAuditService = dependencies.channelAuditService;
+      this.channelAuditViewController = dependencies.channelAuditViewController;
+      this.lastReport = null;
+    }
+    /**
+     * Builds the interactive visual Hero Score Card
+     * @param {Object} report
+     * @param {string} [lang='fr']
+     * @returns {string} HTML
+     */
+    renderAuditHeroCard(report, lang = "fr") {
+      if (!report) return "";
+      const score = typeof report.reliabilityScore === "number" ? report.reliabilityScore : 80;
+      const badge = report.getReliabilityBadge(lang);
+      const isLow = score < 50;
+      const isMed = score >= 50 && score < 75;
+      const levelClass = isLow ? "yt-ai-score-low" : isMed ? "yt-ai-score-med" : "yt-ai-score-high";
+      const verdictDesc = isLow ? lang === "fr" ? "Biais cognitifs, sp\xE9culation ou affirmations trompeuses" : "High bias or deceptive claims" : isMed ? lang === "fr" ? "Analyse nuanc\xE9e, affirmations \xE0 v\xE9rifier avec recul" : "Mixed rigor, claims require caution" : lang === "fr" ? "Rigueur et coh\xE9rence logique \xE9lev\xE9es" : "High logical rigor & consistency";
+      return `
+      <div class="yt-ai-audit-hero-card ${levelClass}">
+        <div class="yt-ai-audit-hero-main">
+          <div class="yt-ai-audit-gauge-circle"><span class="yt-ai-audit-gauge-val">${score}</span><span class="yt-ai-audit-gauge-max">/100</span></div>
+          <div class="yt-ai-audit-hero-meta">
+            <div class="yt-ai-audit-status-badge">${escapeHtml(badge.label)}</div>
+            <div class="yt-ai-audit-hero-desc">${escapeHtml(verdictDesc)}</div>
+          </div>
+        </div>
+        <div class="yt-ai-audit-meter"><div class="yt-ai-audit-meter-fill" style="width: ${Math.max(6, Math.min(100, score))}%;"></div></div>
+      </div>
+    `;
+    }
+    /**
+     * Starts critical logic & fact-checking audit
+     * @param {Object} ctx
+     */
+    async startAudit(ctx = {}) {
+      const stateObj = ctx.state || ctx;
+      const period = ctx.period || stateObj.channelAuditPeriod || "all";
+      const lang = document.getElementById("ytAiLangSelect")?.value || ctx.currentLang || stateObj.currentLang || "fr";
+      const t = I18N[lang] || I18N.en;
+      const runBtn = document.getElementById("ytAiRunAuditBtn");
+      const copyBtn = document.getElementById("ytAiCopyAuditBtn");
+      const statusBox = document.getElementById("ytAiAuditStatus");
+      const bodyBox = document.getElementById("ytAiAuditBody");
+      const progBox = document.getElementById("ytAiAuditProgressContainer");
+      const activeModel = (typeof ctx.getActiveModel === "function" ? ctx.getActiveModel() : null) || (typeof stateObj.getActiveModel === "function" ? stateObj.getActiveModel() : null) || stateObj.selectedModel || "";
+      if (!activeModel) {
+        const msg = t.selectModelAlert || "Veuillez s\xE9lectionner un mod\xE8le IA dans les r\xE9glages ci-dessus.";
+        if (bodyBox) bodyBox.innerHTML = `<p style="color: #f85149;">[!] ${escapeHtml(msg)}</p>`;
+        return;
+      }
+      const currentProvider = stateObj.currentProvider || "lmstudio";
+      const isLocal = currentProvider === "lmstudio" || currentProvider === "ollama";
+      const apiKeys = stateObj.apiKeys || {};
+      const key = apiKeys[currentProvider] || "";
+      if (!isLocal && !key) {
+        if (bodyBox) bodyBox.innerHTML = QuickOnboardingHelper.formatMissingKeyNotice(currentProvider, lang);
+        return;
+      }
+      if (runBtn) {
+        runBtn.disabled = true;
+        runBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.auditInProgress || "Audit en cours..."}`;
+      }
+      if (copyBtn) copyBtn.classList.add("yt-ai-hidden");
+      if (statusBox) statusBox.classList.add("yt-ai-hidden");
+      if (progBox) {
+        progBox.classList.remove("yt-ai-hidden");
+        progBox.innerHTML = AuditProgressBar.renderWidget({
+          percent: 10,
+          title: "Collecte des informations et sources...",
+          detail: "Transcription int\xE9grale et descriptions (0 coupure)"
+        });
+      }
+      if (bodyBox) {
+        bodyBox.innerHTML = `<p style="color: #8b949e; font-style: italic;">${t.auditAnalyzing || "Examen de la coh\xE9rence logique et des faits en cours..."}</p>`;
+      }
+      try {
+        const report = await this.auditService.executeAudit({
+          lang,
+          state: stateObj,
+          onProgress: (prog) => {
+            if (progBox) {
+              AuditProgressBar.updateWidget(progBox, {
+                percent: prog.percent,
+                title: prog.message || t.auditAnalyzing,
+                detail: prog.detail || ""
+              });
+            }
+          },
+          onChunk: (chunk, acc) => {
+            if (bodyBox) {
+              renderMarkdown(acc, bodyBox);
+              this.bindTimestampLinks(bodyBox);
+            }
+          }
+        });
+        this.lastReport = report;
+        stateObj.cachedAuditReport = report;
+        if (progBox) {
+          progBox.classList.add("yt-ai-hidden");
+          progBox.innerHTML = "";
+        }
+        if (bodyBox) {
+          const heroHtml = this.renderAuditHeroCard(report, lang);
+          bodyBox.innerHTML = heroHtml + renderMarkdown(report.rawMarkdown);
+          this.bindTimestampLinks(bodyBox);
+        }
+        const auditTabBadge = document.getElementById("ytAiTabAuditBtn");
+        if (auditTabBadge) {
+          const badgeColor = report.reliabilityScore >= 75 ? "yt-ai-badge-success" : report.reliabilityScore >= 50 ? "yt-ai-badge-warning" : "yt-ai-badge-danger";
+          auditTabBadge.innerHTML = `${t.tabAudit || "\u{1F6E1}\uFE0F Audit"} <span class="yt-ai-tab-count-badge ${badgeColor}">${report.reliabilityScore}/100</span>`;
+        }
+        if (copyBtn) copyBtn.classList.remove("yt-ai-hidden");
+      } catch (err) {
+        if (bodyBox) bodyBox.innerHTML = `<p style="color: #f85149;">[!] ${escapeHtml(err.message || "Erreur lors de l\u2019audit")}</p>`;
+      } finally {
+        if (runBtn) {
+          runBtn.disabled = false;
+          runBtn.textContent = t.runAuditBtn || "\u26A1 Lancer l'audit";
+        }
+      }
+    }
+    /**
+     * Switches between Video Audit view and Channel Audit view
+     * @param {'video'|'channel'} subtab
+     */
+    switchAuditSubtab(subtab = "video") {
+      const isChan = subtab === "channel";
+      document.getElementById("ytAiAuditVideoView")?.classList.toggle("yt-ai-hidden", isChan);
+      document.getElementById("ytAiChannelAuditContainer")?.classList.toggle("yt-ai-hidden", !isChan);
+      document.getElementById("ytAiAuditSubtabVideoBtn")?.classList.toggle("active", !isChan);
+      document.getElementById("ytAiAuditSubtabChannelBtn")?.classList.toggle("active", isChan);
+    }
+    /**
+     * Triggers consolidated channel audit from the banner
+     * @param {Object} ctx
+     */
+    async handleTriggerChannelAudit(ctx = {}) {
+      if (!this.channelAuditService || !this.channelAuditViewController) return;
+      this.switchAuditSubtab("channel");
+      const stateObj = ctx.state || ctx;
+      const period = ctx.period || stateObj.channelAuditPeriod || "all";
+      const lang = document.getElementById("ytAiLangSelect")?.value || ctx.currentLang || stateObj.currentLang || "fr";
+      const btn = document.getElementById("ytAiAuditChannelBtn");
+      const container = document.getElementById("ytAiChannelAuditBody") || document.getElementById("ytAiChannelAuditContainer");
+      const progBox = document.getElementById("ytAiChannelAuditProgressContainer");
+      if (!container) return;
+      const meta = YouTubeDOMContext.getVideoMetadata();
+      const query = meta.channelUrl || meta.author || "";
+      if (!query) {
+        container.innerHTML = `<p style="color: #ff7b72;">[!] Impossible d'identifier la cha\xEEne du cr\xE9ateur.</p>`;
+        return;
+      }
+      if (btn) btn.disabled = true;
+      if (progBox) {
+        progBox.classList.remove("yt-ai-hidden");
+        progBox.innerHTML = AuditProgressBar.renderWidget({
+          percent: 10,
+          title: "Collecte des vid\xE9os et descriptions...",
+          detail: `${meta.author || ""} (0 coupure)`
+        });
+      }
+      container.innerHTML = `<p style="color: #8b949e; font-style: italic;">Examen de la cha\xEEne en cours...</p>`;
+      try {
+        const report = await this.channelAuditService.executeChannelAudit({
+          channelQuery: query,
+          period,
+          lang,
+          state: stateObj,
+          onProgress: (status) => {
+            if (progBox) {
+              AuditProgressBar.updateWidget(progBox, {
+                percent: status.percent,
+                title: status.message || status.title,
+                detail: status.detail || ""
+              });
+            }
+          }
+        });
+        if (progBox) {
+          progBox.classList.add("yt-ai-hidden");
+          progBox.innerHTML = "";
+        }
+        this.channelAuditViewController.renderReport(report, container, lang);
+      } catch (err) {
+        container.innerHTML = `<p style="color: #ff7b72; font-size: 12px;">[!] Erreur lors de l'audit de cha\xEEne : ${escapeHtml(err.message || String(err))}</p>`;
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+    /**
+     * Binds clickable seeking behavior to all timestamps [MM:SS] in rendered markdown
+     * @param {HTMLElement} container
+     */
+    bindTimestampLinks(container) {
+      if (!container) return;
+      container.querySelectorAll('a[data-seek], a[href^="#t="], .yt-ai-timestamp-link').forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const sec = parseFloat(link.getAttribute("data-time") || link.getAttribute("data-seek") || link.getAttribute("href")?.replace("#t=", "") || 0);
+          const video = document.querySelector("video");
+          if (video && !isNaN(sec)) {
+            video.currentTime = sec;
+            video.play().catch(() => {
+            });
+          }
+        });
+      });
+    }
+    /**
+     * Handles copying audit markdown to clipboard
+     */
+    handleCopyAudit() {
+      const text = this.lastReport?.rawMarkdown || "";
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById("ytAiCopyAuditBtn");
+        if (btn) {
+          const prev = btn.textContent;
+          btn.textContent = "\u2713 Copi\xE9 !";
+          setTimeout(() => {
+            btn.textContent = prev;
+          }, 2e3);
+        }
+      }).catch(() => {
+      });
+    }
+    /**
+     * Updates localized strings on language switch
+     * @param {string} lang
+     */
+    applyLanguage(lang) {
+      const t = I18N[lang] || I18N.en;
+      const el = (id) => document.getElementById(id);
+      if (el("ytAiAuditHeaderTitle")) el("ytAiAuditHeaderTitle").textContent = t.auditTitle || "\u{1F6E1}\uFE0F Audit Critique, Logique & V\xE9racit\xE9";
+      if (el("ytAiAuditChannelBtn")) el("ytAiAuditChannelBtn").textContent = t.auditChannelBtn || "\u{1F50D} Auditer la cha\xEEne";
+      if (el("ytAiRunAuditBtn") && !this.auditService?.isAuditing) {
+        el("ytAiRunAuditBtn").textContent = this.lastReport ? t.relaunchAuditBtn || "\u26A1 Relancer l'audit" : t.runAuditBtn || "\u26A1 Lancer l'audit";
+      }
+      if (el("ytAiCopyAuditBtn")) el("ytAiCopyAuditBtn").textContent = t.copyBtn || "\u{1F4CB} Copier";
+    }
+  };
+
+  // src/services/implementations/AuditPromptBuilder.js
+  var AuditPromptBuilder = class {
+    /**
+     * Builds the System Prompt for the Critical Audit & Logic Verification Assistant
+     * @param {string} [lang='fr']
+     * @returns {string}
+     */
+    static buildSystemPrompt(lang = "fr") {
+      const langInstructions = {
+        fr: "Tu es un expert en analyse critique du discours, \xE9pist\xE9mologie, logique formelle et v\xE9rification des faits. Tu r\xE9diges exclusivement en FRAN\xC7AIS.",
+        en: "You are a world-class expert in critical thinking, logic analysis, epistemology, and fact-checking. You respond exclusively in ENGLISH.",
+        es: "Eres un experto en pensamiento cr\xEDtico, l\xF3gica argumentativa y verificaci\xF3n de hechos. Respondes exclusivamente en ESPA\xD1OL.",
+        de: "Du bist ein Experte f\xFCr kritisches Denken, Logik und Faktenpr\xFCfung. Du antwortest ausschlie\xDFlich auf DEUTSCH.",
+        it: "Sei un esperto di pensiero critico, logica e fact-checking. Rispondi esclusivamente in ITALIANO.",
+        ru: "\u0412\u044B \u044F\u0432\u043B\u044F\u0435\u0442\u0435\u0441\u044C \u044D\u043A\u0441\u043F\u0435\u0440\u0442\u043E\u043C \u043F\u043E \u043A\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u043E\u043C\u0443 \u043C\u044B\u0448\u043B\u0435\u043D\u0438\u044E, \u043B\u043E\u0433\u0438\u0447\u0435\u0441\u043A\u043E\u043C\u0443 \u0430\u043D\u0430\u043B\u0438\u0437\u0443 \u0438 \u0444\u0430\u043A\u0442\u0447\u0435\u043A\u0438\u043D\u0433\u0443. \u041E\u0442\u0432\u0435\u0447\u0430\u0439\u0442\u0435 \u0438\u0441\u043A\u043B\u044E\u0447\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435.",
+        ja: "\u3042\u306A\u305F\u306F\u30AF\u30EA\u30C6\u30A3\u30AB\u30EB\u30B7\u30F3\u30AD\u30F3\u30B0\u3001\u8AD6\u7406\u5206\u6790\u3001\u30D5\u30A1\u30AF\u30C8\u30C1\u30A7\u30C3\u30AF\u306E\u5C02\u9580\u5BB6\u3067\u3059\u3002\u65E5\u672C\u8A9E\u306E\u307F\u3067\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+        zh: "\u4F60\u662F\u6279\u5224\u6027\u601D\u7EF4\u3001\u903B\u8F91\u8BBA\u8BC1\u5206\u6790\u548C\u4E8B\u5B9E\u6838\u67E5\u65B9\u9762\u7684\u8D44\u6DF1\u4E13\u5BB6\u3002\u8BF7\u59CB\u7EC8\u4F7F\u7528\u4E2D\u6587\u56DE\u7B54\u3002"
+      };
+      const specificLang = langInstructions[lang] || langInstructions.en;
+      const now = /* @__PURE__ */ new Date();
+      const currentDateStr = now.toLocaleDateString(lang === "fr" ? "fr-FR" : "en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+      const temporalAnchor = lang === "fr" ? `
+REP\xC8RE CHRONOLOGIQUE DU MONDE R\xC9EL :
+- Date actuelle d'observation : ${currentDateStr}.
+- Situe chronologiquement la vid\xE9o et les \xE9v\xE9nements relat\xE9s par rapport \xE0 cette date contemporaine.` : `
+REAL-WORLD TEMPORAL REFERENCE:
+- Today's date: ${currentDateStr}.
+- Anchor the video and reported events relative to this contemporary observation date.`;
+      return `${specificLang}
+${temporalAnchor}
+
+Mission : Analyser avec m\xE9thode et impartialit\xE9 la vid\xE9o YouTube fournie (texte disponible, m\xE9tadonn\xE9es, chapitrage et retours de la communaut\xE9).
+Crit\xE8res d'\xE9valuation :
+1. Rigueur argumentative : coh\xE9rence logique, solidit\xE9 des d\xE9ductions, d\xE9tection des sophismes ou fausses causalit\xE9s.
+2. \xC9quilibre et nuance : distinction claire entre faits \xE9tablis, hypoth\xE8ses techniques et opinions personnelles.
+3. Transparence et discernement ("le mal n'est pas partout") : il est normal qu'un cr\xE9ateur vive de son travail (sponsors, partenariats commerciaux, vente de ses propres ouvrages ou formations). L'exigence cl\xE9 est la transparence envers le public. Distingue avec subtilit\xE9 une argumentation honn\xEAte et v\xE9rifi\xE9e d'un discours marketing r\xE9p\xE9t\xE9 sans esprit critique.
+4. Posture d\xE9clarative vs Preuve r\xE9elle : ne prends jamais les d\xE9clarations d'honn\xEAtet\xE9 de l'auteur pour argent comptant (dire \xAB je suis honn\xEAte \xBB, \xAB sans filtre \xBB ou \xAB avis 100% ind\xE9pendant \xBB ne constitue pas une preuve). C'est \xE0 toi d'\xE9valuer son honn\xEAtet\xE9 r\xE9elle \xE0 l'aune des faits, des chiffres, de la rigueur des arguments et du recoupement factuel.
+5. Z\xE9ro malus pour contrainte technique : si les sous-titres oraux sont absents ou incomplets dans le dossier pour des raisons techniques propres \xE0 la plateforme, il est STRICTEMENT INTERDIT de p\xE9naliser le cr\xE9ateur ou de d\xE9grader sa note pour cette raison. \xC9value sa rigueur \xE0 100% sur la valeur des \xE9l\xE9ments observables.
+6. Signaux communautaires : mise en perspective des observations pertinentes des spectateurs en commentaires.
+
+Ton ton doit \xEAtre constructif, pr\xE9cis, p\xE9dagogique et rigoureusement objectif.
+Inclus toujours un indice global sur 100 au format : [SCORE: XX/100].`;
+    }
+    /**
+     * Builds the complete user prompt for the audit
+     * @param {Object} params
+     * @param {string} params.transcriptText
+     * @param {Object} [params.videoMeta={}]
+     * @param {string} [params.commentsBlock='']
+     * @param {string} [params.lang='fr']
+     * @param {boolean} [params.isDialogue=true]
+     * @returns {string}
+     */
+    static buildAuditUserPrompt({ transcriptText, videoMeta = {}, commentsBlock = "", lang = "fr", isDialogue = true }) {
+      const now = /* @__PURE__ */ new Date();
+      const currentDateStr = now.toLocaleDateString(lang === "fr" ? "fr-FR" : "en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+      const headerInfo = [
+        `Date d'observation : ${currentDateStr}`,
+        videoMeta.title ? `Titre de la vid\xE9o : "${videoMeta.title}"` : "",
+        videoMeta.author ? `Cha\xEEne / Auteur : ${videoMeta.author}` : "",
+        videoMeta.publishDate ? `Date de publication : ${videoMeta.publishDate}` : "",
+        videoMeta.description ? `Description et liens officiels :
+"""
+${videoMeta.description.trim()}
+"""` : ""
+      ].filter(Boolean).join("\n");
+      const commentsSection = commentsBlock ? `
+--- RETOURS ET SIGNAUX DES COMMENTATEURS ---
+${commentsBlock}
+` : "";
+      const contentSection = isDialogue ? `--- TRANSCRIPTION DES DIALOGUES DE LA VID\xC9O ---
+${transcriptText}` : `--- CHAPITRAGE & CONTENU DE LA DESCRIPTION (Sous-titres oraux non fournis par la plateforme) ---
+${transcriptText}
+[R\xC8GLE IMP\xC9RATIVE : L'absence de transcription compl\xE8te \xE9tant une contrainte technique externe, il est STRICTEMENT INTERDIT de baisser la note du cr\xE9ateur ou de lui imposer un malus pour cette raison. \xC9value sa rigueur et son honn\xEAtet\xE9 \xE0 100% sur la base des \xE9l\xE9ments fournis.]`;
+      return `Voici le dossier complet de la vid\xE9o \xE0 auditer :
+
+--- M\xC9TADONN\xC9ES DE LA VID\xC9O ---
+${headerInfo || "Non disponibles"}
+${commentsSection}
+${contentSection}
+
+--- DIRECTIVES DU RAPPORT D'AUDIT CRITIQUE ---
+R\xE9dige un rapport structur\xE9 respectant EXACTEMENT le format Markdown suivant :
+
+[SCORE: XX/100]
+
+### \u{1F3AF} Indice de Fiabilit\xE9 & Verdict Global
+- Score de solidit\xE9 (sur 100) avec explication synth\xE9tique en 2-3 phrases.
+- \xC9valuation globale de la posture : (Ex: D\xE9marche rigoureuse / Vulgarisation \xE9quilibr\xE9e / Posture engag\xE9e / Prudence requise).
+
+### \u2696\uFE0F Analyse Logique & Rigueur Argumentative
+- Analyse la coh\xE9rence de l'argumentation :
+  - **Structure du raisonnement** : Clart\xE9 des d\xE9ductions, pr\xE9sence ou absence de contradictions internes.
+  - **Prudence m\xE9thodologique** : Pr\xE9cision du vocabulaire employ\xE9, distinction entre certitudes, indices et hypoth\xE8ses de travail.
+  - **Biais ou raccourcis \xE9ventuels** : Causalit\xE9s h\xE2tives, g\xE9n\xE9ralisations excessives ou extrapolations si constat\xE9es (ou confirmer la solidit\xE9 du raisonnement).
+
+### \u{1F52C} Rigueur des Sources & Niveau de Preuve
+- \xC9value les r\xE9f\xE9rences et donn\xE9es pr\xE9sent\xE9es :
+  - **Niveau de preuve** : R\xE9f\xE9rences techniques ou officielles vs t\xE9moignages pr\xE9liminaires ou d\xE9ductions logiques.
+  - **Prise en compte de la temporalit\xE9 de l'enqu\xEAte** : S'il s'agit d'un \xE9v\xE9nement r\xE9cent, v\xE9rifier si l'auteur pr\xE9cise les limites des donn\xE9es pr\xE9liminaires disponibles.
+
+### \u{1F4BC} Transparence Commerciale & Discernement Marketing
+- \xC9value avec subtilit\xE9 la sinc\xE9rit\xE9 \xE9ditoriale et la valeur r\xE9elle de l'argumentation :
+  - **Transparence du mod\xE8le \xE9conomique (l\xE9gitime et assum\xE9)** : Il est parfaitement normal qu'un cr\xE9ateur vive de son travail (sponsors, partenariats commerciaux, affiliations ou promotion de ses propres livres/conf\xE9rences). L'exigence cl\xE9 est la transparence : ces collaborations sont-elles annonc\xE9es de mani\xE8re claire et loyale au spectateur ?
+  - **Arguments v\xE9rifi\xE9s vs Discours marketing r\xE9p\xE9t\xE9** : \xC9value si les arguments pr\xE9sent\xE9s sont solides, document\xE9s et critiques... ou s'il s'agit d'un simple discours commercial pr\xE9format\xE9 (reprise sans recul des \xE9l\xE9ments de langage d'une marque, \xE9loges syst\xE9matiques, omission d\xE9lib\xE9r\xE9e des compromis techniques).
+  - **V\xE9rification active de l'honn\xEAtet\xE9 (ne pas croire sur parole)** : Ce n'est pas parce que l'auteur proclame \xAB je suis honn\xEAte \xBB, \xAB test 100% objectif \xBB ou \xAB aucun sponsor ne m'influence \xBB qu'il l'est r\xE9ellement. C'est \xE0 l'auditeur de juger son honn\xEAtet\xE9 \xE0 l'aune des preuves mat\xE9rielles, des donn\xE9es v\xE9rifiables et de la coh\xE9rence de ses d\xE9monstrations.
+  - **Discernement ("le mal n'est pas partout")** : Une vid\xE9o sponsoris\xE9e peut \xEAtre excellente et rigoureuse si l'analyse reste int\xE8gre. Ne p\xE9nalise pas la pr\xE9sence d'un sponsor, mais juge la libert\xE9 de ton, la pr\xE9cision technique et l'honn\xEAtet\xE9 intellectuelle du propos.
+
+### \u{1F50D} Recoupement Factuel, Temporel & Spatial
+- Coh\xE9rence chronologique entre la date de mise en ligne et les \xE9v\xE9nements analys\xE9s.
+- Pertinence des ordres de grandeur ou donn\xE9es physiques mentionn\xE9es.
+
+### \u{1F4AC} \xC9clairage des Commentaires & Consensus du Public
+- Synth\xE8se des retours du public (remarques constructives, partages d'exp\xE9rience ou points de discussion soulev\xE9s).
+
+### \u{1F4CC} Conseils pour l'Esprit Critique
+- 2 \xE0 3 recommandations p\xE9dagogiques pour appr\xE9hender ce type de sujet avec discernement.
+
+IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts inexistants. R\xE9dige l'int\xE9gralit\xE9 du rapport dans la langue cible : ${lang.toUpperCase()}.`;
+    }
+  };
+
+  // src/domain/models/AuditReport.js
+  var AuditReport = class {
+    /**
+     * @param {Object} params
+     * @param {string} params.videoId
+     * @param {number} [params.reliabilityScore=100] - 0 to 100
+     * @param {string} [params.status='reliable'] - 'reliable', 'caution', 'questionable', 'manipulative'
+     * @param {Array<Object>} [params.fallacies=[]] - Detected fallacies with timestamp, quote, flaw
+     * @param {Array<Object>} [params.veracityChecks=[]] - Factual / temporal checks
+     * @param {Object} [params.communitySignals={}] - Comments flags and viewer consensus
+     * @param {string} [params.rawMarkdown=''] - Full streamed markdown report
+     * @param {string} [params.verdict=''] - Concluding verdict
+     * @param {string} [params.lang='en']
+     */
+    constructor(params = {}) {
+      this.videoId = params.videoId || "";
+      this.reliabilityScore = typeof params.reliabilityScore === "number" ? params.reliabilityScore : 100;
+      this.status = params.status || "reliable";
+      this.fallacies = Array.isArray(params.fallacies) ? params.fallacies : [];
+      this.veracityChecks = Array.isArray(params.veracityChecks) ? params.veracityChecks : [];
+      this.communitySignals = params.communitySignals || { flagCount: 0, flags: [] };
+      this.rawMarkdown = params.rawMarkdown || "";
+      this.verdict = params.verdict || "";
+      this.lang = params.lang || "en";
+      this.createdAt = params.createdAt || Date.now();
+    }
+    /**
+     * Determines if the video exhibits significant cognitive bias, fallacies or falsehoods
+     * @returns {boolean}
+     */
+    hasSignificantFlaws() {
+      return this.reliabilityScore < 70 || this.fallacies.length > 0 || this.veracityChecks.length > 0;
+    }
+    /**
+     * Returns a localized badge label for the score
+     * @param {string} [lang='en']
+     * @returns {{ label: string, color: string }}
+     */
+    getReliabilityBadge(lang = "en") {
+      if (this.reliabilityScore >= 80) {
+        return {
+          label: lang === "fr" ? "Solidit\xE9 \xC9lev\xE9e" : "High Reliability",
+          color: "#2ea043"
+        };
+      }
+      if (this.reliabilityScore >= 50) {
+        return {
+          label: lang === "fr" ? "Vigilance / Biais d\xE9tect\xE9s" : "Caution / Biases detected",
+          color: "#d29922"
+        };
+      }
+      return {
+        label: lang === "fr" ? "Majeure Incoh\xE9rence / Douteux" : "Questionable / Low Reliability",
+        color: "#f85149"
+      };
+    }
+    /**
+     * Exports audit context for injection into Q&A Chat
+     * @returns {string}
+     */
+    toChatContextBlock() {
+      if (!this.rawMarkdown && this.fallacies.length === 0) return "";
+      return [
+        "### [RAPPORT D\u2019AUDIT CRITIQUE, LOGIQUE & V\xC9RACIT\xC9]",
+        `Indice de fiabilit\xE9 \xE9valu\xE9: ${this.reliabilityScore}/100 (${this.status})`,
+        this.rawMarkdown.trim()
+      ].filter(Boolean).join("\n\n");
+    }
+    /**
+     * Serializes to JSON for persistence
+     * @returns {Object}
+     */
+    toJSON() {
+      return {
+        videoId: this.videoId,
+        reliabilityScore: this.reliabilityScore,
+        status: this.status,
+        fallacies: this.fallacies,
+        veracityChecks: this.veracityChecks,
+        communitySignals: this.communitySignals,
+        rawMarkdown: this.rawMarkdown,
+        verdict: this.verdict,
+        lang: this.lang,
+        createdAt: this.createdAt
+      };
+    }
+  };
+
+  // src/content/services/AuditService.js
+  var AuditService = class {
+    /**
+     * @param {Object} dependencies
+     * @param {Object} dependencies.transcriptController
+     * @param {Object} dependencies.videoCommentsManager
+     * @param {Object} [dependencies.channelManager]
+     */
+    constructor(dependencies = {}) {
+      this.transcriptController = dependencies.transcriptController;
+      this.commentsManager = dependencies.videoCommentsManager;
+      this.channelManager = dependencies.channelManager;
+      this.cachedAudits = /* @__PURE__ */ new Map();
+      this.currentPort = null;
+      this.isAuditing = false;
+    }
+    /**
+     * Retrieves cached audit report for a video ID
+     * @param {string} videoId
+     * @returns {AuditReport|null}
+     */
+    getCachedAudit(videoId) {
+      if (!videoId) return null;
+      return this.cachedAudits.get(String(videoId).trim()) || null;
+    }
+    /**
+     * Resets active audit cache
+     */
+    clearCache() {
+      this.cachedAudits.clear();
+    }
+    /**
+     * Aborts ongoing audit stream
+     */
+    abortAudit() {
+      if (this.currentPort) {
+        try {
+          this.currentPort.disconnect();
+        } catch (_) {
+        }
+        this.currentPort = null;
+      }
+      this.isAuditing = false;
+    }
+    /**
+     * Executes a full critical logic & veracity audit for a video
+     * @param {Object} options
+     * @param {string} [options.videoId]
+     * @param {string} [options.lang='fr']
+     * @param {Object} options.state - InPageState instance
+     * @param {Function} [options.onChunk]
+     * @param {Function} [options.onDone]
+     * @param {Function} [options.onError]
+     * @param {Function} [options.onProgress]
+     * @returns {Promise<AuditReport>}
+     */
+    async executeAudit(options = {}) {
+      const videoId = options.videoId || getVideoId();
+      if (!videoId) {
+        throw new Error("Identifiant vid\xE9o manquant pour l\u2019audit");
+      }
+      const lang = options.lang || "fr";
+      const state2 = options.state || {};
+      this.abortAudit();
+      this.isAuditing = true;
+      try {
+        options.onProgress?.({
+          step: "transcript",
+          percent: 12,
+          message: "Collecte de la transcription int\xE9grale (0 coupure)...",
+          detail: "Recueil des sous-titres et horodatages complets"
+        });
+        let transcriptText = "";
+        let isDialogue = false;
+        const cached = this.transcriptController?.cachedTranscript;
+        if (cached && cached.videoId === videoId && cached.fullText && !cached.isChapterOnly) {
+          transcriptText = cached.segments?.map((s) => `[${s.timestamp}] ${s.text}`).join(" ") || cached.fullText;
+          isDialogue = true;
+        }
+        if (!transcriptText) {
+          const segments = await this.transcriptController?.extractYouTubeTranscript?.(lang, true);
+          const updated = this.transcriptController?.cachedTranscript;
+          if (segments && segments.length > 0 && !updated?.isChapterOnly) {
+            transcriptText = segments.map((s) => `[${s.timestamp}] ${s.text}`).join(" ");
+            isDialogue = true;
+          } else if (segments && segments.length > 0) {
+            transcriptText = segments.map((s) => `[${s.timestamp}] ${s.text}`).join("\n");
+            isDialogue = false;
+          }
+        }
+        if (!transcriptText) {
+          const chapters = YouTubeDOMContext.extractChaptersFromDescription();
+          if (chapters && chapters.length > 0) {
+            transcriptText = chapters.map((s) => `[${s.timestamp}] ${s.text}`).join("\n");
+            isDialogue = false;
+          }
+        }
+        if (!transcriptText) {
+          throw new Error("Donn\xE9es textuelles indisponibles pour r\xE9aliser l\u2019audit (ni sous-titres, ni chapitrage disponible).");
+        }
+        options.onProgress?.({
+          step: "comments",
+          percent: 22,
+          message: "Scan des signaux communautaires & commentaires...",
+          detail: "Analyse des commentaires et des liens en description"
+        });
+        let commentsBlock = "";
+        if (this.commentsManager && typeof this.commentsManager.getOrFetchComments === "function") {
+          const commentsRes = await this.commentsManager.getOrFetchComments(videoId, 30).catch(() => null);
+          if (commentsRes?.success && commentsRes.markdownDossier) {
+            commentsBlock = commentsRes.markdownDossier;
+          }
+        }
+        const videoMeta = YouTubeDOMContext.getVideoMetadata(this.transcriptController?.cachedVideoMetadata || {});
+        const systemPrompt = AuditPromptBuilder.buildSystemPrompt(lang);
+        const userPrompt = AuditPromptBuilder.buildAuditUserPrompt({
+          transcriptText,
+          videoMeta,
+          commentsBlock,
+          lang,
+          isDialogue
+        });
+        options.onProgress?.({
+          step: "streaming",
+          percent: 28,
+          message: "Examen de la coh\xE9rence logique et v\xE9racit\xE9...",
+          detail: "Transmission du dossier int\xE9gral au mod\xE8le"
+        });
+        const provider = state2.currentProvider || "lmstudio";
+        const activeModel = typeof state2.getActiveModel === "function" ? state2.getActiveModel() : state2.selectedModel || "";
+        const serverUrls = state2.serverUrls || {};
+        const serverUrl = serverUrls[provider] || "";
+        const apiKeys = state2.apiKeys || {};
+        const apiKey = apiKeys[provider] || "";
+        const report = await new Promise((resolve, reject) => {
+          let accumulatedMarkdown = "";
+          let reasoningChars = 0;
+          const port = chrome.runtime.connect({ name: "ai-stream" });
+          this.currentPort = port;
+          port.onMessage.addListener((msg) => {
+            if (msg.type === "CHUNK") {
+              if (msg.reasoning) {
+                reasoningChars += msg.reasoning.length;
+                const approxTokens = Math.round(reasoningChars / 4);
+                const reasonPct = Math.min(42, 28 + Math.round(approxTokens / 45));
+                options.onProgress?.({
+                  step: "reasoning",
+                  percent: reasonPct,
+                  message: `R\xE9flexion critique du mod\xE8le (${approxTokens} tokens)...`,
+                  detail: "Raisonnement sur la structure des arguments et des sources"
+                });
+              }
+              const chunkText = msg.content || msg.text || "";
+              if (chunkText) {
+                accumulatedMarkdown += chunkText;
+                const len = accumulatedMarkdown.length;
+                const textPct = Math.min(46, Math.round(len / 2200 * 46));
+                let percent = Math.min(88, 42 + textPct);
+                let message = "Examen critique : coh\xE9rence logique et v\xE9racit\xE9...";
+                let detail = "Contr\xF4le des affirmations et recherche des sophismes";
+                if (accumulatedMarkdown.includes("[SCORE") || accumulatedMarkdown.includes("Synth\xE8se")) {
+                  percent = Math.max(percent, 92);
+                  message = "Examen final & calcul du score de fiabilit\xE9...";
+                  detail = "Synth\xE8se des forces, faiblesses et verdict d'int\xE9grit\xE9";
+                } else if (accumulatedMarkdown.match(/affiliation|partenariat|commission|vendeur/i)) {
+                  message = "Examen critique : transparence commerciale...";
+                  detail = "D\xE9tection de promotion non d\xE9clar\xE9e ou liens avec commission";
+                } else if (accumulatedMarkdown.match(/source|étude|chiffre|statistique/i)) {
+                  message = "Examen critique : rigueur des sources et citations...";
+                  detail = "V\xE9rification de l'exactitude des r\xE9f\xE9rences et donn\xE9es";
+                }
+                options.onProgress?.({
+                  step: "streaming",
+                  percent,
+                  message,
+                  detail
+                });
+                options.onChunk?.(chunkText, accumulatedMarkdown);
+              }
+            } else if (msg.type === "DONE") {
+              this.isAuditing = false;
+              this.currentPort = null;
+              options.onProgress?.({
+                step: "done",
+                percent: 100,
+                message: "\u2713 Examen de la vid\xE9o termin\xE9",
+                detail: "Rapport d'int\xE9grit\xE9 et score de fiabilit\xE9 pr\xEAts"
+              });
+              const scoreMatch = accumulatedMarkdown.match(/\[SCORE:\s*(\d{1,3})\/100\]/i);
+              const reliabilityScore = scoreMatch ? Math.min(100, Math.max(0, parseInt(scoreMatch[1], 10))) : 80;
+              let status = "reliable";
+              if (reliabilityScore < 50) status = "manipulative";
+              else if (reliabilityScore < 70) status = "caution";
+              const auditReport = new AuditReport({
+                videoId,
+                reliabilityScore,
+                status,
+                rawMarkdown: accumulatedMarkdown,
+                lang,
+                createdAt: Date.now()
+              });
+              this.cachedAudits.set(videoId, auditReport);
+              options.onDone?.(auditReport);
+              resolve(auditReport);
+            } else if (msg.type === "ERROR") {
+              this.isAuditing = false;
+              this.currentPort = null;
+              const err = new Error(msg.error || "Erreur lors de la g\xE9n\xE9ration de l\u2019audit");
+              options.onError?.(err);
+              reject(err);
+            }
+          });
+          port.onDisconnect.addListener(() => {
+            if (this.isAuditing) {
+              this.isAuditing = false;
+              const err = new Error("Flux de connexion interrompu");
+              options.onError?.(err);
+              reject(err);
+            }
+          });
+          port.postMessage({
+            action: "START_STREAM",
+            provider,
+            serverUrl,
+            apiKey,
+            model: activeModel,
+            systemPrompt,
+            messages: [{ role: "user", content: userPrompt }],
+            temperature: "0.2",
+            maxTokens: "auto"
+          });
+        });
+        return report;
+      } catch (err) {
+        this.isAuditing = false;
+        this.currentPort = null;
+        throw err;
+      }
+    }
+  };
+
+  // src/services/implementations/ChannelStatisticalSampler.js
+  var ChannelStatisticalSampler = class {
+    /**
+     * Categorizes a video into a temporal era based on metadata string (FR/EN)
+     * @param {Object} video
+     * @returns {{era: 'recent'|'mid'|'legacy', eraLabel: string, weight: number, yearEstimate: number}}
+     */
+    static categorizeVideoEra(video = {}) {
+      const meta = (video.meta || "").toLowerCase();
+      const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
+      const yearMatch = meta.match(/(?:il y a\s*(\d+)\s*ans?|(\d+)\s*y(?:ears?|rs?)\s*ago)/);
+      if (yearMatch) {
+        const yearsAgo = parseInt(yearMatch[1] || yearMatch[2], 10);
+        if (yearsAgo >= 2) {
+          return {
+            era: "legacy",
+            eraLabel: `Historique (~${yearsAgo} ans)`,
+            weight: 0.6,
+            yearEstimate: Math.max(2010, currentYear - yearsAgo)
+          };
+        }
+        if (yearsAgo === 1) {
+          return {
+            era: "mid",
+            eraLabel: "Interm\xE9diaire (~1 an)",
+            weight: 1,
+            yearEstimate: currentYear - 1
+          };
+        }
+      }
+      const monthMatch = meta.match(/(?:il y a\s*(\d+)\s*(?:mois|m\b|m\.)|(\d+)\s*months?\s*ago)/);
+      if (monthMatch) {
+        const months = parseInt(monthMatch[1] || monthMatch[2], 10);
+        if (months >= 6) {
+          return {
+            era: "mid",
+            eraLabel: `Interm\xE9diaire (~${months} mois)`,
+            weight: 1,
+            yearEstimate: currentYear - 1
+          };
+        }
+        return {
+          era: "recent",
+          eraLabel: `R\xE9cent (~${months} mois)`,
+          weight: 1.5,
+          yearEstimate: currentYear
+        };
+      }
+      const isRecent = /(?:il y a\s*\d+\s*(?:h\b|j\b|sem|heure|jour|semaine)|(?:hour|day|week)s?\s*ago|hier|yesterday)/.test(meta);
+      if (isRecent) {
+        return {
+          era: "recent",
+          eraLabel: "R\xE9cent (Derniers mois)",
+          weight: 1.5,
+          yearEstimate: currentYear
+        };
+      }
+      return {
+        era: "recent",
+        eraLabel: "R\xE9cent",
+        weight: 1.5,
+        yearEstimate: currentYear
+      };
+    }
+    /**
+     * Filters video pool according to a temporal period shortcut
+     * @param {Array<Object>} allVideos
+     * @param {'all'|'month'|'6months'|'year'} [period='all']
+     * @returns {Array<Object>} Filtered videos
+     */
+    static filterVideosByPeriod(allVideos = [], period = "all") {
+      if (!Array.isArray(allVideos) || allVideos.length === 0 || period === "all") {
+        return allVideos || [];
+      }
+      const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
+      return allVideos.filter((v) => {
+        const meta = (v.meta || "").toLowerCase();
+        if (period === "month") {
+          const isDays = /(?:il y a\s*\d+\s*(?:h\b|j\b|sem|heure|jour|semaine)|(?:hour|day|week)s?\s*ago|hier|yesterday)/.test(meta);
+          const isOneMonth = /(?:il y a\s*1\s*(?:mois|m\b|m\.)|1\s*month\s*ago)/.test(meta);
+          return isDays || isOneMonth;
+        }
+        if (period === "6months") {
+          const isDays = /(?:il y a\s*\d+\s*(?:h\b|j\b|sem|heure|jour|semaine)|(?:hour|day|week)s?\s*ago|hier|yesterday)/.test(meta);
+          const m = meta.match(/(?:il y a\s*(\d+)\s*(?:mois|m\b|m\.)|(\d+)\s*months?\s*ago)/);
+          return isDays || m && parseInt(m[1] || m[2], 10) <= 6;
+        }
+        if (period === "year") {
+          const isDays = /(?:il y a\s*\d+\s*(?:h\b|j\b|sem|heure|jour|semaine)|(?:hour|day|week)s?\s*ago|hier|yesterday)/.test(meta);
+          const m = meta.match(/(?:il y a\s*(\d+)\s*(?:mois|m\b|m\.)|(\d+)\s*months?\s*ago)/);
+          const isUnderYear = isDays || m && parseInt(m[1] || m[2], 10) <= 12;
+          const isOneYear = /(?:il y a\s*1\s*(?:an|a\b|a\.)|1\s*year\s*ago)/.test(meta);
+          return isUnderYear || isOneYear || this.categorizeVideoEra(v).yearEstimate >= currentYear;
+        }
+        return true;
+      });
+    }
+    /**
+     * Selects a stratified statistical sample from a list of channel videos
+     * @param {Array<Object>} allVideos
+     * @param {Object} [options]
+     * @param {number} [options.maxSample=12]
+     * @returns {Array<Object>} Stratified sample with era metadata and weights
+     */
+    static selectStratifiedSample(allVideos = [], options = {}) {
+      const { maxSample = 12 } = options;
+      if (!Array.isArray(allVideos) || allVideos.length === 0) return [];
+      if (allVideos.length <= maxSample) {
+        return allVideos.map((v, idx) => {
+          const eraInfo = this.categorizeVideoEra(v);
+          return { ...v, sampleIndex: idx + 1, ...eraInfo };
+        });
+      }
+      const enriched = allVideos.map((v, idx) => ({
+        ...v,
+        originalIndex: idx,
+        ...this.categorizeVideoEra(v)
+      }));
+      const recentPool = enriched.filter((v) => v.era === "recent");
+      const midPool = enriched.filter((v) => v.era === "mid");
+      const legacyPool = enriched.filter((v) => v.era === "legacy");
+      const recentQuota = Math.max(3, Math.round(maxSample * 0.6));
+      const midQuota = Math.max(1, Math.round(maxSample * 0.25));
+      const legacyQuota = Math.max(1, maxSample - recentQuota - midQuota);
+      const selectedRecent = recentPool.slice(0, recentQuota);
+      const selectedMid = midPool.slice(0, midQuota);
+      const selectedLegacy = legacyPool.slice(0, legacyQuota);
+      const selectedIds = /* @__PURE__ */ new Set([
+        ...selectedRecent.map((v) => v.id),
+        ...selectedMid.map((v) => v.id),
+        ...selectedLegacy.map((v) => v.id)
+      ]);
+      const result = [...selectedRecent, ...selectedMid, ...selectedLegacy];
+      for (const v of enriched) {
+        if (result.length >= maxSample) break;
+        if (!selectedIds.has(v.id)) {
+          selectedIds.add(v.id);
+          result.push(v);
+        }
+      }
+      return result.map((v, idx) => ({ ...v, sampleIndex: idx + 1 }));
+    }
+    /**
+     * Computes weighted aggregate statistics across evaluated sample videos
+     * @param {Array<Object>} evaluatedVideos
+     * @returns {Object} Weighted metrics, distribution, and trajectory
+     */
+    static computeWeightedMetrics(evaluatedVideos = []) {
+      if (!Array.isArray(evaluatedVideos) || evaluatedVideos.length === 0) {
+        return {
+          weightedScore: 50,
+          weightedClickbait: 20,
+          distribution: { reliable: 0, caution: 0, clickbait: 0 },
+          proportions: { reliablePct: 0, cautionPct: 0, clickbaitPct: 0 },
+          trajectory: "stable",
+          trajectoryLabel: "Ligne \xE9ditoriale stable",
+          eraScores: { recent: null, mid: null, legacy: null }
+        };
+      }
+      let totalWeight = 0;
+      let weightedScoreSum = 0;
+      let weightedClickbaitSum = 0;
+      let reliableCount = 0;
+      let cautionCount = 0;
+      let clickbaitCount = 0;
+      const eraAccumulators = {
+        recent: { sum: 0, weight: 0 },
+        mid: { sum: 0, weight: 0 },
+        legacy: { sum: 0, weight: 0 }
+      };
+      for (const v of evaluatedVideos) {
+        const score = typeof v.score === "number" ? Math.max(0, Math.min(100, v.score)) : 50;
+        const clickbait = typeof v.clickbait === "number" ? Math.max(0, Math.min(100, v.clickbait)) : 20;
+        const weight = typeof v.weight === "number" ? v.weight : 1;
+        const era = v.era || "recent";
+        totalWeight += weight;
+        weightedScoreSum += score * weight;
+        weightedClickbaitSum += clickbait * weight;
+        if (score >= 75) reliableCount++;
+        else if (score >= 50) cautionCount++;
+        else clickbaitCount++;
+        if (eraAccumulators[era]) {
+          eraAccumulators[era].sum += score * weight;
+          eraAccumulators[era].weight += weight;
+        }
+      }
+      const totalCount = evaluatedVideos.length;
+      const finalScore = totalWeight > 0 ? Math.round(weightedScoreSum / totalWeight) : 50;
+      const finalClickbait = totalWeight > 0 ? Math.round(weightedClickbaitSum / totalWeight) : 20;
+      const reliablePct = Math.round(reliableCount / totalCount * 100);
+      const cautionPct = Math.round(cautionCount / totalCount * 100);
+      const clickbaitPct = Math.max(0, 100 - reliablePct - cautionPct);
+      const eraScores = {
+        recent: eraAccumulators.recent.weight > 0 ? Math.round(eraAccumulators.recent.sum / eraAccumulators.recent.weight) : null,
+        mid: eraAccumulators.mid.weight > 0 ? Math.round(eraAccumulators.mid.sum / eraAccumulators.mid.weight) : null,
+        legacy: eraAccumulators.legacy.weight > 0 ? Math.round(eraAccumulators.legacy.sum / eraAccumulators.legacy.weight) : null
+      };
+      let trajectory = "stable";
+      let trajectoryLabel = "Ligne \xE9ditoriale stable";
+      const baselineScore = eraScores.mid ?? eraScores.legacy;
+      if (eraScores.recent !== null && baselineScore !== null) {
+        const diff = eraScores.recent - baselineScore;
+        if (diff >= 6) {
+          trajectory = "improving";
+          trajectoryLabel = "En nette progression (rigueur et nuance en hausse)";
+        } else if (diff <= -6) {
+          trajectory = "declining";
+          trajectoryLabel = "En baisse de rigueur (sensationnalisme accru)";
+        }
+      }
+      return {
+        weightedScore: finalScore,
+        weightedClickbait: finalClickbait,
+        distribution: {
+          reliable: reliableCount,
+          caution: cautionCount,
+          clickbait: clickbaitCount
+        },
+        proportions: {
+          reliablePct,
+          cautionPct,
+          clickbaitPct
+        },
+        trajectory,
+        trajectoryLabel,
+        eraScores
+      };
+    }
+  };
+
+  // src/services/implementations/ChannelAuditPromptBuilder.js
+  var ChannelAuditPromptBuilder = class {
+    /**
+     * Builds the system prompt for channel audit in the requested language
+     * @param {string} [lang='fr']
+     * @returns {string}
+     */
+    static buildSystemPrompt(lang = "fr") {
+      const isFr = (lang || "fr").toLowerCase().startsWith("fr");
+      const now = /* @__PURE__ */ new Date();
+      const currentDateStr = now.toLocaleDateString(isFr ? "fr-FR" : "en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+      if (isFr) {
+        return `Tu es un auditeur des m\xE9dias num\xE9riques et expert en analyse \xE9ditoriale YouTube.
+Ta mission est d'auditer de fa\xE7on FACTUELLE, OBJECTIVE et \xC9QUITABLE une cha\xEEne YouTube \xE0 partir d'un \xC9CHANTILLON STATISTIQUE GROUP\xC9 de ses vid\xE9os.
+
+REP\xC8RE CHRONOLOGIQUE DU MONDE R\xC9EL :
+- Date actuelle d'observation : ${currentDateStr}.
+- Situe chronologiquement les vid\xE9os de l'\xE9chantillon par rapport \xE0 cette date contemporaine.
+
+M\xC9THODOLOGIE D'\xC9CHANTILLONNAGE & CRIT\xC8RES D'ANALYSE :
+1. POND\xC9RATION FORTE SUR LE R\xC9CENT (~65% du poids) : Les vid\xE9os r\xE9centes refl\xE8tent l'\xE9tat actuel de la cha\xEEne, sa maturit\xE9, ses progr\xE8s \xE9ditoriaux ou au contraire une d\xE9rive sensationnaliste.
+2. PERSPECTIVE TEMPORELLE (~35% du poids) : Compare les vid\xE9os r\xE9centes aux vid\xE9os interm\xE9diaires (~1 an) et plus anciennes pour mesurer l'\xE9volution d'ann\xE9e en ann\xE9e (professionnalisation, nuance, transparence).
+3. SENSATIONNALISME & ACCROCHES TROMPEUSES : Mesure le d\xE9calage \xE9ventuel entre les promesses des titres et le contenu r\xE9el. Reste toujours neutre et factuel : si la cha\xEEne est sobre et honn\xEAte, reconnais-le sans forcer la critique. Ne mentionne le sensationnalisme que s'il est r\xE9ellement pr\xE9sent.
+4. TRANSPARENCE COMMERCIALE & DISCERNEMENT MARKETING : Il est normal et l\xE9gitime qu'un cr\xE9ateur gagne sa vie (sponsors, partenariats, vente d'ouvrages ou de formations). L'exigence cl\xE9 est la transparence envers le public et la pr\xE9servation de son esprit critique : l'auteur d\xE9veloppe-t-il des arguments r\xE9els, v\xE9rifi\xE9s et nuanc\xE9s, ou r\xE9p\xE8te-t-il un discours marketing pr\xE9format\xE9 sans recul ? ("Le mal n'est pas partout : une vid\xE9o sponsoris\xE9e peut \xEAtre rigoureuse si les arguments sont honn\xEAtes").
+5. POSTURE D\xC9CLARATIVE VS PREUVE R\xC9ELLE : Ne prends jamais l'auto-proclamation d'honn\xEAtet\xE9 (\xAB je suis totalement ind\xE9pendant \xBB, \xAB je vous dis toute la v\xE9rit\xE9 \xBB) pour argent comptant. C'est \xE0 l'audit de juger de la sinc\xE9rit\xE9 et de la probit\xE9 du propos en v\xE9rifiant les faits, la solidit\xE9 des arguments et la coh\xE9rence des d\xE9monstrations.
+6. Z\xC9RO MALUS POUR CONTRAINTE TECHNIQUE : Il est strictement interdit de baisser la note d'une vid\xE9o ou d'une cha\xEEne sous pr\xE9texte que les sous-titres complets ne sont pas disponibles sur la plateforme. Juge la rigueur et l'honn\xEAtet\xE9 \xE0 100% sur les \xE9l\xE9ments observables.
+
+FORMAT IMP\xC9RATIF DE R\xC9PONSE :
+Pour permettre le parsing automatique et l'affichage des graphiques statistiques, ta r\xE9ponse DOIT inclure STRICTEMENT :
+
+1. Les balises d'\xE9valuation de chaque vid\xE9o de l'\xE9chantillon :
+[EVAL_VIDEOS]
+Num\xE9ro | Score | Sensationnalisme% | Verdict | Commentaire d'une phrase
+(Exemple : 1 | 85 | 10 | Fiable | Titre informatif et sujet trait\xE9 avec rigueur.)
+(Exemple : 2 | 55 | 45 | Mod\xE9r\xE9 | Titre accrocheur mais contenu convenable.)
+[/EVAL_VIDEOS]
+
+2. Les balises synth\xE9tiques globales :
+[SCORE_GLOBAL: XX/100] (Note globale pond\xE9r\xE9e sur 100)
+[INDICE_SENSATIONNALISME: YY%] (ou [INDICE_CLICKBAIT: YY%], taux moyen de sensationnalisme dans les titres, 0 \xE0 100)
+[DISTRIBUTION: Fiable=A%, Modere=B%, Risque=C%]
+[TRAJECTOIRE: PROGRESSION | STABLE | DECLIN]
+
+3. Le rapport qualitatif structur\xE9 :
+### [\u2713] Ce que la cha\xEEne fait de bien (Forces & Rigueur)
+- 2 \xE0 4 points concrets sur les qualit\xE9s \xE9ditoriales, la clart\xE9 p\xE9dagogique, la d\xE9marche d'auteur et les sources.
+
+### [!] Ce qu'elle fait de moins bien (Points de vigilance)
+- 2 \xE0 3 nuances constructives sur les raccourcis \xE9ventuels ou la simplification p\xE9dagogique.
+
+### [X] \xC9cueils et d\xE9rives constat\xE9s (Accroches trompeuses & Discours publicitaire non assum\xE9)
+- 1 \xE0 3 observations franches si des titres trompeurs, un manque de transparence sur les partenariats ou un discours marketing r\xE9p\xE9t\xE9 sans esprit critique sont constat\xE9s (ou "Aucun \xE9cueil majeur constat\xE9" si la cha\xEEne est exemplaire).
+
+### [\u{1F4C8}] \xC9volution temporelle (Trajectoire d'ann\xE9e en ann\xE9e)
+- Analyse synth\xE9tique montrant l'\xE9volution entre les vid\xE9os plus anciennes et la production actuelle.
+
+### Synth\xE8se & Recommandation Globale
+- Verdict final clair pour un spectateur exigeant.
+
+DIRECTIVE DE CONCISION : R\xE9dige directement le bloc [EVAL_VIDEOS] puis les balises synth\xE9tiques et les sections qualitatives succinctes. Reste toujours neutre, constructif et direct. N'invente pas de d\xE9fauts inexistants.`;
+      }
+      return `You are a digital media auditor and expert in YouTube editorial analysis.
+Your mission is to audit a YouTube channel impartially based on a CONSOLIDATED STATISTICAL SAMPLE of its videos.
+
+REAL-WORLD TEMPORAL REFERENCE:
+- Today's date: ${currentDateStr}.
+- Anchor the sampled videos relative to this contemporary observation date.
+
+TEMPORAL WEIGHTING METHODOLOGY:
+1. RECENCY WEIGHT (~65% of weight): Recent videos best reflect current maturity or recent changes.
+2. HISTORICAL PERSPECTIVE (~35% of weight): Compare recent videos against earlier ones to evaluate Year-over-Year evolution.
+3. SENSATIONALISM SENSITIVITY: Evaluate title exaggeration vs informative substance.
+4. COMMERCIAL TRANSPARENCY: Differentiate author self-promotion from undisclosed third-party sponsorships.
+
+MANDATORY OUTPUT FORMAT:
+[EVAL_VIDEOS]
+Index | Score | Clickbait% | Verdict | One sentence note
+[/EVAL_VIDEOS]
+
+[SCORE_GLOBAL: XX/100]
+[INDICE_CLICKBAIT: YY%]
+[DISTRIBUTION: Fiable=A%, Modere=B%, Risque=C%]
+[TRAJECTOIRE: PROGRESSION | STABLE | DECLIN]
+
+### [\u2713] Strengths & Editorial Rigor
+### [!] Areas of Caution & Subtle Biases
+### [X] Critical Flaws & Sensationalism Traps
+### [\u{1F4C8}] Year-over-Year Trajectory
+### Executive Synthesis & Recommendation`;
+    }
+    /**
+     * Builds the consolidated multi-video prompt
+     * @param {Object} channel
+     * @param {Array<Object>} sampledVideos
+     * @param {string} [lang='fr']
+     * @returns {string}
+     */
+    static buildUserPrompt(channel = {}, sampledVideos = [], lang = "fr") {
+      const isFr = (lang || "fr").toLowerCase().startsWith("fr");
+      const title = channel.title || "Cr\xE9ateur YouTube";
+      const handle = channel.handle || "";
+      const subs = channel.subscribers || "Non sp\xE9cifi\xE9";
+      const videoCount = channel.videoCount || `${sampledVideos.length} vid\xE9os`;
+      const bio = channel.bio ? channel.bio.trim() : "Aucune bio renseign\xE9e.";
+      const recent = sampledVideos.filter((v) => v.era === "recent");
+      const mid = sampledVideos.filter((v) => v.era === "mid");
+      const legacy = sampledVideos.filter((v) => v.era === "legacy");
+      const formatCohort = (cohortList, headerLabel) => {
+        if (!cohortList || cohortList.length === 0) return "";
+        const lines = [`
+${headerLabel} :`];
+        cohortList.forEach((v) => {
+          lines.push(`  ${v.sampleIndex || "\u2022"}. "${v.title}" (${v.meta || v.eraLabel || ""}) [ID: ${v.id}]`);
+          if (Array.isArray(v.chapters) && v.chapters.length > 0) {
+            lines.push(`     \u2514 Chapitres : ${v.chapters.slice(0, 5).join(" | ")}`);
+          }
+          if (v.description) {
+            const cleanDesc = v.description.replace(/\s+/g, " ").trim().slice(0, 180);
+            lines.push(`     \u2514 Liens & Description : """${cleanDesc}\u2026"""`);
+          }
+          if (Array.isArray(v.comments) && v.comments.length > 0) {
+            const topComms = v.comments.slice(0, 2).map((c) => `"${c.author}: ${(c.text || "").replace(/\s+/g, " ").slice(0, 75)}"`).join(" | ");
+            lines.push(`     \u2514 R\xE9actions du public : ${topComms}`);
+          }
+        });
+        return lines.join("\n");
+      };
+      const header = isFr ? `AUDIT STATISTIQUE CONSOLID\xC9 DE LA CHA\xCENE :
+- Nom : ${title} (${handle})
+- Audience : ${subs} \u2022 Volume : ${videoCount}
+- Bio officielle : """${bio}"""
+
+\xC9CHANTILLON REPR\xC9SENTATIF GROUP\xC9 (${sampledVideos.length} VID\xC9OS S\xC9LECTIONN\xC9ES) :` : `CONSOLIDATED STATISTICAL CHANNEL AUDIT:
+- Name: ${title} (${handle})
+- Audience: ${subs} \u2022 Volume: ${videoCount}
+- Bio: """${bio}"""
+
+REPRESENTATIVE GROUP SAMPLE (${sampledVideos.length} SELECTED VIDEOS):`;
+      const cohort1 = formatCohort(recent, isFr ? "[COHORTE 1 : R\xC9CENT (Derniers mois - Poids fort ~65%)]" : "[COHORT 1: RECENT (Recent months - 65% weight)]");
+      const cohort2 = formatCohort(mid, isFr ? "[COHORTE 2 : INTERM\xC9DIAIRE (~1 an - Poids moyen ~25%)]" : "[COHORT 2: MID-TERM (~1 year - 25% weight)]");
+      const cohort3 = formatCohort(legacy, isFr ? "[COHORTE 3 : HISTORIQUE / PILIERS - Poids ~10%)]" : "[COHORT 3: HISTORICAL / PILLARS - 10% weight)]");
+      const instruction = isFr ? `
+CONSIGNE D'ANALYSE GROUP\xC9E :
+Proc\xE8de en UNE SEULE \xC9VALUATION CONSOLID\xC9E :
+1. Note chaque vid\xE9o dans le bloc [EVAL_VIDEOS] ... [/EVAL_VIDEOS] avec son taux de sensationnalisme et une justification d'une phrase.
+2. \xC9tablis la note globale [SCORE_GLOBAL], le taux de sensationnalisme [INDICE_SENSATIONNALISME], la proportion [DISTRIBUTION] et la [TRAJECTOIRE].
+3. R\xE9dige les sections qualitatives [\u2713], [!], [X], [\u{1F4C8}] et la synth\xE8se finale.` : `
+INSTRUCTION: Perform a single consolidated evaluation with [EVAL_VIDEOS], global tags, and the qualitative sections.`;
+      return `${header}${cohort1}${cohort2}${cohort3}
+${instruction}`;
+    }
+  };
+
+  // src/domain/models/ChannelAuditReport.js
+  var ChannelAuditReport = class _ChannelAuditReport {
+    constructor(data = {}) {
+      this.channelTitle = data.channelTitle || "Cha\xEEne YouTube";
+      this.channelHandle = data.channelHandle || "";
+      this.subscribers = data.subscribers || "";
+      this.totalVideos = data.totalVideos || "";
+      this.sampleSize = data.sampleSize || 0;
+      this.globalScore = typeof data.globalScore === "number" ? Math.max(0, Math.min(100, data.globalScore)) : 50;
+      this.clickbaitIndex = typeof data.clickbaitIndex === "number" ? Math.max(0, Math.min(100, data.clickbaitIndex)) : 20;
+      this.proportions = data.proportions || { reliablePct: 60, cautionPct: 30, clickbaitPct: 10 };
+      this.distribution = data.distribution || { reliable: 0, caution: 0, clickbait: 0 };
+      this.trajectory = data.trajectory || "stable";
+      this.trajectoryLabel = data.trajectoryLabel || "Ligne \xE9ditoriale stable";
+      this.evaluatedVideos = Array.isArray(data.evaluatedVideos) ? data.evaluatedVideos : [];
+      this.strengths = Array.isArray(data.strengths) ? data.strengths : [];
+      this.weaknesses = Array.isArray(data.weaknesses) ? data.weaknesses : [];
+      this.drawbacks = Array.isArray(data.drawbacks) ? data.drawbacks : [];
+      this.temporalEvolution = data.temporalEvolution || "";
+      this.executiveSummary = data.executiveSummary || "";
+      this.rawText = data.rawText || "";
+      this.timestamp = data.timestamp || Date.now();
+      this.badge = this._computeBadge();
+    }
+    _computeBadge() {
+      if (this.globalScore >= 75) {
+        return { label: "Cha\xEEne Recommandable & Factuelle", color: "success", symbol: "\u2713" };
+      }
+      if (this.globalScore >= 50) {
+        return { label: "Vigilance & Esprit Critique Recommand\xE9s", color: "warning", symbol: "!" };
+      }
+      return { label: "Sensationnalisme / Accroches Trompeuses", color: "danger", symbol: "!" };
+    }
+    /**
+     * Parses consolidated raw AI response and sample metadata into ChannelAuditReport
+     * @param {string} rawText Complete streamed markdown output
+     * @param {Object} context Metadata of sampled videos and channel
+     * @returns {ChannelAuditReport}
+     */
+    static fromRawResponse(rawText = "", context = {}) {
+      const channel = context.channel || {};
+      const sampledVideos = context.sampledVideos || [];
+      const scoreMatch = rawText.match(/\[(?:SCORE_GLOBAL|GLOBAL_SCORE|SCORE)\s*:\s*(\d{1,3})\s*(?:\/\s*100)?\]/i);
+      const clickbaitMatch = rawText.match(/\[(?:INDICE_CLICKBAIT|CLICKBAIT_INDEX|CLICKBAIT|INDICE_SENSATIONNALISME|SENSATIONNALISME)\s*:\s*(\d{1,3})\s*%?\]/i);
+      const trajectoryMatch = rawText.match(/\[(?:TRAJECTOIRE|TRAJECTORY)\s*:\s*(PROGRESSION|STABLE|DECLIN|IMPROVING|DECLINING)\]/i);
+      const evaluatedVideos = this._parseEvaluatedVideos(rawText, sampledVideos);
+      const stats = ChannelStatisticalSampler.computeWeightedMetrics(evaluatedVideos);
+      const parsedScore = scoreMatch ? parseInt(scoreMatch[1], 10) : stats.weightedScore;
+      const parsedClickbait = clickbaitMatch ? parseInt(clickbaitMatch[1], 10) : stats.weightedClickbait;
+      let traj = stats.trajectory;
+      let trajLabel = stats.trajectoryLabel;
+      if (trajectoryMatch) {
+        const t = trajectoryMatch[1].toUpperCase();
+        if (t === "PROGRESSION" || t === "IMPROVING") {
+          traj = "improving";
+          trajLabel = "En nette progression (rigueur et nuance en hausse)";
+        } else if (t === "DECLIN" || t === "DECLINING") {
+          traj = "declining";
+          trajLabel = "En baisse de rigueur (sensationnalisme accru)";
+        } else {
+          traj = "stable";
+          trajLabel = "Ligne \xE9ditoriale stable";
+        }
+      }
+      const strengths = this._extractBulletSection(rawText, [
+        /###\s*\[?✓?\]?\s*Ce que la chaîne fait de bien/i,
+        /###\s*Points forts/i,
+        /###\s*Strengths/i
+      ]);
+      const weaknesses = this._extractBulletSection(rawText, [
+        /###\s*\[?!\]?\s*Ce qu'elle fait de moins bien/i,
+        /###\s*Points de vigilance/i,
+        /###\s*Weaknesses/i
+      ]);
+      const drawbacks = this._extractBulletSection(rawText, [
+        /###\s*\[?X?\]?\s*Écueils et dérives/i,
+        /###\s*Pièges et sensationnalisme/i,
+        /###\s*Ce qui ne va pas/i,
+        /###\s*Critical flaws/i
+      ]);
+      const temporalEvolution = this._extractSectionContent(rawText, [
+        /###\s*\[?📈?\]?\s*Évolution temporelle/i,
+        /###\s*Trajectoire d'année en année/i,
+        /###\s*Year-over-Year/i
+      ]);
+      const executiveSummary = this._extractSectionContent(rawText, [
+        /###\s*Synthèse & Recommandation/i,
+        /###\s*Verdict global/i,
+        /###\s*Executive Summary/i
+      ]);
+      return new _ChannelAuditReport({
+        channelTitle: channel.title || "Cr\xE9ateur",
+        channelHandle: channel.handle || "",
+        subscribers: channel.subscribers || "",
+        totalVideos: channel.videoCount || `${sampledVideos.length} vid\xE9os analys\xE9es`,
+        sampleSize: sampledVideos.length,
+        globalScore: parsedScore,
+        clickbaitIndex: parsedClickbait,
+        proportions: stats.proportions,
+        distribution: stats.distribution,
+        trajectory: traj,
+        trajectoryLabel: trajLabel,
+        evaluatedVideos,
+        strengths,
+        weaknesses,
+        drawbacks,
+        temporalEvolution,
+        executiveSummary,
+        rawText
+      });
+    }
+    static _parseEvaluatedVideos(rawText, sampledVideos) {
+      const result = [];
+      const blockMatch = rawText.match(/\[EVAL_VIDEOS\]([\s\S]*?)\[\/EVAL_VIDEOS\]/i);
+      const content = blockMatch ? blockMatch[1] : rawText;
+      const lines = content.split("\n");
+      const parsedMap = /* @__PURE__ */ new Map();
+      for (const line of lines) {
+        const cleanLine = line.trim().replace(/^\|\s*/, "").replace(/\s*\|$/, "");
+        if (!cleanLine || cleanLine.startsWith("---") || cleanLine.startsWith(":--")) continue;
+        const parts = cleanLine.split("|").map((s) => s.trim());
+        if (parts.length >= 3) {
+          const idx = parseInt(parts[0].replace(/[^0-9]/g, ""), 10);
+          const score = parseInt(parts[1].replace(/[^0-9]/g, ""), 10);
+          const clickbait = parseInt(parts[2].replace(/[^0-9]/g, ""), 10);
+          const verdict = parts[3] || (score >= 75 ? "Fiable" : score >= 50 ? "Mod\xE9r\xE9" : "Risque");
+          const comment = parts[4] || "";
+          if (!isNaN(idx) && !isNaN(score)) {
+            parsedMap.set(idx, { score, clickbait: isNaN(clickbait) ? 20 : clickbait, verdict, comment });
+          }
+        }
+      }
+      sampledVideos.forEach((v, i) => {
+        const idx = v.sampleIndex || i + 1;
+        const evalData = parsedMap.get(idx) || {
+          score: 70,
+          clickbait: 20,
+          verdict: "Non annot\xE9",
+          comment: ""
+        };
+        result.push({
+          id: v.id,
+          title: v.title || `Vid\xE9o ${idx}`,
+          url: v.url || `https://youtu.be/${v.id}`,
+          meta: v.meta,
+          era: v.era || "recent",
+          eraLabel: v.eraLabel || "R\xE9cent",
+          weight: v.weight || 1,
+          score: evalData.score,
+          clickbait: evalData.clickbait,
+          verdict: evalData.verdict,
+          comment: evalData.comment
+        });
+      });
+      return result;
+    }
+    static _extractBulletSection(text, regexList) {
+      for (const reg of regexList) {
+        const match = text.match(new RegExp(`(?:${reg.source})[^\\n]*\\n([\\s\\S]*?)(?:###|$)`, "i"));
+        if (match && match[1]) {
+          const lines = match[1].split("\n").map((l) => l.trim().replace(/^[-*•]\s*/, "").trim()).filter((l) => l.length > 5 && !l.startsWith("#") && !l.startsWith("["));
+          if (lines.length > 0) return lines;
+        }
+      }
+      return [];
+    }
+    static _extractSectionContent(text, regexList) {
+      for (const reg of regexList) {
+        const match = text.match(new RegExp(`(?:${reg.source})[^\\n]*\\n([\\s\\S]*?)(?:###|$)`, "i"));
+        if (match && match[1]) {
+          const cleaned = match[1].trim();
+          if (cleaned.length > 10) return cleaned;
+        }
+      }
+      return "";
+    }
+  };
+
+  // src/content/services/ChannelAuditService.js
+  var ChannelAuditService = class {
+    /**
+     * @param {Object} [dependencies]
+     * @param {Object} [dependencies.channelManager]
+     */
+    constructor(dependencies = {}) {
+      this.channelManager = dependencies.channelManager;
+      this.cachedReports = /* @__PURE__ */ new Map();
+      this.currentPort = null;
+      this.isAuditing = false;
+    }
+    /**
+     * Retrieves cached audit report for a given channel query/handle
+     * @param {string} query
+     * @returns {ChannelAuditReport|null}
+     */
+    getCachedReport(query) {
+      if (!query) return null;
+      const key = String(query).trim().toLowerCase();
+      return this.cachedReports.get(key) || null;
+    }
+    /**
+     * Clears active in-memory cache
+     */
+    clearCache() {
+      this.cachedReports.clear();
+    }
+    /**
+     * Aborts ongoing channel audit stream
+     */
+    abortAudit() {
+      if (this.currentPort) {
+        try {
+          this.currentPort.disconnect();
+        } catch (_) {
+        }
+        this.currentPort = null;
+      }
+      this.isAuditing = false;
+    }
+    /**
+     * Executes a consolidated statistical audit for a channel
+     * @param {Object} options
+     * @param {string} options.channelQuery - Channel handle (@name) or URL
+     * @param {string} [options.lang='fr']
+     * @param {Object} options.state - InPageState instance
+     * @param {Function} [options.onChunk] - Stream chunk callback
+     * @param {Function} [options.onProgress] - Status update callback
+     * @returns {Promise<ChannelAuditReport>}
+     */
+    async executeChannelAudit(options = {}) {
+      const { channelQuery, period = "all", lang = "fr", state: state2 = {} } = options;
+      if (!channelQuery) {
+        throw new Error("Identifiant ou URL de cha\xEEne manquant pour l\u2019audit");
+      }
+      const cacheKey = `${String(channelQuery).trim().toLowerCase()}::${period}`;
+      if (this.cachedReports.has(cacheKey)) {
+        return this.cachedReports.get(cacheKey);
+      }
+      this.abortAudit();
+      this.isAuditing = true;
+      try {
+        options.onProgress?.({
+          step: "fetch",
+          percent: 10,
+          message: "Collecte du dossier de la cha\xEEne et des vid\xE9os...",
+          detail: "Recueil des m\xE9tadonn\xE9es et descriptions (0 coupure)"
+        });
+        let channelData = null;
+        if (this.channelManager && typeof this.channelManager.getOrFetchChannelDossier === "function") {
+          const res = await this.channelManager.getOrFetchChannelDossier(channelQuery, 30);
+          if (res && res.success && res.channel) {
+            channelData = res.channel;
+          }
+        }
+        if (!channelData) {
+          const bgRes = await new Promise((resolve) => {
+            if (typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
+              chrome.runtime.sendMessage(
+                { action: "FETCH_CHANNEL_DOSSIER", query: channelQuery, limit: 30 },
+                (res) => resolve(res || { success: false, error: "No response" })
+              );
+            } else {
+              resolve({ success: false, error: "Runtime unavailable" });
+            }
+          });
+          if (bgRes?.success && bgRes.channel) {
+            channelData = bgRes.channel;
+          } else {
+            throw new Error(bgRes?.error || `Impossible de r\xE9cup\xE9rer les vid\xE9os pour : ${channelQuery}`);
+          }
+        }
+        options.onProgress?.({
+          step: "sample",
+          percent: 18,
+          message: "\xC9chantillonnage statistique (pond\xE9ration temporelle)...",
+          detail: `S\xE9lection des vid\xE9os repr\xE9sentatives (${period === "all" ? "r\xE9cent ~65%, historique ~35%" : period})`
+        });
+        const allVideos = channelData.recentVideos || [];
+        const filteredVideos = ChannelStatisticalSampler.filterVideosByPeriod(allVideos, period);
+        const sampledVideos = ChannelStatisticalSampler.selectStratifiedSample(
+          filteredVideos.length > 0 ? filteredVideos : allVideos,
+          { maxSample: 10 }
+        );
+        if (sampledVideos.length === 0) {
+          throw new Error("Aucune vid\xE9o trouv\xE9e sur cette cha\xEEne pour constituer un \xE9chantillon.");
+        }
+        options.onProgress?.({
+          step: "enrich",
+          percent: 21,
+          message: `Collecte approfondie des ${sampledVideos.length} vid\xE9os...`,
+          detail: "Recueil des descriptions, chapitres, sources et partenaires"
+        });
+        const videoIds = sampledVideos.map((v) => v.id).filter(Boolean);
+        if (videoIds.length > 0 && typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
+          try {
+            const enrichRes = await new Promise((resolve) => {
+              chrome.runtime.sendMessage({ action: "FETCH_BATCH_DOSSIERS", videoIds, lang }, (r) => {
+                resolve(r || {});
+              });
+            });
+            if (enrichRes?.success && enrichRes.dossiers) {
+              sampledVideos.forEach((v) => {
+                const d = enrichRes.dossiers[v.id];
+                if (d) {
+                  if (d.description) v.description = d.description;
+                  if (Array.isArray(d.chapters) && d.chapters.length > 0) v.chapters = d.chapters;
+                  if (d.hasCaptions !== void 0) v.hasCaptions = d.hasCaptions;
+                  if (Array.isArray(d.comments) && d.comments.length > 0) v.comments = d.comments;
+                }
+              });
+            }
+          } catch (_) {
+          }
+        }
+        options.onProgress?.({
+          step: "prompt",
+          percent: 24,
+          message: `Lancement de l'examen des ${sampledVideos.length} vid\xE9os...`,
+          detail: "Pr\xE9paration du dossier consolid\xE9 pour le mod\xE8le"
+        });
+        const systemPrompt = ChannelAuditPromptBuilder.buildSystemPrompt(lang);
+        const userPrompt = ChannelAuditPromptBuilder.buildUserPrompt(channelData, sampledVideos, lang);
+        const accumulatedText = await this._streamAI({
+          systemPrompt,
+          userPrompt,
+          state: state2,
+          totalVideos: sampledVideos.length,
+          onChunk: options.onChunk,
+          onProgress: options.onProgress
+        });
+        const report = ChannelAuditReport.fromRawResponse(accumulatedText, {
+          channel: channelData,
+          sampledVideos
+        });
+        this.cachedReports.set(cacheKey, report);
+        if (channelData.handle) {
+          this.cachedReports.set(channelData.handle.toLowerCase(), report);
+        }
+        return report;
+      } finally {
+        this.isAuditing = false;
+        this.currentPort = null;
+      }
+    }
+    /**
+     * Handles AI streaming via background port
+     * @private
+     */
+    async _streamAI({ systemPrompt, userPrompt, state: state2, totalVideos = 10, onChunk, onProgress }) {
+      return new Promise((resolve, reject) => {
+        if (typeof chrome === "undefined" || !chrome.runtime?.connect) {
+          return reject(new Error("Chrome runtime connect non disponible"));
+        }
+        const activeModel = typeof state2?.getActiveModel === "function" ? state2.getActiveModel() : state2?.selectedModel || "default";
+        const port = chrome.runtime.connect({ name: "ai_stream" });
+        this.currentPort = port;
+        let accumulated = "";
+        let analyzedCount = 0;
+        let isSynthesisStarted = false;
+        port.onMessage.addListener((msg) => {
+          if (msg.type === "CHUNK") {
+            if (msg.reasoning) {
+              onProgress?.({
+                step: "thinking",
+                percent: 26,
+                message: `Examen approfondi des vid\xE9os en cours...`,
+                detail: "Raisonnement critique du mod\xE8le sur les affirmations"
+              });
+            }
+            if (msg.content) {
+              accumulated += msg.content;
+              onChunk?.(msg.content, accumulated);
+              const evalMatches = accumulated.match(/(?:^|\n)\s*\d+\s*\|\s*\d+\s*\|/g);
+              const currentCount = evalMatches ? evalMatches.length : 0;
+              if (currentCount > analyzedCount) {
+                analyzedCount = Math.min(totalVideos, currentCount);
+              }
+              const basePct = 26 + Math.round(analyzedCount / totalVideos * 62);
+              const microBonus = Math.min(3, Math.round(accumulated.length % 500 / 500 * 3));
+              let percent = Math.min(88, basePct + microBonus);
+              let message = `Examen des vid\xE9os (${analyzedCount} / ${totalVideos} analys\xE9es)`;
+              let detail = "Examen de la rigueur des faits, des sources et de la transparence commerciale";
+              if (!isSynthesisStarted && (accumulated.includes("[SCORE_GLOBAL") || accumulated.includes("### [\u2713]") || accumulated.includes("### Synth\xE8se"))) {
+                isSynthesisStarted = true;
+              }
+              if (isSynthesisStarted) {
+                percent = Math.max(percent, 92);
+                message = "Examen final & calcul du score global de la cha\xEEne";
+                detail = `Synth\xE8se des ${totalVideos} vid\xE9os, forces et trajectoire d'\xE9volution`;
+              }
+              onProgress?.({
+                step: isSynthesisStarted ? "synthesis" : "evaluating",
+                percent,
+                message,
+                detail
+              });
+            }
+          } else if (msg.type === "DONE") {
+            onProgress?.({
+              step: "done",
+              percent: 100,
+              message: "\u2713 Examen de la cha\xEEne termin\xE9",
+              detail: "Rapport d'int\xE9grit\xE9 et statistiques disponibles"
+            });
+            resolve(accumulated);
+            resolve(accumulated);
+          } else if (msg.type === "ERROR") {
+            reject(new Error(msg.error || "Erreur lors de l\u2019audit de la cha\xEEne"));
+          }
+        });
+        port.onDisconnect.addListener(() => {
+          if (!accumulated && this.isAuditing) {
+            reject(new Error("Connexion interrompue avec l\u2019IA"));
+          } else {
+            resolve(accumulated);
+          }
+        });
+        port.postMessage({
+          action: "START_STREAM",
+          systemPrompt,
+          userPrompt,
+          provider: state2?.currentProvider || "lmstudio",
+          model: activeModel,
+          serverUrls: state2?.serverUrls,
+          apiKeys: state2?.apiKeys
+        });
+      });
+    }
+  };
+
+  // src/content/ui/ChannelAuditViewController.js
+  var ChannelAuditViewController = class {
+    /**
+     * @param {Object} [dependencies]
+     * @param {Object} [dependencies.channelAuditService]
+     * @param {Object} [dependencies.bannerView]
+     */
+    constructor(dependencies = {}) {
+      this.service = dependencies.channelAuditService;
+      this.bannerView = dependencies.bannerView;
+      this.lastReport = null;
+    }
+    /**
+     * Renders the complete channel audit view inside a target container
+     * @param {ChannelAuditReport} report
+     * @param {HTMLElement} container
+     * @param {string} [lang='fr']
+     */
+    renderReport(report, container, lang = "fr") {
+      if (!report || !container) return;
+      this.lastReport = report;
+      const t = I18N[lang] || I18N.fr;
+      const scoreClass = report.globalScore >= 75 ? "yt-ai-score-high" : report.globalScore >= 50 ? "yt-ai-score-med" : "yt-ai-score-low";
+      const trajIcon = report.trajectory === "improving" ? "\u2197" : report.trajectory === "declining" ? "\u2198" : "\u2192";
+      const trajClass = report.trajectory === "improving" ? "yt-ai-traj-up" : report.trajectory === "declining" ? "yt-ai-traj-down" : "yt-ai-traj-stable";
+      const p = report.proportions || { reliablePct: 60, cautionPct: 30, clickbaitPct: 10 };
+      const html = `
+      <div class="yt-ai-channel-audit-wrapper">
+        <!-- Hero Header & Score Gauge -->
+        <div class="yt-ai-audit-hero-card">
+          <div class="yt-ai-gauge-wrapper">
+            <div class="yt-ai-gauge-circle ${scoreClass}">
+              <span class="yt-ai-gauge-num">${report.globalScore}</span>
+              <span class="yt-ai-gauge-unit">/100</span>
+            </div>
+          </div>
+          <div class="yt-ai-audit-meta">
+            <div class="yt-ai-audit-status-badge ${scoreClass}">
+              <span class="yt-ai-badge-icon">${escapeHtml(report.badge?.symbol || "\u2713")}</span>
+              <span>${escapeHtml(report.badge?.label || "Score Global")}</span>
+            </div>
+            <div class="yt-ai-channel-title-row">
+              <strong>${escapeHtml(report.channelTitle)}</strong>
+              <span class="yt-ai-channel-handle">${escapeHtml(report.channelHandle)}</span>
+              ${report.subscribers ? `<span class="yt-ai-sub-pill">${escapeHtml(report.subscribers)}</span>` : ""}
+            </div>
+            <div class="yt-ai-sample-info-pill">
+              <span>\xC9chantillon : <strong>${report.sampleSize} vid\xE9os</strong> (Pond\xE9ration r\xE9cente ~65% & historique ~35%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proportion Distribution Bar & Clickbait Index -->
+        <div class="yt-ai-stat-card">
+          <div class="yt-ai-stat-header">
+            <span><strong>Proportion d'int\xE9grit\xE9 \xE9ditoriale</strong> (${report.sampleSize} vid\xE9os analys\xE9es)</span>
+            <span class="yt-ai-clickbait-tag">Indice Sensationnalisme : <strong>${report.clickbaitIndex}%</strong></span>
+          </div>
+          <div class="yt-ai-proportion-bar">
+            <div class="yt-ai-prop-segment yt-ai-prop-reliable" style="width: ${p.reliablePct}%" title="Fiable: ${p.reliablePct}%">
+              ${p.reliablePct >= 12 ? `${p.reliablePct}%` : ""}
+            </div>
+            <div class="yt-ai-prop-segment yt-ai-prop-caution" style="width: ${p.cautionPct}%" title="Vigilance: ${p.cautionPct}%">
+              ${p.cautionPct >= 12 ? `${p.cautionPct}%` : ""}
+            </div>
+            <div class="yt-ai-prop-segment yt-ai-prop-clickbait" style="width: ${p.clickbaitPct}%" title="Sensationnalisme: ${p.clickbaitPct}%">
+              ${p.clickbaitPct >= 12 ? `${p.clickbaitPct}%` : ""}
+            </div>
+          </div>
+          <div class="yt-ai-proportion-legend">
+            <span><span class="yt-ai-dot yt-ai-dot-green"></span> ${p.reliablePct}% Fiable (\u226575)</span>
+            <span><span class="yt-ai-dot yt-ai-dot-amber"></span> ${p.cautionPct}% Mod\xE9r\xE9 (50-74)</span>
+            <span><span class="yt-ai-dot yt-ai-dot-red"></span> ${p.clickbaitPct}% Risque (&lt;50)</span>
+          </div>
+        </div>
+
+        <!-- Trajectory & Year-over-Year Evolution -->
+        <div class="yt-ai-stat-card yt-ai-trajectory-card">
+          <div class="yt-ai-stat-header">
+            <span><strong>\xC9volution & Trajectoire temporelle</strong></span>
+            <span class="yt-ai-traj-badge ${trajClass}">[${trajIcon}] ${escapeHtml(report.trajectoryLabel)}</span>
+          </div>
+          ${report.temporalEvolution ? `<div class="yt-ai-traj-desc">${escapeHtml(report.temporalEvolution)}</div>` : ""}
+        </div>
+
+        <!-- The 3 Pillars: Good / Less good / Bad -->
+        <div class="yt-ai-pillars-grid">
+          <div class="yt-ai-pillar-col yt-ai-pillar-good">
+            <div class="yt-ai-pillar-title"><span class="yt-ai-pillar-icon">\u2713</span> Ce qu'elle fait de bien (Forces)</div>
+            <ul class="yt-ai-pillar-list">
+              ${(report.strengths.length > 0 ? report.strengths : ["Rigueur g\xE9n\xE9rale appr\xE9ciable"]).map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
+            </ul>
+          </div>
+          <div class="yt-ai-pillar-col yt-ai-pillar-warn">
+            <div class="yt-ai-pillar-title"><span class="yt-ai-pillar-icon">!</span> Ce qu'elle fait de moins bien (Vigilance)</div>
+            <ul class="yt-ai-pillar-list">
+              ${(report.weaknesses.length > 0 ? report.weaknesses : ["Simplifications ponctuelles"]).map((w) => `<li>${escapeHtml(w)}</li>`).join("")}
+            </ul>
+          </div>
+          <div class="yt-ai-pillar-col yt-ai-pillar-bad">
+            <div class="yt-ai-pillar-title"><span class="yt-ai-pillar-icon">\u2715</span> \xC9cueils & Pi\xE8ges (\xC0 \xE9viter)</div>
+            <ul class="yt-ai-pillar-list">
+              ${(report.drawbacks.length > 0 ? report.drawbacks : ["Titres parfois sensationnalistes"]).map((d) => `<li>${escapeHtml(d)}</li>`).join("")}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Sampled Video Breakdown Accordion -->
+        <details class="yt-ai-video-sample-accordion">
+          <summary class="yt-ai-sample-summary">
+            <span>\u{1F3AC} D\xE9tail des vid\xE9os \xE9chantillonn\xE9es (${report.evaluatedVideos.length})</span>
+            <span class="yt-ai-accordion-arrow">\u25BE</span>
+          </summary>
+          <div class="yt-ai-sample-list">
+            ${report.evaluatedVideos.map((v, i) => `
+              <div class="yt-ai-sample-item">
+                <div class="yt-ai-sample-item-top">
+                  <span class="yt-ai-sample-num">#${i + 1}</span>
+                  <span class="yt-ai-era-badge yt-ai-era-${v.era}">${escapeHtml(v.eraLabel || v.era)}</span>
+                  <a href="${escapeHtml(v.url || `https://youtu.be/${v.id}`)}" target="_blank" class="yt-ai-sample-title">${escapeHtml(v.title)}</a>
+                  <span class="yt-ai-sample-score ${v.score >= 75 ? "yt-ai-score-high" : v.score >= 50 ? "yt-ai-score-med" : "yt-ai-score-low"}">${v.score}/100</span>
+                </div>
+                ${v.comment ? `<div class="yt-ai-sample-comment">${escapeHtml(v.comment)}</div>` : ""}
+              </div>
+            `).join("")}
+          </div>
+        </details>
+
+        <!-- Executive Summary -->
+        ${report.executiveSummary ? `
+          <div class="yt-ai-exec-summary-box">
+            <h4>Synth\xE8se & Recommandation Globale</h4>
+            <div class="yt-ai-exec-text">${escapeHtml(report.executiveSummary)}</div>
+          </div>
+        ` : ""}
+
+        <!-- Actions -->
+        <div class="yt-ai-audit-actions-row">
+          <button id="ytAiCopyChannelAuditBtn" class="yt-ai-btn yt-ai-btn-secondary">\u{1F4CB} Copier l'audit</button>
+        </div>
+      </div>
+    `;
+      safeSetInnerHTML(container, html);
+      container.querySelector("#ytAiCopyChannelAuditBtn")?.addEventListener("click", () => {
+        this.handleCopyReport(report);
+      });
+    }
+    handleCopyReport(report) {
+      if (!report) return;
+      const text = [
+        `### \u{1F4CA} AUDIT GLOBAL DE CHA\xCENE : ${report.channelTitle} (${report.channelHandle})`,
+        `- Note globale pond\xE9r\xE9e : ${report.globalScore}/100 (${report.badge?.label || ""})`,
+        `- Indice de sensationnalisme : ${report.clickbaitIndex}%`,
+        `- R\xE9partition : ${report.proportions?.reliablePct}% Fiable, ${report.proportions?.cautionPct}% Mod\xE9r\xE9, ${report.proportions?.clickbaitPct}% Risque`,
+        `- Trajectoire temporelle : ${report.trajectoryLabel}`,
+        `
+#### Ce que la cha\xEEne fait de bien :`,
+        ...report.strengths.map((s) => `  * ${s}`),
+        `
+#### Ce qu'elle fait de moins bien :`,
+        ...report.weaknesses.map((w) => `  * ${w}`),
+        `
+#### \xC9cueils et d\xE9rives constat\xE9s :`,
+        ...report.drawbacks.map((d) => `  * ${d}`),
+        `
+#### Synth\xE8se :`,
+        report.executiveSummary || ""
+      ].join("\n");
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = document.getElementById("ytAiCopyChannelAuditBtn");
+          if (btn) {
+            const original = btn.textContent;
+            btn.textContent = "\u2713 Copi\xE9 !";
+            setTimeout(() => {
+              btn.textContent = original;
+            }, 2e3);
+          }
+        });
+      }
+    }
+  };
+
+  // src/content/ui/ChannelCompanionCard.js
+  var ChannelCompanionCard = class {
+    /**
+     * @param {Object} options
+     * @param {Object} options.channelAuditService
+     * @param {Object} options.channelAuditViewController
+     * @param {Object} options.state
+     */
+    constructor(options = {}) {
+      this.service = options.channelAuditService;
+      this.viewController = options.channelAuditViewController;
+      this.state = options.state || {};
+      this.currentChannel = "";
+      this.isExpanded = true;
+    }
+    /**
+     * Attempts injection on channel pages
+     */
+    tryInjectCompanion() {
+      if (!this.state.extensionEnabled) {
+        document.getElementById("yt-ai-channel-companion")?.remove();
+        return;
+      }
+      if (!isChannelPage()) {
+        document.getElementById("yt-ai-channel-companion")?.remove();
+        return;
+      }
+      const channelIdentifier = getChannelIdentifier();
+      if (!channelIdentifier) return;
+      const existing = document.getElementById("yt-ai-channel-companion");
+      if (existing && this.currentChannel === channelIdentifier) return;
+      if (existing) existing.remove();
+      this.currentChannel = channelIdentifier;
+      const targetParent = document.querySelector('ytd-browse[page-subtype="channels"] #content, ytd-browse #content, ytd-tabbed-page-header') || document.querySelector("ytd-browse") || document.getElementById("content");
+      if (!targetParent) {
+        setTimeout(() => this.tryInjectCompanion(), 400);
+        return;
+      }
+      const card = document.createElement("div");
+      card.id = "yt-ai-channel-companion";
+      card.className = "yt-ai-channel-card";
+      ThemeManager.syncThemeWithYouTube(card);
+      const lang = this.state.currentLang || "fr";
+      const isFr = lang.startsWith("fr");
+      const html = `
+      <div class="yt-ai-card-inner">
+        <div class="yt-ai-card-header">
+          <div class="yt-ai-card-brand">
+            <span class="yt-ai-brand-badge">IA</span>
+            <span class="yt-ai-card-title">${isFr ? "Audit Global & Rigueur de la Cha\xEEne" : "Global Channel Audit & Rigor"}</span>
+            <span class="yt-ai-card-handle">${escapeHtml(channelIdentifier)}</span>
+          </div>
+          <div class="yt-ai-card-controls">
+            <button id="ytAiCompanionToggleBtn" class="yt-ai-btn-icon" title="R\xE9duire/Agrandir">\u25BE</button>
+          </div>
+        </div>
+
+        <div id="ytAiCompanionBody" class="yt-ai-card-body">
+          <div class="yt-ai-onboarding-box">
+            <p class="yt-ai-onboarding-desc">
+              ${isFr ? "\xC9valuez l\u2019int\xE9grit\xE9 \xE9ditoriale, la transparence commerciale (partenariats, liens affili\xE9s) et l\u2019\xE9volution d\u2019ann\xE9e en ann\xE9e gr\xE2ce \xE0 un \xE9chantillonnage statistique group\xE9." : "Evaluate editorial integrity, commercial transparency (sponsorships, affiliate links), and Year-over-Year evolution using stratified statistical sampling."}
+            </p>
+            <div class="yt-ai-period-selector" style="display: flex; gap: 6px; margin: 8px 0 10px 0; align-items: center; flex-wrap: wrap;">
+              <span style="font-size: 11px; color: var(--yt-ai-text-secondary);">${isFr ? "P\xE9riode analys\xE9e :" : "Period:"}</span>
+              <button class="yt-ai-period-pill yt-ai-format-pill active" data-period="all">\u{1F310} ${isFr ? "Tout" : "All"}</button>
+              <button class="yt-ai-period-pill yt-ai-format-pill" data-period="month">\u26A1 ${isFr ? "Dernier mois" : "Last month"}</button>
+              <button class="yt-ai-period-pill yt-ai-format-pill" data-period="year">\u{1F4C5} ${isFr ? "Ann\xE9e en cours" : "Current year"}</button>
+              <button class="yt-ai-period-pill yt-ai-format-pill" data-period="6months">\u{1F3AF} ${isFr ? "6 derniers mois" : "6 months"}</button>
+            </div>
+            <div class="yt-ai-cta-row">
+              <button id="ytAiRunChannelAuditBtn" class="yt-ai-btn yt-ai-btn-primary">
+                \u26A1 ${isFr ? "Lancer l\u2019Audit Global de la Cha\xEEne" : "Run Global Channel Audit"}
+              </button>
+            </div>
+            <div id="ytAiChannelProgress" class="yt-ai-progress-box yt-ai-hidden">
+              <div class="yt-ai-spinner"></div>
+              <span id="ytAiChannelProgressText" class="yt-ai-progress-msg">Initialisation de l\u2019audit...</span>
+            </div>
+          </div>
+
+          <div id="ytAiChannelResultContainer" class="yt-ai-result-box yt-ai-hidden"></div>
+        </div>
+      </div>
+    `;
+      safeSetInnerHTML(card, html);
+      targetParent.insertBefore(card, targetParent.firstChild);
+      this._bindEvents(card, channelIdentifier);
+      const cached = this.service?.getCachedReport(channelIdentifier);
+      if (cached) {
+        this._displayReport(cached);
+      }
+    }
+    _bindEvents(card, channelIdentifier) {
+      const runBtn = card.querySelector("#ytAiRunChannelAuditBtn");
+      const toggleBtn = card.querySelector("#ytAiCompanionToggleBtn");
+      const body = card.querySelector("#ytAiCompanionBody");
+      let selectedPeriod = "all";
+      card.querySelectorAll(".yt-ai-period-pill").forEach((pill) => {
+        pill.addEventListener("click", () => {
+          card.querySelectorAll(".yt-ai-period-pill").forEach((p) => p.classList.remove("active"));
+          pill.classList.add("active");
+          selectedPeriod = pill.getAttribute("data-period") || "all";
+        });
+      });
+      toggleBtn?.addEventListener("click", () => {
+        this.isExpanded = !this.isExpanded;
+        body?.classList.toggle("yt-ai-hidden", !this.isExpanded);
+        toggleBtn.textContent = this.isExpanded ? "\u25BE" : "\u25B2";
+      });
+      runBtn?.addEventListener("click", () => {
+        this.triggerAudit(channelIdentifier, selectedPeriod);
+      });
+    }
+    /**
+     * Triggers the channel audit
+     * @param {string} channelIdentifier
+     * @param {string} [period='all']
+     */
+    async triggerAudit(channelIdentifier, period = "all") {
+      const card = document.getElementById("yt-ai-channel-companion");
+      if (!card) return;
+      const runBtn = card.querySelector("#ytAiRunChannelAuditBtn");
+      const progressBox = card.querySelector("#ytAiChannelProgress");
+      const resultContainer = card.querySelector("#ytAiChannelResultContainer");
+      if (runBtn) runBtn.disabled = true;
+      if (progressBox) {
+        progressBox.classList.remove("yt-ai-hidden");
+        progressBox.innerHTML = AuditProgressBar.renderWidget({
+          percent: 10,
+          title: "Collecte des vid\xE9os et descriptions compl\xE8tes...",
+          detail: `Cha\xEEne : ${channelIdentifier} (0 coupure)`
+        });
+      }
+      try {
+        const report = await this.service.executeChannelAudit({
+          channelQuery: channelIdentifier,
+          period,
+          lang: this.state.currentLang || "fr",
+          state: this.state,
+          onProgress: (status) => {
+            if (progressBox) {
+              AuditProgressBar.updateWidget(progressBox, {
+                percent: status.percent,
+                title: status.message || status.title,
+                detail: status.detail || ""
+              });
+            }
+          }
+        });
+        this._displayReport(report);
+      } catch (err) {
+        if (progressBox) {
+          progressBox.innerHTML = `<p style="color: #ff7b72; font-size: 12px; margin: 8px 0;">[!] Erreur : ${escapeHtml(err.message || String(err))}</p>`;
+        }
+      } finally {
+        if (runBtn) runBtn.disabled = false;
+      }
+    }
+    _displayReport(report) {
+      const card = document.getElementById("yt-ai-channel-companion");
+      if (!card) return;
+      const onboardingBox = card.querySelector(".yt-ai-onboarding-box");
+      const resultContainer = card.querySelector("#ytAiChannelResultContainer");
+      if (onboardingBox) onboardingBox.classList.add("yt-ai-hidden");
+      if (resultContainer) {
+        resultContainer.classList.remove("yt-ai-hidden");
+        this.viewController.renderReport(report, resultContainer, this.state.currentLang || "fr");
+      }
+    }
+  };
+
+  // src/content/ui/BannerEventHandler.js
+  var BannerEventHandler = class {
+    /**
+     * Binds all UI interactions for the banner
+     * @param {HTMLElement} banner
+     * @param {Object} ctx
+     */
+    static bind(banner, ctx) {
+      if (!banner || !ctx) return;
+      const {
+        state: state2,
+        bannerView: bannerView2,
+        settingsDrawer: settingsDrawer2,
+        summaryViewController: summaryViewController2,
+        chatViewController: chatViewController2,
+        auditViewController: auditViewController2,
+        audioController: audioController2,
+        transcriptController: transcriptController2,
+        triggerSummarize: triggerSummarize2,
+        triggerAudit: triggerAudit2,
+        triggerChannelAudit: triggerChannelAudit2
+      } = ctx;
+      banner.querySelectorAll(".yt-ai-tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tab = btn.getAttribute("data-tab");
+          if (tab) {
+            bannerView2.switchTab(tab);
+            if (tab === "transcript") {
+              const currentVideoId = getVideoId();
+              if (!transcriptController2.cachedTranscript.segments || transcriptController2.cachedTranscript.segments.length === 0 || transcriptController2.cachedTranscript.videoId !== currentVideoId) {
+                transcriptController2.extractYouTubeTranscript(state2.currentLang, true);
+              }
+            }
+          }
+        });
+      });
+      document.getElementById("ytAiBrandToggle")?.addEventListener("click", () => bannerView2.toggleExpand());
+      document.getElementById("ytAiToggleBtn")?.addEventListener("click", () => bannerView2.toggleExpand());
+      document.getElementById("ytAiSummarizeBtn")?.addEventListener("click", triggerSummarize2);
+      document.getElementById("ytAiRunAuditBtn")?.addEventListener("click", triggerAudit2);
+      document.getElementById("ytAiAuditChannelBtn")?.addEventListener("click", triggerChannelAudit2);
+      document.getElementById("ytAiCopyAuditBtn")?.addEventListener("click", () => auditViewController2?.handleCopyAudit?.());
+      document.getElementById("ytAiAuditSubtabVideoBtn")?.addEventListener("click", () => {
+        auditViewController2?.switchAuditSubtab("video");
+      });
+      document.getElementById("ytAiAuditSubtabChannelBtn")?.addEventListener("click", () => {
+        auditViewController2?.switchAuditSubtab("channel");
+      });
+      banner.querySelectorAll(".yt-ai-period-pill").forEach((pill) => {
+        pill.addEventListener("click", () => {
+          banner.querySelectorAll(".yt-ai-period-pill").forEach((p) => p.classList.remove("active"));
+          pill.classList.add("active");
+          state2.channelAuditPeriod = pill.getAttribute("data-period") || "all";
+        });
+      });
+      document.getElementById("ytAiSettingsToggleBtn")?.addEventListener("click", () => {
+        SettingsDrawerController.toggleSettingsDrawer((exp) => bannerView2.setExpanded(exp));
+      });
+      document.getElementById("ytAiSettingsCloseBtn")?.addEventListener("click", () => {
+        SettingsDrawerController.setSettingsDrawerOpen(false);
+      });
+      banner.querySelectorAll(".yt-ai-settings-tab-btn").forEach((btn) => btn.addEventListener("click", () => {
+        const sub = btn.getAttribute("data-subtab");
+        if (sub) SettingsDrawerController.switchSettingsSubtab(sub);
+      }));
+      banner.querySelectorAll(".yt-ai-format-pill").forEach((pill) => pill.addEventListener("click", () => {
+        const mode = pill.getAttribute("data-mode");
+        if (mode) bannerView2.setSummaryMode(mode);
+      }));
+      document.getElementById("ytAiModeSelect")?.addEventListener("change", (e) => bannerView2.setSummaryMode(e.target.value));
+      document.getElementById("ytAiLangSelect")?.addEventListener("change", (e) => {
+        state2.currentLang = e.target.value;
+        state2.savePreference("targetLang", state2.currentLang);
+        bannerView2.applyLanguage(state2.currentLang, summaryViewController2, chatViewController2, auditViewController2);
+        audioController2.populateVoiceDropdown(state2.currentLang);
+      });
+      document.getElementById("ytAiProviderSelect")?.addEventListener("change", (e) => {
+        state2.currentProvider = e.target.value;
+        state2.savePreference("aiProvider", state2.currentProvider);
+        settingsDrawer2.syncProviderUI();
+      });
+      document.getElementById("ytAiApiKeyInput")?.addEventListener("input", (e) => {
+        const val = e.target.value.trim();
+        state2.apiKeys[state2.currentProvider] = val;
+        state2.savePreference(`apiKey_${state2.currentProvider}`, val);
+        if (state2.keyVerified) delete state2.keyVerified[state2.currentProvider];
+        bannerView2.updateHeaderBadge();
+      });
+      document.getElementById("ytAiServerSelect")?.addEventListener("change", (e) => {
+        const isOllama = state2.currentProvider === "ollama";
+        const def = isOllama ? "http://localhost:11434" : "http://127.0.0.1:1234";
+        if (e.target.value === "custom") {
+          const custom = prompt(`Address for ${isOllama ? "Ollama" : "LM Studio"}:`, state2.serverUrls[state2.currentProvider] || def);
+          if (custom) {
+            const clean = custom.trim().replace(/\/+$/, "");
+            state2.serverUrls[state2.currentProvider] = clean;
+            state2.savePreference(`serverUrl_${state2.currentProvider}`, clean);
+            settingsDrawer2.updateServerUrlUI();
+            settingsDrawer2.refreshModelsList();
+          }
+        } else {
+          state2.serverUrls[state2.currentProvider] = e.target.value;
+          state2.savePreference(`serverUrl_${state2.currentProvider}`, e.target.value);
+          settingsDrawer2.updateServerUrlUI();
+          settingsDrawer2.refreshModelsList();
+        }
+      });
+      document.getElementById("ytAiRefreshModelsBtn")?.addEventListener("click", () => settingsDrawer2.refreshModelsList(true));
+      document.getElementById("ytAiTestModelBtn")?.addEventListener("click", () => settingsDrawer2.handleTestConnection());
+      document.getElementById("ytAiTestWhisperBtn")?.addEventListener("click", () => settingsDrawer2.handleTestWhisper());
+      document.getElementById("ytAiModelSelect")?.addEventListener("change", (e) => {
+        state2.setActiveModel(e.target.value);
+        state2.savePreference(`selectedModel_${state2.currentProvider}`, e.target.value);
+        state2.savePreference("selectedModel", e.target.value);
+        bannerView2.updateHeaderModelText();
+      });
+      audioController2.init();
+      document.getElementById("ytAiSpeakSummaryBtn")?.addEventListener("click", (e) => {
+        const text = summaryViewController2.fullSummaryMarkdown || document.getElementById("ytAiSummaryBody")?.innerText || "";
+        if (text.trim()) {
+          audioController2.speakText(text, e.currentTarget, { lang: state2.currentLang });
+        } else {
+          bannerView2.showStatusBanner(I18N[state2.currentLang]?.noSummaryToRead || "No summary to read", true);
+        }
+      });
+      const sendChat = (customText = null) => {
+        chatViewController2.handleSendChatMessage(customText, {
+          state: state2,
+          currentLang: state2.currentLang,
+          currentProvider: state2.currentProvider,
+          apiKeys: state2.apiKeys,
+          serverUrls: state2.serverUrls,
+          temperature: state2.temperature,
+          maxTokens: state2.maxTokens,
+          getActiveModel: () => state2.getActiveModel(),
+          setExpanded: (exp) => bannerView2.setExpanded(exp),
+          switchTab: (tab) => bannerView2.switchTab(tab)
+        });
+      };
+      document.getElementById("ytAiSendChatBtn")?.addEventListener("click", () => sendChat());
+      const chatInput = document.getElementById("ytAiChatInput");
+      chatInput?.addEventListener("input", () => {
+        chatInput.style.height = "auto";
+        chatInput.style.height = Math.min(chatInput.scrollHeight, 140) + "px";
+      });
+      chatInput?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          sendChat();
+        }
+      });
+      document.getElementById("ytAiMicBtn")?.addEventListener("click", () => {
+        audioController2.toggleDictation({
+          localWhisperUrl: state2.localWhisperUrl,
+          groqKey: state2.apiKeys.groq,
+          openaiKey: state2.apiKeys.openai
+        });
+      });
+      document.getElementById("ytAiClearChatBtn")?.addEventListener("click", () => {
+        chatViewController2.handleClearChat(state2.currentLang);
+      });
+      banner.querySelectorAll(".yt-ai-suggestion-chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          const q = chip.getAttribute("data-question") || chip.textContent.trim();
+          sendChat(q);
+        });
+      });
+      document.getElementById("ytAiCopyBtn")?.addEventListener("click", () => summaryViewController2.handleCopySummary(state2.currentLang));
+      document.getElementById("ytAiDownloadBtn")?.addEventListener("click", () => summaryViewController2.handleExport("md", state2.currentLang));
+      document.getElementById("ytAiSaveTxtBtn")?.addEventListener("click", () => summaryViewController2.handleExport("txt", state2.currentLang));
+      document.getElementById("ytAiSaveJsonBtn")?.addEventListener("click", () => summaryViewController2.handleExport("json", state2.currentLang));
+      document.getElementById("ytAiCopyTranscriptBtn")?.addEventListener("click", () => transcriptController2.handleCopyTranscript(state2.currentLang));
     }
   };
 
@@ -4471,144 +7022,6 @@ ${condenseFn(text, externalBudget)}`);
     ensureTranscriptTabActive,
     triggerStealthNativeTranscript
   };
-
-  // src/content/services/YouTubeDOMContext.js
-  var YouTubeDOMContext = class _YouTubeDOMContext {
-    /**
-     * Extracts chapters / timeline markers directly from YouTube video description
-     * @returns {Array<{timestamp: string, text: string}> | null}
-     */
-    static extractChaptersFromDescription() {
-      const results = [];
-      const entries = document.querySelectorAll(
-        "ytd-macro-markers-entry-renderer, #structured-description ytd-macro-markers-entry-renderer, ytd-chapter-renderer, ytd-macro-markers-list-item-renderer, macro-markers-panel-item-view-model"
-      );
-      if (entries && entries.length > 1) {
-        entries.forEach((el) => {
-          const timeEl = el.querySelector('#time, [class*="time"], a[href*="t="]');
-          const titleEls = el.querySelectorAll ? el.querySelectorAll('h3, h4, #title, [class*="title"]') : [];
-          let titleEl = null;
-          for (const candidate of titleEls) {
-            if (!candidate.hasAttribute || !candidate.hasAttribute("hidden")) {
-              titleEl = candidate;
-              break;
-            }
-          }
-          if (!titleEl) titleEl = el.querySelector('h3, h4, #title, [class*="title"]');
-          const timestamp = timeEl ? timeEl.textContent.trim() : "";
-          let text = titleEl ? titleEl.getAttribute?.("title") || titleEl.textContent.trim() : "";
-          if (timestamp && text.endsWith(timestamp)) {
-            text = text.slice(0, -timestamp.length).trim();
-          }
-          if (timestamp && text) {
-            results.push({ timestamp, text });
-          }
-        });
-        if (results.length > 1) return results;
-      }
-      return null;
-    }
-    /**
-     * Extracts rich metadata from YouTube DOM elements with cached fallback
-     * @param {Object} [cachedVideoMetadata]
-     * @returns {Object}
-     */
-    static getVideoMetadata(cachedVideoMetadata = {}) {
-      const currentVideoId = getVideoId();
-      const isCacheValid = cachedVideoMetadata?.videoId === currentVideoId;
-      const safeMeta = isCacheValid ? cachedVideoMetadata : {};
-      const titleEl = document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title");
-      const authorEl = document.querySelector("ytd-channel-name a, #channel-name a, #owner-name a");
-      const subEl = document.querySelector("#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count");
-      const descEl = document.querySelector("#description-inline-expander yt-attributed-string, #description, #description-inline-expander");
-      const dateEl = document.querySelector("#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date");
-      const tagEls = document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]');
-      const domSubscribers = subEl?.textContent?.trim() || "";
-      const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || "";
-      const domDate = dateEl?.textContent?.trim() || "";
-      const domKeywords = Array.from(tagEls).map((el) => el.textContent.trim().replace(/^#/, "")).filter(Boolean);
-      const domChannelUrl = authorEl?.getAttribute("href") || authorEl?.href || "";
-      const title = titleEl?.textContent?.trim() || safeMeta.title || document.title.replace(" - YouTube", "").trim();
-      const author = authorEl?.textContent?.trim() || safeMeta.author || "Cha\xEEne YouTube";
-      const subscribers = domSubscribers || safeMeta.subscribers || "";
-      const description = safeMeta.description || domDescription || "";
-      const keywords = safeMeta.keywords && safeMeta.keywords.length > 0 ? safeMeta.keywords : domKeywords;
-      const category = safeMeta.category || "";
-      const publishDate = safeMeta.publishDate || domDate || "";
-      const viewCount = safeMeta.viewCount || "";
-      const channelId = safeMeta.channelId || "";
-      const channelUrl = safeMeta.channelUrl || domChannelUrl || "";
-      const chapters = _YouTubeDOMContext.extractChaptersFromDescription() || safeMeta.chapters || [];
-      return {
-        videoId: currentVideoId || safeMeta.videoId || "",
-        title,
-        author,
-        subscribers,
-        description,
-        keywords,
-        category,
-        publishDate,
-        viewCount,
-        channelId,
-        chapters
-      };
-    }
-    /**
-     * Formats video context block for AI prompts
-     * @param {Object} meta
-     * @param {string} [lang]
-     * @returns {string}
-     */
-    static formatContextInfo(meta, lang = "fr") {
-      if (!meta || typeof meta !== "object") return "";
-      const subscribers = meta.subscribers || "";
-      const category = meta.category || "";
-      const publishDate = meta.publishDate || "";
-      const rawKeywords = meta.keywords || [];
-      const keywords = Array.isArray(rawKeywords) ? rawKeywords.slice(0, 10).join(", ") : typeof rawKeywords === "string" ? rawKeywords : "";
-      let description = String(meta.description || "").trim();
-      if (description.length > 2e3) {
-        description = description.slice(0, 1950) + "... [description condens\xE9e]";
-      }
-      const lines = [];
-      const isFr = lang === "fr";
-      if (subscribers) {
-        lines.push(isFr ? `- Abonn\xE9s cha\xEEne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
-      }
-      if (category) {
-        lines.push(isFr ? `- Cat\xE9gorie : ${category}` : `- Category: ${category}`);
-      }
-      if (publishDate) {
-        lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
-      }
-      if (keywords) {
-        lines.push(isFr ? `- Mots-cl\xE9s : ${keywords}` : `- Keywords: ${keywords}`);
-      }
-      if (description) {
-        lines.push(isFr ? `- Description officielle :
-"""
-${description}
-"""` : `- Official Description:
-"""
-${description}
-"""`);
-      }
-      if (Array.isArray(meta.chapters) && meta.chapters.length > 0) {
-        const chapList = meta.chapters.slice(0, 20).map((c) => `[${c.timestamp}] ${c.text}`).join("\n");
-        lines.push(isFr ? `- Plan des chapitres officiels :
-${chapList}` : `- Official video chapters:
-${chapList}`);
-      }
-      if (lines.length === 0) return "";
-      const header = isFr ? "CONTEXTE DE LA VID\xC9O & DE LA CHA\xCENE :" : "VIDEO & CHANNEL CONTEXT:";
-      return `${header}
-${lines.join("\n")}
-`;
-    }
-  };
-  function formatContextInfo(meta, lang) {
-    return YouTubeDOMContext.formatContextInfo(meta, lang);
-  }
 
   // src/content/services/InPageTranscriptController.js
   var InPageTranscriptController = class _InPageTranscriptController {
@@ -5384,85 +7797,6 @@ ${lines.join("\n")}
     }
   };
 
-  // src/content/services/ExportHandler.js
-  var ExportHandler = class _ExportHandler {
-    /**
-     * Copies text to clipboard with button feedback
-     * @param {string} text
-     * @param {HTMLElement} btn
-     * @param {string} [copiedText]
-     */
-    static copyToClipboard(text, btn, copiedText = "\u2705 Copied!") {
-      if (!text) return;
-      navigator.clipboard.writeText(text).then(() => {
-        if (!btn) return;
-        const orig = btn.textContent;
-        btn.textContent = copiedText;
-        setTimeout(() => {
-          btn.textContent = orig;
-        }, 2e3);
-      });
-    }
-    /**
-     * Sanitizes video title for clean filesystem file naming
-     * @param {string} title
-     * @returns {string}
-     */
-    static sanitizeFilename(title) {
-      return (title || "resume_youtube").replace(/[^a-zA-Z0-9_\-]/g, "_").replace(/_+/g, "_").slice(0, 40);
-    }
-    /**
-     * Triggers download of a Blob file
-     * @param {Blob} blob
-     * @param {string} filename
-     */
-    static triggerBlobDownload(blob, filename) {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-    /**
-     * Exports summary as Markdown (.md)
-     * @param {string} markdown
-     * @param {string} title
-     */
-    static downloadMarkdown(markdown, title) {
-      if (!markdown) return;
-      const cleanTitle = _ExportHandler.sanitizeFilename(title);
-      const blob = new Blob([markdown], { type: "text/markdown;charset=utf-8" });
-      _ExportHandler.triggerBlobDownload(blob, `${cleanTitle}_summary.md`);
-    }
-    /**
-     * Exports summary as Plain Text (.txt)
-     * @param {string} markdown
-     * @param {string} title
-     */
-    static downloadText(markdown, title) {
-      if (!markdown) return;
-      const cleanTitle = _ExportHandler.sanitizeFilename(title);
-      const plainText = markdown.replace(/[#*`_~]/g, "");
-      const blob = new Blob([plainText], { type: "text/plain;charset=utf-8" });
-      _ExportHandler.triggerBlobDownload(blob, `${cleanTitle}_summary.txt`);
-    }
-    /**
-     * Exports complete session as JSON (.json)
-     * @param {Object} data
-     * @param {string} title
-     */
-    static downloadJson(data, title) {
-      if (!data) return;
-      const cleanTitle = _ExportHandler.sanitizeFilename(title);
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json;charset=utf-8" });
-      _ExportHandler.triggerBlobDownload(blob, `${cleanTitle}_data.json`);
-    }
-  };
-  var copyToClipboard = ExportHandler.copyToClipboard;
-
   // src/services/interfaces/IPromptBuilder.js
   var IPromptBuilder = class {
     /**
@@ -5976,27 +8310,27 @@ ${transcriptText}`;
       summaryLabel: "ZUVOR GENERIERTE VIDEOZUSAMMENFASSUNG IN DER ERWEITERUNG (ZUR REFERENZ):",
       transcriptLabel: "Videotranskript:"
     },
-    ja: {
-      persona: "\u3042\u306A\u305F\u306FYouTube\u306B\u76F4\u63A5\u7D71\u5408\u3055\u308C\u305F\u30A4\u30F3\u30C6\u30EA\u30B8\u30A7\u30F3\u30C8\u306AChrome\u62E1\u5F35\u6A5F\u80FD\u300CYouTube Summarizer AI\u300D\u3067\u3059\u3002",
-      role: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3001\u516C\u5F0F\u6982\u8981\u3001\u304A\u3088\u3073\u751F\u6210\u3055\u308C\u305F\u8981\u7D04\u306B\u57FA\u3065\u3044\u3066\u6B63\u78BA\u306B\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
-      identity: "\u30E6\u30FC\u30B6\u30FC\u304C\u62E1\u5F35\u6A5F\u80FD\u306B\u3064\u3044\u3066\u8A00\u53CA\u3057\u305F\u5834\u5408\u306F\u3001\u81EA\u8EAB\u304CYouTube Summarizer AI\u62E1\u5F35\u6A5F\u80FD\u306E\u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u3067\u3042\u308B\u3053\u3068\u3092\u8A8D\u3081\u3066\u304F\u3060\u3055\u3044\u3002",
-      rule: "\u3010\u6700\u91CD\u8981\u8A00\u8A9E\u30EB\u30FC\u30EB\u3011\u8CEA\u554F\u3084\u52D5\u753B\u306E\u8A00\u8A9E\u306B\u95A2\u4FC2\u306A\u304F\u3001\u5FC5\u305A\u81EA\u7136\u306A\u65E5\u672C\u8A9E\u306E\u307F\u3067\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
-      quick: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u7C21\u6F54\u306A\u56DE\u7B54\uFF081\u301C2\u6BB5\u843D\uFF09\u3002",
-      detailed: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u8A73\u7D30\u3067\u7DB2\u7F85\u7684\u306A\u8AAC\u660E\u3002",
-      standard: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u8981\u70B9\u3092\u62BC\u3055\u3048\u305F\u81EA\u7136\u306A\u56DE\u7B54\u3002",
-      summaryLabel: "\u62E1\u5F35\u6A5F\u80FD\u3067\u4EE5\u524D\u306B\u751F\u6210\u3055\u308C\u305F\u52D5\u753B\u306E\u8981\u7D04\uFF08\u53C2\u8003\u7528\uFF09\uFF1A",
-      transcriptLabel: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\uFF1A"
-    },
     ru: {
-      persona: "\u0412\u044B \u2014 YouTube Summarizer AI, \u0438\u043D\u0442\u0435\u043B\u043B\u0435\u043A\u0442\u0443\u0430\u043B\u044C\u043D\u043E\u0435 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435 Chrome, \u0432\u0441\u0442\u0440\u043E\u0435\u043D\u043D\u043E\u0435 \u043F\u0440\u044F\u043C\u043E \u0432 YouTube.",
-      role: "\u0412\u044B \u043E\u0442\u0432\u0435\u0447\u0430\u0435\u0442\u0435 \u043D\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F \u043E \u0432\u0438\u0434\u0435\u043E strictly \u043D\u0430 \u043E\u0441\u043D\u043E\u0432\u0435 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430, \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442\u0430 \u0438 \u0433\u043E\u0442\u043E\u0432\u043E\u0433\u043E \u0440\u0435\u0437\u044E\u043C\u0435.",
-      identity: "\u0415\u0441\u043B\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0443\u043F\u043E\u043C\u0438\u043D\u0430\u0435\u0442 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435 \u0438\u043B\u0438 \u0441\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0442 \u043A\u0442\u043E \u0432\u044B, \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u0435, \u0447\u0442\u043E \u0432\u044B \u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u044F YouTube Summarizer AI.",
-      rule: "\u0421\u0422\u0420\u041E\u0413\u041E\u0415 \u0422\u0420\u0415\u0411\u041E\u0412\u0410\u041D\u0418\u0415 \u041A \u042F\u0417\u042B\u041A\u0423: \u041E\u0442\u0432\u0435\u0447\u0430\u0439\u0442\u0435 \u0418\u0421\u041A\u041B\u042E\u0427\u0418\u0422\u0415\u041B\u042C\u041D\u041E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435, \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E \u043E\u0442 \u044F\u0437\u044B\u043A\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u0430 \u0438\u043B\u0438 \u0432\u0438\u0434\u0435\u043E.",
+      persona: "\u0412\u044B \u2014 YouTube Summarizer AI, \u0443\u043C\u043D\u043E\u0435 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435 \u0434\u043B\u044F Chrome, \u0432\u0441\u0442\u0440\u043E\u0435\u043D\u043D\u043E\u0435 \u043F\u0440\u044F\u043C\u043E \u0432 YouTube.",
+      role: "\u0412\u044B \u043E\u0442\u0432\u0435\u0447\u0430\u0435\u0442\u0435 \u043D\u0430 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F \u043E\u0431 \u044D\u0442\u043E\u043C \u0432\u0438\u0434\u0435\u043E YouTube, \u0441\u0442\u0440\u043E\u0433\u043E \u043E\u043F\u0438\u0440\u0430\u044F\u0441\u044C \u043D\u0430 \u0435\u0433\u043E \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442, \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u044B\u0439 \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442 \u0438 \u0441\u0433\u0435\u043D\u0435\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u043E\u0435 \u0440\u0435\u0437\u044E\u043C\u0435.",
+      identity: "\u0415\u0441\u043B\u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0443\u043F\u043E\u043C\u0438\u043D\u0430\u0435\u0442 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435 \u0438\u043B\u0438 \u0441\u043F\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u0442, \u043A\u0442\u043E \u0432\u044B, \u044F\u0432\u043D\u043E \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u0435, \u0447\u0442\u043E \u0432\u044B \u2014 \u0430\u0441\u0441\u0438\u0441\u0442\u0435\u043D\u0442 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u044F YouTube Summarizer AI.",
+      rule: "\u0421\u0422\u0420\u041E\u0413\u041E\u0415 \u041F\u0420\u0410\u0412\u0418\u041B\u041E \u042F\u0417\u042B\u041A\u0410: \u0412\u044B \u0414\u041E\u041B\u0416\u041D\u042B \u043E\u0442\u0432\u0435\u0447\u0430\u0442\u044C \u0418\u0421\u041A\u041B\u042E\u0427\u0418\u0422\u0415\u041B\u042C\u041D\u041E \u043D\u0430 \u0420\u0423\u0421\u0421\u041A\u041E\u041C \u044F\u0437\u044B\u043A\u0435, \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E \u043E\u0442 \u044F\u0437\u044B\u043A\u0430 \u0432\u0438\u0434\u0435\u043E \u0438\u043B\u0438 \u0432\u043E\u043F\u0440\u043E\u0441\u0430.",
       quick: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u043A\u0440\u0430\u0442\u043A\u0438\u0439 \u0438 \u0447\u0435\u0442\u043A\u0438\u0439 \u043E\u0442\u0432\u0435\u0442 (1-2 \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0445 \u0430\u0431\u0437\u0430\u0446\u0430).",
       detailed: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u043F\u043E\u0434\u0440\u043E\u0431\u043D\u043E\u0435 \u0438 \u0438\u0441\u0447\u0435\u0440\u043F\u044B\u0432\u0430\u044E\u0449\u0435\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435.",
       standard: "\u0416\u0435\u043B\u0430\u0435\u043C\u044B\u0439 \u043E\u0431\u044A\u0435\u043C: \u0441\u0431\u0430\u043B\u0430\u043D\u0441\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0439 \u0438 \u0435\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u044B\u0439 \u043E\u0442\u0432\u0435\u0442 \u043F\u043E \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443.",
       summaryLabel: "\u0420\u0410\u041D\u0415\u0415 \u0421\u0424\u041E\u0420\u041C\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415 \u0420\u0415\u0417\u042E\u041C\u0415 \u0412\u0418\u0414\u0415\u041E \u0412 \u0420\u0410\u0421\u0428\u0418\u0420\u0415\u041D\u0418\u0418 (\u0414\u041B\u042F \u0421\u041F\u0420\u0410\u0412\u041A\u0418):",
       transcriptLabel: "\u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442 \u0432\u0438\u0434\u0435\u043E:"
+    },
+    ja: {
+      persona: "\u3042\u306A\u305F\u306FYouTube Summarizer AI\u3067\u3059\u3002YouTube\u306B\u76F4\u63A5\u7D44\u307F\u8FBC\u307E\u308C\u305F\u30A4\u30F3\u30C6\u30EA\u30B8\u30A7\u30F3\u30C8\u306AChrome\u62E1\u5F35\u6A5F\u80FD\u3067\u3059\u3002",
+      role: "\u3053\u306EYouTube\u52D5\u753B\u306B\u95A2\u3059\u308B\u30E6\u30FC\u30B6\u30FC\u306E\u8CEA\u554F\u306B\u3001\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\u3001\u516C\u5F0F\u30B3\u30F3\u30C6\u30AD\u30B9\u30C8\uFF08\u8AAC\u660E\u3001\u30C1\u30E3\u30F3\u30CD\u30EB\u3001\u30AB\u30C6\u30B4\u30EA\uFF09\u3001\u304A\u3088\u3073\u8981\u7D04\u306B\u53B3\u5BC6\u306B\u57FA\u3065\u3044\u3066\u56DE\u7B54\u3057\u307E\u3059\u3002",
+      identity: "\u30E6\u30FC\u30B6\u30FC\u304C\u62E1\u5F35\u6A5F\u80FD\u306B\u3064\u3044\u3066\u8A00\u53CA\u3057\u305F\u308A\u3001\u3042\u306A\u305F\u304C\u8AB0\u3067\u3042\u308B\u304B\u3092\u5C0B\u306D\u305F\u308A\u3057\u305F\u5834\u5408\u306F\u3001\u3042\u306A\u305F\u304CYouTube Summarizer AI\u62E1\u5F35\u6A5F\u80FD\u306E\u30A2\u30B7\u30B9\u30BF\u30F3\u30C8\u3067\u3042\u308B\u3053\u3068\u3092\u660E\u78BA\u306B\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+      rule: "\u53B3\u683C\u306A\u8A00\u8A9E\u30EB\u30FC\u30EB\uFF1A\u52D5\u753B\u3084\u8CEA\u554F\u306E\u8A00\u8A9E\u306B\u95A2\u4FC2\u306A\u304F\u3001\u5B8C\u5168\u306B\u65E5\u672C\u8A9E\u306E\u307F\u3067\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+      quick: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u7C21\u6F54\u3067\u76F4\u63A5\u7684\u306A\u56DE\u7B54\uFF081\u301C2\u306E\u77ED\u3044\u6BB5\u843D\uFF09\u3002",
+      detailed: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u8A73\u7D30\u3067\u5FB9\u5E95\u7684\u306A\u8AAC\u660E\u3002",
+      standard: "\u5E0C\u671B\u3059\u308B\u9577\u3055\uFF1A\u8981\u70B9\u3092\u62BC\u3055\u3048\u305F\u3001\u30D0\u30E9\u30F3\u30B9\u306E\u53D6\u308C\u305F\u81EA\u7136\u306A\u56DE\u7B54\u3002",
+      summaryLabel: "\u4EE5\u524D\u306B\u751F\u6210\u3055\u308C\u305F\u52D5\u753B\u306E\u8981\u7D04\uFF08\u53C2\u8003\u7528\uFF09\uFF1A",
+      transcriptLabel: "\u52D5\u753B\u306E\u6587\u5B57\u8D77\u3053\u3057\uFF1A"
     },
     zh: {
       persona: "\u4F60\u662F YouTube Summarizer AI\uFF0C\u4E00\u6B3E\u76F4\u63A5\u5185\u5D4C\u4E8E YouTube \u7684\u667A\u80FD Chrome \u6269\u5C55\u7A0B\u5E8F\u52A9\u624B\u3002",
@@ -6014,9 +8348,9 @@ ${transcriptText}`;
     /**
      * Condenses transcript to fit within AI model context limits
      */
-    static condenseTranscriptForContext(transcript, maxChars) {
-      if (transcript.length <= maxChars) {
-        return transcript;
+    static condenseTranscriptForContext(transcript, maxChars = 2e4) {
+      if (!transcript || transcript.length <= maxChars) {
+        return transcript || "";
       }
       const introSize = Math.floor(maxChars * 0.4);
       const middleSize = Math.floor(maxChars * 0.25);
@@ -6079,17 +8413,22 @@ ${channelDossier}
 ${commentsDossier}
 ` : "";
       const commentsDirective = commentsDossier ? cleanLang === "fr" ? "\nAVIS ET R\xC9ACTIONS DU PUBLIC : Une s\xE9lection de commentaires et r\xE9actions de la communaut\xE9 sous la vid\xE9o est fournie ci-dessous. Utilise-la fid\xE8lement pour analyser le ressenti g\xE9n\xE9ral, les d\xE9bats, les critiques et les r\xE9actions du public. Si l'utilisateur demande de retrouver un commentaire pr\xE9cis, mentionne un auteur (@pseudo) ou recherche un message particulier, identifie-le formellement dans la liste et cite-le textuellement avec son auteur et ses m\xE9tadonn\xE9es.\n" : "\nAUDIENCE & COMMUNITY REACTIONS: A selection of public comments and viewer feedback is provided below. Use them to accurately analyze community sentiment, praise, criticisms, and audience reception. If the user asks to find a specific comment, mentions a user handle (@handle), or searches for a particular message, locate it explicitly in the list and quote it verbatim with author and metadata.\n" : "";
+      const auditDossier = meta?.auditDossier || arguments[7] || "";
+      const auditBlock = auditDossier ? `
+${auditDossier}
+` : "";
+      const auditDirective = auditDossier ? cleanLang === "fr" ? "\nRAPPORT D\u2019AUDIT CRITIQUE & V\xC9RACIT\xC9 : Un rapport d\u2019analyse logique et de fact-checking a \xE9t\xE9 g\xE9n\xE9r\xE9 pour cette vid\xE9o. Utilise ces conclusions pour r\xE9pondre avec un esprit critique aiguis\xE9 aux questions sur les sophismes, la validit\xE9 des arguments, les contradictions internes ou la v\xE9racit\xE9 des affirmations.\n" : "\nCRITICAL AUDIT & FACT-CHECK REPORT: A logic analysis and fact-checking report was generated for this video. Use its findings to answer critically about fallacies, argument validity, internal contradictions, and veracity.\n" : "";
       const multiVideoDirective = safeTranscript.includes("[VID\xC9O EXTERNE") ? cleanLang === "fr" ? "\nCONTEXTE MULTI-VID\xC9OS : La discussion porte sur plusieurs vid\xE9os fournies dans la transcription ([VID\xC9O ACTUELLE] et [VID\xC9O EXTERNE ...]). Conserve la m\xE9moire et le contenu de chacune de ces vid\xE9os tout au long de la conversation. Compare leurs informations avec pr\xE9cision et ne pr\xE9tends jamais que tu ne peux pas acc\xE9der aux vid\xE9os externes d\xE9j\xE0 fournies.\n" : "\nMULTI-VIDEO CONTEXT: This discussion involves multiple YouTube videos provided in the transcript section ([VID\xC9O ACTUELLE] and [VID\xC9O EXTERNE ...]). Maintain continuous awareness of all referenced videos across the discussion. Accurately compare them and never claim you lack access to the provided external videos.\n" : "";
       return `${cfg.persona}
 ${cfg.role}
 ${cfg.identity}
 
-${cfg.rule}${multiVideoDirective}${channelDirective}${commentsDirective}
+${cfg.rule}${multiVideoDirective}${channelDirective}${commentsDirective}${auditDirective}
 
 Title: "${meta?.title || ""}"
 Channel: "${meta?.author || ""}"${subStr}
 ${contextBlock ? `
-${contextBlock}` : ""}${summaryBlock}${channelBlock}${commentsBlock}
+${contextBlock}` : ""}${summaryBlock}${channelBlock}${commentsBlock}${auditBlock}
 ${cfg.transcriptLabel}
 """
 ${safeTranscript}
@@ -6106,34 +8445,61 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     }
   };
 
+  // src/content/services/InPageState.js
+  function createInPageState() {
+    return {
+      extensionEnabled: true,
+      currentProvider: "lmstudio",
+      serverUrls: { lmstudio: "http://127.0.0.1:1234", ollama: "http://localhost:11434" },
+      apiKeys: { openai: "", gemini: "", claude: "", groq: "", deepseek: "" },
+      selectedModels: {},
+      availableLocalModels: {},
+      currentLang: "fr",
+      temperature: "0.3",
+      maxTokens: "auto",
+      ttsSpeed: "1.0",
+      localWhisperUrl: "http://127.0.0.1:8000",
+      autoSummarize: false,
+      customPrompt: "",
+      selectedVoiceURI: "",
+      selectedMicDeviceId: "",
+      cachedAuditReport: null,
+      getActiveModel() {
+        return this.selectedModels[this.currentProvider] || "";
+      },
+      setActiveModel(m) {
+        this.selectedModels[this.currentProvider] = m;
+      },
+      savePreference(key, val) {
+        if (chrome?.storage?.local) chrome.storage.local.set({ [key]: val });
+      }
+    };
+  }
+  function loadPreferences(state2, callback) {
+    if (!chrome?.storage?.local) return callback?.();
+    chrome.storage.local.get(null, (items = {}) => {
+      if (typeof items.extensionEnabled === "boolean") state2.extensionEnabled = items.extensionEnabled;
+      if (items.aiProvider) state2.currentProvider = items.aiProvider;
+      if (items.targetLang) state2.currentLang = items.targetLang;
+      if (items.selectedModel) state2.setActiveModel(items.selectedModel);
+      if (items.summaryMode) state2.summaryMode = items.summaryMode;
+      if (items.temperature) state2.temperature = items.temperature;
+      if (items.maxTokens) state2.maxTokens = items.maxTokens;
+      if (typeof items.autoSummarize === "boolean") state2.autoSummarize = items.autoSummarize;
+      if (items.localWhisperUrl) state2.localWhisperUrl = items.localWhisperUrl;
+      if (items.ttsSpeed) state2.ttsSpeed = items.ttsSpeed;
+      if (items.selectedVoiceURI) state2.selectedVoiceURI = items.selectedVoiceURI;
+      ["openai", "gemini", "claude", "groq", "deepseek", "lmstudio", "ollama"].forEach((p) => {
+        if (items[`apiKey_${p}`]) state2.apiKeys[p] = items[`apiKey_${p}`];
+        if (items[`serverUrl_${p}`]) state2.serverUrls[p] = items[`serverUrl_${p}`];
+        if (items[`selectedModel_${p}`]) state2.selectedModels[p] = items[`selectedModel_${p}`];
+      });
+      callback?.();
+    });
+  }
+
   // src/content/index.js
-  var state = {
-    extensionEnabled: true,
-    currentProvider: "lmstudio",
-    serverUrls: { lmstudio: "http://192.168.56.1:1234", ollama: "http://localhost:11434" },
-    apiKeys: { openai: "", gemini: "", claude: "", groq: "", deepseek: "" },
-    selectedModels: {},
-    availableLocalModels: {},
-    currentLang: "fr",
-    summaryMode: "standard",
-    temperature: "0.3",
-    maxTokens: "auto",
-    ttsSpeed: "1.0",
-    localWhisperUrl: "http://127.0.0.1:8000",
-    autoSummarize: false,
-    customPrompt: "",
-    selectedVoiceURI: "",
-    selectedMicDeviceId: "",
-    getActiveModel() {
-      return this.selectedModels[this.currentProvider] || "";
-    },
-    setActiveModel(m) {
-      this.selectedModels[this.currentProvider] = m;
-    },
-    savePreference(key, val) {
-      if (chrome?.storage?.local) chrome.storage.local.set({ [key]: val });
-    }
-  };
+  var state = createInPageState();
   var transcriptController = new InPageTranscriptController();
   var audioController = new InPageAudioController();
   var promptService = new PromptService();
@@ -6146,217 +8512,110 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     audioController,
     summaryViewController
   });
+  var auditService = new AuditService({
+    transcriptController,
+    videoCommentsManager: chatViewController.commentsManager,
+    channelManager: chatViewController.channelManager
+  });
+  var channelAuditService = new ChannelAuditService({
+    channelManager: chatViewController.channelManager
+  });
+  var channelAuditViewController = new ChannelAuditViewController({
+    channelAuditService,
+    bannerView
+  });
+  var auditViewController = new AuditViewController({
+    auditService,
+    chatViewController,
+    bannerView,
+    channelAuditService,
+    channelAuditViewController
+  });
+  chatViewController.auditViewController = auditViewController;
+  var channelCompanionCard = new ChannelCompanionCard({
+    channelAuditService,
+    channelAuditViewController,
+    state
+  });
   var triggerSummarize = () => {
     bannerView.setExpanded(true);
     bannerView.switchTab("summary");
     summaryViewController.startSummarization({
       state,
       currentLang: state.currentLang,
+      currentProvider: state.currentProvider,
+      serverUrls: state.serverUrls,
+      apiKeys: state.apiKeys,
       getActiveModel: () => state.getActiveModel(),
       showStatusBanner: (msg, isErr) => bannerView.showStatusBanner(msg, isErr)
     });
   };
-  function bindBannerEvents(banner) {
-    if (!banner) return;
-    banner.querySelectorAll(".yt-ai-tab-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const tab = btn.getAttribute("data-tab");
-        if (tab) {
-          bannerView.switchTab(tab);
-          if (tab === "transcript") {
-            const currentVideoId = getVideoId();
-            if (!transcriptController.cachedTranscript.segments || transcriptController.cachedTranscript.segments.length === 0 || transcriptController.cachedTranscript.videoId !== currentVideoId) {
-              transcriptController.extractYouTubeTranscript(state.currentLang, true);
-            }
-          }
-        }
-      });
+  var triggerAudit = () => {
+    bannerView.setExpanded(true);
+    bannerView.switchTab("audit");
+    auditViewController.startAudit({
+      state,
+      currentLang: state.currentLang,
+      getActiveModel: () => state.getActiveModel()
     });
-    document.getElementById("ytAiBrandToggle")?.addEventListener("click", () => bannerView.toggleExpand());
-    document.getElementById("ytAiToggleBtn")?.addEventListener("click", () => bannerView.toggleExpand());
-    document.getElementById("ytAiSummarizeBtn")?.addEventListener("click", triggerSummarize);
-    document.getElementById("ytAiSettingsToggleBtn")?.addEventListener("click", () => SettingsDrawerController.toggleSettingsDrawer((exp) => bannerView.setExpanded(exp)));
-    document.getElementById("ytAiSettingsCloseBtn")?.addEventListener("click", () => SettingsDrawerController.setSettingsDrawerOpen(false));
-    banner.querySelectorAll(".yt-ai-settings-tab-btn").forEach((btn) => btn.addEventListener("click", () => {
-      const sub = btn.getAttribute("data-subtab");
-      if (sub) SettingsDrawerController.switchSettingsSubtab(sub);
-    }));
-    banner.querySelectorAll(".yt-ai-format-pill").forEach((pill) => pill.addEventListener("click", () => {
-      const mode = pill.getAttribute("data-mode");
-      if (mode) bannerView.setSummaryMode(mode);
-    }));
-    document.getElementById("ytAiModeSelect")?.addEventListener("change", (e) => bannerView.setSummaryMode(e.target.value));
-    document.getElementById("ytAiLangSelect")?.addEventListener("change", (e) => {
-      state.currentLang = e.target.value;
-      state.savePreference("targetLang", state.currentLang);
-      bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController);
-      audioController.populateVoiceDropdown(state.currentLang);
+  };
+  var triggerChannelAudit = () => {
+    bannerView.setExpanded(true);
+    bannerView.switchTab("audit");
+    auditViewController.handleTriggerChannelAudit({
+      state,
+      currentLang: state.currentLang
     });
-    document.getElementById("ytAiProviderSelect")?.addEventListener("change", (e) => {
-      state.currentProvider = e.target.value;
-      state.savePreference("aiProvider", state.currentProvider);
-      settingsDrawer.syncProviderUI();
+  };
+  function bindEvents(banner) {
+    BannerEventHandler.bind(banner, {
+      state,
+      bannerView,
+      settingsDrawer,
+      summaryViewController,
+      chatViewController,
+      auditViewController,
+      audioController,
+      transcriptController,
+      triggerSummarize,
+      triggerAudit,
+      triggerChannelAudit
     });
-    document.getElementById("ytAiApiKeyInput")?.addEventListener("input", (e) => {
-      const val = e.target.value.trim();
-      state.apiKeys[state.currentProvider] = val;
-      state.savePreference(`apiKey_${state.currentProvider}`, val);
-      if (state.keyVerified) delete state.keyVerified[state.currentProvider];
-      bannerView.updateHeaderBadge();
-    });
-    document.getElementById("ytAiServerSelect")?.addEventListener("change", (e) => {
-      const isOllama = state.currentProvider === "ollama";
-      const def = isOllama ? "http://localhost:11434" : "http://192.168.56.1:1234";
-      if (e.target.value === "custom") {
-        const custom = prompt(`Address for ${isOllama ? "Ollama" : "LM Studio"}:`, state.serverUrls[state.currentProvider] || def);
-        if (custom) {
-          const clean = custom.trim().replace(/\/+$/, "");
-          state.serverUrls[state.currentProvider] = clean;
-          state.savePreference(`serverUrl_${state.currentProvider}`, clean);
-          settingsDrawer.updateServerUrlUI();
-          settingsDrawer.refreshModelsList();
-        }
-      } else {
-        state.serverUrls[state.currentProvider] = e.target.value;
-        state.savePreference(`serverUrl_${state.currentProvider}`, e.target.value);
-        settingsDrawer.updateServerUrlUI();
-        settingsDrawer.refreshModelsList();
-      }
-    });
-    document.getElementById("ytAiRefreshModelsBtn")?.addEventListener("click", () => settingsDrawer.refreshModelsList(true));
-    document.getElementById("ytAiTestModelBtn")?.addEventListener("click", () => settingsDrawer.handleTestConnection());
-    document.getElementById("ytAiTestWhisperBtn")?.addEventListener("click", () => settingsDrawer.handleTestWhisper());
-    document.getElementById("ytAiModelSelect")?.addEventListener("change", (e) => {
-      state.setActiveModel(e.target.value);
-      state.savePreference(`selectedModel_${state.currentProvider}`, e.target.value);
-      state.savePreference("selectedModel", e.target.value);
-      bannerView.updateHeaderModelText();
-    });
-    audioController.init();
-    document.getElementById("ytAiSpeakSummaryBtn")?.addEventListener("click", (e) => {
-      const text = summaryViewController.fullSummaryMarkdown || document.getElementById("ytAiSummaryBody")?.innerText || "";
-      if (text.trim()) {
-        audioController.speakText(text, e.currentTarget, { lang: state.currentLang });
-      } else {
-        bannerView.showStatusBanner(I18N[state.currentLang]?.noSummaryToRead || "No summary to read", true);
-      }
-    });
-    const sendChat = (customText = null) => {
-      chatViewController.handleSendChatMessage(customText, {
-        state,
-        currentLang: state.currentLang,
-        currentProvider: state.currentProvider,
-        apiKeys: state.apiKeys,
-        serverUrls: state.serverUrls,
-        temperature: state.temperature,
-        maxTokens: state.maxTokens,
-        getActiveModel: () => state.getActiveModel(),
-        setExpanded: (exp) => bannerView.setExpanded(exp),
-        switchTab: (tab) => bannerView.switchTab(tab)
-      });
-    };
-    document.getElementById("ytAiSendChatBtn")?.addEventListener("click", () => sendChat());
-    const chatInput = document.getElementById("ytAiChatInput");
-    chatInput?.addEventListener("input", () => {
-      chatInput.style.height = "auto";
-      chatInput.style.height = Math.min(chatInput.scrollHeight, 140) + "px";
-    });
-    chatInput?.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendChat();
-      }
-    });
-    document.getElementById("ytAiMicBtn")?.addEventListener("click", () => {
-      audioController.toggleDictation({
-        localWhisperUrl: state.localWhisperUrl,
-        groqKey: state.apiKeys.groq,
-        openaiKey: state.apiKeys.openai
-      });
-    });
-    document.getElementById("ytAiClearChatBtn")?.addEventListener("click", () => {
-      chatViewController.handleClearChat(state.currentLang);
-    });
-    document.getElementById("ytAiCopyBtn")?.addEventListener("click", (e) => ExportHandler.copyToClipboard(summaryViewController.fullSummaryMarkdown, e.currentTarget));
-    document.getElementById("ytAiDownloadBtn")?.addEventListener("click", () => ExportHandler.downloadMarkdown(summaryViewController.fullSummaryMarkdown, getVideoId()));
-    document.getElementById("ytAiSaveTxtBtn")?.addEventListener("click", () => ExportHandler.downloadTxt(summaryViewController.fullSummaryMarkdown, getVideoId()));
-    document.getElementById("ytAiSaveJsonBtn")?.addEventListener("click", () => ExportHandler.downloadJson(summaryViewController.fullSummaryMarkdown, getVideoId(), transcriptController.cachedTranscript));
-    banner.addEventListener("click", (e) => {
-      const chip = e.target.closest(".yt-ai-suggestion-chip");
-      if (chip) {
-        e.preventDefault();
-        const q = chip.getAttribute("data-question") || chip.textContent.trim();
-        if (q) sendChat(q);
-        return;
-      }
-      const link = e.target.closest(".yt-ai-timestamp-link");
-      if (link && link.dataset.time !== void 0) {
-        e.preventDefault();
-        const sec = parseFloat(link.dataset.time);
-        const video = document.querySelector("video");
-        if (video && !isNaN(sec)) {
-          video.currentTime = sec;
-          video.play().catch(() => {
-          });
-          const m = Math.floor(sec / 60);
-          const s = Math.floor(sec % 60).toString().padStart(2, "0");
-          bannerView.showStatusBanner(`\u23F1\uFE0F Playing at ${m}:${s}`, false);
-        }
-      }
-    });
-    bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController);
-    settingsDrawer.syncProviderUI();
-    if (state.summaryMode) bannerView.setSummaryMode(state.summaryMode);
-    summaryViewController.renderSummaryEmptyState(false, state.currentLang, triggerSummarize);
   }
-  function loadPreferences(callback) {
-    if (!chrome?.storage?.local) return callback?.();
-    chrome.storage.local.get(null, (items = {}) => {
-      if (typeof items.extensionEnabled === "boolean") state.extensionEnabled = items.extensionEnabled;
-      if (items.aiProvider) state.currentProvider = items.aiProvider;
-      if (items.targetLang) state.currentLang = items.targetLang;
-      if (items.selectedModel) state.setActiveModel(items.selectedModel);
-      if (items.summaryMode) {
-        state.summaryMode = items.summaryMode;
-        bannerView.currentMode = items.summaryMode;
-      }
-      if (items.temperature) state.temperature = items.temperature;
-      if (items.maxTokens) state.maxTokens = items.maxTokens;
-      if (typeof items.autoSummarize === "boolean") state.autoSummarize = items.autoSummarize;
-      if (items.localWhisperUrl) state.localWhisperUrl = items.localWhisperUrl;
-      if (items.ttsSpeed) state.ttsSpeed = items.ttsSpeed;
-      if (items.selectedVoiceURI) state.selectedVoiceURI = items.selectedVoiceURI;
-      ["openai", "gemini", "claude", "groq", "deepseek", "lmstudio", "ollama"].forEach((p) => {
-        if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`];
-        if (items[`serverUrl_${p}`]) state.serverUrls[p] = items[`serverUrl_${p}`];
-        if (items[`selectedModel_${p}`]) state.selectedModels[p] = items[`selectedModel_${p}`];
-      });
-      callback?.();
-    });
+  function handlePageInjection() {
+    if (isWatchPage()) {
+      bannerView.tryInjectBanner(bindEvents);
+    } else if (isChannelPage()) {
+      channelCompanionCard.tryInjectCompanion();
+    }
   }
   function initContentScript() {
     ThemeManager.initThemeSync();
-    loadPreferences(() => {
-      bannerView.tryInjectBanner(bindBannerEvents);
-      NavigationObserver.observeNavigation(({ isNewVideo }) => {
+    loadPreferences(state, () => {
+      handlePageInjection();
+      NavigationObserver.observeNavigation(({ isNewVideo, isChannel }) => {
         if (isNewVideo) {
           audioController.stopAll();
           NativeTranscriptPanel.closeNativeTranscriptPanel();
           transcriptController.resetAllState(state.currentLang);
           summaryViewController.resetSummaryOutput(state.currentLang, triggerSummarize);
-          chatViewController.resetChatOutput(state.currentLang);
+          chatViewController.resetChatOutput?.(state.currentLang);
+          auditService.clearCache();
+          auditViewController.lastReport = null;
+          state.cachedAuditReport = null;
         }
-        bannerView.tryInjectBanner(bindBannerEvents);
+        handlePageInjection();
         if (isNewVideo && state.autoSummarize) {
           triggerSummarize();
         }
       });
       chrome.runtime?.onMessage?.addListener((req, sender, sendResponse) => {
         const act = req.type || req.action;
-        if (act === "GET_IN_PAGE_STATUS") sendResponse({ success: true, enabled: state.extensionEnabled, isWatchPage: isWatchPage() });
-        else if (act === "SET_EXTENSION_ENABLED") {
+        if (act === "GET_IN_PAGE_STATUS") {
+          sendResponse({ success: true, enabled: state.extensionEnabled, isWatchPage: isWatchPage(), isChannelPage: isChannelPage() });
+        } else if (act === "SET_EXTENSION_ENABLED") {
           state.extensionEnabled = !!req.enabled;
-          bannerView.tryInjectBanner(bindBannerEvents);
+          handlePageInjection();
           sendResponse({ success: true });
         } else if (act === "TOGGLE_IN_PAGE_BANNER") {
           bannerView.toggleExpand();
@@ -6364,10 +8623,28 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
         } else if (act === "TRIGGER_SUMMARIZE") {
           triggerSummarize();
           sendResponse({ success: true });
+        } else if (act === "TRIGGER_AUDIT") {
+          triggerAudit();
+          sendResponse({ success: true });
+        } else if (act === "TRIGGER_CHANNEL_AUDIT") {
+          triggerChannelAudit();
+          sendResponse({ success: true });
+        } else if (act === "CLEAR_CACHE") {
+          transcriptController.resetAllState(state.currentLang);
+          summaryViewController.resetSummaryOutput(state.currentLang, triggerSummarize);
+          chatViewController.resetChatOutput?.(state.currentLang);
+          chatViewController.commentsManager?.reset?.();
+          chatViewController.channelManager?.reset?.();
+          auditService.clearCache();
+          channelAuditService.clearCache();
+          auditViewController.lastReport = null;
+          state.cachedAuditReport = null;
+          bannerView.showStatusBanner("\u2713 Cache cleared", false);
+          sendResponse({ success: true });
         } else if (act === "SET_LANGUAGE") {
           if (req.lang) {
             state.currentLang = req.lang;
-            bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController);
+            bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController, auditViewController);
             audioController.populateVoiceDropdown(state.currentLang);
           }
           sendResponse({ success: true });

@@ -180,7 +180,7 @@ export class ChannelIntelligenceFetcher {
     ];
 
     if (bio) {
-      lines.push(`- **Bio Officielle** :\n"""\n${bio.slice(0, 1000)}\n"""`);
+      lines.push(`- **Bio Officielle** :\n"""\n${bio.trim()}\n"""`);
     }
 
     if (recentVideos.length > 0) {

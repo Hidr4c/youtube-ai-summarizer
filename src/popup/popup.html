@@ -19,7 +19,7 @@
         </div>
         <div class="brand-text">
           <div class="brand-title">YT Summarizer AI</div>
-          <div class="brand-version">v1.3.1 • Privacy-First</div>
+          <div class="brand-version" id="brandVersion">v1.4.0 • Privacy-First</div>
         </div>
       </div>
       <div id="statusPill" class="status-pill active" title="Extension status">
@@ -60,6 +60,27 @@
           <span id="summarizeBtnText">Summarize</span>
         </button>
       </div>
+    </div>
+
+    <!-- Cache Management Card -->
+    <div id="cacheCard" class="card cache-card">
+      <div class="video-card-header">
+        <span class="card-badge" id="cacheBadgeTitle">💾 Cache Manager</span>
+        <span id="cacheSizeBadge" class="card-badge state-badge">0 Ko (0)</span>
+      </div>
+      <div class="cache-desc" id="cacheDesc">Transcripts, summaries and audits stored locally to save AI tokens.</div>
+      <div class="actions-row cache-actions-row">
+        <select id="cachePurgeFilter" class="lang-select cache-select" title="Purge filter">
+          <option value="all">Tout effacer (All)</option>
+          <option value="7">> 7 jours (> 7 days)</option>
+          <option value="30">> 30 jours (> 30 days)</option>
+        </select>
+        <button id="purgeCacheBtn" class="btn btn-secondary btn-sm" title="Purge cache">
+          <span class="btn-icon">🗑️</span>
+          <span id="purgeCacheBtnText">Purger</span>
+        </button>
+      </div>
+      <div id="cacheNotice" class="cache-notice hidden"></div>
     </div>
 
     <!-- Disabled Notice Card (shown when master switch is OFF) -->

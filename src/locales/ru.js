@@ -154,7 +154,23 @@ export const ru = {
   "analyzingChannelNotice": "Получение официального досье канала {query}...",
   "fetchingCommentsNotice": "Получение популярных комментариев и реакций аудитории...",
   "externalTranscriptError": "Не удалось извлечь субтитры или главы для внешнего видео ({videoId}). Возможные причины: субтитры или главы отсутствуют, либо действуют ограничения YouTube.",
-  "retryBtn": "🔄 Повторить"
+  "retryBtn": "🔄 Повторить",
+  "tabAudit": "🛡️ Audit & Fact-Check",
+  "auditTitle": "🛡️ Критический аудит, логика и проверка фактов",
+  "runAuditBtn": "⚡ Запустить аудит",
+  "relaunchAuditBtn": "⚡ Перезапустить аудит",
+  "auditInProgress": "Аудит выполняется...",
+  "auditStarting": "Подготовка досье аудита...",
+  "auditAnalyzing": "Проверка логической последовательности и фактов...",
+  "auditPlaceholder": "Нажмите «⚡ Запустить аудит» для анализа логики и фактов.",
+  "discussInChatBtn": "💬 Обсудить в чате",
+  "auditChannelBtn": "🔍 Аудит канала",
+  "channelAuditTitle": "📊 Общий аудит канала",
+  "channelSampleInfo": "Взвешенная временная выборка",
+  "periodFilterLabel": "Период анализа:",
+  "periodAll": "Вся история",
+  "periodMonth": "Последний месяц",
+  "periodYear": "Текущий год",
+  "period6Months": "Последние 6 месяцев"
 };
-
 export default ru;

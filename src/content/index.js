@@ -1,40 +1,23 @@
-import { I18N } from '../locales/index.js';
 import { BannerView } from './ui/BannerView.js';
 import { ThemeManager } from './ui/ThemeManager.js';
-import { NavigationObserver, getVideoId, isWatchPage } from './ui/NavigationObserver.js';
+import { NavigationObserver, getVideoId, isWatchPage, isChannelPage } from './ui/NavigationObserver.js';
 import { SettingsDrawerController } from './ui/SettingsDrawerController.js';
 import { SummaryViewController } from './ui/SummaryViewController.js';
 import { ChatViewController } from './ui/ChatViewController.js';
+import { AuditViewController } from './ui/AuditViewController.js';
+import { AuditService } from './services/AuditService.js';
+import { ChannelAuditService } from './services/ChannelAuditService.js';
+import { ChannelAuditViewController } from './ui/ChannelAuditViewController.js';
+import { ChannelCompanionCard } from './ui/ChannelCompanionCard.js';
+import { BannerEventHandler } from './ui/BannerEventHandler.js';
 import { InPageTranscriptController } from './services/InPageTranscriptController.js';
 import { NativeTranscriptPanel } from './services/NativeTranscriptPanel.js';
 import { InPageAudioController } from './services/InPageAudioController.js';
-import { ExportHandler } from './services/ExportHandler.js';
 import { PromptService } from './services/PromptService.js';
+import { createInPageState, loadPreferences } from './services/InPageState.js';
 
 // Application State Container
-const state = {
-  extensionEnabled: true,
-  currentProvider: 'lmstudio',
-  serverUrls: { lmstudio: 'http://192.168.56.1:1234', ollama: 'http://localhost:11434' },
-  apiKeys: { openai: '', gemini: '', claude: '', groq: '', deepseek: '' },
-  selectedModels: {},
-  availableLocalModels: {},
-  currentLang: 'fr',
-  summaryMode: 'standard',
-  temperature: '0.3',
-  maxTokens: 'auto',
-  ttsSpeed: '1.0',
-  localWhisperUrl: 'http://127.0.0.1:8000',
-  autoSummarize: false,
-  customPrompt: '',
-  selectedVoiceURI: '',
-  selectedMicDeviceId: '',
-  getActiveModel() { return this.selectedModels[this.currentProvider] || ''; },
-  setActiveModel(m) { this.selectedModels[this.currentProvider] = m; },
-  savePreference(key, val) {
-    if (chrome?.storage?.local) chrome.storage.local.set({ [key]: val });
-  }
-};
+const state = createInPageState();
 
 // Clean Architecture Service Collaborators
 const transcriptController = new InPageTranscriptController();
@@ -42,237 +25,106 @@ const audioController = new InPageAudioController();
 const promptService = new PromptService();
 const bannerView = new BannerView(state);
 const settingsDrawer = new SettingsDrawerController(state, { bannerView });
+
 const summaryViewController = new SummaryViewController({ transcriptController, promptService, audioController });
 const chatViewController = new ChatViewController({
   transcriptController, promptService, audioController, summaryViewController
+});
+
+const auditService = new AuditService({
+  transcriptController,
+  videoCommentsManager: chatViewController.commentsManager,
+  channelManager: chatViewController.channelManager
+});
+
+const channelAuditService = new ChannelAuditService({
+  channelManager: chatViewController.channelManager
+});
+
+const channelAuditViewController = new ChannelAuditViewController({
+  channelAuditService,
+  bannerView
+});
+
+const auditViewController = new AuditViewController({
+  auditService,
+  chatViewController,
+  bannerView,
+  channelAuditService,
+  channelAuditViewController
+});
+chatViewController.auditViewController = auditViewController;
+
+const channelCompanionCard = new ChannelCompanionCard({
+  channelAuditService,
+  channelAuditViewController,
+  state
 });
 
 const triggerSummarize = () => {
   bannerView.setExpanded(true);
   bannerView.switchTab('summary');
   summaryViewController.startSummarization({
-    state,
-    currentLang: state.currentLang,
+    state, currentLang: state.currentLang, currentProvider: state.currentProvider,
+    serverUrls: state.serverUrls, apiKeys: state.apiKeys,
     getActiveModel: () => state.getActiveModel(),
     showStatusBanner: (msg, isErr) => bannerView.showStatusBanner(msg, isErr)
   });
 };
 
-function bindBannerEvents(banner) {
-  if (!banner) return;
-
-  // Tabs navigation
-  banner.querySelectorAll('.yt-ai-tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tab = btn.getAttribute('data-tab');
-      if (tab) {
-        bannerView.switchTab(tab);
-        if (tab === 'transcript') {
-          const currentVideoId = getVideoId();
-          if (!transcriptController.cachedTranscript.segments ||
-              transcriptController.cachedTranscript.segments.length === 0 ||
-              transcriptController.cachedTranscript.videoId !== currentVideoId) {
-            transcriptController.extractYouTubeTranscript(state.currentLang, true);
-          }
-        }
-      }
-    });
+const triggerAudit = () => {
+  bannerView.setExpanded(true);
+  bannerView.switchTab('audit');
+  auditViewController.startAudit({
+    state, currentLang: state.currentLang,
+    getActiveModel: () => state.getActiveModel()
   });
+};
 
-  // Expand / Collapse toggles
-  document.getElementById('ytAiBrandToggle')?.addEventListener('click', () => bannerView.toggleExpand());
-  document.getElementById('ytAiToggleBtn')?.addEventListener('click', () => bannerView.toggleExpand());
-
-  // Summarize CTA action
-  document.getElementById('ytAiSummarizeBtn')?.addEventListener('click', triggerSummarize);
-
-  // Settings Drawer Toggle & Subtabs
-  document.getElementById('ytAiSettingsToggleBtn')?.addEventListener('click', () => SettingsDrawerController.toggleSettingsDrawer(exp => bannerView.setExpanded(exp)));
-  document.getElementById('ytAiSettingsCloseBtn')?.addEventListener('click', () => SettingsDrawerController.setSettingsDrawerOpen(false));
-  banner.querySelectorAll('.yt-ai-settings-tab-btn').forEach(btn => btn.addEventListener('click', () => {
-    const sub = btn.getAttribute('data-subtab');
-    if (sub) SettingsDrawerController.switchSettingsSubtab(sub);
-  }));
-
-  // Format pills & select
-  banner.querySelectorAll('.yt-ai-format-pill').forEach(pill => pill.addEventListener('click', () => {
-    const mode = pill.getAttribute('data-mode');
-    if (mode) bannerView.setSummaryMode(mode);
-  }));
-  document.getElementById('ytAiModeSelect')?.addEventListener('change', (e) => bannerView.setSummaryMode(e.target.value));
-
-  // Language select
-  document.getElementById('ytAiLangSelect')?.addEventListener('change', (e) => {
-    state.currentLang = e.target.value;
-    state.savePreference('targetLang', state.currentLang);
-    bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController);
-    audioController.populateVoiceDropdown(state.currentLang);
+const triggerChannelAudit = () => {
+  bannerView.setExpanded(true);
+  bannerView.switchTab('audit');
+  auditViewController.handleTriggerChannelAudit({
+    state, currentLang: state.currentLang
   });
+};
 
-  // Provider & Server controls
-  document.getElementById('ytAiProviderSelect')?.addEventListener('change', (e) => {
-    state.currentProvider = e.target.value;
-    state.savePreference('aiProvider', state.currentProvider);
-    settingsDrawer.syncProviderUI();
+function bindEvents(banner) {
+  BannerEventHandler.bind(banner, {
+    state, bannerView, settingsDrawer, summaryViewController,
+    chatViewController, auditViewController, audioController,
+    transcriptController, triggerSummarize, triggerAudit, triggerChannelAudit
   });
-  document.getElementById('ytAiApiKeyInput')?.addEventListener('input', (e) => {
-    const val = e.target.value.trim();
-    state.apiKeys[state.currentProvider] = val;
-    state.savePreference(`apiKey_${state.currentProvider}`, val);
-    if (state.keyVerified) delete state.keyVerified[state.currentProvider];
-    bannerView.updateHeaderBadge();
-  });
-  document.getElementById('ytAiServerSelect')?.addEventListener('change', (e) => {
-    const isOllama = state.currentProvider === 'ollama';
-    const def = isOllama ? 'http://localhost:11434' : 'http://192.168.56.1:1234';
-    if (e.target.value === 'custom') {
-      const custom = prompt(`Address for ${isOllama ? 'Ollama' : 'LM Studio'}:`, state.serverUrls[state.currentProvider] || def);
-      if (custom) {
-        const clean = custom.trim().replace(/\/+$/, '');
-        state.serverUrls[state.currentProvider] = clean;
-        state.savePreference(`serverUrl_${state.currentProvider}`, clean);
-        settingsDrawer.updateServerUrlUI();
-        settingsDrawer.refreshModelsList();
-      }
-    } else {
-      state.serverUrls[state.currentProvider] = e.target.value;
-      state.savePreference(`serverUrl_${state.currentProvider}`, e.target.value);
-      settingsDrawer.updateServerUrlUI();
-      settingsDrawer.refreshModelsList();
-    }
-  });
-
-  // Model refresh & test connection
-  document.getElementById('ytAiRefreshModelsBtn')?.addEventListener('click', () => settingsDrawer.refreshModelsList(true));
-  document.getElementById('ytAiTestModelBtn')?.addEventListener('click', () => settingsDrawer.handleTestConnection());
-  document.getElementById('ytAiTestWhisperBtn')?.addEventListener('click', () => settingsDrawer.handleTestWhisper());
-  document.getElementById('ytAiModelSelect')?.addEventListener('change', (e) => {
-    state.setActiveModel(e.target.value);
-    state.savePreference(`selectedModel_${state.currentProvider}`, e.target.value);
-    state.savePreference('selectedModel', e.target.value);
-    bannerView.updateHeaderModelText();
-  });
-
-  // Audio & Speech events
-  audioController.init();
-  document.getElementById('ytAiSpeakSummaryBtn')?.addEventListener('click', (e) => {
-    const text = summaryViewController.fullSummaryMarkdown || document.getElementById('ytAiSummaryBody')?.innerText || '';
-    if (text.trim()) {
-      audioController.speakText(text, e.currentTarget, { lang: state.currentLang });
-    } else {
-      bannerView.showStatusBanner(I18N[state.currentLang]?.noSummaryToRead || 'No summary to read', true);
-    }
-  });
-
-  // Chat Q&A events
-  const sendChat = (customText = null) => {
-    chatViewController.handleSendChatMessage(customText, {
-      state, currentLang: state.currentLang, currentProvider: state.currentProvider,
-      apiKeys: state.apiKeys, serverUrls: state.serverUrls, temperature: state.temperature,
-      maxTokens: state.maxTokens, getActiveModel: () => state.getActiveModel(),
-      setExpanded: exp => bannerView.setExpanded(exp), switchTab: tab => bannerView.switchTab(tab)
-    });
-  };
-
-  document.getElementById('ytAiSendChatBtn')?.addEventListener('click', () => sendChat());
-  const chatInput = document.getElementById('ytAiChatInput');
-  chatInput?.addEventListener('input', () => {
-    chatInput.style.height = 'auto';
-    chatInput.style.height = Math.min(chatInput.scrollHeight, 140) + 'px';
-  });
-  chatInput?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendChat();
-    }
-  });
-  document.getElementById('ytAiMicBtn')?.addEventListener('click', () => {
-    audioController.toggleDictation({
-      localWhisperUrl: state.localWhisperUrl,
-      groqKey: state.apiKeys.groq,
-      openaiKey: state.apiKeys.openai
-    });
-  });
-  document.getElementById('ytAiClearChatBtn')?.addEventListener('click', () => {
-    chatViewController.handleClearChat(state.currentLang);
-  });
-
-  // Export handlers
-  document.getElementById('ytAiCopyBtn')?.addEventListener('click', (e) => ExportHandler.copyToClipboard(summaryViewController.fullSummaryMarkdown, e.currentTarget));
-  document.getElementById('ytAiDownloadBtn')?.addEventListener('click', () => ExportHandler.downloadMarkdown(summaryViewController.fullSummaryMarkdown, getVideoId()));
-  document.getElementById('ytAiSaveTxtBtn')?.addEventListener('click', () => ExportHandler.downloadTxt(summaryViewController.fullSummaryMarkdown, getVideoId()));
-  document.getElementById('ytAiSaveJsonBtn')?.addEventListener('click', () => ExportHandler.downloadJson(summaryViewController.fullSummaryMarkdown, getVideoId(), transcriptController.cachedTranscript));
-
-  // Delegated click handlers on banner (suggestion chips, timestamp jumps)
-  banner.addEventListener('click', (e) => {
-    const chip = e.target.closest('.yt-ai-suggestion-chip');
-    if (chip) {
-      e.preventDefault();
-      const q = chip.getAttribute('data-question') || chip.textContent.trim();
-      if (q) sendChat(q);
-      return;
-    }
-
-    const link = e.target.closest('.yt-ai-timestamp-link');
-    if (link && link.dataset.time !== undefined) {
-      e.preventDefault();
-      const sec = parseFloat(link.dataset.time);
-      const video = document.querySelector('video');
-      if (video && !isNaN(sec)) {
-        video.currentTime = sec;
-        video.play().catch(() => {});
-        const m = Math.floor(sec / 60);
-        const s = Math.floor(sec % 60).toString().padStart(2, '0');
-        bannerView.showStatusBanner(`⏱️ Playing at ${m}:${s}`, false);
-      }
-    }
-  });
-
-  // Initial UI state synchronization
-  bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController);
-  settingsDrawer.syncProviderUI();
-  if (state.summaryMode) bannerView.setSummaryMode(state.summaryMode);
-  summaryViewController.renderSummaryEmptyState(false, state.currentLang, triggerSummarize);
 }
 
-function loadPreferences(callback) {
-  if (!chrome?.storage?.local) return callback?.();
-  chrome.storage.local.get(null, (items = {}) => {
-    if (typeof items.extensionEnabled === 'boolean') state.extensionEnabled = items.extensionEnabled;
-    if (items.aiProvider) state.currentProvider = items.aiProvider;
-    if (items.targetLang) state.currentLang = items.targetLang;
-    if (items.selectedModel) state.setActiveModel(items.selectedModel);
-    if (items.summaryMode) { state.summaryMode = items.summaryMode; bannerView.currentMode = items.summaryMode; }
-    if (items.temperature) state.temperature = items.temperature;
-    if (items.maxTokens) state.maxTokens = items.maxTokens;
-    if (typeof items.autoSummarize === 'boolean') state.autoSummarize = items.autoSummarize;
-    if (items.localWhisperUrl) state.localWhisperUrl = items.localWhisperUrl;
-    if (items.ttsSpeed) state.ttsSpeed = items.ttsSpeed;
-    if (items.selectedVoiceURI) state.selectedVoiceURI = items.selectedVoiceURI;
-    ['openai', 'gemini', 'claude', 'groq', 'deepseek', 'lmstudio', 'ollama'].forEach(p => {
-      if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`];
-      if (items[`serverUrl_${p}`]) state.serverUrls[p] = items[`serverUrl_${p}`];
-      if (items[`selectedModel_${p}`]) state.selectedModels[p] = items[`selectedModel_${p}`];
-    });
-    callback?.();
-  });
+function handlePageInjection() {
+  if (isWatchPage()) {
+    bannerView.tryInjectBanner(bindEvents);
+  } else if (isChannelPage()) {
+    channelCompanionCard.tryInjectCompanion();
+  }
 }
 
 function initContentScript() {
   ThemeManager.initThemeSync();
 
-  loadPreferences(() => {
-    bannerView.tryInjectBanner(bindBannerEvents);
+  loadPreferences(state, () => {
+    handlePageInjection();
 
-    NavigationObserver.observeNavigation(({ isNewVideo }) => {
+    NavigationObserver.observeNavigation(({ isNewVideo, isChannel }) => {
       if (isNewVideo) {
         audioController.stopAll();
         NativeTranscriptPanel.closeNativeTranscriptPanel();
         transcriptController.resetAllState(state.currentLang);
         summaryViewController.resetSummaryOutput(state.currentLang, triggerSummarize);
-        chatViewController.resetChatOutput(state.currentLang);
+        chatViewController.resetChatOutput?.(state.currentLang);
+        auditService.clearCache();
+        auditViewController.lastReport = null;
+        state.cachedAuditReport = null;
       }
-      bannerView.tryInjectBanner(bindBannerEvents);
+
+      handlePageInjection();
+
       if (isNewVideo && state.autoSummarize) {
         triggerSummarize();
       }
@@ -280,12 +132,42 @@ function initContentScript() {
 
     chrome.runtime?.onMessage?.addListener((req, sender, sendResponse) => {
       const act = req.type || req.action;
-      if (act === 'GET_IN_PAGE_STATUS') sendResponse({ success: true, enabled: state.extensionEnabled, isWatchPage: isWatchPage() });
-      else if (act === 'SET_EXTENSION_ENABLED') { state.extensionEnabled = !!req.enabled; bannerView.tryInjectBanner(bindBannerEvents); sendResponse({ success: true }); }
-      else if (act === 'TOGGLE_IN_PAGE_BANNER') { bannerView.toggleExpand(); sendResponse({ success: true, isExpanded: bannerView.isExpanded }); }
-      else if (act === 'TRIGGER_SUMMARIZE') { triggerSummarize(); sendResponse({ success: true }); }
-      else if (act === 'SET_LANGUAGE') {
-        if (req.lang) { state.currentLang = req.lang; bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController); audioController.populateVoiceDropdown(state.currentLang); }
+      if (act === 'GET_IN_PAGE_STATUS') {
+        sendResponse({ success: true, enabled: state.extensionEnabled, isWatchPage: isWatchPage(), isChannelPage: isChannelPage() });
+      } else if (act === 'SET_EXTENSION_ENABLED') {
+        state.extensionEnabled = !!req.enabled;
+        handlePageInjection();
+        sendResponse({ success: true });
+      } else if (act === 'TOGGLE_IN_PAGE_BANNER') {
+        bannerView.toggleExpand();
+        sendResponse({ success: true, isExpanded: bannerView.isExpanded });
+      } else if (act === 'TRIGGER_SUMMARIZE') {
+        triggerSummarize();
+        sendResponse({ success: true });
+      } else if (act === 'TRIGGER_AUDIT') {
+        triggerAudit();
+        sendResponse({ success: true });
+      } else if (act === 'TRIGGER_CHANNEL_AUDIT') {
+        triggerChannelAudit();
+        sendResponse({ success: true });
+      } else if (act === 'CLEAR_CACHE') {
+        transcriptController.resetAllState(state.currentLang);
+        summaryViewController.resetSummaryOutput(state.currentLang, triggerSummarize);
+        chatViewController.resetChatOutput?.(state.currentLang);
+        chatViewController.commentsManager?.reset?.();
+        chatViewController.channelManager?.reset?.();
+        auditService.clearCache();
+        channelAuditService.clearCache();
+        auditViewController.lastReport = null;
+        state.cachedAuditReport = null;
+        bannerView.showStatusBanner('✓ Cache cleared', false);
+        sendResponse({ success: true });
+      } else if (act === 'SET_LANGUAGE') {
+        if (req.lang) {
+          state.currentLang = req.lang;
+          bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController, auditViewController);
+          audioController.populateVoiceDropdown(state.currentLang);
+        }
         sendResponse({ success: true });
       }
       return true;

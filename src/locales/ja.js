@@ -154,7 +154,23 @@ export const ja = {
   "analyzingChannelNotice": "{query} の公式チャンネル情報を取得しています...",
   "fetchingCommentsNotice": "人気コメントと視聴者の反応を取得しています...",
   "externalTranscriptError": "外部動画（{videoId}）の字幕またはチャプターを抽出できませんでした。理由：字幕やチャプターが存在しないか、YouTubeのアクセス制限がある可能性があります。",
-  "retryBtn": "🔄 再試行"
+  "retryBtn": "🔄 再試行",
+  "tabAudit": "🛡️ Audit & Fact-Check",
+  "auditTitle": "🛡️ 批判的監査・論理性と事実検証",
+  "runAuditBtn": "⚡ 監査を実行",
+  "relaunchAuditBtn": "⚡ 監査を再実行",
+  "auditInProgress": "監査を実行中...",
+  "auditStarting": "監査ドキュメントを準備中...",
+  "auditAnalyzing": "論理的一貫性と事実関係を検証中...",
+  "auditPlaceholder": "「⚡ 監査を実行」をクリックして論理的妥当性と事実を検証します。",
+  "discussInChatBtn": "💬 チャットで議論",
+  "auditChannelBtn": "🔍 チャンネルを監査",
+  "channelAuditTitle": "📊 チャンネル全体監査",
+  "channelSampleInfo": "時間加重サンプリング",
+  "periodFilterLabel": "分析期間:",
+  "periodAll": "全履歴",
+  "periodMonth": "過去1か月",
+  "periodYear": "今年",
+  "period6Months": "過去6か月"
 };
-
 export default ja;

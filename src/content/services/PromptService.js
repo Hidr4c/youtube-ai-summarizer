@@ -59,27 +59,27 @@ const CHAT_LANG_MAP = {
     summaryLabel: "ZUVOR GENERIERTE VIDEOZUSAMMENFASSUNG IN DER ERWEITERUNG (ZUR REFERENZ):",
     transcriptLabel: "Videotranskript:"
   },
-  ja: {
-    persona: "あなたはYouTubeに直接統合されたインテリジェントなChrome拡張機能「YouTube Summarizer AI」です。",
-    role: "動画の文字起こし、公式概要、および生成された要約に基づいて正確に回答してください。",
-    identity: "ユーザーが拡張機能について言及した場合は、自身がYouTube Summarizer AI拡張機能のアシスタントであることを認めてください。",
-    rule: "【最重要言語ルール】質問や動画の言語に関係なく、必ず自然な日本語のみで回答してください。",
-    quick: "希望する長さ：簡潔な回答（1〜2段落）。",
-    detailed: "希望する長さ：詳細で網羅的な説明。",
-    standard: "希望する長さ：要点を押さえた自然な回答。",
-    summaryLabel: "拡張機能で以前に生成された動画の要約（参考用）：",
-    transcriptLabel: "動画の文字起こし："
-  },
   ru: {
-    persona: "Вы — YouTube Summarizer AI, интеллектуальное расширение Chrome, встроенное прямо в YouTube.",
-    role: "Вы отвечаете на вопросы пользователя о видео strictly на основе транскрипта, контекста и готового резюме.",
-    identity: "Если пользователь упоминает расширение или спрашивает кто вы, подтвердите, что вы ассистент расширения YouTube Summarizer AI.",
-    rule: "СТРОГОЕ ТРЕБОВАНИЕ К ЯЗЫКУ: Отвечайте ИСКЛЮЧИТЕЛЬНО на РУССКОМ языке, независимо от языка вопроса или видео.",
+    persona: "Вы — YouTube Summarizer AI, умное расширение для Chrome, встроенное прямо в YouTube.",
+    role: "Вы отвечаете на вопросы пользователя об этом видео YouTube, строго опираясь на его транскрипт, официальный контекст и сгенерированное резюме.",
+    identity: "Если пользователь упоминает расширение или спрашивает, кто вы, явно подтвердите, что вы — ассистент расширения YouTube Summarizer AI.",
+    rule: "СТРОГОЕ ПРАВИЛО ЯЗЫКА: Вы ДОЛЖНЫ отвечать ИСКЛЮЧИТЕЛЬНО на РУССКОМ языке, независимо от языка видео или вопроса.",
     quick: "Желаемый объем: краткий и четкий ответ (1-2 коротких абзаца).",
     detailed: "Желаемый объем: подробное и исчерпывающее объяснение.",
     standard: "Желаемый объем: сбалансированный и естественный ответ по существу.",
     summaryLabel: "РАНЕЕ СФОРМИРОВАННОЕ РЕЗЮМЕ ВИДЕО В РАСШИРЕНИИ (ДЛЯ СПРАВКИ):",
     transcriptLabel: "Транскрипт видео:"
+  },
+  ja: {
+    persona: "あなたはYouTube Summarizer AIです。YouTubeに直接組み込まれたインテリジェントなChrome拡張機能です。",
+    role: "このYouTube動画に関するユーザーの質問に、動画の文字起こし、公式コンテキスト（説明、チャンネル、カテゴリ）、および要約に厳密に基づいて回答します。",
+    identity: "ユーザーが拡張機能について言及したり、あなたが誰であるかを尋ねたりした場合は、あなたがYouTube Summarizer AI拡張機能のアシスタントであることを明確に確認してください。",
+    rule: "厳格な言語ルール：動画や質問の言語に関係なく、完全に日本語のみで回答してください。",
+    quick: "希望する長さ：簡潔で直接的な回答（1〜2の短い段落）。",
+    detailed: "希望する長さ：詳細で徹底的な説明。",
+    standard: "希望する長さ：要点を押さえた、バランスの取れた自然な回答。",
+    summaryLabel: "以前に生成された動画の要約（参考用）：",
+    transcriptLabel: "動画の文字起こし："
   },
   zh: {
     persona: "你是 YouTube Summarizer AI，一款直接内嵌于 YouTube 的智能 Chrome 扩展程序助手。",
@@ -101,9 +101,9 @@ export class PromptService {
   /**
    * Condenses transcript to fit within AI model context limits
    */
-  static condenseTranscriptForContext(transcript, maxChars) {
-    if (transcript.length <= maxChars) {
-      return transcript;
+  static condenseTranscriptForContext(transcript, maxChars = 20000) {
+    if (!transcript || transcript.length <= maxChars) {
+      return transcript || '';
     }
     const introSize = Math.floor(maxChars * 0.40);
     const middleSize = Math.floor(maxChars * 0.25);
@@ -167,6 +167,14 @@ export class PromptService {
         : '\nAUDIENCE & COMMUNITY REACTIONS: A selection of public comments and viewer feedback is provided below. Use them to accurately analyze community sentiment, praise, criticisms, and audience reception. If the user asks to find a specific comment, mentions a user handle (@handle), or searches for a particular message, locate it explicitly in the list and quote it verbatim with author and metadata.\n')
       : '';
 
+    const auditDossier = meta?.auditDossier || arguments[7] || '';
+    const auditBlock = auditDossier ? `\n${auditDossier}\n` : '';
+    const auditDirective = auditDossier
+      ? (cleanLang === 'fr'
+        ? '\nRAPPORT D’AUDIT CRITIQUE & VÉRACITÉ : Un rapport d’analyse logique et de fact-checking a été généré pour cette vidéo. Utilise ces conclusions pour répondre avec un esprit critique aiguisé aux questions sur les sophismes, la validité des arguments, les contradictions internes ou la véracité des affirmations.\n'
+        : '\nCRITICAL AUDIT & FACT-CHECK REPORT: A logic analysis and fact-checking report was generated for this video. Use its findings to answer critically about fallacies, argument validity, internal contradictions, and veracity.\n')
+      : '';
+
     const multiVideoDirective = safeTranscript.includes('[VIDÉO EXTERNE')
       ? (cleanLang === 'fr'
         ? '\nCONTEXTE MULTI-VIDÉOS : La discussion porte sur plusieurs vidéos fournies dans la transcription ([VIDÉO ACTUELLE] et [VIDÉO EXTERNE ...]). Conserve la mémoire et le contenu de chacune de ces vidéos tout au long de la conversation. Compare leurs informations avec précision et ne prétends jamais que tu ne peux pas accéder aux vidéos externes déjà fournies.\n'
@@ -177,11 +185,11 @@ export class PromptService {
 ${cfg.role}
 ${cfg.identity}
 
-${cfg.rule}${multiVideoDirective}${channelDirective}${commentsDirective}
+${cfg.rule}${multiVideoDirective}${channelDirective}${commentsDirective}${auditDirective}
 
 Title: "${meta?.title || ''}"
 Channel: "${meta?.author || ''}"${subStr}
-${contextBlock ? `\n${contextBlock}` : ''}${summaryBlock}${channelBlock}${commentsBlock}
+${contextBlock ? `\n${contextBlock}` : ''}${summaryBlock}${channelBlock}${commentsBlock}${auditBlock}
 ${cfg.transcriptLabel}
 """
 ${safeTranscript}
@@ -207,8 +215,16 @@ export function buildPrompts(title, author, safeTranscript, lang, mode, meta = n
 }
 
 export function buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode) {
-  const summaryText = arguments[4] || '';
-  return PromptService.buildChatSystemPrompt(meta, safeTranscript, lang, selectedChatMode, arguments[4] || '', arguments[5] || '', arguments[6] || '');
+  return PromptService.buildChatSystemPrompt(
+    meta,
+    safeTranscript,
+    lang,
+    selectedChatMode,
+    arguments[4] || '',
+    arguments[5] || '',
+    arguments[6] || '',
+    arguments[7] || ''
+  );
 }
 
 export default PromptService;

@@ -329,7 +329,7 @@ describe('ChatViewController - Q&A Interactive Tab Specification', () => {
   });
 
   it('content script wires Enter key, send button, and suggestion chips to chat submission', () => {
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8') + (fs.existsSync(path.join(rootDir, 'src/content/ui/BannerEventHandler.js')) ? fs.readFileSync(path.join(rootDir, 'src/content/ui/BannerEventHandler.js'), 'utf-8') : '');
 
     // Enter key submission
     assert.match(contentSrc, /e\.key\s*===\s*['"]Enter['"]/, 'Must listen to Enter key on chat input');
@@ -346,7 +346,7 @@ describe('ChatViewController - Q&A Interactive Tab Specification', () => {
 
   it('chat input template is a multiline textarea with Shift+Enter line break support', () => {
     const bannerTemplateSrc = fs.readFileSync(path.join(rootDir, 'src/content/templates/BannerTemplate.js'), 'utf-8');
-    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8');
+    const contentSrc = fs.readFileSync(path.join(rootDir, 'src/content/index.js'), 'utf-8') + (fs.existsSync(path.join(rootDir, 'src/content/ui/BannerEventHandler.js')) ? fs.readFileSync(path.join(rootDir, 'src/content/ui/BannerEventHandler.js'), 'utf-8') : '');
 
     assert.match(bannerTemplateSrc, /<textarea\s+id="ytAiChatInput"\s+class="yt-ai-chat-input"\s+rows="1"/, 'Input must be an auto-expanding textarea');
     assert.match(contentSrc, /e\.key\s*===\s*['"]Enter['"]\s*&&\s*!e\.shiftKey/, 'Must only submit when Shift is NOT held');

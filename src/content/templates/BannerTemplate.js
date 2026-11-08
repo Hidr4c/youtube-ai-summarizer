@@ -12,7 +12,7 @@ export class BannerTemplate {
    */
   static render(t, options = {}) {
     const drawerHtml = SettingsDrawerTemplate.render(t, options);
-    const version = options.version || 'v1.3.2';
+    const version = options.version || ((typeof chrome !== 'undefined' && chrome.runtime?.getManifest) ? `v${chrome.runtime.getManifest().version}` : 'v1.4.2');
     const currentMode = options.currentMode || 'standard';
     const currentLang = options.currentLang || 'fr';
     const suggestionsHtml = (Array.isArray(t.suggestions) && t.suggestions.length > 0)
@@ -84,13 +84,16 @@ export class BannerTemplate {
         <!-- BANNIÈRE DE STATUT / MESSAGES INFORMATIFS -->
         <div id="ytAiStatusBanner" class="yt-ai-reasoning yt-ai-hidden"></div>
 
-        <!-- NAVIGATION PAR ONGLETS (SYNTHÈSE / CHAT / TRANSCRIPTION) -->
+        <!-- NAVIGATION PAR ONGLETS (SYNTHÈSE / CHAT / AUDIT / TRANSCRIPTION) -->
         <div class="yt-ai-tabs-nav">
           <button id="ytAiTabSummaryBtn" class="yt-ai-tab-btn active" data-tab="summary">
             ${t.tabSummary || '📝 AI Summary'}
           </button>
           <button id="ytAiTabChatBtn" class="yt-ai-tab-btn" data-tab="chat">
             ${t.tabChat || '💬 Ask a question'} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">0</span>
+          </button>
+          <button id="ytAiTabAuditBtn" class="yt-ai-tab-btn" data-tab="audit">
+            ${t.tabAudit || '🛡️ Audit & Fact-Check'}
           </button>
           <button id="ytAiTabTranscriptBtn" class="yt-ai-tab-btn" data-tab="transcript">
             ${t.tabTranscript || '📜 Transcript'} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">0 ${t.wordsBadge || 'words'}</span>
@@ -159,7 +162,60 @@ export class BannerTemplate {
           </div>
         </div>
 
-        <!-- ONGLET 3 : TRANSCRIPTION BRUTE -->
+        <!-- ONGLET 3 : AUDIT & FACT-CHECKING (VIDÉO VS CHAÎNE) -->
+        <div id="ytAiPaneAudit" class="yt-ai-tab-pane">
+          <div class="yt-ai-summary-pane" style="max-height: 480px;">
+            <!-- Sélecteur distinct : Audit Vidéo vs Audit Chaîne -->
+            <div class="yt-ai-audit-mode-switcher" style="display: flex; gap: 8px; margin-bottom: 10px; border-bottom: 1px solid var(--yt-ai-border); padding-bottom: 8px;">
+              <button id="ytAiAuditSubtabVideoBtn" class="yt-ai-format-pill active" style="font-size: 11px;">📹 ${t.subtabAuditVideo || 'Audit de cette vidéo'}</button>
+              <button id="ytAiAuditSubtabChannelBtn" class="yt-ai-format-pill" style="font-size: 11px;">📊 ${t.subtabAuditChannel || 'Audit de toute la chaîne'}</button>
+            </div>
+
+            <!-- VUE 1 : AUDIT DE LA VIDÉO SPÉCIFIQUE -->
+            <div id="ytAiAuditVideoView">
+              <div class="yt-ai-pane-title">
+                <span id="ytAiAuditHeaderTitle">${t.auditTitle || '🛡️ Audit Critique, Logique & Véracité'}</span>
+                <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
+                  <button id="ytAiRunAuditBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 3px 10px; font-size: 11px;">${t.runAuditBtn || '⚡ Auditer cette vidéo'}</button>
+                  <button id="ytAiCopyAuditBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-hidden" style="padding: 3px 8px; font-size: 11px;">${t.copyBtn || '📋 Copier'}</button>
+                </div>
+              </div>
+
+              <div id="ytAiAuditStatus" class="yt-ai-reasoning yt-ai-hidden"></div>
+              <div id="ytAiAuditProgressContainer" class="yt-ai-hidden"></div>
+
+              <div id="ytAiAuditBody" class="yt-ai-markdown">
+                <p style="color: #8b949e; font-style: italic;">${t.auditPlaceholder || 'Cliquez sur « ⚡ Auditer cette vidéo » pour analyser la rigueur logique, les sophismes et la véracité des faits.'}</p>
+              </div>
+            </div>
+
+            <!-- VUE 2 : AUDIT GLOBAL DE TOUTE LA CHAÎNE -->
+            <div id="ytAiChannelAuditContainer" class="yt-ai-hidden">
+              <div class="yt-ai-pane-title">
+                <span>${t.channelAuditTitle || '📊 Audit Global de la Chaîne'}</span>
+                <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
+                  <button id="ytAiAuditChannelBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 3px 10px; font-size: 11px;">${t.runChannelAuditBtn || '⚡ Lancer l\'audit de la chaîne'}</button>
+                </div>
+              </div>
+
+              <!-- Sélecteur rapide de période temporelle -->
+              <div class="yt-ai-period-selector" style="display: flex; gap: 6px; margin: 4px 0 8px 0; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 11px; color: var(--yt-ai-text-secondary);">${t.periodFilterLabel || 'Période :'}</span>
+                <button class="yt-ai-period-pill yt-ai-format-pill active" data-period="all">🌐 ${t.periodAll || 'Tout'}</button>
+                <button class="yt-ai-period-pill yt-ai-format-pill" data-period="month">⚡ ${t.periodMonth || 'Dernier mois'}</button>
+                <button class="yt-ai-period-pill yt-ai-format-pill" data-period="year">📅 ${t.periodYear || 'Année en cours'}</button>
+                <button class="yt-ai-period-pill yt-ai-format-pill" data-period="6months">🎯 ${t.period6Months || '6 derniers mois'}</button>
+              </div>
+
+              <div id="ytAiChannelAuditProgressContainer" class="yt-ai-hidden"></div>
+              <div id="ytAiChannelAuditBody">
+                <p style="color: #8b949e; font-style: italic;">Cliquez sur « ⚡ Lancer l'audit de la chaîne » pour évaluer l'échantillon statistique des vidéos, la note globale et l'évolution temporelle.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ONGLET 4 : TRANSCRIPTION BRUTE -->
         <div id="ytAiPaneTranscript" class="yt-ai-tab-pane">
           <div class="yt-ai-transcript-pane" style="max-height: 480px;">
             <div class="yt-ai-pane-title">

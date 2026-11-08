@@ -1,41 +1,6 @@
 import { ChromeStorageService } from '../services/implementations/ChromeStorageService.js';
-
-const POPUP_I18N = {
-  en: {
-    switchTitle: 'Extension on YouTube',
-    switchDesc: 'Show AI summary panel on video pages',
-    active: 'Active',
-    disabled: 'Disabled',
-    currentVideo: '🎬 Current Video',
-    expandOnPage: 'Expand on page',
-    collapseOnPage: 'Collapse on page',
-    showOnPage: 'Show on page',
-    summarize: 'Summarize',
-    idleTitle: 'Ready for YouTube',
-    idleDesc: 'Open any YouTube video to summarize with local or cloud AI models.',
-    goToYoutube: 'Go to YouTube ↗',
-    disabledTitle: 'Extension Paused',
-    disabledDesc: 'The companion banner is disabled on YouTube. Flip the switch above to re-enable anytime.',
-    loadingVideo: 'Detecting video info...'
-  },
-  fr: {
-    switchTitle: 'Extension sur YouTube',
-    switchDesc: 'Afficher le panneau IA sur les vidéos',
-    active: 'Active',
-    disabled: 'Désactivée',
-    currentVideo: '🎬 Vidéo en cours',
-    expandOnPage: 'Déplier sur la page',
-    collapseOnPage: 'Replier sur la page',
-    showOnPage: 'Afficher sur la page',
-    summarize: 'Résumer',
-    idleTitle: 'Prêt pour YouTube',
-    idleDesc: 'Ouvrez une vidéo YouTube pour générer une synthèse avec vos modèles IA.',
-    goToYoutube: 'Accéder à YouTube ↗',
-    disabledTitle: 'Extension en pause',
-    disabledDesc: 'Le bandeau est masqué sur YouTube. Réactivez l\'interrupteur ci-dessus à tout moment.',
-    loadingVideo: 'Détection de la vidéo...'
-  }
-};
+import { POPUP_I18N } from './PopupI18n.js';
+import { PopupCacheController } from './PopupCacheController.js';
 
 /**
  * Controller for Extension Toolbar Action Popup Window
@@ -48,12 +13,17 @@ export class PopupController {
     this.extensionEnabled = true;
     this.activeTab = null;
     this.inPageStatus = null;
+    this.cacheController = new PopupCacheController({
+      getActiveTab: () => this.activeTab,
+      getLang: () => this.currentLang
+    });
   }
 
   async init() {
     await this.loadSettings();
     this.setupEventListeners();
     await this.inspectActiveTab();
+    await this.cacheController.init();
     this.applyLocalization();
   }
 
@@ -284,8 +254,15 @@ export class PopupController {
     const summarizeBtnText = document.getElementById('summarizeBtnText');
     if (summarizeBtnText) summarizeBtnText.textContent = t.summarize;
 
+    const extVersion = (typeof chrome !== 'undefined' && chrome.runtime?.getManifest)
+      ? `v${chrome.runtime.getManifest().version}`
+      : 'v1.4.0';
+    const versionEl = document.getElementById('brandVersion');
+    if (versionEl) versionEl.textContent = `${extVersion} • Privacy-First`;
+
     this.updateStatusPill(this.extensionEnabled);
     this.renderCards();
+    this.cacheController.applyLocalization(t);
   }
 }
 

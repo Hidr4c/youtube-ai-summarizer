@@ -9,6 +9,7 @@ export class YouTubeDOMContext {
    * @returns {Array<{timestamp: string, text: string}> | null}
    */
   static extractChaptersFromDescription() {
+    if (typeof document === 'undefined') return null;
     const results = [];
     const entries = document.querySelectorAll(
       'ytd-macro-markers-entry-renderer, #structured-description ytd-macro-markers-entry-renderer, ytd-chapter-renderer, ytd-macro-markers-list-item-renderer, macro-markers-panel-item-view-model'
@@ -48,13 +49,14 @@ export class YouTubeDOMContext {
     const currentVideoId = getVideoId();
     const isCacheValid = cachedVideoMetadata?.videoId === currentVideoId;
     const safeMeta = isCacheValid ? cachedVideoMetadata : {};
+    const hasDoc = typeof document !== 'undefined';
 
-    const titleEl = document.querySelector('h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title');
-    const authorEl = document.querySelector('ytd-channel-name a, #channel-name a, #owner-name a');
-    const subEl = document.querySelector('#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count');
-    const descEl = document.querySelector('#description-inline-expander yt-attributed-string, #description, #description-inline-expander');
-    const dateEl = document.querySelector('#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date');
-    const tagEls = document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]');
+    const titleEl = hasDoc ? document.querySelector('h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title') : null;
+    const authorEl = hasDoc ? document.querySelector('ytd-channel-name a, #channel-name a, #owner-name a') : null;
+    const subEl = hasDoc ? document.querySelector('#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count') : null;
+    const descEl = hasDoc ? document.querySelector('#description-inline-expander yt-attributed-string, #description, #description-inline-expander') : null;
+    const dateEl = hasDoc ? document.querySelector('#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date') : null;
+    const tagEls = hasDoc ? document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]') : [];
 
     const domSubscribers = subEl?.textContent?.trim() || '';
     const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || '';
@@ -62,7 +64,7 @@ export class YouTubeDOMContext {
     const domKeywords = Array.from(tagEls).map(el => el.textContent.trim().replace(/^#/, '')).filter(Boolean);
     const domChannelUrl = authorEl?.getAttribute('href') || authorEl?.href || '';
 
-    const title = titleEl?.textContent?.trim() || safeMeta.title || document.title.replace(' - YouTube', '').trim();
+    const title = titleEl?.textContent?.trim() || safeMeta.title || (hasDoc ? document.title.replace(' - YouTube', '').trim() : '');
     const author = authorEl?.textContent?.trim() || safeMeta.author || 'Chaîne YouTube';
     const subscribers = domSubscribers || safeMeta.subscribers || '';
     const description = safeMeta.description || domDescription || '';
@@ -74,7 +76,7 @@ export class YouTubeDOMContext {
     const viewCount = safeMeta.viewCount || '';
     const channelId = safeMeta.channelId || '';
     const channelUrl = safeMeta.channelUrl || domChannelUrl || '';
-    const chapters = YouTubeDOMContext.extractChaptersFromDescription() || safeMeta.chapters || [];
+    const chapters = (hasDoc ? YouTubeDOMContext.extractChaptersFromDescription() : null) || safeMeta.chapters || [];
 
     return {
       videoId: currentVideoId || safeMeta.videoId || '',
@@ -87,6 +89,7 @@ export class YouTubeDOMContext {
       publishDate,
       viewCount,
       channelId,
+      channelUrl,
       chapters
     };
   }
@@ -98,46 +101,33 @@ export class YouTubeDOMContext {
    * @returns {string}
    */
   static formatContextInfo(meta, lang = 'fr') {
-    if (!meta || typeof meta !== 'object') return '';
-    const subscribers = meta.subscribers || '';
-    const category = meta.category || '';
-    const publishDate = meta.publishDate || '';
-    const rawKeywords = meta.keywords || [];
-    const keywords = Array.isArray(rawKeywords)
-      ? rawKeywords.slice(0, 10).join(', ')
-      : (typeof rawKeywords === 'string' ? rawKeywords : '');
-    let description = String(meta.description || '').trim();
+    if (!meta) return '';
+    const parts = [];
 
-    if (description.length > 2000) {
-      description = description.slice(0, 1950) + '... [description condensée]';
+    if (meta.publishDate) {
+      parts.push(lang === 'fr' ? `Date de mise en ligne : ${meta.publishDate}` : `Publish date: ${meta.publishDate}`);
     }
-
-    const lines = [];
-    const isFr = lang === 'fr';
-
-    if (subscribers) {
-      lines.push(isFr ? `- Abonnés chaîne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
+    if (meta.viewCount) {
+      parts.push(lang === 'fr' ? `Vues : ${meta.viewCount}` : `Views: ${meta.viewCount}`);
     }
-    if (category) {
-      lines.push(isFr ? `- Catégorie : ${category}` : `- Category: ${category}`);
+    if (meta.category) {
+      parts.push(lang === 'fr' ? `Catégorie officielle : ${meta.category}` : `Category: ${meta.category}`);
     }
-    if (publishDate) {
-      lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
+    if (meta.keywords && meta.keywords.length > 0) {
+      parts.push(lang === 'fr' ? `Mots-clés / Tags : ${meta.keywords.join(', ')}` : `Keywords: ${meta.keywords.join(', ')}`);
     }
-    if (keywords) {
-      lines.push(isFr ? `- Mots-clés : ${keywords}` : `- Keywords: ${keywords}`);
+    if (meta.chapters && meta.chapters.length > 0) {
+      const chapterList = meta.chapters.map(c => `  - [${c.timestamp}] ${c.text}`).join('\n');
+      parts.push(lang === 'fr' ? `Structure des chapitres officiels :\n${chapterList}` : `Official chapters structure:\n${chapterList}`);
     }
-    if (description) {
-      lines.push(isFr ? `- Description officielle :\n"""\n${description}\n"""` : `- Official Description:\n"""\n${description}\n"""`);
-    }
-    if (Array.isArray(meta.chapters) && meta.chapters.length > 0) {
-      const chapList = meta.chapters.slice(0, 20).map(c => `[${c.timestamp}] ${c.text}`).join('\n');
-      lines.push(isFr ? `- Plan des chapitres officiels :\n${chapList}` : `- Official video chapters:\n${chapList}`);
+    if (meta.description && meta.description.trim()) {
+      const cleanDesc = meta.description.trim();
+      parts.push(lang === 'fr' ? `Description officielle de la vidéo :\n"""\n${cleanDesc}\n"""` : `Official description:\n"""\n${cleanDesc}\n"""`);
     }
 
-    if (lines.length === 0) return '';
-    const header = isFr ? 'CONTEXTE DE LA VIDÉO & DE LA CHAÎNE :' : 'VIDEO & CHANNEL CONTEXT:';
-    return `${header}\n${lines.join('\n')}\n`;
+    if (parts.length === 0) return '';
+    const header = lang === 'fr' ? 'CONTEXTE OFFICIEL DE LA VIDÉO YOUTUBE :' : 'OFFICIAL YOUTUBE VIDEO CONTEXT:';
+    return `${header}\n${parts.join('\n\n')}`;
   }
 }
 
@@ -149,7 +139,7 @@ export function getVideoMetadata(cached) {
   return YouTubeDOMContext.getVideoMetadata(cached);
 }
 
-export function formatContextInfo(meta, lang) {
+export function formatContextInfo(meta, lang = 'fr') {
   return YouTubeDOMContext.formatContextInfo(meta, lang);
 }
 

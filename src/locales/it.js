@@ -154,7 +154,23 @@ export const it = {
   "analyzingChannelNotice": "Recupero del dossier ufficiale del canale di {query}...",
   "fetchingCommentsNotice": "Recupero dei commenti e delle reazioni del pubblico...",
   "externalTranscriptError": "Impossibile estrarre sottotitoli o capitoli per il video esterno ({videoId}). Possibili cause: nessun sottotitolo o capitolo disponibile, o restrizioni di accesso YouTube.",
-  "retryBtn": "🔄 Riprova"
+  "retryBtn": "🔄 Riprova",
+  "tabAudit": "🛡️ Audit & Fact-Check",
+  "auditTitle": "🛡️ Audit Critico, Logica & Veridicità",
+  "runAuditBtn": "⚡ Avvia audit",
+  "relaunchAuditBtn": "⚡ Riavvia audit",
+  "auditInProgress": "Audit in corso...",
+  "auditStarting": "Preparazione dossier audit...",
+  "auditAnalyzing": "Verifica della coerenza logica e dei fatti...",
+  "auditPlaceholder": "Clicca su '⚡ Avvia audit' per analizzare il rigore logico e la veridicità.",
+  "discussInChatBtn": "💬 Discuti nella Chat",
+  "auditChannelBtn": "🔍 Esamina canale",
+  "channelAuditTitle": "📊 Audit Globale del Canale",
+  "channelSampleInfo": "Campionamento temporale ponderato",
+  "periodFilterLabel": "Periodo analizzato:",
+  "periodAll": "Tutta la cronologia",
+  "periodMonth": "Ultimo mese",
+  "periodYear": "Anno in corso",
+  "period6Months": "Ultimi 6 mesi"
 };
-
 export default it;

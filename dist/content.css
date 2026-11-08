@@ -1441,3 +1441,512 @@ html:not([dark]) #yt-ai-summarizer-container,
   font-weight: 600;
   cursor: pointer;
 }
+
+/* ==========================================================================
+   AUDIT HERO SCORE CARD & VISUAL GAUGES
+   ========================================================================== */
+.yt-ai-audit-hero-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin: 10px 0 16px 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  transition: all 0.25s ease;
+}
+
+.yt-ai-score-high {
+  background: linear-gradient(135deg, rgba(46, 160, 67, 0.15) 0%, rgba(22, 27, 34, 0.7) 100%);
+  border: 1px solid rgba(46, 160, 67, 0.4);
+}
+.yt-ai-score-med {
+  background: linear-gradient(135deg, rgba(210, 153, 34, 0.15) 0%, rgba(22, 27, 34, 0.7) 100%);
+  border: 1px solid rgba(210, 153, 34, 0.4);
+}
+.yt-ai-score-low {
+  background: linear-gradient(135deg, rgba(248, 81, 73, 0.15) 0%, rgba(22, 27, 34, 0.7) 100%);
+  border: 1px solid rgba(248, 81, 73, 0.4);
+}
+
+.yt-ai-audit-hero-main {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.yt-ai-audit-gauge-circle {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  min-width: 80px;
+  height: 52px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.yt-ai-audit-gauge-val {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, sans-serif;
+}
+.yt-ai-score-high .yt-ai-audit-gauge-val { color: #3fb950; }
+.yt-ai-score-med .yt-ai-audit-gauge-val { color: #d29922; }
+.yt-ai-score-low .yt-ai-audit-gauge-val { color: #f85149; }
+
+.yt-ai-audit-gauge-max {
+  font-size: 13px;
+  color: var(--yt-ai-text-secondary);
+  margin-left: 2px;
+  font-weight: 500;
+}
+
+.yt-ai-audit-hero-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.yt-ai-audit-status-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.yt-ai-score-high .yt-ai-audit-status-badge { color: #3fb950; }
+.yt-ai-score-med .yt-ai-audit-status-badge { color: #e3b341; }
+.yt-ai-score-low .yt-ai-audit-status-badge { color: #ff7b72; }
+
+.yt-ai-audit-hero-desc {
+  font-size: 12px;
+  color: var(--yt-ai-text-secondary);
+  line-height: 1.4;
+}
+
+.yt-ai-audit-meter {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.yt-ai-audit-meter-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.yt-ai-score-high .yt-ai-audit-meter-fill { background: linear-gradient(90deg, #2ea043, #3fb950); }
+.yt-ai-score-med .yt-ai-audit-meter-fill { background: linear-gradient(90deg, #bb8009, #d29922); }
+.yt-ai-score-low .yt-ai-audit-meter-fill { background: linear-gradient(90deg, #da3633, #f85149); }
+
+.yt-ai-badge-success { background: #2ea043 !important; color: #fff !important; }
+.yt-ai-badge-warning { background: #bb8009 !important; color: #fff !important; }
+.yt-ai-badge-danger { background: #da3633 !important; color: #fff !important; }
+
+
+/* ==========================================================================
+   CHANNEL COMPANION CARD & STATISTICAL AUDIT VIEW
+   ========================================================================== */
+
+.yt-ai-channel-card {
+  margin: 16px 0 24px 0;
+  background: var(--yt-ai-bg);
+  border: 1px solid var(--yt-ai-border);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  color: var(--yt-ai-text-primary);
+  transition: all 0.2s ease;
+}
+
+.yt-ai-card-inner {
+  padding: 16px;
+}
+
+.yt-ai-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--yt-ai-border);
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.yt-ai-card-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.yt-ai-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--yt-ai-text-primary);
+}
+
+.yt-ai-card-handle {
+  font-size: 12px;
+  color: var(--yt-ai-text-secondary);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 8px;
+  border-radius: 99px;
+}
+
+.yt-ai-onboarding-box {
+  text-align: center;
+  padding: 12px 16px;
+}
+
+.yt-ai-onboarding-desc {
+  font-size: 13px;
+  color: var(--yt-ai-text-secondary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.yt-ai-channel-audit-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.yt-ai-channel-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.yt-ai-sub-pill {
+  font-size: 11px;
+  color: var(--yt-ai-text-secondary);
+  border: 1px solid var(--yt-ai-border);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.yt-ai-sample-info-pill {
+  font-size: 11px;
+  color: var(--yt-ai-text-secondary);
+  margin-top: 4px;
+}
+
+/* Stat Cards & Proportion Bar */
+.yt-ai-stat-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--yt-ai-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.yt-ai-stat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.yt-ai-clickbait-tag {
+  font-size: 11px;
+  color: #ff7b72;
+  background: rgba(218, 54, 51, 0.1);
+  padding: 2px 8px;
+  border-radius: 99px;
+  border: 1px solid rgba(218, 54, 51, 0.25);
+}
+
+.yt-ai-proportion-bar {
+  display: flex;
+  width: 100%;
+  height: 22px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.yt-ai-prop-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  transition: width 0.4s ease;
+}
+
+.yt-ai-prop-reliable { background: #2ea043; }
+.yt-ai-prop-caution { background: #d29922; }
+.yt-ai-prop-clickbait { background: #da3633; }
+
+.yt-ai-proportion-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 11px;
+  color: var(--yt-ai-text-secondary);
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.yt-ai-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+.yt-ai-dot-green { background: #2ea043; }
+.yt-ai-dot-amber { background: #d29922; }
+.yt-ai-dot-red { background: #da3633; }
+
+/* Trajectory */
+.yt-ai-traj-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-weight: 600;
+}
+.yt-ai-traj-up { background: rgba(46, 160, 67, 0.15); color: #3fb950; border: 1px solid rgba(46, 160, 67, 0.3); }
+.yt-ai-traj-stable { background: rgba(56, 139, 253, 0.15); color: #58a6ff; border: 1px solid rgba(56, 139, 253, 0.3); }
+.yt-ai-traj-down { background: rgba(218, 54, 51, 0.15); color: #ff7b72; border: 1px solid rgba(218, 54, 51, 0.3); }
+
+.yt-ai-traj-desc {
+  font-size: 12px;
+  color: var(--yt-ai-text-secondary);
+  margin-top: 6px;
+  line-height: 1.45;
+}
+
+/* 3 Pillars Grid */
+.yt-ai-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.yt-ai-pillar-col {
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid var(--yt-ai-border);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.yt-ai-pillar-good { border-color: rgba(46, 160, 67, 0.35); background: rgba(46, 160, 67, 0.03); }
+.yt-ai-pillar-warn { border-color: rgba(210, 153, 34, 0.35); background: rgba(210, 153, 34, 0.03); }
+.yt-ai-pillar-bad { border-color: rgba(218, 54, 51, 0.35); background: rgba(218, 54, 51, 0.03); }
+
+.yt-ai-pillar-title {
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.yt-ai-pillar-good .yt-ai-pillar-title { color: #3fb950; }
+.yt-ai-pillar-warn .yt-ai-pillar-title { color: #e3b341; }
+.yt-ai-pillar-bad .yt-ai-pillar-title { color: #ff7b72; }
+
+.yt-ai-pillar-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12px;
+  color: var(--yt-ai-text-primary);
+  line-height: 1.45;
+}
+
+.yt-ai-pillar-list li {
+  margin-bottom: 4px;
+}
+
+/* Video Sample Accordion */
+.yt-ai-video-sample-accordion {
+  border: 1px solid var(--yt-ai-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.yt-ai-sample-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.yt-ai-sample-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.yt-ai-sample-item {
+  border-bottom: 1px solid var(--yt-ai-border);
+  padding-bottom: 8px;
+}
+.yt-ai-sample-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.yt-ai-sample-item-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.yt-ai-sample-num {
+  font-weight: 700;
+  color: var(--yt-ai-text-secondary);
+  font-size: 11px;
+}
+
+.yt-ai-era-badge {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+.yt-ai-era-recent { background: rgba(46, 160, 67, 0.2); color: #3fb950; }
+.yt-ai-era-mid { background: rgba(210, 153, 34, 0.2); color: #e3b341; }
+.yt-ai-era-legacy { background: rgba(139, 148, 158, 0.2); color: #8b949e; }
+
+.yt-ai-sample-title {
+  flex: 1;
+  color: var(--yt-ai-text-primary);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.yt-ai-sample-title:hover {
+  text-decoration: underline;
+}
+
+.yt-ai-sample-score {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.yt-ai-sample-comment {
+  font-size: 11px;
+  color: var(--yt-ai-text-secondary);
+  margin-top: 3px;
+  padding-left: 24px;
+}
+
+.yt-ai-exec-summary-box {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid var(--yt-ai-border);
+}
+
+.yt-ai-exec-summary-box h4 {
+  margin: 0 0 6px 0;
+  font-size: 13px;
+  color: var(--yt-ai-text-primary);
+}
+
+.yt-ai-exec-text {
+  font-size: 12px;
+  color: var(--yt-ai-text-secondary);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   VISUAL PROGRESS WIDGET (BATCH & LONG-RUNNING AUDITS)
+   ========================================================================== */
+.yt-ai-progress-widget {
+  background: var(--yt-ai-bg-secondary);
+  border: 1px solid var(--yt-ai-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 10px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.25s ease;
+}
+
+.yt-ai-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.yt-ai-progress-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--yt-ai-text-primary);
+}
+
+.yt-ai-progress-spinner {
+  width: 14px;
+  height: 14px;
+  border-width: 2px;
+  flex-shrink: 0;
+}
+
+.yt-ai-progress-percentage {
+  font-size: 13px;
+  font-weight: 700;
+  font-family: monospace;
+  color: var(--yt-ai-text-primary);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.yt-ai-progress-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 10px 0 6px 0;
+  position: relative;
+}
+
+.yt-ai-progress-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #388bfd, #1f6feb, #58a6ff);
+  background-size: 200% 100%;
+  animation: ytAiProgressGlow 2s ease infinite;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes ytAiProgressGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.yt-ai-progress-detail {
+  font-size: 11px;
+  color: var(--yt-ai-text-secondary);
+  line-height: 1.4;
+  margin-top: 4px;
+}
+

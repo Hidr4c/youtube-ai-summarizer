@@ -154,7 +154,23 @@ export const de = {
   "analyzingChannelNotice": "Offizielles Kanaldossier für {query} wird abgerufen...",
   "fetchingCommentsNotice": "Top-Kommentare und Publikumsreaktionen werden abgerufen...",
   "externalTranscriptError": "Untertitel oder Kapitel für das externe Video ({videoId}) konnten nicht extrahiert werden. Mögliche Ursachen: keine Untertitel oder Kapitel verfügbar oder YouTube-Zugriffsbeschränkungen.",
-  "retryBtn": "🔄 Wiederholen"
+  "retryBtn": "🔄 Wiederholen",
+  "tabAudit": "🛡️ Audit & Fact-Check",
+  "auditTitle": "🛡️ Kritisches Audit, Logik & Faktencheck",
+  "runAuditBtn": "⚡ Audit starten",
+  "relaunchAuditBtn": "⚡ Audit wiederholen",
+  "auditInProgress": "Audit läuft...",
+  "auditStarting": "Audit-Dossier wird vorbereitet...",
+  "auditAnalyzing": "Logische Konsistenz und Fakten werden geprüft...",
+  "auditPlaceholder": "Klicken Sie auf '⚡ Audit starten', um logische Strenge und Fakten zu analysieren.",
+  "discussInChatBtn": "💬 Im Chat diskutieren",
+  "auditChannelBtn": "🔍 Kanal prüfen",
+  "channelAuditTitle": "📊 Globales Kanal-Audit",
+  "channelSampleInfo": "Gewichtete Zeitstichprobe",
+  "periodFilterLabel": "Analysierter Zeitraum:",
+  "periodAll": "Gesamter Verlauf",
+  "periodMonth": "Letzter Monat",
+  "periodYear": "Aktuelles Jahr",
+  "period6Months": "Letzte 6 Monate"
 };
-
 export default de;

@@ -1,5 +1,5 @@
 /**
- * YouTube Single Page Application Navigation & Watch Page Observer
+ * YouTube Single Page Application Navigation, Watch & Channel Page Observer
  */
 export class NavigationObserver {
   /**
@@ -18,6 +18,49 @@ export class NavigationObserver {
       return false;
     } catch (_) {
       return false;
+    }
+  }
+
+  /**
+   * Checks if current URL is a YouTube channel page (@handle, /channel/, /c/, /user/)
+   * @param {string} [url]
+   * @returns {boolean}
+   */
+  static isChannelPage(url) {
+    try {
+      const base = (typeof window !== 'undefined' && window.location?.origin) ? window.location.origin : 'https://www.youtube.com';
+      const u = url ? new URL(url, base) : (typeof window !== 'undefined' ? window.location : null);
+      if (!u) return false;
+      const path = u.pathname;
+      if (path.startsWith('/@') && path.length > 2) return true;
+      if (path.startsWith('/channel/') && path.length > 9) return true;
+      if (path.startsWith('/c/') && path.length > 3) return true;
+      if (path.startsWith('/user/') && path.length > 6) return true;
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /**
+   * Extracts YouTube channel handle or ID from URL
+   * @param {string} [url]
+   * @returns {string}
+   */
+  static getChannelIdentifier(url) {
+    try {
+      const base = (typeof window !== 'undefined' && window.location?.origin) ? window.location.origin : 'https://www.youtube.com';
+      const u = url ? new URL(url, base) : (typeof window !== 'undefined' ? window.location : null);
+      if (!u) return '';
+      const path = u.pathname;
+      if (path.startsWith('/@')) {
+        return path.split('/')[1] || '';
+      }
+      const match = path.match(/^\/(channel|c|user)\/([^\/?#]+)/);
+      if (match) return match[2];
+      return '';
+    } catch (_) {
+      return '';
     }
   }
 
@@ -118,7 +161,15 @@ export class NavigationObserver {
         lastVideoId = currentVideoId;
       }
 
-      const payload = { isNewVideo, currentVideoId, prevVideoId, url: currentUrl };
+      const payload = {
+        isNewVideo,
+        currentVideoId,
+        prevVideoId,
+        url: currentUrl,
+        isChannel: NavigationObserver.isChannelPage(currentUrl),
+        channelIdentifier: NavigationObserver.getChannelIdentifier(currentUrl)
+      };
+
       if (typeof handlers === 'function') {
         handlers(payload);
       } else {
@@ -154,6 +205,8 @@ export class NavigationObserver {
 }
 
 export const isWatchPage = NavigationObserver.isWatchPage;
+export const isChannelPage = NavigationObserver.isChannelPage;
+export const getChannelIdentifier = NavigationObserver.getChannelIdentifier;
 export const getVideoId = NavigationObserver.getVideoId;
 export const extractVideoIdFromText = NavigationObserver.extractVideoIdFromText;
 export const extractAllVideoIdsFromText = NavigationObserver.extractAllVideoIdsFromText;
