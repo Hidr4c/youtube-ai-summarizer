@@ -2,7 +2,7 @@
 
 [![CI Build](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml/badge.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml)
 [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Available-blue?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/youtube-summarizer-ai-lm/pkjmoccofaflidcdmjelmbnlfeipadee)
-[![Version](https://img.shields.io/badge/version-1.5.1-blue.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/releases)
+[![Version](https://img.shields.io/badge/version-1.5.2-blue.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/releases)
 [![Manifest](https://img.shields.io/badge/manifest-v3-success.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![GitHub](https://img.shields.io/badge/GitHub-Hidr4c-181717.svg?logo=github)](https://github.com/Hidr4c/youtube-ai-summarizer)
@@ -62,7 +62,7 @@ Install directly from the official Google Chrome Web Store:
 👉 **[Install YouTube Summarizer AI on Chrome Web Store](https://chromewebstore.google.com/detail/youtube-summarizer-ai-lm/pkjmoccofaflidcdmjelmbnlfeipadee)**
 
 ### Option 2 : Developer Mode (Unpacked)
-1. Download the latest release package: [`youtube-summarizer-ai-v1.5.1.zip`](releases/youtube-summarizer-ai-v1.5.1.zip) or from the [GitHub Releases page](https://github.com/Hidr4c/youtube-ai-summarizer/releases).
+1. Download the latest release package: [`youtube-summarizer-ai-v1.5.2.zip`](releases/youtube-summarizer-ai-v1.5.2.zip) or from the [GitHub Releases page](https://github.com/Hidr4c/youtube-ai-summarizer/releases).
 2. Unzip the archive into a folder of your choice on your computer.
 3. Open your browser's extensions manager:
    - **Chrome**: `chrome://extensions/`

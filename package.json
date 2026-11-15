@@ -1,6 +1,6 @@
 {
   "name": "youtube-ai-summarizer",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Privacy-first Chrome, Brave & Edge extension for YouTube AI video summaries, logic & fact-check audits, channel reliability audits, and Q&A chat using local AI (LM Studio, Ollama) or Cloud AI.",
   "main": "dist/background.js",
   "type": "module",

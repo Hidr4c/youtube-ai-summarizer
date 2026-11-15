@@ -1,7 +1,22 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import http from 'node:http';
 import { LMStudioProvider } from '../src/services/ai/providers/LMStudioProvider.js';
 import { DEFAULT_URLS } from '../src/config/ExtensionConstants.js';
+
+function startLocalMockLMStudio(handler) {
+  return new Promise((resolve) => {
+    const server = http.createServer(handler);
+    server.listen(0, '127.0.0.1', () => {
+      const addr = server.address();
+      resolve({
+        server,
+        url: `http://127.0.0.1:${addr.port}`,
+        close: () => new Promise((done) => server.close(done))
+      });
+    });
+  });
+}
 
 describe('LMStudioProvider - Port & Server URL Configuration Gate', () => {
   it('uses default port 1234 when no serverUrl is provided', async () => {
@@ -83,11 +98,82 @@ describe('LMStudioProvider - Port & Server URL Configuration Gate', () => {
     }
   });
 
-  it('verifies real live connection on currently active LM Studio server', async () => {
+  it('verifies real HTTP loopback connection on local server without external LM Studio', async () => {
+    const mockServer = await startLocalMockLMStudio((req, res) => {
+      if (req.url === '/v1/models') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ data: [{ id: 'local-loopback-model' }] }));
+        return;
+      }
+      res.writeHead(404);
+      res.end();
+    });
+
+    try {
+      const provider = new LMStudioProvider();
+      const res = await provider.testConnection(mockServer.url);
+      assert.equal(res.ok, true, `Loopback connection must succeed: ${res.error || ''}`);
+      assert.ok(typeof res.latencyMs === 'number');
+
+      const models = await provider.fetchModels(mockServer.url);
+      assert.deepEqual(models, [{ id: 'local-loopback-model', name: 'local-loopback-model' }]);
+    } finally {
+      await mockServer.close();
+    }
+  });
+
+  it('falls back between 127.0.0.1 and localhost in fetchModels and testConnection', async () => {
     const provider = new LMStudioProvider();
-    // Test on active port 1234 where user LM Studio is currently loaded
-    const res = await provider.testConnection('http://127.0.0.1:1234');
-    assert.equal(res.ok, true, `Real connection to active LM Studio must succeed: ${res.error || ''}`);
-    assert.ok(typeof res.latencyMs === 'number');
+    const originalFetch = globalThis.fetch;
+    try {
+      globalThis.fetch = async (url) => {
+        if (url.startsWith('http://127.0.0.1:1234')) {
+          return new Response('err', { status: 500 });
+        }
+        if (url.startsWith('http://localhost:1234')) {
+          return new Response(JSON.stringify({}), { status: 200 });
+        }
+        throw new Error('Unexpected URL');
+      };
+
+      const models = await provider.fetchModels('http://127.0.0.1:1234');
+      assert.deepEqual(models, []);
+
+      const conn = await provider.testConnection('http://127.0.0.1:1234');
+      assert.equal(conn.ok, true);
+      assert.equal(conn.resolvedUrl, 'http://localhost:1234');
+
+      globalThis.fetch = async (url) => {
+        if (url.startsWith('http://localhost:1235')) {
+          throw new Error('ECONNREFUSED');
+        }
+        return new Response(JSON.stringify({ data: [{ id: 'mirror-hit' }] }), { status: 200 });
+      };
+
+      const models2 = await provider.fetchModels('http://localhost:1235');
+      assert.equal(models2[0].id, 'mirror-hit');
+
+      const conn2 = await provider.testConnection('http://localhost:1235');
+      assert.equal(conn2.ok, true);
+      assert.equal(conn2.resolvedUrl, 'http://127.0.0.1:1235');
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  it('handles HTTP and network failures gracefully when mirror or remote host also fails', async () => {
+    const provider = new LMStudioProvider();
+    const originalFetch = globalThis.fetch;
+    try {
+      globalThis.fetch = async () => new Response('Server Error', { status: 503 });
+      await assert.rejects(() => provider.fetchModels('http://192.168.1.100:8080'), /HTTP 503/);
+      await assert.rejects(() => provider.fetchModels('http://127.0.0.1:1234'), /HTTP 503/);
+
+      const connErr = await provider.testConnection('http://192.168.1.100:8080');
+      assert.equal(connErr.ok, false);
+      assert.match(connErr.error, /HTTP 503/);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
   });
 });

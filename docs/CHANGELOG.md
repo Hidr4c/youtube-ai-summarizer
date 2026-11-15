@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.2] - 2026-11-16
+
+### Fixed
+- **Hermetic CI Test Isolation**: Refactored `tests/lmstudio-port-configuration.test.js` to run against ephemeral `127.0.0.1:0` loopback HTTP servers instead of probing live local service ports, resolving `fetch failed` failures on Linux CI runners.
+- **GitHub Actions CI/CD Workflows**: Upgraded `.github/workflows/ci.yml` and `.github/workflows/release.yml` to `actions/checkout@v7`, `actions/setup-node@v7`, `softprops/action-gh-release@v3` (Node 24), `fail_on_unmatched_files: true`, and Node.js `[22.x, 24.x]` matrix.
+
+### Added
+- **Expanded Branch & Controller Test Coverage**: Added 6 test suites covering prompt/i18n helpers, watch & channel audit controllers, summary views, stream relay, and local server discovery, raising test coverage above 90% line and 80% branch thresholds across 302 automated tests.
+
+---
+
 ## [1.5.1] - 2026-11-15
 
 ### Added
