@@ -104,4 +104,20 @@ describe('AuditPromptBuilder - Deep Multilingual & Directive Integrity Gate', ()
     assert.ok(userPrompt.includes('Test routier'));
     assert.equal(userPrompt.includes('TRANSCRIPTION DES DIALOGUES DE LA VIDÉO'), false);
   });
+  it('enforces contextual genre identification and child manipulation safeguards', () => {
+    const sysPrompt = AuditPromptBuilder.buildSystemPrompt('fr');
+    assert.ok(sysPrompt.includes('Contextualisation et Genre Éditorial'));
+    assert.ok(sysPrompt.includes('Contenu jeunesse / enfants'));
+    assert.ok(sysPrompt.includes('MANIPULATIONS DU JEUNE PUBLIC'));
+    assert.ok(sysPrompt.includes('conditionnement insidieux d\'habitudes de consommation déguisé'));
+    assert.ok(sysPrompt.includes('Aucune manipulation détectée'));
+
+    const userPrompt = AuditPromptBuilder.buildAuditUserPrompt({
+      transcriptText: '[00:01] Aventure de dessin animé pour enfants.',
+      videoMeta: { title: 'Les Amis de la Forêt', author: 'AnimKids' },
+      lang: 'fr'
+    });
+    assert.ok(userPrompt.includes('Contexte Éditorial & Public Cible'));
+    assert.ok(userPrompt.includes('conditionnement d\'habitudes de consommation déguisé'));
+  });
 });

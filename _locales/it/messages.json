@@ -4,7 +4,7 @@
     "description": "Nome dell'estensione"
   },
   "appDesc": {
-    "message": "Riassumi i video di YouTube localmente (LM Studio, Ollama) o nel cloud. Chat interattiva Q&A, dettatura vocale e audio TTS.",
+    "message": "Riassunti IA YouTube, audit fact-check e canale, chat Q&A. Locale (LM Studio, Ollama) o Cloud, dettatura STT e audio TTS.",
     "description": "Descrizione breve dell'estensione"
   }
 }

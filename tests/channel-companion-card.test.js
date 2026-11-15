@@ -27,21 +27,10 @@ function createMockNode(tagName = 'div') {
     getAttribute: (n) => attributes.get(n) || null,
     setAttribute: (n, v) => attributes.set(n, String(v)),
     hasAttribute: (n) => attributes.has(n),
-    get textContent() {
-      if (node.children.length === 0) return text;
-      return node.children.map(c => c.textContent).join(' ') + text;
-    },
+    get textContent() { return node.children.length === 0 ? text : node.children.map(c => c.textContent).join(' ') + text; },
     set textContent(v) { text = v; },
-    appendChild: (child) => {
-      child.parentNode = node;
-      node.children.push(child);
-      return child;
-    },
-    prepend: (child) => {
-      child.parentNode = node;
-      node.children.unshift(child);
-      return child;
-    },
+    appendChild: (child) => { child.parentNode = node; node.children.push(child); return child; },
+    prepend: (child) => { child.parentNode = node; node.children.unshift(child); return child; },
     insertBefore: (child, ref) => {
       child.parentNode = node;
       const idx = ref ? node.children.indexOf(ref) : -1;
@@ -49,22 +38,15 @@ function createMockNode(tagName = 'div') {
       else node.children.push(child);
       return child;
     },
-    get firstChild() {
-      return node.children[0] || null;
-    },
+    get firstChild() { return node.children[0] || null; },
     remove: () => {
       if (node.parentNode) {
         const idx = node.parentNode.children.indexOf(node);
         if (idx !== -1) node.parentNode.children.splice(idx, 1);
       }
     },
-    addEventListener: (evt, fn) => {
-      listeners[evt] = listeners[evt] || [];
-      listeners[evt].push(fn);
-    },
-    click: () => {
-      for (const fn of (listeners['click'] || [])) fn();
-    },
+    addEventListener: (evt, fn) => { (listeners[evt] = listeners[evt] || []).push(fn); },
+    click: () => { for (const fn of (listeners['click'] || [])) fn(); },
     set innerHTML(html) {
       node.children = [];
       const parsed = parseHtmlToNodes(html);
@@ -87,12 +69,12 @@ function parseHtmlToNodes(html) {
   let match;
   while ((match = tagRegex.exec(html)) !== null) {
     const [, tagName, attrsStr, text] = match;
-    if (text) {
+    if (text !== undefined) {
       if (text.trim()) {
         const top = stack[stack.length - 1];
         top.textContent = (top.textContent || '') + text.trim();
       }
-    } else if (tagName.startsWith('/')) {
+    } else if (tagName && tagName.startsWith('/')) {
       if (stack.length > 1) stack.pop();
     } else {
       const isSelfClosing = attrsStr.endsWith('/') || ['img', 'br', 'hr', 'input'].includes(tagName.toLowerCase());
@@ -175,6 +157,12 @@ describe('ChannelCompanionCard - In-Page Channel Companion UI Component', () => 
     content.id = 'content';
     const ytdBrowse = createMockNode('ytd-browse');
     ytdBrowse.setAttribute('page-subtype', 'channels');
+    const phc = createMockNode('div');
+    phc.id = 'page-header-container';
+    const phb = createMockNode('div');
+    phb.id = 'page-header-banner';
+    phc.appendChild(phb);
+    ytdBrowse.appendChild(phc);
     ytdBrowse.appendChild(content);
     body.appendChild(ytdBrowse);
     docRoot.appendChild(body);
@@ -224,12 +212,24 @@ describe('ChannelCompanionCard - In-Page Channel Companion UI Component', () => 
     const injectedCard = document.getElementById('yt-ai-channel-companion');
     assert.ok(injectedCard, 'Card should be injected into DOM');
 
-    const brandTitle = injectedCard.querySelector('.yt-ai-card-title');
-    assert.ok(brandTitle.textContent.includes('Audit Global'));
+    const brandEl = injectedCard.querySelector('.yt-ai-brand');
+    const brandTitle = injectedCard.querySelector('#ytAiCompBrandTitle');
+    assert.ok(brandEl, 'Brand header group should exist');
+    assert.ok(injectedCard.querySelector('.yt-ai-brand-logo-svg'), 'YouTube brand SVG logo should exist');
+    assert.equal(brandTitle.textContent.trim(), 'YT Summarizer AI');
+    assert.equal(injectedCard.querySelector('.yt-ai-card-title'), null, 'Redundant channel banner title should be removed');
+
+    const langSelect = injectedCard.querySelector('#ytAiCompLangSelect');
+    assert.ok(langSelect, 'Channel companion header should expose language selector');
+    assert.ok(injectedCard.querySelector('.yt-ai-footer-info'), 'Channel companion should render footer attribution');
+
+    const chatPane = injectedCard.querySelector('#ytAiChanPaneChat');
+    assert.ok(chatPane.querySelector('.yt-ai-chat-container'), 'Channel Q&A must use yt-ai-chat-container');
+    assert.ok(chatPane.querySelector('.yt-ai-chat-input-row'), 'Channel Q&A input must use flex yt-ai-chat-input-row');
 
     const runBtn = injectedCard.querySelector('#ytAiRunChannelAuditBtn');
     assert.ok(runBtn, 'Run button should exist');
-    assert.ok(runBtn.textContent.includes('Lancer l’Audit Global'));
+    assert.ok(/Lancer l['’]audit de la cha[îi]ne/i.test(runBtn.textContent));
 
     // Check period pills
     const pills = injectedCard.querySelectorAll('.yt-ai-period-pill');
@@ -249,18 +249,19 @@ describe('ChannelCompanionCard - In-Page Channel Companion UI Component', () => 
 
     assert.equal(cardController.isExpanded, true);
     assert.equal(body.classList.contains('yt-ai-hidden'), false);
+    assert.ok(toggleBtn.textContent.includes('▲'));
 
     // Click toggle to collapse
     toggleBtn.click();
     assert.equal(cardController.isExpanded, false);
     assert.equal(body.classList.contains('yt-ai-hidden'), true);
-    assert.equal(toggleBtn.textContent, '▲');
+    assert.ok(toggleBtn.textContent.includes('▾'));
 
     // Click toggle to expand
     toggleBtn.click();
     assert.equal(cardController.isExpanded, true);
     assert.equal(body.classList.contains('yt-ai-hidden'), false);
-    assert.equal(toggleBtn.textContent, '▾');
+    assert.ok(toggleBtn.textContent.includes('▲'));
   });
 
   it('updates selected period when clicking period filter pills', () => {
@@ -272,11 +273,11 @@ describe('ChannelCompanionCard - In-Page Channel Companion UI Component', () => 
     const card = document.getElementById('yt-ai-channel-companion');
     const pills = card.querySelectorAll('.yt-ai-period-pill');
 
-    // Click "Last month" pill
+    // Click "1 year" pill (pills[1])
     pills[1].click();
     assert.equal(pills[0].classList.contains('active'), false);
     assert.equal(pills[1].classList.contains('active'), true);
-    assert.equal(pills[1].getAttribute('data-period'), 'month');
+    assert.equal(pills[1].getAttribute('data-period'), 'year');
   });
 
   it('removes card when extension is disabled', () => {
@@ -287,5 +288,20 @@ describe('ChannelCompanionCard - In-Page Channel Companion UI Component', () => 
     cardController.tryInjectCompanion();
     const card = document.getElementById('yt-ai-channel-companion');
     assert.equal(card, null);
+  });
+
+  it('handleRunAudit invokes viewController render without throwing renderChannelReport error', async () => {
+    let rendered = false;
+    const mockService = { executeChannelAudit: async () => ({ score: 85 }) };
+    const mockViewController = { renderReport: () => { rendered = true; } };
+    const cardController = new ChannelCompanionCard({
+      channelAuditService: mockService,
+      channelAuditViewController: mockViewController,
+      state: { extensionEnabled: true, currentLang: 'fr' }
+    });
+
+    cardController.tryInjectCompanion();
+    await cardController.handleRunAudit();
+    assert.equal(rendered, true);
   });
 });

@@ -54,9 +54,9 @@ export class InnerTubeParser {
       // 2. Modern transcriptSegmentViewModel
       const vm = node.transcriptSegmentViewModel;
       if (vm) {
-        const time = vm.startTimeText?.content || (typeof vm.startTimeText === 'string' ? vm.startTimeText : '');
-        let text = '';
-        if (vm.snippet) {
+        const time = vm.timestamp || vm.startTimeText?.content || (typeof vm.startTimeText === 'string' ? vm.startTimeText : '');
+        let text = vm.simpleText || '';
+        if (!text && vm.snippet) {
           text = vm.snippet.content || (vm.snippet.runs || []).map(r => r.text || '').join('') || (typeof vm.snippet === 'string' ? vm.snippet : '');
         }
         if (time && text) {
@@ -69,7 +69,23 @@ export class InnerTubeParser {
         }
       }
 
-      // 3. Macro markers / Chapters (fallback when genuine transcript segments are absent)
+      // 3. InnerTube get_transcript transcriptCueRenderer
+      const cue = node.transcriptCueRenderer;
+      if (cue) {
+        const ms = parseInt(cue.startOffsetMs || '0', 10);
+        const time = InnerTubeParser.formatMs(ms);
+        const text = cue.cue?.simpleText || (cue.cue?.runs || []).map(r => r.text || '').join('') || (typeof cue.cue === 'string' ? cue.cue : '');
+        if (time && text) {
+          const cleaned = TextCleaner.cleanTranscriptText(text);
+          const key = `${time}|${cleaned.slice(0, 30)}`;
+          if (!seenSpeech.has(key)) {
+            seenSpeech.add(key);
+            speechSegments.push({ timestamp: time.trim(), text: cleaned });
+          }
+        }
+      }
+
+      // 4. Macro markers / Chapters (fallback when genuine transcript segments are absent)
       const macro = node.macroMarkersListItemRenderer;
       if (macro) {
         const time = macro.timeDescription?.simpleText || (macro.timeDescription?.runs || []).map(r => r.text || '').join('');

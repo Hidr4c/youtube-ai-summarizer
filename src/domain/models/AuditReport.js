@@ -1,3 +1,5 @@
+import { ScoreTierScale } from '../services/ScoreTierScale.js';
+
 /**
  * Domain Aggregate representing a Critical Audit Report (Logic consistency & Fact-checking)
  */
@@ -57,6 +59,15 @@ export class AuditReport {
       label: lang === 'fr' ? 'Majeure Incohérence / Douteux' : 'Questionable / Low Reliability',
       color: '#f85149'
     };
+  }
+
+  /**
+   * Returns exact 5%-stepped tier evaluation via unified domain scale
+   * @param {string} [lang='fr']
+   * @returns {Object}
+   */
+  getGranularTier(lang = 'fr') {
+    return ScoreTierScale.getTier(this.reliabilityScore, lang);
   }
 
   /**

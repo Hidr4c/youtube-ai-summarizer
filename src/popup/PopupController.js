@@ -179,20 +179,20 @@ export class PopupController {
       idleCard?.classList.add('hidden');
       videoCard?.classList.remove('hidden');
 
+      const t = POPUP_I18N[this.currentLang] || POPUP_I18N.en;
       const titleEl = document.getElementById('videoTitle');
       if (titleEl) {
-        titleEl.textContent = this.inPageStatus.title || this.activeTab?.title?.replace(/ - YouTube$/, '') || 'YouTube Video';
+        titleEl.textContent = this.inPageStatus.title || this.activeTab?.title?.replace(/ - YouTube$/, '') || t.youtubeVideoFallback;
       }
 
       const stateBadge = document.getElementById('bannerStateBadge');
       const toggleText = document.getElementById('toggleBannerText');
-      const t = POPUP_I18N[this.currentLang] || POPUP_I18N.en;
 
       if (this.inPageStatus.isExpanded) {
-        if (stateBadge) stateBadge.textContent = 'Expanded';
+        if (stateBadge) stateBadge.textContent = t.bannerExpanded;
         if (toggleText) toggleText.textContent = t.collapseOnPage;
       } else {
-        if (stateBadge) stateBadge.textContent = 'Collapsed';
+        if (stateBadge) stateBadge.textContent = t.bannerCollapsed;
         if (toggleText) toggleText.textContent = t.expandOnPage;
       }
     } else {
@@ -254,11 +254,17 @@ export class PopupController {
     const summarizeBtnText = document.getElementById('summarizeBtnText');
     if (summarizeBtnText) summarizeBtnText.textContent = t.summarize;
 
+    const currentVideoBadge = document.getElementById('currentVideoBadge');
+    if (currentVideoBadge) currentVideoBadge.textContent = t.currentVideo;
+
+    const openYoutubeBtnText = document.getElementById('openYoutubeBtnText');
+    if (openYoutubeBtnText) openYoutubeBtnText.textContent = t.goToYoutube;
+
     const extVersion = (typeof chrome !== 'undefined' && chrome.runtime?.getManifest)
       ? `v${chrome.runtime.getManifest().version}`
-      : 'v1.4.0';
+      : 'v1.5.1';
     const versionEl = document.getElementById('brandVersion');
-    if (versionEl) versionEl.textContent = `${extVersion} • Privacy-First`;
+    if (versionEl) versionEl.textContent = `${extVersion} • ${t.privacyTagline}`;
 
     this.updateStatusPill(this.extensionEnabled);
     this.renderCards();

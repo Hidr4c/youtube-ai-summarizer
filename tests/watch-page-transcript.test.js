@@ -220,4 +220,55 @@ describe('WatchPageTranscriptFetcher - Deep Extraction & Format Parsing', () => 
     assert.equal(emptyRes.success, false);
     assert.equal(emptyRes.error, 'No videoId provided');
   });
+
+  it('cascades to subsequent caption tracks when track 0 returns empty content', async () => {
+    const mockMultiTrackHtml = `
+      <html>
+        <head><title>3D AI Model - YouTube</title></head>
+        <body>
+          <script>
+            ytInitialPlayerResponse = {
+              "videoDetails": { "title": "3D AI Model", "author": "TechReviewer" },
+              "captions": {
+                "playerCaptionsTracklistRenderer": {
+                  "captionTracks": [
+                    { "languageCode": "en", "baseUrl": "https://yt.com/empty_manual" },
+                    { "languageCode": "en", "kind": "asr", "baseUrl": "https://yt.com/real_asr" }
+                  ]
+                }
+              }
+            };
+          </script>
+        </body>
+      </html>
+    `;
+
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = mock.fn(async (url) => {
+      if (url.includes('youtube.com/watch')) {
+        return { ok: true, text: async () => mockMultiTrackHtml };
+      }
+      if (url.includes('empty_manual')) {
+        return { ok: true, text: async () => '' }; // Empty track
+      }
+      if (url.includes('real_asr')) {
+        return {
+          ok: true,
+          text: async () => JSON.stringify({
+            events: [{ tStartMs: 500, segs: [{ utf8: 'Successful speech extraction from ASR track' }] }]
+          })
+        };
+      }
+      return { ok: false, status: 404 };
+    });
+
+    try {
+      const res = await WatchPageTranscriptFetcher.fetchTranscript('OX2P23W7TAA', 'fr');
+      assert.equal(res.success, true);
+      assert.equal(res.segments.length, 1);
+      assert.equal(res.segments[0].text, 'Successful speech extraction from ASR track');
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
 });

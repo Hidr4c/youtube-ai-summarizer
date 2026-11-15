@@ -1,4 +1,5 @@
 import { getVideoId } from '../ui/NavigationObserver.js';
+import { parseChannelVideoCount } from '../../config/ExtensionConstants.js';
 
 /**
  * YouTube In-Page DOM Metadata Scraper and Context Formatter
@@ -51,10 +52,10 @@ export class YouTubeDOMContext {
     const safeMeta = isCacheValid ? cachedVideoMetadata : {};
     const hasDoc = typeof document !== 'undefined';
 
-    const titleEl = hasDoc ? document.querySelector('h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title') : null;
-    const authorEl = hasDoc ? document.querySelector('ytd-channel-name a, #channel-name a, #owner-name a') : null;
-    const subEl = hasDoc ? document.querySelector('#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count') : null;
-    const descEl = hasDoc ? document.querySelector('#description-inline-expander yt-attributed-string, #description, #description-inline-expander') : null;
+    const titleEl = hasDoc ? document.querySelector('h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title, h2.slim-video-information-title, .slim-video-metadata-header h2') : null;
+    const authorEl = hasDoc ? document.querySelector('ytd-channel-name a, #channel-name a, #owner-name a, ytm-slim-owner-renderer .slim-owner-channel-name, ytm-slim-owner-renderer a') : null;
+    const subEl = hasDoc ? document.querySelector('#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count, ytm-slim-owner-renderer .slim-owner-bylines') : null;
+    const descEl = hasDoc ? document.querySelector('#description-inline-expander yt-attributed-string, #description, #description-inline-expander, ytm-expandable-video-description-body-renderer') : null;
     const dateEl = hasDoc ? document.querySelector('#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date') : null;
     const tagEls = hasDoc ? document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]') : [];
 
@@ -128,6 +129,26 @@ export class YouTubeDOMContext {
     if (parts.length === 0) return '';
     const header = lang === 'fr' ? 'CONTEXTE OFFICIEL DE LA VIDÉO YOUTUBE :' : 'OFFICIAL YOUTUBE VIDEO CONTEXT:';
     return `${header}\n${parts.join('\n\n')}`;
+  }
+
+  /**
+   * Scrapes the channel total video count displayed in the YouTube channel header DOM
+   * @returns {number|null}
+   */
+  static extractChannelTotalVideosFromDOM() {
+    if (typeof document === 'undefined' || typeof document.querySelectorAll !== 'function') return null;
+    const nodes = document.querySelectorAll(
+      '#page-header-container span, #channel-header-container span, tp-yt-app-header span, #page-header-container yt-formatted-string, .yt-content-metadata-view-model__metadata-text, ytm-c4-tabbed-header-renderer span, ytm-page-header-renderer span'
+    );
+    for (const node of nodes) {
+      const txt = node?.textContent?.trim() || '';
+      if (!txt || txt.length > 40) continue;
+      if (/vid[ée]os?|videos?|видео|本|个视频|個影片/i.test(txt)) {
+        const count = parseChannelVideoCount(txt);
+        if (count && count > 0) return count;
+      }
+    }
+    return null;
   }
 }
 

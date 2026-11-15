@@ -19,7 +19,7 @@
         </div>
         <div class="brand-text">
           <div class="brand-title">YT Summarizer AI</div>
-          <div class="brand-version" id="brandVersion">v1.4.0 • Privacy-First</div>
+          <div class="brand-version" id="brandVersion">v1.5.1 • Privacy-First</div>
         </div>
       </div>
       <div id="statusPill" class="status-pill active" title="Extension status">
@@ -45,7 +45,7 @@
     <!-- Active YouTube Video Card -->
     <div id="videoCard" class="card video-card">
       <div class="video-card-header">
-        <span class="card-badge">🎬 Current Video</span>
+        <span class="card-badge" id="currentVideoBadge">🎬 Current Video</span>
         <span id="bannerStateBadge" class="card-badge state-badge">Ready</span>
       </div>
       <div id="videoTitle" class="video-title">Detecting video...</div>
@@ -71,9 +71,9 @@
       <div class="cache-desc" id="cacheDesc">Transcripts, summaries and audits stored locally to save AI tokens.</div>
       <div class="actions-row cache-actions-row">
         <select id="cachePurgeFilter" class="lang-select cache-select" title="Purge filter">
-          <option value="all">Tout effacer (All)</option>
-          <option value="7">> 7 jours (> 7 days)</option>
-          <option value="30">> 30 jours (> 30 days)</option>
+          <option value="all">Clear all videos</option>
+          <option value="7">Older than 7 days</option>
+          <option value="30">Older than 30 days</option>
         </select>
         <button id="purgeCacheBtn" class="btn btn-secondary btn-sm" title="Purge cache">
           <span class="btn-icon">🗑️</span>
@@ -99,7 +99,7 @@
         <div class="idle-title" id="idleTitle">Ready for YouTube</div>
         <div class="idle-desc" id="idleDesc">Open any YouTube video to summarize with local or cloud AI models.</div>
         <button id="openYoutubeBtn" class="btn btn-secondary btn-sm mt-8">
-          <span>Go to YouTube</span> ↗
+          <span id="openYoutubeBtnText">Go to YouTube ↗</span>
         </button>
       </div>
     </div>

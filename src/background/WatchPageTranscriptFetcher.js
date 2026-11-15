@@ -1,3 +1,5 @@
+import { CaptionTrackPrioritizer } from '../parsers/CaptionTrackPrioritizer.js';
+
 /**
  * Background Service for fetching and parsing YouTube Watch page transcripts
  * Uses resilient balanced-brace JSON extraction for ytInitialPlayerResponse & captionTracks
@@ -183,50 +185,50 @@ export class WatchPageTranscriptFetcher {
         return { success: false, videoId, title, author, error: 'No caption tracks found' };
       }
 
-      let track = captionTracks.find(t => t.languageCode === lang);
-      if (!track) track = captionTracks.find(t => t.languageCode?.startsWith(lang));
-      if (!track) track = captionTracks.find(t => t.languageCode === 'en' || t.languageCode?.startsWith('en'));
-      if (!track) track = captionTracks[0];
+      const orderedTracks = CaptionTrackPrioritizer.prioritizeTracks(captionTracks, lang);
+      for (const track of orderedTracks) {
+        if (!track?.baseUrl) continue;
 
-      if (!track?.baseUrl) {
-        return { success: false, videoId, title, author, error: 'No track baseUrl' };
+        // 1. Try language-translated JSON3 if target language differs from track
+        let ttText = '';
+        if (track.languageCode !== lang && !track.languageCode?.startsWith(lang)) {
+          const transUrl = track.baseUrl + (track.baseUrl.includes('?') ? '&' : '?') + `tlang=${lang}&fmt=json3`;
+          try {
+            const transRes = await fetch(transUrl, { credentials: 'include' });
+            if (transRes.ok) ttText = await transRes.text();
+          } catch (_) {}
+        }
+
+        // 2. Try direct JSON3
+        if (!ttText || !ttText.trim()) {
+          const ttUrl = track.baseUrl + (track.baseUrl.includes('?') ? '&' : '?') + 'fmt=json3';
+          try {
+            const ttRes = await fetch(ttUrl, { credentials: 'include' });
+            if (ttRes.ok) ttText = await ttRes.text();
+          } catch (_) {}
+        }
+
+        // 3. Fallback to raw XML / TTML
+        if (!ttText || !ttText.trim()) {
+          try {
+            const fallbackRes = await fetch(track.baseUrl, { credentials: 'include' });
+            if (fallbackRes.ok) ttText = await fallbackRes.text();
+          } catch (_) {}
+        }
+
+        const segments = this.parseTimedtextPayload(ttText);
+        if (segments && segments.length > 0) {
+          return {
+            success: true,
+            videoId,
+            title,
+            author,
+            segments,
+            fullText: segments.map(s => s.text).join(' '),
+            captions: captionTracks
+          };
+        }
       }
-
-      // 1. Try language-translated JSON3 if target language differs from track
-      let ttText = '';
-      if (track.languageCode !== lang && !track.languageCode?.startsWith(lang)) {
-        const transUrl = track.baseUrl + (track.baseUrl.includes('?') ? '&' : '?') + `tlang=${lang}&fmt=json3`;
-        try {
-          const transRes = await fetch(transUrl, { credentials: 'include' });
-          if (transRes.ok) ttText = await transRes.text();
-        } catch (_) {}
-      }
-
-      // 2. Try direct JSON3
-      if (!ttText || !ttText.trim()) {
-        const ttUrl = track.baseUrl + (track.baseUrl.includes('?') ? '&' : '?') + 'fmt=json3';
-        const ttRes = await fetch(ttUrl, { credentials: 'include' });
-        if (ttRes.ok) ttText = await ttRes.text();
-      }
-
-      // 3. Fallback to raw XML / TTML
-      if (!ttText || !ttText.trim()) {
-        const fallbackRes = await fetch(track.baseUrl, { credentials: 'include' });
-        if (fallbackRes.ok) ttText = await fallbackRes.text();
-      }
-
-      const segments = this.parseTimedtextPayload(ttText);
-      const fullText = segments.map(s => s.text).join(' ');
-
-      return {
-        success: segments.length > 0,
-        videoId,
-        title,
-        author,
-        segments,
-        fullText,
-        captions: captionTracks
-      };
     } catch (err) {
       return { success: false, videoId, error: err.message };
     }

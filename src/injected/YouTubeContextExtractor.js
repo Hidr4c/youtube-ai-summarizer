@@ -1,7 +1,9 @@
 import { InnerTubeParser } from '../parsers/InnerTubeParser.js';
 import { SpeechRecognitionBridge } from './SpeechRecognitionBridge.js';
 import { InnerTubeBridge } from './InnerTubeBridge.js';
+import { BrowseContinuationFetcher } from './BrowseContinuationFetcher.js';
 import { TimedtextTrackFetcher } from './TimedtextTrackFetcher.js';
+import { CaptionTrackPrioritizer } from '../parsers/CaptionTrackPrioritizer.js';
 
 /**
  * YouTube Main World context extractor
@@ -42,6 +44,18 @@ export class YouTubeContextExtractor {
         return;
       }
 
+      if (event.data.type === 'YT_AI_REQ_BROWSE_CONTINUATION') {
+        const result = await BrowseContinuationFetcher.fetchPage(event.data);
+        window.postMessage({
+          type: 'YT_AI_BROWSE_CONTINUATION_RESULT',
+          requestId: event.data.requestId,
+          ok: result.ok,
+          status: result.status,
+          items: result.items
+        }, '*');
+        return;
+      }
+
       if (event.data.type === 'YT_AI_REQUEST_TRANSCRIPT') {
         const videoId = event.data.videoId;
         const result = await this.extractTranscript(videoId, event.data.preferredLang || 'en');
@@ -66,9 +80,12 @@ export class YouTubeContextExtractor {
       let directSegments = null;
 
       if (captions && captions.length > 0) {
-        const track = this.pickCaptionTrack(captions, preferredLang);
-        if (track?.baseUrl) {
-          directSegments = await this.fetchTrackSegments(track.baseUrl);
+        const ordered = CaptionTrackPrioritizer.prioritizeTracks(captions, preferredLang);
+        for (const track of ordered) {
+          if (track?.baseUrl) {
+            directSegments = await this.fetchTrackSegments(track.baseUrl, preferredLang);
+            if (directSegments && directSegments.length > 0) break;
+          }
         }
       }
 
@@ -111,7 +128,7 @@ export class YouTubeContextExtractor {
       const initId = window.ytInitialPlayerResponse?.videoDetails?.videoId;
       if (!requestedVideoId || initId === requestedVideoId) return window.ytInitialPlayerResponse;
     }
-    const flexy = document.querySelector('ytd-watch-flexy, ytd-watch-grid');
+    const flexy = document.querySelector('ytd-watch-flexy, ytd-watch-grid, ytm-watch');
     const flexyData = flexy?.playerData || flexy?.data;
     if (flexyData) {
       const fId = flexyData?.videoDetails?.videoId;
@@ -146,10 +163,8 @@ export class YouTubeContextExtractor {
   }
 
   pickCaptionTrack(captions, preferredLang) {
-    let track = captions.find(t => t.languageCode === preferredLang);
-    if (!track) track = captions.find(t => t.languageCode?.startsWith(preferredLang));
-    if (!track) track = captions.find(t => t.languageCode === 'en' || t.languageCode?.startsWith('en'));
-    return track || captions[0] || null;
+    const list = CaptionTrackPrioritizer.prioritizeTracks(captions, preferredLang);
+    return list[0] || null;
   }
 
   /**
@@ -184,9 +199,12 @@ export class YouTubeContextExtractor {
 
       let directSegments = null;
       if (captions && captions.length > 0) {
-        const track = this.pickCaptionTrack(captions, preferredLang);
-        if (track?.baseUrl) {
-          directSegments = await this.fetchTrackSegments(track.baseUrl);
+        const ordered = CaptionTrackPrioritizer.prioritizeTracks(captions, preferredLang);
+        for (const track of ordered) {
+          if (track?.baseUrl) {
+            directSegments = await this.fetchTrackSegments(track.baseUrl, preferredLang);
+            if (directSegments && directSegments.length > 0) break;
+          }
         }
       }
 
@@ -246,8 +264,8 @@ export class YouTubeContextExtractor {
     }
   }
 
-  async fetchTrackSegments(baseUrl) {
-    return TimedtextTrackFetcher.fetchTrackSegments(baseUrl);
+  async fetchTrackSegments(baseUrl, preferredLang = null) {
+    return TimedtextTrackFetcher.fetchTrackSegments(baseUrl, preferredLang);
   }
 
   findTranscriptParams(requestedVideoId) {

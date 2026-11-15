@@ -8,8 +8,8 @@ export class ChatBubbleView {
     if (el) el.scrollTop = el.scrollHeight;
   }
 
-  static appendChatBubble(role, contentHtml) {
-    const container = document.getElementById('ytAiChatMessages');
+  static appendChatBubble(role, contentHtml, containerId = 'ytAiChatMessages') {
+    const container = document.getElementById(containerId);
     if (!container) return null;
 
     const bubble = document.createElement('div');

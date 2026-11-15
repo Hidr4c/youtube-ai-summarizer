@@ -195,14 +195,20 @@ ${cfg.transcriptLabel}
 ${safeTranscript}
 """
 
-WRITING & AUDIO PLAYBACK GUIDELINES:
+WRITING & VISUAL PRESENTATION GUIDELINES:
 1. ${cfg.rule}
 2. ${lenDir}
-3. CONTINUOUS PROSE (TTS READY):
-   - Write in flowing, natural prose paragraphs without disjointed lists or decorative emojis for smooth audio playback.
-4. READABLE STRUCTURE:
-   - Break answers into short paragraphs with **bold** key terms.
-   - 100% faithful to the video content, transcript, and summary without hallucinations.`;
+3. SCANNABLE & STRUCTURED MARKDOWN (NO WALLS OF TEXT):
+   - Never output a dense, flat wall of unformatted prose.
+   - Start with a crisp direct answer (1-2 short sentences), then structure details cleanly using:
+     * Clear section headings (### Section) when covering 2+ themes or comparisons.
+     * Concise bullet points (- **Mot-clé / Point :** Explication fluide sur la même ligne) or numbered steps (1. ...).
+     * > Blockquotes for key takeaways, rules, or verbatim evidence quotes.
+     * Compact Markdown tables only when comparing several items/videos side-by-side.
+   - Highlight key figures, names, and **crucial terms in bold**; separate paragraphs clearly with blank lines.
+4. GROUNDING & ACCURACY:
+   - Cite relevant timestamps [MM:SS] or video titles when available.
+   - 100% faithful to the transcript, channel dossier, comments, and audit findings with zero hallucination.`;
   }
 }
 

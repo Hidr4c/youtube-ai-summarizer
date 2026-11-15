@@ -1,7 +1,7 @@
 {
   "name": "youtube-ai-summarizer",
-  "version": "1.5.0",
-  "description": "Chrome/Brave Extension to summarize YouTube videos and chat with transcripts using local AI (LM Studio, Ollama) or Cloud AI (Gemini, Groq, OpenAI).",
+  "version": "1.5.1",
+  "description": "Privacy-first Chrome, Brave & Edge extension for YouTube AI video summaries, logic & fact-check audits, channel reliability audits, and Q&A chat using local AI (LM Studio, Ollama) or Cloud AI.",
   "main": "dist/background.js",
   "type": "module",
   "scripts": {
@@ -33,7 +33,10 @@
     "openai",
     "qwen",
     "speech-to-text",
-    "text-to-speech"
+    "text-to-speech",
+    "fact-check",
+    "channel-audit",
+    "privacy-first"
   ],
   "author": "Hidr4c (https://github.com/Hidr4c)",
   "license": "MIT",

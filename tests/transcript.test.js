@@ -114,4 +114,59 @@ describe('Transcript Processing & InnerTube Parser', () => {
     assert.equal(segments[1].timestamp, '08:15');
     assert.equal(segments[1].text, 'Reactive loop mechanisms in modern software');
   });
+
+  it('extractSegmentsFromInnerTubeJson parses InnerTube get_transcript transcriptCueRenderer', () => {
+    const mockCueResponse = {
+      actions: [
+        {
+          updateEngagementPanelAction: {
+            content: {
+              transcriptRenderer: {
+                body: {
+                  transcriptBodyRenderer: {
+                    cueGroups: [
+                      {
+                        transcriptCueGroupRenderer: {
+                          cues: [
+                            {
+                              transcriptCueRenderer: {
+                                cue: { simpleText: 'Welcome to this 3D AI tutorial' },
+                                startOffsetMs: '0',
+                                durationMs: '2500'
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        transcriptCueGroupRenderer: {
+                          cues: [
+                            {
+                              transcriptCueRenderer: {
+                                cue: { runs: [{ text: 'We are testing Trellis v2' }] },
+                                startOffsetMs: '3000',
+                                durationMs: '3000'
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    };
+
+    const segments = InnerTubeParser.extractSegmentsFromInnerTubeJson(mockCueResponse);
+    assert.ok(Array.isArray(segments), 'Must return an array of cue segments');
+    assert.equal(segments.length, 2);
+    assert.equal(segments[0].timestamp, '0:00');
+    assert.equal(segments[0].text, 'Welcome to this 3D AI tutorial');
+    assert.equal(segments[1].timestamp, '0:03');
+    assert.equal(segments[1].text, 'We are testing Trellis v2');
+  });
 });

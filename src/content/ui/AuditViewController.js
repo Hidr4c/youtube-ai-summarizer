@@ -1,8 +1,9 @@
 import { I18N } from '../../locales/index.js';
-import { renderMarkdown, escapeHtml } from './MarkdownRenderer.js';
+import { renderMarkdown, escapeHtml, safeSetInnerHTML } from './MarkdownRenderer.js';
 import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
-import { YouTubeDOMContext } from '../services/YouTubeDOMContext.js';
 import { AuditProgressBar } from './AuditProgressBar.js';
+import { ChannelAuditJobTracker } from '../services/ChannelAuditJobTracker.js';
+import { WatchChannelAuditHelper } from './WatchChannelAuditHelper.js';
 
 /**
  * Controller for In-Page Critical Audit & Logic Verification Tab
@@ -35,38 +36,60 @@ export class AuditViewController {
     if (!report) return '';
     const score = typeof report.reliabilityScore === 'number' ? report.reliabilityScore : 80;
     const badge = report.getReliabilityBadge(lang);
+    const tier = typeof report.getGranularTier === 'function' ? report.getGranularTier(lang) : null;
     const isLow = score < 50;
     const isMed = score >= 50 && score < 75;
     const levelClass = isLow ? 'yt-ai-score-low' : isMed ? 'yt-ai-score-med' : 'yt-ai-score-high';
-    const verdictDesc = isLow
+    const verdictDesc = tier?.desc || (isLow
       ? (lang === 'fr' ? 'Biais cognitifs, spéculation ou affirmations trompeuses' : 'High bias or deceptive claims')
       : isMed
         ? (lang === 'fr' ? 'Analyse nuancée, affirmations à vérifier avec recul' : 'Mixed rigor, claims require caution')
-        : (lang === 'fr' ? 'Rigueur et cohérence logique élevées' : 'High logical rigor & consistency');
+        : (lang === 'fr' ? 'Rigueur et cohérence logique élevées' : 'High logical rigor & consistency'));
+    const tierPill = tier ? `<span class="yt-ai-tier-pill" style="border-color:${tier.hexColor}66;color:${tier.hexColor};">${escapeHtml(tier.rangeLabel)} · ${escapeHtml(tier.shortLabel)}</span>` : '';
 
     return `
       <div class="yt-ai-audit-hero-card ${levelClass}">
         <div class="yt-ai-audit-hero-main">
-          <div class="yt-ai-audit-gauge-circle"><span class="yt-ai-audit-gauge-val">${score}</span><span class="yt-ai-audit-gauge-max">/100</span></div>
+          <div class="yt-ai-audit-gauge-circle" ${tier ? `style="border-color:${tier.hexColor};color:${tier.hexColor};"` : ''}><span class="yt-ai-audit-gauge-val">${score}</span><span class="yt-ai-audit-gauge-max">/100</span></div>
           <div class="yt-ai-audit-hero-meta">
-            <div class="yt-ai-audit-status-badge">${escapeHtml(badge.label)}</div>
+            <div class="yt-ai-audit-status-badge">${escapeHtml(badge.label)} ${tierPill}</div>
             <div class="yt-ai-audit-hero-desc">${escapeHtml(verdictDesc)}</div>
           </div>
         </div>
-        <div class="yt-ai-audit-meter"><div class="yt-ai-audit-meter-fill" style="width: ${Math.max(6, Math.min(100, score))}%;"></div></div>
+        <div class="yt-ai-audit-meter yt-ai-audit-meter-spectrum"><div class="yt-ai-audit-meter-fill" style="width:${Math.max(6, Math.min(100, score))}%;${tier?.gradient ? `background:${tier.gradient};` : tier ? `background:${tier.hexColor};` : ''}"></div></div>
       </div>
     `;
   }
 
+  stopAudit(lang = 'fr') {
+    this.auditService?.abortAudit?.('stopped');
+    const t = I18N[lang] || I18N.en;
+    const progBox = document.getElementById('ytAiAuditProgressContainer');
+    const runBtn = document.getElementById('ytAiRunAuditBtn');
+    if (progBox) {
+      progBox.classList.add('yt-ai-hidden');
+      progBox.innerHTML = '';
+    }
+    if (runBtn) {
+      runBtn.disabled = false;
+      runBtn.classList?.remove('yt-ai-btn-stop');
+      runBtn.textContent = this.lastReport ? (t.relaunchAuditBtn || '⚡ Relancer l\'audit') : (t.runAuditBtn || '⚡ Lancer l\'audit');
+    }
+  }
+
   /**
-   * Starts critical logic & fact-checking audit
+   * Starts or stops critical logic & fact-checking audit
    * @param {Object} ctx
    */
   async startAudit(ctx = {}) {
     const stateObj = ctx.state || ctx;
-    const period = ctx.period || stateObj.channelAuditPeriod || 'all';
     const lang = document.getElementById('ytAiLangSelect')?.value || ctx.currentLang || stateObj.currentLang || 'fr';
+    if (this.auditService?.isAuditing) {
+      this.stopAudit(lang);
+      return;
+    }
     const t = I18N[lang] || I18N.en;
+    const isFr = lang.startsWith('fr');
 
     const runBtn = document.getElementById('ytAiRunAuditBtn');
     const copyBtn = document.getElementById('ytAiCopyAuditBtn');
@@ -95,8 +118,9 @@ export class AuditViewController {
     }
 
     if (runBtn) {
-      runBtn.disabled = true;
-      runBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.auditInProgress || 'Audit en cours...'}`;
+      runBtn.disabled = false;
+      runBtn.classList?.add('yt-ai-btn-stop');
+      runBtn.textContent = t.stopListenBtn || (isFr ? '⏹ Arrêter' : '⏹ Stop');
     }
     if (copyBtn) copyBtn.classList.add('yt-ai-hidden');
     if (statusBox) statusBox.classList.add('yt-ai-hidden');
@@ -105,14 +129,18 @@ export class AuditViewController {
       progBox.classList.remove('yt-ai-hidden');
       progBox.innerHTML = AuditProgressBar.renderWidget({
         percent: 10,
-        title: 'Collecte des informations et sources...',
-        detail: 'Transcription intégrale et descriptions (0 coupure)'
+        title: t.auditStarting || 'Preparing audit dossier...',
+        detail: isFr ? 'Transcription intégrale et descriptions (0 coupure)' : 'Full transcript & video metadata',
+        showStop: true,
+        stopLabel: t.stopShortBtn || 'Stop'
       });
+      AuditProgressBar.bindStopAction(progBox, () => this.stopAudit(lang));
     }
     if (bodyBox) {
-      bodyBox.innerHTML = `<p style="color: #8b949e; font-style: italic;">${t.auditAnalyzing || 'Examen de la cohérence logique et des faits en cours...'}</p>`;
+      bodyBox.innerHTML = `<p style="color: var(--yt-ai-text-muted); font-style: italic;">${t.auditAnalyzing || 'Examen de la cohérence logique et des faits en cours...'}</p>`;
     }
 
+    let hasStreamedChunks = false;
     try {
       const report = await this.auditService.executeAudit({
         lang,
@@ -127,6 +155,7 @@ export class AuditViewController {
           }
         },
         onChunk: (chunk, acc) => {
+          hasStreamedChunks = true;
           if (bodyBox) {
             renderMarkdown(acc, bodyBox);
             this.bindTimestampLinks(bodyBox);
@@ -144,23 +173,38 @@ export class AuditViewController {
 
       if (bodyBox) {
         const heroHtml = this.renderAuditHeroCard(report, lang);
-        bodyBox.innerHTML = heroHtml + renderMarkdown(report.rawMarkdown);
+        safeSetInnerHTML(bodyBox, heroHtml + renderMarkdown(report.rawMarkdown));
         this.bindTimestampLinks(bodyBox);
       }
 
       const auditTabBadge = document.getElementById('ytAiTabAuditBtn');
       if (auditTabBadge) {
         const badgeColor = report.reliabilityScore >= 75 ? 'yt-ai-badge-success' : report.reliabilityScore >= 50 ? 'yt-ai-badge-warning' : 'yt-ai-badge-danger';
-        auditTabBadge.innerHTML = `${t.tabAudit || '🛡️ Audit'} <span class="yt-ai-tab-count-badge ${badgeColor}">${report.reliabilityScore}/100</span>`;
+        safeSetInnerHTML(auditTabBadge, `${t.tabAudit || '🛡️ Audit'} <span class="yt-ai-tab-count-badge ${badgeColor}">${report.reliabilityScore}/100</span>`);
       }
 
       if (copyBtn) copyBtn.classList.remove('yt-ai-hidden');
     } catch (err) {
-      if (bodyBox) bodyBox.innerHTML = `<p style="color: #f85149;">[!] ${escapeHtml(err.message || 'Erreur lors de l’audit')}</p>`;
+      if (progBox) {
+        progBox.classList.add('yt-ai-hidden');
+        progBox.innerHTML = '';
+      }
+      if (ChannelAuditJobTracker.isAbortError(err)) {
+        const stoppedText = t.auditStoppedNote || '⏹ Processing stopped by user.';
+        if (statusBox && hasStreamedChunks) {
+          statusBox.classList.remove('yt-ai-hidden');
+          statusBox.textContent = stoppedText;
+        } else if (bodyBox && !hasStreamedChunks) {
+          bodyBox.innerHTML = `<p class="yt-ai-stopped-note">${escapeHtml(stoppedText)}</p>`;
+        }
+      } else if (bodyBox) {
+        bodyBox.innerHTML = `<p style="color: #f85149;">[!] ${escapeHtml(err.message || t.connectionError || I18N.en.connectionError)}</p>`;
+      }
     } finally {
       if (runBtn) {
         runBtn.disabled = false;
-        runBtn.textContent = t.runAuditBtn || '⚡ Lancer l\'audit';
+        runBtn.classList?.remove('yt-ai-btn-stop');
+        runBtn.textContent = this.lastReport ? (t.relaunchAuditBtn || '⚡ Relancer l\'audit') : (t.runAuditBtn || '⚡ Lancer l\'audit');
       }
     }
   }
@@ -177,68 +221,19 @@ export class AuditViewController {
     document.getElementById('ytAiAuditSubtabChannelBtn')?.classList.toggle('active', isChan);
   }
 
-  /**
-   * Triggers consolidated channel audit from the banner
-   * @param {Object} ctx
-   */
+  stopChannelAudit(lang = 'fr') {
+    this.channelAuditService?.abortAudit?.('stopped');
+    WatchChannelAuditHelper.setButtonRunning(false, lang);
+    const progBox = document.getElementById('ytAiWatchChannelProgress') || document.getElementById('ytAiChannelAuditProgressContainer');
+    if (progBox) { progBox.classList.add('yt-ai-hidden'); progBox.innerHTML = ''; }
+  }
+
+  async syncChannelAuditUI(stateObj = {}) {
+    return WatchChannelAuditHelper.syncUI(this, stateObj);
+  }
+
   async handleTriggerChannelAudit(ctx = {}) {
-    if (!this.channelAuditService || !this.channelAuditViewController) return;
-    this.switchAuditSubtab('channel');
-    const stateObj = ctx.state || ctx;
-    const period = ctx.period || stateObj.channelAuditPeriod || 'all';
-    const lang = document.getElementById('ytAiLangSelect')?.value || ctx.currentLang || stateObj.currentLang || 'fr';
-
-    const btn = document.getElementById('ytAiAuditChannelBtn');
-    const container = document.getElementById('ytAiChannelAuditBody') || document.getElementById('ytAiChannelAuditContainer');
-    const progBox = document.getElementById('ytAiChannelAuditProgressContainer');
-    if (!container) return;
-
-    const meta = YouTubeDOMContext.getVideoMetadata();
-    const query = meta.channelUrl || meta.author || '';
-    if (!query) {
-      container.innerHTML = `<p style="color: #ff7b72;">[!] Impossible d'identifier la chaîne du créateur.</p>`;
-      return;
-    }
-
-    if (btn) btn.disabled = true;
-    if (progBox) {
-      progBox.classList.remove('yt-ai-hidden');
-      progBox.innerHTML = AuditProgressBar.renderWidget({
-        percent: 10,
-        title: 'Collecte des vidéos et descriptions...',
-        detail: `${meta.author || ''} (0 coupure)`
-      });
-    }
-    container.innerHTML = `<p style="color: #8b949e; font-style: italic;">Examen de la chaîne en cours...</p>`;
-
-    try {
-      const report = await this.channelAuditService.executeChannelAudit({
-        channelQuery: query,
-        period,
-        lang,
-        state: stateObj,
-        onProgress: (status) => {
-          if (progBox) {
-            AuditProgressBar.updateWidget(progBox, {
-              percent: status.percent,
-              title: status.message || status.title,
-              detail: status.detail || ''
-            });
-          }
-        }
-      });
-
-      if (progBox) {
-        progBox.classList.add('yt-ai-hidden');
-        progBox.innerHTML = '';
-      }
-
-      this.channelAuditViewController.renderReport(report, container, lang);
-    } catch (err) {
-      container.innerHTML = `<p style="color: #ff7b72; font-size: 12px;">[!] Erreur lors de l'audit de chaîne : ${escapeHtml(err.message || String(err))}</p>`;
-    } finally {
-      if (btn) btn.disabled = false;
-    }
+    return WatchChannelAuditHelper.execute(this, ctx);
   }
 
   /**
@@ -260,14 +255,16 @@ export class AuditViewController {
   /**
    * Handles copying audit markdown to clipboard
    */
-  handleCopyAudit() {
+  handleCopyAudit(lang = 'en') {
     const text = this.lastReport?.rawMarkdown || '';
     if (!text) return;
+    const activeLang = document.getElementById('ytAiLangSelect')?.value || lang;
+    const copiedLabel = (I18N[activeLang] || I18N.en).copiedBtn || '✅ Copied!';
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById('ytAiCopyAuditBtn');
       if (btn) {
         const prev = btn.textContent;
-        btn.textContent = '✓ Copié !';
+        btn.textContent = copiedLabel;
         setTimeout(() => { btn.textContent = prev; }, 2000);
       }
     }).catch(() => {});
@@ -276,16 +273,10 @@ export class AuditViewController {
   /**
    * Updates localized strings on language switch
    * @param {string} lang
+   * @param {Object|null} [state=null]
    */
-  applyLanguage(lang) {
-    const t = I18N[lang] || I18N.en;
-    const el = (id) => document.getElementById(id);
-    if (el('ytAiAuditHeaderTitle')) el('ytAiAuditHeaderTitle').textContent = t.auditTitle || '🛡️ Audit Critique, Logique & Véracité';
-    if (el('ytAiAuditChannelBtn')) el('ytAiAuditChannelBtn').textContent = t.auditChannelBtn || '🔍 Auditer la chaîne';
-    if (el('ytAiRunAuditBtn') && !this.auditService?.isAuditing) {
-      el('ytAiRunAuditBtn').textContent = this.lastReport ? (t.relaunchAuditBtn || '⚡ Relancer l\'audit') : (t.runAuditBtn || '⚡ Lancer l\'audit');
-    }
-    if (el('ytAiCopyAuditBtn')) el('ytAiCopyAuditBtn').textContent = t.copyBtn || '📋 Copier';
+  applyLanguage(lang, state = null) {
+    WatchChannelAuditHelper.applyAuditViewLanguage(this, lang, state);
   }
 }
 

@@ -91,9 +91,14 @@ describe('End-to-End (E2E) Live Extension Verification in Real Chromium Browser'
               <html>
                 <head><title>Mock Video Title - YouTube</title></head>
                 <body>
-                  <div id="player"><video></video></div>
-                  <div id="below"></div>
-                  <div id="secondary"></div>
+                  <ytd-watch-flexy>
+                    <div id="full-bleed-container"></div>
+                    <div id="columns">
+                      <div id="player"><video></video></div>
+                      <div id="below"></div>
+                      <div id="secondary"></div>
+                    </div>
+                  </ytd-watch-flexy>
                 </body>
               </html>
             `

@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - 2026-11-15
+
+### Added
+- **Fullscreen Auto-Hide & Mobile Support (`m.youtube.com`)**: Automatically hides in-page UI during fullscreen video playback and anchors natively on mobile YouTube layouts.
+- **Persistent Background Channel Audits & Stop Controls**: Channel audits survive SPA navigation across tabs/pages with live progress restoration and instant Stop buttons across summaries, video audits, and channel audits.
+- **5% Graded Reliability Spectrum & Sensationalism Chart**: Replaces coarse 3-tier channel scoring with fine-grained 5% color buckets and a dual histogram + sensationalism index indicator.
+- **Dynamic Sample Limits & Full Catalog Pagination**: Filters max-video presets dynamically to match each channel's actual video count, supporting 100 / 500 / 1,000 / All catalog audits.
+- **Channel Q&A Markdown Formatting & Unified Header/Footer**: Aligns Channel Companion header (YouTube SVG logo, mixed-case title, inline language picker, centered CTA) and attribution footer with the Watch banner.
+
+### Fixed
+- **Instant Live 8-Language Switching**: Switching language dynamically translates all Watch, Channel Companion, Settings Drawer, and Popup UI controls without resetting generated AI summaries, audit bullets, or chat history.
+- **Non-French Audit Language Enforcement**: Enforces target language cleanly in video, channel, and Map-Reduce audit prompts without French chrome leakage.
+- **Chrome Web Store Metadata Compliance**: Shortened Russian `_locales/ru/messages.json` description within the 132-character store limit and fixed Settings Drawer voice label/optgroup localization keys.
+
+---
+
 ## [1.5.0] - 2026-11-08
 
 ### Added

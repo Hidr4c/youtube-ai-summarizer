@@ -202,6 +202,68 @@ export class NavigationObserver {
     observer.observe(document.documentElement, { childList: true, subtree: true });
     return observer;
   }
+
+  /**
+   * Detects whether YouTube or the browser viewport is currently in fullscreen mode
+   * @returns {boolean}
+   */
+  static isFullscreen() {
+    if (typeof document === 'undefined') return false;
+    if (document.fullscreenElement || document.webkitFullscreenElement) return true;
+    if (typeof document.querySelector === 'function') {
+      return Boolean(document.querySelector('ytd-watch-flexy[fullscreen], ytd-watch-grid[fullscreen], ytd-app[fullscreen], ytm-watch[fullscreen], ytm-app[fullscreen], .html5-video-player.ytp-fullscreen'));
+    }
+    return false;
+  }
+
+  /**
+   * Synchronizes fullscreen hidden state across injected extension containers
+   * @returns {boolean}
+   */
+  static syncFullscreenVisibility() {
+    const fs = NavigationObserver.isFullscreen();
+    if (typeof document !== 'undefined') {
+      ['yt-ai-summarizer-container', 'yt-ai-channel-companion'].forEach(id => {
+        const el = document.getElementById?.(id);
+        if (!el?.classList) return;
+        if (typeof el.classList.toggle === 'function') {
+          el.classList.toggle('yt-ai-fullscreen-hidden', fs);
+        } else if (fs) {
+          el.classList.add?.('yt-ai-fullscreen-hidden');
+        } else {
+          el.classList.remove?.('yt-ai-fullscreen-hidden');
+        }
+      });
+    }
+    return fs;
+  }
+
+  /**
+   * Subscribes to native Fullscreen API events and YouTube player attribute transitions
+   * @returns {Function} cleanup callback
+   */
+  static observeFullscreen() {
+    if (typeof document === 'undefined') return () => {};
+    const onFsChange = () => NavigationObserver.syncFullscreenVisibility();
+    document.addEventListener?.('fullscreenchange', onFsChange);
+    document.addEventListener?.('webkitfullscreenchange', onFsChange);
+
+    let attrObserver = null;
+    if (typeof MutationObserver !== 'undefined') {
+      attrObserver = new MutationObserver(onFsChange);
+      attrObserver.observe(document.documentElement, {
+        attributes: true,
+        subtree: true,
+        attributeFilter: ['fullscreen', 'class']
+      });
+    }
+    onFsChange();
+    return () => {
+      document.removeEventListener?.('fullscreenchange', onFsChange);
+      document.removeEventListener?.('webkitfullscreenchange', onFsChange);
+      attrObserver?.disconnect();
+    };
+  }
 }
 
 export const isWatchPage = NavigationObserver.isWatchPage;
@@ -210,5 +272,8 @@ export const getChannelIdentifier = NavigationObserver.getChannelIdentifier;
 export const getVideoId = NavigationObserver.getVideoId;
 export const extractVideoIdFromText = NavigationObserver.extractVideoIdFromText;
 export const extractAllVideoIdsFromText = NavigationObserver.extractAllVideoIdsFromText;
+export const isFullscreen = NavigationObserver.isFullscreen;
+export const syncFullscreenVisibility = NavigationObserver.syncFullscreenVisibility;
+export const observeFullscreen = NavigationObserver.observeFullscreen;
 export const observeNavigation = NavigationObserver.observeNavigation;
 export default NavigationObserver;

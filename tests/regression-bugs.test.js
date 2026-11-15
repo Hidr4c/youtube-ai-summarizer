@@ -6,6 +6,7 @@ import { StreamRelay } from '../src/background/StreamRelay.js';
 import { AIProviderFactory } from '../src/services/ai/providers/AIProviderFactory.js';
 import { BaseAIProvider } from '../src/services/ai/providers/BaseAIProvider.js';
 import { InnerTubeParser } from '../src/parsers/InnerTubeParser.js';
+import { I18N } from '../src/locales/index.js';
 
 describe('Regression Suite - Bug Prevention & Integration Contracts', () => {
   const rootDir = path.resolve('.');
@@ -356,13 +357,16 @@ describe('Regression Suite - Bug Prevention & Integration Contracts', () => {
     // 4. YouTubeContextExtractor must have extractTranscript method implemented
     assert.match(extractorSrc, /async extractTranscript\(requestedVideoId/);
 
-    // 5. YouTubeContextExtractor must differentiate get_transcript vs browse_continuation
+    // 5. YouTubeContextExtractor must differentiate get_transcript vs browse_continuation (desktop + mobile origins)
     assert.match(extractorSrc, /type:\s*['"]browse_continuation['"]/);
-    assert.match(extractorSrc, /https:\/\/www\.youtube\.com\/youtubei\/v1\/browse/);
+    assert.match(extractorSrc, /_youtubeOrigin\(\)/);
+    assert.match(extractorSrc, /https:\/\/www\.youtube\.com/);
+    assert.match(extractorSrc, /\/youtubei\/v1\/browse/);
 
     // 6. Quality guards: isChapterOnly tracking and dynamic upgrade observer in content/index.js
     assert.match(contentSrc, /isChapterOnly:\s*!!isChapterOnly/);
-    assert.match(contentSrc, /\(Chapitres\)/);
+    assert.match(contentSrc, /chapterBadge/);
+    assert.equal(I18N.fr.chapterBadge, '(Chapitres)');
     assert.match(contentSrc, /transcript-segment-view-model,\s*ytd-transcript-segment-renderer/);
   });
 

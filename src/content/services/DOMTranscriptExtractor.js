@@ -12,16 +12,16 @@ export class DOMTranscriptExtractor {
 
     // 1. Targeted search strictly on modern YouTube transcript segment elements (NEVER chapter macro-markers)
     const modernNodes = document.querySelectorAll(
-      'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"]:not(transcript-segment-view-model *)'
+      'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"]:not(transcript-segment-view-model *), [class*="ytwTranscriptSegmentViewModelHost"]:not(transcript-segment-view-model *)'
     );
 
     if (modernNodes && modernNodes.length > 0) {
       modernNodes.forEach(node => {
         const timeEl = node.querySelector(
-          '.ytTranscriptSegmentViewModelTimestamp, .segment-timestamp, #time, [class*="Timestamp"], [class*="timestamp"]'
+          '.ytwTranscriptSegmentViewModelTimestamp, .ytTranscriptSegmentViewModelTimestamp, .segment-timestamp, #time, [class*="Timestamp"], [class*="timestamp"]'
         );
         const textEl = node.querySelector(
-          'span[role="text"], .ytAttributedStringInlineHost, span.ytAttributedStringHost, .yt-core-attributed-string, .segment-text, #title, #details, [class*="Title"], yt-formatted-string'
+          'span[role="text"], .ytAttributedStringHost, .ytAttributedStringInlineHost, span.ytAttributedStringHost, .yt-core-attributed-string, .segment-text, #title, #details, [class*="Title"], yt-formatted-string'
         );
 
         let timestamp = timeEl ? timeEl.textContent.trim() : '';

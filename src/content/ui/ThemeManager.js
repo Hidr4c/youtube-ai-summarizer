@@ -10,8 +10,14 @@ let themeObserverAttached = false;
  * @param {HTMLElement} [bannerEl]
  */
 export function syncThemeWithYouTube(bannerEl) {
-  const banner = bannerEl || document.getElementById('yt-ai-summarizer-container');
-  if (!banner) return;
+  const elements = [
+    bannerEl,
+    document.getElementById('yt-ai-summarizer-container'),
+    document.getElementById('yt-ai-channel-companion'),
+    ...(document.querySelectorAll?.('.yt-ai-channel-card') || [])
+  ].filter(Boolean);
+
+  if (elements.length === 0) return;
   const htmlEl = document.documentElement;
 
   // YouTube uses 'dark' attribute on <html> or .dark-theme class on body
@@ -20,12 +26,16 @@ export function syncThemeWithYouTube(bannerEl) {
                  document.body?.classList.contains('dark-theme') ||
                  window.matchMedia?.('(prefers-color-scheme: dark)').matches;
 
-  if (isDark) {
-    banner.classList.remove('yt-ai-light-theme');
-    banner.classList.add('yt-ai-dark-theme');
-  } else {
-    banner.classList.remove('yt-ai-dark-theme');
-    banner.classList.add('yt-ai-light-theme');
+  for (const el of elements) {
+    if (isDark) {
+      el.classList?.remove('yt-ai-light-theme');
+      el.classList?.add('yt-ai-dark-theme');
+      if (el.style) el.style.colorScheme = 'dark';
+    } else {
+      el.classList?.remove('yt-ai-dark-theme');
+      el.classList?.add('yt-ai-light-theme');
+      if (el.style) el.style.colorScheme = 'light';
+    }
   }
 }
 

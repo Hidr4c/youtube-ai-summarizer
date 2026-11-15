@@ -127,16 +127,16 @@
      * @param {chrome.runtime.Port} port
      */
     static async handleStream(request, port) {
+      const provider = request.provider || "lmstudio";
+      const serverUrl = request.serverUrl || request.serverUrls?.[provider] || "";
+      const apiKey = request.apiKey || request.apiKeys?.[provider] || "";
       const {
-        provider = "lmstudio",
         model,
         systemPrompt,
         userPrompt,
         messages = null,
         temperature = 0.3,
-        maxTokens,
-        serverUrl,
-        apiKey
+        maxTokens
       } = request;
       let isDisconnected = false;
       const abortController = new AbortController();
@@ -221,8 +221,34 @@
         }
       }
       const parsedTemp = parseFloat(temperature);
+      let effectiveModel = (model || "").trim();
+      if (!effectiveModel || effectiveModel === "default" || effectiveModel.toLowerCase() === "loading...") {
+        if (provider === "lmstudio" || provider === "ollama") {
+          const base = (serverUrl || (provider === "ollama" ? "http://localhost:11434" : "http://127.0.0.1:1234")).trim().replace(/\/+$/, "");
+          const cleanBase = !/^https?:\/\//i.test(base) ? `http://${base}` : base;
+          try {
+            const mRes = await fetch(`${cleanBase}/v1/models`, { headers: { "Accept": "application/json" } });
+            if (mRes.ok) {
+              const mJson = await mRes.json();
+              const list = Array.isArray(mJson?.data) ? mJson.data : Array.isArray(mJson?.models) ? mJson.models : [];
+              const found = list.find((m) => {
+                const id = m.id || m.name || "";
+                return id && !id.toLowerCase().includes("embed");
+              });
+              if (found) effectiveModel = found.id || found.name;
+            }
+          } catch (_) {
+          }
+        }
+      }
+      if (!effectiveModel) {
+        if (provider === "lmstudio") {
+          throw new Error("Aucun mod\xE8le n'est charg\xE9 ou s\xE9lectionn\xE9 dans LM Studio. Veuillez d\xE9marrer un mod\xE8le dans LM Studio.");
+        }
+        throw new Error(`Aucun mod\xE8le s\xE9lectionn\xE9 pour ${provider.toUpperCase()}.`);
+      }
       const bodyPayload = {
-        model,
+        model: effectiveModel,
         messages,
         temperature: !isNaN(parsedTemp) ? parsedTemp : 0.3,
         stream: true
@@ -456,36 +482,86 @@
     }
   };
 
+  // src/config/ExtensionConstants.js
+  var DEFAULT_URLS = {
+    LMSTUDIO: "http://localhost:1234",
+    OLLAMA: "http://localhost:11434"
+  };
+  function parseChannelVideoCount(rawValue) {
+    if (typeof rawValue === "number" && Number.isFinite(rawValue) && rawValue > 0) {
+      return Math.floor(rawValue);
+    }
+    if (!rawValue || typeof rawValue !== "string") return null;
+    const match = rawValue.match(/([\d\s\u00a0\u202f.,]+)\s*([km])?\b/i);
+    if (!match || !match[1]) return null;
+    const rawNum = match[1].trim();
+    const suffix = (match[2] || "").toLowerCase();
+    if (suffix === "k" || suffix === "m") {
+      const floatVal = parseFloat(rawNum.replace(/[\s\u00a0\u202f]/g, "").replace(",", "."));
+      if (Number.isNaN(floatVal) || floatVal <= 0) return null;
+      return Math.round(floatVal * (suffix === "k" ? 1e3 : 1e6));
+    }
+    const intVal = parseInt(rawNum.replace(/[^\d]/g, ""), 10);
+    return !Number.isNaN(intVal) && intVal > 0 ? intVal : null;
+  }
+
   // src/services/ai/providers/LMStudioProvider.js
   var LMStudioProvider = class extends BaseAIProvider {
     constructor() {
       super("lmstudio", "LM Studio", true);
     }
     /**
-     * Fetches models from LM Studio /v1/models
-     * @param {string} serverUrl
+     * Fetches models from LM Studio /v1/models with automatic loopback mirror (localhost <-> 127.0.0.1)
+     * @param {string} [serverUrl]
      * @returns {Promise<Array<{ id: string, name?: string }>>}
      */
-    async fetchModels(serverUrl = "http://127.0.0.1:1234") {
-      const cleanUrl = this.normalizeUrl(serverUrl, "http://127.0.0.1:1234");
-      const res = await this.fetchWithTimeout(`${cleanUrl}/v1/models`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
-      return (json.data || []).map((m) => ({ id: m.id, name: m.id }));
+    async fetchModels(serverUrl = DEFAULT_URLS.LMSTUDIO) {
+      const cleanUrl = this.normalizeUrl(serverUrl, DEFAULT_URLS.LMSTUDIO);
+      try {
+        const res = await this.fetchWithTimeout(`${cleanUrl}/v1/models`, {}, 2e3);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        return (json.data || []).map((m) => ({ id: m.id, name: m.id }));
+      } catch (primaryErr) {
+        const altUrl = cleanUrl.includes("127.0.0.1") ? cleanUrl.replace("127.0.0.1", "localhost") : cleanUrl.includes("localhost") ? cleanUrl.replace("localhost", "127.0.0.1") : null;
+        if (altUrl) {
+          try {
+            const res2 = await this.fetchWithTimeout(`${altUrl}/v1/models`, {}, 2e3);
+            if (res2.ok) {
+              const json2 = await res2.json();
+              return (json2.data || []).map((m) => ({ id: m.id, name: m.id }));
+            }
+          } catch (_) {
+          }
+        }
+        throw primaryErr;
+      }
     }
     /**
-     * Tests connection and latency
-     * @param {string} serverUrl
+     * Tests connection and latency using user-configured serverUrl with loopback mirror fallback
+     * @param {string} [serverUrl]
      * @returns {Promise<{ ok: boolean, latencyMs?: number, error?: string }>}
      */
-    async testConnection(serverUrl = "http://127.0.0.1:1234") {
+    async testConnection(serverUrl = DEFAULT_URLS.LMSTUDIO) {
       const start = performance.now();
+      const cleanUrl = this.normalizeUrl(serverUrl, DEFAULT_URLS.LMSTUDIO);
       try {
-        const cleanUrl = this.normalizeUrl(serverUrl, "http://127.0.0.1:1234");
-        const res = await this.fetchWithTimeout(`${cleanUrl}/v1/models`, {}, 3e3);
-        const latencyMs = Math.round(performance.now() - start);
-        return { ok: res.ok, latencyMs };
+        const res = await this.fetchWithTimeout(`${cleanUrl}/v1/models`, {}, 2500);
+        if (res.ok) {
+          return { ok: true, latencyMs: Math.round(performance.now() - start) };
+        }
+        throw new Error(`HTTP ${res.status}`);
       } catch (err) {
+        const altUrl = cleanUrl.includes("127.0.0.1") ? cleanUrl.replace("127.0.0.1", "localhost") : cleanUrl.includes("localhost") ? cleanUrl.replace("localhost", "127.0.0.1") : null;
+        if (altUrl) {
+          try {
+            const res2 = await this.fetchWithTimeout(`${altUrl}/v1/models`, {}, 2500);
+            if (res2.ok) {
+              return { ok: true, latencyMs: Math.round(performance.now() - start), resolvedUrl: altUrl };
+            }
+          } catch (_) {
+          }
+        }
         return { ok: false, error: err.message };
       }
     }
@@ -766,10 +842,14 @@
      */
     static async fetchTranscript(videoId, lang = "fr") {
       if (!videoId) return { success: false, error: "No videoId provided" };
+      let chapterFallback = null;
       try {
         const fastResult = await _BackgroundTranscriptFetcher.fetchDirect(videoId, lang);
         if (fastResult?.segments?.length > 0) {
-          return { success: true, segments: fastResult.segments, title: fastResult.title };
+          if (!fastResult.isChapterOnly) {
+            return { success: true, segments: fastResult.segments, title: fastResult.title, isChapterOnly: false };
+          }
+          chapterFallback = fastResult;
         }
       } catch (_) {
       }
@@ -777,10 +857,13 @@
         try {
           const tabResult = await _BackgroundTranscriptFetcher.fetchViaBackgroundTab(videoId, lang);
           if (tabResult?.segments?.length > 0) {
-            return { success: true, segments: tabResult.segments, title: tabResult.title };
+            return { success: true, segments: tabResult.segments, title: tabResult.title, isChapterOnly: !!tabResult.isChapterOnly };
           }
         } catch (_) {
         }
+      }
+      if (chapterFallback?.segments?.length > 0) {
+        return { success: true, segments: chapterFallback.segments, title: chapterFallback.title, isChapterOnly: true };
       }
       return { success: false, error: "Unable to extract transcript for video " + videoId };
     }
@@ -796,11 +879,11 @@
       if (titleMatch) title = titleMatch[1].replace(/\s*-\s*YouTube\s*$/i, "").trim();
       const timedtextSegments = await _BackgroundTranscriptFetcher.extractTimedtextFromHtml(html, lang);
       if (timedtextSegments?.length > 0) {
-        return { title, segments: timedtextSegments };
+        return { title, segments: timedtextSegments, isChapterOnly: false };
       }
       const chapters = _BackgroundTranscriptFetcher.extractChaptersFromHtml(html);
       if (chapters?.length > 0) {
-        return { title, segments: chapters };
+        return { title, segments: chapters, isChapterOnly: true };
       }
       return null;
     }
@@ -928,7 +1011,7 @@
                       return m ? { timestamp: m[1], text: m[2] } : { timestamp: "", text: el.innerText };
                     }).filter((s) => s.text);
                     if (segments.length > 0) {
-                      return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, "").trim(), segments };
+                      return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, "").trim(), segments, isChapterOnly: false };
                     }
                   }
                   let nativeBtn = document.querySelector('button[aria-label*="transcription" i], button[aria-label*="transcript" i]');
@@ -951,7 +1034,7 @@
                         return { timestamp: timeEl?.textContent?.trim() || "", text: textEl?.textContent?.trim() || "" };
                       }).filter((s) => s.text);
                       if (segments.length > 0) {
-                        return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, "").trim(), segments };
+                        return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, "").trim(), segments, isChapterOnly: false };
                       }
                     }
                   }
@@ -971,7 +1054,7 @@
                     }
                   }
                   if (chapters.length > 0) {
-                    return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, "").trim(), segments: chapters };
+                    return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, "").trim(), segments: chapters, isChapterOnly: true };
                   }
                   const domMarkers = Array.from(document.querySelectorAll("ytd-macro-markers-list-item-renderer, macro-markers-panel-item-view-model"));
                   if (domMarkers.length > 0) {
@@ -981,7 +1064,7 @@
                       return { timestamp: timeEl?.textContent?.trim() || "", text: titleEl?.textContent?.trim() || "" };
                     }).filter((c) => c.timestamp && c.text);
                     if (domChapters.length > 0) {
-                      return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, "").trim(), segments: domChapters };
+                      return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, "").trim(), segments: domChapters, isChapterOnly: true };
                     }
                   }
                   return null;
@@ -1023,7 +1106,7 @@
      * @param {number} [limit=30]
      * @returns {Promise<{success: boolean, channel?: Object, error?: string}>}
      */
-    static async fetchChannelDossier(query, limit = 30) {
+    static async fetchChannelDossier(query, limit = 30, options = {}) {
       try {
         if (!query || typeof query !== "string") {
           throw new Error("Query string is required");
@@ -1051,8 +1134,16 @@
         if (!ytDataMatch) {
           throw new Error("Impossible d'extraire ytInitialData de la page cha\xEEne");
         }
+        const apiKey = html.match(/"INNERTUBE_API_KEY"\s*:\s*"([^"]+)"/)?.[1] || "";
+        const clientVersion = html.match(/"INNERTUBE_CLIENT_VERSION"\s*:\s*"([^"]+)"/)?.[1] || "2.20260101.00.00";
+        const visitorData = html.match(/"VISITOR_DATA"\s*:\s*"([^"]+)"/)?.[1] || "";
         const data = JSON.parse(ytDataMatch[1]);
-        const dossier = this.parseChannelData(data, canonicalPath, limit);
+        const dossier = await this.parseChannelDataWithPagination(data, canonicalPath, limit, {
+          apiKey,
+          clientVersion,
+          visitorData: visitorData || data?.responseContext?.visitorData || "",
+          browseFetcher: options.browseFetcher || null
+        });
         return { success: true, channel: dossier };
       } catch (err) {
         return { success: false, error: err.message || String(err) };
@@ -1119,30 +1210,8 @@
           else if (/vid[ée]o/i.test(text)) videoCount = text;
         }
       }
-      const tabs = data.contents?.twoColumnBrowseResultsRenderer?.tabs || [];
-      const videosTab = tabs.find((t) => t.tabRenderer?.content?.richGridRenderer);
-      const contents = videosTab?.tabRenderer?.content?.richGridRenderer?.contents || [];
-      const recentVideos = [];
-      for (const item of contents) {
-        if (recentVideos.length >= limit) break;
-        const lockup = item.richItemRenderer?.content?.lockupViewModel;
-        if (!lockup) continue;
-        const vTitle = lockup.metadata?.lockupMetadataViewModel?.title?.content || "";
-        const vId = lockup.contentId || "";
-        const metaRows = lockup.metadata?.lockupMetadataViewModel?.metadata?.contentMetadataViewModel?.metadataRows || [];
-        const parts = [];
-        for (const r of metaRows) {
-          for (const p of r.metadataParts || []) {
-            if (p.text?.content) parts.push(p.text.content);
-          }
-        }
-        recentVideos.push({
-          id: vId,
-          title: vTitle,
-          url: vId ? `https://www.youtube.com/watch?v=${vId}` : "",
-          meta: parts.join(" \u2022 ")
-        });
-      }
+      const contents = this._findGridContents(data);
+      const { videos: recentVideos } = this._extractGridVideos(contents, /* @__PURE__ */ new Set(), limit);
       const markdownDossier = this.formatMarkdownDossier({
         title,
         handle,
@@ -1151,36 +1220,153 @@
         bio,
         recentVideos
       });
-      return {
-        title,
-        handle,
-        subscribers,
-        videoCount,
-        bio,
-        recentVideos,
-        markdownDossier
-      };
+      const totalChannelVideos = parseChannelVideoCount(videoCount);
+      return { title, handle, subscribers, videoCount, totalChannelVideos, bio, recentVideos, markdownDossier };
     }
-    /**
-     * Formats structured dossier into concise Markdown block for prompt context
-     */
+    /** Parses channel data and paginates InnerTube continuations up to limit. */
+    static async parseChannelDataWithPagination(data, fallbackPath, limit = 30, innerTube = {}) {
+      const targetLimit = limit === "all" ? 5e3 : Math.max(1, parseInt(limit, 10) || 30);
+      const dossier = this.parseChannelData(data, fallbackPath, targetLimit);
+      const contents = this._findGridContents(data);
+      const seenIds = new Set(dossier.recentVideos.map((v) => v.id).filter(Boolean));
+      let { continuationToken: nextToken, truncatedOnPage } = this._extractGridVideos(contents, /* @__PURE__ */ new Set(), targetLimit);
+      let pageCount = 0;
+      const maxPages = 200;
+      let paginationFailed = false;
+      while (dossier.recentVideos.length < targetLimit && nextToken && innerTube.apiKey && pageCount < maxPages) {
+        pageCount++;
+        const prevToken = nextToken;
+        let pageRes = null;
+        if (typeof innerTube.browseFetcher === "function") {
+          pageRes = await innerTube.browseFetcher({
+            apiKey: innerTube.apiKey,
+            clientVersion: innerTube.clientVersion,
+            visitorData: innerTube.visitorData || "",
+            continuation: nextToken
+          });
+        }
+        if (!pageRes || pageRes.ok === false) {
+          pageRes = await this._fetchBrowseContinuationResult(innerTube.apiKey, innerTube.clientVersion, nextToken, innerTube.visitorData);
+        }
+        if (!pageRes?.ok) {
+          paginationFailed = true;
+          break;
+        }
+        const pageItems = pageRes.items || [];
+        if (pageItems.length === 0) {
+          nextToken = null;
+          break;
+        }
+        const extracted = this._extractGridVideos(pageItems, seenIds, targetLimit - dossier.recentVideos.length);
+        dossier.recentVideos.push(...extracted.videos);
+        nextToken = extracted.continuationToken;
+        truncatedOnPage = extracted.truncatedOnPage;
+        if (extracted.videos.length === 0 && (!nextToken || nextToken === prevToken)) {
+          nextToken = null;
+          break;
+        }
+      }
+      dossier.hasMore = Boolean(nextToken || truncatedOnPage || paginationFailed);
+      dossier.totalFetched = dossier.recentVideos.length;
+      if (!dossier.hasMore && !paginationFailed && dossier.recentVideos.length > 0) {
+        dossier.totalChannelVideos = dossier.recentVideos.length;
+      }
+      dossier.markdownDossier = this.formatMarkdownDossier(dossier);
+      return dossier;
+    }
+    /** Calls InnerTube browse continuation endpoint and returns flattened continuation items. */
+    static async _fetchBrowseContinuation(apiKey, clientVersion, continuation, visitorData = "") {
+      const res = await this._fetchBrowseContinuationResult(apiKey, clientVersion, continuation, visitorData);
+      return res.items || [];
+    }
+    /** Calls InnerTube browse continuation endpoint and reports HTTP status + items. */
+    static async _fetchBrowseContinuationResult(apiKey, clientVersion, continuation, visitorData = "") {
+      try {
+        const client = { clientName: "WEB", clientVersion: clientVersion || "2.20260101.00.00", hl: "fr", gl: "FR" };
+        if (visitorData) client.visitorData = visitorData;
+        const headers = { "Content-Type": "application/json" };
+        if (visitorData) headers["X-Goog-Visitor-Id"] = visitorData;
+        const res = await fetch(`https://www.youtube.com/youtubei/v1/browse?key=${encodeURIComponent(apiKey)}`, {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ context: { client }, continuation })
+        });
+        if (!res.ok) return { ok: false, status: res.status, items: [] };
+        const json = await res.json();
+        const items = [];
+        for (const action of json.onResponseReceivedActions || []) {
+          const batch = action.appendContinuationItemsAction?.continuationItems || action.reloadContinuationItemsCommand?.continuationItems;
+          if (Array.isArray(batch)) items.push(...batch);
+        }
+        return { ok: true, status: 200, items };
+      } catch (_) {
+        return { ok: false, status: 0, items: [] };
+      }
+    }
+    /** Locates grid items array inside ytInitialData channel tabs. */
+    static _findGridContents(data) {
+      const tabs = data?.contents?.twoColumnBrowseResultsRenderer?.tabs || [];
+      return tabs.find((t) => t.tabRenderer?.content?.richGridRenderer)?.tabRenderer?.content?.richGridRenderer?.contents || [];
+    }
+    /** Extracts deduplicated video items and trailing continuation token from grid contents. */
+    static _extractGridVideos(contents = [], seenIds = /* @__PURE__ */ new Set(), maxNew = 30) {
+      const videos = [];
+      let continuationToken = null;
+      let truncatedOnPage = false;
+      for (const item of contents) {
+        const token = item?.continuationItemRenderer?.continuationEndpoint?.continuationCommand?.token;
+        if (token) {
+          continuationToken = token;
+          continue;
+        }
+        const parsed = this._parseGridVideoItem(item);
+        if (!parsed || parsed.id && seenIds.has(parsed.id)) continue;
+        if (videos.length >= maxNew) {
+          truncatedOnPage = true;
+          continue;
+        }
+        if (parsed.id) seenIds.add(parsed.id);
+        videos.push(parsed);
+      }
+      return { videos, continuationToken, truncatedOnPage };
+    }
+    /** Parses lockupViewModel or videoRenderer grid item into normalized metadata. */
+    static _parseGridVideoItem(item) {
+      const lockup = item?.richItemRenderer?.content?.lockupViewModel;
+      if (lockup) {
+        const vId2 = lockup.contentId || "";
+        const vTitle2 = lockup.metadata?.lockupMetadataViewModel?.title?.content || "";
+        const metaRows = lockup.metadata?.lockupMetadataViewModel?.metadata?.contentMetadataViewModel?.metadataRows || [];
+        const parts2 = metaRows.flatMap((r) => (r.metadataParts || []).map((p) => p.text?.content).filter(Boolean));
+        return { id: vId2, title: vTitle2, url: vId2 ? `https://www.youtube.com/watch?v=${vId2}` : "", meta: parts2.join(" \u2022 ") };
+      }
+      const vr = item?.richItemRenderer?.content?.videoRenderer || item?.gridVideoRenderer;
+      if (!vr) return null;
+      const vId = vr.videoId || "";
+      const vTitle = vr.title?.runs?.map((r) => r.text).join("") || vr.title?.simpleText || "";
+      const parts = [vr.viewCountText?.simpleText, vr.publishedTimeText?.simpleText].filter(Boolean);
+      return { id: vId, title: vTitle, url: vId ? `https://www.youtube.com/watch?v=${vId}` : "", meta: parts.join(" \u2022 ") };
+    }
+    /** Formats structured dossier into concise Markdown block for prompt context */
     static formatMarkdownDossier(dossier) {
       const { title, handle, subscribers, videoCount, bio, recentVideos = [] } = dossier;
       const lines = [
         `### \u{1F4FA} DOSSIER OFFICIEL DE LA CHA\xCENE : ${title || "Cr\xE9ateur YouTube"} (${handle || ""})`,
         `- **Audience & Volume** : ${subscribers || "Non communiqu\xE9"} \u2022 ${videoCount || `${recentVideos.length} vid\xE9os r\xE9centes`}`
       ];
-      if (bio) {
-        lines.push(`- **Bio Officielle** :
+      if (bio) lines.push(`- **Bio Officielle** :
 """
 ${bio.trim()}
 """`);
-      }
       if (recentVideos.length > 0) {
+        const cap = 40;
         lines.push(`- **Derni\xE8res vid\xE9os publi\xE9es (${recentVideos.length})** :`);
-        recentVideos.forEach((v, idx) => {
+        recentVideos.slice(0, cap).forEach((v, idx) => {
           lines.push(`  ${idx + 1}. **${v.title}** ${v.meta ? `(${v.meta})` : ""} - https://youtu.be/${v.id}`);
         });
+        if (recentVideos.length > cap) {
+          lines.push(`  ... (+${recentVideos.length - cap} autres vid\xE9os index\xE9es dans le catalogue)`);
+        }
       }
       return lines.join("\n");
     }
@@ -1322,10 +1508,12 @@ ${bio.trim()}
      * Fetches rich dossier for a single video ID
      * @param {string} videoId
      * @param {string} [lang='fr']
+     * @param {object} [options]
      * @returns {Promise<Object>}
      */
-    static async fetchDossier(videoId, lang = "fr") {
+    static async fetchDossier(videoId, lang = "fr", options = {}) {
       if (!videoId) return null;
+      const { includeComments = true } = options;
       const url = `https://www.youtube.com/watch?v=${videoId}`;
       try {
         const res = await fetch(url, {
@@ -1365,16 +1553,18 @@ ${bio.trim()}
         }
         const hasCaptions = html.includes('"captionTracks":');
         let comments = [];
-        try {
-          const comRes = await VideoCommentsFetcher.fetchVideoComments(videoId, 3);
-          if (comRes?.success && Array.isArray(comRes.comments)) {
-            comments = comRes.comments.map((c) => ({
-              author: c.author || "Anonyme",
-              text: (c.text || "").replace(/\s+/g, " ").trim().slice(0, 140),
-              likes: c.likes || "0"
-            }));
+        if (includeComments) {
+          try {
+            const comRes = await VideoCommentsFetcher.fetchVideoComments(videoId, 3);
+            if (comRes?.success && Array.isArray(comRes.comments)) {
+              comments = comRes.comments.map((c) => ({
+                author: c.author || "Anonyme",
+                text: (c.text || "").replace(/\s+/g, " ").trim().slice(0, 140),
+                likes: c.likes || "0"
+              }));
+            }
+          } catch (_) {
           }
-        } catch (_) {
         }
         return {
           videoId,
@@ -1392,18 +1582,21 @@ ${bio.trim()}
      * Fetches multiple video dossiers in parallel batches
      * @param {Array<string>} videoIds
      * @param {string} [lang='fr']
-     * @param {number} [concurrency=4]
+     * @param {number|Object} [concurrencyOrOptions=4]
      * @returns {Promise<Map<string, Object>>}
      */
-    static async fetchDossiersBatch(videoIds = [], lang = "fr", concurrency = 4) {
+    static async fetchDossiersBatch(videoIds = [], lang = "fr", concurrencyOrOptions = 4) {
       const results = /* @__PURE__ */ new Map();
       if (!Array.isArray(videoIds) || videoIds.length === 0) return results;
+      const opts = typeof concurrencyOrOptions === "object" && concurrencyOrOptions !== null ? concurrencyOrOptions : { concurrency: concurrencyOrOptions, includeComments: true };
+      const concurrency = opts.concurrency || 4;
+      const includeComments = opts.includeComments !== false;
       const queue = [...videoIds];
       const workers = Array.from({ length: Math.min(concurrency, queue.length) }, async () => {
         while (queue.length > 0) {
           const vId = queue.shift();
           if (!vId) continue;
-          const dossier = await _VideoDossierFetcher.fetchDossier(vId, lang);
+          const dossier = await _VideoDossierFetcher.fetchDossier(vId, lang, { includeComments });
           if (dossier) results.set(vId, dossier);
         }
       });
@@ -1416,7 +1609,7 @@ ${bio.trim()}
   var MessageRouter = class {
     static init() {
       chrome.runtime.onConnect.addListener((port) => {
-        if (port.name === "ai-stream" || port.name === "lm-studio-stream" || port.name === "YT_AI_STREAM") {
+        if (port.name === "ai-stream" || port.name === "ai_stream" || port.name === "lm-studio-stream" || port.name === "YT_AI_STREAM") {
           port.onMessage.addListener((msg) => {
             if (msg.action === "START_STREAM" || msg.action === "CHAT_STREAM" || msg.action === "STREAM_CHAT" || msg.action === "GENERATE_STREAM" || msg.action === "AUDIT_STREAM") {
               StreamRelay.handleStream(msg, port);
@@ -1511,7 +1704,23 @@ ${bio.trim()}
         }
         if (request.action === "FETCH_CHANNEL_DOSSIER") {
           const { query, limit = 30 } = request;
-          ChannelIntelligenceFetcher.fetchChannelDossier(query, limit).then((res) => sendResponse(res)).catch((err) => sendResponse({ success: false, error: err.message }));
+          const resolveBrowseTabId = () => new Promise((resolve) => {
+            if (sender?.tab?.id) return resolve(sender.tab.id);
+            if (!chrome.tabs?.query) return resolve(null);
+            chrome.tabs.query({ url: ["https://www.youtube.com/*", "https://m.youtube.com/*"] }, (tabs) => {
+              const active = (tabs || []).find((t) => t.active) || tabs?.[0];
+              resolve(active?.id || null);
+            });
+          });
+          resolveBrowseTabId().then((tabId) => {
+            const browseFetcher = tabId && chrome.tabs?.sendMessage ? (params) => new Promise((resolve) => {
+              chrome.tabs.sendMessage(tabId, { action: "PROXY_INNERTUBE_BROWSE", ...params }, (res) => {
+                if (chrome.runtime?.lastError || !res) return resolve({ ok: false, items: [] });
+                resolve(res);
+              });
+            }) : null;
+            return ChannelIntelligenceFetcher.fetchChannelDossier(query, limit, { browseFetcher });
+          }).then((res) => sendResponse(res)).catch((err) => sendResponse({ success: false, error: err.message }));
           return true;
         }
         if (request.action === "FETCH_WATCH_PAGE_TRANSCRIPT") {
@@ -1520,8 +1729,8 @@ ${bio.trim()}
           return true;
         }
         if (request.action === "FETCH_BATCH_DOSSIERS") {
-          const { videoIds = [], lang = "fr" } = request;
-          VideoDossierFetcher.fetchDossiersBatch(videoIds, lang).then((map) => {
+          const { videoIds = [], lang = "fr", includeComments = true } = request;
+          VideoDossierFetcher.fetchDossiersBatch(videoIds, lang, { includeComments }).then((map) => {
             const obj = {};
             for (const [k, v] of map.entries()) obj[k] = v;
             sendResponse({ success: true, dossiers: obj });

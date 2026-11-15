@@ -1,7 +1,7 @@
 import { escapeHtml } from './MarkdownRenderer.js';
 
 /**
- * Visual Progress Bar & Step Tracker Component for Long-Running Audits
+ * Visual Progress Bar, Step Tracker & Stop Action Component for Long-Running Audits
  */
 export class AuditProgressBar {
   /**
@@ -10,8 +10,10 @@ export class AuditProgressBar {
    * @param {number} [options.percent=0] - Current percentage (0 to 100)
    * @param {string} [options.title='Initialisation...'] - Main step title
    * @param {string} [options.detail=''] - Sub-detail (e.g. video/segment name)
-   * @param {number} [options.currentStep=1] - Active step index
-   * @param {number} [options.totalSteps=4] - Total number of steps
+   * @param {number} [options.currentStep=null] - Active step index
+   * @param {number} [options.totalSteps=null] - Total number of steps
+   * @param {boolean} [options.showStop=true] - Render interactive Stop button
+   * @param {string} [options.stopLabel='Arrêter'] - Label for Stop button
    * @returns {string} HTML markup
    */
   static renderWidget({
@@ -19,11 +21,16 @@ export class AuditProgressBar {
     title = 'Initialisation...',
     detail = '',
     currentStep = null,
-    totalSteps = null
+    totalSteps = null,
+    showStop = true,
+    stopLabel = 'Arrêter'
   } = {}) {
     const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
     const shouldShowBadge = (typeof currentStep === 'number' && typeof totalSteps === 'number' && totalSteps > 1);
     const stepBadge = shouldShowBadge ? `[${currentStep}/${totalSteps}] ` : '';
+    const stopBtnHtml = showStop
+      ? `<button type="button" class="yt-ai-btn yt-ai-progress-stop-btn" data-action="stop-audit" title="${escapeHtml(stopLabel)}">⏹ ${escapeHtml(stopLabel)}</button>`
+      : '';
 
     return `
       <div class="yt-ai-progress-widget" role="progressbar" aria-valuenow="${safePercent}" aria-valuemin="0" aria-valuemax="100">
@@ -32,7 +39,10 @@ export class AuditProgressBar {
             <span class="yt-ai-spinner yt-ai-progress-spinner"></span>
             <span class="yt-ai-progress-step-text">${escapeHtml(stepBadge)}${escapeHtml(title)}</span>
           </span>
-          <span class="yt-ai-progress-percentage">${safePercent}%</span>
+          <div class="yt-ai-progress-actions">
+            <span class="yt-ai-progress-percentage">${safePercent}%</span>
+            ${stopBtnHtml}
+          </div>
         </div>
         <div class="yt-ai-progress-track">
           <div class="yt-ai-progress-bar-fill" style="width: ${safePercent}%;"></div>
@@ -40,6 +50,23 @@ export class AuditProgressBar {
         ${detail ? `<div class="yt-ai-progress-detail">${escapeHtml(detail)}</div>` : '<div class="yt-ai-progress-detail yt-ai-hidden"></div>'}
       </div>
     `;
+  }
+
+  /**
+   * Attaches click handler to the Stop button inside a progress container
+   * @param {HTMLElement} container
+   * @param {Function} onStop
+   */
+  static bindStopAction(container, onStop) {
+    if (!container || typeof onStop !== 'function') return;
+    const stopBtn = container.querySelector?.('.yt-ai-progress-stop-btn');
+    if (!stopBtn || stopBtn.__ytAiStopBound) return;
+    stopBtn.__ytAiStopBound = true;
+    stopBtn.addEventListener?.('click', (e) => {
+      e?.stopPropagation?.();
+      stopBtn.disabled = true;
+      onStop();
+    });
   }
 
   /**

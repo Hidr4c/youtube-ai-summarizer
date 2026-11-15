@@ -4,7 +4,7 @@
     "description": "扩展名称"
   },
   "appDesc": {
-    "message": "通过本地 AI（LM Studio、Ollama）或云端快速总结 YouTube 视频。支持交互式 Q&A 问答、语音输入与语音播报。",
+    "message": "YouTube AI 视频总结、事实核查与频道审计及 Q&A 问答。支持本地(LM Studio/Ollama)与云端模型、语音输入及 TTS 朗读。",
     "description": "扩展简要说明"
   }
 }

@@ -1,10 +1,11 @@
 import { BannerI18n } from './BannerI18n.js';
+import { getExtensionVersionTag } from '../templates/BannerHeaderParts.js';
 import { I18N } from '../../locales/index.js';
 import { PROVIDER_NAMES } from '../../config/AIProviderPresets.js';
 import { BannerTemplate } from '../templates/BannerTemplate.js';
 import { ThemeManager } from './ThemeManager.js';
 import { safeSetInnerHTML, escapeHtml } from './MarkdownRenderer.js';
-import { isWatchPage } from './NavigationObserver.js';
+import { isWatchPage, isFullscreen, syncFullscreenVisibility } from './NavigationObserver.js';
 
 /**
  * Controller & DOM View for In-Page Summarizer Banner (Header, Tabs, State)
@@ -16,6 +17,46 @@ export class BannerView {
     this.currentMode = 'standard';
   }
 
+  /**
+   * Resolves the direct child node within watchContainer before which the banner should be inserted.
+   * Ensures the banner is positioned at the very top, flush below the search bar and above video elements.
+   * @param {HTMLElement} watchContainer
+   * @returns {Node|null}
+   */
+  _resolveWatchAnchor(watchContainer) {
+    if (!watchContainer) return null;
+    const isMobileWatch = watchContainer.tagName?.toUpperCase() === 'YTM-WATCH';
+    if (isMobileWatch) {
+      return watchContainer.querySelector?.('ytm-single-column-watch-next-results-renderer, .watch-below-the-player')
+        || watchContainer.firstElementChild || null;
+    }
+
+    const directChildren = Array.from(watchContainer.children || []);
+
+    const directAnchor = directChildren.find(c =>
+      c.id === 'full-bleed-container' ||
+      c.id === 'player-full-bleed-container' ||
+      c.id === 'player-theater-container' ||
+      c.id === 'columns'
+    );
+    if (directAnchor) return directAnchor;
+
+    const candidateIds = ['full-bleed-container', 'player-full-bleed-container', 'player-theater-container', 'columns'];
+    for (const id of candidateIds) {
+      const node = watchContainer.querySelector?.(`#${id}`);
+      if (node && node.parentNode === watchContainer) {
+        return node;
+      }
+    }
+
+    const firstVisual = directChildren.find(c =>
+      c.tagName && !['IRON-MEDIA-QUERY', 'DOM-IF', 'TEMPLATE'].includes(c.tagName.toUpperCase())
+    );
+    if (firstVisual) return firstVisual;
+
+    return watchContainer.firstElementChild || null;
+  }
+
   tryInjectBanner(onInit = null) {
     if (!this.state.extensionEnabled) {
       const existing = document.getElementById('yt-ai-summarizer-container');
@@ -23,36 +64,45 @@ export class BannerView {
       return;
     }
     if (!isWatchPage()) return;
-    const existing = document.getElementById('yt-ai-summarizer-container');
-    if (existing && existing.isConnected) return;
-    if (existing) existing.remove();
 
-    const watchContainer = document.querySelector?.('ytd-watch-flexy, ytd-watch-grid');
+    const watchContainer = document.querySelector?.('ytd-watch-flexy, ytd-watch-grid, ytm-watch');
     let parent = null;
     let refChild = null;
 
     if (watchContainer && watchContainer.isConnected) {
-      parent = watchContainer;
-      refChild = watchContainer.querySelector('#player-theater-container') ||
-                 watchContainer.querySelector('#columns') ||
-                 watchContainer.firstChild;
-    } else {
-      const columns = document.getElementById('columns') || document.querySelector?.('ytd-watch-flexy #columns, ytd-watch-grid #columns');
-      if (columns && columns.parentNode) {
-        parent = columns.parentNode;
-        refChild = columns;
+      if (watchContainer.tagName?.toUpperCase() === 'YTM-WATCH') {
+        const below = watchContainer.querySelector?.('.watch-below-the-player');
+        parent = below || watchContainer;
+        refChild = below ? below.firstElementChild : this._resolveWatchAnchor(watchContainer);
       } else {
-        const primary = document.getElementById('primary') || document.getElementById('below');
-        if (primary && primary.parentNode) {
-          parent = primary.parentNode;
-          refChild = primary;
-        }
+        parent = watchContainer;
+        refChild = this._resolveWatchAnchor(watchContainer);
+      }
+    } else {
+      // In headless / test mock environments where ytd-watch-* custom elements are omitted,
+      // allow a designated test container wrapper, but NEVER inject directly into <body> or <html>
+      const candidate = document.querySelector?.('#columns, #primary, ytm-single-column-watch-next-results-renderer');
+      const candidateParent = candidate?.parentNode;
+      if (candidateParent && candidateParent !== document.body && candidateParent !== document.documentElement) {
+        parent = candidateParent;
+        refChild = candidate;
       }
     }
 
-    if (!parent) {
-      setTimeout(() => this.tryInjectBanner(onInit), 250);
+    // STRICT DOM GUARD: Never inject directly into <body> or <html>.
+    // On YouTube watch pages, must wait for watchContainer (ytd-watch-flexy/grid) to mount.
+    if (!parent || parent === document.body || parent === document.documentElement) {
+      setTimeout(() => this.tryInjectBanner(onInit), 150);
       return;
+    }
+
+    const existing = document.getElementById('yt-ai-summarizer-container');
+    if (existing && existing.isConnected) {
+      if (existing.parentNode === parent) {
+        return; // Correctly positioned in the expected parent container
+      }
+      // If stuck in body or an obsolete/wrong container, remove it so it moves to parent
+      existing.remove();
     }
 
     const banner = document.createElement('div');
@@ -63,12 +113,30 @@ export class BannerView {
     const lang = this.state.currentLang || 'en';
     const t = I18N[lang] || I18N.en;
     safeSetInnerHTML(banner, BannerTemplate.render(t, {
-      version: (typeof chrome !== 'undefined' && chrome.runtime?.getManifest) ? `v${chrome.runtime.getManifest().version}` : 'v1.4.0',
+      version: getExtensionVersionTag(),
       currentMode: this.currentMode || this.state.summaryMode || 'standard',
-      currentLang: lang
+      currentLang: lang,
+      maxVideos: this.state.channelAuditMaxVideos || 30,
+      channelTotalVideos: this.state.currentChannelTotalVideos || null
     }));
 
-    parent.insertBefore(banner, refChild);
+    try {
+      if (refChild && refChild.parentNode === parent) {
+        parent.insertBefore(banner, refChild);
+      } else if (parent.firstElementChild) {
+        parent.insertBefore(banner, parent.firstElementChild);
+      } else {
+        parent.appendChild(banner);
+      }
+    } catch {
+      if (typeof parent.prepend === 'function') {
+        parent.prepend(banner);
+      } else {
+        parent.appendChild(banner);
+      }
+    }
+
+    syncFullscreenVisibility?.();
     if (typeof onInit === 'function') onInit(banner);
   }
 
@@ -85,6 +153,15 @@ export class BannerView {
       container.classList.remove('is-collapsed');
       if (toggleText) toggleText.textContent = t.collapse || 'Collapse';
       if (toggleIcon) toggleIcon.textContent = '▲';
+
+      if (!isFullscreen?.() && typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+        const masthead = document.getElementById('masthead-container');
+        const mastheadHeight = masthead ? (masthead.offsetHeight || 56) : 56;
+        const bRect = container.getBoundingClientRect ? container.getBoundingClientRect() : { top: 0 };
+        if (bRect.top < mastheadHeight || (window.scrollY && window.scrollY > 0)) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
     } else {
       container.classList.add('is-collapsed');
       if (toggleText) toggleText.textContent = t.expand || 'Expand';
@@ -105,8 +182,9 @@ export class BannerView {
 
     const tabMap = {
       summary: { btn: 'ytAiTabSummaryBtn', pane: 'ytAiPaneSummary' },
-      chat: { btn: 'ytAiTabChatBtn', pane: 'ytAiPaneChat' },
       audit: { btn: 'ytAiTabAuditBtn', pane: 'ytAiPaneAudit' },
+      channelAudit: { btn: 'ytAiTabChannelAuditBtn', pane: 'ytAiPaneChannelAudit' },
+      chat: { btn: 'ytAiTabChatBtn', pane: 'ytAiPaneChat' },
       transcript: { btn: 'ytAiTabTranscriptBtn', pane: 'ytAiPaneTranscript' }
     };
 
@@ -200,8 +278,8 @@ export class BannerView {
     }
   }
 
-  applyLanguage(lang, summaryViewController = null, chatViewController = null) {
-    BannerI18n.applyLanguage(lang, this.state, summaryViewController, chatViewController, this.isExpanded);
+  applyLanguage(lang, summaryViewController = null, chatViewController = null, auditViewController = null) {
+    BannerI18n.applyLanguage(lang, this.state, summaryViewController, chatViewController, this.isExpanded, auditViewController);
     this.updateHeaderBadge();
     this.updateHeaderModelText();
   }

@@ -9,10 +9,12 @@ export class VideoDossierFetcher {
    * Fetches rich dossier for a single video ID
    * @param {string} videoId
    * @param {string} [lang='fr']
+   * @param {object} [options]
    * @returns {Promise<Object>}
    */
-  static async fetchDossier(videoId, lang = 'fr') {
+  static async fetchDossier(videoId, lang = 'fr', options = {}) {
     if (!videoId) return null;
+    const { includeComments = true } = options;
     const url = `https://www.youtube.com/watch?v=${videoId}`;
 
     try {
@@ -62,18 +64,20 @@ export class VideoDossierFetcher {
       // 4. Captions presence
       const hasCaptions = html.includes('"captionTracks":');
 
-      // 5. Community comments (top 3)
+      // 5. Community comments (top 3, optional to avoid request bursts on large channel audits)
       let comments = [];
-      try {
-        const comRes = await VideoCommentsFetcher.fetchVideoComments(videoId, 3);
-        if (comRes?.success && Array.isArray(comRes.comments)) {
-          comments = comRes.comments.map(c => ({
-            author: c.author || 'Anonyme',
-            text: (c.text || '').replace(/\s+/g, ' ').trim().slice(0, 140),
-            likes: c.likes || '0'
-          }));
-        }
-      } catch (_) {}
+      if (includeComments) {
+        try {
+          const comRes = await VideoCommentsFetcher.fetchVideoComments(videoId, 3);
+          if (comRes?.success && Array.isArray(comRes.comments)) {
+            comments = comRes.comments.map(c => ({
+              author: c.author || 'Anonyme',
+              text: (c.text || '').replace(/\s+/g, ' ').trim().slice(0, 140),
+              likes: c.likes || '0'
+            }));
+          }
+        } catch (_) {}
+      }
 
       return {
         videoId,
@@ -92,19 +96,25 @@ export class VideoDossierFetcher {
    * Fetches multiple video dossiers in parallel batches
    * @param {Array<string>} videoIds
    * @param {string} [lang='fr']
-   * @param {number} [concurrency=4]
+   * @param {number|Object} [concurrencyOrOptions=4]
    * @returns {Promise<Map<string, Object>>}
    */
-  static async fetchDossiersBatch(videoIds = [], lang = 'fr', concurrency = 4) {
+  static async fetchDossiersBatch(videoIds = [], lang = 'fr', concurrencyOrOptions = 4) {
     const results = new Map();
     if (!Array.isArray(videoIds) || videoIds.length === 0) return results;
+
+    const opts = typeof concurrencyOrOptions === 'object' && concurrencyOrOptions !== null
+      ? concurrencyOrOptions
+      : { concurrency: concurrencyOrOptions, includeComments: true };
+    const concurrency = opts.concurrency || 4;
+    const includeComments = opts.includeComments !== false;
 
     const queue = [...videoIds];
     const workers = Array.from({ length: Math.min(concurrency, queue.length) }, async () => {
       while (queue.length > 0) {
         const vId = queue.shift();
         if (!vId) continue;
-        const dossier = await VideoDossierFetcher.fetchDossier(vId, lang);
+        const dossier = await VideoDossierFetcher.fetchDossier(vId, lang, { includeComments });
         if (dossier) results.set(vId, dossier);
       }
     });

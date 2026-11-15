@@ -2,7 +2,7 @@
 
 [![CI Build](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml/badge.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml)
 [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Available-blue?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/youtube-summarizer-ai-lm/pkjmoccofaflidcdmjelmbnlfeipadee)
-[![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/releases)
+[![Version](https://img.shields.io/badge/version-1.5.1-blue.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/releases)
 [![Manifest](https://img.shields.io/badge/manifest-v3-success.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![GitHub](https://img.shields.io/badge/GitHub-Hidr4c-181717.svg?logo=github)](https://github.com/Hidr4c/youtube-ai-summarizer)
@@ -25,25 +25,27 @@ Works **100% locally and offline** with your own hardware (**LM Studio**, **Olla
   - Community feedback synthesis incorporating top viewer reactions.
   - Overall reliability score formatted as `[SCORE: XX/100]`.
 - 📊 **Global Channel Audit & In-Page Companion Card** :
-  - Seamless companion card injected directly under YouTube channel headers (`@handle`, `/channel/`, `/c/`).
-  - Stratified temporal sampling (recent ~65%, legacy ~35%) across customizable periods (*All*, *1 Year*, *6 Months*, *30 Days*).
-  - Consolidated single-pass AI prompt evaluating the channel's multi-year editorial trajectory, strengths, vigilances, and clickbait index.
+  - Seamless companion card injected directly under desktop and mobile (`m.youtube.com`) YouTube channel headers (`@handle`, `/channel/`, `/c/`), plus a dedicated Channel Audit tab on video watch pages.
+  - Stratified temporal sampling (recent ~65%, legacy ~35%) with dynamic sample caps adapted to the channel's real catalog (`10`, `30`, `50`, `100`, `500`, `1,000`, `All`) across 4 periods (*All*, *Current Year*, *Last 6 Months*, *Last Month*).
+  - Map-Reduce full-catalog analysis with graded 5% reliability spectrum colors, 5%-bucket integrity histogram, sensationalism index gauge, and multi-year editorial trajectory.
+  - Persistent background audit jobs that survive YouTube SPA navigation across pages/tabs, with instant **Stop** controls on summaries, video audits, and channel audits.
+- 📱 **Mobile & Fullscreen Ready** :
+  - Native support for mobile YouTube (`https://m.youtube.com/*`) alongside desktop `www.youtube.com/*`.
+  - Automatically hides injected overlays during fullscreen video playback.
+- 💬 **Interactive Video & Channel Q&A Chat** :
+  - Ask questions grounded in full video transcripts or enriched channel dossiers with rich Markdown formatting and instant localized prompt chips.
+- 🛡️ **Multi-Layer Resilient Subtitle Extraction Pipeline** :
+  - InnerTube `get_panel` transcript engine, native in-page DOM/player memory, Timedtext JSON3, XML standard, and TTML XML (`<p t>` and `<p begin>`), with automatic language fallback (`&tlang=`).
 - 💾 **Local Cache Manager & Storage Controller** :
-  - Real-time cache metrics in KB/MB accessible directly from the extension popup.
-  - Granular purge policies: purge all, purge older than 7 days, or purge older than 30 days.
-  - In-page live cache invalidation broadcasting (`CLEAR_CACHE`).
-- 🛡️ **10-Layer Resilient Subtitle Extraction Pipeline** :
-  - Native in-page DOM, player memory, Timedtext JSON3, XML standard, TTML XML (`<p t>` and `<p begin>`).
-  - Automatic language translation fallback (`&tlang=`) with 96.4% verified worldwide success rate across 50 international channels.
-- ☁️ **Flexible Cloud AI Support** : Connect your preferred API provider (Gemini, Groq, OpenAI, Claude, DeepSeek, Ollama, LM Studio).
+  - Real-time cache metrics in KB/MB accessible directly from the extension popup, with localized purge policies (all, > 7 days, > 30 days) and live tab sync (`CLEAR_CACHE`).
+- ☁️ **Flexible Cloud AI Support** : Connect your preferred API provider (Gemini, Groq, OpenAI, Claude, DeepSeek, Grok, Qwen, Mistral, OpenRouter, Perplexity, Together AI).
 - 🎙️ **Microphone Voice Dictation (STT)** :
   - **Native Web Speech API** on Chrome & Edge.
   - **Local Whisper Server** (e.g. `http://localhost:8000/v1/audio/transcriptions` or `whisper.cpp`) for 100% local, private voice recognition!
   - **Cloud Whisper via Groq** (ultra-fast 200ms, free) to seamlessly bypass Brave browser speech restrictions.
 - 🔊 **Text-to-Speech (TTS) Audio Player** : Listen to summaries and chat replies with adjustable speech speed (`0.75x` to `2.0x`).
-- 💬 **Interactive Q&A Chat** : Ask questions about any specific point in the video, with instant one-click suggestion prompts.
 - ⏱️ **Clickable Interactive Timestamps** : Click any timestamp (`01:23`, `12:45`) in summaries or transcripts to jump the YouTube player directly to that moment!
-- 🌍 **Dynamic Multi-Language System (8 Languages)** : English 🇬🇧, French 🇫🇷, Spanish 🇪🇸, German 🇩🇪, Italian 🇮🇹, Russian 🇷🇺, Japanese 🇯🇵, Chinese 🇨🇳. Interface and system prompts switch dynamically on the fly.
+- 🌍 **Instant Dynamic Multi-Language System (8 Languages)** : English 🇬🇧, French 🇫🇷, Spanish 🇪🇸, German 🇩🇪, Italian 🇮🇹, Russian 🇷🇺, Japanese 🇯🇵, Chinese 🇨🇳. Interface controls across Watch, Channel Companion, Settings, and Popup — plus audit/summary prompts — switch instantaneously without clearing active AI outputs.
 - ⚙️ **Advanced Configuration Panel** :
   - AI Creativity (Temperature slider from `0.0` to `1.0`).
   - Max Token limits (`Auto` to `8,192`).
@@ -60,7 +62,7 @@ Install directly from the official Google Chrome Web Store:
 👉 **[Install YouTube Summarizer AI on Chrome Web Store](https://chromewebstore.google.com/detail/youtube-summarizer-ai-lm/pkjmoccofaflidcdmjelmbnlfeipadee)**
 
 ### Option 2 : Developer Mode (Unpacked)
-1. Download the latest release package: [`youtube-summarizer-ai-v1.5.0.zip`](releases/youtube-summarizer-ai-v1.5.0.zip) or from the [GitHub Releases page](https://github.com/Hidr4c/youtube-ai-summarizer/releases).
+1. Download the latest release package: [`youtube-summarizer-ai-v1.5.1.zip`](releases/youtube-summarizer-ai-v1.5.1.zip) or from the [GitHub Releases page](https://github.com/Hidr4c/youtube-ai-summarizer/releases).
 2. Unzip the archive into a folder of your choice on your computer.
 3. Open your browser's extensions manager:
    - **Chrome**: `chrome://extensions/`

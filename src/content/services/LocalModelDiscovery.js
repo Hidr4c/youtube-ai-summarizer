@@ -14,7 +14,7 @@ export class LocalModelDiscovery {
   static refreshModelsList(ctx, showFeedback = false, onModelsLoaded = null, onFallbackNeeded = null) {
     if (ctx.currentProvider !== 'lmstudio' && ctx.currentProvider !== 'ollama') return;
     const isOllama = ctx.currentProvider === 'ollama';
-    const defaultHost = isOllama ? 'http://localhost:11434' : 'http://127.0.0.1:1234';
+    const defaultHost = isOllama ? 'http://localhost:11434' : 'http://localhost:1234';
     const currentUrl = ctx.serverUrls[ctx.currentProvider] || defaultHost;
 
     chrome.runtime.sendMessage({
@@ -52,9 +52,9 @@ export class LocalModelDiscovery {
     const isOllama = ctx.currentProvider === 'ollama';
     const defaults = isOllama
       ? ['http://localhost:11434', 'http://127.0.0.1:11434']
-      : ['http://127.0.0.1:1234', 'http://localhost:1234'];
+      : ['http://localhost:1234', 'http://127.0.0.1:1234'];
 
-    const currentUrl = ctx.serverUrls[ctx.currentProvider] || (isOllama ? 'http://localhost:11434' : 'http://127.0.0.1:1234');
+    const currentUrl = ctx.serverUrls[ctx.currentProvider] || (isOllama ? 'http://localhost:11434' : 'http://localhost:1234');
     if (!testedUrls.includes(currentUrl)) testedUrls.push(currentUrl);
 
     const candidate = defaults.find(u => !testedUrls.includes(u));

@@ -49,15 +49,15 @@ export class SettingsDrawerTemplate {
                 <div class="yt-ai-setting-item">
                   <label id="ytAiProviderLabel">${t.providerLabel || 'AI Provider:'}</label>
                   <select id="ytAiProviderSelect" class="yt-ai-select" style="font-weight: 600;">
-                    <optgroup label="${t.groupLocal || '🏠 Local Models (Free & Private)'}">
+                    <optgroup id="ytAiOptGroupLocal" label="${t.groupLocal || '🏠 Local Models (Free & Private)'}">
                       <option value="lmstudio">🏠 LM Studio</option>
                       <option value="ollama">🦙 Ollama (Local / Cloud)</option>
                     </optgroup>
-                    <optgroup label="${t.groupFast || '⚡ Fast / Free Cloud Inference'}">
+                    <optgroup id="ytAiOptGroupFast" label="${t.groupFast || '⚡ Fast / Free Cloud Inference'}">
                       <option value="gemini">🔵 Google Gemini (1M ctx, free)</option>
                       <option value="groq">⚡ Groq (Llama 3.3, ultra-fast)</option>
                     </optgroup>
-                    <optgroup label="${t.groupCloud || '☁️ Major Cloud Providers'}">
+                    <optgroup id="ytAiOptGroupCloud" label="${t.groupCloud || '☁️ Major Cloud Providers'}">
                       <option value="openai">🟢 OpenAI (ChatGPT / GPT-4o)</option>
                       <option value="claude">🟣 Anthropic (Claude 3.5)</option>
                       <option value="deepseek">🐋 DeepSeek (V3 & R1)</option>
@@ -76,7 +76,6 @@ export class SettingsDrawerTemplate {
                   <label id="ytAiServerLabel">${t.serverLabel || 'Server:'}</label>
                   <div class="yt-ai-input-with-btn">
                     <select id="ytAiServerSelect" class="yt-ai-select" style="flex: 1;">
-                      <option value="http://127.0.0.1:1234">127.0.0.1:1234</option>
                       <option value="http://localhost:1234">localhost:1234</option>
                       <option value="http://127.0.0.1:1234">127.0.0.1:1234</option>
                       <option value="custom">${t.customServer || 'Custom IP...'}</option>

@@ -250,17 +250,17 @@ describe('BDD End-to-End User Journeys: AI Summary, Interactive Chat, and SPA Na
       audioController: mockAudio
     });
 
-    // Given: empty state rendered with hero button
+    // Given: empty state rendered with clean placeholder
     summaryController.renderSummaryEmptyState(false, 'fr', () => summaryController.startSummarization({
       currentLang: 'fr',
       currentProvider: 'lmstudio',
       getActiveModel: () => 'deepseek-r1-7b'
     }));
 
-    const heroBtn = dom.elements.get('ytAiSummaryHeroBtn');
-    assert.ok(heroBtn, 'Hero summarize button must be rendered in empty state');
+    const summaryBodyEl = dom.elements.get('ytAiSummaryBody');
+    assert.ok(summaryBodyEl.innerHTML.includes(I18N.fr.summaryPlaceholder), 'Placeholder must be rendered in empty state');
 
-    // When: user clicks Hero button to trigger summarization
+    // When: user triggers summarization via header button
     await summaryController.startSummarization({
       currentLang: 'fr',
       currentProvider: 'lmstudio',
@@ -445,9 +445,9 @@ describe('BDD End-to-End User Journeys: AI Summary, Interactive Chat, and SPA Na
     assert.equal(chatController.chatHistory.length, 0, 'Chat history must be cleared');
     assert.equal(dom.elements.get('ytAiChatCount').textContent, '0', 'Chat turns badge must reset to 0');
 
-    // And: Summary body displays new video empty state
+    // And: Summary body displays clean placeholder
     const summaryBody = dom.elements.get('ytAiSummaryBody');
-    assert.ok(summaryBody.innerHTML.includes('yt-ai-hero-btn'), 'New video empty state with hero button must be rendered');
+    assert.ok(summaryBody.innerHTML.includes('yt-ai-placeholder-text'), 'Summary body must reset to clean placeholder');
 
     // When: User asks question on Video B without manual summary
     let newVideoExtracted = false;
@@ -546,12 +546,11 @@ describe('BDD End-to-End User Journeys: AI Summary, Interactive Chat, and SPA Na
     // Test Spanish empty state
     summaryController.renderSummaryEmptyState(false, 'es');
     const summaryBody = dom.elements.get('ytAiSummaryBody');
-    assert.ok(summaryBody.innerHTML.includes(I18N.es.emptyTitle), 'Must render Spanish title');
-    assert.ok(summaryBody.innerHTML.includes(I18N.es.summarizeBtn), 'Must render Spanish button label');
+    assert.ok(summaryBody.innerHTML.includes(I18N.es.summaryPlaceholder), 'Must render Spanish summary placeholder');
 
     // Test German empty state
     summaryController.renderSummaryEmptyState(true, 'de');
-    assert.ok(summaryBody.innerHTML.includes(I18N.de.newVideoTitle), 'Must render German new video title');
+    assert.ok(summaryBody.innerHTML.includes(I18N.de.summaryPlaceholder), 'Must render German summary placeholder');
 
     // Verify prompt suggestions exist across all 8 supported languages
     ['fr', 'en', 'es', 'de', 'ja', 'zh', 'ru', 'it'].forEach(lang => {

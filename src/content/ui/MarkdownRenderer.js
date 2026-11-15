@@ -35,7 +35,13 @@ export class MarkdownRenderer {
         const doc = parser.parseFromString(html, 'text/html');
         element.replaceChildren(...doc.body.childNodes);
       } catch (err) {
-        element.textContent = (html || '').replace(/<[^>]*>/g, '');
+        try {
+          const range = document.createRange();
+          const frag = range.createContextualFragment(html);
+          element.replaceChildren(frag);
+        } catch (err2) {
+          element.innerHTML = html;
+        }
       }
     }
   }
@@ -122,44 +128,117 @@ export class MarkdownRenderer {
   }
 
   /**
+   * Renders a Markdown pipe-delimited table starting at startIdx.
+   * @returns {{ html: string, nextIndex: number }|null}
+   */
+  static _parseTableBlock(lines, startIdx) {
+    if (startIdx + 1 >= lines.length) return null;
+    const headLine = lines[startIdx].trim();
+    const sepLine = lines[startIdx + 1].trim();
+    if (!headLine.includes('|') || !/^\|?[\s:-]+\|[\s|:-]*$/.test(sepLine)) return null;
+    const splitRow = (row) => row.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
+    const headers = splitRow(headLine);
+    let html = `<div class="yt-ai-table-wrap"><table class="yt-ai-md-table"><thead><tr>${headers.map(h => `<th>${MarkdownRenderer.formatInline(h)}</th>`).join('')}</tr></thead><tbody>`;
+    let idx = startIdx + 2;
+    while (idx < lines.length && lines[idx].trim().includes('|')) {
+      const cells = splitRow(lines[idx].trim());
+      html += `<tr>${cells.map(c => `<td>${MarkdownRenderer.formatInline(c)}</td>`).join('')}</tr>`;
+      idx++;
+    }
+    html += '</tbody></table></div>';
+    return { html, nextIndex: idx - 1 };
+  }
+
+  /**
    * Renders complete Markdown document into target DOM container
    * @param {string} mdText
    * @param {HTMLElement} container
    */
   static renderMarkdown(mdText, container) {
     if (!mdText) {
-      container.innerHTML = '';
-      return;
+      if (container) container.innerHTML = '';
+      return '';
     }
 
-    const lines = mdText.split('\n');
+    const lines = String(mdText).split('\n');
     let html = '';
-    let inUl = false;
+    let listTag = null;
+    let inQuote = false;
+    let inCode = false;
+    let codeLines = [];
+
+    const closeOpenBlocks = () => {
+      if (listTag) { html += `</${listTag}>`; listTag = null; }
+      if (inQuote) { html += '</blockquote>'; inQuote = false; }
+    };
 
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
+      const rawLine = lines[i];
+      const trimmed = rawLine.trim();
 
-      if (line.startsWith('### ')) {
-        if (inUl) { html += '</ul>'; inUl = false; }
-        html += `<h3>${MarkdownRenderer.formatInline(line.slice(4))}</h3>`;
+      if (trimmed.startsWith('```')) {
+        closeOpenBlocks();
+        if (!inCode) {
+          inCode = true;
+          codeLines = [];
+        } else {
+          html += `<pre class="yt-ai-code-block"><code>${MarkdownRenderer.escapeHtml(codeLines.join('\n'))}</code></pre>`;
+          inCode = false;
+        }
         continue;
       }
-      if (line.startsWith('## ') || line.startsWith('# ')) {
-        if (inUl) { html += '</ul>'; inUl = false; }
-        html += `<h2>${MarkdownRenderer.formatInline(line.replace(/^#+\s*/, ''))}</h2>`;
+      if (inCode) { codeLines.push(rawLine); continue; }
+
+      if (/^(?:---+|\*\*\*+)$/.test(trimmed)) {
+        closeOpenBlocks();
+        html += '<hr class="yt-ai-md-hr">';
         continue;
       }
 
-      const ulMatch = line.match(/^[-*•]\s+(.*)$/);
+      const headingMatch = trimmed.match(/^(#{1,4})\s+(.*)$/);
+      if (headingMatch) {
+        closeOpenBlocks();
+        const lvl = headingMatch[1].length;
+        const tag = lvl <= 2 ? 'h2' : lvl === 3 ? 'h3' : 'h4';
+        html += `<${tag}>${MarkdownRenderer.formatInline(headingMatch[2])}</${tag}>`;
+        continue;
+      }
+
+      const tableRes = MarkdownRenderer._parseTableBlock(lines, i);
+      if (tableRes) {
+        closeOpenBlocks();
+        html += tableRes.html;
+        i = tableRes.nextIndex;
+        continue;
+      }
+
+      const quoteMatch = trimmed.match(/^>\s?(.*)$/);
+      if (quoteMatch) {
+        if (listTag) { html += `</${listTag}>`; listTag = null; }
+        if (!inQuote) { html += '<blockquote class="yt-ai-blockquote">'; inQuote = true; }
+        if (quoteMatch[1]) html += `<p>${MarkdownRenderer.formatInline(quoteMatch[1])}</p>`;
+        continue;
+      }
+      if (inQuote) { html += '</blockquote>'; inQuote = false; }
+
+      const ulMatch = rawLine.match(/^\s*[-*•]\s+(.*)$/);
       if (ulMatch) {
-        if (!inUl) { html += '<ul class="yt-ai-points-list">'; inUl = true; }
+        if (listTag === 'ol') { html += '</ol>'; listTag = null; }
+        if (!listTag) { html += '<ul class="yt-ai-points-list">'; listTag = 'ul'; }
         html += MarkdownRenderer.renderListItem(ulMatch[1]);
         continue;
       }
 
-      if (inUl) { html += '</ul>'; inUl = false; }
+      const olMatch = rawLine.match(/^\s*\d+[.)]\s+(.*)$/);
+      if (olMatch) {
+        if (listTag === 'ul') { html += '</ul>'; listTag = null; }
+        if (!listTag) { html += '<ol class="yt-ai-ordered-list">'; listTag = 'ol'; }
+        html += MarkdownRenderer.renderListItem(olMatch[1]);
+        continue;
+      }
 
-      const trimmed = line.trim();
+      if (listTag) { html += `</${listTag}>`; listTag = null; }
+
       if (trimmed.length > 0) {
         const pointMatch = trimmed.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\s'\-_–—]{2,60})\s*:\s+(.*[.!?].*)$/);
         if (pointMatch) {
@@ -170,7 +249,8 @@ export class MarkdownRenderer {
       }
     }
 
-    if (inUl) html += '</ul>';
+    if (inCode) html += `<pre class="yt-ai-code-block"><code>${MarkdownRenderer.escapeHtml(codeLines.join('\n'))}</code></pre>`;
+    closeOpenBlocks();
     if (container) { MarkdownRenderer.safeSetInnerHTML(container, html); }
     return html;
   }

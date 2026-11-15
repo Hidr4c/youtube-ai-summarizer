@@ -1,6 +1,8 @@
 import { SettingsDrawerI18n } from './SettingsDrawerI18n.js';
 import { I18N } from '../../locales/index.js';
 import { escapeHtml } from './MarkdownRenderer.js';
+import { applyFooterLanguage, getExtensionVersionTag } from '../templates/BannerHeaderParts.js';
+import { WatchChannelAuditHelper } from './WatchChannelAuditHelper.js';
 
 /**
  * Centralized Internationalization Coordinator for In-Page Banner DOM
@@ -52,26 +54,46 @@ export class BannerI18n {
       }
     }
 
+    const toggleBtn = document.getElementById('ytAiToggleBtn');
+    if (toggleBtn) toggleBtn.title = isExpanded ? (t.collapse || 'Collapse') : (t.expand || 'Expand');
     const toggleText = document.getElementById('ytAiToggleText');
     if (toggleText) toggleText.textContent = isExpanded ? t.collapse : t.expand;
     const toggleIcon = document.getElementById('ytAiToggleIcon');
     if (toggleIcon) toggleIcon.textContent = isExpanded ? '▲' : '▾';
 
+    const stopSummaryBtn = document.getElementById('ytAiStopSummaryBtn');
+    if (stopSummaryBtn) {
+      stopSummaryBtn.textContent = t.stopListenBtn || '⏹️ Stop';
+      stopSummaryBtn.title = t.stopListenBtn || '⏹️ Stop';
+    }
+
+    const settingsToggleBtn = document.getElementById('ytAiSettingsToggleBtn');
+    if (settingsToggleBtn) settingsToggleBtn.title = t.settingsBtn || 'Settings';
     const settingsBtnText = document.getElementById('ytAiSettingsBtnText');
     if (settingsBtnText) settingsBtnText.textContent = t.settingsBtn || 'Settings';
 
-    // Tabs Navigation
+    // Tabs Navigation (ordered 1..5)
     const tabSummaryBtn = document.getElementById('ytAiTabSummaryBtn');
     if (tabSummaryBtn) tabSummaryBtn.textContent = t.tabSummary || '📝 AI Summary';
+
+    const tabAuditBtn = document.getElementById('ytAiTabAuditBtn');
+    if (tabAuditBtn) {
+      const scoreBadge = tabAuditBtn.querySelector?.('.yt-ai-tab-count-badge');
+      tabAuditBtn.innerHTML = scoreBadge
+        ? `${escapeHtml(t.tabAudit || '🛡️ Audit & Fact-Check')} ${scoreBadge.outerHTML}`
+        : escapeHtml(t.tabAudit || '🛡️ Audit & Fact-Check');
+    }
+
+    const tabChannelAuditBtn = document.getElementById('ytAiTabChannelAuditBtn');
+    if (tabChannelAuditBtn) {
+      tabChannelAuditBtn.textContent = t.tabChannelAudit || t.subtabAuditChannel || '📊 Channel Audit';
+    }
 
     const tabChatBtn = document.getElementById('ytAiTabChatBtn');
     if (tabChatBtn) {
       const count = document.getElementById('ytAiChatCount')?.textContent || '0';
-      tabChatBtn.innerHTML = `${escapeHtml(t.tabChat || '💬 Ask a question')} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
+      tabChatBtn.innerHTML = `${escapeHtml(t.tabChat || '💬 Ask questions')} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
     }
-
-    const tabAuditBtn = document.getElementById('ytAiTabAuditBtn');
-    if (tabAuditBtn) tabAuditBtn.textContent = t.tabAudit || '🛡️ Audit & Fact-Check';
 
     const tabTranscriptBtn = document.getElementById('ytAiTabTranscriptBtn');
     if (tabTranscriptBtn) {
@@ -85,7 +107,7 @@ export class BannerI18n {
     // Tab Panes & Footer
     BannerI18n.applySummaryLanguage(t, state, summaryViewController);
     BannerI18n.applyChatLanguage(t, state, chatViewController);
-    BannerI18n.applyAuditLanguage(t, auditViewController, lang);
+    BannerI18n.applyAuditLanguage(t, auditViewController, lang, state);
     BannerI18n.applyTranscriptAndFooter(t);
   }
 
@@ -103,24 +125,32 @@ export class BannerI18n {
     const saveJsonBtn = document.getElementById('ytAiSaveJsonBtn');
     if (saveJsonBtn) saveJsonBtn.textContent = t.saveJsonBtn || '📦 .json';
 
+    const reasoningTitle = document.getElementById('ytAiReasoningTitle');
+    if (reasoningTitle) reasoningTitle.textContent = t.reasoningModel || '💭 Model Reasoning';
+    const reasoningStatus = document.getElementById('ytAiReasoningStatus');
+    if (reasoningStatus) {
+      reasoningStatus.textContent = summaryViewController?.isGenerating
+        ? (t.reasoningInProgress || 'in progress...')
+        : (t.reasoningDone || 'completed');
+    }
+
     if (typeof summaryViewController?.applyLanguage === 'function') {
       summaryViewController.applyLanguage(state?.currentLang || 'en');
     } else {
-      const emptyTitle = document.querySelector('#ytAiSummaryBody .yt-ai-empty-title');
-      const emptySubtitle = document.querySelector('#ytAiSummaryBody .yt-ai-empty-subtitle');
-      const heroBtn = document.getElementById('ytAiSummaryHeroBtn');
-      if (emptyTitle) emptyTitle.textContent = t.newVideoTitle || t.emptyTitle || 'Nouvelle vidéo détectée';
-      if (emptySubtitle) emptySubtitle.textContent = t.newVideoPlaceholder || t.emptySubtitle || '';
-      if (heroBtn) heroBtn.textContent = t.summarizeBtn || '✨ Summarize video';
-    }
-
-    const placeholderP = document.querySelector('#ytAiSummaryBody > p');
-    if (placeholderP && !document.querySelector('#ytAiSummaryBody .yt-ai-empty-title')) {
-      placeholderP.textContent = t.summaryPlaceholder || 'Click "✨ Summarize video" to generate the summary.';
+      const stoppedNote = document.querySelector('#ytAiSummaryBody .yt-ai-stopped-note');
+      if (stoppedNote) {
+        stoppedNote.textContent = t.auditStoppedNote || '⏹ Processing stopped by user.';
+      } else {
+        const placeholderP = document.querySelector('#ytAiSummaryBody .yt-ai-placeholder-text');
+        if (placeholderP) {
+          placeholderP.textContent = t.summaryPlaceholder || 'Click "✨ Summarize video" to generate the summary.';
+        }
+      }
     }
 
     const hasError = !!document.getElementById('ytAiRetrySummarizeBtn');
-    if (!hasError && summaryViewController && !summaryViewController.fullSummaryMarkdown && !summaryViewController.isGenerating) {
+    const hasStoppedNote = !!document.querySelector('#ytAiSummaryBody .yt-ai-stopped-note');
+    if (!hasError && !hasStoppedNote && summaryViewController && !summaryViewController.fullSummaryMarkdown && !summaryViewController.isGenerating) {
       summaryViewController.renderSummaryEmptyState(true, state?.currentLang || 'en');
     }
   }
@@ -145,40 +175,52 @@ export class BannerI18n {
     if (typeof chatViewController?.applyLanguage === 'function') chatViewController.applyLanguage(state?.currentLang || 'en');
   }
 
-  static applyAuditLanguage(t, auditViewController, lang) {
+  static applyAuditLanguage(t, auditViewController, lang, state = null) {
     if (typeof auditViewController?.applyLanguage === 'function') {
-      auditViewController.applyLanguage(lang);
+      auditViewController.applyLanguage(lang, state);
     } else {
       const headerTitle = document.getElementById('ytAiAuditHeaderTitle');
-      if (headerTitle) headerTitle.textContent = t.auditTitle || '🛡️ Audit Critique, Logique & Véracité';
+      if (headerTitle) headerTitle.textContent = t.auditTitle || '🛡️ Critical Logic & Fact-Checking Audit';
       const runBtn = document.getElementById('ytAiRunAuditBtn');
-      if (runBtn) runBtn.textContent = t.runAuditBtn || '⚡ Lancer l\'audit';
+      if (runBtn) runBtn.textContent = t.runAuditBtn || '⚡ Run Audit';
       const discussBtn = document.getElementById('ytAiAuditChatDiscussBtn');
-      if (discussBtn) discussBtn.textContent = t.discussInChatBtn || '💬 Discuter dans le Chat';
+      if (discussBtn) discussBtn.textContent = t.discussInChatBtn || '💬 Discuss in Chat';
       const copyBtn = document.getElementById('ytAiCopyAuditBtn');
-      if (copyBtn) copyBtn.textContent = t.copyBtn || '📋 Copier';
-      const placeholder = document.querySelector('#ytAiAuditBody > p');
-      if (placeholder) placeholder.textContent = t.auditPlaceholder || 'Cliquez sur "⚡ Lancer l\'audit" pour analyser la rigueur logique, les sophismes et la véracité des faits.';
+      if (copyBtn) copyBtn.textContent = t.copyBtn || '📋 Copy';
+      const placeholder = document.querySelector('#ytAiAuditBody .yt-ai-placeholder-text');
+      if (placeholder) placeholder.textContent = t.auditPlaceholder || '';
+      WatchChannelAuditHelper.applyLanguage(null, lang, state);
     }
   }
 
   static applyTranscriptAndFooter(t) {
+    const headerTitle = document.getElementById('ytAiTranscriptHeaderTitle');
+    if (headerTitle) headerTitle.textContent = t.transcriptTitle || '📜 Full Transcript';
+    const wordsLabel = document.getElementById('ytAiTranscriptWordsLabel');
+    if (wordsLabel) wordsLabel.textContent = t.wordsBadge || 'words';
+
     const copyRawBtn = document.getElementById('ytAiCopyTranscriptBtn');
     if (copyRawBtn) copyRawBtn.textContent = t.copyRawBtn || '📋 Copy raw';
     const body = document.getElementById('ytAiTranscriptBody');
-    if (body && (body.querySelector('.yt-ai-loading') || body.textContent.includes('...'))) {
-      body.innerHTML = `<div class="yt-ai-loading">${escapeHtml(t.transcriptWaiting || 'Waiting...')}</div>`;
+    const isPlaceholder = body && (
+      body.querySelector?.('.yt-ai-placeholder-text') ||
+      (body.querySelector?.('.yt-ai-loading') && body.textContent?.includes('...'))
+    );
+    if (isPlaceholder) {
+      body.innerHTML = `<span class="yt-ai-placeholder-text yt-ai-loading">${escapeHtml(t.transcriptWaiting || 'Waiting...')}</span>`;
     }
 
-    const footerAuthor = document.getElementById('ytAiFooterAuthor');
-    if (footerAuthor) {
-      const extVer = (typeof chrome !== 'undefined' && chrome.runtime?.getManifest) ? `v${chrome.runtime.getManifest().version}` : 'v1.4.2';
-      footerAuthor.innerHTML = `YouTube Summarizer AI <strong>${extVer}</strong> ${escapeHtml(t.footerBy || 'by')} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
+    if (document.getElementById('ytAiFooterBy')) {
+      applyFooterLanguage(t, 'ytAiFooter');
+    } else {
+      const fb = I18N.en;
+      const footerAuthor = document.getElementById('ytAiFooterAuthor');
+      if (footerAuthor) {
+        const extVer = getExtensionVersionTag();
+        footerAuthor.innerHTML = `YouTube Summarizer AI <strong>${extVer}</strong> <span id="ytAiFooterBy">${escapeHtml(t.footerBy || fb.footerBy)}</span> <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
+      }
+      applyFooterLanguage(t, 'ytAiFooter');
     }
-    const bugLink = document.getElementById('ytAiFooterBugLink');
-    if (bugLink) bugLink.textContent = `🐛 ${t.footerReportBug || 'Report a bug'}`;
-    const docsLink = document.getElementById('ytAiFooterDocsLink');
-    if (docsLink) docsLink.textContent = `📖 ${t.footerDocs || 'Documentation'}`;
   }
 }
 

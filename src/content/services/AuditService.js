@@ -2,6 +2,7 @@ import { AuditPromptBuilder } from '../../services/implementations/AuditPromptBu
 import { AuditReport } from '../../domain/models/AuditReport.js';
 import { YouTubeDOMContext } from './YouTubeDOMContext.js';
 import { getVideoId } from '../ui/NavigationObserver.js';
+import { ChannelAuditJobTracker } from './ChannelAuditJobTracker.js';
 
 /**
  * Service for orchestrating critical fact-checking & logic consistency audits
@@ -20,6 +21,7 @@ export class AuditService {
     this.cachedAudits = new Map();
     this.currentPort = null;
     this.isAuditing = false;
+    this.activeAbortController = null;
   }
 
   /**
@@ -40,13 +42,15 @@ export class AuditService {
   }
 
   /**
-   * Aborts ongoing audit stream
+   * Aborts ongoing audit stream and async steps
+   * @param {string} [reason='stopped']
    */
-  abortAudit() {
+  abortAudit(reason = 'stopped') {
+    if (this.activeAbortController && !this.activeAbortController.signal.aborted) {
+      try { this.activeAbortController.abort(reason); } catch (_) {}
+    }
     if (this.currentPort) {
-      try {
-        this.currentPort.disconnect();
-      } catch (_) {}
+      try { this.currentPort.disconnect(); } catch (_) {}
       this.currentPort = null;
     }
     this.isAuditing = false;
@@ -73,17 +77,14 @@ export class AuditService {
     const lang = options.lang || 'fr';
     const state = options.state || {};
     this.abortAudit();
+    const abortController = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    this.activeAbortController = abortController;
+    const signal = abortController?.signal || null;
     this.isAuditing = true;
 
     try {
-      options.onProgress?.({
-        step: 'transcript',
-        percent: 12,
-        message: 'Collecte de la transcription intégrale (0 coupure)...',
-        detail: 'Recueil des sous-titres et horodatages complets'
-      });
+      options.onProgress?.({ step: 'transcript', percent: 12, message: 'Collecte de la transcription intégrale (0 coupure)...', detail: 'Recueil des sous-titres et horodatages complets' });
 
-      // 1. Ensure transcript is loaded (prefer dialogues, fallback cleanly to chapters)
       let transcriptText = '';
       let isDialogue = false;
       const cached = this.transcriptController?.cachedTranscript;
@@ -93,7 +94,8 @@ export class AuditService {
       }
 
       if (!transcriptText) {
-        const segments = await this.transcriptController?.extractYouTubeTranscript?.(lang, true);
+        const extractPromise = this.transcriptController?.extractYouTubeTranscript?.(lang, true);
+        const segments = extractPromise ? await ChannelAuditJobTracker.raceWithAbort(extractPromise, signal, lang) : null;
         const updated = this.transcriptController?.cachedTranscript;
         if (segments && segments.length > 0 && !updated?.isChapterOnly) {
           transcriptText = segments.map(s => `[${s.timestamp}] ${s.text}`).join(' ');
@@ -103,6 +105,8 @@ export class AuditService {
           isDialogue = false;
         }
       }
+
+      ChannelAuditJobTracker.throwIfAborted(signal, lang);
 
       if (!transcriptText) {
         const chapters = YouTubeDOMContext.extractChaptersFromDescription();
@@ -116,20 +120,16 @@ export class AuditService {
         throw new Error('Données textuelles indisponibles pour réaliser l’audit (ni sous-titres, ni chapitrage disponible).');
       }
 
-      // 2. Fetch community comments signals
-      options.onProgress?.({
-        step: 'comments',
-        percent: 22,
-        message: 'Scan des signaux communautaires & commentaires...',
-        detail: 'Analyse des commentaires et des liens en description'
-      });
+      options.onProgress?.({ step: 'comments', percent: 22, message: 'Scan des signaux communautaires & commentaires...', detail: 'Analyse des commentaires et des liens en description' });
       let commentsBlock = '';
       if (this.commentsManager && typeof this.commentsManager.getOrFetchComments === 'function') {
-        const commentsRes = await this.commentsManager.getOrFetchComments(videoId, 30).catch(() => null);
+        const commentsRes = await ChannelAuditJobTracker.raceWithAbort(this.commentsManager.getOrFetchComments(videoId, 30).catch(() => null), signal, lang);
         if (commentsRes?.success && commentsRes.markdownDossier) {
           commentsBlock = commentsRes.markdownDossier;
         }
       }
+
+      ChannelAuditJobTracker.throwIfAborted(signal, lang);
 
       // 3. Extract rich video metadata
       const videoMeta = YouTubeDOMContext.getVideoMetadata(this.transcriptController?.cachedVideoMetadata || {});
@@ -160,20 +160,57 @@ export class AuditService {
       const apiKey = apiKeys[provider] || '';
 
       const report = await new Promise((resolve, reject) => {
+        if (signal?.aborted) {
+          this.isAuditing = false;
+          reject(ChannelAuditJobTracker.createAbortError(lang));
+          return;
+        }
         let accumulatedMarkdown = '';
         let reasoningChars = 0;
+        let settled = false;
         const port = chrome.runtime.connect({ name: 'ai-stream' });
         this.currentPort = port;
 
+        const onAbort = () => {
+          if (settled) return;
+          settled = true;
+          signal?.removeEventListener('abort', onAbort);
+          this.isAuditing = false;
+          if (this.currentPort === port) this.currentPort = null;
+          try { port.disconnect(); } catch (_) {}
+          reject(ChannelAuditJobTracker.createAbortError(lang));
+        };
+        signal?.addEventListener('abort', onAbort, { once: true });
+
+        const finishResolve = (rep) => {
+          if (settled) return;
+          settled = true;
+          signal?.removeEventListener('abort', onAbort);
+          this.isAuditing = false;
+          this.currentPort = null;
+          options.onDone?.(rep);
+          resolve(rep);
+        };
+
+        const finishReject = (err) => {
+          if (settled) return;
+          settled = true;
+          signal?.removeEventListener('abort', onAbort);
+          this.isAuditing = false;
+          this.currentPort = null;
+          options.onError?.(err);
+          reject(err);
+        };
+
         port.onMessage.addListener((msg) => {
+          if (settled) return;
           if (msg.type === 'CHUNK') {
             if (msg.reasoning) {
               reasoningChars += msg.reasoning.length;
               const approxTokens = Math.round(reasoningChars / 4);
-              const reasonPct = Math.min(42, 28 + Math.round(approxTokens / 45));
               options.onProgress?.({
                 step: 'reasoning',
-                percent: reasonPct,
+                percent: Math.min(42, 28 + Math.round(approxTokens / 45)),
                 message: `Réflexion critique du modèle (${approxTokens} tokens)...`,
                 detail: 'Raisonnement sur la structure des arguments et des sources'
               });
@@ -181,8 +218,7 @@ export class AuditService {
             const chunkText = msg.content || msg.text || '';
             if (chunkText) {
               accumulatedMarkdown += chunkText;
-              const len = accumulatedMarkdown.length;
-              const textPct = Math.min(46, Math.round((len / 2200) * 46));
+              const textPct = Math.min(46, Math.round((accumulatedMarkdown.length / 2200) * 46));
               let percent = Math.min(88, 42 + textPct);
               let message = 'Examen critique : cohérence logique et véracité...';
               let detail = 'Contrôle des affirmations et recherche des sophismes';
@@ -199,59 +235,28 @@ export class AuditService {
                 detail = 'Vérification de l\'exactitude des références et données';
               }
 
-              options.onProgress?.({
-                step: 'streaming',
-                percent,
-                message,
-                detail
-              });
+              options.onProgress?.({ step: 'streaming', percent, message, detail });
               options.onChunk?.(chunkText, accumulatedMarkdown);
             }
           } else if (msg.type === 'DONE') {
-            this.isAuditing = false;
-            this.currentPort = null;
-            options.onProgress?.({
-              step: 'done',
-              percent: 100,
-              message: '✓ Examen de la vidéo terminé',
-              detail: 'Rapport d\'intégrité et score de fiabilité prêts'
-            });
-
-            // Extract reliability score [SCORE: XX/100]
+            options.onProgress?.({ step: 'done', percent: 100, message: '✓ Examen de la vidéo terminé', detail: 'Rapport d\'intégrité et score de fiabilité prêts' });
             const scoreMatch = accumulatedMarkdown.match(/\[SCORE:\s*(\d{1,3})\/100\]/i);
             const reliabilityScore = scoreMatch ? Math.min(100, Math.max(0, parseInt(scoreMatch[1], 10))) : 80;
-
-            let status = 'reliable';
-            if (reliabilityScore < 50) status = 'manipulative';
-            else if (reliabilityScore < 70) status = 'caution';
-
-            const auditReport = new AuditReport({
-              videoId,
-              reliabilityScore,
-              status,
-              rawMarkdown: accumulatedMarkdown,
-              lang,
-              createdAt: Date.now()
-            });
-
+            const status = reliabilityScore < 50 ? 'manipulative' : reliabilityScore < 70 ? 'caution' : 'reliable';
+            const auditReport = new AuditReport({ videoId, reliabilityScore, status, rawMarkdown: accumulatedMarkdown, lang, createdAt: Date.now() });
             this.cachedAudits.set(videoId, auditReport);
-            options.onDone?.(auditReport);
-            resolve(auditReport);
+            finishResolve(auditReport);
           } else if (msg.type === 'ERROR') {
-            this.isAuditing = false;
-            this.currentPort = null;
-            const err = new Error(msg.error || 'Erreur lors de la génération de l’audit');
-            options.onError?.(err);
-            reject(err);
+            finishReject(new Error(msg.error || 'Erreur lors de la génération de l’audit'));
           }
         });
 
         port.onDisconnect.addListener(() => {
-          if (this.isAuditing) {
-            this.isAuditing = false;
-            const err = new Error('Flux de connexion interrompu');
-            options.onError?.(err);
-            reject(err);
+          if (settled) return;
+          if (signal?.aborted || !this.isAuditing) {
+            onAbort();
+          } else {
+            finishReject(new Error('Flux de connexion interrompu'));
           }
         });
 
@@ -273,6 +278,10 @@ export class AuditService {
       this.isAuditing = false;
       this.currentPort = null;
       throw err;
+    } finally {
+      if (this.activeAbortController === abortController) {
+        this.activeAbortController = null;
+      }
     }
   }
 }

@@ -4,7 +4,7 @@
     "description": "拡張機能の名前"
   },
   "appDesc": {
-    "message": "ローカルAI（LM Studio、Ollama）またはクラウドでYouTube動画を要約。インタラクティブなQ&Aチャット、音声入力、TTS読み上げ対応。",
+    "message": "YouTubeのAI要約、ファクトチェック＆チャンネル監査、Q&Aチャット。ローカル(LM Studio/Ollama)・クラウド・音声入力/TTS対応。",
     "description": "拡張機能の簡単な説明"
   }
 }

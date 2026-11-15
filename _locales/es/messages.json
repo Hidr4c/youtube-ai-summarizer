@@ -4,7 +4,7 @@
     "description": "Nombre de la extensión"
   },
   "appDesc": {
-    "message": "Resume videos de YouTube localmente (LM Studio, Ollama) o en la nube. Chat interactivo Q&A, dictado por voz y audio TTS.",
+    "message": "Resúmenes IA de YouTube, auditoría fact-check y de canal, y chat Q&A. Local (LM Studio, Ollama) o Cloud, voz STT y TTS.",
     "description": "Descripción corta de la extensión"
   }
 }

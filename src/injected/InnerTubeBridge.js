@@ -1,65 +1,32 @@
 import { InnerTubeParser } from '../parsers/InnerTubeParser.js';
 import { TimedtextTrackFetcher } from './TimedtextTrackFetcher.js';
+import { ProtobufHelper } from './ProtobufHelper.js';
 
 /**
  * Bridge for YouTube InnerTube API and parameter discovery in Main World memory
  */
 export class InnerTubeBridge {
-  /**
-   * Finds transcript params in YouTube memory structures
-   * @param {string} [requestedVideoId]
-   * @returns {{ type: string, params?: string, continuation?: string } | null}
-   */
-  /**
-   * Encodes variable integer according to protobuf specifications
-   * @param {number} val
-   * @returns {number[]}
-   */
-  static encodeVarint(val) {
-    const bytes = [];
-    let v = val;
-    while (v > 127) {
-      bytes.push((v & 127) | 128);
-      v >>>= 7;
+  static _youtubeOrigin() {
+    if (typeof window !== 'undefined' && window.location?.origin?.includes('youtube.com')) {
+      return window.location.origin;
     }
-    bytes.push(v & 127);
-    return bytes;
+    return 'https://www.youtube.com';
   }
 
-  /**
-   * Encodes a length-delimited protobuf field (string or byte array)
-   * @param {number} fieldNumber
-   * @param {string|number[]} strOrBytes
-   * @returns {number[]}
-   */
+  static encodeVarint(val) {
+    return ProtobufHelper.encodeVarint(val);
+  }
+
   static encodeField(fieldNumber, strOrBytes) {
-    const bytes = typeof strOrBytes === "string"
-      ? Array.from(new TextEncoder().encode(strOrBytes))
-      : strOrBytes;
-    const tag = (fieldNumber << 3) | 2;
-    return [...InnerTubeBridge.encodeVarint(tag), ...InnerTubeBridge.encodeVarint(bytes.length), ...bytes];
+    return ProtobufHelper.encodeField(fieldNumber, strOrBytes);
   }
 
-  /**
-   * Synthesizes valid protobuf params string for InnerTube get_transcript API
-   * @param {string} videoId
-   * @param {string} [lang=""]
-   * @param {string} [kind="asr"]
-   * @returns {string|null}
-   */
   static generateTranscriptParams(videoId, lang = "", kind = "asr") {
-    if (!videoId) return null;
-    const inner = [];
-    if (kind) inner.push(...InnerTubeBridge.encodeField(1, kind));
-    if (lang) inner.push(...InnerTubeBridge.encodeField(2, lang));
+    return ProtobufHelper.generateTranscriptParams(videoId, lang, kind);
+  }
 
-    const outer = [
-      ...InnerTubeBridge.encodeField(1, videoId),
-      ...(inner.length > 0 ? InnerTubeBridge.encodeField(2, inner) : [])
-    ];
-    let binary = "";
-    for (let i = 0; i < outer.length; i++) binary += String.fromCharCode(outer[i]);
-    return btoa(binary);
+  static generateModernTranscriptPanelParams(videoId) {
+    return ProtobufHelper.generateModernTranscriptPanelParams(videoId);
   }
 
   static searchParamsInObject(obj, depth = 0) {
@@ -91,17 +58,10 @@ export class InnerTubeBridge {
 
   static findTranscriptParams(requestedVideoId) {
     try {
-      const flexy = document.querySelector('ytd-watch-flexy');
-      const flexyData = flexy?.data || flexy?.playerData;
-      if (flexyData) {
-        const p = InnerTubeBridge.searchParamsInObject(flexyData);
-        if (p) return p;
-      }
-
-      const grid = document.querySelector('ytd-watch-grid');
-      const gridData = grid?.data || grid?.playerData;
-      if (gridData) {
-        const p = InnerTubeBridge.searchParamsInObject(gridData);
+      const watchEl = document.querySelector('ytd-watch-flexy, ytd-watch-grid, ytm-watch');
+      const watchData = watchEl?.data || watchEl?.playerData;
+      if (watchData) {
+        const p = InnerTubeBridge.searchParamsInObject(watchData);
         if (p) return p;
       }
 
@@ -125,7 +85,8 @@ export class InnerTubeBridge {
       const context = window.ytcfg?.get?.('INNERTUBE_CONTEXT');
       if (!apiKey || !context) return null;
 
-      const res = await fetch(`https://www.youtube.com/youtubei/v1/next?key=${apiKey}`, {
+      const origin = InnerTubeBridge._youtubeOrigin();
+      const res = await fetch(`${origin}/youtubei/v1/next?key=${apiKey}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -151,7 +112,8 @@ export class InnerTubeBridge {
       const context = window.ytcfg?.get?.('INNERTUBE_CONTEXT');
       if (!apiKey || !context) return null;
 
-      const res = await fetch(`https://www.youtube.com/youtubei/v1/player?key=${apiKey}`, {
+      const origin = InnerTubeBridge._youtubeOrigin();
+      const res = await fetch(`${origin}/youtubei/v1/player?key=${apiKey}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -169,17 +131,62 @@ export class InnerTubeBridge {
     }
   }
 
+  static async fetchModernTranscriptPanel(videoId) {
+    if (!videoId) return null;
+    try {
+      const context = window.ytcfg?.get?.('INNERTUBE_CONTEXT');
+      if (!context) return null;
+
+      const clientName = String(window.ytcfg?.get?.('INNERTUBE_CLIENT_NAME') || '1');
+      const clientVersion = String(window.ytcfg?.get?.('INNERTUBE_CLIENT_VERSION') || '');
+      const params = InnerTubeBridge.generateModernTranscriptPanelParams(videoId);
+      if (!params) return null;
+
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 4000);
+
+      const origin = InnerTubeBridge._youtubeOrigin();
+      const res = await fetch(`${origin}/youtubei/v1/get_panel?prettyPrint=false`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-YouTube-Client-Name': clientName,
+          'X-YouTube-Client-Version': clientVersion
+        },
+        body: JSON.stringify({
+          context,
+          panelId: 'PAmodern_transcript_view',
+          params
+        }),
+        credentials: 'include',
+        signal: controller.signal
+      }).catch(() => null);
+
+      clearTimeout(timer);
+      if (!res || !res.ok) return null;
+
+      const json = await res.json().catch(() => null);
+      return InnerTubeParser.extractSegmentsFromInnerTubeJson(json, { allowChapters: false });
+    } catch (_) {
+      return null;
+    }
+  }
+
   static async fetchTranscriptDirect(videoId, preferredLang = 'fr') {
     if (!videoId) return null;
 
-    // 1. Découverte via Next endpoint -> engagementPanels -> getTranscriptEndpoint.params
+    // 1. Priorité absolue : Modern InnerTube get_panel (PAmodern_transcript_view)
+    const modernSegments = await InnerTubeBridge.fetchModernTranscriptPanel(videoId);
+    if (modernSegments && modernSegments.length > 0) return modernSegments;
+
+    // 2. Découverte via Next endpoint -> engagementPanels -> getTranscriptEndpoint.params
     const nextParams = await InnerTubeBridge.fetchNextParams(videoId);
     if (nextParams) {
       const segs = await InnerTubeBridge.fetchTranscript(nextParams);
       if (segs && segs.length > 0) return segs;
     }
 
-    // 2. Découverte via Player endpoint -> captionTracks signées -> timedtext
+    // 3. Découverte via Player endpoint -> captionTracks signées -> timedtext
     const playerJson = await InnerTubeBridge.fetchPlayerResponse(videoId);
     const tracks = playerJson?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
     if (Array.isArray(tracks) && tracks.length > 0) {
@@ -224,15 +231,16 @@ export class InnerTubeBridge {
       let urls = [];
       let bodyData = { context };
 
+      const origin = InnerTubeBridge._youtubeOrigin();
       if (typeof paramObj === 'string' || (paramObj.type === 'get_transcript' && paramObj.params)) {
         bodyData.params = typeof paramObj === 'string' ? paramObj : paramObj.params;
         urls = [
-          'https://www.youtube.com/youtubei/v1/get_transcript?prettyPrint=false',
-          `https://www.youtube.com/youtubei/v1/get_transcript?key=${apiKey}`
+          `${origin}/youtubei/v1/get_transcript?prettyPrint=false`,
+          `${origin}/youtubei/v1/get_transcript?key=${apiKey}`
         ];
       } else if (paramObj.type === 'browse_continuation' && paramObj.continuation) {
         bodyData.continuation = paramObj.continuation;
-        urls = [`https://www.youtube.com/youtubei/v1/browse?key=${apiKey}`];
+        urls = [`${origin}/youtubei/v1/browse?key=${apiKey}`];
       } else {
         clearTimeout(timer);
         return null;

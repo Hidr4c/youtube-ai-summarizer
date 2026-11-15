@@ -188,7 +188,11 @@
       purge7Days: "Older than 7 days",
       purge30Days: "Older than 30 days",
       purgeSuccess: "\u2713 Cache successfully purged ({count} video(s))",
-      cacheEmpty: "0 Ko (0 videos)"
+      cacheEmpty: "0 Ko (0 videos)",
+      bannerExpanded: "Expanded",
+      bannerCollapsed: "Collapsed",
+      youtubeVideoFallback: "YouTube Video",
+      privacyTagline: "Privacy-First"
     },
     fr: {
       switchTitle: "Extension sur YouTube",
@@ -213,7 +217,11 @@
       purge7Days: "Plus ancien que 7 jours",
       purge30Days: "Plus ancien que 30 jours",
       purgeSuccess: "\u2713 Cache purg\xE9 avec succ\xE8s ({count} vid\xE9o(s))",
-      cacheEmpty: "0 Ko (0 vid\xE9o)"
+      cacheEmpty: "0 Ko (0 vid\xE9o)",
+      bannerExpanded: "D\xE9pli\xE9",
+      bannerCollapsed: "Repli\xE9",
+      youtubeVideoFallback: "Vid\xE9o YouTube",
+      privacyTagline: "Confidentialit\xE9 d\u2019abord"
     },
     es: {
       switchTitle: "Extensi\xF3n en YouTube",
@@ -238,7 +246,11 @@
       purge7Days: "M\xE1s de 7 d\xEDas",
       purge30Days: "M\xE1s de 30 d\xEDas",
       purgeSuccess: "\u2713 Cach\xE9 purgada con \xE9xito ({count} v\xEDdeo(s))",
-      cacheEmpty: "0 Ko (0 v\xEDdeos)"
+      cacheEmpty: "0 Ko (0 v\xEDdeos)",
+      bannerExpanded: "Expandido",
+      bannerCollapsed: "Contra\xEDdo",
+      youtubeVideoFallback: "V\xEDdeo de YouTube",
+      privacyTagline: "Privacidad primero"
     },
     de: {
       switchTitle: "Erweiterung auf YouTube",
@@ -263,7 +275,11 @@
       purge7Days: "\xC4lter als 7 Tage",
       purge30Days: "\xC4lter als 30 Tage",
       purgeSuccess: "\u2713 Cache erfolgreich bereinigt ({count} Video(s))",
-      cacheEmpty: "0 Ko (0 Videos)"
+      cacheEmpty: "0 Ko (0 Videos)",
+      bannerExpanded: "Ausgeklappt",
+      bannerCollapsed: "Eingeklappt",
+      youtubeVideoFallback: "YouTube-Video",
+      privacyTagline: "Datenschutz zuerst"
     },
     it: {
       switchTitle: "Estensione su YouTube",
@@ -288,7 +304,11 @@
       purge7Days: "Pi\xF9 vecchio di 7 giorni",
       purge30Days: "Pi\xF9 vecchio di 30 giorni",
       purgeSuccess: "\u2713 Cache svuotata con successo ({count} video)",
-      cacheEmpty: "0 Ko (0 video)"
+      cacheEmpty: "0 Ko (0 video)",
+      bannerExpanded: "Espanso",
+      bannerCollapsed: "Compresso",
+      youtubeVideoFallback: "Video YouTube",
+      privacyTagline: "Privacy al primo posto"
     },
     ru: {
       switchTitle: "\u0420\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u0435 \u043D\u0430 YouTube",
@@ -313,7 +333,11 @@
       purge7Days: "\u0421\u0442\u0430\u0440\u0448\u0435 7 \u0434\u043D\u0435\u0439",
       purge30Days: "\u0421\u0442\u0430\u0440\u0448\u0435 30 \u0434\u043D\u0435\u0439",
       purgeSuccess: "\u2713 \u041A\u044D\u0448 \u0443\u0441\u043F\u0435\u0448\u043D\u043E \u043E\u0447\u0438\u0449\u0435\u043D ({count} \u0432\u0438\u0434\u0435\u043E)",
-      cacheEmpty: "0 Ko (0 \u0432\u0438\u0434\u0435\u043E)"
+      cacheEmpty: "0 Ko (0 \u0432\u0438\u0434\u0435\u043E)",
+      bannerExpanded: "\u0420\u0430\u0437\u0432\u0451\u0440\u043D\u0443\u0442\u043E",
+      bannerCollapsed: "\u0421\u0432\u0451\u0440\u043D\u0443\u0442\u043E",
+      youtubeVideoFallback: "\u0412\u0438\u0434\u0435\u043E YouTube",
+      privacyTagline: "\u041F\u0440\u0438\u0432\u0430\u0442\u043D\u043E\u0441\u0442\u044C \u043F\u0440\u0435\u0436\u0434\u0435 \u0432\u0441\u0435\u0433\u043E"
     },
     ja: {
       switchTitle: "YouTube\u62E1\u5F35\u6A5F\u80FD",
@@ -338,7 +362,11 @@
       purge7Days: "7\u65E5\u3088\u308A\u524D",
       purge30Days: "30\u65E5\u3088\u308A\u524D",
       purgeSuccess: "\u2713 \u30AD\u30E3\u30C3\u30B7\u30E5\u3092\u524A\u9664\u3057\u307E\u3057\u305F ({count}\u4EF6)",
-      cacheEmpty: "0 Ko (0\u4EF6)"
+      cacheEmpty: "0 Ko (0\u4EF6)",
+      bannerExpanded: "\u5C55\u958B\u4E2D",
+      bannerCollapsed: "\u6298\u308A\u305F\u305F\u307F\u4E2D",
+      youtubeVideoFallback: "YouTube\u52D5\u753B",
+      privacyTagline: "\u30D7\u30E9\u30A4\u30D0\u30B7\u30FC\u512A\u5148"
     },
     zh: {
       switchTitle: "YouTube \u6269\u5C55\u529F\u80FD",
@@ -363,7 +391,11 @@
       purge7Days: "7\u5929\u4EE5\u524D",
       purge30Days: "30\u5929\u4EE5\u524D",
       purgeSuccess: "\u2713 \u7F13\u5B58\u5DF2\u6210\u529F\u6E05\u7406 ({count} \u4E2A\u89C6\u9891)",
-      cacheEmpty: "0 Ko (0 \u4E2A\u89C6\u9891)"
+      cacheEmpty: "0 Ko (0 \u4E2A\u89C6\u9891)",
+      bannerExpanded: "\u5DF2\u5C55\u5F00",
+      bannerCollapsed: "\u5DF2\u6298\u53E0",
+      youtubeVideoFallback: "YouTube \u89C6\u9891",
+      privacyTagline: "\u9690\u79C1\u4F18\u5148"
     }
   };
 
@@ -806,18 +838,18 @@
       if (this.inPageStatus?.isWatch) {
         idleCard?.classList.add("hidden");
         videoCard?.classList.remove("hidden");
+        const t = POPUP_I18N[this.currentLang] || POPUP_I18N.en;
         const titleEl = document.getElementById("videoTitle");
         if (titleEl) {
-          titleEl.textContent = this.inPageStatus.title || this.activeTab?.title?.replace(/ - YouTube$/, "") || "YouTube Video";
+          titleEl.textContent = this.inPageStatus.title || this.activeTab?.title?.replace(/ - YouTube$/, "") || t.youtubeVideoFallback;
         }
         const stateBadge = document.getElementById("bannerStateBadge");
         const toggleText = document.getElementById("toggleBannerText");
-        const t = POPUP_I18N[this.currentLang] || POPUP_I18N.en;
         if (this.inPageStatus.isExpanded) {
-          if (stateBadge) stateBadge.textContent = "Expanded";
+          if (stateBadge) stateBadge.textContent = t.bannerExpanded;
           if (toggleText) toggleText.textContent = t.collapseOnPage;
         } else {
-          if (stateBadge) stateBadge.textContent = "Collapsed";
+          if (stateBadge) stateBadge.textContent = t.bannerCollapsed;
           if (toggleText) toggleText.textContent = t.expandOnPage;
         }
       } else {
@@ -867,9 +899,13 @@
       if (disabledDesc) disabledDesc.textContent = t.disabledDesc;
       const summarizeBtnText = document.getElementById("summarizeBtnText");
       if (summarizeBtnText) summarizeBtnText.textContent = t.summarize;
-      const extVersion = typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v1.4.0";
+      const currentVideoBadge = document.getElementById("currentVideoBadge");
+      if (currentVideoBadge) currentVideoBadge.textContent = t.currentVideo;
+      const openYoutubeBtnText = document.getElementById("openYoutubeBtnText");
+      if (openYoutubeBtnText) openYoutubeBtnText.textContent = t.goToYoutube;
+      const extVersion = typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v1.5.1";
       const versionEl = document.getElementById("brandVersion");
-      if (versionEl) versionEl.textContent = `${extVersion} \u2022 Privacy-First`;
+      if (versionEl) versionEl.textContent = `${extVersion} \u2022 ${t.privacyTagline}`;
       this.updateStatusPill(this.extensionEnabled);
       this.renderCards();
       this.cacheController.applyLocalization(t);

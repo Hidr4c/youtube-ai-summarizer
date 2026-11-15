@@ -10,16 +10,16 @@ export class StreamRelay {
    * @param {chrome.runtime.Port} port
    */
   static async handleStream(request, port) {
+    const provider = request.provider || 'lmstudio';
+    const serverUrl = request.serverUrl || request.serverUrls?.[provider] || '';
+    const apiKey = request.apiKey || request.apiKeys?.[provider] || '';
     const {
-      provider = 'lmstudio',
       model,
       systemPrompt,
       userPrompt,
       messages = null,
       temperature = 0.3,
-      maxTokens,
-      serverUrl,
-      apiKey
+      maxTokens
     } = request;
 
     let isDisconnected = false;
@@ -117,8 +117,35 @@ export class StreamRelay {
     }
 
     const parsedTemp = parseFloat(temperature);
+    let effectiveModel = (model || '').trim();
+    if (!effectiveModel || effectiveModel === 'default' || effectiveModel.toLowerCase() === 'loading...') {
+      if (provider === 'lmstudio' || provider === 'ollama') {
+        const base = (serverUrl || (provider === 'ollama' ? 'http://localhost:11434' : 'http://127.0.0.1:1234')).trim().replace(/\/+$/, '');
+        const cleanBase = !/^https?:\/\//i.test(base) ? `http://${base}` : base;
+        try {
+          const mRes = await fetch(`${cleanBase}/v1/models`, { headers: { 'Accept': 'application/json' } });
+          if (mRes.ok) {
+            const mJson = await mRes.json();
+            const list = Array.isArray(mJson?.data) ? mJson.data : (Array.isArray(mJson?.models) ? mJson.models : []);
+            const found = list.find(m => {
+              const id = m.id || m.name || '';
+              return id && !id.toLowerCase().includes('embed');
+            });
+            if (found) effectiveModel = found.id || found.name;
+          }
+        } catch (_) {}
+      }
+    }
+
+    if (!effectiveModel) {
+      if (provider === 'lmstudio') {
+        throw new Error("Aucun modèle n'est chargé ou sélectionné dans LM Studio. Veuillez démarrer un modèle dans LM Studio.");
+      }
+      throw new Error(`Aucun modèle sélectionné pour ${provider.toUpperCase()}.`);
+    }
+
     const bodyPayload = {
-      model,
+      model: effectiveModel,
       messages,
       temperature: !isNaN(parsedTemp) ? parsedTemp : 0.3,
       stream: true

@@ -40,7 +40,7 @@
     "micLabel": "Micro :",
     "micDefault": "\u{1F399}\uFE0F Micro par d\xE9faut",
     "tabSummary": "\u{1F4DD} Synth\xE8se IA",
-    "tabChat": "\u{1F4AC} Poser une question",
+    "tabChat": "\u{1F4AC} Poser des questions",
     "tabTranscript": "\u{1F4DC} Transcription",
     "summaryTitle": "\u{1F4DD} Synth\xE8se IA",
     "listenBtn": "\u{1F50A} \xC9couter",
@@ -155,7 +155,11 @@
     "externalTranscriptError": "Impossible d'extraire les sous-titres ou chapitres pour la vid\xE9o externe ({videoId}). Raisons possibles : aucun sous-titre ni chapitre disponible, ou restriction d'acc\xE8s YouTube. Vous pouvez ouvrir l'onglet de cette vid\xE9o pour la r\xE9sumer directement.",
     "retryBtn": "\u{1F504} R\xE9essayer",
     "tabAudit": "\u{1F6E1}\uFE0F Audit & Fact-Check",
-    "auditTitle": "\u{1F6E1}\uFE0F Critical Audit, Logic & Veracity",
+    "auditTitle": "\u{1F6E1}\uFE0F Audit Critique, Logique & V\xE9racit\xE9",
+    "subtabAuditVideo": "\u{1F3A5} Audit de cette vid\xE9o",
+    "subtabAuditChannel": "\u{1F4CA} Audit de toute la cha\xEEne",
+    "runChannelAuditBtn": "\u26A1 Lancer l'audit de la cha\xEEne",
+    "channelCompanionDesc": "\xC9valuez l'int\xE9grit\xE9 \xE9ditoriale, la transparence commerciale et l'\xE9volution de la cha\xEEne.",
     "runAuditBtn": "\u26A1 Lancer l'audit",
     "relaunchAuditBtn": "\u26A1 Relancer l'audit",
     "auditInProgress": "Audit en cours...",
@@ -170,7 +174,58 @@
     "periodAll": "Tout l'historique",
     "periodMonth": "Dernier mois",
     "periodYear": "Ann\xE9e en cours",
-    "period6Months": "6 derniers mois"
+    "period6Months": "6 derniers mois",
+    "tabChannelAudit": "\u{1F4CA} Audit de la cha\xEEne",
+    "channelChatTitle": "\u{1F4AC} Questions & R\xE9ponses sur la cha\xEEne",
+    "channelChatWelcome": "Bonjour ! Posez vos questions sur cette cha\xEEne (ligne \xE9ditoriale, vid\xE9os publi\xE9es, sponsors, \xE9volution). Si vous avez lanc\xE9 un audit, il enrichira automatiquement les r\xE9ponses.",
+    "channelChatPlaceholder": "Posez vos questions sur la cha\xEEne ou collez des liens vid\xE9o... (Entr\xE9e pour envoyer)",
+    "channelChatResetNotice": "Discussion sur la cha\xEEne r\xE9initialis\xE9e. Posez vos questions ci-dessous !",
+    "channelChatSuggestions": [
+      { "label": "Ligne \xE9ditoriale", "question": "Quelle est la ligne \xE9ditoriale principale et la trajectoire d'\xE9volution de cette cha\xEEne ?" },
+      { "label": "Formats & sujets", "question": "Quels sont les sujets cl\xE9s et formats r\xE9currents de ses vid\xE9os r\xE9centes ?" },
+      { "label": "Sponsors & transparence", "question": "Que peut-on observer sur la transparence commerciale et les partenariats ?" },
+      { "label": "Forces & limites", "question": "Quels sont les points forts et les limites \xE9ditoriales notables de cette cha\xEEne ?" }
+    ],
+    "maxVideosLabel": "Volume max :",
+    "stopAuditBtn": "\u23F9 Arr\xEAter l'audit",
+    "stopShortBtn": "Arr\xEAter",
+    "auditStoppedNote": "\u23F9 Traitement arr\xEAt\xE9 par l\u2019utilisateur.",
+    "channelAuditPlaceholder": "Cliquez sur \xAB \u26A1 Lancer l'audit de la cha\xEEne \xBB ci-dessus pour \xE9valuer cette cha\xEEne.",
+    "channelSampleBadge": "\xC9chantillon :",
+    "channelVideosUnit": "vid\xE9os",
+    "channelAnalyzedVideosUnit": "vid\xE9os analys\xE9es",
+    "channelRecentHistoricMix": "Pond\xE9ration r\xE9cente ~65% & historique ~35%",
+    "channelSubscribersUnit": "abonn\xE9s",
+    "channelEvolutionTitle": "\u{1F4C8} \xC9volution \xC9ditoriale & Qualit\xE9",
+    "channelStrengthsTitle": "\u2713 Ce qu'elle fait de bien (Forces)",
+    "channelWeaknessesTitle": "! Ce qu'elle fait de moins bien (Vigilance)",
+    "channelDrawbacksTitle": "\u2715 \xC9cueils & Pi\xE8ges (\xC0 \xE9viter)",
+    "channelSampleVideosTitle": "\u{1F3AC} D\xE9tail des vid\xE9os analys\xE9es",
+    "channelSynthesisTitle": "\u{1F4CB} Synth\xE8se Globale",
+    "copyAuditBtn": "\u{1F4CB} Copier le rapport complet",
+    "channelSensationalismLabel": "Indice Sensationnalisme",
+    "channelDistributionLabel": "Distribution par tranches de 5%",
+    "channelMedianLabel": "M\xE9diane :",
+    "channelHomogeneousLine": "Ligne tr\xE8s homog\xE8ne",
+    "channelModerateVarLine": "Variance mod\xE9r\xE9e",
+    "channelVolatileLine": "Ligne volatile / h\xE9t\xE9roclite",
+    "channelIntegrityProportion": "Proportion d'int\xE9grit\xE9 \xE9ditoriale",
+    "channelBucketReliable": "Fiable (\u226575)",
+    "channelBucketModerate": "Mod\xE9r\xE9 (50-74)",
+    "channelBucketRisk": "Risque (<50)",
+    "channelClickbaitLow": "Sobre & factuel",
+    "channelClickbaitMod": "Mod\xE9r\xE9",
+    "channelClickbaitHigh": "Accroche sensationnaliste",
+    "channelVideoScorePrefix": "Fiabilit\xE9",
+    "channelNoStrengths": "Aucun point fort majeur signal\xE9.",
+    "channelNoWeaknesses": "Aucune faiblesse majeure d\xE9tect\xE9e.",
+    "channelNoDrawbacks": "Aucun pi\xE8ge majeur signal\xE9.",
+    "pasteBtn": "Coller",
+    "pasteTooltip": "Coller depuis le presse-papiers",
+    "chapterOnlyNotice": "Sous-titres complets non servis par YouTube. Seuls les chapitres ont pu \xEAtre r\xE9cup\xE9r\xE9s.",
+    "forceRetryBtn": "Forcer",
+    "extractingLabel": "Extraction en cours...",
+    "auditErrorPrefix": "Erreur lors de l'audit :"
   };
   var fr_default = fr;
 
@@ -215,7 +270,7 @@
     "micLabel": "Mic:",
     "micDefault": "\u{1F399}\uFE0F Default mic",
     "tabSummary": "\u{1F4DD} AI Summary",
-    "tabChat": "\u{1F4AC} Ask a question",
+    "tabChat": "\u{1F4AC} Ask questions",
     "tabTranscript": "\u{1F4DC} Transcript",
     "summaryTitle": "\u{1F4DD} AI Summary",
     "listenBtn": "\u{1F50A} Listen",
@@ -330,7 +385,11 @@
     "externalTranscriptError": "Unable to extract subtitles or chapters for external video ({videoId}). Possible reasons: no captions or chapters available, or YouTube access restrictions. You can open this video in a tab to summarize it directly.",
     "retryBtn": "\u{1F504} Retry",
     "tabAudit": "\u{1F6E1}\uFE0F Audit & Fact-Check",
-    "auditTitle": "\u{1F6E1}\uFE0F Critical Audit, Logic & Veracity",
+    "auditTitle": "\u{1F6E1}\uFE0F Critical Logic & Fact-Checking Audit",
+    "subtabAuditVideo": "\u{1F3A5} Video Audit",
+    "subtabAuditChannel": "\u{1F4CA} Channel Audit",
+    "runChannelAuditBtn": "\u26A1 Run Channel Audit",
+    "channelCompanionDesc": "Evaluate editorial integrity, sponsor transparency, and multi-year trajectory across this channel.",
     "runAuditBtn": "\u26A1 Run Audit",
     "relaunchAuditBtn": "\u26A1 Re-run Audit",
     "auditInProgress": "Audit in progress...",
@@ -345,7 +404,58 @@
     "periodAll": "All history",
     "periodMonth": "Last month",
     "periodYear": "Current year",
-    "period6Months": "Last 6 months"
+    "period6Months": "Last 6 months",
+    "tabChannelAudit": "\u{1F4CA} Channel Audit",
+    "channelChatTitle": "\u{1F4AC} Channel Q&A",
+    "channelChatWelcome": "Hello! Ask questions about this channel (editorial line, published videos, sponsors, evolution). Any channel audit report is automatically included as context.",
+    "channelChatPlaceholder": "Ask questions about this channel or paste video links... (Enter to send)",
+    "channelChatResetNotice": "Channel chat reset. Ask your questions below!",
+    "channelChatSuggestions": [
+      { "label": "Editorial line", "question": "What is the main editorial line and evolution trajectory of this channel?" },
+      { "label": "Formats & topics", "question": "What are the main topics and recurring formats in recent videos?" },
+      { "label": "Sponsors & rigor", "question": "What can be observed regarding commercial transparency and sponsorships?" },
+      { "label": "Strengths & gaps", "question": "What are the key strengths and editorial blind spots of this channel?" }
+    ],
+    "maxVideosLabel": "Max Limit:",
+    "stopAuditBtn": "\u23F9 Stop Audit",
+    "stopShortBtn": "Stop",
+    "auditStoppedNote": "\u23F9 Processing stopped by user.",
+    "channelAuditPlaceholder": 'Click "\u26A1 Run Channel Audit" above to evaluate this channel.',
+    "channelSampleBadge": "Sample:",
+    "channelVideosUnit": "videos",
+    "channelAnalyzedVideosUnit": "analyzed videos",
+    "channelRecentHistoricMix": "Weighted ~65% recent & ~35% historical",
+    "channelSubscribersUnit": "subscribers",
+    "channelEvolutionTitle": "\u{1F4C8} Editorial & Quality Evolution",
+    "channelStrengthsTitle": "\u2713 What It Does Well (Strengths)",
+    "channelWeaknessesTitle": "! Areas for Vigilance (Weaknesses)",
+    "channelDrawbacksTitle": "\u2715 Pitfalls & Red Flags (Drawbacks)",
+    "channelSampleVideosTitle": "\u{1F3AC} Analyzed Videos Breakdown",
+    "channelSynthesisTitle": "\u{1F4CB} Executive Synthesis",
+    "copyAuditBtn": "\u{1F4CB} Copy full channel report",
+    "channelSensationalismLabel": "Sensationalism Index",
+    "channelDistributionLabel": "5% tier distribution",
+    "channelMedianLabel": "Median:",
+    "channelHomogeneousLine": "Very consistent line",
+    "channelModerateVarLine": "Moderate variance",
+    "channelVolatileLine": "Volatile / heteroclite line",
+    "channelIntegrityProportion": "Editorial Integrity Distribution",
+    "channelBucketReliable": "Reliable (\u226575)",
+    "channelBucketModerate": "Moderate (50-74)",
+    "channelBucketRisk": "Risk (<50)",
+    "channelClickbaitLow": "Editorial & factual",
+    "channelClickbaitMod": "Moderate",
+    "channelClickbaitHigh": "Sensational / Clickbait",
+    "channelVideoScorePrefix": "Reliability",
+    "channelNoStrengths": "No major strengths reported.",
+    "channelNoWeaknesses": "No major weaknesses reported.",
+    "channelNoDrawbacks": "No major red flags reported.",
+    "pasteBtn": "Paste",
+    "pasteTooltip": "Paste from clipboard",
+    "chapterOnlyNotice": "Full subtitles not served by YouTube. Only chapters could be retrieved.",
+    "forceRetryBtn": "Force",
+    "extractingLabel": "Extracting transcript...",
+    "auditErrorPrefix": "Audit error:"
   };
   var en_default = en;
 
@@ -390,7 +500,7 @@
     "micLabel": "Micro:",
     "micDefault": "\u{1F399}\uFE0F Micro por defecto",
     "tabSummary": "\u{1F4DD} Resumen IA",
-    "tabChat": "\u{1F4AC} Hacer una pregunta",
+    "tabChat": "\u{1F4AC} Hacer preguntas",
     "tabTranscript": "\u{1F4DC} Transcripci\xF3n",
     "summaryTitle": "\u{1F4DD} Resumen IA",
     "listenBtn": "\u{1F50A} Escuchar",
@@ -520,7 +630,62 @@
     "periodAll": "Todo el historial",
     "periodMonth": "\xDAltimo mes",
     "periodYear": "A\xF1o actual",
-    "period6Months": "\xDAltimos 6 meses"
+    "period6Months": "\xDAltimos 6 meses",
+    "subtabAuditVideo": "\u{1F3A5} Auditor\xEDa de video",
+    "subtabAuditChannel": "\u{1F4CA} Auditor\xEDa de canal",
+    "runChannelAuditBtn": "\u26A1 Auditar canal",
+    "channelCompanionDesc": "Eval\xFAe la integridad editorial, la transparencia de patrocinios y la trayectoria del canal.",
+    "tabChannelAudit": "\u{1F4CA} Auditor\xEDa del canal",
+    "channelChatTitle": "\u{1F4AC} Preguntas sobre el canal",
+    "channelChatWelcome": "\xA1Hola! Haz preguntas sobre este canal (l\xEDnea editorial, v\xEDdeos recientes, patrocinios, evoluci\xF3n).",
+    "channelChatPlaceholder": "Haz preguntas sobre el canal o pega enlaces de v\xEDdeo...",
+    "channelChatResetNotice": "Chat del canal reiniciado. \xA1Haz tus preguntas abajo!",
+    "channelChatSuggestions": [
+      { "label": "L\xEDnea editorial", "question": "\xBFCu\xE1l es la l\xEDnea editorial principal y la evoluci\xF3n de este canal?" },
+      { "label": "Temas y formatos", "question": "\xBFCu\xE1les son los temas principales y formatos de sus v\xEDdeos recientes?" },
+      { "label": "Patrocinios", "question": "\xBFQu\xE9 se observa sobre la transparencia comercial y los patrocinadores?" },
+      { "label": "Fortalezas y l\xEDmites", "question": "\xBFCu\xE1les son las principales fortalezas y limitaciones de este canal?" }
+    ],
+    "maxVideosLabel": "L\xEDmite m\xE1x.:",
+    "stopAuditBtn": "\u23F9 Detener auditor\xEDa",
+    "stopShortBtn": "Detener",
+    "auditStoppedNote": "\u23F9 Proceso detenido por el usuario.",
+    "channelAuditPlaceholder": 'Haz clic en "\u26A1 Auditar canal" arriba para evaluar este canal.',
+    "channelSampleBadge": "Muestra:",
+    "channelVideosUnit": "v\xEDdeos",
+    "channelAnalyzedVideosUnit": "v\xEDdeos analizados",
+    "channelRecentHistoricMix": "Ponderaci\xF3n ~65% reciente y ~35% hist\xF3rica",
+    "channelSubscribersUnit": "suscriptores",
+    "channelEvolutionTitle": "\u{1F4C8} Evoluci\xF3n Editorial y Calidad",
+    "channelStrengthsTitle": "\u2713 Puntos Fuertes (Fortalezas)",
+    "channelWeaknessesTitle": "! Puntos a Vigilar (Debilidades)",
+    "channelDrawbacksTitle": "\u2715 Riesgos y Trampas (A evitar)",
+    "channelSampleVideosTitle": "\u{1F3AC} Desglose de V\xEDdeos Analizados",
+    "channelSynthesisTitle": "\u{1F4CB} S\xEDntesis Ejecutiva",
+    "copyAuditBtn": "\u{1F4CB} Copiar informe completo",
+    "channelSensationalismLabel": "\xCDndice de Sensacionalismo",
+    "channelDistributionLabel": "Distribuci\xF3n por tramos de 5%",
+    "channelMedianLabel": "Mediana:",
+    "channelHomogeneousLine": "L\xEDnea muy homog\xE9nea",
+    "channelModerateVarLine": "Varianza moderada",
+    "channelVolatileLine": "L\xEDnea vol\xE1til / heterog\xE9nea",
+    "channelIntegrityProportion": "Proporci\xF3n de integridad editorial",
+    "channelBucketReliable": "Fiable (\u226575)",
+    "channelBucketModerate": "Moderado (50-74)",
+    "channelBucketRisk": "Riesgo (<50)",
+    "channelClickbaitLow": "Sobrio y factual",
+    "channelClickbaitMod": "Moderado",
+    "channelClickbaitHigh": "Sensacionalista / Clickbait",
+    "channelVideoScorePrefix": "Fiabilidad",
+    "channelNoStrengths": "No se se\xF1alaron fortalezas destacadas.",
+    "channelNoWeaknesses": "No se detectaron debilidades importantes.",
+    "channelNoDrawbacks": "No se se\xF1alaron riesgos mayores.",
+    "pasteBtn": "Pegar",
+    "pasteTooltip": "Pegar desde el portapapeles",
+    "chapterOnlyNotice": "YouTube no sirvi\xF3 los subt\xEDtulos completos. Solo se pudieron recuperar los cap\xEDtulos.",
+    "forceRetryBtn": "Forzar",
+    "extractingLabel": "Extrayendo...",
+    "auditErrorPrefix": "Error en la auditor\xEDa:"
   };
   var es_default = es;
 
@@ -565,7 +730,7 @@
     "micLabel": "Mikro:",
     "micDefault": "\u{1F399}\uFE0F Standard-Mikrofon",
     "tabSummary": "\u{1F4DD} KI-Zusammenfassung",
-    "tabChat": "\u{1F4AC} Frage stellen",
+    "tabChat": "\u{1F4AC} Fragen stellen",
     "tabTranscript": "\u{1F4DC} Transkript",
     "summaryTitle": "\u{1F4DD} KI-Zusammenfassung",
     "listenBtn": "\u{1F50A} Anh\xF6ren",
@@ -695,7 +860,62 @@
     "periodAll": "Gesamter Verlauf",
     "periodMonth": "Letzter Monat",
     "periodYear": "Aktuelles Jahr",
-    "period6Months": "Letzte 6 Monate"
+    "period6Months": "Letzte 6 Monate",
+    "subtabAuditVideo": "\u{1F3A5} Video-Audit",
+    "subtabAuditChannel": "\u{1F4CA} Kanal-Audit",
+    "runChannelAuditBtn": "\u26A1 Kanal pr\xFCfen",
+    "channelCompanionDesc": "Bewerten Sie die redaktionelle Integrit\xE4t, Transparenz und Entwicklung dieses Kanals.",
+    "tabChannelAudit": "\u{1F4CA} Kanal-Audit",
+    "channelChatTitle": "\u{1F4AC} Kanal-F&A",
+    "channelChatWelcome": "Hallo! Stellen Sie Fragen zu diesem Kanal (Ausrichtung, aktuelle Videos, Sponsoren, Entwicklung).",
+    "channelChatPlaceholder": "Fragen zum Kanal stellen oder Video-Links einf\xFCgen...",
+    "channelChatResetNotice": "Kanal-Chat zur\xFCckgesetzt. Stellen Sie Ihre Fragen unten!",
+    "channelChatSuggestions": [
+      { "label": "Redaktionelle Linie", "question": "Was ist die redaktionelle Ausrichtung und Entwicklung dieses Kanals?" },
+      { "label": "Themen & Formate", "question": "Welche Hauptthemen und wiederkehrenden Formate gibt es in den letzten Videos?" },
+      { "label": "Sponsoren", "question": "Wie transparent geht der Kanal mit Partnern und Sponsorings um?" },
+      { "label": "St\xE4rken & Schw\xE4chen", "question": "Was sind die gr\xF6\xDFten St\xE4rken und Schw\xE4chen dieses Kanals?" }
+    ],
+    "maxVideosLabel": "Max. Anzahl:",
+    "stopAuditBtn": "\u23F9 Audit stoppen",
+    "stopShortBtn": "Stopp",
+    "auditStoppedNote": "\u23F9 Vorgang vom Benutzer gestoppt.",
+    "channelAuditPlaceholder": "Klicken Sie oben auf \u201E\u26A1 Kanal-Audit starten\u201C, um diesen Kanal zu bewerten.",
+    "channelSampleBadge": "Stichprobe:",
+    "channelVideosUnit": "Videos",
+    "channelAnalyzedVideosUnit": "analysierte Videos",
+    "channelRecentHistoricMix": "Gewichtung ~65% aktuell & ~35% historisch",
+    "channelSubscribersUnit": "Abonnenten",
+    "channelEvolutionTitle": "\u{1F4C8} Redaktionelle & Qualit\xE4tsentwicklung",
+    "channelStrengthsTitle": "\u2713 Was gut funktioniert (St\xE4rken)",
+    "channelWeaknessesTitle": "! Beobachtungspunkte (Schw\xE4chen)",
+    "channelDrawbacksTitle": "\u2715 Risiken & Fallstricke (Vermeiden)",
+    "channelSampleVideosTitle": "\u{1F3AC} Details zu analysierten Videos",
+    "channelSynthesisTitle": "\u{1F4CB} Gesamtzusammenfassung",
+    "copyAuditBtn": "\u{1F4CB} Vollst\xE4ndigen Bericht kopieren",
+    "channelSensationalismLabel": "Sensationsindex",
+    "channelDistributionLabel": "Verteilung in 5%-Schritten",
+    "channelMedianLabel": "Median:",
+    "channelHomogeneousLine": "Sehr konsistente Linie",
+    "channelModerateVarLine": "Moderate Streuung",
+    "channelVolatileLine": "Volatile / uneinheitliche Linie",
+    "channelIntegrityProportion": "Anteil redaktioneller Integrit\xE4t",
+    "channelBucketReliable": "Zuverl\xE4ssig (\u226575)",
+    "channelBucketModerate": "Moderat (50-74)",
+    "channelBucketRisk": "Risiko (<50)",
+    "channelClickbaitLow": "Sachlich & seri\xF6s",
+    "channelClickbaitMod": "Moderat",
+    "channelClickbaitHigh": "Rei\xDFerisch / Clickbait",
+    "channelVideoScorePrefix": "Zuverl\xE4ssigkeit",
+    "channelNoStrengths": "Keine besonderen St\xE4rken vermerkt.",
+    "channelNoWeaknesses": "Keine gr\xF6\xDFeren Schw\xE4chen festgestellt.",
+    "channelNoDrawbacks": "Keine gr\xF6\xDFeren Risiken festgestellt.",
+    "pasteBtn": "Einf\xFCgen",
+    "pasteTooltip": "Aus Zwischenablage einf\xFCgen",
+    "chapterOnlyNotice": "Vollst\xE4ndige Untertitel von YouTube nicht verf\xFCgbar. Nur Kapitel konnten abgerufen werden.",
+    "forceRetryBtn": "Erzwingen",
+    "extractingLabel": "Extraktion l\xE4uft...",
+    "auditErrorPrefix": "Audit-Fehler:"
   };
   var de_default = de;
 
@@ -740,7 +960,7 @@
     "micLabel": "Microfono:",
     "micDefault": "\u{1F399}\uFE0F Microfono predefinito",
     "tabSummary": "\u{1F4DD} Riassunto IA",
-    "tabChat": "\u{1F4AC} Fai una domanda",
+    "tabChat": "\u{1F4AC} Fai delle domande",
     "tabTranscript": "\u{1F4DC} Trascrizione",
     "summaryTitle": "\u{1F4DD} Riassunto IA",
     "listenBtn": "\u{1F50A} Ascolta",
@@ -870,7 +1090,62 @@
     "periodAll": "Tutta la cronologia",
     "periodMonth": "Ultimo mese",
     "periodYear": "Anno in corso",
-    "period6Months": "Ultimi 6 mesi"
+    "period6Months": "Ultimi 6 mesi",
+    "subtabAuditVideo": "\u{1F3A5} Audit video",
+    "subtabAuditChannel": "\u{1F4CA} Audit canale",
+    "runChannelAuditBtn": "\u26A1 Analizza canale",
+    "channelCompanionDesc": "Valuta l'integrit\xE0 editoriale, la trasparenza delle sponsorizzazioni e la traiettoria del canale.",
+    "tabChannelAudit": "\u{1F4CA} Audit del canale",
+    "channelChatTitle": "\u{1F4AC} Domande sul canale",
+    "channelChatWelcome": "Ciao! Fai domande su questo canale (linea editoriale, video pubblicati, sponsorizzazioni, evoluzione).",
+    "channelChatPlaceholder": "Fai domande sul canale o incolla link di video...",
+    "channelChatResetNotice": "Chat del canale reimpostata. Fai le tue domande qui sotto!",
+    "channelChatSuggestions": [
+      { "label": "Linea editoriale", "question": "Qual \xE8 la linea editoriale principale e l'evoluzione di questo canale?" },
+      { "label": "Temi e formati", "question": "Quali sono i temi principali e i formati ricorrenti nei video recenti?" },
+      { "label": "Sponsor e trasparenza", "question": "Cosa si osserva sulla trasparenza commerciale e sulle sponsorizzazioni?" },
+      { "label": "Punti di forza", "question": "Quali sono i principali punti di forza e limiti di questo canale?" }
+    ],
+    "maxVideosLabel": "Limite max:",
+    "stopAuditBtn": "\u23F9 Ferma audit",
+    "stopShortBtn": "Ferma",
+    "auditStoppedNote": "\u23F9 Elaborazione interrotta dall'utente.",
+    "channelAuditPlaceholder": 'Fai clic su "\u26A1 Avvia audit canale" sopra per valutare questo canale.',
+    "channelSampleBadge": "Campione:",
+    "channelVideosUnit": "video",
+    "channelAnalyzedVideosUnit": "video analizzati",
+    "channelRecentHistoricMix": "Ponderazione ~65% recenti e ~35% storici",
+    "channelSubscribersUnit": "iscritti",
+    "channelEvolutionTitle": "\u{1F4C8} Evoluzione Editoriale e Qualit\xE0",
+    "channelStrengthsTitle": "\u2713 Punti di Forza (Cosa funziona)",
+    "channelWeaknessesTitle": "! Punti di Attenzione (Debolezze)",
+    "channelDrawbacksTitle": "\u2715 Rischi e Trappole (Da evitare)",
+    "channelSampleVideosTitle": "\u{1F3AC} Dettaglio Video Analizzati",
+    "channelSynthesisTitle": "\u{1F4CB} Sintesi Generale",
+    "copyAuditBtn": "\u{1F4CB} Copia report completo",
+    "channelSensationalismLabel": "Indice Sensazionalismo",
+    "channelDistributionLabel": "Distribuzione per fasce del 5%",
+    "channelMedianLabel": "Mediana:",
+    "channelHomogeneousLine": "Linea molto coerente",
+    "channelModerateVarLine": "Varianza moderata",
+    "channelVolatileLine": "Linea volatile / eterogenea",
+    "channelIntegrityProportion": "Proporzione di integrit\xE0 editoriale",
+    "channelBucketReliable": "Affidabile (\u226575)",
+    "channelBucketModerate": "Moderato (50-74)",
+    "channelBucketRisk": "Rischio (<50)",
+    "channelClickbaitLow": "Sobrio e fattuale",
+    "channelClickbaitMod": "Moderato",
+    "channelClickbaitHigh": "Sensazionalistico / Clickbait",
+    "channelVideoScorePrefix": "Affidabilit\xE0",
+    "channelNoStrengths": "Nessun punto di forza rilevante segnalato.",
+    "channelNoWeaknesses": "Nessuna debolezza grave rilevata.",
+    "channelNoDrawbacks": "Nessun rischio maggiore segnalato.",
+    "pasteBtn": "Incolla",
+    "pasteTooltip": "Incolla dagli appunti",
+    "chapterOnlyNotice": "Sottotitoli completi non forniti da YouTube. Solo i capitoli sono stati recuperati.",
+    "forceRetryBtn": "Forza",
+    "extractingLabel": "Estrazione in corso...",
+    "auditErrorPrefix": "Errore di audit:"
   };
   var it_default = it;
 
@@ -915,7 +1190,7 @@
     "micLabel": "\u041C\u0438\u043A\u0440\u043E\u0444\u043E\u043D:",
     "micDefault": "\u{1F399}\uFE0F \u041C\u0438\u043A\u0440\u043E\u0444\u043E\u043D \u043F\u043E \u0443\u043C\u043E\u043B\u0447\u0430\u043D\u0438\u044E",
     "tabSummary": "\u{1F4DD} \u0418\u0418-\u0421\u0432\u043E\u0434\u043A\u0430",
-    "tabChat": "\u{1F4AC} \u0417\u0430\u0434\u0430\u0442\u044C \u0432\u043E\u043F\u0440\u043E\u0441",
+    "tabChat": "\u{1F4AC} \u0417\u0430\u0434\u0430\u0442\u044C \u0432\u043E\u043F\u0440\u043E\u0441\u044B",
     "tabTranscript": "\u{1F4DC} \u0422\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u044F",
     "summaryTitle": "\u{1F4DD} \u0418\u0418-\u0421\u0432\u043E\u0434\u043A\u0430",
     "listenBtn": "\u{1F50A} \u0421\u043B\u0443\u0448\u0430\u0442\u044C",
@@ -1045,7 +1320,62 @@
     "periodAll": "\u0412\u0441\u044F \u0438\u0441\u0442\u043E\u0440\u0438\u044F",
     "periodMonth": "\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0439 \u043C\u0435\u0441\u044F\u0446",
     "periodYear": "\u0422\u0435\u043A\u0443\u0449\u0438\u0439 \u0433\u043E\u0434",
-    "period6Months": "\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 6 \u043C\u0435\u0441\u044F\u0446\u0435\u0432"
+    "period6Months": "\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0435 6 \u043C\u0435\u0441\u044F\u0446\u0435\u0432",
+    "subtabAuditVideo": "\u{1F3A5} \u0410\u0443\u0434\u0438\u0442 \u0432\u0438\u0434\u0435\u043E",
+    "subtabAuditChannel": "\u{1F4CA} \u0410\u0443\u0434\u0438\u0442 \u043A\u0430\u043D\u0430\u043B\u0430",
+    "runChannelAuditBtn": "\u26A1 \u0410\u0443\u0434\u0438\u0442 \u043A\u0430\u043D\u0430\u043B\u0430",
+    "channelCompanionDesc": "\u041E\u0446\u0435\u043D\u043A\u0430 \u0440\u0435\u0434\u0430\u043A\u0446\u0438\u043E\u043D\u043D\u043E\u0439 \u0447\u0435\u0441\u0442\u043D\u043E\u0441\u0442\u0438, \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u043E\u0441\u0442\u0438 \u0441\u043F\u043E\u043D\u0441\u043E\u0440\u043E\u0432 \u0438 \u0442\u0440\u0430\u0435\u043A\u0442\u043E\u0440\u0438\u0438 \u0440\u0430\u0437\u0432\u0438\u0442\u0438\u044F \u043A\u0430\u043D\u0430\u043B\u0430.",
+    "tabChannelAudit": "\u{1F4CA} \u0410\u0443\u0434\u0438\u0442 \u043A\u0430\u043D\u0430\u043B\u0430",
+    "channelChatTitle": "\u{1F4AC} \u0412\u043E\u043F\u0440\u043E\u0441\u044B \u043F\u043E \u043A\u0430\u043D\u0430\u043B\u0443",
+    "channelChatWelcome": "\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439\u0442\u0435! \u0417\u0430\u0434\u0430\u0439\u0442\u0435 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u043E\u0431 \u044D\u0442\u043E\u043C \u043A\u0430\u043D\u0430\u043B\u0435 (\u0440\u0435\u0434\u0430\u043A\u0446\u0438\u043E\u043D\u043D\u0430\u044F \u043F\u043E\u043B\u0438\u0442\u0438\u043A\u0430, \u0432\u0438\u0434\u0435\u043E, \u0440\u0435\u043A\u043B\u0430\u043C\u0430, \u044D\u0432\u043E\u043B\u044E\u0446\u0438\u044F).",
+    "channelChatPlaceholder": "\u0417\u0430\u0434\u0430\u0439\u0442\u0435 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u043E \u043A\u0430\u043D\u0430\u043B\u0435 \u0438\u043B\u0438 \u0432\u0441\u0442\u0430\u0432\u044C\u0442\u0435 \u0441\u0441\u044B\u043B\u043A\u0438 \u043D\u0430 \u0432\u0438\u0434\u0435\u043E...",
+    "channelChatResetNotice": "\u0427\u0430\u0442 \u043A\u0430\u043D\u0430\u043B\u0430 \u0441\u0431\u0440\u043E\u0448\u0435\u043D. \u0417\u0430\u0434\u0430\u0439\u0442\u0435 \u0432\u043E\u043F\u0440\u043E\u0441\u044B \u043D\u0438\u0436\u0435!",
+    "channelChatSuggestions": [
+      { "label": "\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u043A\u0430\u043D\u0430\u043B\u0430", "question": "\u041A\u0430\u043A\u043E\u0432\u0430 \u043E\u0441\u043D\u043E\u0432\u043D\u0430\u044F \u0440\u0435\u0434\u0430\u043A\u0446\u0438\u043E\u043D\u043D\u0430\u044F \u043F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u0438 \u044D\u0432\u043E\u043B\u044E\u0446\u0438\u044F \u044D\u0442\u043E\u0433\u043E \u043A\u0430\u043D\u0430\u043B\u0430?" },
+      { "label": "\u0422\u0435\u043C\u044B \u0438 \u0444\u043E\u0440\u043C\u0430\u0442\u044B", "question": "\u041A\u0430\u043A\u0438\u0435 \u043E\u0441\u043D\u043E\u0432\u043D\u044B\u0435 \u0442\u0435\u043C\u044B \u0438 \u0440\u0435\u0433\u0443\u043B\u044F\u0440\u043D\u044B\u0435 \u0444\u043E\u0440\u043C\u0430\u0442\u044B \u0432\u0441\u0442\u0440\u0435\u0447\u0430\u044E\u0442\u0441\u044F \u0432 \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0438\u0445 \u0432\u0438\u0434\u0435\u043E?" },
+      { "label": "\u0420\u0435\u043A\u043B\u0430\u043C\u0430", "question": "\u0427\u0442\u043E \u043C\u043E\u0436\u043D\u043E \u0441\u043A\u0430\u0437\u0430\u0442\u044C \u043E \u043F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u043E\u0441\u0442\u0438 \u0441\u043F\u043E\u043D\u0441\u043E\u0440\u0441\u043A\u0438\u0445 \u0438\u043D\u0442\u0435\u0433\u0440\u0430\u0446\u0438\u0439?" },
+      { "label": "\u0421\u0438\u043B\u044C\u043D\u044B\u0435 \u0441\u0442\u043E\u0440\u043E\u043D\u044B", "question": "\u041A\u0430\u043A\u043E\u0432\u044B \u0433\u043B\u0430\u0432\u043D\u044B\u0435 \u0441\u0438\u043B\u044C\u043D\u044B\u0435 \u0441\u0442\u043E\u0440\u043E\u043D\u044B \u0438 \u043E\u0433\u0440\u0430\u043D\u0438\u0447\u0435\u043D\u0438\u044F \u044D\u0442\u043E\u0433\u043E \u043A\u0430\u043D\u0430\u043B\u0430?" }
+    ],
+    "maxVideosLabel": "\u041C\u0430\u043A\u0441. \u0432\u0438\u0434\u0435\u043E:",
+    "stopAuditBtn": "\u23F9 \u041E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C \u0430\u0443\u0434\u0438\u0442",
+    "stopShortBtn": "\u0421\u0442\u043E\u043F",
+    "auditStoppedNote": "\u23F9 \u041E\u0431\u0440\u0430\u0431\u043E\u0442\u043A\u0430 \u043E\u0441\u0442\u0430\u043D\u043E\u0432\u043B\u0435\u043D\u0430 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0435\u043C.",
+    "channelAuditPlaceholder": "\u041D\u0430\u0436\u043C\u0438\u0442\u0435 \xAB\u26A1 \u0417\u0430\u043F\u0443\u0441\u0442\u0438\u0442\u044C \u0430\u0443\u0434\u0438\u0442 \u043A\u0430\u043D\u0430\u043B\u0430\xBB \u0432\u044B\u0448\u0435, \u0447\u0442\u043E\u0431\u044B \u043E\u0446\u0435\u043D\u0438\u0442\u044C \u044D\u0442\u043E\u0442 \u043A\u0430\u043D\u0430\u043B.",
+    "channelSampleBadge": "\u0412\u044B\u0431\u043E\u0440\u043A\u0430:",
+    "channelVideosUnit": "\u0432\u0438\u0434\u0435\u043E",
+    "channelAnalyzedVideosUnit": "\u043F\u0440\u043E\u0430\u043D\u0430\u043B\u0438\u0437\u0438\u0440\u043E\u0432\u0430\u043D\u043E \u0432\u0438\u0434\u0435\u043E",
+    "channelRecentHistoricMix": "\u0412\u0435\u0441 ~65% \u043D\u0435\u0434\u0430\u0432\u043D\u0438\u0445 \u0438 ~35% \u0430\u0440\u0445\u0438\u0432\u043D\u044B\u0445",
+    "channelSubscribersUnit": "\u043F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A\u043E\u0432",
+    "channelEvolutionTitle": "\u{1F4C8} \u0420\u0435\u0434\u0430\u043A\u0446\u0438\u043E\u043D\u043D\u0430\u044F \u044D\u0432\u043E\u043B\u044E\u0446\u0438\u044F \u0438 \u043A\u0430\u0447\u0435\u0441\u0442\u0432\u043E",
+    "channelStrengthsTitle": "\u2713 \u0421\u0438\u043B\u044C\u043D\u044B\u0435 \u0441\u0442\u043E\u0440\u043E\u043D\u044B (\u0427\u0442\u043E \u0445\u043E\u0440\u043E\u0448\u043E)",
+    "channelWeaknessesTitle": "! \u041D\u0430 \u0447\u0442\u043E \u043E\u0431\u0440\u0430\u0442\u0438\u0442\u044C \u0432\u043D\u0438\u043C\u0430\u043D\u0438\u0435 (\u0421\u043B\u0430\u0431\u043E\u0441\u0442\u0438)",
+    "channelDrawbacksTitle": "\u2715 \u041F\u043E\u0434\u0432\u043E\u0434\u043D\u044B\u0435 \u043A\u0430\u043C\u043D\u0438 \u0438 \u0440\u0438\u0441\u043A\u0438",
+    "channelSampleVideosTitle": "\u{1F3AC} \u0420\u0430\u0437\u0431\u043E\u0440 \u043F\u0440\u043E\u0430\u043D\u0430\u043B\u0438\u0437\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0445 \u0432\u0438\u0434\u0435\u043E",
+    "channelSynthesisTitle": "\u{1F4CB} \u041E\u0431\u0449\u0435\u0435 \u0440\u0435\u0437\u044E\u043C\u0435",
+    "copyAuditBtn": "\u{1F4CB} \u0421\u043A\u043E\u043F\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u043E\u043B\u043D\u044B\u0439 \u043E\u0442\u0447\u0435\u0442",
+    "channelSensationalismLabel": "\u0418\u043D\u0434\u0435\u043A\u0441 \u0441\u0435\u043D\u0441\u0430\u0446\u0438\u043E\u043D\u043D\u043E\u0441\u0442\u0438",
+    "channelDistributionLabel": "\u0420\u0430\u0441\u043F\u0440\u0435\u0434\u0435\u043B\u0435\u043D\u0438\u0435 \u043F\u043E \u0448\u0430\u0433\u0443 5%",
+    "channelMedianLabel": "\u041C\u0435\u0434\u0438\u0430\u043D\u0430:",
+    "channelHomogeneousLine": "\u041E\u0447\u0435\u043D\u044C \u0441\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u0430\u044F \u043F\u043E\u0434\u0430\u0447\u0430",
+    "channelModerateVarLine": "\u0423\u043C\u0435\u0440\u0435\u043D\u043D\u044B\u0439 \u0440\u0430\u0437\u0431\u0440\u043E\u0441",
+    "channelVolatileLine": "\u041D\u0435\u0441\u0442\u0430\u0431\u0438\u043B\u044C\u043D\u0430\u044F \u043F\u043E\u0434\u0430\u0447\u0430",
+    "channelIntegrityProportion": "\u0414\u043E\u043B\u044F \u0440\u0435\u0434\u0430\u043A\u0446\u0438\u043E\u043D\u043D\u043E\u0439 \u0434\u043E\u0431\u0440\u043E\u0441\u043E\u0432\u0435\u0441\u0442\u043D\u043E\u0441\u0442\u0438",
+    "channelBucketReliable": "\u041D\u0430\u0434\u0435\u0436\u043D\u043E (\u226575)",
+    "channelBucketModerate": "\u0421\u0440\u0435\u0434\u043D\u0435 (50-74)",
+    "channelBucketRisk": "\u0420\u0438\u0441\u043A (<50)",
+    "channelClickbaitLow": "\u0421\u0434\u0435\u0440\u0436\u0430\u043D\u043D\u043E \u0438 \u043F\u043E \u0444\u0430\u043A\u0442\u0430\u043C",
+    "channelClickbaitMod": "\u0423\u043C\u0435\u0440\u0435\u043D\u043D\u043E",
+    "channelClickbaitHigh": "\u0421\u0435\u043D\u0441\u0430\u0446\u0438\u043E\u043D\u043D\u043E\u0441\u0442\u044C / \u041A\u043B\u0438\u043A\u0431\u0435\u0439\u0442",
+    "channelVideoScorePrefix": "\u041D\u0430\u0434\u0435\u0436\u043D\u043E\u0441\u0442\u044C",
+    "channelNoStrengths": "\u0417\u043D\u0430\u0447\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0445 \u0441\u0438\u043B\u044C\u043D\u044B\u0445 \u0441\u0442\u043E\u0440\u043E\u043D \u043D\u0435 \u043E\u0442\u043C\u0435\u0447\u0435\u043D\u043E.",
+    "channelNoWeaknesses": "\u0421\u0435\u0440\u044C\u0435\u0437\u043D\u044B\u0445 \u0441\u043B\u0430\u0431\u043E\u0441\u0442\u0435\u0439 \u043D\u0435 \u0432\u044B\u044F\u0432\u043B\u0435\u043D\u043E.",
+    "channelNoDrawbacks": "\u0421\u0435\u0440\u044C\u0435\u0437\u043D\u044B\u0445 \u0440\u0438\u0441\u043A\u043E\u0432 \u043D\u0435 \u0432\u044B\u044F\u0432\u043B\u0435\u043D\u043E.",
+    "pasteBtn": "\u0412\u0441\u0442\u0430\u0432\u0438\u0442\u044C",
+    "pasteTooltip": "\u0412\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0438\u0437 \u0431\u0443\u0444\u0435\u0440\u0430 \u043E\u0431\u043C\u0435\u043D\u0430",
+    "chapterOnlyNotice": "YouTube \u043D\u0435 \u043F\u0440\u0435\u0434\u043E\u0441\u0442\u0430\u0432\u0438\u043B \u043F\u043E\u043B\u043D\u044B\u0435 \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u044B. \u0423\u0434\u0430\u043B\u043E\u0441\u044C \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u0442\u043E\u043B\u044C\u043A\u043E \u0433\u043B\u0430\u0432\u044B.",
+    "forceRetryBtn": "\u041F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u044C",
+    "extractingLabel": "\u0418\u0437\u0432\u043B\u0435\u0447\u0435\u043D\u0438\u0435 \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u043E\u0432...",
+    "auditErrorPrefix": "\u041E\u0448\u0438\u0431\u043A\u0430 \u0430\u0443\u0434\u0438\u0442\u0430:"
   };
   var ru_default = ru;
 
@@ -1220,7 +1550,62 @@
     "periodAll": "\u5168\u5C65\u6B74",
     "periodMonth": "\u904E\u53BB1\u304B\u6708",
     "periodYear": "\u4ECA\u5E74",
-    "period6Months": "\u904E\u53BB6\u304B\u6708"
+    "period6Months": "\u904E\u53BB6\u304B\u6708",
+    "subtabAuditVideo": "\u{1F3A5} \u52D5\u753B\u306E\u76E3\u67FB",
+    "subtabAuditChannel": "\u{1F4CA} \u30C1\u30E3\u30F3\u30CD\u30EB\u306E\u76E3\u67FB",
+    "runChannelAuditBtn": "\u26A1 \u30C1\u30E3\u30F3\u30CD\u30EB\u76E3\u67FB\u3092\u5B9F\u884C",
+    "channelCompanionDesc": "\u3053\u306E\u30C1\u30E3\u30F3\u30CD\u30EB\u306E\u7DE8\u96C6\u65B9\u91DD\u3001\u30B9\u30DD\u30F3\u30B5\u30FC\u306E\u900F\u660E\u6027\u3001\u304A\u3088\u3073\u8907\u6570\u5E74\u306E\u63A8\u79FB\u3092\u8A55\u4FA1\u3057\u307E\u3059\u3002",
+    "tabChannelAudit": "\u{1F4CA} \u30C1\u30E3\u30F3\u30CD\u30EB\u76E3\u67FB",
+    "channelChatTitle": "\u{1F4AC} \u30C1\u30E3\u30F3\u30CD\u30EB\u3078\u306E\u8CEA\u554F",
+    "channelChatWelcome": "\u3053\u3093\u306B\u3061\u306F\uFF01\u3053\u306E\u30C1\u30E3\u30F3\u30CD\u30EB\uFF08\u7DE8\u96C6\u65B9\u91DD\u3001\u516C\u958B\u52D5\u753B\u3001\u30B9\u30DD\u30F3\u30B5\u30FC\u3001\u63A8\u79FB\uFF09\u306B\u3064\u3044\u3066\u4F55\u3067\u3082\u8CEA\u554F\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+    "channelChatPlaceholder": "\u30C1\u30E3\u30F3\u30CD\u30EB\u306B\u3064\u3044\u3066\u8CEA\u554F\u3059\u308B\u304B\u3001\u52D5\u753B\u30EA\u30F3\u30AF\u3092\u8CBC\u308A\u4ED8\u3051\u3066\u304F\u3060\u3055\u3044...",
+    "channelChatResetNotice": "\u30C1\u30E3\u30C3\u30C8\u3092\u30EA\u30BB\u30C3\u30C8\u3057\u307E\u3057\u305F\u3002\u4EE5\u4E0B\u306B\u8CEA\u554F\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044\uFF01",
+    "channelChatSuggestions": [
+      { "label": "\u7DE8\u96C6\u65B9\u91DD", "question": "\u3053\u306E\u30C1\u30E3\u30F3\u30CD\u30EB\u306E\u4E3B\u306A\u7DE8\u96C6\u65B9\u91DD\u3068\u63A8\u79FB\u306F\u3069\u3046\u306A\u3063\u3066\u3044\u307E\u3059\u304B\uFF1F" },
+      { "label": "\u30C6\u30FC\u30DE\u3068\u5F62\u5F0F", "question": "\u6700\u8FD1\u306E\u52D5\u753B\u306E\u4E3B\u306A\u30C8\u30D4\u30C3\u30AF\u3068\u5B9A\u756A\u5F62\u5F0F\u306F\u4F55\u3067\u3059\u304B\uFF1F" },
+      { "label": "\u30B9\u30DD\u30F3\u30B5\u30FC\u900F\u660E\u6027", "question": "\u30BF\u30A4\u30A2\u30C3\u30D7\u3084\u30B9\u30DD\u30F3\u30B5\u30FC\u8868\u8A18\u306E\u900F\u660E\u6027\u306B\u3064\u3044\u3066\u4F55\u304C\u8A00\u3048\u307E\u3059\u304B\uFF1F" },
+      { "label": "\u5F37\u307F\u3068\u8AB2\u984C", "question": "\u3053\u306E\u30C1\u30E3\u30F3\u30CD\u30EB\u306E\u4E3B\u306A\u5F37\u307F\u3068\u6539\u5584\u70B9\u306F\u4F55\u3067\u3059\u304B\uFF1F" }
+    ],
+    "maxVideosLabel": "\u6700\u5927\u4EF6\u6570:",
+    "stopAuditBtn": "\u23F9 \u76E3\u67FB\u3092\u505C\u6B62",
+    "stopShortBtn": "\u505C\u6B62",
+    "auditStoppedNote": "\u23F9 \u30E6\u30FC\u30B6\u30FC\u306B\u3088\u3063\u3066\u51E6\u7406\u304C\u505C\u6B62\u3055\u308C\u307E\u3057\u305F\u3002",
+    "channelAuditPlaceholder": "\u4E0A\u306E\u300C\u26A1 \u30C1\u30E3\u30F3\u30CD\u30EB\u76E3\u67FB\u3092\u5B9F\u884C\u300D\u3092\u30AF\u30EA\u30C3\u30AF\u3057\u3066\u8A55\u4FA1\u3092\u958B\u59CB\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+    "channelSampleBadge": "\u30B5\u30F3\u30D7\u30EB:",
+    "channelVideosUnit": "\u672C\u306E\u52D5\u753B",
+    "channelAnalyzedVideosUnit": "\u672C\u306E\u5206\u6790\u6E08\u307F\u52D5\u753B",
+    "channelRecentHistoricMix": "\u76F4\u8FD1\u7D0465%\u30FB\u904E\u53BB\u7D0435%\u306E\u52A0\u91CD\u5206\u6790",
+    "channelSubscribersUnit": "\u4EBA\u306E\u767B\u9332\u8005",
+    "channelEvolutionTitle": "\u{1F4C8} \u7DE8\u96C6\u65B9\u91DD\u3068\u54C1\u8CEA\u306E\u63A8\u79FB",
+    "channelStrengthsTitle": "\u2713 \u512A\u308C\u3066\u3044\u308B\u70B9\uFF08\u5F37\u307F\uFF09",
+    "channelWeaknessesTitle": "! \u6CE8\u610F\u3059\u3079\u304D\u70B9\uFF08\u8AB2\u984C\uFF09",
+    "channelDrawbacksTitle": "\u2715 \u30EA\u30B9\u30AF\u3068\u6CE8\u610F\u70B9\uFF08\u56DE\u907F\u63A8\u5968\uFF09",
+    "channelSampleVideosTitle": "\u{1F3AC} \u5206\u6790\u5BFE\u8C61\u52D5\u753B\u306E\u8A73\u7D30",
+    "channelSynthesisTitle": "\u{1F4CB} \u7DCF\u5408\u7DCF\u62EC",
+    "copyAuditBtn": "\u{1F4CB} \u8A73\u7D30\u30EC\u30DD\u30FC\u30C8\u3092\u30B3\u30D4\u30FC",
+    "channelSensationalismLabel": "\u6247\u60C5\u6027\u6307\u6570",
+    "channelDistributionLabel": "5%\u523B\u307F\u306E\u30B9\u30B3\u30A2\u5206\u5E03",
+    "channelMedianLabel": "\u4E2D\u592E\u5024:",
+    "channelHomogeneousLine": "\u975E\u5E38\u306B\u5B89\u5B9A\u3057\u305F\u54C1\u8CEA",
+    "channelModerateVarLine": "\u4E2D\u7A0B\u5EA6\u306E\u3070\u3089\u3064\u304D",
+    "channelVolatileLine": "\u5909\u52D5\u304C\u5927\u304D\u3044\u54C1\u8CEA",
+    "channelIntegrityProportion": "\u7DE8\u96C6\u8AA0\u5B9F\u6027\u306E\u5272\u5408",
+    "channelBucketReliable": "\u4FE1\u983C (\u226575)",
+    "channelBucketModerate": "\u4E2D\u7A0B\u5EA6 (50-74)",
+    "channelBucketRisk": "\u30EA\u30B9\u30AF (<50)",
+    "channelClickbaitLow": "\u6291\u5236\u7684\u30FB\u4E8B\u5B9F\u30D9\u30FC\u30B9",
+    "channelClickbaitMod": "\u4E2D\u7A0B\u5EA6",
+    "channelClickbaitHigh": "\u6247\u60C5\u7684\u30FB\u91E3\u308A\u30BF\u30A4\u30C8\u30EB\u50BE\u5411",
+    "channelVideoScorePrefix": "\u4FE1\u983C\u6027",
+    "channelNoStrengths": "\u7279\u7B46\u3059\u3079\u304D\u5F37\u307F\u306F\u5831\u544A\u3055\u308C\u307E\u305B\u3093\u3067\u3057\u305F\u3002",
+    "channelNoWeaknesses": "\u5927\u304D\u306A\u5F31\u70B9\u306F\u691C\u51FA\u3055\u308C\u307E\u305B\u3093\u3067\u3057\u305F\u3002",
+    "channelNoDrawbacks": "\u91CD\u5927\u306A\u30EA\u30B9\u30AF\u306F\u5831\u544A\u3055\u308C\u307E\u305B\u3093\u3067\u3057\u305F\u3002",
+    "pasteBtn": "\u8CBC\u308A\u4ED8\u3051",
+    "pasteTooltip": "\u30AF\u30EA\u30C3\u30D7\u30DC\u30FC\u30C9\u304B\u3089\u8CBC\u308A\u4ED8\u3051",
+    "chapterOnlyNotice": "YouTube\u304B\u3089\u5B8C\u5168\u306A\u5B57\u5E55\u3092\u53D6\u5F97\u3067\u304D\u307E\u305B\u3093\u3067\u3057\u305F\u3002\u30C1\u30E3\u30D7\u30BF\u30FC\u306E\u307F\u53D6\u5F97\u3055\u308C\u307E\u3057\u305F\u3002",
+    "forceRetryBtn": "\u518D\u8A66\u884C",
+    "extractingLabel": "\u62BD\u51FA\u4E2D...",
+    "auditErrorPrefix": "\u76E3\u67FB\u30A8\u30E9\u30FC:"
   };
   var ja_default = ja;
 
@@ -1395,7 +1780,62 @@
     "periodAll": "\u5168\u90E8\u5386\u53F2",
     "periodMonth": "\u6700\u8FD1\u4E00\u4E2A\u6708",
     "periodYear": "\u4ECA\u5E74",
-    "period6Months": "\u6700\u8FD16\u4E2A\u6708"
+    "period6Months": "\u6700\u8FD16\u4E2A\u6708",
+    "subtabAuditVideo": "\u{1F3A5} \u89C6\u9891\u5BA1\u6838",
+    "subtabAuditChannel": "\u{1F4CA} \u9891\u9053\u5BA1\u6838",
+    "runChannelAuditBtn": "\u26A1 \u8FD0\u884C\u9891\u9053\u5BA1\u6838",
+    "channelCompanionDesc": "\u8BC4\u4F30\u8BE5\u9891\u9053\u7684\u7F16\u8F91\u4E25\u8C28\u6027\u3001\u8D5E\u52A9\u900F\u660E\u5EA6\u4EE5\u53CA\u591A\u5E74\u53D1\u5C55\u8F68\u8FF9\u3002",
+    "tabChannelAudit": "\u{1F4CA} \u9891\u9053\u5BA1\u6838",
+    "channelChatTitle": "\u{1F4AC} \u9891\u9053\u95EE\u7B54\u4E92\u52A8",
+    "channelChatWelcome": "\u4F60\u597D\uFF01\u8BF7\u9488\u5BF9\u8BE5\u9891\u9053\u63D0\u51FA\u95EE\u9898\uFF08\u5185\u5BB9\u98CE\u683C\u3001\u8FD1\u671F\u89C6\u9891\u3001\u5546\u4E1A\u5408\u4F5C\u4E0E\u957F\u671F\u6F14\u8FDB\uFF09\u3002",
+    "channelChatPlaceholder": "\u9488\u5BF9\u9891\u9053\u63D0\u95EE\u6216\u7C98\u8D34\u89C6\u9891\u94FE\u63A5...",
+    "channelChatResetNotice": "\u9891\u9053\u5BF9\u8BDD\u5DF2\u91CD\u7F6E\uFF0C\u8BF7\u5728\u4E0B\u65B9\u63D0\u95EE\uFF01",
+    "channelChatSuggestions": [
+      { "label": "\u5185\u5BB9\u98CE\u683C", "question": "\u8BE5\u9891\u9053\u7684\u4E3B\u8981\u7F16\u8F91\u98CE\u683C\u4E0E\u957F\u671F\u6F14\u8FDB\u8D8B\u52BF\u662F\u4EC0\u4E48\uFF1F" },
+      { "label": "\u4E3B\u9898\u4E0E\u5F62\u5F0F", "question": "\u8FD1\u671F\u89C6\u9891\u7684\u4E3B\u8981\u4E3B\u9898\u548C\u5E38\u89C1\u5236\u4F5C\u5F62\u5F0F\u6709\u54EA\u4E9B\uFF1F" },
+      { "label": "\u5546\u4E1A\u900F\u660E\u5EA6", "question": "\u8BE5\u9891\u9053\u5728\u5546\u4E1A\u5408\u4F5C\u4E0E\u5E7F\u544A\u900F\u660E\u5EA6\u65B9\u9762\u8868\u73B0\u5982\u4F55\uFF1F" },
+      { "label": "\u4F18\u52BF\u4E0E\u4E0D\u8DB3", "question": "\u8BE5\u9891\u9053\u6709\u54EA\u4E9B\u6838\u5FC3\u4F18\u52BF\u548C\u5185\u5BB9\u5C40\u9650\uFF1F" }
+    ],
+    "maxVideosLabel": "\u6700\u5927\u6570\u91CF:",
+    "stopAuditBtn": "\u23F9 \u505C\u6B62\u5BA1\u8BA1",
+    "stopShortBtn": "\u505C\u6B62",
+    "auditStoppedNote": "\u23F9 \u7528\u6237\u5DF2\u505C\u6B62\u5904\u7406\u3002",
+    "channelAuditPlaceholder": "\u70B9\u51FB\u4E0A\u65B9\u7684\u201C\u26A1 \u8FD0\u884C\u9891\u9053\u5BA1\u8BA1\u201D\u4EE5\u8BC4\u4F30\u6B64\u9891\u9053\u3002",
+    "channelSampleBadge": "\u6837\u672C:",
+    "channelVideosUnit": "\u4E2A\u89C6\u9891",
+    "channelAnalyzedVideosUnit": "\u4E2A\u5DF2\u5206\u6790\u89C6\u9891",
+    "channelRecentHistoricMix": "\u52A0\u6743 ~65% \u8FD1\u671F\u4E0E ~35% \u5386\u53F2\u5185\u5BB9",
+    "channelSubscribersUnit": "\u4F4D\u8BA2\u9605\u8005",
+    "channelEvolutionTitle": "\u{1F4C8} \u7F16\u8F91\u4E0E\u8D28\u91CF\u6F14\u53D8",
+    "channelStrengthsTitle": "\u2713 \u6838\u5FC3\u4F18\u52BF\uFF08\u4EAE\u70B9\uFF09",
+    "channelWeaknessesTitle": "! \u9700\u5173\u6CE8\u70B9\uFF08\u4E0D\u8DB3\uFF09",
+    "channelDrawbacksTitle": "\u2715 \u98CE\u9669\u4E0E\u8B66\u793A\uFF08\u907F\u5751\uFF09",
+    "channelSampleVideosTitle": "\u{1F3AC} \u5DF2\u5206\u6790\u89C6\u9891\u8BE6\u60C5",
+    "channelSynthesisTitle": "\u{1F4CB} \u7EFC\u5408\u603B\u7ED3",
+    "copyAuditBtn": "\u{1F4CB} \u590D\u5236\u5B8C\u6574\u62A5\u544A",
+    "channelSensationalismLabel": "\u6807\u9898\u515A/\u5938\u5F20\u6307\u6570",
+    "channelDistributionLabel": "\u6309 5% \u533A\u95F4\u5206\u5E03",
+    "channelMedianLabel": "\u4E2D\u4F4D\u6570:",
+    "channelHomogeneousLine": "\u98CE\u683C\u9AD8\u5EA6\u4E00\u81F4",
+    "channelModerateVarLine": "\u4E2D\u7B49\u6CE2\u52A8",
+    "channelVolatileLine": "\u98CE\u683C\u6CE2\u52A8\u8F83\u5927",
+    "channelIntegrityProportion": "\u7F16\u8F91\u8BDA\u4FE1\u5EA6\u5206\u5E03",
+    "channelBucketReliable": "\u53EF\u9760 (\u226575)",
+    "channelBucketModerate": "\u4E2D\u7B49 (50-74)",
+    "channelBucketRisk": "\u98CE\u9669 (<50)",
+    "channelClickbaitLow": "\u514B\u5236\u4E0E\u5BA2\u89C2",
+    "channelClickbaitMod": "\u9002\u5EA6",
+    "channelClickbaitHigh": "\u6807\u9898\u5938\u5927 / \u6807\u9898\u515A",
+    "channelVideoScorePrefix": "\u53EF\u4FE1\u5EA6",
+    "channelNoStrengths": "\u672A\u53D1\u73B0\u663E\u8457\u4F18\u52BF\u3002",
+    "channelNoWeaknesses": "\u672A\u68C0\u6D4B\u5230\u660E\u663E\u77ED\u677F\u3002",
+    "channelNoDrawbacks": "\u672A\u53D1\u73B0\u91CD\u5927\u98CE\u9669\u63D0\u793A\u3002",
+    "pasteBtn": "\u7C98\u8D34",
+    "pasteTooltip": "\u4ECE\u526A\u8D34\u677F\u7C98\u8D34",
+    "chapterOnlyNotice": "YouTube \u672A\u63D0\u4F9B\u5B8C\u6574\u5B57\u5E55\uFF0C\u4EC5\u83B7\u53D6\u5230\u7AE0\u8282\u4FE1\u606F\u3002",
+    "forceRetryBtn": "\u5F3A\u5236\u91CD\u8BD5",
+    "extractingLabel": "\u6B63\u5728\u63D0\u53D6...",
+    "auditErrorPrefix": "\u5BA1\u8BA1\u9519\u8BEF\uFF1A"
   };
   var zh_default = zh;
 
@@ -1418,73 +1858,129 @@
      * @param {string} lang
      */
     static applyLanguage(lang) {
-      const t = I18N[lang] || I18N.en;
+      const fb = I18N.en;
+      const t = I18N[lang] || fb;
       const tabModel = document.getElementById("ytAiTabSettingsModelBtn");
-      if (tabModel) tabModel.textContent = t.tabSettingsModel || "\u{1F916} AI Model & Server";
+      if (tabModel) tabModel.textContent = t.tabSettingsModel || fb.tabSettingsModel;
       const tabParams = document.getElementById("ytAiTabSettingsParamsBtn");
-      if (tabParams) tabParams.textContent = t.tabSettingsParams || "\u2699\uFE0F Parameters & Prompt";
+      if (tabParams) tabParams.textContent = t.tabSettingsParams || fb.tabSettingsParams;
       const tabAudio = document.getElementById("ytAiTabSettingsAudioBtn");
-      if (tabAudio) tabAudio.textContent = t.tabSettingsAudio || "\u{1F399}\uFE0F Voice & Audio";
+      if (tabAudio) tabAudio.textContent = t.tabSettingsAudio || fb.tabSettingsAudio;
       const closeBtn = document.getElementById("ytAiSettingsCloseBtn");
-      if (closeBtn) closeBtn.title = t.settingsHideBtn || "Close Settings";
+      if (closeBtn) closeBtn.title = t.settingsHideBtn || fb.settingsHideBtn;
       const providerLabel = document.getElementById("ytAiProviderLabel");
-      if (providerLabel) providerLabel.textContent = t.providerLabel || "AI Provider:";
+      if (providerLabel) providerLabel.textContent = t.providerLabel || fb.providerLabel;
+      const ogLocal = document.getElementById("ytAiOptGroupLocal");
+      if (ogLocal) {
+        const val = t.groupLocal || fb.groupLocal;
+        ogLocal.label = val;
+        ogLocal.setAttribute?.("label", val);
+      }
+      const ogFast = document.getElementById("ytAiOptGroupFast");
+      if (ogFast) {
+        const val = t.groupFast || fb.groupFast;
+        ogFast.label = val;
+        ogFast.setAttribute?.("label", val);
+      }
+      const ogCloud = document.getElementById("ytAiOptGroupCloud");
+      if (ogCloud) {
+        const val = t.groupCloud || fb.groupCloud;
+        ogCloud.label = val;
+        ogCloud.setAttribute?.("label", val);
+      }
       const serverLabel = document.getElementById("ytAiServerLabel");
-      if (serverLabel) serverLabel.textContent = t.serverLabel || "Server:";
+      if (serverLabel) serverLabel.textContent = t.serverLabel || fb.serverLabel;
+      const customServerOpt = document.querySelector('#ytAiServerSelect option[value="custom"]');
+      if (customServerOpt) customServerOpt.textContent = t.customServer || fb.customServer;
+      const refreshBtn = document.getElementById("ytAiRefreshModelsBtn");
+      if (refreshBtn) refreshBtn.title = t.refreshTooltip || fb.refreshTooltip;
       const apiKeyLabel = document.getElementById("ytAiApiKeyLabel");
-      if (apiKeyLabel) apiKeyLabel.textContent = t.apiKeyLabel || "API Key:";
+      if (apiKeyLabel) apiKeyLabel.textContent = t.apiKeyLabel || fb.apiKeyLabel;
       const apiKeyInput = document.getElementById("ytAiApiKeyInput");
-      if (apiKeyInput) apiKeyInput.placeholder = t.apiKeyPlaceholder || "Paste your API key...";
+      if (apiKeyInput) apiKeyInput.placeholder = t.apiKeyPlaceholder || fb.apiKeyPlaceholder;
+      const pasteBtn = document.getElementById("ytAiPasteApiKeyBtn");
+      if (pasteBtn) {
+        pasteBtn.textContent = `\u{1F4CB} ${t.pasteBtn || fb.pasteBtn}`;
+        pasteBtn.title = t.pasteTooltip || fb.pasteTooltip;
+      }
+      const getKeyLink = document.getElementById("ytAiGetApiKeyLink");
+      if (getKeyLink) getKeyLink.textContent = t.getApiKeyLink || fb.getApiKeyLink;
       const modelLabel = document.getElementById("ytAiModelLabel");
-      if (modelLabel) modelLabel.textContent = t.modelLabel || "Model:";
+      if (modelLabel) modelLabel.textContent = t.modelLabel || fb.modelLabel;
+      const emptyModelOpt = document.querySelector('#ytAiModelSelect option[value=""]');
+      if (emptyModelOpt) emptyModelOpt.textContent = t.modelLoading || fb.modelLoading;
       const testModelBtn = document.getElementById("ytAiTestModelBtn");
-      if (testModelBtn) testModelBtn.textContent = t.testModelBtn || "\u26A1 Test";
+      if (testModelBtn) {
+        testModelBtn.textContent = t.testModelBtn || fb.testModelBtn;
+        testModelBtn.title = t.testModelTooltip || fb.testModelTooltip;
+      }
       const tempLabel = document.getElementById("ytAiTempLabel");
-      if (tempLabel) tempLabel.textContent = t.tempLabel || "AI Creativity (Temperature):";
+      if (tempLabel) tempLabel.textContent = t.tempLabel || fb.tempLabel;
       const tempSelect = document.getElementById("ytAiTemperatureSelect");
       if (tempSelect) {
-        const opt0 = tempSelect.querySelector('option[value="0.0"]');
-        if (opt0) opt0.textContent = t.tempStrict || "0.0 - Strict & Precise";
-        const opt3 = tempSelect.querySelector('option[value="0.3"]');
-        if (opt3) opt3.textContent = t.tempBalanced || "0.3 - Balanced (Default)";
-        const opt7 = tempSelect.querySelector('option[value="0.7"]');
-        if (opt7) opt7.textContent = t.tempCreative || "0.7 - Creative & Detailed";
-        const opt1 = tempSelect.querySelector('option[value="1.0"]');
-        if (opt1) opt1.textContent = t.tempWild || "1.0 - Highly Inventive";
+        const tempOpts = [
+          ["0.0", t.tempStrict || fb.tempStrict],
+          ["0.3", t.tempBalanced || fb.tempBalanced],
+          ["0.7", t.tempCreative || fb.tempCreative],
+          ["1.0", t.tempWild || fb.tempWild]
+        ];
+        tempOpts.forEach(([val, label]) => {
+          const opt = tempSelect.querySelector(`option[value="${val}"]`);
+          if (opt) opt.textContent = label;
+        });
       }
       const maxTokensLabel = document.getElementById("ytAiMaxTokensLabel");
-      if (maxTokensLabel) maxTokensLabel.textContent = t.maxTokensLabel || "Max Length (Tokens):";
+      if (maxTokensLabel) maxTokensLabel.textContent = t.maxTokensLabel || fb.maxTokensLabel;
       const tokensSelect = document.getElementById("ytAiMaxTokensSelect");
       if (tokensSelect) {
-        const optAuto = tokensSelect.querySelector('option[value="auto"]');
-        if (optAuto) optAuto.textContent = t.tokensAuto || "Automatic (Default)";
-        const opt1k = tokensSelect.querySelector('option[value="1024"]');
-        if (opt1k) opt1k.textContent = t.tokensShort || "Short (1,024)";
-        const opt2k = tokensSelect.querySelector('option[value="2048"]');
-        if (opt2k) opt2k.textContent = t.tokensStandard || "Standard (2,048)";
-        const opt4k = tokensSelect.querySelector('option[value="4096"]');
-        if (opt4k) opt4k.textContent = t.tokensDetailed || "Detailed (4,096)";
-        const opt8k = tokensSelect.querySelector('option[value="8192"]');
-        if (opt8k) opt8k.textContent = t.tokensMax || "Maximum (8,192)";
+        const tokenOpts = [
+          ["auto", t.tokensAuto || fb.tokensAuto],
+          ["1024", t.tokensShort || fb.tokensShort],
+          ["2048", t.tokensStandard || fb.tokensStandard],
+          ["4096", t.tokensDetailed || fb.tokensDetailed],
+          ["8192", t.tokensMax || fb.tokensMax]
+        ];
+        tokenOpts.forEach(([val, label]) => {
+          const opt = tokensSelect.querySelector(`option[value="${val}"]`);
+          if (opt) opt.textContent = label;
+        });
       }
       const autoSummarizeLabel = document.getElementById("ytAiAutoSummarizeLabel");
-      if (autoSummarizeLabel) autoSummarizeLabel.textContent = t.autoSummarizeLabel || "Auto-summarize";
+      if (autoSummarizeLabel) autoSummarizeLabel.textContent = t.autoSummarizeLabel || fb.autoSummarizeLabel;
       const customPromptLabel = document.getElementById("ytAiCustomPromptLabel");
-      if (customPromptLabel) customPromptLabel.textContent = t.customPromptLabel || "Custom AI Instructions:";
+      if (customPromptLabel) customPromptLabel.textContent = t.customPromptLabel || fb.customPromptLabel;
       const customPromptInput = document.getElementById("ytAiCustomPromptInput");
-      if (customPromptInput) customPromptInput.placeholder = t.customPromptPlaceholder || "e.g. Focus on technical details...";
+      if (customPromptInput) customPromptInput.placeholder = t.customPromptPlaceholder || fb.customPromptPlaceholder;
       const voiceLabel = document.getElementById("ytAiVoiceLabel");
-      if (voiceLabel) voiceLabel.textContent = t.voiceSelectLabel || "Voice:";
+      if (voiceLabel) voiceLabel.textContent = t.voiceLabel || fb.voiceLabel;
+      const defaultVoiceOpt = document.querySelector('#ytAiVoiceSelect option[value=""]');
+      if (defaultVoiceOpt) defaultVoiceOpt.textContent = t.voiceDefault || fb.voiceDefault;
       const ttsSpeedLabel = document.getElementById("ytAiTtsSpeedLabel");
-      if (ttsSpeedLabel) ttsSpeedLabel.textContent = t.ttsSpeedLabel || "Voice Speed:";
-      const testSpeechBtn = document.getElementById("ytAiTestSpeechBtn");
-      if (testSpeechBtn) testSpeechBtn.textContent = t.testTtsBtn || "\u{1F50A} Test Voice";
+      if (ttsSpeedLabel) ttsSpeedLabel.textContent = t.ttsSpeedLabel || fb.ttsSpeedLabel;
+      const speedSelect = document.getElementById("ytAiTtsSpeedSelect");
+      if (speedSelect) {
+        const speedOpts = [
+          ["0.75", t.speedSlow || fb.speedSlow],
+          ["1.0", t.speedNormal || fb.speedNormal],
+          ["1.25", t.speedFast || fb.speedFast],
+          ["1.5", t.speedVeryFast || fb.speedVeryFast],
+          ["2.0", t.speedDouble || fb.speedDouble]
+        ];
+        speedOpts.forEach(([val, label]) => {
+          const opt = speedSelect.querySelector(`option[value="${val}"]`);
+          if (opt) opt.textContent = label;
+        });
+      }
+      const micLabel = document.getElementById("ytAiMicLabel");
+      if (micLabel) micLabel.textContent = t.micLabel || fb.micLabel;
+      const defaultMicOpt = document.querySelector('#ytAiMicSelect option[value=""]');
+      if (defaultMicOpt) defaultMicOpt.textContent = t.micDefault || fb.micDefault;
       const whisperUrlLabel = document.getElementById("ytAiWhisperUrlLabel");
-      if (whisperUrlLabel) whisperUrlLabel.textContent = t.whisperUrlLabel || "Local Whisper Server:";
+      if (whisperUrlLabel) whisperUrlLabel.textContent = t.whisperUrlLabel || fb.whisperUrlLabel;
       const whisperUrlInput = document.getElementById("ytAiWhisperUrlInput");
-      if (whisperUrlInput) whisperUrlInput.placeholder = t.whisperUrlPlaceholder || "e.g. http://localhost:8000/...";
+      if (whisperUrlInput) whisperUrlInput.placeholder = t.whisperUrlPlaceholder || fb.whisperUrlPlaceholder;
       const testWhisperBtn = document.getElementById("ytAiTestWhisperBtn");
-      if (testWhisperBtn) testWhisperBtn.textContent = t.testSttBtn || "\u26A1 Test STT";
+      if (testWhisperBtn) testWhisperBtn.textContent = t.testSttBtn || fb.testSttBtn;
     }
   };
 
@@ -1523,7 +2019,13 @@
           const doc = parser.parseFromString(html, "text/html");
           element.replaceChildren(...doc.body.childNodes);
         } catch (err) {
-          element.textContent = (html || "").replace(/<[^>]*>/g, "");
+          try {
+            const range = document.createRange();
+            const frag = range.createContextualFragment(html);
+            element.replaceChildren(frag);
+          } catch (err2) {
+            element.innerHTML = html;
+          }
         }
       }
     }
@@ -1597,50 +2099,137 @@
       return `<li class="yt-ai-point-item">${_MarkdownRenderer.formatInline(rawText)}</li>`;
     }
     /**
+     * Renders a Markdown pipe-delimited table starting at startIdx.
+     * @returns {{ html: string, nextIndex: number }|null}
+     */
+    static _parseTableBlock(lines, startIdx) {
+      if (startIdx + 1 >= lines.length) return null;
+      const headLine = lines[startIdx].trim();
+      const sepLine = lines[startIdx + 1].trim();
+      if (!headLine.includes("|") || !/^\|?[\s:-]+\|[\s|:-]*$/.test(sepLine)) return null;
+      const splitRow = (row) => row.replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
+      const headers = splitRow(headLine);
+      let html = `<div class="yt-ai-table-wrap"><table class="yt-ai-md-table"><thead><tr>${headers.map((h) => `<th>${_MarkdownRenderer.formatInline(h)}</th>`).join("")}</tr></thead><tbody>`;
+      let idx = startIdx + 2;
+      while (idx < lines.length && lines[idx].trim().includes("|")) {
+        const cells = splitRow(lines[idx].trim());
+        html += `<tr>${cells.map((c) => `<td>${_MarkdownRenderer.formatInline(c)}</td>`).join("")}</tr>`;
+        idx++;
+      }
+      html += "</tbody></table></div>";
+      return { html, nextIndex: idx - 1 };
+    }
+    /**
      * Renders complete Markdown document into target DOM container
      * @param {string} mdText
      * @param {HTMLElement} container
      */
     static renderMarkdown(mdText, container) {
       if (!mdText) {
-        container.innerHTML = "";
-        return;
+        if (container) container.innerHTML = "";
+        return "";
       }
-      const lines = mdText.split("\n");
+      const lines = String(mdText).split("\n");
       let html = "";
-      let inUl = false;
+      let listTag = null;
+      let inQuote = false;
+      let inCode = false;
+      let codeLines = [];
+      const closeOpenBlocks = () => {
+        if (listTag) {
+          html += `</${listTag}>`;
+          listTag = null;
+        }
+        if (inQuote) {
+          html += "</blockquote>";
+          inQuote = false;
+        }
+      };
       for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        if (line.startsWith("### ")) {
-          if (inUl) {
-            html += "</ul>";
-            inUl = false;
+        const rawLine = lines[i];
+        const trimmed = rawLine.trim();
+        if (trimmed.startsWith("```")) {
+          closeOpenBlocks();
+          if (!inCode) {
+            inCode = true;
+            codeLines = [];
+          } else {
+            html += `<pre class="yt-ai-code-block"><code>${_MarkdownRenderer.escapeHtml(codeLines.join("\n"))}</code></pre>`;
+            inCode = false;
           }
-          html += `<h3>${_MarkdownRenderer.formatInline(line.slice(4))}</h3>`;
           continue;
         }
-        if (line.startsWith("## ") || line.startsWith("# ")) {
-          if (inUl) {
-            html += "</ul>";
-            inUl = false;
-          }
-          html += `<h2>${_MarkdownRenderer.formatInline(line.replace(/^#+\s*/, ""))}</h2>`;
+        if (inCode) {
+          codeLines.push(rawLine);
           continue;
         }
-        const ulMatch = line.match(/^[-*•]\s+(.*)$/);
+        if (/^(?:---+|\*\*\*+)$/.test(trimmed)) {
+          closeOpenBlocks();
+          html += '<hr class="yt-ai-md-hr">';
+          continue;
+        }
+        const headingMatch = trimmed.match(/^(#{1,4})\s+(.*)$/);
+        if (headingMatch) {
+          closeOpenBlocks();
+          const lvl = headingMatch[1].length;
+          const tag = lvl <= 2 ? "h2" : lvl === 3 ? "h3" : "h4";
+          html += `<${tag}>${_MarkdownRenderer.formatInline(headingMatch[2])}</${tag}>`;
+          continue;
+        }
+        const tableRes = _MarkdownRenderer._parseTableBlock(lines, i);
+        if (tableRes) {
+          closeOpenBlocks();
+          html += tableRes.html;
+          i = tableRes.nextIndex;
+          continue;
+        }
+        const quoteMatch = trimmed.match(/^>\s?(.*)$/);
+        if (quoteMatch) {
+          if (listTag) {
+            html += `</${listTag}>`;
+            listTag = null;
+          }
+          if (!inQuote) {
+            html += '<blockquote class="yt-ai-blockquote">';
+            inQuote = true;
+          }
+          if (quoteMatch[1]) html += `<p>${_MarkdownRenderer.formatInline(quoteMatch[1])}</p>`;
+          continue;
+        }
+        if (inQuote) {
+          html += "</blockquote>";
+          inQuote = false;
+        }
+        const ulMatch = rawLine.match(/^\s*[-*•]\s+(.*)$/);
         if (ulMatch) {
-          if (!inUl) {
+          if (listTag === "ol") {
+            html += "</ol>";
+            listTag = null;
+          }
+          if (!listTag) {
             html += '<ul class="yt-ai-points-list">';
-            inUl = true;
+            listTag = "ul";
           }
           html += _MarkdownRenderer.renderListItem(ulMatch[1]);
           continue;
         }
-        if (inUl) {
-          html += "</ul>";
-          inUl = false;
+        const olMatch = rawLine.match(/^\s*\d+[.)]\s+(.*)$/);
+        if (olMatch) {
+          if (listTag === "ul") {
+            html += "</ul>";
+            listTag = null;
+          }
+          if (!listTag) {
+            html += '<ol class="yt-ai-ordered-list">';
+            listTag = "ol";
+          }
+          html += _MarkdownRenderer.renderListItem(olMatch[1]);
+          continue;
         }
-        const trimmed = line.trim();
+        if (listTag) {
+          html += `</${listTag}>`;
+          listTag = null;
+        }
         if (trimmed.length > 0) {
           const pointMatch = trimmed.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\s'\-_–—]{2,60})\s*:\s+(.*[.!?].*)$/);
           if (pointMatch) {
@@ -1650,7 +2239,8 @@
           }
         }
       }
-      if (inUl) html += "</ul>";
+      if (inCode) html += `<pre class="yt-ai-code-block"><code>${_MarkdownRenderer.escapeHtml(codeLines.join("\n"))}</code></pre>`;
+      closeOpenBlocks();
       if (container) {
         _MarkdownRenderer.safeSetInnerHTML(container, html);
       }
@@ -1665,742 +2255,70 @@
   var splitSentences = MarkdownRenderer.splitSentences;
   var parsePoint = MarkdownRenderer.parsePoint;
 
-  // src/content/ui/BannerI18n.js
-  var BannerI18n = class _BannerI18n {
-    /**
-     * Applies localized strings to all banner elements
-     * @param {string} lang
-     * @param {Object} state
-     * @param {Object} [summaryViewController]
-     * @param {Object} [chatViewController]
-     * @param {boolean} [isExpanded=false]
-     * @param {Object} [auditViewController]
-     */
-    static applyLanguage(lang, state2, summaryViewController2 = null, chatViewController2 = null, isExpanded = false, auditViewController2 = null) {
-      if (state2) state2.currentLang = lang;
-      const t = I18N[lang] || I18N.en;
-      const langSelect = document.getElementById("ytAiLangSelect");
-      if (langSelect) {
-        langSelect.title = t.langLabel || "Language:";
-        if (langSelect.value !== lang) langSelect.value = lang;
-      }
-      const modeSelect = document.getElementById("ytAiModeSelect");
-      if (modeSelect) {
-        modeSelect.title = t.formatLabel || "Format:";
-        const optQuick = modeSelect.querySelector('option[value="quick"]');
-        if (optQuick) optQuick.textContent = t.formatQuick || "\u26A1 Quick";
-        const optStandard = modeSelect.querySelector('option[value="standard"]');
-        if (optStandard) optStandard.textContent = t.formatStandard || "\u{1F4CC} Standard";
-        const optDetailed = modeSelect.querySelector('option[value="detailed"]');
-        if (optDetailed) optDetailed.textContent = t.formatDetailed || "\u{1F4DD} Deep";
-      }
-      const brandTitle = document.getElementById("ytAiBrandTitle");
-      if (brandTitle) brandTitle.textContent = t.brandName || "YT Summarizer AI";
-      const summarizeBtn = document.getElementById("ytAiSummarizeBtn");
-      if (summarizeBtn) {
-        if (summaryViewController2?.isGenerating) {
-          summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || "Generating summary..."}`;
-        } else {
-          summarizeBtn.textContent = t.summarizeBtn || "\u2728 Summarize video";
-        }
-      }
-      const toggleText = document.getElementById("ytAiToggleText");
-      if (toggleText) toggleText.textContent = isExpanded ? t.collapse : t.expand;
-      const toggleIcon = document.getElementById("ytAiToggleIcon");
-      if (toggleIcon) toggleIcon.textContent = isExpanded ? "\u25B2" : "\u25BE";
-      const settingsBtnText = document.getElementById("ytAiSettingsBtnText");
-      if (settingsBtnText) settingsBtnText.textContent = t.settingsBtn || "Settings";
-      const tabSummaryBtn = document.getElementById("ytAiTabSummaryBtn");
-      if (tabSummaryBtn) tabSummaryBtn.textContent = t.tabSummary || "\u{1F4DD} AI Summary";
-      const tabChatBtn = document.getElementById("ytAiTabChatBtn");
-      if (tabChatBtn) {
-        const count = document.getElementById("ytAiChatCount")?.textContent || "0";
-        tabChatBtn.innerHTML = `${escapeHtml(t.tabChat || "\u{1F4AC} Ask a question")} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
-      }
-      const tabAuditBtn = document.getElementById("ytAiTabAuditBtn");
-      if (tabAuditBtn) tabAuditBtn.textContent = t.tabAudit || "\u{1F6E1}\uFE0F Audit & Fact-Check";
-      const tabTranscriptBtn = document.getElementById("ytAiTabTranscriptBtn");
-      if (tabTranscriptBtn) {
-        const rawCount = (document.getElementById("ytAiWordCount")?.textContent || "0").trim();
-        tabTranscriptBtn.innerHTML = `${escapeHtml(t.tabTranscript || "\u{1F4DC} Transcript")} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">${escapeHtml(rawCount)} ${escapeHtml(t.wordsBadge || "words")}</span>`;
-      }
-      SettingsDrawerI18n.applyLanguage(lang);
-      _BannerI18n.applySummaryLanguage(t, state2, summaryViewController2);
-      _BannerI18n.applyChatLanguage(t, state2, chatViewController2);
-      _BannerI18n.applyAuditLanguage(t, auditViewController2, lang);
-      _BannerI18n.applyTranscriptAndFooter(t);
-    }
-    static applySummaryLanguage(t, state2, summaryViewController2) {
-      const title = document.getElementById("ytAiSummaryHeaderTitle");
-      if (title) title.textContent = t.summaryTitle || "\u{1F4DD} AI Summary";
-      const speakBtn = document.getElementById("ytAiSpeakSummaryBtn");
-      if (speakBtn) speakBtn.textContent = t.listenBtn || "\u{1F50A} Listen";
-      const copyBtn = document.getElementById("ytAiCopyBtn");
-      if (copyBtn) copyBtn.textContent = t.copyBtn || "\u{1F4CB} Copy";
-      const dlBtn = document.getElementById("ytAiDownloadBtn");
-      if (dlBtn) dlBtn.textContent = t.saveMdBtn || "\u{1F4BE} .md";
-      const saveTxtBtn = document.getElementById("ytAiSaveTxtBtn");
-      if (saveTxtBtn) saveTxtBtn.textContent = t.saveTxtBtn || "\u{1F4C4} .txt";
-      const saveJsonBtn = document.getElementById("ytAiSaveJsonBtn");
-      if (saveJsonBtn) saveJsonBtn.textContent = t.saveJsonBtn || "\u{1F4E6} .json";
-      if (typeof summaryViewController2?.applyLanguage === "function") {
-        summaryViewController2.applyLanguage(state2?.currentLang || "en");
-      } else {
-        const emptyTitle = document.querySelector("#ytAiSummaryBody .yt-ai-empty-title");
-        const emptySubtitle = document.querySelector("#ytAiSummaryBody .yt-ai-empty-subtitle");
-        const heroBtn = document.getElementById("ytAiSummaryHeroBtn");
-        if (emptyTitle) emptyTitle.textContent = t.newVideoTitle || t.emptyTitle || "Nouvelle vid\xE9o d\xE9tect\xE9e";
-        if (emptySubtitle) emptySubtitle.textContent = t.newVideoPlaceholder || t.emptySubtitle || "";
-        if (heroBtn) heroBtn.textContent = t.summarizeBtn || "\u2728 Summarize video";
-      }
-      const placeholderP = document.querySelector("#ytAiSummaryBody > p");
-      if (placeholderP && !document.querySelector("#ytAiSummaryBody .yt-ai-empty-title")) {
-        placeholderP.textContent = t.summaryPlaceholder || 'Click "\u2728 Summarize video" to generate the summary.';
-      }
-      const hasError = !!document.getElementById("ytAiRetrySummarizeBtn");
-      if (!hasError && summaryViewController2 && !summaryViewController2.fullSummaryMarkdown && !summaryViewController2.isGenerating) {
-        summaryViewController2.renderSummaryEmptyState(true, state2?.currentLang || "en");
-      }
-    }
-    static applyChatLanguage(t, state2, chatViewController2) {
-      const sugBox = document.querySelector?.(".yt-ai-chat-suggestions");
-      if (sugBox && Array.isArray(t.suggestions) && t.suggestions.length > 0) {
-        sugBox.innerHTML = t.suggestions.map(
-          (s) => `<span class="yt-ai-suggestion-chip" data-question="${(s.question || "").replace(/"/g, "&quot;")}">${escapeHtml(s.label)}</span>`
-        ).join("");
-      }
-      const input = document.getElementById("ytAiChatInput");
-      if (input) input.placeholder = t.chatPlaceholder || "Ask a question...";
-      const sendBtn = document.getElementById("ytAiSendChatBtn");
-      if (sendBtn) sendBtn.textContent = t.sendBtn || "Send \u27A4";
-      const clearBtn = document.getElementById("ytAiClearChatBtn");
-      if (clearBtn) clearBtn.textContent = t.clearChatBtn || "\u{1F5D1}\uFE0F Clear";
-      const chatTitle = document.querySelector?.("#ytAiPaneChat .yt-ai-pane-title span");
-      if (chatTitle) chatTitle.textContent = t.chatTitle || "\u{1F4AC} Video Q&A";
-      const micBtn = document.getElementById("ytAiMicBtn");
-      if (micBtn) micBtn.title = t.micTitle || "Dictate question";
-      if (typeof chatViewController2?.applyLanguage === "function") chatViewController2.applyLanguage(state2?.currentLang || "en");
-    }
-    static applyAuditLanguage(t, auditViewController2, lang) {
-      if (typeof auditViewController2?.applyLanguage === "function") {
-        auditViewController2.applyLanguage(lang);
-      } else {
-        const headerTitle = document.getElementById("ytAiAuditHeaderTitle");
-        if (headerTitle) headerTitle.textContent = t.auditTitle || "\u{1F6E1}\uFE0F Audit Critique, Logique & V\xE9racit\xE9";
-        const runBtn = document.getElementById("ytAiRunAuditBtn");
-        if (runBtn) runBtn.textContent = t.runAuditBtn || "\u26A1 Lancer l'audit";
-        const discussBtn = document.getElementById("ytAiAuditChatDiscussBtn");
-        if (discussBtn) discussBtn.textContent = t.discussInChatBtn || "\u{1F4AC} Discuter dans le Chat";
-        const copyBtn = document.getElementById("ytAiCopyAuditBtn");
-        if (copyBtn) copyBtn.textContent = t.copyBtn || "\u{1F4CB} Copier";
-        const placeholder = document.querySelector("#ytAiAuditBody > p");
-        if (placeholder) placeholder.textContent = t.auditPlaceholder || `Cliquez sur "\u26A1 Lancer l'audit" pour analyser la rigueur logique, les sophismes et la v\xE9racit\xE9 des faits.`;
-      }
-    }
-    static applyTranscriptAndFooter(t) {
-      const copyRawBtn = document.getElementById("ytAiCopyTranscriptBtn");
-      if (copyRawBtn) copyRawBtn.textContent = t.copyRawBtn || "\u{1F4CB} Copy raw";
-      const body = document.getElementById("ytAiTranscriptBody");
-      if (body && (body.querySelector(".yt-ai-loading") || body.textContent.includes("..."))) {
-        body.innerHTML = `<div class="yt-ai-loading">${escapeHtml(t.transcriptWaiting || "Waiting...")}</div>`;
-      }
-      const footerAuthor = document.getElementById("ytAiFooterAuthor");
-      if (footerAuthor) {
-        const extVer = typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v1.4.2";
-        footerAuthor.innerHTML = `YouTube Summarizer AI <strong>${extVer}</strong> ${escapeHtml(t.footerBy || "by")} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
-      }
-      const bugLink = document.getElementById("ytAiFooterBugLink");
-      if (bugLink) bugLink.textContent = `\u{1F41B} ${t.footerReportBug || "Report a bug"}`;
-      const docsLink = document.getElementById("ytAiFooterDocsLink");
-      if (docsLink) docsLink.textContent = `\u{1F4D6} ${t.footerDocs || "Documentation"}`;
-    }
-  };
-
-  // src/config/AIProviderPresets.js
-  var CLOUD_MODELS = {
-    gemini: [
-      { id: "gemini-1.5-flash", name: "\u2B50 gemini-1.5-flash (Gratuit, 1M ctx)" },
-      { id: "gemini-2.0-flash", name: "gemini-2.0-flash (Nouveau & Rapide)" },
-      { id: "gemini-1.5-pro", name: "gemini-1.5-pro (Analyse approfondie)" }
-    ],
-    groq: [
-      { id: "llama-3.3-70b-versatile", name: "\u2B50 llama-3.3-70b-versatile (Ultra-rapide)" },
-      { id: "deepseek-r1-distill-llama-70b", name: "deepseek-r1-distill-llama-70b (R1 Thinking)" },
-      { id: "llama-3.1-8b-instant", name: "llama-3.1-8b-instant (\xC9clair)" },
-      { id: "mixtral-8x7b-32768", name: "mixtral-8x7b-32768 (Mixtral)" }
-    ],
-    openai: [
-      { id: "gpt-4o-mini", name: "\u2B50 gpt-4o-mini (\xC9conomique & Rapide)" },
-      { id: "gpt-4o", name: "gpt-4o (Mod\xE8le phare)" },
-      { id: "o3-mini", name: "o3-mini (Raisonnement)" }
-    ],
-    claude: [
-      { id: "claude-3-5-haiku-20241022", name: "\u2B50 claude-3-5-haiku (Rapide)" },
-      { id: "claude-3-5-sonnet-20241022", name: "claude-3-5-sonnet (Excellence)" }
-    ],
-    deepseek: [
-      { id: "deepseek-chat", name: "\u2B50 deepseek-chat (V3)" },
-      { id: "deepseek-reasoner", name: "deepseek-reasoner (R1 Thinking)" }
-    ],
-    grok: [
-      { id: "grok-2-latest", name: "\u2B50 grok-2-latest" },
-      { id: "grok-2-vision-1212", name: "grok-2-vision" },
-      { id: "grok-beta", name: "grok-beta" }
-    ],
-    qwen: [
-      { id: "qwen-plus", name: "\u2B50 qwen-plus (\xC9quilibr\xE9 & Efficace)" },
-      { id: "qwen-max", name: "qwen-max (Maximum de puissance)" },
-      { id: "qwen-turbo", name: "qwen-turbo (Ultra rapide)" },
-      { id: "qwen2.5-72b-instruct", name: "qwen2.5-72b-instruct" }
-    ],
-    mistral: [
-      { id: "mistral-small-latest", name: "\u2B50 mistral-small-latest (Rapide)" },
-      { id: "mistral-large-latest", name: "mistral-large-latest (Mod\xE8le phare)" },
-      { id: "codestral-latest", name: "codestral-latest" }
-    ],
-    openrouter: [
-      { id: "deepseek/deepseek-r1", name: "\u2B50 deepseek/deepseek-r1" },
-      { id: "qwen/qwen-2.5-72b-instruct", name: "qwen/qwen-2.5-72b-instruct" },
-      { id: "meta-llama/llama-3.3-70b-instruct", name: "meta-llama/llama-3.3-70b-instruct" },
-      { id: "anthropic/claude-3.5-sonnet", name: "anthropic/claude-3.5-sonnet" },
-      { id: "google/gemini-2.0-flash-exp:free", name: "google/gemini-2.0-flash-exp (Gratuit)" }
-    ],
-    perplexity: [
-      { id: "sonar", name: "\u2B50 sonar (Rapide)" },
-      { id: "sonar-pro", name: "sonar-pro" },
-      { id: "sonar-reasoning", name: "sonar-reasoning" }
-    ],
-    together: [
-      { id: "meta-llama/Llama-3.3-70B-Instruct-Turbo", name: "\u2B50 Llama-3.3-70B-Instruct-Turbo" },
-      { id: "Qwen/Qwen2.5-72B-Instruct-Turbo", name: "Qwen2.5-72B-Instruct-Turbo" },
-      { id: "deepseek-ai/DeepSeek-R1", name: "deepseek-ai/DeepSeek-R1" }
-    ]
-  };
-  var API_KEY_PORTALS = {
-    gemini: { url: "https://aistudio.google.com/app/apikey", label: "\u{1F511} Obtenir cl\xE9 Gemini (100% Gratuite)" },
-    groq: { url: "https://console.groq.com/keys", label: "\u{1F511} Obtenir cl\xE9 Groq (Gratuite & Ultra-rapide)" },
-    openai: { url: "https://platform.openai.com/api-keys", label: "\u{1F511} Obtenir cl\xE9 OpenAI" },
-    claude: { url: "https://console.anthropic.com/settings/keys", label: "\u{1F511} Obtenir cl\xE9 Claude" },
-    deepseek: { url: "https://platform.deepseek.com/api_keys", label: "\u{1F511} Obtenir cl\xE9 DeepSeek" },
-    grok: { url: "https://console.x.ai/", label: "\u{1F511} Obtenir cl\xE9 Grok (xAI)" },
-    qwen: { url: "https://dashscope.console.aliyun.com/", label: "\u{1F511} Obtenir cl\xE9 Qwen (DashScope)" },
-    mistral: { url: "https://console.mistral.ai/api-keys/", label: "\u{1F511} Obtenir cl\xE9 Mistral" },
-    openrouter: { url: "https://openrouter.ai/keys", label: "\u{1F511} Obtenir cl\xE9 OpenRouter" },
-    perplexity: { url: "https://www.perplexity.ai/settings/api", label: "\u{1F511} Obtenir cl\xE9 Perplexity" },
-    together: { url: "https://api.together.xyz/settings/api-keys", label: "\u{1F511} Obtenir cl\xE9 Together AI" }
-  };
-  var CONTEXT_LIMITS = {
-    lmstudio: 16e3,
-    ollama: 16e3,
-    gemini: 12e4,
-    groq: 5e4,
-    openai: 8e4,
-    claude: 9e4,
-    deepseek: 5e4,
-    grok: 7e4,
-    qwen: 6e4,
-    mistral: 6e4,
-    openrouter: 8e4,
-    perplexity: 5e4,
-    together: 6e4
-  };
-  var PROVIDER_NAMES = {
-    lmstudio: "LM Studio",
-    ollama: "Ollama",
-    gemini: "Google Gemini",
-    groq: "Groq",
-    openai: "OpenAI (ChatGPT)",
-    claude: "Anthropic Claude",
-    deepseek: "DeepSeek",
-    grok: "xAI (Grok)",
-    qwen: "Qwen (DashScope)",
-    mistral: "Mistral AI",
-    openrouter: "OpenRouter",
-    perplexity: "Perplexity AI",
-    together: "Together AI"
-  };
-  var LANG_LOCALES = {
-    fr: "fr-FR",
-    en: "en-US",
-    es: "es-ES",
-    de: "de-DE",
-    it: "it-IT",
-    ru: "ru-RU",
-    ja: "ja-JP",
-    zh: "zh-CN"
-  };
-
-  // src/content/templates/SettingsDrawerTemplate.js
-  var SettingsDrawerTemplate = class {
-    /**
-     * Generates Settings Drawer HTML string
-     * @param {Object} t - Localization dictionary
-     * @param {Object} [options]
-     * @returns {string}
-     */
-    static render(t, options = {}) {
-      const initialOptionHtml = options.initialOptionHtml || '<option value="">Loading...</option>';
-      const initialModelLabel = options.initialModelLabel || "Model: Loading...";
-      return `
-      <div id="ytAiSettingsDrawer" class="yt-ai-settings-drawer yt-ai-hidden">
-        <div class="yt-ai-settings-card">
-          <div class="yt-ai-settings-header">
-            <div class="yt-ai-settings-tabs-nav">
-              <button class="yt-ai-settings-tab-btn active" data-subtab="model" id="ytAiTabSettingsModelBtn">
-                ${t.tabSettingsModel || "\u{1F916} AI Model & Server"}
-              </button>
-              <button class="yt-ai-settings-tab-btn" data-subtab="params" id="ytAiTabSettingsParamsBtn">
-                ${t.tabSettingsParams || "\u2699\uFE0F Parameters & Prompt"}
-              </button>
-              <button class="yt-ai-settings-tab-btn" data-subtab="audio" id="ytAiTabSettingsAudioBtn">
-                ${t.tabSettingsAudio || "\u{1F399}\uFE0F Voice & Audio"}
-              </button>
-            </div>
-            <button id="ytAiSettingsCloseBtn" class="yt-ai-btn-icon-close" title="${t.settingsHideBtn || "Close Settings"}">\u2715</button>
-          </div>
-
-          <div class="yt-ai-settings-body">
-            <!-- SOUS-ONGLET 1 : MOD\xC8LE ET SERVEUR -->
-            <div id="ytAiSettingsSubpaneModel" class="yt-ai-settings-subpane active">
-              <div class="yt-ai-settings-status-row">
-                <div id="ytAiBadge" class="yt-ai-badge" title="AI Status">
-                  <span class="yt-ai-badge-dot"></span>
-                  <span id="ytAiBadgeText">${t.checking || "Checking..."}</span>
-                </div>
-                <div class="yt-ai-model-pill" id="ytAiHeaderModelPill" style="cursor: default;" title="Active model">
-                  <span class="yt-ai-model-icon">\u{1F916}</span>
-                  <span id="ytAiHeaderModelText">${initialModelLabel}</span>
-                </div>
-              </div>
-
-              <div class="yt-ai-settings-grid">
-                <div class="yt-ai-setting-item">
-                  <label id="ytAiProviderLabel">${t.providerLabel || "AI Provider:"}</label>
-                  <select id="ytAiProviderSelect" class="yt-ai-select" style="font-weight: 600;">
-                    <optgroup label="${t.groupLocal || "\u{1F3E0} Local Models (Free & Private)"}">
-                      <option value="lmstudio">\u{1F3E0} LM Studio</option>
-                      <option value="ollama">\u{1F999} Ollama (Local / Cloud)</option>
-                    </optgroup>
-                    <optgroup label="${t.groupFast || "\u26A1 Fast / Free Cloud Inference"}">
-                      <option value="gemini">\u{1F535} Google Gemini (1M ctx, free)</option>
-                      <option value="groq">\u26A1 Groq (Llama 3.3, ultra-fast)</option>
-                    </optgroup>
-                    <optgroup label="${t.groupCloud || "\u2601\uFE0F Major Cloud Providers"}">
-                      <option value="openai">\u{1F7E2} OpenAI (ChatGPT / GPT-4o)</option>
-                      <option value="claude">\u{1F7E3} Anthropic (Claude 3.5)</option>
-                      <option value="deepseek">\u{1F40B} DeepSeek (V3 & R1)</option>
-                      <option value="grok">\u26AB xAI (Grok 2)</option>
-                      <option value="qwen">\u{1F534} Qwen (Alibaba DashScope)</option>
-                      <option value="mistral">\u{1F7E0} Mistral AI</option>
-                      <option value="openrouter">\u{1F310} OpenRouter (All models)</option>
-                      <option value="perplexity">\u{1F50D} Perplexity AI (Sonar)</option>
-                      <option value="together">\u{1F91D} Together AI</option>
-                    </optgroup>
-                  </select>
-                </div>
-
-                <!-- Zone Local (LM Studio / Ollama) -->
-                <div id="ytAiLmStudioSettings" class="yt-ai-setting-item">
-                  <label id="ytAiServerLabel">${t.serverLabel || "Server:"}</label>
-                  <div class="yt-ai-input-with-btn">
-                    <select id="ytAiServerSelect" class="yt-ai-select" style="flex: 1;">
-                      <option value="http://127.0.0.1:1234">127.0.0.1:1234</option>
-                      <option value="http://localhost:1234">localhost:1234</option>
-                      <option value="http://127.0.0.1:1234">127.0.0.1:1234</option>
-                      <option value="custom">${t.customServer || "Custom IP..."}</option>
-                    </select>
-                    <button id="ytAiRefreshModelsBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.refreshTooltip || "Refresh local models"}">\u{1F504}</button>
-                  </div>
-                </div>
-
-                <!-- Zone Cloud (Cl\xE9 API) -->
-                <div id="ytAiCloudSettings" class="yt-ai-setting-item yt-ai-hidden">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <label id="ytAiApiKeyLabel">${t.apiKeyLabel || "API Key:"}</label>
-                    <span id="ytAiApiKeyHint" style="font-size: 11px; color: var(--yt-ai-timestamp-text); opacity: 0.9;"></span>
-                  </div>
-                  <div class="yt-ai-input-with-btn">
-                    <input type="password" id="ytAiApiKeyInput" class="yt-ai-input yt-ai-api-key-input" placeholder="${t.apiKeyPlaceholder || "Paste your API key..."}" style="flex: 1;">
-                    <button id="ytAiPasteApiKeyBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.pasteTooltip || "Paste from clipboard"}" style="padding: 4px 8px; font-size: 11px;">\u{1F4CB} ${t.pasteBtn || "Paste"}</button>
-                    <a id="ytAiGetApiKeyLink" class="yt-ai-link-pill" href="#" target="_blank" rel="noopener">${t.getApiKeyLink || "\u{1F511} Get Key"}</a>
-                  </div>
-                </div>
-
-                <!-- Mod\xE8le & Test -->
-                <div class="yt-ai-setting-item">
-                  <label id="ytAiModelLabel">${t.modelLabel || "Model:"}</label>
-                  <div class="yt-ai-input-with-btn">
-                    <select id="ytAiModelSelect" class="yt-ai-select" style="flex: 1;">
-                      ${initialOptionHtml}
-                    </select>
-                    <button id="ytAiTestModelBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.testModelTooltip || "Test connection and model"}">${t.testModelBtn || "\u26A1 Test"}</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- SOUS-ONGLET 2 : PARAM\xC8TRES IA & PROMPT -->
-            <div id="ytAiSettingsSubpaneParams" class="yt-ai-settings-subpane">
-              <div class="yt-ai-settings-grid">
-                <div class="yt-ai-setting-item">
-                  <label id="ytAiTempLabel">${t.tempLabel || "AI Creativity (Temperature):"}</label>
-                  <select id="ytAiTemperatureSelect" class="yt-ai-select">
-                    <option value="0.0">${t.tempStrict || "0.0 - Strict & Precise"}</option>
-                    <option value="0.3" selected>${t.tempBalanced || "0.3 - Balanced (Default)"}</option>
-                    <option value="0.7">${t.tempCreative || "0.7 - Creative & Detailed"}</option>
-                    <option value="1.0">${t.tempWild || "1.0 - Highly Inventive"}</option>
-                  </select>
-                </div>
-
-                <div class="yt-ai-setting-item">
-                  <label id="ytAiMaxTokensLabel">${t.maxTokensLabel || "Max Length (Tokens):"}</label>
-                  <select id="ytAiMaxTokensSelect" class="yt-ai-select">
-                    <option value="auto" selected>${t.tokensAuto || "Automatic (Default)"}</option>
-                    <option value="1024">${t.tokensShort || "Short (1,024)"}</option>
-                    <option value="2048">${t.tokensStandard || "Standard (2,048)"}</option>
-                    <option value="4096">${t.tokensDetailed || "Detailed (4,096)"}</option>
-                    <option value="8192">${t.tokensMax || "Maximum (8,192)"}</option>
-                  </select>
-                </div>
-
-                <div class="yt-ai-setting-item yt-ai-checkbox-field" style="grid-column: span 2;">
-                  <label>
-                    <input type="checkbox" id="ytAiAutoSummarizeCheck">
-                    <span id="ytAiAutoSummarizeLabel">${t.autoSummarizeLabel || "\u26A1 Auto-summarize when opening a video"}</span>
-                  </label>
-                </div>
-
-                <div class="yt-ai-setting-item" style="grid-column: span 2;">
-                  <label id="ytAiCustomPromptLabel">${t.customPromptLabel || "Custom AI Instructions (optional):"}</label>
-                  <input type="text" id="ytAiCustomPromptInput" class="yt-ai-input" placeholder="${t.customPromptPlaceholder || "e.g. Focus on technical details, explain with analogies..."}" style="width: 100%;">
-                </div>
-              </div>
-            </div>
-
-            <!-- SOUS-ONGLET 3 : VOIX & AUDIO -->
-            <div id="ytAiSettingsSubpaneAudio" class="yt-ai-settings-subpane">
-              <div class="yt-ai-settings-grid">
-                <div class="yt-ai-setting-item">
-                  <label id="ytAiVoiceLabel">${t.voiceLabel || "Voice (TTS):"}</label>
-                  <select id="ytAiVoiceSelect" class="yt-ai-select" title="Voice for speech audio">
-                    <option value="">${t.voiceDefault || "System voice..."}</option>
-                  </select>
-                </div>
-
-                <div class="yt-ai-setting-item">
-                  <label id="ytAiTtsSpeedLabel">${t.ttsSpeedLabel || "Voice Speed:"}</label>
-                  <select id="ytAiTtsSpeedSelect" class="yt-ai-select">
-                    <option value="0.75">${t.speedSlow || "0.75x (Calm)"}</option>
-                    <option value="1.0" selected>${t.speedNormal || "1.0x (Normal)"}</option>
-                    <option value="1.25">${t.speedFast || "1.25x (Fast)"}</option>
-                    <option value="1.5">${t.speedVeryFast || "1.5x (Speedy)"}</option>
-                    <option value="2.0">${t.speedDouble || "2.0x (Double)"}</option>
-                  </select>
-                </div>
-
-                <div class="yt-ai-setting-item">
-                  <label id="ytAiMicLabel">${t.micLabel || "Microphone (Speech-to-Text):"}</label>
-                  <select id="ytAiMicSelect" class="yt-ai-select" title="Select your microphone for dictation">
-                    <option value="">${t.micDefault || "Default mic..."}</option>
-                  </select>
-                </div>
-
-                <div class="yt-ai-setting-item">
-                  <label id="ytAiWhisperUrlLabel">${t.whisperUrlLabel || "Local Whisper Server (Audio STT):"}</label>
-                  <div class="yt-ai-input-with-btn">
-                    <input type="text" id="ytAiWhisperUrlInput" class="yt-ai-input" placeholder="${t.whisperUrlPlaceholder || "e.g. http://localhost:8000/v1/audio/transcriptions"}" style="flex: 1;">
-                    <button id="ytAiTestWhisperBtn" class="yt-ai-btn yt-ai-btn-secondary">${t.testSttBtn || "\u26A1 Test STT"}</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    `;
-    }
-  };
-
-  // src/content/templates/BannerTemplate.js
-  var BannerTemplate = class {
-    /**
-     * Generates the entire in-page banner HTML string
-     * @param {Object} t - Localization dictionary
-     * @param {Object} [options]
-     * @returns {string}
-     */
-    static render(t, options = {}) {
-      const drawerHtml = SettingsDrawerTemplate.render(t, options);
-      const version = options.version || (typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v1.4.2");
-      const currentMode = options.currentMode || "standard";
-      const currentLang = options.currentLang || "fr";
-      const suggestionsHtml = Array.isArray(t.suggestions) && t.suggestions.length > 0 ? t.suggestions.map((s) => `<span class="yt-ai-suggestion-chip" data-question="${(s.question || "").replace(/"/g, "&quot;")}">${s.label}</span>`).join("") : `<span class="yt-ai-suggestion-chip" data-question="What are the core key takeaways from this video?">\u{1F4A1} Key takeaways</span><span class="yt-ai-suggestion-chip" data-question="At what point in the video is the main topic discussed?">\u23F1\uFE0F Timestamps</span><span class="yt-ai-suggestion-chip" data-question="What specific figures, examples, or arguments are presented?">\u{1F4CA} Data & Figures</span><span class="yt-ai-suggestion-chip" data-question="What is the author's final conclusion or actionable advice?">\u{1F3AF} Conclusion & Advice</span>`;
-      return `
-      <!-- BARRE SUP\xC9RIEURE ULTRA-MINIMALISTE -->
-      <div class="yt-ai-header-bar">
-        <div class="yt-ai-header-left">
-          <div class="yt-ai-brand" id="ytAiBrandToggle" title="Click to toggle panel">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000"/>
-              <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/>
-            </svg>
-            <span id="ytAiBrandTitle">${t.brandName || "YT Summarizer AI"}</span>
-          </div>
-        </div>
-
-        <div class="yt-ai-header-center">
-          <div class="yt-ai-action-cluster">
-            <!-- S\xC9LECTEUR DE FORMAT DU R\xC9SUM\xC9 -->
-            <div class="yt-ai-header-select-wrapper yt-ai-header-mode-wrapper">
-              <select id="ytAiModeSelect" class="yt-ai-select yt-ai-header-mode-select" title="${t.formatLabel || "Format:"}">
-                <option value="quick" ${currentMode === "quick" ? "selected" : ""}>${t.formatQuick || "\u26A1 Quick"}</option>
-                <option value="standard" ${currentMode === "standard" || !currentMode ? "selected" : ""}>${t.formatStandard || "\u{1F4CC} Standard"}</option>
-                <option value="detailed" ${currentMode === "detailed" ? "selected" : ""}>${t.formatDetailed || "\u{1F4DD} Deep"}</option>
-              </select>
-            </div>
-
-            <!-- S\xC9LECTEUR DE LANGUE -->
-            <div class="yt-ai-header-select-wrapper yt-ai-header-lang-wrapper">
-              <select id="ytAiLangSelect" class="yt-ai-select yt-ai-header-lang-select" title="${t.langLabel || "Language:"}">
-                <option value="fr" ${currentLang === "fr" ? "selected" : ""}>\u{1F1EB}\u{1F1F7} Fran\xE7ais</option>
-                <option value="en" ${currentLang === "en" ? "selected" : ""}>\u{1F1EC}\u{1F1E7} English</option>
-                <option value="es" ${currentLang === "es" ? "selected" : ""}>\u{1F1EA}\u{1F1F8} Espa\xF1ol</option>
-                <option value="de" ${currentLang === "de" ? "selected" : ""}>\u{1F1E9}\u{1F1EA} Deutsch</option>
-                <option value="it" ${currentLang === "it" ? "selected" : ""}>\u{1F1EE}\u{1F1F9} Italiano</option>
-                <option value="ru" ${currentLang === "ru" ? "selected" : ""}>\u{1F1F7}\u{1F1FA} \u0420\u0443\u0441\u0441\u043A\u0438\u0439</option>
-                <option value="ja" ${currentLang === "ja" ? "selected" : ""}>\u{1F1EF}\u{1F1F5} \u65E5\u672C\u8A9E</option>
-                <option value="zh" ${currentLang === "zh" ? "selected" : ""}>\u{1F1E8}\u{1F1F3} \u4E2D\u6587</option>
-              </select>
-            </div>
-
-            <!-- BOUTON D'ACTION PRINCIPAL -->
-            <button id="ytAiSummarizeBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-summarize-cta">
-              ${t.summarizeBtn || "\u2728 Summarize video"}
-            </button>
-          </div>
-        </div>
-
-        <div class="yt-ai-header-right">
-          <button id="ytAiSettingsToggleBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-settings-toggle-btn" title="${t.settingsBtn || "Settings"}">
-            <span class="yt-ai-settings-icon">\u2699\uFE0F</span>
-            <span id="ytAiSettingsBtnText">${t.settingsBtn || "Settings"}</span>
-          </button>
-
-          <button id="ytAiToggleBtn" class="yt-ai-toggle-btn" title="${t.expand || "Expand"}">
-            <span id="ytAiToggleText">${t.expand || "Expand"}</span>
-            <span id="ytAiToggleIcon">\u25BE</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- CONTENU D\xC9PLIABLE -->
-      <div class="yt-ai-expanded-content">
-        ${drawerHtml}
-
-        <!-- BANNI\xC8RE DE STATUT / MESSAGES INFORMATIFS -->
-        <div id="ytAiStatusBanner" class="yt-ai-reasoning yt-ai-hidden"></div>
-
-        <!-- NAVIGATION PAR ONGLETS (SYNTH\xC8SE / CHAT / AUDIT / TRANSCRIPTION) -->
-        <div class="yt-ai-tabs-nav">
-          <button id="ytAiTabSummaryBtn" class="yt-ai-tab-btn active" data-tab="summary">
-            ${t.tabSummary || "\u{1F4DD} AI Summary"}
-          </button>
-          <button id="ytAiTabChatBtn" class="yt-ai-tab-btn" data-tab="chat">
-            ${t.tabChat || "\u{1F4AC} Ask a question"} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">0</span>
-          </button>
-          <button id="ytAiTabAuditBtn" class="yt-ai-tab-btn" data-tab="audit">
-            ${t.tabAudit || "\u{1F6E1}\uFE0F Audit & Fact-Check"}
-          </button>
-          <button id="ytAiTabTranscriptBtn" class="yt-ai-tab-btn" data-tab="transcript">
-            ${t.tabTranscript || "\u{1F4DC} Transcript"} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">0 ${t.wordsBadge || "words"}</span>
-          </button>
-        </div>
-
-        <!-- ONGLET 1 : SYNTH\xC8SE IA -->
-        <div id="ytAiPaneSummary" class="yt-ai-tab-pane active">
-          <div class="yt-ai-summary-pane" style="max-height: 480px;">
-            <div class="yt-ai-pane-title">
-              <span id="ytAiSummaryHeaderTitle">${t.summaryTitle || "\u{1F4DD} AI Summary"}</span>
-              <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
-                <button id="ytAiSpeakSummaryBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.listenBtn || "\u{1F50A} Listen"}</button>
-                <button id="ytAiCopyBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.copyBtn || "\u{1F4CB} Copy"}</button>
-                <button id="ytAiDownloadBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.saveMdBtn || "\u{1F4BE} .md"}</button>
-                <button id="ytAiSaveTxtBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.saveTxtBtn || "\u{1F4C4} .txt"}</button>
-                <button id="ytAiSaveJsonBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.saveJsonBtn || "\u{1F4E6} .json"}</button>
-              </div>
-            </div>
-
-            <!-- R\xE9flexion Thinking (DeepSeek R1 / o3-mini / Qwen Thinking) -->
-            <details id="ytAiReasoningBox" class="yt-ai-reasoning yt-ai-hidden">
-              <summary>${t.reasoningModel || "\u{1F4AD} Model Reasoning"} (<span id="ytAiReasoningStatus">${t.reasoningInProgress || "in progress..."}</span>)</summary>
-              <div id="ytAiReasoningText" class="yt-ai-reasoning-body"></div>
-            </details>
-
-            <div id="ytAiSummaryBody" class="yt-ai-markdown">
-              <p style="color: #8b949e; font-style: italic;">${t.summaryPlaceholder || 'Click "\u2728 Summarize video" to generate the summary.'}</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- ONGLET 2 : CHAT BOX INTERACTIVE -->
-        <div id="ytAiPaneChat" class="yt-ai-tab-pane">
-          <div class="yt-ai-chat-pane">
-            <div class="yt-ai-pane-title">
-              <span>${t.chatTitle || "\u{1F4AC} Video Q&A"}</span>
-              <button id="ytAiClearChatBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.clearChatBtn || "\u{1F5D1}\uFE0F Clear conversation"}</button>
-            </div>
-
-            <div class="yt-ai-chat-container">
-              <!-- Suggestions rapides -->
-              <div class="yt-ai-chat-suggestions">
-                ${suggestionsHtml}
-              </div>
-
-              <!-- Messages \xE9chang\xE9s -->
-              <div id="ytAiChatMessages" class="yt-ai-chat-messages">
-                <div class="yt-ai-chat-bubble ai">
-                  ${t.chatWelcome || "Hello! Ask me any question about the content of this video."}
-                </div>
-              </div>
-
-              <!-- Ligne de saisie avec bouton micro -->
-              <div class="yt-ai-chat-input-row">
-                <textarea id="ytAiChatInput" class="yt-ai-chat-input" rows="1" placeholder="${t.chatPlaceholder || "Ask a question or dictate with mic..."}"></textarea>
-                <button id="ytAiMicBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-mic-btn" title="${t.micTitle || "Dictate your question with microphone"}">
-                  <span class="yt-ai-mic-icon">\u{1F3A4}</span>
-                </button>
-                <button id="ytAiSendChatBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 7px 16px;">
-                  ${t.sendBtn || "Send \u27A4"}
-                </button>
-              </div>
-              <div id="ytAiMicNotice" class="yt-ai-mic-notice yt-ai-hidden"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ONGLET 3 : AUDIT & FACT-CHECKING (VID\xC9O VS CHA\xCENE) -->
-        <div id="ytAiPaneAudit" class="yt-ai-tab-pane">
-          <div class="yt-ai-summary-pane" style="max-height: 480px;">
-            <!-- S\xE9lecteur distinct : Audit Vid\xE9o vs Audit Cha\xEEne -->
-            <div class="yt-ai-audit-mode-switcher" style="display: flex; gap: 8px; margin-bottom: 10px; border-bottom: 1px solid var(--yt-ai-border); padding-bottom: 8px;">
-              <button id="ytAiAuditSubtabVideoBtn" class="yt-ai-format-pill active" style="font-size: 11px;">\u{1F4F9} ${t.subtabAuditVideo || "Audit de cette vid\xE9o"}</button>
-              <button id="ytAiAuditSubtabChannelBtn" class="yt-ai-format-pill" style="font-size: 11px;">\u{1F4CA} ${t.subtabAuditChannel || "Audit de toute la cha\xEEne"}</button>
-            </div>
-
-            <!-- VUE 1 : AUDIT DE LA VID\xC9O SP\xC9CIFIQUE -->
-            <div id="ytAiAuditVideoView">
-              <div class="yt-ai-pane-title">
-                <span id="ytAiAuditHeaderTitle">${t.auditTitle || "\u{1F6E1}\uFE0F Audit Critique, Logique & V\xE9racit\xE9"}</span>
-                <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
-                  <button id="ytAiRunAuditBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 3px 10px; font-size: 11px;">${t.runAuditBtn || "\u26A1 Auditer cette vid\xE9o"}</button>
-                  <button id="ytAiCopyAuditBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-hidden" style="padding: 3px 8px; font-size: 11px;">${t.copyBtn || "\u{1F4CB} Copier"}</button>
-                </div>
-              </div>
-
-              <div id="ytAiAuditStatus" class="yt-ai-reasoning yt-ai-hidden"></div>
-              <div id="ytAiAuditProgressContainer" class="yt-ai-hidden"></div>
-
-              <div id="ytAiAuditBody" class="yt-ai-markdown">
-                <p style="color: #8b949e; font-style: italic;">${t.auditPlaceholder || "Cliquez sur \xAB \u26A1 Auditer cette vid\xE9o \xBB pour analyser la rigueur logique, les sophismes et la v\xE9racit\xE9 des faits."}</p>
-              </div>
-            </div>
-
-            <!-- VUE 2 : AUDIT GLOBAL DE TOUTE LA CHA\xCENE -->
-            <div id="ytAiChannelAuditContainer" class="yt-ai-hidden">
-              <div class="yt-ai-pane-title">
-                <span>${t.channelAuditTitle || "\u{1F4CA} Audit Global de la Cha\xEEne"}</span>
-                <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
-                  <button id="ytAiAuditChannelBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 3px 10px; font-size: 11px;">${t.runChannelAuditBtn || "\u26A1 Lancer l'audit de la cha\xEEne"}</button>
-                </div>
-              </div>
-
-              <!-- S\xE9lecteur rapide de p\xE9riode temporelle -->
-              <div class="yt-ai-period-selector" style="display: flex; gap: 6px; margin: 4px 0 8px 0; align-items: center; flex-wrap: wrap;">
-                <span style="font-size: 11px; color: var(--yt-ai-text-secondary);">${t.periodFilterLabel || "P\xE9riode :"}</span>
-                <button class="yt-ai-period-pill yt-ai-format-pill active" data-period="all">\u{1F310} ${t.periodAll || "Tout"}</button>
-                <button class="yt-ai-period-pill yt-ai-format-pill" data-period="month">\u26A1 ${t.periodMonth || "Dernier mois"}</button>
-                <button class="yt-ai-period-pill yt-ai-format-pill" data-period="year">\u{1F4C5} ${t.periodYear || "Ann\xE9e en cours"}</button>
-                <button class="yt-ai-period-pill yt-ai-format-pill" data-period="6months">\u{1F3AF} ${t.period6Months || "6 derniers mois"}</button>
-              </div>
-
-              <div id="ytAiChannelAuditProgressContainer" class="yt-ai-hidden"></div>
-              <div id="ytAiChannelAuditBody">
-                <p style="color: #8b949e; font-style: italic;">Cliquez sur \xAB \u26A1 Lancer l'audit de la cha\xEEne \xBB pour \xE9valuer l'\xE9chantillon statistique des vid\xE9os, la note globale et l'\xE9volution temporelle.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ONGLET 4 : TRANSCRIPTION BRUTE -->
-        <div id="ytAiPaneTranscript" class="yt-ai-tab-pane">
-          <div class="yt-ai-transcript-pane" style="max-height: 480px;">
-            <div class="yt-ai-pane-title">
-              <span>${t.transcriptTitle || "\u{1F4DC} Full Transcript"} (<span id="ytAiWordCount">0</span> ${t.wordsBadge || "words"})</span>
-              <button id="ytAiCopyTranscriptBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.copyRawBtn || "\u{1F4CB} Copy raw"}</button>
-            </div>
-            <div id="ytAiTranscriptBody" class="yt-ai-transcript-text">
-              ${t.transcriptWaiting || "Waiting for transcript..."}
-            </div>
-          </div>
-        </div>
-
-        <!-- PIED DE PAGE AVEC LIENS GITHUB ET AIDE -->
-        <div class="yt-ai-footer-info">
-          <span id="ytAiFooterAuthor">YouTube Summarizer AI <strong>${version}</strong> ${t.footerBy || "by"} <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a></span>
-          <span>\u2022</span>
-          <a href="https://github.com/Hidr4c/youtube-ai-summarizer" target="_blank" rel="noopener">\u2B50 GitHub</a>
-          <span>\u2022</span>
-          <a id="ytAiFooterBugLink" href="https://github.com/Hidr4c/youtube-ai-summarizer/issues" target="_blank" rel="noopener">\u{1F41B} ${t.footerReportBug || "Report a bug"}</a>
-          <span>\u2022</span>
-          <a id="ytAiFooterDocsLink" href="https://github.com/Hidr4c/youtube-ai-summarizer#readme" target="_blank" rel="noopener">\u{1F4D6} ${t.footerDocs || "Documentation"}</a>
-        </div>
-
-      </div>
-    `;
-    }
-  };
-
-  // src/content/ui/ThemeManager.js
-  var themeObserverAttached = false;
-  function syncThemeWithYouTube(bannerEl) {
-    const banner = bannerEl || document.getElementById("yt-ai-summarizer-container");
-    if (!banner) return;
-    const htmlEl = document.documentElement;
-    const isDark = htmlEl.hasAttribute("dark") || htmlEl.getAttribute("dark") === "true" || document.body?.classList.contains("dark-theme") || window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-    if (isDark) {
-      banner.classList.remove("yt-ai-light-theme");
-      banner.classList.add("yt-ai-dark-theme");
-    } else {
-      banner.classList.remove("yt-ai-dark-theme");
-      banner.classList.add("yt-ai-light-theme");
-    }
+  // src/content/templates/BannerHeaderParts.js
+  var EXTENSION_VERSION_FALLBACK = "v1.5.1";
+  var SUPPORTED_LANGUAGES = [
+    { value: "fr", label: "\u{1F1EB}\u{1F1F7} Fran\xE7ais" },
+    { value: "en", label: "\u{1F1EC}\u{1F1E7} English" },
+    { value: "es", label: "\u{1F1EA}\u{1F1F8} Espa\xF1ol" },
+    { value: "de", label: "\u{1F1E9}\u{1F1EA} Deutsch" },
+    { value: "it", label: "\u{1F1EE}\u{1F1F9} Italiano" },
+    { value: "ru", label: "\u{1F1F7}\u{1F1FA} \u0420\u0443\u0441\u0441\u043A\u0438\u0439" },
+    { value: "ja", label: "\u{1F1EF}\u{1F1F5} \u65E5\u672C\u8A9E" },
+    { value: "zh", label: "\u{1F1E8}\u{1F1F3} \u4E2D\u6587" }
+  ];
+  var EXTENSION_BRAND_TITLE = "YT Summarizer AI";
+  function renderBrandLogoSvg() {
+    return `
+    <svg class="yt-ai-brand-logo-svg" width="22" height="16" viewBox="0 0 24 17" fill="none" aria-hidden="true">
+      <rect width="24" height="17" rx="4.5" fill="#FF0000"/>
+      <path d="M9.5 4.8L16 8.5L9.5 12.2V4.8Z" fill="#FFFFFF"/>
+    </svg>
+  `.trim();
   }
-  function initThemeSync(banner) {
-    syncThemeWithYouTube(banner);
-    if (!themeObserverAttached) {
-      themeObserverAttached = true;
-      try {
-        const themeObserver = new MutationObserver(() => {
-          syncThemeWithYouTube();
-        });
-        themeObserver.observe(document.documentElement, {
-          attributes: true,
-          attributeFilter: ["dark", "class"]
-        });
-        if (window.matchMedia) {
-          window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-            syncThemeWithYouTube();
-          });
-        }
-      } catch (_) {
-      }
-    }
+  function renderLangOptionsHtml(currentLang = "en") {
+    return SUPPORTED_LANGUAGES.map((lang) => {
+      const sel = currentLang === lang.value ? " selected" : "";
+      return `<option value="${lang.value}"${sel}>${lang.label}</option>`;
+    }).join("\n");
   }
-  var ThemeManager = {
-    syncThemeWithYouTube,
-    initThemeSync
-  };
+  function getExtensionVersionTag(versionOverride = "") {
+    if (versionOverride) {
+      const raw = String(versionOverride);
+      return raw.startsWith("v") ? raw : `v${raw}`;
+    }
+    if (typeof chrome !== "undefined" && chrome.runtime?.getManifest) {
+      return `v${chrome.runtime.getManifest().version}`;
+    }
+    return EXTENSION_VERSION_FALLBACK;
+  }
+  function renderExtensionFooterHtml(t = {}, idPrefix = "ytAiFooter", version = "") {
+    const fb = I18N.en;
+    const verLabel = getExtensionVersionTag(version);
+    const byWord = t.footerBy || fb.footerBy;
+    const bugText = t.footerReportBug || fb.footerReportBug;
+    const docsText = t.footerDocs || fb.footerDocs;
+    return `
+    <div class="yt-ai-footer-info">
+      <span id="${idPrefix}Author">YouTube Summarizer AI <strong>${verLabel}</strong> <span id="${idPrefix}By">${byWord}</span> <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a></span>
+      <span>\u2022</span>
+      <a href="https://github.com/Hidr4c/youtube-ai-summarizer" target="_blank" rel="noopener">\u2B50 GitHub</a>
+      <span>\u2022</span>
+      <a id="${idPrefix}BugLink" href="https://github.com/Hidr4c/youtube-ai-summarizer/issues" target="_blank" rel="noopener">\u{1F41B} ${bugText}</a>
+      <span>\u2022</span>
+      <a id="${idPrefix}DocsLink" href="https://github.com/Hidr4c/youtube-ai-summarizer#readme" target="_blank" rel="noopener">\u{1F4D6} ${docsText}</a>
+    </div>
+  `;
+  }
+  function applyFooterLanguage(t = {}, idPrefix = "ytAiFooter") {
+    const fb = I18N.en;
+    const byEl = document.getElementById(`${idPrefix}By`);
+    if (byEl) byEl.textContent = t.footerBy || fb.footerBy;
+    const bugEl = document.getElementById(`${idPrefix}BugLink`);
+    if (bugEl) bugEl.textContent = `\u{1F41B} ${t.footerReportBug || fb.footerReportBug}`;
+    const docsEl = document.getElementById(`${idPrefix}DocsLink`);
+    if (docsEl) docsEl.textContent = `\u{1F4D6} ${t.footerDocs || fb.footerDocs}`;
+  }
 
   // src/content/ui/NavigationObserver.js
   var NavigationObserver = class _NavigationObserver {
@@ -2587,6 +2505,65 @@
       observer.observe(document.documentElement, { childList: true, subtree: true });
       return observer;
     }
+    /**
+     * Detects whether YouTube or the browser viewport is currently in fullscreen mode
+     * @returns {boolean}
+     */
+    static isFullscreen() {
+      if (typeof document === "undefined") return false;
+      if (document.fullscreenElement || document.webkitFullscreenElement) return true;
+      if (typeof document.querySelector === "function") {
+        return Boolean(document.querySelector("ytd-watch-flexy[fullscreen], ytd-watch-grid[fullscreen], ytd-app[fullscreen], ytm-watch[fullscreen], ytm-app[fullscreen], .html5-video-player.ytp-fullscreen"));
+      }
+      return false;
+    }
+    /**
+     * Synchronizes fullscreen hidden state across injected extension containers
+     * @returns {boolean}
+     */
+    static syncFullscreenVisibility() {
+      const fs = _NavigationObserver.isFullscreen();
+      if (typeof document !== "undefined") {
+        ["yt-ai-summarizer-container", "yt-ai-channel-companion"].forEach((id) => {
+          const el = document.getElementById?.(id);
+          if (!el?.classList) return;
+          if (typeof el.classList.toggle === "function") {
+            el.classList.toggle("yt-ai-fullscreen-hidden", fs);
+          } else if (fs) {
+            el.classList.add?.("yt-ai-fullscreen-hidden");
+          } else {
+            el.classList.remove?.("yt-ai-fullscreen-hidden");
+          }
+        });
+      }
+      return fs;
+    }
+    /**
+     * Subscribes to native Fullscreen API events and YouTube player attribute transitions
+     * @returns {Function} cleanup callback
+     */
+    static observeFullscreen() {
+      if (typeof document === "undefined") return () => {
+      };
+      const onFsChange = () => _NavigationObserver.syncFullscreenVisibility();
+      document.addEventListener?.("fullscreenchange", onFsChange);
+      document.addEventListener?.("webkitfullscreenchange", onFsChange);
+      let attrObserver = null;
+      if (typeof MutationObserver !== "undefined") {
+        attrObserver = new MutationObserver(onFsChange);
+        attrObserver.observe(document.documentElement, {
+          attributes: true,
+          subtree: true,
+          attributeFilter: ["fullscreen", "class"]
+        });
+      }
+      onFsChange();
+      return () => {
+        document.removeEventListener?.("fullscreenchange", onFsChange);
+        document.removeEventListener?.("webkitfullscreenchange", onFsChange);
+        attrObserver?.disconnect();
+      };
+    }
   };
   var isWatchPage = NavigationObserver.isWatchPage;
   var isChannelPage = NavigationObserver.isChannelPage;
@@ -2594,7 +2571,2092 @@
   var getVideoId = NavigationObserver.getVideoId;
   var extractVideoIdFromText = NavigationObserver.extractVideoIdFromText;
   var extractAllVideoIdsFromText = NavigationObserver.extractAllVideoIdsFromText;
+  var isFullscreen = NavigationObserver.isFullscreen;
+  var syncFullscreenVisibility = NavigationObserver.syncFullscreenVisibility;
+  var observeFullscreen = NavigationObserver.observeFullscreen;
   var observeNavigation = NavigationObserver.observeNavigation;
+
+  // src/config/ExtensionConstants.js
+  var CHANNEL_AUDIT_NUMERIC_PRESETS = [10, 15, 20, 30, 50, 100, 500, 1e3];
+  var CHANNEL_AUDIT_ALL_CAP = 5e3;
+  function parseChannelVideoCount(rawValue) {
+    if (typeof rawValue === "number" && Number.isFinite(rawValue) && rawValue > 0) {
+      return Math.floor(rawValue);
+    }
+    if (!rawValue || typeof rawValue !== "string") return null;
+    const match = rawValue.match(/([\d\s\u00a0\u202f.,]+)\s*([km])?\b/i);
+    if (!match || !match[1]) return null;
+    const rawNum = match[1].trim();
+    const suffix = (match[2] || "").toLowerCase();
+    if (suffix === "k" || suffix === "m") {
+      const floatVal = parseFloat(rawNum.replace(/[\s\u00a0\u202f]/g, "").replace(",", "."));
+      if (Number.isNaN(floatVal) || floatVal <= 0) return null;
+      return Math.round(floatVal * (suffix === "k" ? 1e3 : 1e6));
+    }
+    const intVal = parseInt(rawNum.replace(/[^\d]/g, ""), 10);
+    return !Number.isNaN(intVal) && intVal > 0 ? intVal : null;
+  }
+  function parseChannelAuditLimit(rawValue) {
+    if (rawValue === "all" || rawValue === Infinity) {
+      return { key: "all", numericLimit: Infinity, fetchCap: CHANNEL_AUDIT_ALL_CAP, isAll: true };
+    }
+    const parsed = parseInt(rawValue, 10);
+    if (!Number.isNaN(parsed) && parsed > 0) {
+      return { key: String(parsed), numericLimit: parsed, fetchCap: parsed, isAll: false };
+    }
+    return { key: "30", numericLimit: 30, fetchCap: 30, isAll: false };
+  }
+  function getChannelAuditOptionsForTotal(totalVideos = null, isFr = true) {
+    const total = parseChannelVideoCount(totalVideos);
+    const presets = total && total > 0 ? CHANNEL_AUDIT_NUMERIC_PRESETS.filter((n) => n < total) : CHANNEL_AUDIT_NUMERIC_PRESETS;
+    const suffix = isFr ? "vid\xE9os" : "videos";
+    const defTag = isFr ? " (d\xE9faut)" : " (default)";
+    const opts = presets.map((n) => ({
+      value: String(n),
+      label: `${n} ${suffix}${n === 30 ? defTag : ""}`
+    }));
+    if (total && total > 0) {
+      const formattedTotal = total >= 1e3 ? total.toLocaleString(isFr ? "fr-FR" : "en-US").replace(/[\u00a0\u202f]/g, " ") : String(total);
+      opts.push({
+        value: "all",
+        label: isFr ? `Toutes (${formattedTotal})` : `All (${formattedTotal})`
+      });
+    } else {
+      opts.push({
+        value: "all",
+        label: isFr ? "Toutes les vid\xE9os" : "All videos"
+      });
+    }
+    return opts;
+  }
+  function resolveEffectiveChannelLimit(selectedValue = 30, totalVideos = null) {
+    const parsed = parseChannelAuditLimit(selectedValue);
+    if (parsed.isAll) return "all";
+    const total = parseChannelVideoCount(totalVideos);
+    if (total && total > 0 && parsed.numericLimit >= total) return "all";
+    return parsed.key;
+  }
+  function renderChannelMaxOptionsHtml(selectedValue = 30, isFr = true, totalVideos = null) {
+    const activeKey = resolveEffectiveChannelLimit(selectedValue, totalVideos);
+    return getChannelAuditOptionsForTotal(totalVideos, isFr).map((opt) => {
+      const isSel = opt.value === activeKey ? " selected" : "";
+      return `<option value="${opt.value}"${isSel}>${opt.label}</option>`;
+    }).join("");
+  }
+  function syncChannelMaxSelectElement(selectEl, selectedValue = 30, isFr = true, totalVideos = null) {
+    if (!selectEl) return null;
+    const activeKey = resolveEffectiveChannelLimit(selectedValue, totalVideos);
+    selectEl.innerHTML = renderChannelMaxOptionsHtml(activeKey, isFr, totalVideos);
+    selectEl.value = activeKey;
+    return activeKey;
+  }
+
+  // src/content/services/YouTubeDOMContext.js
+  var YouTubeDOMContext = class _YouTubeDOMContext {
+    /**
+     * Extracts chapters / timeline markers directly from YouTube video description
+     * @returns {Array<{timestamp: string, text: string}> | null}
+     */
+    static extractChaptersFromDescription() {
+      if (typeof document === "undefined") return null;
+      const results = [];
+      const entries = document.querySelectorAll(
+        "ytd-macro-markers-entry-renderer, #structured-description ytd-macro-markers-entry-renderer, ytd-chapter-renderer, ytd-macro-markers-list-item-renderer, macro-markers-panel-item-view-model"
+      );
+      if (entries && entries.length > 1) {
+        entries.forEach((el) => {
+          const timeEl = el.querySelector('#time, [class*="time"], a[href*="t="]');
+          const titleEls = el.querySelectorAll ? el.querySelectorAll('h3, h4, #title, [class*="title"]') : [];
+          let titleEl = null;
+          for (const candidate of titleEls) {
+            if (!candidate.hasAttribute || !candidate.hasAttribute("hidden")) {
+              titleEl = candidate;
+              break;
+            }
+          }
+          if (!titleEl) titleEl = el.querySelector('h3, h4, #title, [class*="title"]');
+          const timestamp = timeEl ? timeEl.textContent.trim() : "";
+          let text = titleEl ? titleEl.getAttribute?.("title") || titleEl.textContent.trim() : "";
+          if (timestamp && text.endsWith(timestamp)) {
+            text = text.slice(0, -timestamp.length).trim();
+          }
+          if (timestamp && text) {
+            results.push({ timestamp, text });
+          }
+        });
+        if (results.length > 1) return results;
+      }
+      return null;
+    }
+    /**
+     * Extracts rich metadata from YouTube DOM elements with cached fallback
+     * @param {Object} [cachedVideoMetadata]
+     * @returns {Object}
+     */
+    static getVideoMetadata(cachedVideoMetadata = {}) {
+      const currentVideoId = getVideoId();
+      const isCacheValid = cachedVideoMetadata?.videoId === currentVideoId;
+      const safeMeta = isCacheValid ? cachedVideoMetadata : {};
+      const hasDoc = typeof document !== "undefined";
+      const titleEl = hasDoc ? document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title, h2.slim-video-information-title, .slim-video-metadata-header h2") : null;
+      const authorEl = hasDoc ? document.querySelector("ytd-channel-name a, #channel-name a, #owner-name a, ytm-slim-owner-renderer .slim-owner-channel-name, ytm-slim-owner-renderer a") : null;
+      const subEl = hasDoc ? document.querySelector("#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count, ytm-slim-owner-renderer .slim-owner-bylines") : null;
+      const descEl = hasDoc ? document.querySelector("#description-inline-expander yt-attributed-string, #description, #description-inline-expander, ytm-expandable-video-description-body-renderer") : null;
+      const dateEl = hasDoc ? document.querySelector("#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date") : null;
+      const tagEls = hasDoc ? document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]') : [];
+      const domSubscribers = subEl?.textContent?.trim() || "";
+      const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || "";
+      const domDate = dateEl?.textContent?.trim() || "";
+      const domKeywords = Array.from(tagEls).map((el) => el.textContent.trim().replace(/^#/, "")).filter(Boolean);
+      const domChannelUrl = authorEl?.getAttribute("href") || authorEl?.href || "";
+      const title = titleEl?.textContent?.trim() || safeMeta.title || (hasDoc ? document.title.replace(" - YouTube", "").trim() : "");
+      const author = authorEl?.textContent?.trim() || safeMeta.author || "Cha\xEEne YouTube";
+      const subscribers = domSubscribers || safeMeta.subscribers || "";
+      const description = safeMeta.description || domDescription || "";
+      const keywords = safeMeta.keywords && safeMeta.keywords.length > 0 ? safeMeta.keywords : domKeywords;
+      const category = safeMeta.category || "";
+      const publishDate = safeMeta.publishDate || domDate || "";
+      const viewCount = safeMeta.viewCount || "";
+      const channelId = safeMeta.channelId || "";
+      const channelUrl = safeMeta.channelUrl || domChannelUrl || "";
+      const chapters = (hasDoc ? _YouTubeDOMContext.extractChaptersFromDescription() : null) || safeMeta.chapters || [];
+      return {
+        videoId: currentVideoId || safeMeta.videoId || "",
+        title,
+        author,
+        subscribers,
+        description,
+        keywords,
+        category,
+        publishDate,
+        viewCount,
+        channelId,
+        channelUrl,
+        chapters
+      };
+    }
+    /**
+     * Formats video context block for AI prompts
+     * @param {Object} meta
+     * @param {string} [lang]
+     * @returns {string}
+     */
+    static formatContextInfo(meta, lang = "fr") {
+      if (!meta) return "";
+      const parts = [];
+      if (meta.publishDate) {
+        parts.push(lang === "fr" ? `Date de mise en ligne : ${meta.publishDate}` : `Publish date: ${meta.publishDate}`);
+      }
+      if (meta.viewCount) {
+        parts.push(lang === "fr" ? `Vues : ${meta.viewCount}` : `Views: ${meta.viewCount}`);
+      }
+      if (meta.category) {
+        parts.push(lang === "fr" ? `Cat\xE9gorie officielle : ${meta.category}` : `Category: ${meta.category}`);
+      }
+      if (meta.keywords && meta.keywords.length > 0) {
+        parts.push(lang === "fr" ? `Mots-cl\xE9s / Tags : ${meta.keywords.join(", ")}` : `Keywords: ${meta.keywords.join(", ")}`);
+      }
+      if (meta.chapters && meta.chapters.length > 0) {
+        const chapterList = meta.chapters.map((c) => `  - [${c.timestamp}] ${c.text}`).join("\n");
+        parts.push(lang === "fr" ? `Structure des chapitres officiels :
+${chapterList}` : `Official chapters structure:
+${chapterList}`);
+      }
+      if (meta.description && meta.description.trim()) {
+        const cleanDesc = meta.description.trim();
+        parts.push(lang === "fr" ? `Description officielle de la vid\xE9o :
+"""
+${cleanDesc}
+"""` : `Official description:
+"""
+${cleanDesc}
+"""`);
+      }
+      if (parts.length === 0) return "";
+      const header = lang === "fr" ? "CONTEXTE OFFICIEL DE LA VID\xC9O YOUTUBE :" : "OFFICIAL YOUTUBE VIDEO CONTEXT:";
+      return `${header}
+${parts.join("\n\n")}`;
+    }
+    /**
+     * Scrapes the channel total video count displayed in the YouTube channel header DOM
+     * @returns {number|null}
+     */
+    static extractChannelTotalVideosFromDOM() {
+      if (typeof document === "undefined" || typeof document.querySelectorAll !== "function") return null;
+      const nodes = document.querySelectorAll(
+        "#page-header-container span, #channel-header-container span, tp-yt-app-header span, #page-header-container yt-formatted-string, .yt-content-metadata-view-model__metadata-text, ytm-c4-tabbed-header-renderer span, ytm-page-header-renderer span"
+      );
+      for (const node of nodes) {
+        const txt = node?.textContent?.trim() || "";
+        if (!txt || txt.length > 40) continue;
+        if (/vid[ée]os?|videos?|видео|本|个视频|個影片/i.test(txt)) {
+          const count = parseChannelVideoCount(txt);
+          if (count && count > 0) return count;
+        }
+      }
+      return null;
+    }
+  };
+  function formatContextInfo(meta, lang = "fr") {
+    return YouTubeDOMContext.formatContextInfo(meta, lang);
+  }
+
+  // src/services/implementations/ChannelStatisticalSampler.js
+  var ChannelStatisticalSampler = class {
+    /**
+     * Categorizes a video into a temporal era based on metadata string (FR/EN)
+     * @param {Object} video
+     * @returns {{era: 'recent'|'mid'|'legacy', eraLabel: string, weight: number, yearEstimate: number}}
+     */
+    static categorizeVideoEra(video = {}) {
+      const meta = (video.meta || "").toLowerCase();
+      const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
+      const yearMatch = meta.match(/(?:il y a\s*(\d+)\s*ans?|(\d+)\s*y(?:ears?|rs?)\s*ago)/);
+      if (yearMatch) {
+        const yearsAgo = parseInt(yearMatch[1] || yearMatch[2], 10);
+        if (yearsAgo >= 2) {
+          return {
+            era: "legacy",
+            eraLabel: `Historique (~${yearsAgo} ans)`,
+            weight: 0.6,
+            yearEstimate: Math.max(2010, currentYear - yearsAgo)
+          };
+        }
+        if (yearsAgo === 1) {
+          return {
+            era: "mid",
+            eraLabel: "Interm\xE9diaire (~1 an)",
+            weight: 1,
+            yearEstimate: currentYear - 1
+          };
+        }
+      }
+      const monthMatch = meta.match(/(?:il y a\s*(\d+)\s*(?:mois|m\b|m\.)|(\d+)\s*months?\s*ago)/);
+      if (monthMatch) {
+        const months = parseInt(monthMatch[1] || monthMatch[2], 10);
+        if (months >= 6) {
+          return {
+            era: "mid",
+            eraLabel: `Interm\xE9diaire (~${months} mois)`,
+            weight: 1,
+            yearEstimate: currentYear - 1
+          };
+        }
+        return {
+          era: "recent",
+          eraLabel: `R\xE9cent (~${months} mois)`,
+          weight: 1.5,
+          yearEstimate: currentYear
+        };
+      }
+      const isRecent = /(?:il y a\s*\d+\s*(?:h\b|j\b|sem|heure|jour|semaine)|(?:hour|day|week)s?\s*ago|hier|yesterday)/.test(meta);
+      if (isRecent) {
+        return {
+          era: "recent",
+          eraLabel: "R\xE9cent (Derniers mois)",
+          weight: 1.5,
+          yearEstimate: currentYear
+        };
+      }
+      return {
+        era: "recent",
+        eraLabel: "R\xE9cent",
+        weight: 1.5,
+        yearEstimate: currentYear
+      };
+    }
+    /**
+     * Filters video pool according to a temporal period shortcut
+     * @param {Array<Object>} allVideos
+     * @param {'all'|'month'|'6months'|'year'} [period='all']
+     * @returns {Array<Object>} Filtered videos
+     */
+    static filterVideosByPeriod(allVideos = [], period = "all") {
+      if (!Array.isArray(allVideos) || allVideos.length === 0 || period === "all") {
+        return allVideos || [];
+      }
+      const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
+      return allVideos.filter((v) => {
+        const meta = (v.meta || "").toLowerCase();
+        if (period === "month") {
+          const isDays = /(?:il y a\s*\d+\s*(?:h\b|j\b|sem|heure|jour|semaine)|(?:hour|day|week)s?\s*ago|hier|yesterday)/.test(meta);
+          const isOneMonth = /(?:il y a\s*1\s*(?:mois|m\b|m\.)|1\s*month\s*ago)/.test(meta);
+          return isDays || isOneMonth;
+        }
+        if (period === "6months") {
+          const isDays = /(?:il y a\s*\d+\s*(?:h\b|j\b|sem|heure|jour|semaine)|(?:hour|day|week)s?\s*ago|hier|yesterday)/.test(meta);
+          const m = meta.match(/(?:il y a\s*(\d+)\s*(?:mois|m\b|m\.)|(\d+)\s*months?\s*ago)/);
+          return isDays || m && parseInt(m[1] || m[2], 10) <= 6;
+        }
+        if (period === "year") {
+          const isDays = /(?:il y a\s*\d+\s*(?:h\b|j\b|sem|heure|jour|semaine)|(?:hour|day|week)s?\s*ago|hier|yesterday)/.test(meta);
+          const m = meta.match(/(?:il y a\s*(\d+)\s*(?:mois|m\b|m\.)|(\d+)\s*months?\s*ago)/);
+          const isUnderYear = isDays || m && parseInt(m[1] || m[2], 10) <= 12;
+          const isOneYear = /(?:il y a\s*1\s*(?:an|a\b|a\.)|1\s*year\s*ago)/.test(meta);
+          return isUnderYear || isOneYear || this.categorizeVideoEra(v).yearEstimate >= currentYear;
+        }
+        return true;
+      });
+    }
+    /**
+     * Selects a stratified statistical sample from a list of channel videos
+     * @param {Array<Object>} allVideos
+     * @param {Object} [options]
+     * @param {number} [options.maxSample=12]
+     * @returns {Array<Object>} Stratified sample with era metadata and weights
+     */
+    static selectStratifiedSample(allVideos = [], options = {}) {
+      const { maxSample = 12 } = options;
+      if (!Array.isArray(allVideos) || allVideos.length === 0) return [];
+      if (allVideos.length <= maxSample) {
+        return allVideos.map((v, idx) => {
+          const eraInfo = this.categorizeVideoEra(v);
+          return { ...v, sampleIndex: idx + 1, ...eraInfo };
+        });
+      }
+      const enriched = allVideos.map((v, idx) => ({
+        ...v,
+        originalIndex: idx,
+        ...this.categorizeVideoEra(v)
+      }));
+      const recentPool = enriched.filter((v) => v.era === "recent");
+      const midPool = enriched.filter((v) => v.era === "mid");
+      const legacyPool = enriched.filter((v) => v.era === "legacy");
+      const recentQuota = Math.max(3, Math.round(maxSample * 0.6));
+      const midQuota = Math.max(1, Math.round(maxSample * 0.25));
+      const legacyQuota = Math.max(1, maxSample - recentQuota - midQuota);
+      const selectedRecent = recentPool.slice(0, recentQuota);
+      const selectedMid = midPool.slice(0, midQuota);
+      const selectedLegacy = legacyPool.slice(0, legacyQuota);
+      const selectedIds = /* @__PURE__ */ new Set([
+        ...selectedRecent.map((v) => v.id),
+        ...selectedMid.map((v) => v.id),
+        ...selectedLegacy.map((v) => v.id)
+      ]);
+      const result = [...selectedRecent, ...selectedMid, ...selectedLegacy];
+      for (const v of enriched) {
+        if (result.length >= maxSample) break;
+        if (!selectedIds.has(v.id)) {
+          selectedIds.add(v.id);
+          result.push(v);
+        }
+      }
+      return result.map((v, idx) => ({ ...v, sampleIndex: idx + 1 }));
+    }
+    /**
+     * Computes weighted aggregate statistics across evaluated sample videos
+     * @param {Array<Object>} evaluatedVideos
+     * @returns {Object} Weighted metrics, distribution, and trajectory
+     */
+    static computeWeightedMetrics(evaluatedVideos = []) {
+      if (!Array.isArray(evaluatedVideos) || evaluatedVideos.length === 0) {
+        return {
+          weightedScore: 50,
+          weightedClickbait: 20,
+          distribution: { reliable: 0, caution: 0, clickbait: 0 },
+          proportions: { reliablePct: 0, cautionPct: 0, clickbaitPct: 0 },
+          trajectory: "stable",
+          trajectoryLabel: "Ligne \xE9ditoriale stable",
+          eraScores: { recent: null, mid: null, legacy: null }
+        };
+      }
+      let totalWeight = 0;
+      let weightedScoreSum = 0;
+      let weightedClickbaitSum = 0;
+      let reliableCount = 0;
+      let cautionCount = 0;
+      let clickbaitCount = 0;
+      const eraAccumulators = {
+        recent: { sum: 0, weight: 0 },
+        mid: { sum: 0, weight: 0 },
+        legacy: { sum: 0, weight: 0 }
+      };
+      for (const v of evaluatedVideos) {
+        const score = typeof v.score === "number" ? Math.max(0, Math.min(100, v.score)) : 50;
+        const clickbait = typeof v.clickbait === "number" ? Math.max(0, Math.min(100, v.clickbait)) : 20;
+        const weight = typeof v.weight === "number" ? v.weight : 1;
+        const era = v.era || "recent";
+        totalWeight += weight;
+        weightedScoreSum += score * weight;
+        weightedClickbaitSum += clickbait * weight;
+        if (score >= 75) reliableCount++;
+        else if (score >= 50) cautionCount++;
+        else clickbaitCount++;
+        if (eraAccumulators[era]) {
+          eraAccumulators[era].sum += score * weight;
+          eraAccumulators[era].weight += weight;
+        }
+      }
+      const totalCount = evaluatedVideos.length;
+      const finalScore = totalWeight > 0 ? Math.round(weightedScoreSum / totalWeight) : 50;
+      const finalClickbait = totalWeight > 0 ? Math.round(weightedClickbaitSum / totalWeight) : 20;
+      const reliablePct = Math.round(reliableCount / totalCount * 100);
+      const cautionPct = Math.round(cautionCount / totalCount * 100);
+      const clickbaitPct = Math.max(0, 100 - reliablePct - cautionPct);
+      const eraScores = {
+        recent: eraAccumulators.recent.weight > 0 ? Math.round(eraAccumulators.recent.sum / eraAccumulators.recent.weight) : null,
+        mid: eraAccumulators.mid.weight > 0 ? Math.round(eraAccumulators.mid.sum / eraAccumulators.mid.weight) : null,
+        legacy: eraAccumulators.legacy.weight > 0 ? Math.round(eraAccumulators.legacy.sum / eraAccumulators.legacy.weight) : null
+      };
+      let trajectory = "stable";
+      let trajectoryLabel = "Ligne \xE9ditoriale stable";
+      const baselineScore = eraScores.mid ?? eraScores.legacy;
+      if (eraScores.recent !== null && baselineScore !== null) {
+        const diff = eraScores.recent - baselineScore;
+        if (diff >= 6) {
+          trajectory = "improving";
+          trajectoryLabel = "En nette progression (rigueur et nuance en hausse)";
+        } else if (diff <= -6) {
+          trajectory = "declining";
+          trajectoryLabel = "En baisse de rigueur (sensationnalisme accru)";
+        }
+      }
+      return {
+        weightedScore: finalScore,
+        weightedClickbait: finalClickbait,
+        distribution: {
+          reliable: reliableCount,
+          caution: cautionCount,
+          clickbait: clickbaitCount
+        },
+        proportions: {
+          reliablePct,
+          cautionPct,
+          clickbaitPct
+        },
+        trajectory,
+        trajectoryLabel,
+        eraScores
+      };
+    }
+  };
+
+  // src/domain/services/ScoreTierScale.js
+  var SCORE_TIERS_5PCT = [
+    { min: 95, max: 100, hex: "#00d9a6", macro: "success", fr: "Recommandable : Excellence & R\xE9f\xE9rence", en: "Benchmark Excellence & Exemplary Rigor" },
+    { min: 90, max: 94, hex: "#10b981", macro: "success", fr: "Recommandable : Tr\xE8s Haute Fiabilit\xE9", en: "Superior Factual Rigor & Clarity" },
+    { min: 85, max: 89, hex: "#22c55e", macro: "success", fr: "Recommandable : Haute Rigueur \xC9ditoriale", en: "High Editorial Integrity" },
+    { min: 80, max: 84, hex: "#4ade80", macro: "success", fr: "Recommandable : Solide & Factuelle", en: "Solid & Factual" },
+    { min: 75, max: 79, hex: "#a3e635", macro: "success", fr: "Recommandable (Nuances mineures)", en: "Generally Reliable (Minor Nuances)" },
+    { min: 70, max: 74, hex: "#d4e157", macro: "warning", fr: "Acceptable avec R\xE9serves Ponctuelles", en: "Acceptable with Minor Caveats" },
+    { min: 65, max: 69, hex: "#eab308", macro: "warning", fr: "In\xE9gal / Pr\xE9cisions Souhaitables", en: "Uneven / Sources Recommended" },
+    { min: 60, max: 64, hex: "#facc15", macro: "warning", fr: "Vigilance Mod\xE9r\xE9e (Raccourcis)", en: "Moderate Caution (Simplifications)" },
+    { min: 55, max: 59, hex: "#f59e0b", macro: "warning", fr: "Biais ou Raccourcis Fr\xE9quents", en: "Frequent Biases or Shortcuts" },
+    { min: 50, max: 54, hex: "#fb923c", macro: "warning", fr: "Passable / Accroches Prononc\xE9es", en: "Borderline / Marked Clickbait" },
+    { min: 45, max: 49, hex: "#f97316", macro: "danger", fr: "Fragile / Rigueur Insuffisante", en: "Weak Rigor / Speculative" },
+    { min: 40, max: 44, hex: "#ea580c", macro: "danger", fr: "Douteux / Biais Marqu\xE9s", en: "Questionable / Heavy Bias" },
+    { min: 35, max: 39, hex: "#ef4444", macro: "danger", fr: "Sensationnalisme Dominant", en: "Sensationalism Dominant" },
+    { min: 30, max: 34, hex: "#dc2626", macro: "danger", fr: "Tr\xE8s Biais\xE9 / Sources Absentes", en: "Heavily Biased / Unverified" },
+    { min: 25, max: 29, hex: "#b91c1c", macro: "danger", fr: "Contenu Trompeur Fr\xE9quent", en: "Frequently Misleading Content" },
+    { min: 20, max: 24, hex: "#991b1b", macro: "danger", fr: "Manipulation / Clickbait Agressif", en: "Aggressive Clickbait & Manipulation" },
+    { min: 15, max: 19, hex: "#881337", macro: "danger", fr: "D\xE9sinformation Caract\xE9ris\xE9e", en: "Marked Disinformation" },
+    { min: 10, max: 14, hex: "#7f1d1d", macro: "danger", fr: "Fiabilit\xE9 Critique", en: "Critical Unreliability" },
+    { min: 5, max: 9, hex: "#6b0f1a", macro: "danger", fr: "Tromperie Syst\xE9matique", en: "Systematic Deception" },
+    { min: 0, max: 4, hex: "#4c0519", macro: "danger", fr: "Totalement Non Fiable", en: "Completely Unreliable" }
+  ];
+  var ScoreTierScale = class _ScoreTierScale {
+    /**
+     * Resolves the exact 5% tier metadata for any integer score 0..100
+     * @param {number} rawScore
+     * @param {string} [lang='fr']
+     * @returns {Object}
+     */
+    static getTier(rawScore, lang = "fr") {
+      const score = Math.max(0, Math.min(100, Math.round(Number(rawScore) || 0)));
+      const isFr = (lang || "fr").toLowerCase().startsWith("fr");
+      const tierDef = SCORE_TIERS_5PCT.find((t) => score >= t.min && score <= t.max) || SCORE_TIERS_5PCT[SCORE_TIERS_5PCT.length - 1];
+      const stepIndex = Math.min(19, Math.floor(score === 100 ? 19 : score / 5));
+      const rangeLabel = `${tierDef.min}\u2013${tierDef.max}%`;
+      const baseLabel = isFr ? tierDef.fr : tierDef.en;
+      return {
+        score,
+        stepIndex,
+        min: tierDef.min,
+        max: tierDef.max,
+        rangeLabel,
+        label: `[${rangeLabel}] ${baseLabel}`,
+        shortLabel: baseLabel,
+        hexColor: tierDef.hex,
+        gradient: _ScoreTierScale.buildScoreGradient(score, tierDef.hex),
+        macroColor: tierDef.macro,
+        scoreClass: tierDef.macro === "success" ? "yt-ai-score-high" : tierDef.macro === "warning" ? "yt-ai-score-med" : "yt-ai-score-low"
+      };
+    }
+    /**
+     * Builds a progressive horizontal spectrum CSS gradient up to the exact target score
+     * so 75% (lime-green), 89% (leaf-green), and 95% (emerald-cyan) look distinctly graded.
+     * @param {number} rawScore
+     * @param {string} [endHex]
+     * @returns {string}
+     */
+    static buildScoreGradient(rawScore, endHex = null) {
+      const score = Math.max(1, Math.min(100, Math.round(Number(rawScore) || 0)));
+      const targetHex = endHex || (SCORE_TIERS_5PCT.find((t) => score >= t.min && score <= t.max) || SCORE_TIERS_5PCT[19]).hex;
+      const keyframes = [
+        [0, "#ef4444"],
+        [42, "#f97316"],
+        [62, "#eab308"],
+        [75, "#a3e635"],
+        [85, "#22c55e"],
+        [95, "#00d9a6"]
+      ];
+      const stops = [];
+      for (const [pos, hex] of keyframes) {
+        if (pos < score) {
+          const pct = Math.round(pos / score * 100);
+          stops.push(`${hex} ${pct}%`);
+        }
+      }
+      stops.push(`${targetHex} 100%`);
+      return stops.length >= 2 ? `linear-gradient(90deg, ${stops.join(", ")})` : targetHex;
+    }
+    /**
+     * Builds a segment gradient from the active 5%-step histogram bins within [minScore, maxScore].
+     * @param {Array<Object>} bins
+     * @param {number} minScore
+     * @param {number} maxScore
+     * @param {string} fallbackHex
+     * @returns {string}
+     */
+    static buildBucketGradient(bins = [], minScore = 0, maxScore = 100, fallbackHex = "#22c55e") {
+      const active = (bins || []).filter((b) => b.count > 0 && b.min >= minScore && b.max <= maxScore);
+      if (active.length === 0) return fallbackHex;
+      if (active.length === 1) return `linear-gradient(90deg, ${active[0].hexColor}cc, ${active[0].hexColor})`;
+      const total = active.reduce((sum, b) => sum + b.count, 0) || 1;
+      let cursor = 0;
+      const stops = active.map((b, idx) => {
+        const start = Math.round(cursor / total * 100);
+        cursor += b.count;
+        const end = idx === active.length - 1 ? 100 : Math.round(cursor / total * 100);
+        return `${b.hexColor} ${start}%, ${b.hexColor} ${end}%`;
+      });
+      return `linear-gradient(90deg, ${stops.join(", ")})`;
+    }
+    /**
+     * Computes a 20-bin (5% step) distribution histogram + median + stdDev + homogeneity verdict
+     * @param {Array<Object>} evaluatedVideos
+     * @param {string} [lang='fr']
+     * @returns {Object}
+     */
+    static computeDistributionMetrics(evaluatedVideos = [], lang = "fr") {
+      const isFr = (lang || "fr").toLowerCase().startsWith("fr");
+      const bins = Array.from({ length: 20 }, (_, i) => {
+        const min = i * 5;
+        const max = i === 19 ? 100 : min + 4;
+        const tier = SCORE_TIERS_5PCT[19 - i];
+        return { index: i, min, max, label: `${min}-${max}%`, count: 0, pct: 0, hexColor: tier.hex };
+      });
+      if (!Array.isArray(evaluatedVideos) || evaluatedVideos.length === 0) {
+        return {
+          bins,
+          median: 0,
+          stdDev: 0,
+          minScore: 0,
+          maxScore: 0,
+          consistencyLevel: "unknown",
+          consistencyLabel: isFr ? "Donn\xE9es insuffisantes" : "Insufficient data"
+        };
+      }
+      const scores = evaluatedVideos.map((v) => typeof v.score === "number" ? Math.max(0, Math.min(100, v.score)) : 50).sort((a, b) => a - b);
+      const n = scores.length;
+      for (const s of scores) {
+        const binIdx = Math.min(19, Math.floor(s === 100 ? 19 : s / 5));
+        bins[binIdx].count += 1;
+      }
+      for (const b of bins) {
+        b.pct = Math.round(b.count / n * 100);
+      }
+      const mid = Math.floor(n / 2);
+      const median = n % 2 === 0 ? Math.round((scores[mid - 1] + scores[mid]) / 2) : scores[mid];
+      const mean = scores.reduce((acc, s) => acc + s, 0) / n;
+      const variance = scores.reduce((acc, s) => acc + Math.pow(s - mean, 2), 0) / n;
+      const stdDev = Math.round(Math.sqrt(variance) * 10) / 10;
+      let consistencyLevel = "moderate";
+      let consistencyLabel = isFr ? `R\xE9gularit\xE9 mod\xE9r\xE9e (\u03C3 = ${stdDev})` : `Moderate consistency (\u03C3 = ${stdDev})`;
+      if (stdDev <= 6.5) {
+        consistencyLevel = "high";
+        consistencyLabel = isFr ? `Ligne tr\xE8s homog\xE8ne (\u03C3 = ${stdDev})` : `Highly consistent (\u03C3 = ${stdDev})`;
+      } else if (stdDev >= 14) {
+        consistencyLevel = "volatile";
+        consistencyLabel = isFr ? `Profil contrast\xE9 / irr\xE9gulier (\u03C3 = ${stdDev})` : `Irregular / polarized profile (\u03C3 = ${stdDev})`;
+      }
+      return {
+        bins,
+        median,
+        stdDev,
+        minScore: scores[0],
+        maxScore: scores[n - 1],
+        consistencyLevel,
+        consistencyLabel
+      };
+    }
+  };
+
+  // src/domain/models/ChannelAuditReport.js
+  var ChannelAuditReport = class _ChannelAuditReport {
+    constructor(data = {}) {
+      this.channelTitle = data.channelTitle || "Cha\xEEne YouTube";
+      this.channelHandle = data.channelHandle || "";
+      this.subscribers = data.subscribers || "";
+      this.totalVideos = data.totalVideos || "";
+      this.sampleSize = data.sampleSize || 0;
+      this.totalAvailable = data.totalAvailable || this.sampleSize;
+      this.requestedLimit = data.requestedLimit || this.sampleSize;
+      this.lang = data.lang || "fr";
+      this.globalScore = typeof data.globalScore === "number" ? Math.max(0, Math.min(100, data.globalScore)) : 50;
+      this.clickbaitIndex = typeof data.clickbaitIndex === "number" ? Math.max(0, Math.min(100, data.clickbaitIndex)) : 20;
+      this.proportions = data.proportions || { reliablePct: 60, cautionPct: 30, clickbaitPct: 10 };
+      this.distribution = data.distribution || { reliable: 0, caution: 0, clickbait: 0 };
+      this.trajectory = data.trajectory || "stable";
+      this.trajectoryLabel = data.trajectoryLabel || "Ligne \xE9ditoriale stable";
+      this.evaluatedVideos = Array.isArray(data.evaluatedVideos) ? data.evaluatedVideos : [];
+      this.strengths = Array.isArray(data.strengths) ? data.strengths : [];
+      this.weaknesses = Array.isArray(data.weaknesses) ? data.weaknesses : [];
+      this.drawbacks = Array.isArray(data.drawbacks) ? data.drawbacks : [];
+      this.temporalEvolution = data.temporalEvolution || "";
+      this.executiveSummary = data.executiveSummary || "";
+      this.rawText = data.rawText || "";
+      this.timestamp = data.timestamp || Date.now();
+      this.tier = ScoreTierScale.getTier(this.globalScore, this.lang);
+      this.fineDistribution = data.fineDistribution || ScoreTierScale.computeDistributionMetrics(this.evaluatedVideos, this.lang);
+      this.badge = this._computeBadge();
+    }
+    _computeBadge() {
+      const t = this.tier || ScoreTierScale.getTier(this.globalScore, this.lang);
+      const symbol = t.macroColor === "success" ? "\u2713" : "!";
+      return {
+        label: t.label,
+        shortLabel: t.shortLabel,
+        rangeLabel: t.rangeLabel,
+        hexColor: t.hexColor,
+        color: t.macroColor,
+        symbol
+      };
+    }
+    /**
+     * Parses consolidated raw AI response and sample metadata into ChannelAuditReport
+     * @param {string} rawText Complete streamed markdown output
+     * @param {Object} context Metadata of sampled videos and channel
+     * @returns {ChannelAuditReport}
+     */
+    static fromRawResponse(rawText = "", context = {}) {
+      const channel = context.channel || {};
+      const sampledVideos = context.sampledVideos || [];
+      const scoreMatch = rawText.match(/\[(?:SCORE_GLOBAL|GLOBAL_SCORE|SCORE)\s*:\s*(\d{1,3})\s*(?:\/\s*100)?\]/i);
+      const clickbaitMatch = rawText.match(/\[(?:INDICE_CLICKBAIT|CLICKBAIT_INDEX|CLICKBAIT|INDICE_SENSATIONNALISME|SENSATIONNALISME)\s*:\s*(\d{1,3})\s*%?\]/i);
+      const trajectoryMatch = rawText.match(/\[(?:TRAJECTOIRE|TRAJECTORY)\s*:\s*(PROGRESSION|STABLE|DECLIN|IMPROVING|DECLINING)\]/i);
+      const evaluatedVideos = this._parseEvaluatedVideos(rawText, sampledVideos);
+      const stats = ChannelStatisticalSampler.computeWeightedMetrics(evaluatedVideos);
+      const parsedScore = scoreMatch ? parseInt(scoreMatch[1], 10) : stats.weightedScore;
+      const parsedClickbait = clickbaitMatch ? parseInt(clickbaitMatch[1], 10) : stats.weightedClickbait;
+      let traj = stats.trajectory;
+      let trajLabel = stats.trajectoryLabel;
+      if (trajectoryMatch) {
+        const t = trajectoryMatch[1].toUpperCase();
+        if (t === "PROGRESSION" || t === "IMPROVING") {
+          traj = "improving";
+          trajLabel = "En nette progression (rigueur et nuance en hausse)";
+        } else if (t === "DECLIN" || t === "DECLINING") {
+          traj = "declining";
+          trajLabel = "En baisse de rigueur (sensationnalisme accru)";
+        } else {
+          traj = "stable";
+          trajLabel = "Ligne \xE9ditoriale stable";
+        }
+      }
+      const strengths = this._extractBulletSection(rawText, [
+        /###\s*\[?✓?\]?\s*Ce que la chaîne fait de bien/i,
+        /###\s*Points forts/i,
+        /###\s*Strengths/i
+      ]);
+      const weaknesses = this._extractBulletSection(rawText, [
+        /###\s*\[?!\]?\s*Ce qu'elle fait de moins bien/i,
+        /###\s*Points de vigilance/i,
+        /###\s*Weaknesses/i
+      ]);
+      const drawbacks = this._extractBulletSection(rawText, [
+        /###\s*\[?X?\]?\s*Écueils et dérives/i,
+        /###\s*Pièges et sensationnalisme/i,
+        /###\s*Ce qui ne va pas/i,
+        /###\s*Critical flaws/i
+      ]);
+      const temporalEvolution = this._extractSectionContent(rawText, [
+        /###\s*\[?📈?\]?\s*Évolution temporelle/i,
+        /###\s*Trajectoire d'année en année/i,
+        /###\s*Year-over-Year/i
+      ]);
+      const executiveSummary = this._extractSectionContent(rawText, [
+        /###\s*Synthèse & Recommandation/i,
+        /###\s*Verdict global/i,
+        /###\s*Executive Summary/i
+      ]);
+      return new _ChannelAuditReport({
+        channelTitle: channel.title || "Cr\xE9ateur",
+        channelHandle: channel.handle || "",
+        subscribers: channel.subscribers || "",
+        totalVideos: channel.videoCount || `${sampledVideos.length} vid\xE9os analys\xE9es`,
+        sampleSize: sampledVideos.length,
+        totalAvailable: context.totalAvailable || (Array.isArray(channel.recentVideos) ? channel.recentVideos.length : sampledVideos.length),
+        requestedLimit: context.requestedLimit || sampledVideos.length,
+        lang: context.lang || "fr",
+        globalScore: parsedScore,
+        clickbaitIndex: parsedClickbait,
+        proportions: stats.proportions,
+        distribution: stats.distribution,
+        trajectory: traj,
+        trajectoryLabel: trajLabel,
+        evaluatedVideos,
+        strengths,
+        weaknesses,
+        drawbacks,
+        temporalEvolution,
+        executiveSummary,
+        rawText
+      });
+    }
+    static _parseEvaluatedVideos(rawText, sampledVideos) {
+      const result = [];
+      const blocks = [...rawText.matchAll(/\[EVAL_VIDEOS\]([\s\S]*?)\[\/EVAL_VIDEOS\]/gi)];
+      const content = blocks.length > 0 ? blocks.map((b) => b[1]).join("\n") : rawText;
+      const lines = content.split("\n");
+      const parsedMap = /* @__PURE__ */ new Map();
+      for (const line of lines) {
+        const cleanLine = line.trim().replace(/^\|\s*/, "").replace(/\s*\|$/, "");
+        if (!cleanLine || cleanLine.startsWith("---") || cleanLine.startsWith(":--")) continue;
+        const parts = cleanLine.split("|").map((s) => s.trim());
+        if (parts.length >= 3) {
+          const idx = parseInt(parts[0].replace(/[^0-9]/g, ""), 10);
+          const score = parseInt(parts[1].replace(/[^0-9]/g, ""), 10);
+          const clickbait = parseInt(parts[2].replace(/[^0-9]/g, ""), 10);
+          const verdict = parts[3] || (score >= 75 ? "Fiable" : score >= 50 ? "Mod\xE9r\xE9" : "Risque");
+          const comment = parts[4] || "";
+          if (!isNaN(idx) && !isNaN(score)) {
+            parsedMap.set(idx, { score, clickbait: isNaN(clickbait) ? 20 : clickbait, verdict, comment });
+          }
+        }
+      }
+      sampledVideos.forEach((v, i) => {
+        const idx = v.sampleIndex || i + 1;
+        const evalData = parsedMap.get(idx) || {
+          score: 70,
+          clickbait: 20,
+          verdict: "Non annot\xE9",
+          comment: ""
+        };
+        result.push({
+          id: v.id,
+          title: v.title || `Vid\xE9o ${idx}`,
+          url: v.url || `https://youtu.be/${v.id}`,
+          meta: v.meta,
+          era: v.era || "recent",
+          eraLabel: v.eraLabel || "R\xE9cent",
+          weight: v.weight || 1,
+          score: evalData.score,
+          clickbait: evalData.clickbait,
+          verdict: evalData.verdict,
+          comment: evalData.comment
+        });
+      });
+      return result;
+    }
+    static _extractBulletSection(text, regexList) {
+      for (const reg of regexList) {
+        const match = text.match(new RegExp(`(?:${reg.source})[^\\n]*\\n([\\s\\S]*?)(?:###|$)`, "i"));
+        if (match && match[1]) {
+          const lines = match[1].split("\n").map((l) => l.trim().replace(/^[-*•]\s*/, "").trim()).filter((l) => l.length > 5 && !l.startsWith("#") && !l.startsWith("["));
+          if (lines.length > 0) return lines;
+        }
+      }
+      return [];
+    }
+    static _extractSectionContent(text, regexList) {
+      for (const reg of regexList) {
+        const match = text.match(new RegExp(`(?:${reg.source})[^\\n]*\\n([\\s\\S]*?)(?:###|$)`, "i"));
+        if (match && match[1]) {
+          const cleaned = match[1].trim();
+          if (cleaned.length > 10) return cleaned;
+        }
+      }
+      return "";
+    }
+  };
+
+  // src/content/services/ChannelAuditJobTracker.js
+  var STORAGE_KEY = "yt_ai_channel_audit_cache_v1";
+  var CACHE_TTL_MS = 2 * 60 * 60 * 1e3;
+  var MAX_PERSISTED_ENTRIES = 5;
+  var ChannelAuditJobTracker = class _ChannelAuditJobTracker {
+    /**
+     * Normalizes any channel URL, path, or handle (@name, /@name/shorts, channel/UC...)
+     * into a stable lowercase identifier for matching across YouTube page transitions.
+     * @param {string} rawQuery
+     * @returns {string}
+     */
+    static normalizeKey(rawQuery) {
+      if (!rawQuery) return "";
+      const trimmed = String(rawQuery).trim();
+      if (!trimmed) return "";
+      try {
+        const url = /^https?:\/\//i.test(trimmed) ? new URL(trimmed) : trimmed.startsWith("/") ? new URL(trimmed, "https://www.youtube.com") : null;
+        if (url) {
+          const path = url.pathname.replace(/\/+$/, "");
+          if (path.startsWith("/@")) {
+            return (path.split("/")[1] || "").toLowerCase();
+          }
+          const match = path.match(/^\/(?:channel|c|user)\/([^/?#]+)/i);
+          if (match?.[1]) return match[1].toLowerCase();
+          if (path) return path.replace(/^\//, "").toLowerCase();
+        }
+      } catch (_) {
+      }
+      return trimmed.replace(/^\/+|\/+$/g, "").split("/")[0].toLowerCase();
+    }
+    /**
+     * Creates a typed AbortError recognized across audit stages and controllers
+     * @param {string} [lang='fr']
+     * @returns {Error}
+     */
+    static createAbortError(lang = "fr") {
+      const isFr = (lang || "fr").toLowerCase().startsWith("fr");
+      const err = new Error(isFr ? "Traitement arr\xEAt\xE9 par l\u2019utilisateur." : "Audit stopped by user.");
+      err.name = "AbortError";
+      err.isAborted = true;
+      return err;
+    }
+    /**
+     * Checks whether an error represents intentional user cancellation
+     * @param {any} err
+     * @returns {boolean}
+     */
+    static isAbortError(err) {
+      return Boolean(err && (err.isAborted === true || err.name === "AbortError"));
+    }
+    /**
+     * Throws an AbortError immediately when signal is aborted
+     * @param {AbortSignal|null} signal
+     * @param {string} [lang='fr']
+     */
+    static throwIfAborted(signal, lang = "fr") {
+      if (signal?.aborted) {
+        throw _ChannelAuditJobTracker.createAbortError(lang);
+      }
+    }
+    /**
+     * Races any non-cancellable async promise (e.g. chrome.runtime.sendMessage)
+     * against an AbortSignal so the Stop button frees the UI instantaneously.
+     * @param {Promise<any>} promise
+     * @param {AbortSignal|null} signal
+     * @param {string} [lang='fr']
+     * @returns {Promise<any>}
+     */
+    static raceWithAbort(promise, signal, lang = "fr") {
+      if (!signal) return promise;
+      if (signal.aborted) return Promise.reject(_ChannelAuditJobTracker.createAbortError(lang));
+      return new Promise((resolve, reject) => {
+        const onAbort = () => {
+          signal.removeEventListener("abort", onAbort);
+          reject(_ChannelAuditJobTracker.createAbortError(lang));
+        };
+        signal.addEventListener("abort", onAbort, { once: true });
+        Promise.resolve(promise).then(
+          (val) => {
+            signal.removeEventListener("abort", onAbort);
+            resolve(val);
+          },
+          (err) => {
+            signal.removeEventListener("abort", onAbort);
+            reject(err);
+          }
+        );
+      });
+    }
+    /**
+     * Persists a completed ChannelAuditReport into chrome.storage.local (bounded LRU)
+     * @param {string} cacheKey
+     * @param {string} channelKey
+     * @param {ChannelAuditReport} report
+     */
+    static persistReport(cacheKey, channelKey, report) {
+      if (typeof chrome === "undefined" || !chrome.storage?.local || !report) return;
+      try {
+        chrome.storage.local.get([STORAGE_KEY], (res = {}) => {
+          const mapObj = res && typeof res[STORAGE_KEY] === "object" && res[STORAGE_KEY] ? { ...res[STORAGE_KEY] } : {};
+          const now = Date.now();
+          mapObj[cacheKey] = { savedAt: now, channelKey, data: { ...report } };
+          const sortedEntries = Object.entries(mapObj).filter(([, entry]) => entry && now - (entry.savedAt || 0) < CACHE_TTL_MS).sort((a, b) => (b[1].savedAt || 0) - (a[1].savedAt || 0)).slice(0, MAX_PERSISTED_ENTRIES);
+          chrome.storage.local.set({ [STORAGE_KEY]: Object.fromEntries(sortedEntries) });
+        });
+      } catch (_) {
+      }
+    }
+    /**
+     * Hydrates persisted non-expired channel audit reports into memory cache
+     * @param {Map<string, ChannelAuditReport>} targetMap
+     * @returns {Promise<void>}
+     */
+    static hydrateReports(targetMap) {
+      if (!(targetMap instanceof Map) || typeof chrome === "undefined" || !chrome.storage?.local) {
+        return Promise.resolve();
+      }
+      return new Promise((resolve) => {
+        try {
+          chrome.storage.local.get([STORAGE_KEY], (res = {}) => {
+            const store = res?.[STORAGE_KEY];
+            const now = Date.now();
+            if (store && typeof store === "object") {
+              for (const [k, entry] of Object.entries(store)) {
+                if (entry?.data && now - (entry.savedAt || 0) < CACHE_TTL_MS) {
+                  const hydrated = new ChannelAuditReport(entry.data);
+                  if (!targetMap.has(k)) targetMap.set(k, hydrated);
+                  if (entry.channelKey && !targetMap.has(entry.channelKey)) {
+                    targetMap.set(entry.channelKey, hydrated);
+                  }
+                }
+              }
+            }
+            resolve();
+          });
+        } catch (_) {
+          resolve();
+        }
+      });
+    }
+    /**
+     * Clears persisted channel audit cache
+     */
+    static clearPersistedReports() {
+      if (typeof chrome === "undefined" || !chrome.storage?.local) return;
+      try {
+        chrome.storage.local.remove([STORAGE_KEY]);
+      } catch (_) {
+      }
+    }
+  };
+
+  // src/content/ui/AuditProgressBar.js
+  var AuditProgressBar = class {
+    /**
+     * Generates the initial HTML markup for the visual progress widget
+     * @param {Object} options
+     * @param {number} [options.percent=0] - Current percentage (0 to 100)
+     * @param {string} [options.title='Initialisation...'] - Main step title
+     * @param {string} [options.detail=''] - Sub-detail (e.g. video/segment name)
+     * @param {number} [options.currentStep=null] - Active step index
+     * @param {number} [options.totalSteps=null] - Total number of steps
+     * @param {boolean} [options.showStop=true] - Render interactive Stop button
+     * @param {string} [options.stopLabel='Arrêter'] - Label for Stop button
+     * @returns {string} HTML markup
+     */
+    static renderWidget({
+      percent = 0,
+      title = "Initialisation...",
+      detail = "",
+      currentStep = null,
+      totalSteps = null,
+      showStop = true,
+      stopLabel = "Arr\xEAter"
+    } = {}) {
+      const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
+      const shouldShowBadge = typeof currentStep === "number" && typeof totalSteps === "number" && totalSteps > 1;
+      const stepBadge = shouldShowBadge ? `[${currentStep}/${totalSteps}] ` : "";
+      const stopBtnHtml = showStop ? `<button type="button" class="yt-ai-btn yt-ai-progress-stop-btn" data-action="stop-audit" title="${escapeHtml(stopLabel)}">\u23F9 ${escapeHtml(stopLabel)}</button>` : "";
+      return `
+      <div class="yt-ai-progress-widget" role="progressbar" aria-valuenow="${safePercent}" aria-valuemin="0" aria-valuemax="100">
+        <div class="yt-ai-progress-header">
+          <span class="yt-ai-progress-title">
+            <span class="yt-ai-spinner yt-ai-progress-spinner"></span>
+            <span class="yt-ai-progress-step-text">${escapeHtml(stepBadge)}${escapeHtml(title)}</span>
+          </span>
+          <div class="yt-ai-progress-actions">
+            <span class="yt-ai-progress-percentage">${safePercent}%</span>
+            ${stopBtnHtml}
+          </div>
+        </div>
+        <div class="yt-ai-progress-track">
+          <div class="yt-ai-progress-bar-fill" style="width: ${safePercent}%;"></div>
+        </div>
+        ${detail ? `<div class="yt-ai-progress-detail">${escapeHtml(detail)}</div>` : '<div class="yt-ai-progress-detail yt-ai-hidden"></div>'}
+      </div>
+    `;
+    }
+    /**
+     * Attaches click handler to the Stop button inside a progress container
+     * @param {HTMLElement} container
+     * @param {Function} onStop
+     */
+    static bindStopAction(container, onStop) {
+      if (!container || typeof onStop !== "function") return;
+      const stopBtn = container.querySelector?.(".yt-ai-progress-stop-btn");
+      if (!stopBtn || stopBtn.__ytAiStopBound) return;
+      stopBtn.__ytAiStopBound = true;
+      stopBtn.addEventListener?.("click", (e) => {
+        e?.stopPropagation?.();
+        stopBtn.disabled = true;
+        onStop();
+      });
+    }
+    /**
+     * Smoothly updates an existing progress widget DOM element
+     * @param {HTMLElement} container
+     * @param {Object} options
+     */
+    static updateWidget(container, {
+      percent,
+      title,
+      detail,
+      currentStep = null,
+      totalSteps = null
+    } = {}) {
+      if (!container) return;
+      const widget = container.querySelector(".yt-ai-progress-widget") || container;
+      if (typeof percent === "number") {
+        const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
+        const fill = widget.querySelector(".yt-ai-progress-bar-fill");
+        const pctText = widget.querySelector(".yt-ai-progress-percentage");
+        if (fill) fill.style.width = `${safePercent}%`;
+        if (pctText) pctText.textContent = `${safePercent}%`;
+        widget.setAttribute("aria-valuenow", String(safePercent));
+      }
+      if (title) {
+        const stepText = widget.querySelector(".yt-ai-progress-step-text");
+        if (stepText) {
+          const shouldShowBadge = typeof currentStep === "number" && typeof totalSteps === "number" && totalSteps > 1;
+          const stepBadge = shouldShowBadge ? `[${currentStep}/${totalSteps}] ` : "";
+          stepText.textContent = `${stepBadge}${title}`;
+        }
+      }
+      if (typeof detail === "string") {
+        const detailEl = widget.querySelector(".yt-ai-progress-detail");
+        if (detailEl) {
+          if (detail.trim()) {
+            detailEl.textContent = detail;
+            detailEl.classList.remove("yt-ai-hidden");
+          } else {
+            detailEl.classList.add("yt-ai-hidden");
+          }
+        }
+      }
+    }
+  };
+
+  // src/content/ui/WatchChannelAuditHelper.js
+  var WatchChannelAuditHelper = class _WatchChannelAuditHelper {
+    static getCurrentQuery() {
+      try {
+        const meta = YouTubeDOMContext.getVideoMetadata();
+        return meta?.channelUrl || meta?.author || "";
+      } catch {
+        return "";
+      }
+    }
+    static setButtonRunning(isRunning, lang = "fr") {
+      const btn = document.getElementById("ytAiRunWatchChannelAuditBtn") || document.getElementById("ytAiAuditChannelBtn");
+      if (!btn) return;
+      const t = I18N[lang] || I18N.en;
+      btn.disabled = false;
+      if (typeof btn.classList?.toggle === "function") btn.classList.toggle("yt-ai-btn-stop", isRunning);
+      else if (isRunning) btn.classList?.add?.("yt-ai-btn-stop");
+      else btn.classList?.remove?.("yt-ai-btn-stop");
+      if (btn.id === "ytAiRunWatchChannelAuditBtn") {
+        btn.textContent = isRunning ? t.stopAuditBtn || "\u23F9 Stop Audit" : t.runChannelAuditBtn || "\u26A1 Run Channel Audit";
+      }
+    }
+    static renderProgress(progBox, status = {}, lang = "fr", onStop = null) {
+      if (!progBox) return;
+      const t = I18N[lang] || I18N.en;
+      const isFr = lang.startsWith("fr");
+      progBox.classList?.remove("yt-ai-hidden");
+      if (!progBox.querySelector?.(".yt-ai-progress-widget")) {
+        progBox.innerHTML = AuditProgressBar.renderWidget({
+          percent: status.percent ?? 10,
+          title: status.message || status.title || (isFr ? "Collecte des vid\xE9os et descriptions..." : "Fetching videos and descriptions..."),
+          detail: status.detail || "",
+          showStop: true,
+          stopLabel: t.stopShortBtn || "Stop"
+        });
+      } else {
+        AuditProgressBar.updateWidget(progBox, {
+          percent: status.percent,
+          title: status.message || status.title,
+          detail: status.detail || ""
+        });
+      }
+      if (typeof onStop === "function") {
+        AuditProgressBar.bindStopAction(progBox, onStop);
+      }
+    }
+    static bindSubscription(controller) {
+      const service = controller.channelAuditService;
+      if (controller._watchChannelUnsub || typeof service?.subscribe !== "function") return;
+      controller._watchChannelUnsub = service.subscribe((evt) => {
+        if (!evt) return;
+        const curQuery = _WatchChannelAuditHelper.getCurrentQuery();
+        const curKey = ChannelAuditJobTracker.normalizeKey(curQuery);
+        const evtKey = ChannelAuditJobTracker.normalizeKey(evt.job?.channelQuery);
+        if (curKey && evtKey && curKey !== evtKey) return;
+        const lang = evt.job?.lang || document.getElementById?.("ytAiLangSelect")?.value || "fr";
+        const isFr = lang.startsWith("fr");
+        const progBox = document.getElementById("ytAiWatchChannelProgress") || document.getElementById("ytAiChannelAuditProgressContainer");
+        const container = document.getElementById("ytAiWatchChannelResultContainer") || document.getElementById("ytAiChannelAuditBody") || document.getElementById("ytAiChannelAuditContainer");
+        const onStop = () => controller.stopChannelAudit(lang);
+        if (evt.type === "started" || evt.type === "progress") {
+          _WatchChannelAuditHelper.setButtonRunning(true, lang);
+          _WatchChannelAuditHelper.renderProgress(progBox, evt.progress, lang, onStop);
+        } else if (evt.type === "completed") {
+          _WatchChannelAuditHelper.setButtonRunning(false, lang);
+          progBox?.classList?.add("yt-ai-hidden");
+          if (progBox) progBox.innerHTML = "";
+          if (evt.report?.channelTotalVideos > 0) {
+            syncChannelMaxSelectElement(document.getElementById("ytAiWatchChannelMaxVideos"), evt.job?.maxVideos || 30, isFr, evt.report.channelTotalVideos);
+          }
+          if (container && evt.report) controller.channelAuditViewController?.renderReport(evt.report, container, lang);
+        } else if (evt.type === "aborted") {
+          _WatchChannelAuditHelper.setButtonRunning(false, lang);
+          progBox?.classList?.add("yt-ai-hidden");
+          if (progBox) progBox.innerHTML = "";
+          const stoppedText = (I18N[lang] || I18N.en).auditStoppedNote || "\u23F9 Processing stopped by user.";
+          if (container) container.innerHTML = `<p class="yt-ai-stopped-note">${escapeHtml(stoppedText)}</p>`;
+        } else if (evt.type === "error" && container) {
+          _WatchChannelAuditHelper.setButtonRunning(false, lang);
+          progBox?.classList?.add("yt-ai-hidden");
+          container.innerHTML = `<p style="color: #ff7b72; font-size: 12px;">[!] Erreur lors de l'audit de cha\xEEne : ${escapeHtml(evt.error?.message || "Erreur")}</p>`;
+        }
+      });
+    }
+    static async syncUI(controller, stateObj = {}) {
+      const service = controller.channelAuditService;
+      if (!service || !controller.channelAuditViewController) return;
+      _WatchChannelAuditHelper.bindSubscription(controller);
+      const query = _WatchChannelAuditHelper.getCurrentQuery();
+      if (!query) return;
+      const lang = document.getElementById?.("ytAiLangSelect")?.value || stateObj.currentLang || "fr";
+      const progBox = document.getElementById("ytAiWatchChannelProgress") || document.getElementById("ytAiChannelAuditProgressContainer");
+      const container = document.getElementById("ytAiWatchChannelResultContainer") || document.getElementById("ytAiChannelAuditBody") || document.getElementById("ytAiChannelAuditContainer");
+      const active = service.getActiveJob?.(query);
+      if (active) {
+        _WatchChannelAuditHelper.setButtonRunning(true, lang);
+        _WatchChannelAuditHelper.renderProgress(progBox, active.progress, lang, () => controller.stopChannelAudit(lang));
+        return;
+      }
+      await service.ensureHydrated?.();
+      const period = stateObj.channelAuditPeriod || "all";
+      const maxVideos = parseChannelAuditLimit(stateObj.channelAuditMaxVideos ?? 30).key;
+      const cached = service.getCachedReport?.(query, period, maxVideos) || service.getCachedReport?.(query);
+      if (cached && container) {
+        controller.channelAuditViewController.renderReport(cached, container, lang);
+      }
+    }
+    static async execute(controller, ctx = {}) {
+      if (!controller.channelAuditService || !controller.channelAuditViewController) return;
+      _WatchChannelAuditHelper.bindSubscription(controller);
+      const stateObj = ctx.state || ctx;
+      const activePeriodPill = document.querySelector?.("#ytAiPaneChannelAudit .yt-ai-period-pill.active")?.getAttribute?.("data-period");
+      const period = ctx.period || activePeriodPill || stateObj.channelAuditPeriod || "all";
+      const lang = document.getElementById("ytAiLangSelect")?.value || ctx.currentLang || stateObj.currentLang || "fr";
+      const isFr = lang.startsWith("fr");
+      const domLimit = document.getElementById("ytAiWatchChannelMaxVideos")?.value;
+      const maxVideos = parseChannelAuditLimit(domLimit ?? ctx.maxVideos ?? stateObj.channelAuditMaxVideos ?? 30).key;
+      stateObj.channelAuditMaxVideos = maxVideos;
+      const container = document.getElementById("ytAiWatchChannelResultContainer") || document.getElementById("ytAiChannelAuditBody") || document.getElementById("ytAiChannelAuditContainer");
+      const progBox = document.getElementById("ytAiWatchChannelProgress") || document.getElementById("ytAiChannelAuditProgressContainer");
+      if (!container) return;
+      if (document.getElementById("ytAiAuditVideoView")) controller.switchAuditSubtab("channel");
+      const meta = YouTubeDOMContext.getVideoMetadata();
+      const query = meta.channelUrl || meta.author || "";
+      if (!query) {
+        container.innerHTML = `<p style="color: #ff7b72;">[!] Impossible d'identifier la cha\xEEne du cr\xE9ateur.</p>`;
+        return;
+      }
+      if (controller.channelAuditService.isAuditRunning?.(query)) {
+        controller.stopChannelAudit(lang);
+        return;
+      }
+      const handleEl = document.getElementById("ytAiWatchChannelHandle");
+      if (handleEl) handleEl.textContent = query.startsWith("/") ? query.replace(/^\//, "") : query;
+      const hasSub = typeof controller.channelAuditService.subscribe === "function";
+      _WatchChannelAuditHelper.setButtonRunning(true, lang);
+      _WatchChannelAuditHelper.renderProgress(progBox, {
+        percent: 10,
+        message: isFr ? "Collecte des vid\xE9os et descriptions..." : "Fetching videos and descriptions...",
+        detail: `${meta.author || ""} (0 coupure)`
+      }, lang, () => controller.stopChannelAudit(lang));
+      container.classList.remove("yt-ai-hidden");
+      container.innerHTML = `<p style="color: var(--yt-ai-text-muted); font-style: italic;">${isFr ? "Examen de la cha\xEEne en cours..." : "Running channel audit..."}</p>`;
+      try {
+        const report = await controller.channelAuditService.executeChannelAudit({
+          channelQuery: query,
+          period,
+          maxVideos,
+          lang,
+          state: stateObj,
+          onProgress: (status) => {
+            if (!hasSub) _WatchChannelAuditHelper.renderProgress(progBox, status, lang, () => controller.stopChannelAudit(lang));
+          }
+        });
+        if (!hasSub) {
+          if (report?.channelTotalVideos > 0) {
+            stateObj.currentChannelTotalVideos = report.channelTotalVideos;
+            syncChannelMaxSelectElement(document.getElementById("ytAiWatchChannelMaxVideos"), maxVideos, isFr, report.channelTotalVideos);
+          }
+          if (progBox) {
+            progBox.classList.add("yt-ai-hidden");
+            progBox.innerHTML = "";
+          }
+          controller.channelAuditViewController.renderReport(report, container, lang);
+        }
+      } catch (err) {
+        if (!hasSub) {
+          if (progBox) {
+            progBox.classList.add("yt-ai-hidden");
+            progBox.innerHTML = "";
+          }
+          if (ChannelAuditJobTracker.isAbortError(err)) {
+            const stoppedText = (I18N[lang] || I18N.en).auditStoppedNote || "\u23F9 Processing stopped by user.";
+            container.innerHTML = `<p class="yt-ai-stopped-note">${escapeHtml(stoppedText)}</p>`;
+          } else {
+            container.innerHTML = `<p style="color: #ff7b72; font-size: 12px;">[!] Erreur lors de l'audit de cha\xEEne : ${escapeHtml(err.message || String(err))}</p>`;
+          }
+        }
+      } finally {
+        if (!hasSub) _WatchChannelAuditHelper.setButtonRunning(false, lang);
+      }
+    }
+    /**
+     * Synchronizes Watch-page Channel Audit pane UI strings when switching language.
+     * Preserves active running jobs and existing AI-generated report insights.
+     */
+    static applyLanguage(controller = null, lang = "en", state2 = null) {
+      const t = I18N[lang] || I18N.en;
+      const isFr = (lang || "en").startsWith("fr");
+      const titleEl = document.getElementById("ytAiWatchChannelTitle");
+      if (titleEl) titleEl.textContent = t.channelAuditTitle || "\u{1F4CA} Global Channel Audit";
+      const query = _WatchChannelAuditHelper.getCurrentQuery();
+      const isRunning = !!(query && controller?.channelAuditService?.isAuditRunning?.(query));
+      _WatchChannelAuditHelper.setButtonRunning(isRunning, lang);
+      const periodLabel = document.querySelector?.("#ytAiPaneChannelAudit .yt-ai-period-label");
+      if (periodLabel) periodLabel.textContent = t.periodFilterLabel || "Analyzed period:";
+      const periodMap = {
+        all: `\u{1F310} ${t.periodAll || "All history"}`,
+        year: `\u{1F4C5} ${t.periodYear || "Current year"}`,
+        "6months": `\u{1F3AF} ${t.period6Months || "Last 6 months"}`,
+        month: `\u26A1 ${t.periodMonth || "Last month"}`
+      };
+      document.querySelectorAll?.("#ytAiPaneChannelAudit .yt-ai-period-pill").forEach((pill) => {
+        const key = pill.getAttribute?.("data-period");
+        if (key && periodMap[key]) pill.textContent = periodMap[key];
+      });
+      const maxLabel = document.querySelector?.("#ytAiPaneChannelAudit .yt-ai-max-label");
+      if (maxLabel) maxLabel.textContent = t.maxVideosLabel || "Max Limit:";
+      const watchSel = document.getElementById("ytAiWatchChannelMaxVideos");
+      if (watchSel) {
+        syncChannelMaxSelectElement(watchSel, watchSel.value || state2?.channelAuditMaxVideos || 30, isFr, state2?.currentChannelTotalVideos || null);
+      }
+      const progStop = document.querySelector?.("#ytAiWatchChannelProgress .yt-ai-progress-stop");
+      if (progStop) progStop.textContent = t.stopShortBtn || "Stop";
+      const resultBox = document.getElementById("ytAiWatchChannelResultContainer");
+      if (resultBox && !isRunning) {
+        const stopped = resultBox.querySelector?.(".yt-ai-stopped-note");
+        const placeholder = resultBox.querySelector?.(".yt-ai-placeholder-text");
+        const hasRenderedReport = !!resultBox.querySelector?.(".yt-ai-channel-metrics, .yt-ai-audit-hero-card, .yt-ai-channel-audit-card");
+        if (stopped) {
+          stopped.textContent = t.auditStoppedNote || "\u23F9 Processing stopped by user.";
+        } else if (placeholder) {
+          placeholder.textContent = t.channelAuditPlaceholder || "";
+        } else if (hasRenderedReport && controller?.channelAuditViewController?.lastReport) {
+          controller.channelAuditViewController.renderReport(controller.channelAuditViewController.lastReport, resultBox, lang);
+        }
+      }
+    }
+    /**
+     * Synchronizes the Watch Video Audit pane controls and delegates to Channel Audit pane sync.
+     */
+    static applyAuditViewLanguage(controller, lang = "en", state2 = null) {
+      const t = I18N[lang] || I18N.en;
+      const el = (id) => document.getElementById(id);
+      if (el("ytAiAuditHeaderTitle")) el("ytAiAuditHeaderTitle").textContent = t.auditTitle || "\u{1F6E1}\uFE0F Critical Logic & Fact-Checking Audit";
+      if (el("ytAiAuditChannelBtn")) el("ytAiAuditChannelBtn").textContent = t.auditChannelBtn || "\u{1F50D} Audit Channel";
+      if (el("ytAiRunAuditBtn")) {
+        el("ytAiRunAuditBtn").textContent = controller?.auditService?.isAuditing ? t.stopListenBtn || "\u23F9\uFE0F Stop" : controller?.lastReport ? t.relaunchAuditBtn || "\u26A1 Re-run Audit" : t.runAuditBtn || "\u26A1 Run Audit";
+      }
+      if (el("ytAiCopyAuditBtn")) el("ytAiCopyAuditBtn").textContent = t.copyBtn || "\u{1F4CB} Copy";
+      const progStop = el("ytAiAuditProgressContainer")?.querySelector?.(".yt-ai-progress-stop");
+      if (progStop) progStop.textContent = t.stopShortBtn || "Stop";
+      const auditBody = el("ytAiAuditBody");
+      if (auditBody && !controller?.lastReport && !controller?.auditService?.isAuditing) {
+        const stopped = auditBody.querySelector(".yt-ai-stopped-note");
+        const placeholder = auditBody.querySelector(".yt-ai-placeholder-text");
+        if (stopped) stopped.textContent = t.auditStoppedNote || "\u23F9 Processing stopped by user.";
+        else if (placeholder) placeholder.textContent = t.auditPlaceholder || "";
+      }
+      _WatchChannelAuditHelper.applyLanguage(controller, lang, state2);
+    }
+  };
+
+  // src/content/ui/BannerI18n.js
+  var BannerI18n = class _BannerI18n {
+    /**
+     * Applies localized strings to all banner elements
+     * @param {string} lang
+     * @param {Object} state
+     * @param {Object} [summaryViewController]
+     * @param {Object} [chatViewController]
+     * @param {boolean} [isExpanded=false]
+     * @param {Object} [auditViewController]
+     */
+    static applyLanguage(lang, state2, summaryViewController2 = null, chatViewController2 = null, isExpanded = false, auditViewController2 = null) {
+      if (state2) state2.currentLang = lang;
+      const t = I18N[lang] || I18N.en;
+      const langSelect = document.getElementById("ytAiLangSelect");
+      if (langSelect) {
+        langSelect.title = t.langLabel || "Language:";
+        if (langSelect.value !== lang) langSelect.value = lang;
+      }
+      const modeSelect = document.getElementById("ytAiModeSelect");
+      if (modeSelect) {
+        modeSelect.title = t.formatLabel || "Format:";
+        const optQuick = modeSelect.querySelector('option[value="quick"]');
+        if (optQuick) optQuick.textContent = t.formatQuick || "\u26A1 Quick";
+        const optStandard = modeSelect.querySelector('option[value="standard"]');
+        if (optStandard) optStandard.textContent = t.formatStandard || "\u{1F4CC} Standard";
+        const optDetailed = modeSelect.querySelector('option[value="detailed"]');
+        if (optDetailed) optDetailed.textContent = t.formatDetailed || "\u{1F4DD} Deep";
+      }
+      const brandTitle = document.getElementById("ytAiBrandTitle");
+      if (brandTitle) brandTitle.textContent = t.brandName || "YT Summarizer AI";
+      const summarizeBtn = document.getElementById("ytAiSummarizeBtn");
+      if (summarizeBtn) {
+        if (summaryViewController2?.isGenerating) {
+          summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || "Generating summary..."}`;
+        } else {
+          summarizeBtn.textContent = t.summarizeBtn || "\u2728 Summarize video";
+        }
+      }
+      const toggleBtn = document.getElementById("ytAiToggleBtn");
+      if (toggleBtn) toggleBtn.title = isExpanded ? t.collapse || "Collapse" : t.expand || "Expand";
+      const toggleText = document.getElementById("ytAiToggleText");
+      if (toggleText) toggleText.textContent = isExpanded ? t.collapse : t.expand;
+      const toggleIcon = document.getElementById("ytAiToggleIcon");
+      if (toggleIcon) toggleIcon.textContent = isExpanded ? "\u25B2" : "\u25BE";
+      const stopSummaryBtn = document.getElementById("ytAiStopSummaryBtn");
+      if (stopSummaryBtn) {
+        stopSummaryBtn.textContent = t.stopListenBtn || "\u23F9\uFE0F Stop";
+        stopSummaryBtn.title = t.stopListenBtn || "\u23F9\uFE0F Stop";
+      }
+      const settingsToggleBtn = document.getElementById("ytAiSettingsToggleBtn");
+      if (settingsToggleBtn) settingsToggleBtn.title = t.settingsBtn || "Settings";
+      const settingsBtnText = document.getElementById("ytAiSettingsBtnText");
+      if (settingsBtnText) settingsBtnText.textContent = t.settingsBtn || "Settings";
+      const tabSummaryBtn = document.getElementById("ytAiTabSummaryBtn");
+      if (tabSummaryBtn) tabSummaryBtn.textContent = t.tabSummary || "\u{1F4DD} AI Summary";
+      const tabAuditBtn = document.getElementById("ytAiTabAuditBtn");
+      if (tabAuditBtn) {
+        const scoreBadge = tabAuditBtn.querySelector?.(".yt-ai-tab-count-badge");
+        tabAuditBtn.innerHTML = scoreBadge ? `${escapeHtml(t.tabAudit || "\u{1F6E1}\uFE0F Audit & Fact-Check")} ${scoreBadge.outerHTML}` : escapeHtml(t.tabAudit || "\u{1F6E1}\uFE0F Audit & Fact-Check");
+      }
+      const tabChannelAuditBtn = document.getElementById("ytAiTabChannelAuditBtn");
+      if (tabChannelAuditBtn) {
+        tabChannelAuditBtn.textContent = t.tabChannelAudit || t.subtabAuditChannel || "\u{1F4CA} Channel Audit";
+      }
+      const tabChatBtn = document.getElementById("ytAiTabChatBtn");
+      if (tabChatBtn) {
+        const count = document.getElementById("ytAiChatCount")?.textContent || "0";
+        tabChatBtn.innerHTML = `${escapeHtml(t.tabChat || "\u{1F4AC} Ask questions")} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
+      }
+      const tabTranscriptBtn = document.getElementById("ytAiTabTranscriptBtn");
+      if (tabTranscriptBtn) {
+        const rawCount = (document.getElementById("ytAiWordCount")?.textContent || "0").trim();
+        tabTranscriptBtn.innerHTML = `${escapeHtml(t.tabTranscript || "\u{1F4DC} Transcript")} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">${escapeHtml(rawCount)} ${escapeHtml(t.wordsBadge || "words")}</span>`;
+      }
+      SettingsDrawerI18n.applyLanguage(lang);
+      _BannerI18n.applySummaryLanguage(t, state2, summaryViewController2);
+      _BannerI18n.applyChatLanguage(t, state2, chatViewController2);
+      _BannerI18n.applyAuditLanguage(t, auditViewController2, lang, state2);
+      _BannerI18n.applyTranscriptAndFooter(t);
+    }
+    static applySummaryLanguage(t, state2, summaryViewController2) {
+      const title = document.getElementById("ytAiSummaryHeaderTitle");
+      if (title) title.textContent = t.summaryTitle || "\u{1F4DD} AI Summary";
+      const speakBtn = document.getElementById("ytAiSpeakSummaryBtn");
+      if (speakBtn) speakBtn.textContent = t.listenBtn || "\u{1F50A} Listen";
+      const copyBtn = document.getElementById("ytAiCopyBtn");
+      if (copyBtn) copyBtn.textContent = t.copyBtn || "\u{1F4CB} Copy";
+      const dlBtn = document.getElementById("ytAiDownloadBtn");
+      if (dlBtn) dlBtn.textContent = t.saveMdBtn || "\u{1F4BE} .md";
+      const saveTxtBtn = document.getElementById("ytAiSaveTxtBtn");
+      if (saveTxtBtn) saveTxtBtn.textContent = t.saveTxtBtn || "\u{1F4C4} .txt";
+      const saveJsonBtn = document.getElementById("ytAiSaveJsonBtn");
+      if (saveJsonBtn) saveJsonBtn.textContent = t.saveJsonBtn || "\u{1F4E6} .json";
+      const reasoningTitle = document.getElementById("ytAiReasoningTitle");
+      if (reasoningTitle) reasoningTitle.textContent = t.reasoningModel || "\u{1F4AD} Model Reasoning";
+      const reasoningStatus = document.getElementById("ytAiReasoningStatus");
+      if (reasoningStatus) {
+        reasoningStatus.textContent = summaryViewController2?.isGenerating ? t.reasoningInProgress || "in progress..." : t.reasoningDone || "completed";
+      }
+      if (typeof summaryViewController2?.applyLanguage === "function") {
+        summaryViewController2.applyLanguage(state2?.currentLang || "en");
+      } else {
+        const stoppedNote = document.querySelector("#ytAiSummaryBody .yt-ai-stopped-note");
+        if (stoppedNote) {
+          stoppedNote.textContent = t.auditStoppedNote || "\u23F9 Processing stopped by user.";
+        } else {
+          const placeholderP = document.querySelector("#ytAiSummaryBody .yt-ai-placeholder-text");
+          if (placeholderP) {
+            placeholderP.textContent = t.summaryPlaceholder || 'Click "\u2728 Summarize video" to generate the summary.';
+          }
+        }
+      }
+      const hasError = !!document.getElementById("ytAiRetrySummarizeBtn");
+      const hasStoppedNote = !!document.querySelector("#ytAiSummaryBody .yt-ai-stopped-note");
+      if (!hasError && !hasStoppedNote && summaryViewController2 && !summaryViewController2.fullSummaryMarkdown && !summaryViewController2.isGenerating) {
+        summaryViewController2.renderSummaryEmptyState(true, state2?.currentLang || "en");
+      }
+    }
+    static applyChatLanguage(t, state2, chatViewController2) {
+      const sugBox = document.querySelector?.(".yt-ai-chat-suggestions");
+      if (sugBox && Array.isArray(t.suggestions) && t.suggestions.length > 0) {
+        sugBox.innerHTML = t.suggestions.map(
+          (s) => `<span class="yt-ai-suggestion-chip" data-question="${(s.question || "").replace(/"/g, "&quot;")}">${escapeHtml(s.label)}</span>`
+        ).join("");
+      }
+      const input = document.getElementById("ytAiChatInput");
+      if (input) input.placeholder = t.chatPlaceholder || "Ask a question...";
+      const sendBtn = document.getElementById("ytAiSendChatBtn");
+      if (sendBtn) sendBtn.textContent = t.sendBtn || "Send \u27A4";
+      const clearBtn = document.getElementById("ytAiClearChatBtn");
+      if (clearBtn) clearBtn.textContent = t.clearChatBtn || "\u{1F5D1}\uFE0F Clear";
+      const chatTitle = document.querySelector?.("#ytAiPaneChat .yt-ai-pane-title span");
+      if (chatTitle) chatTitle.textContent = t.chatTitle || "\u{1F4AC} Video Q&A";
+      const micBtn = document.getElementById("ytAiMicBtn");
+      if (micBtn) micBtn.title = t.micTitle || "Dictate question";
+      if (typeof chatViewController2?.applyLanguage === "function") chatViewController2.applyLanguage(state2?.currentLang || "en");
+    }
+    static applyAuditLanguage(t, auditViewController2, lang, state2 = null) {
+      if (typeof auditViewController2?.applyLanguage === "function") {
+        auditViewController2.applyLanguage(lang, state2);
+      } else {
+        const headerTitle = document.getElementById("ytAiAuditHeaderTitle");
+        if (headerTitle) headerTitle.textContent = t.auditTitle || "\u{1F6E1}\uFE0F Critical Logic & Fact-Checking Audit";
+        const runBtn = document.getElementById("ytAiRunAuditBtn");
+        if (runBtn) runBtn.textContent = t.runAuditBtn || "\u26A1 Run Audit";
+        const discussBtn = document.getElementById("ytAiAuditChatDiscussBtn");
+        if (discussBtn) discussBtn.textContent = t.discussInChatBtn || "\u{1F4AC} Discuss in Chat";
+        const copyBtn = document.getElementById("ytAiCopyAuditBtn");
+        if (copyBtn) copyBtn.textContent = t.copyBtn || "\u{1F4CB} Copy";
+        const placeholder = document.querySelector("#ytAiAuditBody .yt-ai-placeholder-text");
+        if (placeholder) placeholder.textContent = t.auditPlaceholder || "";
+        WatchChannelAuditHelper.applyLanguage(null, lang, state2);
+      }
+    }
+    static applyTranscriptAndFooter(t) {
+      const headerTitle = document.getElementById("ytAiTranscriptHeaderTitle");
+      if (headerTitle) headerTitle.textContent = t.transcriptTitle || "\u{1F4DC} Full Transcript";
+      const wordsLabel = document.getElementById("ytAiTranscriptWordsLabel");
+      if (wordsLabel) wordsLabel.textContent = t.wordsBadge || "words";
+      const copyRawBtn = document.getElementById("ytAiCopyTranscriptBtn");
+      if (copyRawBtn) copyRawBtn.textContent = t.copyRawBtn || "\u{1F4CB} Copy raw";
+      const body = document.getElementById("ytAiTranscriptBody");
+      const isPlaceholder = body && (body.querySelector?.(".yt-ai-placeholder-text") || body.querySelector?.(".yt-ai-loading") && body.textContent?.includes("..."));
+      if (isPlaceholder) {
+        body.innerHTML = `<span class="yt-ai-placeholder-text yt-ai-loading">${escapeHtml(t.transcriptWaiting || "Waiting...")}</span>`;
+      }
+      if (document.getElementById("ytAiFooterBy")) {
+        applyFooterLanguage(t, "ytAiFooter");
+      } else {
+        const fb = I18N.en;
+        const footerAuthor = document.getElementById("ytAiFooterAuthor");
+        if (footerAuthor) {
+          const extVer = getExtensionVersionTag();
+          footerAuthor.innerHTML = `YouTube Summarizer AI <strong>${extVer}</strong> <span id="ytAiFooterBy">${escapeHtml(t.footerBy || fb.footerBy)}</span> <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
+        }
+        applyFooterLanguage(t, "ytAiFooter");
+      }
+    }
+  };
+
+  // src/config/AIProviderPresets.js
+  var CLOUD_MODELS = {
+    gemini: [
+      { id: "gemini-1.5-flash", name: "\u2B50 gemini-1.5-flash (Gratuit, 1M ctx)" },
+      { id: "gemini-2.0-flash", name: "gemini-2.0-flash (Nouveau & Rapide)" },
+      { id: "gemini-1.5-pro", name: "gemini-1.5-pro (Analyse approfondie)" }
+    ],
+    groq: [
+      { id: "llama-3.3-70b-versatile", name: "\u2B50 llama-3.3-70b-versatile (Ultra-rapide)" },
+      { id: "deepseek-r1-distill-llama-70b", name: "deepseek-r1-distill-llama-70b (R1 Thinking)" },
+      { id: "llama-3.1-8b-instant", name: "llama-3.1-8b-instant (\xC9clair)" },
+      { id: "mixtral-8x7b-32768", name: "mixtral-8x7b-32768 (Mixtral)" }
+    ],
+    openai: [
+      { id: "gpt-4o-mini", name: "\u2B50 gpt-4o-mini (\xC9conomique & Rapide)" },
+      { id: "gpt-4o", name: "gpt-4o (Mod\xE8le phare)" },
+      { id: "o3-mini", name: "o3-mini (Raisonnement)" }
+    ],
+    claude: [
+      { id: "claude-3-5-haiku-20241022", name: "\u2B50 claude-3-5-haiku (Rapide)" },
+      { id: "claude-3-5-sonnet-20241022", name: "claude-3-5-sonnet (Excellence)" }
+    ],
+    deepseek: [
+      { id: "deepseek-chat", name: "\u2B50 deepseek-chat (V3)" },
+      { id: "deepseek-reasoner", name: "deepseek-reasoner (R1 Thinking)" }
+    ],
+    grok: [
+      { id: "grok-2-latest", name: "\u2B50 grok-2-latest" },
+      { id: "grok-2-vision-1212", name: "grok-2-vision" },
+      { id: "grok-beta", name: "grok-beta" }
+    ],
+    qwen: [
+      { id: "qwen-plus", name: "\u2B50 qwen-plus (\xC9quilibr\xE9 & Efficace)" },
+      { id: "qwen-max", name: "qwen-max (Maximum de puissance)" },
+      { id: "qwen-turbo", name: "qwen-turbo (Ultra rapide)" },
+      { id: "qwen2.5-72b-instruct", name: "qwen2.5-72b-instruct" }
+    ],
+    mistral: [
+      { id: "mistral-small-latest", name: "\u2B50 mistral-small-latest (Rapide)" },
+      { id: "mistral-large-latest", name: "mistral-large-latest (Mod\xE8le phare)" },
+      { id: "codestral-latest", name: "codestral-latest" }
+    ],
+    openrouter: [
+      { id: "deepseek/deepseek-r1", name: "\u2B50 deepseek/deepseek-r1" },
+      { id: "qwen/qwen-2.5-72b-instruct", name: "qwen/qwen-2.5-72b-instruct" },
+      { id: "meta-llama/llama-3.3-70b-instruct", name: "meta-llama/llama-3.3-70b-instruct" },
+      { id: "anthropic/claude-3.5-sonnet", name: "anthropic/claude-3.5-sonnet" },
+      { id: "google/gemini-2.0-flash-exp:free", name: "google/gemini-2.0-flash-exp (Gratuit)" }
+    ],
+    perplexity: [
+      { id: "sonar", name: "\u2B50 sonar (Rapide)" },
+      { id: "sonar-pro", name: "sonar-pro" },
+      { id: "sonar-reasoning", name: "sonar-reasoning" }
+    ],
+    together: [
+      { id: "meta-llama/Llama-3.3-70B-Instruct-Turbo", name: "\u2B50 Llama-3.3-70B-Instruct-Turbo" },
+      { id: "Qwen/Qwen2.5-72B-Instruct-Turbo", name: "Qwen2.5-72B-Instruct-Turbo" },
+      { id: "deepseek-ai/DeepSeek-R1", name: "deepseek-ai/DeepSeek-R1" }
+    ]
+  };
+  var API_KEY_PORTALS = {
+    gemini: { url: "https://aistudio.google.com/app/apikey", label: "\u{1F511} Obtenir cl\xE9 Gemini (100% Gratuite)" },
+    groq: { url: "https://console.groq.com/keys", label: "\u{1F511} Obtenir cl\xE9 Groq (Gratuite & Ultra-rapide)" },
+    openai: { url: "https://platform.openai.com/api-keys", label: "\u{1F511} Obtenir cl\xE9 OpenAI" },
+    claude: { url: "https://console.anthropic.com/settings/keys", label: "\u{1F511} Obtenir cl\xE9 Claude" },
+    deepseek: { url: "https://platform.deepseek.com/api_keys", label: "\u{1F511} Obtenir cl\xE9 DeepSeek" },
+    grok: { url: "https://console.x.ai/", label: "\u{1F511} Obtenir cl\xE9 Grok (xAI)" },
+    qwen: { url: "https://dashscope.console.aliyun.com/", label: "\u{1F511} Obtenir cl\xE9 Qwen (DashScope)" },
+    mistral: { url: "https://console.mistral.ai/api-keys/", label: "\u{1F511} Obtenir cl\xE9 Mistral" },
+    openrouter: { url: "https://openrouter.ai/keys", label: "\u{1F511} Obtenir cl\xE9 OpenRouter" },
+    perplexity: { url: "https://www.perplexity.ai/settings/api", label: "\u{1F511} Obtenir cl\xE9 Perplexity" },
+    together: { url: "https://api.together.xyz/settings/api-keys", label: "\u{1F511} Obtenir cl\xE9 Together AI" }
+  };
+  var CONTEXT_LIMITS = {
+    lmstudio: 16e3,
+    ollama: 16e3,
+    gemini: 12e4,
+    groq: 5e4,
+    openai: 8e4,
+    claude: 9e4,
+    deepseek: 5e4,
+    grok: 7e4,
+    qwen: 6e4,
+    mistral: 6e4,
+    openrouter: 8e4,
+    perplexity: 5e4,
+    together: 6e4
+  };
+  var PROVIDER_NAMES = {
+    lmstudio: "LM Studio",
+    ollama: "Ollama",
+    gemini: "Google Gemini",
+    groq: "Groq",
+    openai: "OpenAI (ChatGPT)",
+    claude: "Anthropic Claude",
+    deepseek: "DeepSeek",
+    grok: "xAI (Grok)",
+    qwen: "Qwen (DashScope)",
+    mistral: "Mistral AI",
+    openrouter: "OpenRouter",
+    perplexity: "Perplexity AI",
+    together: "Together AI"
+  };
+  var LANG_LOCALES = {
+    fr: "fr-FR",
+    en: "en-US",
+    es: "es-ES",
+    de: "de-DE",
+    it: "it-IT",
+    ru: "ru-RU",
+    ja: "ja-JP",
+    zh: "zh-CN"
+  };
+
+  // src/content/templates/SettingsDrawerTemplate.js
+  var SettingsDrawerTemplate = class {
+    /**
+     * Generates Settings Drawer HTML string
+     * @param {Object} t - Localization dictionary
+     * @param {Object} [options]
+     * @returns {string}
+     */
+    static render(t, options = {}) {
+      const initialOptionHtml = options.initialOptionHtml || '<option value="">Loading...</option>';
+      const initialModelLabel = options.initialModelLabel || "Model: Loading...";
+      return `
+      <div id="ytAiSettingsDrawer" class="yt-ai-settings-drawer yt-ai-hidden">
+        <div class="yt-ai-settings-card">
+          <div class="yt-ai-settings-header">
+            <div class="yt-ai-settings-tabs-nav">
+              <button class="yt-ai-settings-tab-btn active" data-subtab="model" id="ytAiTabSettingsModelBtn">
+                ${t.tabSettingsModel || "\u{1F916} AI Model & Server"}
+              </button>
+              <button class="yt-ai-settings-tab-btn" data-subtab="params" id="ytAiTabSettingsParamsBtn">
+                ${t.tabSettingsParams || "\u2699\uFE0F Parameters & Prompt"}
+              </button>
+              <button class="yt-ai-settings-tab-btn" data-subtab="audio" id="ytAiTabSettingsAudioBtn">
+                ${t.tabSettingsAudio || "\u{1F399}\uFE0F Voice & Audio"}
+              </button>
+            </div>
+            <button id="ytAiSettingsCloseBtn" class="yt-ai-btn-icon-close" title="${t.settingsHideBtn || "Close Settings"}">\u2715</button>
+          </div>
+
+          <div class="yt-ai-settings-body">
+            <!-- SOUS-ONGLET 1 : MOD\xC8LE ET SERVEUR -->
+            <div id="ytAiSettingsSubpaneModel" class="yt-ai-settings-subpane active">
+              <div class="yt-ai-settings-status-row">
+                <div id="ytAiBadge" class="yt-ai-badge" title="AI Status">
+                  <span class="yt-ai-badge-dot"></span>
+                  <span id="ytAiBadgeText">${t.checking || "Checking..."}</span>
+                </div>
+                <div class="yt-ai-model-pill" id="ytAiHeaderModelPill" style="cursor: default;" title="Active model">
+                  <span class="yt-ai-model-icon">\u{1F916}</span>
+                  <span id="ytAiHeaderModelText">${initialModelLabel}</span>
+                </div>
+              </div>
+
+              <div class="yt-ai-settings-grid">
+                <div class="yt-ai-setting-item">
+                  <label id="ytAiProviderLabel">${t.providerLabel || "AI Provider:"}</label>
+                  <select id="ytAiProviderSelect" class="yt-ai-select" style="font-weight: 600;">
+                    <optgroup id="ytAiOptGroupLocal" label="${t.groupLocal || "\u{1F3E0} Local Models (Free & Private)"}">
+                      <option value="lmstudio">\u{1F3E0} LM Studio</option>
+                      <option value="ollama">\u{1F999} Ollama (Local / Cloud)</option>
+                    </optgroup>
+                    <optgroup id="ytAiOptGroupFast" label="${t.groupFast || "\u26A1 Fast / Free Cloud Inference"}">
+                      <option value="gemini">\u{1F535} Google Gemini (1M ctx, free)</option>
+                      <option value="groq">\u26A1 Groq (Llama 3.3, ultra-fast)</option>
+                    </optgroup>
+                    <optgroup id="ytAiOptGroupCloud" label="${t.groupCloud || "\u2601\uFE0F Major Cloud Providers"}">
+                      <option value="openai">\u{1F7E2} OpenAI (ChatGPT / GPT-4o)</option>
+                      <option value="claude">\u{1F7E3} Anthropic (Claude 3.5)</option>
+                      <option value="deepseek">\u{1F40B} DeepSeek (V3 & R1)</option>
+                      <option value="grok">\u26AB xAI (Grok 2)</option>
+                      <option value="qwen">\u{1F534} Qwen (Alibaba DashScope)</option>
+                      <option value="mistral">\u{1F7E0} Mistral AI</option>
+                      <option value="openrouter">\u{1F310} OpenRouter (All models)</option>
+                      <option value="perplexity">\u{1F50D} Perplexity AI (Sonar)</option>
+                      <option value="together">\u{1F91D} Together AI</option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <!-- Zone Local (LM Studio / Ollama) -->
+                <div id="ytAiLmStudioSettings" class="yt-ai-setting-item">
+                  <label id="ytAiServerLabel">${t.serverLabel || "Server:"}</label>
+                  <div class="yt-ai-input-with-btn">
+                    <select id="ytAiServerSelect" class="yt-ai-select" style="flex: 1;">
+                      <option value="http://localhost:1234">localhost:1234</option>
+                      <option value="http://127.0.0.1:1234">127.0.0.1:1234</option>
+                      <option value="custom">${t.customServer || "Custom IP..."}</option>
+                    </select>
+                    <button id="ytAiRefreshModelsBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.refreshTooltip || "Refresh local models"}">\u{1F504}</button>
+                  </div>
+                </div>
+
+                <!-- Zone Cloud (Cl\xE9 API) -->
+                <div id="ytAiCloudSettings" class="yt-ai-setting-item yt-ai-hidden">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <label id="ytAiApiKeyLabel">${t.apiKeyLabel || "API Key:"}</label>
+                    <span id="ytAiApiKeyHint" style="font-size: 11px; color: var(--yt-ai-timestamp-text); opacity: 0.9;"></span>
+                  </div>
+                  <div class="yt-ai-input-with-btn">
+                    <input type="password" id="ytAiApiKeyInput" class="yt-ai-input yt-ai-api-key-input" placeholder="${t.apiKeyPlaceholder || "Paste your API key..."}" style="flex: 1;">
+                    <button id="ytAiPasteApiKeyBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.pasteTooltip || "Paste from clipboard"}" style="padding: 4px 8px; font-size: 11px;">\u{1F4CB} ${t.pasteBtn || "Paste"}</button>
+                    <a id="ytAiGetApiKeyLink" class="yt-ai-link-pill" href="#" target="_blank" rel="noopener">${t.getApiKeyLink || "\u{1F511} Get Key"}</a>
+                  </div>
+                </div>
+
+                <!-- Mod\xE8le & Test -->
+                <div class="yt-ai-setting-item">
+                  <label id="ytAiModelLabel">${t.modelLabel || "Model:"}</label>
+                  <div class="yt-ai-input-with-btn">
+                    <select id="ytAiModelSelect" class="yt-ai-select" style="flex: 1;">
+                      ${initialOptionHtml}
+                    </select>
+                    <button id="ytAiTestModelBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.testModelTooltip || "Test connection and model"}">${t.testModelBtn || "\u26A1 Test"}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SOUS-ONGLET 2 : PARAM\xC8TRES IA & PROMPT -->
+            <div id="ytAiSettingsSubpaneParams" class="yt-ai-settings-subpane">
+              <div class="yt-ai-settings-grid">
+                <div class="yt-ai-setting-item">
+                  <label id="ytAiTempLabel">${t.tempLabel || "AI Creativity (Temperature):"}</label>
+                  <select id="ytAiTemperatureSelect" class="yt-ai-select">
+                    <option value="0.0">${t.tempStrict || "0.0 - Strict & Precise"}</option>
+                    <option value="0.3" selected>${t.tempBalanced || "0.3 - Balanced (Default)"}</option>
+                    <option value="0.7">${t.tempCreative || "0.7 - Creative & Detailed"}</option>
+                    <option value="1.0">${t.tempWild || "1.0 - Highly Inventive"}</option>
+                  </select>
+                </div>
+
+                <div class="yt-ai-setting-item">
+                  <label id="ytAiMaxTokensLabel">${t.maxTokensLabel || "Max Length (Tokens):"}</label>
+                  <select id="ytAiMaxTokensSelect" class="yt-ai-select">
+                    <option value="auto" selected>${t.tokensAuto || "Automatic (Default)"}</option>
+                    <option value="1024">${t.tokensShort || "Short (1,024)"}</option>
+                    <option value="2048">${t.tokensStandard || "Standard (2,048)"}</option>
+                    <option value="4096">${t.tokensDetailed || "Detailed (4,096)"}</option>
+                    <option value="8192">${t.tokensMax || "Maximum (8,192)"}</option>
+                  </select>
+                </div>
+
+                <div class="yt-ai-setting-item yt-ai-checkbox-field" style="grid-column: span 2;">
+                  <label>
+                    <input type="checkbox" id="ytAiAutoSummarizeCheck">
+                    <span id="ytAiAutoSummarizeLabel">${t.autoSummarizeLabel || "\u26A1 Auto-summarize when opening a video"}</span>
+                  </label>
+                </div>
+
+                <div class="yt-ai-setting-item" style="grid-column: span 2;">
+                  <label id="ytAiCustomPromptLabel">${t.customPromptLabel || "Custom AI Instructions (optional):"}</label>
+                  <input type="text" id="ytAiCustomPromptInput" class="yt-ai-input" placeholder="${t.customPromptPlaceholder || "e.g. Focus on technical details, explain with analogies..."}" style="width: 100%;">
+                </div>
+              </div>
+            </div>
+
+            <!-- SOUS-ONGLET 3 : VOIX & AUDIO -->
+            <div id="ytAiSettingsSubpaneAudio" class="yt-ai-settings-subpane">
+              <div class="yt-ai-settings-grid">
+                <div class="yt-ai-setting-item">
+                  <label id="ytAiVoiceLabel">${t.voiceLabel || "Voice (TTS):"}</label>
+                  <select id="ytAiVoiceSelect" class="yt-ai-select" title="Voice for speech audio">
+                    <option value="">${t.voiceDefault || "System voice..."}</option>
+                  </select>
+                </div>
+
+                <div class="yt-ai-setting-item">
+                  <label id="ytAiTtsSpeedLabel">${t.ttsSpeedLabel || "Voice Speed:"}</label>
+                  <select id="ytAiTtsSpeedSelect" class="yt-ai-select">
+                    <option value="0.75">${t.speedSlow || "0.75x (Calm)"}</option>
+                    <option value="1.0" selected>${t.speedNormal || "1.0x (Normal)"}</option>
+                    <option value="1.25">${t.speedFast || "1.25x (Fast)"}</option>
+                    <option value="1.5">${t.speedVeryFast || "1.5x (Speedy)"}</option>
+                    <option value="2.0">${t.speedDouble || "2.0x (Double)"}</option>
+                  </select>
+                </div>
+
+                <div class="yt-ai-setting-item">
+                  <label id="ytAiMicLabel">${t.micLabel || "Microphone (Speech-to-Text):"}</label>
+                  <select id="ytAiMicSelect" class="yt-ai-select" title="Select your microphone for dictation">
+                    <option value="">${t.micDefault || "Default mic..."}</option>
+                  </select>
+                </div>
+
+                <div class="yt-ai-setting-item">
+                  <label id="ytAiWhisperUrlLabel">${t.whisperUrlLabel || "Local Whisper Server (Audio STT):"}</label>
+                  <div class="yt-ai-input-with-btn">
+                    <input type="text" id="ytAiWhisperUrlInput" class="yt-ai-input" placeholder="${t.whisperUrlPlaceholder || "e.g. http://localhost:8000/v1/audio/transcriptions"}" style="flex: 1;">
+                    <button id="ytAiTestWhisperBtn" class="yt-ai-btn yt-ai-btn-secondary">${t.testSttBtn || "\u26A1 Test STT"}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    `;
+    }
+  };
+
+  // src/content/templates/BannerTemplate.js
+  var BannerTemplate = class {
+    /**
+     * Generates the entire in-page banner HTML string
+     * @param {Object} t - Localization dictionary
+     * @param {Object} [options]
+     * @returns {string}
+     */
+    static render(t, options = {}) {
+      const drawerHtml = SettingsDrawerTemplate.render(t, options);
+      const version = getExtensionVersionTag(options.version);
+      const currentMode = options.currentMode || "standard";
+      const currentLang = options.currentLang || "fr";
+      const isFr = currentLang.startsWith("fr");
+      const suggestionsHtml = Array.isArray(t.suggestions) && t.suggestions.length > 0 ? t.suggestions.map((s) => `<span class="yt-ai-suggestion-chip" data-question="${(s.question || "").replace(/"/g, "&quot;")}">${s.label}</span>`).join("") : `<span class="yt-ai-suggestion-chip" data-question="What are the core key takeaways from this video?">\u{1F4A1} Key takeaways</span><span class="yt-ai-suggestion-chip" data-question="At what point in the video is the main topic discussed?">\u23F1\uFE0F Timestamps</span><span class="yt-ai-suggestion-chip" data-question="What specific figures, examples, or arguments are presented?">\u{1F4CA} Data & Figures</span><span class="yt-ai-suggestion-chip" data-question="What is the author's final conclusion or actionable advice?">\u{1F3AF} Conclusion & Advice</span>`;
+      return `
+      <!-- BARRE SUP\xC9RIEURE ULTRA-MINIMALISTE -->
+      <div class="yt-ai-header-bar">
+        <div class="yt-ai-header-left">
+          <div class="yt-ai-brand" id="ytAiBrandToggle" title="Click to toggle panel">
+            ${renderBrandLogoSvg()}
+            <span id="ytAiBrandTitle">${t.brandName || EXTENSION_BRAND_TITLE}</span>
+          </div>
+        </div>
+
+        <div class="yt-ai-header-center">
+          <div class="yt-ai-action-cluster">
+            <!-- S\xC9LECTEUR DE FORMAT DU R\xC9SUM\xC9 -->
+            <div class="yt-ai-header-select-wrapper yt-ai-header-mode-wrapper">
+              <select id="ytAiModeSelect" class="yt-ai-select yt-ai-header-mode-select" title="${t.formatLabel || "Format:"}">
+                <option value="quick" ${currentMode === "quick" ? "selected" : ""}>${t.formatQuick || "\u26A1 Quick"}</option>
+                <option value="standard" ${currentMode === "standard" || !currentMode ? "selected" : ""}>${t.formatStandard || "\u{1F4CC} Standard"}</option>
+                <option value="detailed" ${currentMode === "detailed" ? "selected" : ""}>${t.formatDetailed || "\u{1F4DD} Deep"}</option>
+              </select>
+            </div>
+
+            <!-- S\xC9LECTEUR DE LANGUE -->
+            <div class="yt-ai-header-select-wrapper yt-ai-header-lang-wrapper">
+              <select id="ytAiLangSelect" class="yt-ai-select yt-ai-header-lang-select" title="${t.langLabel || "Language:"}">
+                ${renderLangOptionsHtml(currentLang)}
+              </select>
+            </div>
+
+            <!-- BOUTON D'ACTION PRINCIPAL -->
+            <button id="ytAiSummarizeBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-summarize-cta">
+              ${t.summarizeBtn || "\u2728 Summarize video"}
+            </button>
+            <button id="ytAiStopSummaryBtn" type="button" class="yt-ai-btn yt-ai-btn-stop yt-ai-hidden" title="${t.stopListenBtn || "\u23F9\uFE0F Stop"}">
+              ${t.stopListenBtn || "\u23F9\uFE0F Stop"}
+            </button>
+          </div>
+        </div>
+
+        <div class="yt-ai-header-right">
+          <button id="ytAiSettingsToggleBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-settings-toggle-btn" title="${t.settingsBtn || "Settings"}">
+            <span class="yt-ai-settings-icon">\u2699\uFE0F</span>
+            <span id="ytAiSettingsBtnText">${t.settingsBtn || "Settings"}</span>
+          </button>
+
+          <button id="ytAiToggleBtn" class="yt-ai-toggle-btn" title="${t.expand || "Expand"}">
+            <span id="ytAiToggleText">${t.expand || "Expand"}</span>
+            <span id="ytAiToggleIcon">\u25BE</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- CONTENU D\xC9PLIABLE -->
+      <div class="yt-ai-expanded-content">
+        ${drawerHtml}
+
+        <!-- BANNI\xC8RE DE STATUT / MESSAGES INFORMATIFS -->
+        <div id="ytAiStatusBanner" class="yt-ai-reasoning yt-ai-hidden"></div>
+
+        <!-- NAVIGATION PAR ONGLETS (SYNTH\xC8SE / AUDIT VID\xC9O / AUDIT CHA\xCENE / CHAT / TRANSCRIPTION) -->
+        <div class="yt-ai-tabs-nav">
+          <button id="ytAiTabSummaryBtn" class="yt-ai-tab-btn active" data-tab="summary">
+            ${t.tabSummary || "\u{1F4DD} AI Summary"}
+          </button>
+          <button id="ytAiTabAuditBtn" class="yt-ai-tab-btn" data-tab="audit">
+            ${t.tabAudit || "\u{1F6E1}\uFE0F Audit & Fact-Check"}
+          </button>
+          <button id="ytAiTabChannelAuditBtn" class="yt-ai-tab-btn" data-tab="channelAudit">
+            ${t.tabChannelAudit || t.subtabAuditChannel || "\u{1F4CA} Channel Audit"}
+          </button>
+          <button id="ytAiTabChatBtn" class="yt-ai-tab-btn" data-tab="chat">
+            ${t.tabChat || "\u{1F4AC} Ask questions"} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">0</span>
+          </button>
+          <button id="ytAiTabTranscriptBtn" class="yt-ai-tab-btn" data-tab="transcript">
+            ${t.tabTranscript || "\u{1F4DC} Transcript"} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">0 ${t.wordsBadge || "words"}</span>
+          </button>
+        </div>
+
+        <!-- ONGLET 1 : SYNTH\xC8SE IA -->
+        <div id="ytAiPaneSummary" class="yt-ai-tab-pane active">
+          <div class="yt-ai-summary-pane" style="max-height: 480px;">
+            <div class="yt-ai-pane-title">
+              <span id="ytAiSummaryHeaderTitle">${t.summaryTitle || "\u{1F4DD} AI Summary"}</span>
+              <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
+                <button id="ytAiSpeakSummaryBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.listenBtn || "\u{1F50A} Listen"}</button>
+                <button id="ytAiCopyBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.copyBtn || "\u{1F4CB} Copy"}</button>
+                <button id="ytAiDownloadBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.saveMdBtn || "\u{1F4BE} .md"}</button>
+                <button id="ytAiSaveTxtBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.saveTxtBtn || "\u{1F4C4} .txt"}</button>
+                <button id="ytAiSaveJsonBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.saveJsonBtn || "\u{1F4E6} .json"}</button>
+              </div>
+            </div>
+
+            <!-- R\xE9flexion Thinking (DeepSeek R1 / o3-mini / Qwen Thinking) -->
+            <details id="ytAiReasoningBox" class="yt-ai-reasoning yt-ai-hidden">
+              <summary><span id="ytAiReasoningTitle">${t.reasoningModel || "\u{1F4AD} Model Reasoning"}</span> (<span id="ytAiReasoningStatus">${t.reasoningInProgress || "in progress..."}</span>)</summary>
+              <div id="ytAiReasoningText" class="yt-ai-reasoning-body"></div>
+            </details>
+
+            <div id="ytAiSummaryBody" class="yt-ai-markdown">
+              <p class="yt-ai-placeholder-text" style="color: var(--yt-ai-text-muted); font-style: italic;">${t.summaryPlaceholder || 'Click "\u2728 Summarize video" to generate the summary.'}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ONGLET 2 : AUDIT & FACT-CHECKING DE LA VID\xC9O -->
+        <div id="ytAiPaneAudit" class="yt-ai-tab-pane">
+          <div class="yt-ai-summary-pane" style="max-height: 480px;">
+            <div class="yt-ai-pane-title">
+              <span id="ytAiAuditHeaderTitle">${t.auditTitle || "\u{1F6E1}\uFE0F Critical Logic & Fact-Checking Audit"}</span>
+              <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
+                <button id="ytAiRunAuditBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 4px 12px; font-size: 11px;">${t.runAuditBtn || "\u26A1 Run Audit"}</button>
+                <button id="ytAiCopyAuditBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-hidden" style="padding: 4px 10px; font-size: 11px;">${t.copyBtn || "\u{1F4CB} Copy"}</button>
+              </div>
+            </div>
+
+            <div id="ytAiAuditStatus" class="yt-ai-reasoning yt-ai-hidden"></div>
+            <div id="ytAiAuditProgressContainer" class="yt-ai-hidden"></div>
+
+            <div id="ytAiAuditBody" class="yt-ai-markdown">
+              <p class="yt-ai-placeholder-text" style="color: var(--yt-ai-text-muted); font-style: italic;">${t.auditPlaceholder || 'Click "\u26A1 Run Audit" to examine logical rigor, fallacies, and empirical sources.'}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ONGLET 3 : AUDIT COMPLET DE LA CHA\xCENE DU CR\xC9ATEUR -->
+        <div id="ytAiPaneChannelAudit" class="yt-ai-tab-pane">
+          <div class="yt-ai-summary-pane" style="max-height: 520px; overflow-y: auto;">
+            <div class="yt-ai-pane-title">
+              <div>
+                <span id="ytAiWatchChannelTitle" style="font-weight: 700;">${t.channelAuditTitle || "\u{1F4CA} Global Channel Audit"}</span>
+                <span id="ytAiWatchChannelHandle" class="yt-ai-card-handle" style="margin-left: 8px; font-size: 12px; color: var(--yt-ai-text-secondary);"></span>
+              </div>
+              <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
+                <button id="ytAiRunWatchChannelAuditBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 4px 12px; font-size: 11px;">${t.runChannelAuditBtn || "\u26A1 Run Channel Audit"}</button>
+              </div>
+            </div>
+
+            <div class="yt-ai-period-selector" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px;">
+              <span class="yt-ai-period-label" style="font-size: 11px; color: var(--yt-ai-text-muted); font-weight: 600;">
+                ${t.periodFilterLabel || "Analyzed period:"}
+              </span>
+              <button class="yt-ai-period-pill yt-ai-format-pill active" data-period="all">\u{1F310} ${t.periodAll || "All history"}</button>
+              <button class="yt-ai-period-pill yt-ai-format-pill" data-period="year">\u{1F4C5} ${t.periodYear || "Current year"}</button>
+              <button class="yt-ai-period-pill yt-ai-format-pill" data-period="6months">\u{1F3AF} ${t.period6Months || "Last 6 months"}</button>
+              <button class="yt-ai-period-pill yt-ai-format-pill" data-period="month">\u26A1 ${t.periodMonth || "Last month"}</button>
+
+              <span class="yt-ai-max-label" style="margin-left: 10px; font-size: 11px; color: var(--yt-ai-text-muted); font-weight: 600;">${t.maxVideosLabel || "Max Limit:"}</span>
+              <select id="ytAiWatchChannelMaxVideos" class="yt-ai-select" style="padding: 2px 6px; font-size: 11px; height: 26px;">
+                ${renderChannelMaxOptionsHtml(options.maxVideos, isFr, options.channelTotalVideos)}
+              </select>
+            </div>
+
+            <div id="ytAiWatchChannelProgress" class="yt-ai-progress-box yt-ai-hidden" style="margin-bottom: 12px;"></div>
+            <div id="ytAiWatchChannelResultContainer" class="yt-ai-result-box">
+              <p class="yt-ai-placeholder-text" style="color: var(--yt-ai-text-muted); font-style: italic;">${t.channelAuditPlaceholder || 'Click "\u26A1 Run Channel Audit" above to evaluate this channel.'}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ONGLET 4 : CHAT BOX INTERACTIVE (POSER DES QUESTIONS) -->
+        <div id="ytAiPaneChat" class="yt-ai-tab-pane">
+          <div class="yt-ai-chat-pane">
+            <div class="yt-ai-pane-title">
+              <span>${t.chatTitle || "\u{1F4AC} Video Q&A"}</span>
+              <button id="ytAiClearChatBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.clearChatBtn || "\u{1F5D1}\uFE0F Clear conversation"}</button>
+            </div>
+
+            <div class="yt-ai-chat-container">
+              <!-- Suggestions rapides -->
+              <div class="yt-ai-chat-suggestions">
+                ${suggestionsHtml}
+              </div>
+
+              <!-- Messages \xE9chang\xE9s -->
+              <div id="ytAiChatMessages" class="yt-ai-chat-messages">
+                <div class="yt-ai-chat-bubble ai">
+                  ${t.chatWelcome || "Hello! Ask me any question about the content of this video."}
+                </div>
+              </div>
+
+              <!-- Ligne de saisie avec bouton micro -->
+              <div class="yt-ai-chat-input-row">
+                <textarea id="ytAiChatInput" class="yt-ai-chat-input" rows="1" placeholder="${t.chatPlaceholder || "Ask a question or dictate with mic..."}"></textarea>
+                <button id="ytAiMicBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-mic-btn" title="${t.micTitle || "Dictate your question with microphone"}">
+                  <span class="yt-ai-mic-icon">\u{1F3A4}</span>
+                </button>
+                <button id="ytAiSendChatBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 7px 16px;">
+                  ${t.sendBtn || "Send \u27A4"}
+                </button>
+              </div>
+              <div id="ytAiMicNotice" class="yt-ai-mic-notice yt-ai-hidden"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ONGLET 5 : TRANSCRIPTION BRUTE -->
+        <div id="ytAiPaneTranscript" class="yt-ai-tab-pane">
+          <div class="yt-ai-transcript-pane" style="max-height: 480px;">
+            <div class="yt-ai-pane-title">
+              <span><span id="ytAiTranscriptHeaderTitle">${t.transcriptTitle || "\u{1F4DC} Full Transcript"}</span> (<span id="ytAiWordCount">0</span> <span id="ytAiTranscriptWordsLabel">${t.wordsBadge || "words"}</span>)</span>
+              <button id="ytAiCopyTranscriptBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.copyRawBtn || "\u{1F4CB} Copy raw"}</button>
+            </div>
+            <div id="ytAiTranscriptBody" class="yt-ai-transcript-text">
+              <span class="yt-ai-placeholder-text yt-ai-loading">${t.transcriptWaiting || "Waiting for transcript..."}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PIED DE PAGE AVEC LIENS GITHUB ET AIDE -->
+        ${renderExtensionFooterHtml(t, "ytAiFooter", version)}
+
+      </div>
+    `;
+    }
+  };
+
+  // src/content/ui/ThemeManager.js
+  var themeObserverAttached = false;
+  function syncThemeWithYouTube(bannerEl) {
+    const elements = [
+      bannerEl,
+      document.getElementById("yt-ai-summarizer-container"),
+      document.getElementById("yt-ai-channel-companion"),
+      ...document.querySelectorAll?.(".yt-ai-channel-card") || []
+    ].filter(Boolean);
+    if (elements.length === 0) return;
+    const htmlEl = document.documentElement;
+    const isDark = htmlEl.hasAttribute("dark") || htmlEl.getAttribute("dark") === "true" || document.body?.classList.contains("dark-theme") || window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+    for (const el of elements) {
+      if (isDark) {
+        el.classList?.remove("yt-ai-light-theme");
+        el.classList?.add("yt-ai-dark-theme");
+        if (el.style) el.style.colorScheme = "dark";
+      } else {
+        el.classList?.remove("yt-ai-dark-theme");
+        el.classList?.add("yt-ai-light-theme");
+        if (el.style) el.style.colorScheme = "light";
+      }
+    }
+  }
+  function initThemeSync(banner) {
+    syncThemeWithYouTube(banner);
+    if (!themeObserverAttached) {
+      themeObserverAttached = true;
+      try {
+        const themeObserver = new MutationObserver(() => {
+          syncThemeWithYouTube();
+        });
+        themeObserver.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ["dark", "class"]
+        });
+        if (window.matchMedia) {
+          window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+            syncThemeWithYouTube();
+          });
+        }
+      } catch (_) {
+      }
+    }
+  }
+  var ThemeManager = {
+    syncThemeWithYouTube,
+    initThemeSync
+  };
 
   // src/content/ui/BannerView.js
   var BannerView = class {
@@ -2603,6 +4665,36 @@
       this.isExpanded = false;
       this.currentMode = "standard";
     }
+    /**
+     * Resolves the direct child node within watchContainer before which the banner should be inserted.
+     * Ensures the banner is positioned at the very top, flush below the search bar and above video elements.
+     * @param {HTMLElement} watchContainer
+     * @returns {Node|null}
+     */
+    _resolveWatchAnchor(watchContainer) {
+      if (!watchContainer) return null;
+      const isMobileWatch = watchContainer.tagName?.toUpperCase() === "YTM-WATCH";
+      if (isMobileWatch) {
+        return watchContainer.querySelector?.("ytm-single-column-watch-next-results-renderer, .watch-below-the-player") || watchContainer.firstElementChild || null;
+      }
+      const directChildren = Array.from(watchContainer.children || []);
+      const directAnchor = directChildren.find(
+        (c) => c.id === "full-bleed-container" || c.id === "player-full-bleed-container" || c.id === "player-theater-container" || c.id === "columns"
+      );
+      if (directAnchor) return directAnchor;
+      const candidateIds = ["full-bleed-container", "player-full-bleed-container", "player-theater-container", "columns"];
+      for (const id of candidateIds) {
+        const node = watchContainer.querySelector?.(`#${id}`);
+        if (node && node.parentNode === watchContainer) {
+          return node;
+        }
+      }
+      const firstVisual = directChildren.find(
+        (c) => c.tagName && !["IRON-MEDIA-QUERY", "DOM-IF", "TEMPLATE"].includes(c.tagName.toUpperCase())
+      );
+      if (firstVisual) return firstVisual;
+      return watchContainer.firstElementChild || null;
+    }
     tryInjectBanner(onInit = null) {
       if (!this.state.extensionEnabled) {
         const existing2 = document.getElementById("yt-ai-summarizer-container");
@@ -2610,31 +4702,36 @@
         return;
       }
       if (!isWatchPage()) return;
-      const existing = document.getElementById("yt-ai-summarizer-container");
-      if (existing && existing.isConnected) return;
-      if (existing) existing.remove();
-      const watchContainer = document.querySelector?.("ytd-watch-flexy, ytd-watch-grid");
+      const watchContainer = document.querySelector?.("ytd-watch-flexy, ytd-watch-grid, ytm-watch");
       let parent = null;
       let refChild = null;
       if (watchContainer && watchContainer.isConnected) {
-        parent = watchContainer;
-        refChild = watchContainer.querySelector("#player-theater-container") || watchContainer.querySelector("#columns") || watchContainer.firstChild;
-      } else {
-        const columns = document.getElementById("columns") || document.querySelector?.("ytd-watch-flexy #columns, ytd-watch-grid #columns");
-        if (columns && columns.parentNode) {
-          parent = columns.parentNode;
-          refChild = columns;
+        if (watchContainer.tagName?.toUpperCase() === "YTM-WATCH") {
+          const below = watchContainer.querySelector?.(".watch-below-the-player");
+          parent = below || watchContainer;
+          refChild = below ? below.firstElementChild : this._resolveWatchAnchor(watchContainer);
         } else {
-          const primary = document.getElementById("primary") || document.getElementById("below");
-          if (primary && primary.parentNode) {
-            parent = primary.parentNode;
-            refChild = primary;
-          }
+          parent = watchContainer;
+          refChild = this._resolveWatchAnchor(watchContainer);
+        }
+      } else {
+        const candidate = document.querySelector?.("#columns, #primary, ytm-single-column-watch-next-results-renderer");
+        const candidateParent = candidate?.parentNode;
+        if (candidateParent && candidateParent !== document.body && candidateParent !== document.documentElement) {
+          parent = candidateParent;
+          refChild = candidate;
         }
       }
-      if (!parent) {
-        setTimeout(() => this.tryInjectBanner(onInit), 250);
+      if (!parent || parent === document.body || parent === document.documentElement) {
+        setTimeout(() => this.tryInjectBanner(onInit), 150);
         return;
+      }
+      const existing = document.getElementById("yt-ai-summarizer-container");
+      if (existing && existing.isConnected) {
+        if (existing.parentNode === parent) {
+          return;
+        }
+        existing.remove();
       }
       const banner = document.createElement("div");
       banner.id = "yt-ai-summarizer-container";
@@ -2643,11 +4740,28 @@
       const lang = this.state.currentLang || "en";
       const t = I18N[lang] || I18N.en;
       safeSetInnerHTML(banner, BannerTemplate.render(t, {
-        version: typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v1.4.0",
+        version: getExtensionVersionTag(),
         currentMode: this.currentMode || this.state.summaryMode || "standard",
-        currentLang: lang
+        currentLang: lang,
+        maxVideos: this.state.channelAuditMaxVideos || 30,
+        channelTotalVideos: this.state.currentChannelTotalVideos || null
       }));
-      parent.insertBefore(banner, refChild);
+      try {
+        if (refChild && refChild.parentNode === parent) {
+          parent.insertBefore(banner, refChild);
+        } else if (parent.firstElementChild) {
+          parent.insertBefore(banner, parent.firstElementChild);
+        } else {
+          parent.appendChild(banner);
+        }
+      } catch {
+        if (typeof parent.prepend === "function") {
+          parent.prepend(banner);
+        } else {
+          parent.appendChild(banner);
+        }
+      }
+      syncFullscreenVisibility?.();
       if (typeof onInit === "function") onInit(banner);
     }
     setExpanded(expand) {
@@ -2662,6 +4776,14 @@
         container.classList.remove("is-collapsed");
         if (toggleText) toggleText.textContent = t.collapse || "Collapse";
         if (toggleIcon) toggleIcon.textContent = "\u25B2";
+        if (!isFullscreen?.() && typeof window !== "undefined" && typeof window.scrollTo === "function") {
+          const masthead = document.getElementById("masthead-container");
+          const mastheadHeight = masthead ? masthead.offsetHeight || 56 : 56;
+          const bRect = container.getBoundingClientRect ? container.getBoundingClientRect() : { top: 0 };
+          if (bRect.top < mastheadHeight || window.scrollY && window.scrollY > 0) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        }
       } else {
         container.classList.add("is-collapsed");
         if (toggleText) toggleText.textContent = t.expand || "Expand";
@@ -2679,8 +4801,9 @@
       document.querySelectorAll(".yt-ai-tab-pane").forEach((p) => p.classList.remove("active"));
       const tabMap = {
         summary: { btn: "ytAiTabSummaryBtn", pane: "ytAiPaneSummary" },
-        chat: { btn: "ytAiTabChatBtn", pane: "ytAiPaneChat" },
         audit: { btn: "ytAiTabAuditBtn", pane: "ytAiPaneAudit" },
+        channelAudit: { btn: "ytAiTabChannelAuditBtn", pane: "ytAiPaneChannelAudit" },
+        chat: { btn: "ytAiTabChatBtn", pane: "ytAiPaneChat" },
         transcript: { btn: "ytAiTabTranscriptBtn", pane: "ytAiPaneTranscript" }
       };
       const target = tabMap[tabName];
@@ -2763,8 +4886,8 @@
         el.textContent = activeM ? `${t.modelPrefix || "Model: "}${activeM}` : t.noModelSelected || "No model";
       }
     }
-    applyLanguage(lang, summaryViewController2 = null, chatViewController2 = null) {
-      BannerI18n.applyLanguage(lang, this.state, summaryViewController2, chatViewController2, this.isExpanded);
+    applyLanguage(lang, summaryViewController2 = null, chatViewController2 = null, auditViewController2 = null) {
+      BannerI18n.applyLanguage(lang, this.state, summaryViewController2, chatViewController2, this.isExpanded, auditViewController2);
       this.updateHeaderBadge();
       this.updateHeaderModelText();
     }
@@ -2782,7 +4905,7 @@
     static refreshModelsList(ctx, showFeedback = false, onModelsLoaded = null, onFallbackNeeded = null) {
       if (ctx.currentProvider !== "lmstudio" && ctx.currentProvider !== "ollama") return;
       const isOllama = ctx.currentProvider === "ollama";
-      const defaultHost = isOllama ? "http://localhost:11434" : "http://127.0.0.1:1234";
+      const defaultHost = isOllama ? "http://localhost:11434" : "http://localhost:1234";
       const currentUrl = ctx.serverUrls[ctx.currentProvider] || defaultHost;
       chrome.runtime.sendMessage({
         action: "FETCH_MODELS",
@@ -2809,8 +4932,8 @@
      */
     static tryFallbackUrls(ctx, testedUrls = [], onSuccess = null, onExhausted = null) {
       const isOllama = ctx.currentProvider === "ollama";
-      const defaults = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434"] : ["http://127.0.0.1:1234", "http://localhost:1234"];
-      const currentUrl = ctx.serverUrls[ctx.currentProvider] || (isOllama ? "http://localhost:11434" : "http://127.0.0.1:1234");
+      const defaults = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434"] : ["http://localhost:1234", "http://127.0.0.1:1234"];
+      const currentUrl = ctx.serverUrls[ctx.currentProvider] || (isOllama ? "http://localhost:11434" : "http://localhost:1234");
       if (!testedUrls.includes(currentUrl)) testedUrls.push(currentUrl);
       const candidate = defaults.find((u) => !testedUrls.includes(u));
       if (!candidate) {
@@ -3135,7 +5258,17 @@
     showStatusBanner(text, isError = false) {
       if (this.bannerView) {
         this.bannerView.showStatusBanner(text, isError);
+        return;
       }
+      const el = document.getElementById("ytAiStatusBanner") || document.getElementById("ytAiCompanionStatusBanner");
+      if (!el) return;
+      const clean = (text || "").trim().replace(/^❌\s*/, "");
+      el.textContent = isError ? `\u274C ${clean}` : clean;
+      el.className = `yt-ai-reasoning ${isError ? "offline" : ""}`;
+      el.classList.remove("yt-ai-hidden");
+      setTimeout(() => {
+        if (el.textContent.includes(clean)) el.classList.add("yt-ai-hidden");
+      }, 7e3);
     }
     updateHeaderBadge() {
       if (this.bannerView) {
@@ -3208,15 +5341,9 @@
       });
       const activeM = this.state.getActiveModel();
       if (select.options.length > 0) {
-        let found = false;
-        for (const opt of select.options) {
-          if (opt.value === activeM) {
-            select.value = activeM;
-            found = true;
-            break;
-          }
-        }
-        if (!found) select.selectedIndex = 0;
+        const match = Array.from(select.options).some((o) => o.value === activeM);
+        if (match) select.value = activeM;
+        else select.selectedIndex = 0;
         this.state.setActiveModel(select.value);
         this.state.savePreference(`selectedModel_${provider}`, select.value);
         this.state.savePreference("selectedModel", select.value);
@@ -3226,9 +5353,9 @@
       const serverSelect = document.getElementById("ytAiServerSelect");
       if (!serverSelect) return;
       const isOllama = this.state.currentProvider === "ollama";
-      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? "http://localhost:11434" : "http://127.0.0.1:1234");
+      const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? "http://localhost:11434" : "http://localhost:1234");
       serverSelect.innerHTML = "";
-      const presets = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434"] : ["http://127.0.0.1:1234", "http://localhost:1234"];
+      const presets = isOllama ? ["http://localhost:11434", "http://127.0.0.1:11434"] : ["http://localhost:1234", "http://127.0.0.1:1234"];
       presets.forEach((u) => {
         const opt = document.createElement("option");
         opt.value = u;
@@ -3239,11 +5366,8 @@
       const t = I18N[this.state.currentLang] || I18N.en;
       const customOpt = document.createElement("option");
       customOpt.value = "custom";
-      customOpt.textContent = t.customServer || "Custom IP...";
-      if (!presets.includes(currentUrl)) {
-        customOpt.selected = true;
-        customOpt.textContent = `Custom (${currentUrl.replace(/https?:\/\//, "")})`;
-      }
+      customOpt.textContent = !presets.includes(currentUrl) ? `Custom (${currentUrl.replace(/https?:\/\//, "")})` : t.customServer || "Custom IP...";
+      if (!presets.includes(currentUrl)) customOpt.selected = true;
       serverSelect.appendChild(customOpt);
     }
     refreshModelsList(showFeedback = false) {
@@ -3306,8 +5430,9 @@
     bindPasteButton() {
       const btn = document.getElementById("ytAiPasteApiKeyBtn");
       const input = document.getElementById("ytAiApiKeyInput");
-      if (!btn || !input || btn.dataset.bound === "true") return;
-      btn.dataset.bound = "true";
+      if (!btn || !input || btn.dataset?.bound === "true" || btn.getAttribute?.("data-bound") === "true") return;
+      if (btn.dataset) btn.dataset.bound = "true";
+      btn.setAttribute?.("data-bound", "true");
       btn.addEventListener("click", async () => {
         await QuickOnboardingHelper.pasteApiKeyFromClipboard(input, (val) => {
           const provider = this.state.currentProvider;
@@ -3352,7 +5477,9 @@
       this.promptService = dependencies.promptService;
       this.audioController = dependencies.audioController;
       this.isGenerating = false;
+      this.isStoppedByUser = false;
       this.activePort = null;
+      this.activeAbortController = null;
       this.fullSummaryMarkdown = "";
       this.fullReasoningText = "";
       this.onTriggerSummarize = null;
@@ -3362,44 +5489,37 @@
       const summaryBody = document.getElementById("ytAiSummaryBody");
       if (!summaryBody) return;
       const t = I18N[currentLang] || I18N.en;
-      const title = isNewVideo ? t.newVideoTitle || t.emptyTitle : t.emptyTitle;
-      const subtitle = isNewVideo ? t.newVideoPlaceholder || t.emptySubtitle : t.emptySubtitle || t.summaryPlaceholder;
-      safeSetInnerHTML(summaryBody, `
-      <div class="yt-ai-empty-state">
-        <div class="yt-ai-empty-icon">\u2728</div>
-        <div class="yt-ai-empty-title">${escapeHtml(title)}</div>
-        <div class="yt-ai-empty-subtitle">${escapeHtml(subtitle)}</div>
-        <button id="ytAiSummaryHeroBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-hero-btn">
-          ${escapeHtml(t.summarizeBtn || "\u2728 Summarize video")}
-        </button>
-      </div>
-    `);
-      const heroBtn = document.getElementById("ytAiSummaryHeroBtn");
-      heroBtn?.addEventListener("click", () => {
-        if (typeof this.onTriggerSummarize === "function") this.onTriggerSummarize();
-      });
+      const placeholder = t.summaryPlaceholder || 'Click "\u2728 Summarize video" to generate the summary.';
+      safeSetInnerHTML(summaryBody, `<p class="yt-ai-placeholder-text" style="color: var(--yt-ai-text-muted); font-style: italic; margin: 8px 0;">${escapeHtml(placeholder)}</p>`);
     }
     resetSummaryOutput(currentLang = "en", onTriggerSummarize = null) {
       if (typeof onTriggerSummarize === "function") this.onTriggerSummarize = onTriggerSummarize;
+      this.isStoppedByUser = true;
+      try {
+        this.activeAbortController?.abort("navigation");
+      } catch (_) {
+      }
+      this.activeAbortController = null;
       this.fullSummaryMarkdown = "";
       this.fullReasoningText = "";
-      this.isGenerating = false;
-      if (this.activePort) {
-        try {
-          this.activePort.disconnect();
-        } catch (_) {
-        }
-        this.activePort = null;
-      }
-      const summarizeBtn = document.getElementById("ytAiSummarizeBtn");
-      const t = I18N[currentLang] || I18N.en;
-      if (summarizeBtn) {
-        summarizeBtn.disabled = false;
-        summarizeBtn.innerHTML = t.summarizeBtn || "\u2728 Summarize video";
-      }
+      this.finishGeneration(currentLang);
       this.renderSummaryEmptyState(true, currentLang, this.onTriggerSummarize);
-      const reasoningBox = document.getElementById("ytAiReasoningBox");
-      if (reasoningBox) reasoningBox.classList.add("yt-ai-hidden");
+      document.getElementById("ytAiReasoningBox")?.classList.add("yt-ai-hidden");
+    }
+    stopGeneration(currentLang = "en") {
+      this.isStoppedByUser = true;
+      try {
+        this.activeAbortController?.abort("stopped");
+      } catch (_) {
+      }
+      this.finishGeneration(currentLang);
+      if (!this.fullSummaryMarkdown.trim()) {
+        const summaryBody = document.getElementById("ytAiSummaryBody");
+        if (summaryBody) {
+          const stoppedMsg = I18N[currentLang]?.auditStoppedNote || "\u23F9 Processing stopped by user.";
+          summaryBody.innerHTML = `<p class="yt-ai-stopped-note">${escapeHtml(stoppedMsg)}</p>`;
+        }
+      }
     }
     async startSummarization(ctx = {}) {
       if (this.isGenerating) return;
@@ -3432,25 +5552,28 @@
       const reasoningText = document.getElementById("ytAiReasoningText");
       const reasoningStatus = document.getElementById("ytAiReasoningStatus");
       const summarizeBtn = document.getElementById("ytAiSummarizeBtn");
-      const heroBtn = document.getElementById("ytAiSummaryHeroBtn");
+      const stopBtn = document.getElementById("ytAiStopSummaryBtn");
       this.isGenerating = true;
+      this.isStoppedByUser = false;
+      const abortController = typeof AbortController !== "undefined" ? new AbortController() : null;
+      this.activeAbortController = abortController;
+      const signal = abortController?.signal || null;
       if (summarizeBtn) {
         summarizeBtn.disabled = true;
         summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || "Extracting transcript..."}`;
       }
-      if (heroBtn) {
-        heroBtn.disabled = true;
-        heroBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || "Extracting transcript..."}`;
+      if (stopBtn) {
+        stopBtn.disabled = false;
+        stopBtn.classList?.remove("yt-ai-hidden");
       }
       if (summaryBody) {
         summaryBody.innerHTML = `<div class="yt-ai-loading"><span class="yt-ai-spinner"></span> ${escapeHtml(t.generatingSummary || "Extracting transcript...")}</div>`;
         summaryBody.classList.remove("yt-ai-typing");
       }
       try {
-        const segments = await this.transcriptController.extractYouTubeTranscript(lang, true);
-        if (!segments || segments.length === 0) {
-          throw new Error(t.noTranscriptError || "Unable to extract transcript.");
-        }
+        const segments = await ChannelAuditJobTracker.raceWithAbort(this.transcriptController.extractYouTubeTranscript(lang, true), signal, lang);
+        ChannelAuditJobTracker.throwIfAborted(signal, lang);
+        if (!segments || segments.length === 0) throw new Error(t.noTranscriptError || "Unable to extract transcript.");
         const fullText = this.transcriptController.cachedTranscript.fullText;
         const wordsCount = fullText.trim().split(/\s+/).length;
         const modelDisplayName = activeModel.split("/").pop();
@@ -3469,9 +5592,10 @@
         this.fullReasoningText = "";
         const currentVideoId = getVideoId();
         if (!this.transcriptController.cachedVideoMetadata.description || this.transcriptController.cachedVideoMetadata.videoId !== currentVideoId) {
-          await this.transcriptController.requestPlayerDataFromMainWorld(currentVideoId, lang).catch(() => {
-          });
+          await ChannelAuditJobTracker.raceWithAbort(this.transcriptController.requestPlayerDataFromMainWorld(currentVideoId, lang).catch(() => {
+          }), signal, lang);
         }
+        ChannelAuditJobTracker.throwIfAborted(signal, lang);
         const meta = ctx.getVideoMetadata ? ctx.getVideoMetadata() : this.transcriptController.cachedVideoMetadata;
         const maxAllowedChars = CONTEXT_LIMITS[currentProvider] || 25e3;
         const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(fullText, maxAllowedChars);
@@ -3491,6 +5615,7 @@
           maxTokens: ctx.maxTokens || "auto"
         });
         this.activePort.onMessage.addListener((msg) => {
+          if (!this.isGenerating || this.isStoppedByUser) return;
           if (msg.type === "CHUNK") {
             if (msg.reasoning) {
               this.fullReasoningText += msg.reasoning;
@@ -3521,10 +5646,18 @@
           this.finishGeneration(lang);
         });
       } catch (err) {
-        const cleanErr = (err.message || "").replace(/^❌\s*/, "");
-        if (typeof ctx.showStatusBanner === "function") ctx.showStatusBanner(cleanErr, true);
-        this.renderErrorState(cleanErr, lang, ctx);
-        this.finishGeneration(lang);
+        if (this.isStoppedByUser || ChannelAuditJobTracker.isAbortError(err)) {
+          if (!this.fullSummaryMarkdown.trim() && summaryBody) {
+            const isFr = (lang || "en").startsWith("fr");
+            summaryBody.innerHTML = `<p class="yt-ai-stopped-note">\u23F9 ${isFr ? "Traitement arr\xEAt\xE9 par l\u2019utilisateur." : "Generation stopped by user."}</p>`;
+          }
+          this.finishGeneration(lang);
+        } else {
+          const cleanErr = (err.message || "").replace(/^❌\s*/, "");
+          if (typeof ctx.showStatusBanner === "function") ctx.showStatusBanner(cleanErr, true);
+          this.renderErrorState(cleanErr, lang, ctx);
+          this.finishGeneration(lang);
+        }
       }
     }
     renderErrorState(errorMessage, currentLang = "en", ctx = {}) {
@@ -3546,19 +5679,17 @@
     }
     finishGeneration(currentLang = "en") {
       this.isGenerating = false;
+      this.activeAbortController = null;
       const summaryBody = document.getElementById("ytAiSummaryBody");
       const summarizeBtn = document.getElementById("ytAiSummarizeBtn");
-      const heroBtn = document.getElementById("ytAiSummaryHeroBtn");
+      const stopBtn = document.getElementById("ytAiStopSummaryBtn");
       const t = I18N[currentLang] || I18N.en;
       if (summaryBody) summaryBody.classList.remove("yt-ai-typing");
       if (summarizeBtn) {
         summarizeBtn.disabled = false;
         summarizeBtn.innerHTML = t.summarizeBtn || "\u2728 Summarize video";
       }
-      if (heroBtn) {
-        heroBtn.disabled = false;
-        heroBtn.innerHTML = t.summarizeBtn || "\u2728 Summarize video";
-      }
+      if (stopBtn) stopBtn.classList?.add("yt-ai-hidden");
       if (this.activePort) {
         try {
           this.activePort.disconnect();
@@ -3570,29 +5701,34 @@
     applyLanguage(currentLang = "en") {
       const t = I18N[currentLang] || I18N.en;
       const summarizeBtn = document.getElementById("ytAiSummarizeBtn");
-      const heroBtn = document.getElementById("ytAiSummaryHeroBtn");
+      const stopBtn = document.getElementById("ytAiStopSummaryBtn");
+      if (stopBtn) {
+        stopBtn.textContent = t.stopListenBtn || "\u23F9\uFE0F Stop";
+        stopBtn.title = t.stopListenBtn || "\u23F9\uFE0F Stop";
+      }
       if (this.isGenerating) {
         if (summarizeBtn) {
           summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || "Generating summary..."}`;
-        }
-        if (heroBtn) {
-          heroBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || "Generating summary..."}`;
         }
         const loadingEl = document.querySelector("#ytAiSummaryBody .yt-ai-loading");
         if (loadingEl) {
           loadingEl.innerHTML = `<span class="yt-ai-spinner"></span> ${escapeHtml(t.generatingSummary || "Generating summary...")}`;
         }
       } else {
-        if (summarizeBtn) summarizeBtn.innerHTML = t.summarizeBtn || "\u2728 Summarize video";
-        if (heroBtn) heroBtn.innerHTML = t.summarizeBtn || "\u2728 Summarize video";
+        if (summarizeBtn) summarizeBtn.textContent = t.summarizeBtn || "\u2728 Summarize video";
         const retryBtn = document.getElementById("ytAiRetrySummarizeBtn");
         if (retryBtn) retryBtn.textContent = t.retryBtn || "\u{1F504} Retry";
         const errTitle = document.querySelector("#ytAiSummaryBody .yt-ai-error-title strong");
         if (errTitle) errTitle.textContent = t.errorLabel || "Error: ";
-        const emptyTitle = document.querySelector("#ytAiSummaryBody .yt-ai-empty-title");
-        const emptySubtitle = document.querySelector("#ytAiSummaryBody .yt-ai-empty-subtitle");
-        if (emptyTitle) emptyTitle.textContent = t.newVideoTitle || t.emptyTitle || "Nouvelle vid\xE9o d\xE9tect\xE9e";
-        if (emptySubtitle) emptySubtitle.textContent = t.newVideoPlaceholder || t.emptySubtitle || "";
+        const stoppedNote = document.querySelector("#ytAiSummaryBody .yt-ai-stopped-note");
+        if (stoppedNote) {
+          stoppedNote.textContent = t.auditStoppedNote || "\u23F9 Processing stopped by user.";
+        } else if (!this.fullSummaryMarkdown?.trim()) {
+          const placeholderP = document.querySelector("#ytAiSummaryBody .yt-ai-placeholder-text");
+          if (placeholderP) {
+            placeholderP.textContent = t.summaryPlaceholder || 'Click "\u2728 Summarize video" to generate the summary.';
+          }
+        }
       }
     }
   };
@@ -3771,15 +5907,20 @@ ${condenseFn(text, externalBudget)}`);
      */
     async getOrFetchChannelDossier(query, limit = 30) {
       if (!query) return { success: false, error: "Empty query" };
+      const numericLimit = limit === "all" ? 5e3 : Math.max(1, parseInt(limit, 10) || 30);
       const cacheKey = String(query).trim().toLowerCase();
       if (this.cachedDossiers.has(cacheKey)) {
-        return { success: true, channel: this.cachedDossiers.get(cacheKey) };
+        const cached = this.cachedDossiers.get(cacheKey);
+        const prevLimit = cached._fetchedLimit ?? 30;
+        if (numericLimit <= prevLimit || cached.hasMore === false) {
+          return { success: true, channel: cached };
+        }
       }
       try {
         const response = await new Promise((resolve) => {
           if (typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
             chrome.runtime.sendMessage(
-              { action: "FETCH_CHANNEL_DOSSIER", query, limit },
+              { action: "FETCH_CHANNEL_DOSSIER", query, limit: numericLimit },
               (res) => resolve(res || { success: false, error: "No response from background" })
             );
           } else {
@@ -3787,6 +5928,7 @@ ${condenseFn(text, externalBudget)}`);
           }
         });
         if (response && response.success && response.channel) {
+          response.channel._fetchedLimit = numericLimit;
           this.cachedDossiers.set(cacheKey, response.channel);
           if (response.channel.handle) {
             this.cachedDossiers.set(response.channel.handle.toLowerCase(), response.channel);
@@ -4131,8 +6273,8 @@ ${condenseFn(text, externalBudget)}`);
     static scrollToBottom(el) {
       if (el) el.scrollTop = el.scrollHeight;
     }
-    static appendChatBubble(role, contentHtml) {
-      const container = document.getElementById("ytAiChatMessages");
+    static appendChatBubble(role, contentHtml, containerId = "ytAiChatMessages") {
+      const container = document.getElementById(containerId);
       if (!container) return null;
       const bubble = document.createElement("div");
       bubble.className = `yt-ai-chat-bubble ${role} ${role === "ai" ? "yt-ai-markdown" : ""}`;
@@ -4399,219 +6541,6 @@ ${condenseFn(text, externalBudget)}`);
     }
   };
 
-  // src/content/services/YouTubeDOMContext.js
-  var YouTubeDOMContext = class _YouTubeDOMContext {
-    /**
-     * Extracts chapters / timeline markers directly from YouTube video description
-     * @returns {Array<{timestamp: string, text: string}> | null}
-     */
-    static extractChaptersFromDescription() {
-      if (typeof document === "undefined") return null;
-      const results = [];
-      const entries = document.querySelectorAll(
-        "ytd-macro-markers-entry-renderer, #structured-description ytd-macro-markers-entry-renderer, ytd-chapter-renderer, ytd-macro-markers-list-item-renderer, macro-markers-panel-item-view-model"
-      );
-      if (entries && entries.length > 1) {
-        entries.forEach((el) => {
-          const timeEl = el.querySelector('#time, [class*="time"], a[href*="t="]');
-          const titleEls = el.querySelectorAll ? el.querySelectorAll('h3, h4, #title, [class*="title"]') : [];
-          let titleEl = null;
-          for (const candidate of titleEls) {
-            if (!candidate.hasAttribute || !candidate.hasAttribute("hidden")) {
-              titleEl = candidate;
-              break;
-            }
-          }
-          if (!titleEl) titleEl = el.querySelector('h3, h4, #title, [class*="title"]');
-          const timestamp = timeEl ? timeEl.textContent.trim() : "";
-          let text = titleEl ? titleEl.getAttribute?.("title") || titleEl.textContent.trim() : "";
-          if (timestamp && text.endsWith(timestamp)) {
-            text = text.slice(0, -timestamp.length).trim();
-          }
-          if (timestamp && text) {
-            results.push({ timestamp, text });
-          }
-        });
-        if (results.length > 1) return results;
-      }
-      return null;
-    }
-    /**
-     * Extracts rich metadata from YouTube DOM elements with cached fallback
-     * @param {Object} [cachedVideoMetadata]
-     * @returns {Object}
-     */
-    static getVideoMetadata(cachedVideoMetadata = {}) {
-      const currentVideoId = getVideoId();
-      const isCacheValid = cachedVideoMetadata?.videoId === currentVideoId;
-      const safeMeta = isCacheValid ? cachedVideoMetadata : {};
-      const hasDoc = typeof document !== "undefined";
-      const titleEl = hasDoc ? document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1 yt-formatted-string, h1.title") : null;
-      const authorEl = hasDoc ? document.querySelector("ytd-channel-name a, #channel-name a, #owner-name a") : null;
-      const subEl = hasDoc ? document.querySelector("#owner-sub-count, ytd-video-owner-renderer #owner-sub-count, yt-formatted-string#owner-sub-count, #upload-info #owner-sub-count") : null;
-      const descEl = hasDoc ? document.querySelector("#description-inline-expander yt-attributed-string, #description, #description-inline-expander") : null;
-      const dateEl = hasDoc ? document.querySelector("#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date") : null;
-      const tagEls = hasDoc ? document.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]') : [];
-      const domSubscribers = subEl?.textContent?.trim() || "";
-      const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || "";
-      const domDate = dateEl?.textContent?.trim() || "";
-      const domKeywords = Array.from(tagEls).map((el) => el.textContent.trim().replace(/^#/, "")).filter(Boolean);
-      const domChannelUrl = authorEl?.getAttribute("href") || authorEl?.href || "";
-      const title = titleEl?.textContent?.trim() || safeMeta.title || (hasDoc ? document.title.replace(" - YouTube", "").trim() : "");
-      const author = authorEl?.textContent?.trim() || safeMeta.author || "Cha\xEEne YouTube";
-      const subscribers = domSubscribers || safeMeta.subscribers || "";
-      const description = safeMeta.description || domDescription || "";
-      const keywords = safeMeta.keywords && safeMeta.keywords.length > 0 ? safeMeta.keywords : domKeywords;
-      const category = safeMeta.category || "";
-      const publishDate = safeMeta.publishDate || domDate || "";
-      const viewCount = safeMeta.viewCount || "";
-      const channelId = safeMeta.channelId || "";
-      const channelUrl = safeMeta.channelUrl || domChannelUrl || "";
-      const chapters = (hasDoc ? _YouTubeDOMContext.extractChaptersFromDescription() : null) || safeMeta.chapters || [];
-      return {
-        videoId: currentVideoId || safeMeta.videoId || "",
-        title,
-        author,
-        subscribers,
-        description,
-        keywords,
-        category,
-        publishDate,
-        viewCount,
-        channelId,
-        channelUrl,
-        chapters
-      };
-    }
-    /**
-     * Formats video context block for AI prompts
-     * @param {Object} meta
-     * @param {string} [lang]
-     * @returns {string}
-     */
-    static formatContextInfo(meta, lang = "fr") {
-      if (!meta) return "";
-      const parts = [];
-      if (meta.publishDate) {
-        parts.push(lang === "fr" ? `Date de mise en ligne : ${meta.publishDate}` : `Publish date: ${meta.publishDate}`);
-      }
-      if (meta.viewCount) {
-        parts.push(lang === "fr" ? `Vues : ${meta.viewCount}` : `Views: ${meta.viewCount}`);
-      }
-      if (meta.category) {
-        parts.push(lang === "fr" ? `Cat\xE9gorie officielle : ${meta.category}` : `Category: ${meta.category}`);
-      }
-      if (meta.keywords && meta.keywords.length > 0) {
-        parts.push(lang === "fr" ? `Mots-cl\xE9s / Tags : ${meta.keywords.join(", ")}` : `Keywords: ${meta.keywords.join(", ")}`);
-      }
-      if (meta.chapters && meta.chapters.length > 0) {
-        const chapterList = meta.chapters.map((c) => `  - [${c.timestamp}] ${c.text}`).join("\n");
-        parts.push(lang === "fr" ? `Structure des chapitres officiels :
-${chapterList}` : `Official chapters structure:
-${chapterList}`);
-      }
-      if (meta.description && meta.description.trim()) {
-        const cleanDesc = meta.description.trim();
-        parts.push(lang === "fr" ? `Description officielle de la vid\xE9o :
-"""
-${cleanDesc}
-"""` : `Official description:
-"""
-${cleanDesc}
-"""`);
-      }
-      if (parts.length === 0) return "";
-      const header = lang === "fr" ? "CONTEXTE OFFICIEL DE LA VID\xC9O YOUTUBE :" : "OFFICIAL YOUTUBE VIDEO CONTEXT:";
-      return `${header}
-${parts.join("\n\n")}`;
-    }
-  };
-  function formatContextInfo(meta, lang = "fr") {
-    return YouTubeDOMContext.formatContextInfo(meta, lang);
-  }
-
-  // src/content/ui/AuditProgressBar.js
-  var AuditProgressBar = class {
-    /**
-     * Generates the initial HTML markup for the visual progress widget
-     * @param {Object} options
-     * @param {number} [options.percent=0] - Current percentage (0 to 100)
-     * @param {string} [options.title='Initialisation...'] - Main step title
-     * @param {string} [options.detail=''] - Sub-detail (e.g. video/segment name)
-     * @param {number} [options.currentStep=1] - Active step index
-     * @param {number} [options.totalSteps=4] - Total number of steps
-     * @returns {string} HTML markup
-     */
-    static renderWidget({
-      percent = 0,
-      title = "Initialisation...",
-      detail = "",
-      currentStep = null,
-      totalSteps = null
-    } = {}) {
-      const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
-      const shouldShowBadge = typeof currentStep === "number" && typeof totalSteps === "number" && totalSteps > 1;
-      const stepBadge = shouldShowBadge ? `[${currentStep}/${totalSteps}] ` : "";
-      return `
-      <div class="yt-ai-progress-widget" role="progressbar" aria-valuenow="${safePercent}" aria-valuemin="0" aria-valuemax="100">
-        <div class="yt-ai-progress-header">
-          <span class="yt-ai-progress-title">
-            <span class="yt-ai-spinner yt-ai-progress-spinner"></span>
-            <span class="yt-ai-progress-step-text">${escapeHtml(stepBadge)}${escapeHtml(title)}</span>
-          </span>
-          <span class="yt-ai-progress-percentage">${safePercent}%</span>
-        </div>
-        <div class="yt-ai-progress-track">
-          <div class="yt-ai-progress-bar-fill" style="width: ${safePercent}%;"></div>
-        </div>
-        ${detail ? `<div class="yt-ai-progress-detail">${escapeHtml(detail)}</div>` : '<div class="yt-ai-progress-detail yt-ai-hidden"></div>'}
-      </div>
-    `;
-    }
-    /**
-     * Smoothly updates an existing progress widget DOM element
-     * @param {HTMLElement} container
-     * @param {Object} options
-     */
-    static updateWidget(container, {
-      percent,
-      title,
-      detail,
-      currentStep = null,
-      totalSteps = null
-    } = {}) {
-      if (!container) return;
-      const widget = container.querySelector(".yt-ai-progress-widget") || container;
-      if (typeof percent === "number") {
-        const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
-        const fill = widget.querySelector(".yt-ai-progress-bar-fill");
-        const pctText = widget.querySelector(".yt-ai-progress-percentage");
-        if (fill) fill.style.width = `${safePercent}%`;
-        if (pctText) pctText.textContent = `${safePercent}%`;
-        widget.setAttribute("aria-valuenow", String(safePercent));
-      }
-      if (title) {
-        const stepText = widget.querySelector(".yt-ai-progress-step-text");
-        if (stepText) {
-          const shouldShowBadge = typeof currentStep === "number" && typeof totalSteps === "number" && totalSteps > 1;
-          const stepBadge = shouldShowBadge ? `[${currentStep}/${totalSteps}] ` : "";
-          stepText.textContent = `${stepBadge}${title}`;
-        }
-      }
-      if (typeof detail === "string") {
-        const detailEl = widget.querySelector(".yt-ai-progress-detail");
-        if (detailEl) {
-          if (detail.trim()) {
-            detailEl.textContent = detail;
-            detailEl.classList.remove("yt-ai-hidden");
-          } else {
-            detailEl.classList.add("yt-ai-hidden");
-          }
-        }
-      }
-    }
-  };
-
   // src/content/ui/AuditViewController.js
   var AuditViewController = class {
     /**
@@ -4640,32 +6569,53 @@ ${parts.join("\n\n")}`;
       if (!report) return "";
       const score = typeof report.reliabilityScore === "number" ? report.reliabilityScore : 80;
       const badge = report.getReliabilityBadge(lang);
+      const tier = typeof report.getGranularTier === "function" ? report.getGranularTier(lang) : null;
       const isLow = score < 50;
       const isMed = score >= 50 && score < 75;
       const levelClass = isLow ? "yt-ai-score-low" : isMed ? "yt-ai-score-med" : "yt-ai-score-high";
-      const verdictDesc = isLow ? lang === "fr" ? "Biais cognitifs, sp\xE9culation ou affirmations trompeuses" : "High bias or deceptive claims" : isMed ? lang === "fr" ? "Analyse nuanc\xE9e, affirmations \xE0 v\xE9rifier avec recul" : "Mixed rigor, claims require caution" : lang === "fr" ? "Rigueur et coh\xE9rence logique \xE9lev\xE9es" : "High logical rigor & consistency";
+      const verdictDesc = tier?.desc || (isLow ? lang === "fr" ? "Biais cognitifs, sp\xE9culation ou affirmations trompeuses" : "High bias or deceptive claims" : isMed ? lang === "fr" ? "Analyse nuanc\xE9e, affirmations \xE0 v\xE9rifier avec recul" : "Mixed rigor, claims require caution" : lang === "fr" ? "Rigueur et coh\xE9rence logique \xE9lev\xE9es" : "High logical rigor & consistency");
+      const tierPill = tier ? `<span class="yt-ai-tier-pill" style="border-color:${tier.hexColor}66;color:${tier.hexColor};">${escapeHtml(tier.rangeLabel)} \xB7 ${escapeHtml(tier.shortLabel)}</span>` : "";
       return `
       <div class="yt-ai-audit-hero-card ${levelClass}">
         <div class="yt-ai-audit-hero-main">
-          <div class="yt-ai-audit-gauge-circle"><span class="yt-ai-audit-gauge-val">${score}</span><span class="yt-ai-audit-gauge-max">/100</span></div>
+          <div class="yt-ai-audit-gauge-circle" ${tier ? `style="border-color:${tier.hexColor};color:${tier.hexColor};"` : ""}><span class="yt-ai-audit-gauge-val">${score}</span><span class="yt-ai-audit-gauge-max">/100</span></div>
           <div class="yt-ai-audit-hero-meta">
-            <div class="yt-ai-audit-status-badge">${escapeHtml(badge.label)}</div>
+            <div class="yt-ai-audit-status-badge">${escapeHtml(badge.label)} ${tierPill}</div>
             <div class="yt-ai-audit-hero-desc">${escapeHtml(verdictDesc)}</div>
           </div>
         </div>
-        <div class="yt-ai-audit-meter"><div class="yt-ai-audit-meter-fill" style="width: ${Math.max(6, Math.min(100, score))}%;"></div></div>
+        <div class="yt-ai-audit-meter yt-ai-audit-meter-spectrum"><div class="yt-ai-audit-meter-fill" style="width:${Math.max(6, Math.min(100, score))}%;${tier?.gradient ? `background:${tier.gradient};` : tier ? `background:${tier.hexColor};` : ""}"></div></div>
       </div>
     `;
     }
+    stopAudit(lang = "fr") {
+      this.auditService?.abortAudit?.("stopped");
+      const t = I18N[lang] || I18N.en;
+      const progBox = document.getElementById("ytAiAuditProgressContainer");
+      const runBtn = document.getElementById("ytAiRunAuditBtn");
+      if (progBox) {
+        progBox.classList.add("yt-ai-hidden");
+        progBox.innerHTML = "";
+      }
+      if (runBtn) {
+        runBtn.disabled = false;
+        runBtn.classList?.remove("yt-ai-btn-stop");
+        runBtn.textContent = this.lastReport ? t.relaunchAuditBtn || "\u26A1 Relancer l'audit" : t.runAuditBtn || "\u26A1 Lancer l'audit";
+      }
+    }
     /**
-     * Starts critical logic & fact-checking audit
+     * Starts or stops critical logic & fact-checking audit
      * @param {Object} ctx
      */
     async startAudit(ctx = {}) {
       const stateObj = ctx.state || ctx;
-      const period = ctx.period || stateObj.channelAuditPeriod || "all";
       const lang = document.getElementById("ytAiLangSelect")?.value || ctx.currentLang || stateObj.currentLang || "fr";
+      if (this.auditService?.isAuditing) {
+        this.stopAudit(lang);
+        return;
+      }
       const t = I18N[lang] || I18N.en;
+      const isFr = lang.startsWith("fr");
       const runBtn = document.getElementById("ytAiRunAuditBtn");
       const copyBtn = document.getElementById("ytAiCopyAuditBtn");
       const statusBox = document.getElementById("ytAiAuditStatus");
@@ -4686,8 +6636,9 @@ ${parts.join("\n\n")}`;
         return;
       }
       if (runBtn) {
-        runBtn.disabled = true;
-        runBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.auditInProgress || "Audit en cours..."}`;
+        runBtn.disabled = false;
+        runBtn.classList?.add("yt-ai-btn-stop");
+        runBtn.textContent = t.stopListenBtn || (isFr ? "\u23F9 Arr\xEAter" : "\u23F9 Stop");
       }
       if (copyBtn) copyBtn.classList.add("yt-ai-hidden");
       if (statusBox) statusBox.classList.add("yt-ai-hidden");
@@ -4695,13 +6646,17 @@ ${parts.join("\n\n")}`;
         progBox.classList.remove("yt-ai-hidden");
         progBox.innerHTML = AuditProgressBar.renderWidget({
           percent: 10,
-          title: "Collecte des informations et sources...",
-          detail: "Transcription int\xE9grale et descriptions (0 coupure)"
+          title: t.auditStarting || "Preparing audit dossier...",
+          detail: isFr ? "Transcription int\xE9grale et descriptions (0 coupure)" : "Full transcript & video metadata",
+          showStop: true,
+          stopLabel: t.stopShortBtn || "Stop"
         });
+        AuditProgressBar.bindStopAction(progBox, () => this.stopAudit(lang));
       }
       if (bodyBox) {
-        bodyBox.innerHTML = `<p style="color: #8b949e; font-style: italic;">${t.auditAnalyzing || "Examen de la coh\xE9rence logique et des faits en cours..."}</p>`;
+        bodyBox.innerHTML = `<p style="color: var(--yt-ai-text-muted); font-style: italic;">${t.auditAnalyzing || "Examen de la coh\xE9rence logique et des faits en cours..."}</p>`;
       }
+      let hasStreamedChunks = false;
       try {
         const report = await this.auditService.executeAudit({
           lang,
@@ -4716,6 +6671,7 @@ ${parts.join("\n\n")}`;
             }
           },
           onChunk: (chunk, acc) => {
+            hasStreamedChunks = true;
             if (bodyBox) {
               renderMarkdown(acc, bodyBox);
               this.bindTimestampLinks(bodyBox);
@@ -4730,21 +6686,36 @@ ${parts.join("\n\n")}`;
         }
         if (bodyBox) {
           const heroHtml = this.renderAuditHeroCard(report, lang);
-          bodyBox.innerHTML = heroHtml + renderMarkdown(report.rawMarkdown);
+          safeSetInnerHTML(bodyBox, heroHtml + renderMarkdown(report.rawMarkdown));
           this.bindTimestampLinks(bodyBox);
         }
         const auditTabBadge = document.getElementById("ytAiTabAuditBtn");
         if (auditTabBadge) {
           const badgeColor = report.reliabilityScore >= 75 ? "yt-ai-badge-success" : report.reliabilityScore >= 50 ? "yt-ai-badge-warning" : "yt-ai-badge-danger";
-          auditTabBadge.innerHTML = `${t.tabAudit || "\u{1F6E1}\uFE0F Audit"} <span class="yt-ai-tab-count-badge ${badgeColor}">${report.reliabilityScore}/100</span>`;
+          safeSetInnerHTML(auditTabBadge, `${t.tabAudit || "\u{1F6E1}\uFE0F Audit"} <span class="yt-ai-tab-count-badge ${badgeColor}">${report.reliabilityScore}/100</span>`);
         }
         if (copyBtn) copyBtn.classList.remove("yt-ai-hidden");
       } catch (err) {
-        if (bodyBox) bodyBox.innerHTML = `<p style="color: #f85149;">[!] ${escapeHtml(err.message || "Erreur lors de l\u2019audit")}</p>`;
+        if (progBox) {
+          progBox.classList.add("yt-ai-hidden");
+          progBox.innerHTML = "";
+        }
+        if (ChannelAuditJobTracker.isAbortError(err)) {
+          const stoppedText = t.auditStoppedNote || "\u23F9 Processing stopped by user.";
+          if (statusBox && hasStreamedChunks) {
+            statusBox.classList.remove("yt-ai-hidden");
+            statusBox.textContent = stoppedText;
+          } else if (bodyBox && !hasStreamedChunks) {
+            bodyBox.innerHTML = `<p class="yt-ai-stopped-note">${escapeHtml(stoppedText)}</p>`;
+          }
+        } else if (bodyBox) {
+          bodyBox.innerHTML = `<p style="color: #f85149;">[!] ${escapeHtml(err.message || t.connectionError || I18N.en.connectionError)}</p>`;
+        }
       } finally {
         if (runBtn) {
           runBtn.disabled = false;
-          runBtn.textContent = t.runAuditBtn || "\u26A1 Lancer l'audit";
+          runBtn.classList?.remove("yt-ai-btn-stop");
+          runBtn.textContent = this.lastReport ? t.relaunchAuditBtn || "\u26A1 Relancer l'audit" : t.runAuditBtn || "\u26A1 Lancer l'audit";
         }
       }
     }
@@ -4759,62 +6730,20 @@ ${parts.join("\n\n")}`;
       document.getElementById("ytAiAuditSubtabVideoBtn")?.classList.toggle("active", !isChan);
       document.getElementById("ytAiAuditSubtabChannelBtn")?.classList.toggle("active", isChan);
     }
-    /**
-     * Triggers consolidated channel audit from the banner
-     * @param {Object} ctx
-     */
-    async handleTriggerChannelAudit(ctx = {}) {
-      if (!this.channelAuditService || !this.channelAuditViewController) return;
-      this.switchAuditSubtab("channel");
-      const stateObj = ctx.state || ctx;
-      const period = ctx.period || stateObj.channelAuditPeriod || "all";
-      const lang = document.getElementById("ytAiLangSelect")?.value || ctx.currentLang || stateObj.currentLang || "fr";
-      const btn = document.getElementById("ytAiAuditChannelBtn");
-      const container = document.getElementById("ytAiChannelAuditBody") || document.getElementById("ytAiChannelAuditContainer");
-      const progBox = document.getElementById("ytAiChannelAuditProgressContainer");
-      if (!container) return;
-      const meta = YouTubeDOMContext.getVideoMetadata();
-      const query = meta.channelUrl || meta.author || "";
-      if (!query) {
-        container.innerHTML = `<p style="color: #ff7b72;">[!] Impossible d'identifier la cha\xEEne du cr\xE9ateur.</p>`;
-        return;
-      }
-      if (btn) btn.disabled = true;
+    stopChannelAudit(lang = "fr") {
+      this.channelAuditService?.abortAudit?.("stopped");
+      WatchChannelAuditHelper.setButtonRunning(false, lang);
+      const progBox = document.getElementById("ytAiWatchChannelProgress") || document.getElementById("ytAiChannelAuditProgressContainer");
       if (progBox) {
-        progBox.classList.remove("yt-ai-hidden");
-        progBox.innerHTML = AuditProgressBar.renderWidget({
-          percent: 10,
-          title: "Collecte des vid\xE9os et descriptions...",
-          detail: `${meta.author || ""} (0 coupure)`
-        });
+        progBox.classList.add("yt-ai-hidden");
+        progBox.innerHTML = "";
       }
-      container.innerHTML = `<p style="color: #8b949e; font-style: italic;">Examen de la cha\xEEne en cours...</p>`;
-      try {
-        const report = await this.channelAuditService.executeChannelAudit({
-          channelQuery: query,
-          period,
-          lang,
-          state: stateObj,
-          onProgress: (status) => {
-            if (progBox) {
-              AuditProgressBar.updateWidget(progBox, {
-                percent: status.percent,
-                title: status.message || status.title,
-                detail: status.detail || ""
-              });
-            }
-          }
-        });
-        if (progBox) {
-          progBox.classList.add("yt-ai-hidden");
-          progBox.innerHTML = "";
-        }
-        this.channelAuditViewController.renderReport(report, container, lang);
-      } catch (err) {
-        container.innerHTML = `<p style="color: #ff7b72; font-size: 12px;">[!] Erreur lors de l'audit de cha\xEEne : ${escapeHtml(err.message || String(err))}</p>`;
-      } finally {
-        if (btn) btn.disabled = false;
-      }
+    }
+    async syncChannelAuditUI(stateObj = {}) {
+      return WatchChannelAuditHelper.syncUI(this, stateObj);
+    }
+    async handleTriggerChannelAudit(ctx = {}) {
+      return WatchChannelAuditHelper.execute(this, ctx);
     }
     /**
      * Binds clickable seeking behavior to all timestamps [MM:SS] in rendered markdown
@@ -4838,14 +6767,16 @@ ${parts.join("\n\n")}`;
     /**
      * Handles copying audit markdown to clipboard
      */
-    handleCopyAudit() {
+    handleCopyAudit(lang = "en") {
       const text = this.lastReport?.rawMarkdown || "";
       if (!text) return;
+      const activeLang = document.getElementById("ytAiLangSelect")?.value || lang;
+      const copiedLabel = (I18N[activeLang] || I18N.en).copiedBtn || "\u2705 Copied!";
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.getElementById("ytAiCopyAuditBtn");
         if (btn) {
           const prev = btn.textContent;
-          btn.textContent = "\u2713 Copi\xE9 !";
+          btn.textContent = copiedLabel;
           setTimeout(() => {
             btn.textContent = prev;
           }, 2e3);
@@ -4856,21 +6787,34 @@ ${parts.join("\n\n")}`;
     /**
      * Updates localized strings on language switch
      * @param {string} lang
+     * @param {Object|null} [state=null]
      */
-    applyLanguage(lang) {
-      const t = I18N[lang] || I18N.en;
-      const el = (id) => document.getElementById(id);
-      if (el("ytAiAuditHeaderTitle")) el("ytAiAuditHeaderTitle").textContent = t.auditTitle || "\u{1F6E1}\uFE0F Audit Critique, Logique & V\xE9racit\xE9";
-      if (el("ytAiAuditChannelBtn")) el("ytAiAuditChannelBtn").textContent = t.auditChannelBtn || "\u{1F50D} Auditer la cha\xEEne";
-      if (el("ytAiRunAuditBtn") && !this.auditService?.isAuditing) {
-        el("ytAiRunAuditBtn").textContent = this.lastReport ? t.relaunchAuditBtn || "\u26A1 Relancer l'audit" : t.runAuditBtn || "\u26A1 Lancer l'audit";
-      }
-      if (el("ytAiCopyAuditBtn")) el("ytAiCopyAuditBtn").textContent = t.copyBtn || "\u{1F4CB} Copier";
+    applyLanguage(lang, state2 = null) {
+      WatchChannelAuditHelper.applyAuditViewLanguage(this, lang, state2);
     }
   };
 
   // src/services/implementations/AuditPromptBuilder.js
-  var AuditPromptBuilder = class {
+  var LANGUAGE_NAMES = {
+    fr: "FRAN\xC7AIS",
+    en: "ENGLISH",
+    es: "ESPA\xD1OL",
+    de: "DEUTSCH",
+    it: "ITALIANO",
+    ru: "\u0420\u0423\u0421\u0421\u041A\u041E\u041C (Russian)",
+    ja: "\u65E5\u672C\u8A9E (Japanese)",
+    zh: "\u4E2D\u6587 (Chinese)"
+  };
+  var AuditPromptBuilder = class _AuditPromptBuilder {
+    /**
+     * Resolves canonical target language label for prompt directives.
+     * @param {string} [lang='fr']
+     * @returns {string}
+     */
+    static getLanguageLabel(lang = "fr") {
+      const key = String(lang || "en").toLowerCase().slice(0, 2);
+      return LANGUAGE_NAMES[key] || LANGUAGE_NAMES.en;
+    }
     /**
      * Builds the System Prompt for the Critical Audit & Logic Verification Assistant
      * @param {string} [lang='fr']
@@ -4887,34 +6831,63 @@ ${parts.join("\n\n")}`;
         ja: "\u3042\u306A\u305F\u306F\u30AF\u30EA\u30C6\u30A3\u30AB\u30EB\u30B7\u30F3\u30AD\u30F3\u30B0\u3001\u8AD6\u7406\u5206\u6790\u3001\u30D5\u30A1\u30AF\u30C8\u30C1\u30A7\u30C3\u30AF\u306E\u5C02\u9580\u5BB6\u3067\u3059\u3002\u65E5\u672C\u8A9E\u306E\u307F\u3067\u56DE\u7B54\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
         zh: "\u4F60\u662F\u6279\u5224\u6027\u601D\u7EF4\u3001\u903B\u8F91\u8BBA\u8BC1\u5206\u6790\u548C\u4E8B\u5B9E\u6838\u67E5\u65B9\u9762\u7684\u8D44\u6DF1\u4E13\u5BB6\u3002\u8BF7\u59CB\u7EC8\u4F7F\u7528\u4E2D\u6587\u56DE\u7B54\u3002"
       };
+      const isFr = String(lang || "en").toLowerCase().startsWith("fr");
       const specificLang = langInstructions[lang] || langInstructions.en;
+      const targetLangName = _AuditPromptBuilder.getLanguageLabel(lang);
       const now = /* @__PURE__ */ new Date();
-      const currentDateStr = now.toLocaleDateString(lang === "fr" ? "fr-FR" : "en-US", {
+      const currentDateStr = now.toLocaleDateString(isFr ? "fr-FR" : "en-US", {
         year: "numeric",
         month: "long",
         day: "numeric"
       });
-      const temporalAnchor = lang === "fr" ? `
+      if (isFr) {
+        return `${specificLang}
+
 REP\xC8RE CHRONOLOGIQUE DU MONDE R\xC9EL :
 - Date actuelle d'observation : ${currentDateStr}.
-- Situe chronologiquement la vid\xE9o et les \xE9v\xE9nements relat\xE9s par rapport \xE0 cette date contemporaine.` : `
-REAL-WORLD TEMPORAL REFERENCE:
-- Today's date: ${currentDateStr}.
-- Anchor the video and reported events relative to this contemporary observation date.`;
-      return `${specificLang}
-${temporalAnchor}
+- Situe chronologiquement la vid\xE9o et les \xE9v\xE9nements relat\xE9s par rapport \xE0 cette date contemporaine.
 
 Mission : Analyser avec m\xE9thode et impartialit\xE9 la vid\xE9o YouTube fournie (texte disponible, m\xE9tadonn\xE9es, chapitrage et retours de la communaut\xE9).
 Crit\xE8res d'\xE9valuation :
-1. Rigueur argumentative : coh\xE9rence logique, solidit\xE9 des d\xE9ductions, d\xE9tection des sophismes ou fausses causalit\xE9s.
-2. \xC9quilibre et nuance : distinction claire entre faits \xE9tablis, hypoth\xE8ses techniques et opinions personnelles.
-3. Transparence et discernement ("le mal n'est pas partout") : il est normal qu'un cr\xE9ateur vive de son travail (sponsors, partenariats commerciaux, vente de ses propres ouvrages ou formations). L'exigence cl\xE9 est la transparence envers le public. Distingue avec subtilit\xE9 une argumentation honn\xEAte et v\xE9rifi\xE9e d'un discours marketing r\xE9p\xE9t\xE9 sans esprit critique.
-4. Posture d\xE9clarative vs Preuve r\xE9elle : ne prends jamais les d\xE9clarations d'honn\xEAtet\xE9 de l'auteur pour argent comptant (dire \xAB je suis honn\xEAte \xBB, \xAB sans filtre \xBB ou \xAB avis 100% ind\xE9pendant \xBB ne constitue pas une preuve). C'est \xE0 toi d'\xE9valuer son honn\xEAtet\xE9 r\xE9elle \xE0 l'aune des faits, des chiffres, de la rigueur des arguments et du recoupement factuel.
-5. Z\xE9ro malus pour contrainte technique : si les sous-titres oraux sont absents ou incomplets dans le dossier pour des raisons techniques propres \xE0 la plateforme, il est STRICTEMENT INTERDIT de p\xE9naliser le cr\xE9ateur ou de d\xE9grader sa note pour cette raison. \xC9value sa rigueur \xE0 100% sur la valeur des \xE9l\xE9ments observables.
-6. Signaux communautaires : mise en perspective des observations pertinentes des spectateurs en commentaires.
+1. Contextualisation et Genre \xC9ditorial (Imp\xE9ratif) : Identifie d'embl\xE9e la nature et la finalit\xE9 du contenu (ex: Divertissement jeunesse / enfants, Vulgarisation scientifique, Essai politique, Fiction / humour, Gaming, Critique tech). Adapte imp\xE9rativement ton \xE9valuation au contexte r\xE9el :
+   - Contenu jeunesse / enfants : Ne l'\xE9value pas comme une th\xE8se acad\xE9mique. \xC9value sa bienveillance et recherche sp\xE9cifiquement d'\xE9ventuelles MANIPULATIONS DU JEUNE PUBLIC (placements pr\xE9dateurs, conditionnement insidieux d'habitudes de consommation d\xE9guis\xE9, techniques mercantiles exploitant la cr\xE9dulit\xE9 des enfants). Si le contenu est sain et purement r\xE9cr\xE9atif, certifie clairement : \xAB Aucune manipulation d\xE9tect\xE9e, univers sain et adapt\xE9 au jeune public \xBB.
+   - Fiction / cr\xE9ation artistique : Respecte la licence artistique et la narration, en v\xE9rifiant l'absence de tromperie d\xE9lib\xE9r\xE9e (fausses croyances pr\xE9sent\xE9es comme r\xE9elles).
+   - Documentaire / information / d\xE9bat : Applique la rigueur m\xE9thodique, la v\xE9rification des sources, la solidit\xE9 des preuves et la d\xE9tection des sophismes.
+2. Rigueur argumentative : coh\xE9rence logique, solidit\xE9 des d\xE9ductions, d\xE9tection des sophismes ou fausses causalit\xE9s.
+3. \xC9quilibre et nuance : distinction claire entre faits \xE9tablis, hypoth\xE8ses techniques et opinions personnelles.
+4. Transparence et discernement ("le mal n'est pas partout") : il est normal qu'un cr\xE9ateur vive de son travail (sponsors, partenariats commerciaux, vente de ses propres ouvrages ou formations). L'exigence cl\xE9 est la transparence envers le public. Distingue avec subtilit\xE9 une argumentation honn\xEAte et v\xE9rifi\xE9e d'un discours marketing r\xE9p\xE9t\xE9 sans esprit critique.
+5. Preuve concr\xE8te et citation obligatoire (Z\xE9ro critique abstraite) : Il est STRICTEMENT INTERDIT d'affirmer de mani\xE8re vague qu'une vid\xE9o est \xAB manipulatrice \xBB, \xAB n\xE9gative \xBB, \xAB manque d'honn\xEAtet\xE9 \xBB ou \xAB r\xE9p\xE8te un discours marketing \xBB sans apporter la preuve concr\xE8te. Tu DOIS imp\xE9rativement :
+   - Citer textuellement ce que l'auteur a dit ou fait (avec l'horodatage ou la phrase exacte entre guillemets).
+   - Expliquer pr\xE9cis\xE9ment pourquoi et en quoi ce propos ou cet acte est probl\xE9matique (ex: fausse promesse, cr\xE9ation d'une d\xE9pendance ou habitude de consommation d\xE9guis\xE9e, incitation \xE0 harceler les parents, omission d\xE9lib\xE9r\xE9e d'un d\xE9faut majeur).
+6. Posture d\xE9clarative vs Preuve r\xE9elle : ne prends jamais les d\xE9clarations d'honn\xEAtet\xE9 de l'auteur pour argent comptant (dire \xAB je suis honn\xEAte \xBB, \xAB sans filtre \xBB ou \xAB avis 100% ind\xE9pendant \xBB ne constitue pas une preuve). C'est \xE0 toi d'\xE9valuer son honn\xEAtet\xE9 r\xE9elle \xE0 l'aune des faits, des chiffres, de la rigueur des arguments et du recoupement factuel.
+7. Z\xE9ro malus pour contrainte technique : si les sous-titres oraux sont absents ou incomplets dans le dossier pour des raisons techniques propres \xE0 la plateforme, il est STRICTEMENT INTERDIT de p\xE9naliser le cr\xE9ateur ou de d\xE9grader sa note pour cette raison. \xC9value sa rigueur \xE0 100% sur la valeur des \xE9l\xE9ments observables.
+8. Signaux communautaires : mise en perspective des observations pertinentes des spectateurs en commentaires.
 
 Ton ton doit \xEAtre constructif, pr\xE9cis, p\xE9dagogique et rigoureusement objectif.
 Inclus toujours un indice global sur 100 au format : [SCORE: XX/100].`;
+      }
+      return `${specificLang}
+
+REAL-WORLD TEMPORAL REFERENCE:
+- Today's date: ${currentDateStr}.
+- Anchor the video and reported events relative to this contemporary observation date.
+
+Mission: Methodically and impartially audit the provided YouTube video (available text, metadata, chapters, and community feedback).
+Evaluation criteria:
+1. Editorial Context & Genre (Mandatory): Identify the format and purpose first (e.g., Kids/Family Entertainment, Science Popularization, Political Essay, Fiction/Humor, Gaming, Tech Review). Calibrate scrutiny to genre:
+   - Kids / family content: Do not judge it as an academic thesis. Verify wholesome framing and check for hidden commercial conditioning targeting children. If wholesome, confirm no manipulation was detected.
+   - Fiction / creative art: Respect artistic license while checking against disguised factual deception.
+   - Documentary / news / debate: Apply strict factual verification, source rigor, evidence quality, and fallacy detection.
+2. Argumentative rigor: logical consistency, validity of inferences, detection of fallacies or false causalities.
+3. Balance & nuance: clear distinction between established facts, working hypotheses, and personal opinions.
+4. Commercial transparency & discernment: creators may legitimately monetize (sponsorships, books, courses). Judge honesty of disclosure and whether claims are backed by evidence rather than uncritical promotional scripts.
+5. Concrete evidence & mandatory citations: Never assert vague manipulation or bias without quoting the exact statement or timestamp and explaining precisely why it is misleading.
+6. Claims vs proof: Do not take self-proclaimed objectivity ("100% independent", "no filter") at face value; evaluate rigor against verifiable facts and numbers.
+7. Zero penalty for technical subtitle constraints: If spoken transcripts are unavailable due to platform limits, NEVER lower the score for missing captions; audit 100% based on observable content.
+8. Community signals: Contextualize constructive viewer observations from comments.
+
+Strict language rule: Write ALL section headings and narrative content exclusively in ${targetLangName}. Keep your tone constructive, precise, pedagogical, and objective.
+Always include an overall score out of 100 using the exact tag format: [SCORE: XX/100].`;
     }
     /**
      * Builds the complete user prompt for the audit
@@ -4927,12 +6900,71 @@ Inclus toujours un indice global sur 100 au format : [SCORE: XX/100].`;
      * @returns {string}
      */
     static buildAuditUserPrompt({ transcriptText, videoMeta = {}, commentsBlock = "", lang = "fr", isDialogue = true }) {
+      const isFr = String(lang || "en").toLowerCase().startsWith("fr");
+      const targetLangName = _AuditPromptBuilder.getLanguageLabel(lang);
       const now = /* @__PURE__ */ new Date();
-      const currentDateStr = now.toLocaleDateString(lang === "fr" ? "fr-FR" : "en-US", {
+      const currentDateStr = now.toLocaleDateString(isFr ? "fr-FR" : "en-US", {
         year: "numeric",
         month: "long",
         day: "numeric"
       });
+      if (!isFr) {
+        const headerInfo2 = [
+          `Observation Date: ${currentDateStr}`,
+          videoMeta.title ? `Video Title: "${videoMeta.title}"` : "",
+          videoMeta.author ? `Channel / Author: ${videoMeta.author}` : "",
+          videoMeta.publishDate ? `Published Date: ${videoMeta.publishDate}` : "",
+          videoMeta.description ? `Official Description & Links:
+"""
+${videoMeta.description.trim()}
+"""` : ""
+        ].filter(Boolean).join("\n");
+        const commentsSection2 = commentsBlock ? `
+--- AUDIENCE COMMENTS & COMMUNITY SIGNALS ---
+${commentsBlock}
+` : "";
+        const contentSection2 = isDialogue ? `--- VIDEO DIALOGUE TRANSCRIPT ---
+${transcriptText}` : `--- CHAPTERS & DESCRIPTION CONTENT (Spoken captions unavailable due to platform constraint) ---
+${transcriptText}
+[MANDATORY RULE: Never penalize the creator or lower the score for missing transcripts. Evaluate rigor 100% from observable data.]`;
+        return `Here is the full dossier of the YouTube video to audit:
+
+--- VIDEO METADATA ---
+${headerInfo2 || "Unavailable"}
+${commentsSection2}
+${contentSection2}
+
+--- CRITICAL AUDIT REPORT DIRECTIVES ---
+Write a structured Markdown report keeping [SCORE: XX/100] intact and translating all section titles below into ${targetLangName}:
+
+[SCORE: XX/100]
+
+### \u{1F3AD} Editorial Context & Target Audience
+- **Genre & Format**: Clarify the content type and evaluate proportionally to that genre.
+
+### \u{1F3AF} Reliability Score & Overall Verdict
+- Concise 2-3 sentence rationale and posture assessment.
+
+### \u2696\uFE0F Logical Analysis & Argumentative Rigor
+- Reasoning clarity, methodological caution, and any fallacies or shortcuts observed.
+
+### \u{1F52C} Source Rigor & Level of Evidence
+- Empirical/official sources vs hypotheses, plus temporal nuance if covering recent events.
+
+### \u{1F4BC} Commercial Transparency & Marketing Discernment
+- Disclosure clarity, verified reasoning vs promotional scripting (quote exact phrases if problematic), and proof over self-proclaimed objectivity.
+
+### \u{1F50D} Factual, Temporal & Spatial Cross-Check
+- Timeline alignment and plausibility of numerical/physical claims.
+
+### \u{1F4AC} Community Feedback & Viewer Consensus
+- Key constructive takeaways from viewer comments.
+
+### \u{1F4CC} Critical Thinking Takeaways
+- 2 to 3 actionable viewer guidelines.
+
+CRITICAL LANGUAGE REQUIREMENT: Translate every heading and write 100% of the audit report exclusively in ${targetLangName}.`;
+      }
       const headerInfo = [
         `Date d'observation : ${currentDateStr}`,
         videoMeta.title ? `Titre de la vid\xE9o : "${videoMeta.title}"` : "",
@@ -4963,6 +6995,10 @@ R\xE9dige un rapport structur\xE9 respectant EXACTEMENT le format Markdown suiva
 
 [SCORE: XX/100]
 
+### \u{1F3AD} Contexte \xC9ditorial & Public Cible
+- **Genre & Typologie** : (Ex: Divertissement jeunesse / Documentaire scientifique / Fiction / Gaming / D\xE9bat).
+- **Discernement adapt\xE9 au contexte** : \xC9valuation adapt\xE9e au genre. Pour un contenu jeunesse : analyse de la bienveillance, absence ou pr\xE9sence de manipulation commerciale insidieuse (conditionnement d'habitudes de consommation d\xE9guis\xE9, placements pr\xE9dateurs, exploitation de la cr\xE9dulit\xE9 infantile). Pour un contenu documentaire/informatif : niveau de preuve et rigueur de d\xE9monstration.
+
 ### \u{1F3AF} Indice de Fiabilit\xE9 & Verdict Global
 - Score de solidit\xE9 (sur 100) avec explication synth\xE9tique en 2-3 phrases.
 - \xC9valuation globale de la posture : (Ex: D\xE9marche rigoureuse / Vulgarisation \xE9quilibr\xE9e / Posture engag\xE9e / Prudence requise).
@@ -4981,7 +7017,8 @@ R\xE9dige un rapport structur\xE9 respectant EXACTEMENT le format Markdown suiva
 ### \u{1F4BC} Transparence Commerciale & Discernement Marketing
 - \xC9value avec subtilit\xE9 la sinc\xE9rit\xE9 \xE9ditoriale et la valeur r\xE9elle de l'argumentation :
   - **Transparence du mod\xE8le \xE9conomique (l\xE9gitime et assum\xE9)** : Il est parfaitement normal qu'un cr\xE9ateur vive de son travail (sponsors, partenariats commerciaux, affiliations ou promotion de ses propres livres/conf\xE9rences). L'exigence cl\xE9 est la transparence : ces collaborations sont-elles annonc\xE9es de mani\xE8re claire et loyale au spectateur ?
-  - **Arguments v\xE9rifi\xE9s vs Discours marketing r\xE9p\xE9t\xE9** : \xC9value si les arguments pr\xE9sent\xE9s sont solides, document\xE9s et critiques... ou s'il s'agit d'un simple discours commercial pr\xE9format\xE9 (reprise sans recul des \xE9l\xE9ments de langage d'une marque, \xE9loges syst\xE9matiques, omission d\xE9lib\xE9r\xE9e des compromis techniques).
+  - **Arguments v\xE9rifi\xE9s vs Discours marketing r\xE9p\xE9t\xE9** : \xC9value si les arguments pr\xE9sent\xE9s sont solides, document\xE9s et critiques... ou s'il s'agit d'un simple discours commercial pr\xE9format\xE9. [OBLIGATION DE CITATION : Si tu juges un argument marketing ou manipulateur, cite la phrase exacte de l'auteur et explique pourquoi elle pose probl\xE8me].
+  - **D\xE9monstration concr\xE8te du pr\xE9judice ou du biais** : Explique ce que l'auteur a dit ou fait de concret et pourquoi c'est pr\xE9judiciable ou n\xE9gatif pour le spectateur (ex: fausse promesse sant\xE9, conditionnement d'habitudes d'achat pr\xE9coce chez l'enfant, omission volontaire de dysfonctionnements).
   - **V\xE9rification active de l'honn\xEAtet\xE9 (ne pas croire sur parole)** : Ce n'est pas parce que l'auteur proclame \xAB je suis honn\xEAte \xBB, \xAB test 100% objectif \xBB ou \xAB aucun sponsor ne m'influence \xBB qu'il l'est r\xE9ellement. C'est \xE0 l'auditeur de juger son honn\xEAtet\xE9 \xE0 l'aune des preuves mat\xE9rielles, des donn\xE9es v\xE9rifiables et de la coh\xE9rence de ses d\xE9monstrations.
   - **Discernement ("le mal n'est pas partout")** : Une vid\xE9o sponsoris\xE9e peut \xEAtre excellente et rigoureuse si l'analyse reste int\xE8gre. Ne p\xE9nalise pas la pr\xE9sence d'un sponsor, mais juge la libert\xE9 de ton, la pr\xE9cision technique et l'honn\xEAtet\xE9 intellectuelle du propos.
 
@@ -4995,7 +7032,7 @@ R\xE9dige un rapport structur\xE9 respectant EXACTEMENT le format Markdown suiva
 ### \u{1F4CC} Conseils pour l'Esprit Critique
 - 2 \xE0 3 recommandations p\xE9dagogiques pour appr\xE9hender ce type de sujet avec discernement.
 
-IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts inexistants. R\xE9dige l'int\xE9gralit\xE9 du rapport dans la langue cible : ${lang.toUpperCase()}.`;
+IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts inexistants. R\xE9dige l'int\xE9gralit\xE9 du rapport dans la langue cible : FRAN\xC7AIS.`;
     }
   };
 
@@ -5056,6 +7093,14 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
       };
     }
     /**
+     * Returns exact 5%-stepped tier evaluation via unified domain scale
+     * @param {string} [lang='fr']
+     * @returns {Object}
+     */
+    getGranularTier(lang = "fr") {
+      return ScoreTierScale.getTier(this.reliabilityScore, lang);
+    }
+    /**
      * Exports audit context for injection into Q&A Chat
      * @returns {string}
      */
@@ -5102,6 +7147,7 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
       this.cachedAudits = /* @__PURE__ */ new Map();
       this.currentPort = null;
       this.isAuditing = false;
+      this.activeAbortController = null;
     }
     /**
      * Retrieves cached audit report for a video ID
@@ -5119,9 +7165,16 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
       this.cachedAudits.clear();
     }
     /**
-     * Aborts ongoing audit stream
+     * Aborts ongoing audit stream and async steps
+     * @param {string} [reason='stopped']
      */
-    abortAudit() {
+    abortAudit(reason = "stopped") {
+      if (this.activeAbortController && !this.activeAbortController.signal.aborted) {
+        try {
+          this.activeAbortController.abort(reason);
+        } catch (_) {
+        }
+      }
       if (this.currentPort) {
         try {
           this.currentPort.disconnect();
@@ -5151,14 +7204,12 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
       const lang = options.lang || "fr";
       const state2 = options.state || {};
       this.abortAudit();
+      const abortController = typeof AbortController !== "undefined" ? new AbortController() : null;
+      this.activeAbortController = abortController;
+      const signal = abortController?.signal || null;
       this.isAuditing = true;
       try {
-        options.onProgress?.({
-          step: "transcript",
-          percent: 12,
-          message: "Collecte de la transcription int\xE9grale (0 coupure)...",
-          detail: "Recueil des sous-titres et horodatages complets"
-        });
+        options.onProgress?.({ step: "transcript", percent: 12, message: "Collecte de la transcription int\xE9grale (0 coupure)...", detail: "Recueil des sous-titres et horodatages complets" });
         let transcriptText = "";
         let isDialogue = false;
         const cached = this.transcriptController?.cachedTranscript;
@@ -5167,7 +7218,8 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
           isDialogue = true;
         }
         if (!transcriptText) {
-          const segments = await this.transcriptController?.extractYouTubeTranscript?.(lang, true);
+          const extractPromise = this.transcriptController?.extractYouTubeTranscript?.(lang, true);
+          const segments = extractPromise ? await ChannelAuditJobTracker.raceWithAbort(extractPromise, signal, lang) : null;
           const updated = this.transcriptController?.cachedTranscript;
           if (segments && segments.length > 0 && !updated?.isChapterOnly) {
             transcriptText = segments.map((s) => `[${s.timestamp}] ${s.text}`).join(" ");
@@ -5177,6 +7229,7 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
             isDialogue = false;
           }
         }
+        ChannelAuditJobTracker.throwIfAborted(signal, lang);
         if (!transcriptText) {
           const chapters = YouTubeDOMContext.extractChaptersFromDescription();
           if (chapters && chapters.length > 0) {
@@ -5187,19 +7240,15 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
         if (!transcriptText) {
           throw new Error("Donn\xE9es textuelles indisponibles pour r\xE9aliser l\u2019audit (ni sous-titres, ni chapitrage disponible).");
         }
-        options.onProgress?.({
-          step: "comments",
-          percent: 22,
-          message: "Scan des signaux communautaires & commentaires...",
-          detail: "Analyse des commentaires et des liens en description"
-        });
+        options.onProgress?.({ step: "comments", percent: 22, message: "Scan des signaux communautaires & commentaires...", detail: "Analyse des commentaires et des liens en description" });
         let commentsBlock = "";
         if (this.commentsManager && typeof this.commentsManager.getOrFetchComments === "function") {
-          const commentsRes = await this.commentsManager.getOrFetchComments(videoId, 30).catch(() => null);
+          const commentsRes = await ChannelAuditJobTracker.raceWithAbort(this.commentsManager.getOrFetchComments(videoId, 30).catch(() => null), signal, lang);
           if (commentsRes?.success && commentsRes.markdownDossier) {
             commentsBlock = commentsRes.markdownDossier;
           }
         }
+        ChannelAuditJobTracker.throwIfAborted(signal, lang);
         const videoMeta = YouTubeDOMContext.getVideoMetadata(this.transcriptController?.cachedVideoMetadata || {});
         const systemPrompt = AuditPromptBuilder.buildSystemPrompt(lang);
         const userPrompt = AuditPromptBuilder.buildAuditUserPrompt({
@@ -5222,19 +7271,56 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
         const apiKeys = state2.apiKeys || {};
         const apiKey = apiKeys[provider] || "";
         const report = await new Promise((resolve, reject) => {
+          if (signal?.aborted) {
+            this.isAuditing = false;
+            reject(ChannelAuditJobTracker.createAbortError(lang));
+            return;
+          }
           let accumulatedMarkdown = "";
           let reasoningChars = 0;
+          let settled = false;
           const port = chrome.runtime.connect({ name: "ai-stream" });
           this.currentPort = port;
+          const onAbort = () => {
+            if (settled) return;
+            settled = true;
+            signal?.removeEventListener("abort", onAbort);
+            this.isAuditing = false;
+            if (this.currentPort === port) this.currentPort = null;
+            try {
+              port.disconnect();
+            } catch (_) {
+            }
+            reject(ChannelAuditJobTracker.createAbortError(lang));
+          };
+          signal?.addEventListener("abort", onAbort, { once: true });
+          const finishResolve = (rep) => {
+            if (settled) return;
+            settled = true;
+            signal?.removeEventListener("abort", onAbort);
+            this.isAuditing = false;
+            this.currentPort = null;
+            options.onDone?.(rep);
+            resolve(rep);
+          };
+          const finishReject = (err) => {
+            if (settled) return;
+            settled = true;
+            signal?.removeEventListener("abort", onAbort);
+            this.isAuditing = false;
+            this.currentPort = null;
+            options.onError?.(err);
+            reject(err);
+          };
           port.onMessage.addListener((msg) => {
+            if (settled) return;
             if (msg.type === "CHUNK") {
               if (msg.reasoning) {
                 reasoningChars += msg.reasoning.length;
                 const approxTokens = Math.round(reasoningChars / 4);
-                const reasonPct = Math.min(42, 28 + Math.round(approxTokens / 45));
                 options.onProgress?.({
                   step: "reasoning",
-                  percent: reasonPct,
+                  percent: Math.min(42, 28 + Math.round(approxTokens / 45)),
                   message: `R\xE9flexion critique du mod\xE8le (${approxTokens} tokens)...`,
                   detail: "Raisonnement sur la structure des arguments et des sources"
                 });
@@ -5242,8 +7328,7 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
               const chunkText = msg.content || msg.text || "";
               if (chunkText) {
                 accumulatedMarkdown += chunkText;
-                const len = accumulatedMarkdown.length;
-                const textPct = Math.min(46, Math.round(len / 2200 * 46));
+                const textPct = Math.min(46, Math.round(accumulatedMarkdown.length / 2200 * 46));
                 let percent = Math.min(88, 42 + textPct);
                 let message = "Examen critique : coh\xE9rence logique et v\xE9racit\xE9...";
                 let detail = "Contr\xF4le des affirmations et recherche des sophismes";
@@ -5258,53 +7343,27 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
                   message = "Examen critique : rigueur des sources et citations...";
                   detail = "V\xE9rification de l'exactitude des r\xE9f\xE9rences et donn\xE9es";
                 }
-                options.onProgress?.({
-                  step: "streaming",
-                  percent,
-                  message,
-                  detail
-                });
+                options.onProgress?.({ step: "streaming", percent, message, detail });
                 options.onChunk?.(chunkText, accumulatedMarkdown);
               }
             } else if (msg.type === "DONE") {
-              this.isAuditing = false;
-              this.currentPort = null;
-              options.onProgress?.({
-                step: "done",
-                percent: 100,
-                message: "\u2713 Examen de la vid\xE9o termin\xE9",
-                detail: "Rapport d'int\xE9grit\xE9 et score de fiabilit\xE9 pr\xEAts"
-              });
+              options.onProgress?.({ step: "done", percent: 100, message: "\u2713 Examen de la vid\xE9o termin\xE9", detail: "Rapport d'int\xE9grit\xE9 et score de fiabilit\xE9 pr\xEAts" });
               const scoreMatch = accumulatedMarkdown.match(/\[SCORE:\s*(\d{1,3})\/100\]/i);
               const reliabilityScore = scoreMatch ? Math.min(100, Math.max(0, parseInt(scoreMatch[1], 10))) : 80;
-              let status = "reliable";
-              if (reliabilityScore < 50) status = "manipulative";
-              else if (reliabilityScore < 70) status = "caution";
-              const auditReport = new AuditReport({
-                videoId,
-                reliabilityScore,
-                status,
-                rawMarkdown: accumulatedMarkdown,
-                lang,
-                createdAt: Date.now()
-              });
+              const status = reliabilityScore < 50 ? "manipulative" : reliabilityScore < 70 ? "caution" : "reliable";
+              const auditReport = new AuditReport({ videoId, reliabilityScore, status, rawMarkdown: accumulatedMarkdown, lang, createdAt: Date.now() });
               this.cachedAudits.set(videoId, auditReport);
-              options.onDone?.(auditReport);
-              resolve(auditReport);
+              finishResolve(auditReport);
             } else if (msg.type === "ERROR") {
-              this.isAuditing = false;
-              this.currentPort = null;
-              const err = new Error(msg.error || "Erreur lors de la g\xE9n\xE9ration de l\u2019audit");
-              options.onError?.(err);
-              reject(err);
+              finishReject(new Error(msg.error || "Erreur lors de la g\xE9n\xE9ration de l\u2019audit"));
             }
           });
           port.onDisconnect.addListener(() => {
-            if (this.isAuditing) {
-              this.isAuditing = false;
-              const err = new Error("Flux de connexion interrompu");
-              options.onError?.(err);
-              reject(err);
+            if (settled) return;
+            if (signal?.aborted || !this.isAuditing) {
+              onAbort();
+            } else {
+              finishReject(new Error("Flux de connexion interrompu"));
             }
           });
           port.postMessage({
@@ -5324,237 +7383,11 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
         this.isAuditing = false;
         this.currentPort = null;
         throw err;
-      }
-    }
-  };
-
-  // src/services/implementations/ChannelStatisticalSampler.js
-  var ChannelStatisticalSampler = class {
-    /**
-     * Categorizes a video into a temporal era based on metadata string (FR/EN)
-     * @param {Object} video
-     * @returns {{era: 'recent'|'mid'|'legacy', eraLabel: string, weight: number, yearEstimate: number}}
-     */
-    static categorizeVideoEra(video = {}) {
-      const meta = (video.meta || "").toLowerCase();
-      const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
-      const yearMatch = meta.match(/(?:il y a\s*(\d+)\s*ans?|(\d+)\s*y(?:ears?|rs?)\s*ago)/);
-      if (yearMatch) {
-        const yearsAgo = parseInt(yearMatch[1] || yearMatch[2], 10);
-        if (yearsAgo >= 2) {
-          return {
-            era: "legacy",
-            eraLabel: `Historique (~${yearsAgo} ans)`,
-            weight: 0.6,
-            yearEstimate: Math.max(2010, currentYear - yearsAgo)
-          };
-        }
-        if (yearsAgo === 1) {
-          return {
-            era: "mid",
-            eraLabel: "Interm\xE9diaire (~1 an)",
-            weight: 1,
-            yearEstimate: currentYear - 1
-          };
+      } finally {
+        if (this.activeAbortController === abortController) {
+          this.activeAbortController = null;
         }
       }
-      const monthMatch = meta.match(/(?:il y a\s*(\d+)\s*(?:mois|m\b|m\.)|(\d+)\s*months?\s*ago)/);
-      if (monthMatch) {
-        const months = parseInt(monthMatch[1] || monthMatch[2], 10);
-        if (months >= 6) {
-          return {
-            era: "mid",
-            eraLabel: `Interm\xE9diaire (~${months} mois)`,
-            weight: 1,
-            yearEstimate: currentYear - 1
-          };
-        }
-        return {
-          era: "recent",
-          eraLabel: `R\xE9cent (~${months} mois)`,
-          weight: 1.5,
-          yearEstimate: currentYear
-        };
-      }
-      const isRecent = /(?:il y a\s*\d+\s*(?:h\b|j\b|sem|heure|jour|semaine)|(?:hour|day|week)s?\s*ago|hier|yesterday)/.test(meta);
-      if (isRecent) {
-        return {
-          era: "recent",
-          eraLabel: "R\xE9cent (Derniers mois)",
-          weight: 1.5,
-          yearEstimate: currentYear
-        };
-      }
-      return {
-        era: "recent",
-        eraLabel: "R\xE9cent",
-        weight: 1.5,
-        yearEstimate: currentYear
-      };
-    }
-    /**
-     * Filters video pool according to a temporal period shortcut
-     * @param {Array<Object>} allVideos
-     * @param {'all'|'month'|'6months'|'year'} [period='all']
-     * @returns {Array<Object>} Filtered videos
-     */
-    static filterVideosByPeriod(allVideos = [], period = "all") {
-      if (!Array.isArray(allVideos) || allVideos.length === 0 || period === "all") {
-        return allVideos || [];
-      }
-      const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
-      return allVideos.filter((v) => {
-        const meta = (v.meta || "").toLowerCase();
-        if (period === "month") {
-          const isDays = /(?:il y a\s*\d+\s*(?:h\b|j\b|sem|heure|jour|semaine)|(?:hour|day|week)s?\s*ago|hier|yesterday)/.test(meta);
-          const isOneMonth = /(?:il y a\s*1\s*(?:mois|m\b|m\.)|1\s*month\s*ago)/.test(meta);
-          return isDays || isOneMonth;
-        }
-        if (period === "6months") {
-          const isDays = /(?:il y a\s*\d+\s*(?:h\b|j\b|sem|heure|jour|semaine)|(?:hour|day|week)s?\s*ago|hier|yesterday)/.test(meta);
-          const m = meta.match(/(?:il y a\s*(\d+)\s*(?:mois|m\b|m\.)|(\d+)\s*months?\s*ago)/);
-          return isDays || m && parseInt(m[1] || m[2], 10) <= 6;
-        }
-        if (period === "year") {
-          const isDays = /(?:il y a\s*\d+\s*(?:h\b|j\b|sem|heure|jour|semaine)|(?:hour|day|week)s?\s*ago|hier|yesterday)/.test(meta);
-          const m = meta.match(/(?:il y a\s*(\d+)\s*(?:mois|m\b|m\.)|(\d+)\s*months?\s*ago)/);
-          const isUnderYear = isDays || m && parseInt(m[1] || m[2], 10) <= 12;
-          const isOneYear = /(?:il y a\s*1\s*(?:an|a\b|a\.)|1\s*year\s*ago)/.test(meta);
-          return isUnderYear || isOneYear || this.categorizeVideoEra(v).yearEstimate >= currentYear;
-        }
-        return true;
-      });
-    }
-    /**
-     * Selects a stratified statistical sample from a list of channel videos
-     * @param {Array<Object>} allVideos
-     * @param {Object} [options]
-     * @param {number} [options.maxSample=12]
-     * @returns {Array<Object>} Stratified sample with era metadata and weights
-     */
-    static selectStratifiedSample(allVideos = [], options = {}) {
-      const { maxSample = 12 } = options;
-      if (!Array.isArray(allVideos) || allVideos.length === 0) return [];
-      if (allVideos.length <= maxSample) {
-        return allVideos.map((v, idx) => {
-          const eraInfo = this.categorizeVideoEra(v);
-          return { ...v, sampleIndex: idx + 1, ...eraInfo };
-        });
-      }
-      const enriched = allVideos.map((v, idx) => ({
-        ...v,
-        originalIndex: idx,
-        ...this.categorizeVideoEra(v)
-      }));
-      const recentPool = enriched.filter((v) => v.era === "recent");
-      const midPool = enriched.filter((v) => v.era === "mid");
-      const legacyPool = enriched.filter((v) => v.era === "legacy");
-      const recentQuota = Math.max(3, Math.round(maxSample * 0.6));
-      const midQuota = Math.max(1, Math.round(maxSample * 0.25));
-      const legacyQuota = Math.max(1, maxSample - recentQuota - midQuota);
-      const selectedRecent = recentPool.slice(0, recentQuota);
-      const selectedMid = midPool.slice(0, midQuota);
-      const selectedLegacy = legacyPool.slice(0, legacyQuota);
-      const selectedIds = /* @__PURE__ */ new Set([
-        ...selectedRecent.map((v) => v.id),
-        ...selectedMid.map((v) => v.id),
-        ...selectedLegacy.map((v) => v.id)
-      ]);
-      const result = [...selectedRecent, ...selectedMid, ...selectedLegacy];
-      for (const v of enriched) {
-        if (result.length >= maxSample) break;
-        if (!selectedIds.has(v.id)) {
-          selectedIds.add(v.id);
-          result.push(v);
-        }
-      }
-      return result.map((v, idx) => ({ ...v, sampleIndex: idx + 1 }));
-    }
-    /**
-     * Computes weighted aggregate statistics across evaluated sample videos
-     * @param {Array<Object>} evaluatedVideos
-     * @returns {Object} Weighted metrics, distribution, and trajectory
-     */
-    static computeWeightedMetrics(evaluatedVideos = []) {
-      if (!Array.isArray(evaluatedVideos) || evaluatedVideos.length === 0) {
-        return {
-          weightedScore: 50,
-          weightedClickbait: 20,
-          distribution: { reliable: 0, caution: 0, clickbait: 0 },
-          proportions: { reliablePct: 0, cautionPct: 0, clickbaitPct: 0 },
-          trajectory: "stable",
-          trajectoryLabel: "Ligne \xE9ditoriale stable",
-          eraScores: { recent: null, mid: null, legacy: null }
-        };
-      }
-      let totalWeight = 0;
-      let weightedScoreSum = 0;
-      let weightedClickbaitSum = 0;
-      let reliableCount = 0;
-      let cautionCount = 0;
-      let clickbaitCount = 0;
-      const eraAccumulators = {
-        recent: { sum: 0, weight: 0 },
-        mid: { sum: 0, weight: 0 },
-        legacy: { sum: 0, weight: 0 }
-      };
-      for (const v of evaluatedVideos) {
-        const score = typeof v.score === "number" ? Math.max(0, Math.min(100, v.score)) : 50;
-        const clickbait = typeof v.clickbait === "number" ? Math.max(0, Math.min(100, v.clickbait)) : 20;
-        const weight = typeof v.weight === "number" ? v.weight : 1;
-        const era = v.era || "recent";
-        totalWeight += weight;
-        weightedScoreSum += score * weight;
-        weightedClickbaitSum += clickbait * weight;
-        if (score >= 75) reliableCount++;
-        else if (score >= 50) cautionCount++;
-        else clickbaitCount++;
-        if (eraAccumulators[era]) {
-          eraAccumulators[era].sum += score * weight;
-          eraAccumulators[era].weight += weight;
-        }
-      }
-      const totalCount = evaluatedVideos.length;
-      const finalScore = totalWeight > 0 ? Math.round(weightedScoreSum / totalWeight) : 50;
-      const finalClickbait = totalWeight > 0 ? Math.round(weightedClickbaitSum / totalWeight) : 20;
-      const reliablePct = Math.round(reliableCount / totalCount * 100);
-      const cautionPct = Math.round(cautionCount / totalCount * 100);
-      const clickbaitPct = Math.max(0, 100 - reliablePct - cautionPct);
-      const eraScores = {
-        recent: eraAccumulators.recent.weight > 0 ? Math.round(eraAccumulators.recent.sum / eraAccumulators.recent.weight) : null,
-        mid: eraAccumulators.mid.weight > 0 ? Math.round(eraAccumulators.mid.sum / eraAccumulators.mid.weight) : null,
-        legacy: eraAccumulators.legacy.weight > 0 ? Math.round(eraAccumulators.legacy.sum / eraAccumulators.legacy.weight) : null
-      };
-      let trajectory = "stable";
-      let trajectoryLabel = "Ligne \xE9ditoriale stable";
-      const baselineScore = eraScores.mid ?? eraScores.legacy;
-      if (eraScores.recent !== null && baselineScore !== null) {
-        const diff = eraScores.recent - baselineScore;
-        if (diff >= 6) {
-          trajectory = "improving";
-          trajectoryLabel = "En nette progression (rigueur et nuance en hausse)";
-        } else if (diff <= -6) {
-          trajectory = "declining";
-          trajectoryLabel = "En baisse de rigueur (sensationnalisme accru)";
-        }
-      }
-      return {
-        weightedScore: finalScore,
-        weightedClickbait: finalClickbait,
-        distribution: {
-          reliable: reliableCount,
-          caution: cautionCount,
-          clickbait: clickbaitCount
-        },
-        proportions: {
-          reliablePct,
-          cautionPct,
-          clickbaitPct
-        },
-        trajectory,
-        trajectoryLabel,
-        eraScores
-      };
     }
   };
 
@@ -5567,6 +7400,7 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
      */
     static buildSystemPrompt(lang = "fr") {
       const isFr = (lang || "fr").toLowerCase().startsWith("fr");
+      const targetLangName = AuditPromptBuilder.getLanguageLabel(lang);
       const now = /* @__PURE__ */ new Date();
       const currentDateStr = now.toLocaleDateString(isFr ? "fr-FR" : "en-US", {
         year: "numeric",
@@ -5582,12 +7416,13 @@ REP\xC8RE CHRONOLOGIQUE DU MONDE R\xC9EL :
 - Situe chronologiquement les vid\xE9os de l'\xE9chantillon par rapport \xE0 cette date contemporaine.
 
 M\xC9THODOLOGIE D'\xC9CHANTILLONNAGE & CRIT\xC8RES D'ANALYSE :
-1. POND\xC9RATION FORTE SUR LE R\xC9CENT (~65% du poids) : Les vid\xE9os r\xE9centes refl\xE8tent l'\xE9tat actuel de la cha\xEEne, sa maturit\xE9, ses progr\xE8s \xE9ditoriaux ou au contraire une d\xE9rive sensationnaliste.
-2. PERSPECTIVE TEMPORELLE (~35% du poids) : Compare les vid\xE9os r\xE9centes aux vid\xE9os interm\xE9diaires (~1 an) et plus anciennes pour mesurer l'\xE9volution d'ann\xE9e en ann\xE9e (professionnalisation, nuance, transparence).
-3. SENSATIONNALISME & ACCROCHES TROMPEUSES : Mesure le d\xE9calage \xE9ventuel entre les promesses des titres et le contenu r\xE9el. Reste toujours neutre et factuel : si la cha\xEEne est sobre et honn\xEAte, reconnais-le sans forcer la critique. Ne mentionne le sensationnalisme que s'il est r\xE9ellement pr\xE9sent.
-4. TRANSPARENCE COMMERCIALE & DISCERNEMENT MARKETING : Il est normal et l\xE9gitime qu'un cr\xE9ateur gagne sa vie (sponsors, partenariats, vente d'ouvrages ou de formations). L'exigence cl\xE9 est la transparence envers le public et la pr\xE9servation de son esprit critique : l'auteur d\xE9veloppe-t-il des arguments r\xE9els, v\xE9rifi\xE9s et nuanc\xE9s, ou r\xE9p\xE8te-t-il un discours marketing pr\xE9format\xE9 sans recul ? ("Le mal n'est pas partout : une vid\xE9o sponsoris\xE9e peut \xEAtre rigoureuse si les arguments sont honn\xEAtes").
-5. POSTURE D\xC9CLARATIVE VS PREUVE R\xC9ELLE : Ne prends jamais l'auto-proclamation d'honn\xEAtet\xE9 (\xAB je suis totalement ind\xE9pendant \xBB, \xAB je vous dis toute la v\xE9rit\xE9 \xBB) pour argent comptant. C'est \xE0 l'audit de juger de la sinc\xE9rit\xE9 et de la probit\xE9 du propos en v\xE9rifiant les faits, la solidit\xE9 des arguments et la coh\xE9rence des d\xE9monstrations.
-6. Z\xC9RO MALUS POUR CONTRAINTE TECHNIQUE : Il est strictement interdit de baisser la note d'une vid\xE9o ou d'une cha\xEEne sous pr\xE9texte que les sous-titres complets ne sont pas disponibles sur la plateforme. Juge la rigueur et l'honn\xEAtet\xE9 \xE0 100% sur les \xE9l\xE9ments observables.
+1. CONTEXTE \xC9DITORIAL & TYPOLOGIE DE CHA\xCENE : Identifie la vocation premi\xE8re de la cha\xEEne et son public cible (Jeunesse / Enfants, Vulgarisation scientifique, Journalisme / Actualit\xE9, Humour / Fiction, Gaming). Adapte imp\xE9rativement les crit\xE8res d'exigence au genre : pour une cha\xEEne jeunesse ou familiale, \xE9value l'\xE9thique envers les jeunes spectateurs (absence de manipulation, de surconsommation forc\xE9e ou de conditionnement commercial insidieux ciblant la na\xEFvet\xE9 des enfants).
+2. POND\xC9RATION FORTE SUR LE R\xC9CENT (~65% du poids) : Les vid\xE9os r\xE9centes refl\xE8tent l'\xE9tat actuel de la cha\xEEne, sa maturit\xE9, ses progr\xE8s \xE9ditoriaux ou au contraire une d\xE9rive sensationnaliste.
+3. PERSPECTIVE TEMPORELLE (~35% du poids) : Compare les vid\xE9os r\xE9centes aux vid\xE9os interm\xE9diaires (~1 an) et plus anciennes pour mesurer l'\xE9volution d'ann\xE9e en ann\xE9e (professionnalisation, nuance, transparence).
+4. SENSATIONNALISME & ACCROCHES TROMPEUSES : Mesure le d\xE9calage \xE9ventuel entre les promesses des titres et le contenu r\xE9el. Reste toujours neutre et factuel : si la cha\xEEne est sobre et honn\xEAte, reconnais-le sans forcer la critique. Ne mentionne le sensationnalisme que s'il est r\xE9ellement pr\xE9sent.
+5. TRANSPARENCE COMMERCIALE & DISCERNEMENT MARKETING : Il est normal et l\xE9gitime qu'un cr\xE9ateur gagne sa vie (sponsors, partenariats, vente d'ouvrages ou de formations). L'exigence cl\xE9 est la transparence envers le public et la pr\xE9servation de son esprit critique : l'auteur d\xE9veloppe-t-il des arguments r\xE9els, v\xE9rifi\xE9s et nuanc\xE9s, ou r\xE9p\xE8te-t-il un discours marketing pr\xE9format\xE9 sans recul ? ("Le mal n'est pas partout : une vid\xE9o sponsoris\xE9e peut \xEAtre rigoureuse si les arguments sont honn\xEAtes").
+6. POSTURE D\xC9CLARATIVE VS PREUVE R\xC9ELLE : Ne prends jamais l'auto-proclamation d'honn\xEAtet\xE9 (\xAB je suis totalement ind\xE9pendant \xBB, \xAB je vous dis toute la v\xE9rit\xE9 \xBB) pour argent comptant. C'est \xE0 l'audit de juger de la sinc\xE9rit\xE9 et de la probit\xE9 du propos en v\xE9rifiant les faits, la solidit\xE9 des arguments et la coh\xE9rence des d\xE9monstrations.
+7. Z\xC9RO MALUS POUR CONTRAINTE TECHNIQUE : Il est strictement interdit de baisser la note d'une vid\xE9o ou d'une cha\xEEne sous pr\xE9texte que les sous-titres complets ne sont pas disponibles sur la plateforme. Juge la rigueur et l'honn\xEAtet\xE9 \xE0 100% sur les \xE9l\xE9ments observables.
 
 FORMAT IMP\xC9RATIF DE R\xC9PONSE :
 Pour permettre le parsing automatique et l'affichage des graphiques statistiques, ta r\xE9ponse DOIT inclure STRICTEMENT :
@@ -5623,18 +7458,20 @@ Num\xE9ro | Score | Sensationnalisme% | Verdict | Commentaire d'une phrase
 
 DIRECTIVE DE CONCISION : R\xE9dige directement le bloc [EVAL_VIDEOS] puis les balises synth\xE9tiques et les sections qualitatives succinctes. Reste toujours neutre, constructif et direct. N'invente pas de d\xE9fauts inexistants.`;
       }
-      return `You are a digital media auditor and expert in YouTube editorial analysis.
+      return `You are a digital media auditor and expert in YouTube editorial analysis. You must respond exclusively in ${targetLangName}.
 Your mission is to audit a YouTube channel impartially based on a CONSOLIDATED STATISTICAL SAMPLE of its videos.
 
 REAL-WORLD TEMPORAL REFERENCE:
 - Today's date: ${currentDateStr}.
 - Anchor the sampled videos relative to this contemporary observation date.
 
-TEMPORAL WEIGHTING METHODOLOGY:
-1. RECENCY WEIGHT (~65% of weight): Recent videos best reflect current maturity or recent changes.
-2. HISTORICAL PERSPECTIVE (~35% of weight): Compare recent videos against earlier ones to evaluate Year-over-Year evolution.
-3. SENSATIONALISM SENSITIVITY: Evaluate title exaggeration vs informative substance.
-4. COMMERCIAL TRANSPARENCY: Differentiate author self-promotion from undisclosed third-party sponsorships.
+TEMPORAL & CONTEXTUAL METHODOLOGY:
+1. CONTEXT & EDITORIAL GENRE: Identify channel purpose and target audience (Kids/Family, Science, Journalism, Fiction, Gaming). Adapt scrutiny: for children content, actively verify ethical safeguards against commercial manipulation or psychological habit conditioning.
+2. RECENCY WEIGHT (~65% of weight): Recent videos best reflect current maturity or recent changes.
+3. HISTORICAL PERSPECTIVE (~35% of weight): Compare recent videos against earlier ones to evaluate Year-over-Year evolution.
+4. SENSATIONALISM SENSITIVITY: Evaluate title exaggeration vs informative substance.
+5. COMMERCIAL TRANSPARENCY: Differentiate legitimate author monetization from undisclosed sponsorship pressure.
+6. EVIDENCE OVER SELF-CLAIMS: Evaluate rigor objectively from observable facts; NEVER penalize missing transcripts caused by technical platform limits.
 
 MANDATORY OUTPUT FORMAT:
 [EVAL_VIDEOS]
@@ -5650,7 +7487,9 @@ Index | Score | Clickbait% | Verdict | One sentence note
 ### [!] Areas of Caution & Subtle Biases
 ### [X] Critical Flaws & Sensationalism Traps
 ### [\u{1F4C8}] Year-over-Year Trajectory
-### Executive Synthesis & Recommendation`;
+### Executive Synthesis & Recommendation
+
+STRICT LANGUAGE RULE: Write ALL prose, bullet items, Executive Synthesis, and per-video notes inside [EVAL_VIDEOS] exclusively in ${targetLangName}. Keep bracketed parser tags ([EVAL_VIDEOS], [SCORE_GLOBAL], [INDICE_CLICKBAIT], [DISTRIBUTION], [TRAJECTOIRE], ### [\u2713], ### [!], ### [X], ### [\u{1F4C8}]) exact for machine parsing.`;
     }
     /**
      * Builds the consolidated multi-video prompt
@@ -5661,11 +7500,12 @@ Index | Score | Clickbait% | Verdict | One sentence note
      */
     static buildUserPrompt(channel = {}, sampledVideos = [], lang = "fr") {
       const isFr = (lang || "fr").toLowerCase().startsWith("fr");
-      const title = channel.title || "Cr\xE9ateur YouTube";
+      const targetLangName = AuditPromptBuilder.getLanguageLabel(lang);
+      const title = channel.title || (isFr ? "Cr\xE9ateur YouTube" : "YouTube Creator");
       const handle = channel.handle || "";
-      const subs = channel.subscribers || "Non sp\xE9cifi\xE9";
-      const videoCount = channel.videoCount || `${sampledVideos.length} vid\xE9os`;
-      const bio = channel.bio ? channel.bio.trim() : "Aucune bio renseign\xE9e.";
+      const subs = channel.subscribers || (isFr ? "Non sp\xE9cifi\xE9" : "Not specified");
+      const videoCount = channel.videoCount || `${sampledVideos.length} ${isFr ? "vid\xE9os" : "videos"}`;
+      const bio = channel.bio ? channel.bio.trim() : isFr ? "Aucune bio renseign\xE9e." : "No bio provided.";
       const recent = sampledVideos.filter((v) => v.era === "recent");
       const mid = sampledVideos.filter((v) => v.era === "mid");
       const legacy = sampledVideos.filter((v) => v.era === "legacy");
@@ -5676,15 +7516,15 @@ ${headerLabel} :`];
         cohortList.forEach((v) => {
           lines.push(`  ${v.sampleIndex || "\u2022"}. "${v.title}" (${v.meta || v.eraLabel || ""}) [ID: ${v.id}]`);
           if (Array.isArray(v.chapters) && v.chapters.length > 0) {
-            lines.push(`     \u2514 Chapitres : ${v.chapters.slice(0, 5).join(" | ")}`);
+            lines.push(`     \u2514 ${isFr ? "Chapitres" : "Chapters"} : ${v.chapters.slice(0, 5).join(" | ")}`);
           }
           if (v.description) {
             const cleanDesc = v.description.replace(/\s+/g, " ").trim().slice(0, 180);
-            lines.push(`     \u2514 Liens & Description : """${cleanDesc}\u2026"""`);
+            lines.push(`     \u2514 ${isFr ? "Liens & Description" : "Links & Description"} : """${cleanDesc}\u2026"""`);
           }
           if (Array.isArray(v.comments) && v.comments.length > 0) {
             const topComms = v.comments.slice(0, 2).map((c) => `"${c.author}: ${(c.text || "").replace(/\s+/g, " ").slice(0, 75)}"`).join(" | ");
-            lines.push(`     \u2514 R\xE9actions du public : ${topComms}`);
+            lines.push(`     \u2514 ${isFr ? "R\xE9actions du public" : "Audience feedback"} : ${topComms}`);
           }
         });
         return lines.join("\n");
@@ -5706,381 +7546,262 @@ REPRESENTATIVE GROUP SAMPLE (${sampledVideos.length} SELECTED VIDEOS):`;
       const instruction = isFr ? `
 CONSIGNE D'ANALYSE GROUP\xC9E :
 Proc\xE8de en UNE SEULE \xC9VALUATION CONSOLID\xC9E :
-1. Note chaque vid\xE9o dans le bloc [EVAL_VIDEOS] ... [/EVAL_VIDEOS] avec son taux de sensationnalisme et une justification d'une phrase.
+1. Note chaque vid\xE9o dans le bloc [EVAL_VIDEOS] ... [/EVAL_VIDEOS] avec son taux de sensationnalisme et une justification d'une phrase en FRAN\xC7AIS.
 2. \xC9tablis la note globale [SCORE_GLOBAL], le taux de sensationnalisme [INDICE_SENSATIONNALISME], la proportion [DISTRIBUTION] et la [TRAJECTOIRE].
-3. R\xE9dige les sections qualitatives [\u2713], [!], [X], [\u{1F4C8}] et la synth\xE8se finale.` : `
-INSTRUCTION: Perform a single consolidated evaluation with [EVAL_VIDEOS], global tags, and the qualitative sections.`;
+3. R\xE9dige les sections qualitatives [\u2713], [!], [X], [\u{1F4C8}] et la synth\xE8se finale exclusivement en FRAN\xC7AIS.` : `
+INSTRUCTION: Perform a single consolidated evaluation with [EVAL_VIDEOS], global tags, and the qualitative sections. Write ALL commentary, video notes, bullets, and synthesis exclusively in ${targetLangName}.`;
       return `${header}${cohort1}${cohort2}${cohort3}
 ${instruction}`;
     }
   };
 
-  // src/domain/models/ChannelAuditReport.js
-  var ChannelAuditReport = class _ChannelAuditReport {
-    constructor(data = {}) {
-      this.channelTitle = data.channelTitle || "Cha\xEEne YouTube";
-      this.channelHandle = data.channelHandle || "";
-      this.subscribers = data.subscribers || "";
-      this.totalVideos = data.totalVideos || "";
-      this.sampleSize = data.sampleSize || 0;
-      this.globalScore = typeof data.globalScore === "number" ? Math.max(0, Math.min(100, data.globalScore)) : 50;
-      this.clickbaitIndex = typeof data.clickbaitIndex === "number" ? Math.max(0, Math.min(100, data.clickbaitIndex)) : 20;
-      this.proportions = data.proportions || { reliablePct: 60, cautionPct: 30, clickbaitPct: 10 };
-      this.distribution = data.distribution || { reliable: 0, caution: 0, clickbait: 0 };
-      this.trajectory = data.trajectory || "stable";
-      this.trajectoryLabel = data.trajectoryLabel || "Ligne \xE9ditoriale stable";
-      this.evaluatedVideos = Array.isArray(data.evaluatedVideos) ? data.evaluatedVideos : [];
-      this.strengths = Array.isArray(data.strengths) ? data.strengths : [];
-      this.weaknesses = Array.isArray(data.weaknesses) ? data.weaknesses : [];
-      this.drawbacks = Array.isArray(data.drawbacks) ? data.drawbacks : [];
-      this.temporalEvolution = data.temporalEvolution || "";
-      this.executiveSummary = data.executiveSummary || "";
-      this.rawText = data.rawText || "";
-      this.timestamp = data.timestamp || Date.now();
-      this.badge = this._computeBadge();
-    }
-    _computeBadge() {
-      if (this.globalScore >= 75) {
-        return { label: "Cha\xEEne Recommandable & Factuelle", color: "success", symbol: "\u2713" };
-      }
-      if (this.globalScore >= 50) {
-        return { label: "Vigilance & Esprit Critique Recommand\xE9s", color: "warning", symbol: "!" };
-      }
-      return { label: "Sensationnalisme / Accroches Trompeuses", color: "danger", symbol: "!" };
-    }
+  // src/services/implementations/BatchPacker.js
+  var BatchPacker = class {
     /**
-     * Parses consolidated raw AI response and sample metadata into ChannelAuditReport
-     * @param {string} rawText Complete streamed markdown output
-     * @param {Object} context Metadata of sampled videos and channel
-     * @returns {ChannelAuditReport}
+     * Packs items greedily into the minimal number of batches
+     * @template T
+     * @param {Array<T>} items - List of items to pack
+     * @param {function(T): number} getWeight - Weight calculator (character or token count)
+     * @param {number} maxBudget - Maximum allowed capacity per batch
+     * @returns {Array<Array<T>>} Minimal batches filled to capacity
      */
-    static fromRawResponse(rawText = "", context = {}) {
-      const channel = context.channel || {};
-      const sampledVideos = context.sampledVideos || [];
-      const scoreMatch = rawText.match(/\[(?:SCORE_GLOBAL|GLOBAL_SCORE|SCORE)\s*:\s*(\d{1,3})\s*(?:\/\s*100)?\]/i);
-      const clickbaitMatch = rawText.match(/\[(?:INDICE_CLICKBAIT|CLICKBAIT_INDEX|CLICKBAIT|INDICE_SENSATIONNALISME|SENSATIONNALISME)\s*:\s*(\d{1,3})\s*%?\]/i);
-      const trajectoryMatch = rawText.match(/\[(?:TRAJECTOIRE|TRAJECTORY)\s*:\s*(PROGRESSION|STABLE|DECLIN|IMPROVING|DECLINING)\]/i);
-      const evaluatedVideos = this._parseEvaluatedVideos(rawText, sampledVideos);
-      const stats = ChannelStatisticalSampler.computeWeightedMetrics(evaluatedVideos);
-      const parsedScore = scoreMatch ? parseInt(scoreMatch[1], 10) : stats.weightedScore;
-      const parsedClickbait = clickbaitMatch ? parseInt(clickbaitMatch[1], 10) : stats.weightedClickbait;
-      let traj = stats.trajectory;
-      let trajLabel = stats.trajectoryLabel;
-      if (trajectoryMatch) {
-        const t = trajectoryMatch[1].toUpperCase();
-        if (t === "PROGRESSION" || t === "IMPROVING") {
-          traj = "improving";
-          trajLabel = "En nette progression (rigueur et nuance en hausse)";
-        } else if (t === "DECLIN" || t === "DECLINING") {
-          traj = "declining";
-          trajLabel = "En baisse de rigueur (sensationnalisme accru)";
-        } else {
-          traj = "stable";
-          trajLabel = "Ligne \xE9ditoriale stable";
-        }
+    static packGreedy(items, getWeight, maxBudget) {
+      if (!Array.isArray(items) || items.length === 0) return [];
+      if (typeof getWeight !== "function" || !maxBudget || maxBudget <= 0) {
+        return [items.slice()];
       }
-      const strengths = this._extractBulletSection(rawText, [
-        /###\s*\[?✓?\]?\s*Ce que la chaîne fait de bien/i,
-        /###\s*Points forts/i,
-        /###\s*Strengths/i
-      ]);
-      const weaknesses = this._extractBulletSection(rawText, [
-        /###\s*\[?!\]?\s*Ce qu'elle fait de moins bien/i,
-        /###\s*Points de vigilance/i,
-        /###\s*Weaknesses/i
-      ]);
-      const drawbacks = this._extractBulletSection(rawText, [
-        /###\s*\[?X?\]?\s*Écueils et dérives/i,
-        /###\s*Pièges et sensationnalisme/i,
-        /###\s*Ce qui ne va pas/i,
-        /###\s*Critical flaws/i
-      ]);
-      const temporalEvolution = this._extractSectionContent(rawText, [
-        /###\s*\[?📈?\]?\s*Évolution temporelle/i,
-        /###\s*Trajectoire d'année en année/i,
-        /###\s*Year-over-Year/i
-      ]);
-      const executiveSummary = this._extractSectionContent(rawText, [
-        /###\s*Synthèse & Recommandation/i,
-        /###\s*Verdict global/i,
-        /###\s*Executive Summary/i
-      ]);
-      return new _ChannelAuditReport({
-        channelTitle: channel.title || "Cr\xE9ateur",
-        channelHandle: channel.handle || "",
-        subscribers: channel.subscribers || "",
-        totalVideos: channel.videoCount || `${sampledVideos.length} vid\xE9os analys\xE9es`,
-        sampleSize: sampledVideos.length,
-        globalScore: parsedScore,
-        clickbaitIndex: parsedClickbait,
-        proportions: stats.proportions,
-        distribution: stats.distribution,
-        trajectory: traj,
-        trajectoryLabel: trajLabel,
-        evaluatedVideos,
-        strengths,
-        weaknesses,
-        drawbacks,
-        temporalEvolution,
-        executiveSummary,
-        rawText
-      });
-    }
-    static _parseEvaluatedVideos(rawText, sampledVideos) {
-      const result = [];
-      const blockMatch = rawText.match(/\[EVAL_VIDEOS\]([\s\S]*?)\[\/EVAL_VIDEOS\]/i);
-      const content = blockMatch ? blockMatch[1] : rawText;
-      const lines = content.split("\n");
-      const parsedMap = /* @__PURE__ */ new Map();
-      for (const line of lines) {
-        const cleanLine = line.trim().replace(/^\|\s*/, "").replace(/\s*\|$/, "");
-        if (!cleanLine || cleanLine.startsWith("---") || cleanLine.startsWith(":--")) continue;
-        const parts = cleanLine.split("|").map((s) => s.trim());
-        if (parts.length >= 3) {
-          const idx = parseInt(parts[0].replace(/[^0-9]/g, ""), 10);
-          const score = parseInt(parts[1].replace(/[^0-9]/g, ""), 10);
-          const clickbait = parseInt(parts[2].replace(/[^0-9]/g, ""), 10);
-          const verdict = parts[3] || (score >= 75 ? "Fiable" : score >= 50 ? "Mod\xE9r\xE9" : "Risque");
-          const comment = parts[4] || "";
-          if (!isNaN(idx) && !isNaN(score)) {
-            parsedMap.set(idx, { score, clickbait: isNaN(clickbait) ? 20 : clickbait, verdict, comment });
+      const batches = [];
+      let currentBatch = [];
+      let currentWeight = 0;
+      for (const item of items) {
+        const weight = Math.max(1, getWeight(item) || 0);
+        if (weight >= maxBudget) {
+          if (currentBatch.length > 0) {
+            batches.push(currentBatch);
+            currentBatch = [];
+            currentWeight = 0;
           }
+          batches.push([item]);
+          continue;
+        }
+        if (currentWeight + weight > maxBudget && currentBatch.length > 0) {
+          batches.push(currentBatch);
+          currentBatch = [item];
+          currentWeight = weight;
+        } else {
+          currentBatch.push(item);
+          currentWeight += weight;
         }
       }
-      sampledVideos.forEach((v, i) => {
-        const idx = v.sampleIndex || i + 1;
-        const evalData = parsedMap.get(idx) || {
-          score: 70,
-          clickbait: 20,
-          verdict: "Non annot\xE9",
-          comment: ""
-        };
-        result.push({
-          id: v.id,
-          title: v.title || `Vid\xE9o ${idx}`,
-          url: v.url || `https://youtu.be/${v.id}`,
-          meta: v.meta,
-          era: v.era || "recent",
-          eraLabel: v.eraLabel || "R\xE9cent",
-          weight: v.weight || 1,
-          score: evalData.score,
-          clickbait: evalData.clickbait,
-          verdict: evalData.verdict,
-          comment: evalData.comment
-        });
-      });
-      return result;
-    }
-    static _extractBulletSection(text, regexList) {
-      for (const reg of regexList) {
-        const match = text.match(new RegExp(`(?:${reg.source})[^\\n]*\\n([\\s\\S]*?)(?:###|$)`, "i"));
-        if (match && match[1]) {
-          const lines = match[1].split("\n").map((l) => l.trim().replace(/^[-*•]\s*/, "").trim()).filter((l) => l.length > 5 && !l.startsWith("#") && !l.startsWith("["));
-          if (lines.length > 0) return lines;
-        }
+      if (currentBatch.length > 0) {
+        batches.push(currentBatch);
       }
-      return [];
-    }
-    static _extractSectionContent(text, regexList) {
-      for (const reg of regexList) {
-        const match = text.match(new RegExp(`(?:${reg.source})[^\\n]*\\n([\\s\\S]*?)(?:###|$)`, "i"));
-        if (match && match[1]) {
-          const cleaned = match[1].trim();
-          if (cleaned.length > 10) return cleaned;
-        }
-      }
-      return "";
+      return batches;
     }
   };
 
-  // src/content/services/ChannelAuditService.js
-  var ChannelAuditService = class {
-    /**
-     * @param {Object} [dependencies]
-     * @param {Object} [dependencies.channelManager]
-     */
-    constructor(dependencies = {}) {
-      this.channelManager = dependencies.channelManager;
-      this.cachedReports = /* @__PURE__ */ new Map();
-      this.currentPort = null;
-      this.isAuditing = false;
+  // src/content/services/ChannelAuditBatchRunner.js
+  var ChannelAuditBatchRunner = class {
+    static estimateVideoWeight(video = {}) {
+      const titleLen = video.title?.length || 45;
+      const descLen = video.description ? Math.min(180, video.description.length) : 0;
+      const chapLen = Array.isArray(video.chapters) ? Math.min(180, video.chapters.join("|").length) : 0;
+      return Math.max(520, titleLen + descLen + chapLen + 260);
     }
     /**
-     * Retrieves cached audit report for a given channel query/handle
-     * @param {string} query
-     * @returns {ChannelAuditReport|null}
+     * Packs videos into bounded prompt cohorts and runs Map -> Reduce evaluation.
+     * @param {Object} params
+     * @returns {Promise<string>} Combined raw response with all [EVAL_VIDEOS] blocks + Reduce synthesis
      */
-    getCachedReport(query) {
-      if (!query) return null;
-      const key = String(query).trim().toLowerCase();
-      return this.cachedReports.get(key) || null;
-    }
-    /**
-     * Clears active in-memory cache
-     */
-    clearCache() {
-      this.cachedReports.clear();
-    }
-    /**
-     * Aborts ongoing channel audit stream
-     */
-    abortAudit() {
-      if (this.currentPort) {
-        try {
-          this.currentPort.disconnect();
-        } catch (_) {
-        }
-        this.currentPort = null;
-      }
-      this.isAuditing = false;
-    }
-    /**
-     * Executes a consolidated statistical audit for a channel
-     * @param {Object} options
-     * @param {string} options.channelQuery - Channel handle (@name) or URL
-     * @param {string} [options.lang='fr']
-     * @param {Object} options.state - InPageState instance
-     * @param {Function} [options.onChunk] - Stream chunk callback
-     * @param {Function} [options.onProgress] - Status update callback
-     * @returns {Promise<ChannelAuditReport>}
-     */
-    async executeChannelAudit(options = {}) {
-      const { channelQuery, period = "all", lang = "fr", state: state2 = {} } = options;
-      if (!channelQuery) {
-        throw new Error("Identifiant ou URL de cha\xEEne manquant pour l\u2019audit");
-      }
-      const cacheKey = `${String(channelQuery).trim().toLowerCase()}::${period}`;
-      if (this.cachedReports.has(cacheKey)) {
-        return this.cachedReports.get(cacheKey);
-      }
-      this.abortAudit();
-      this.isAuditing = true;
-      try {
-        options.onProgress?.({
-          step: "fetch",
-          percent: 10,
-          message: "Collecte du dossier de la cha\xEEne et des vid\xE9os...",
-          detail: "Recueil des m\xE9tadonn\xE9es et descriptions (0 coupure)"
+    static async run({ channel, sampledVideos, lang = "fr", state: state2 = {}, streamFn, onChunk, onProgress, signal = null }) {
+      const isFr = (lang || "fr").toLowerCase().startsWith("fr");
+      const batches = BatchPacker.packGreedy(sampledVideos, (v) => this.estimateVideoWeight(v), 12e3);
+      const systemPrompt = ChannelAuditPromptBuilder.buildSystemPrompt(lang);
+      const evalBlocks = [];
+      const parsedEntries = [];
+      for (let i = 0; i < batches.length; i++) {
+        ChannelAuditJobTracker.throwIfAborted(signal, lang);
+        const batch = batches[i];
+        const pct = Math.min(82, 26 + Math.round((i + 0.2) / Math.max(1, batches.length) * 56));
+        onProgress?.({
+          step: "batch",
+          percent: pct,
+          message: isFr ? `Analyse statistique lot ${i + 1}/${batches.length} (${sampledVideos.length} vid\xE9os)...` : `Analyzing statistical batch ${i + 1}/${batches.length} (${sampledVideos.length} videos)...`,
+          detail: isFr ? `${batch.length} vid\xE9os dans ce lot (Map-Reduce multi-lots)` : `${batch.length} videos in this cohort (Map-Reduce)`
         });
-        let channelData = null;
-        if (this.channelManager && typeof this.channelManager.getOrFetchChannelDossier === "function") {
-          const res = await this.channelManager.getOrFetchChannelDossier(channelQuery, 30);
-          if (res && res.success && res.channel) {
-            channelData = res.channel;
-          }
-        }
-        if (!channelData) {
-          const bgRes = await new Promise((resolve) => {
-            if (typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
-              chrome.runtime.sendMessage(
-                { action: "FETCH_CHANNEL_DOSSIER", query: channelQuery, limit: 30 },
-                (res) => resolve(res || { success: false, error: "No response" })
-              );
-            } else {
-              resolve({ success: false, error: "Runtime unavailable" });
-            }
-          });
-          if (bgRes?.success && bgRes.channel) {
-            channelData = bgRes.channel;
-          } else {
-            throw new Error(bgRes?.error || `Impossible de r\xE9cup\xE9rer les vid\xE9os pour : ${channelQuery}`);
-          }
-        }
-        options.onProgress?.({
-          step: "sample",
-          percent: 18,
-          message: "\xC9chantillonnage statistique (pond\xE9ration temporelle)...",
-          detail: `S\xE9lection des vid\xE9os repr\xE9sentatives (${period === "all" ? "r\xE9cent ~65%, historique ~35%" : period})`
-        });
-        const allVideos = channelData.recentVideos || [];
-        const filteredVideos = ChannelStatisticalSampler.filterVideosByPeriod(allVideos, period);
-        const sampledVideos = ChannelStatisticalSampler.selectStratifiedSample(
-          filteredVideos.length > 0 ? filteredVideos : allVideos,
-          { maxSample: 10 }
-        );
-        if (sampledVideos.length === 0) {
-          throw new Error("Aucune vid\xE9o trouv\xE9e sur cette cha\xEEne pour constituer un \xE9chantillon.");
-        }
-        options.onProgress?.({
-          step: "enrich",
-          percent: 21,
-          message: `Collecte approfondie des ${sampledVideos.length} vid\xE9os...`,
-          detail: "Recueil des descriptions, chapitres, sources et partenaires"
-        });
-        const videoIds = sampledVideos.map((v) => v.id).filter(Boolean);
-        if (videoIds.length > 0 && typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
-          try {
-            const enrichRes = await new Promise((resolve) => {
-              chrome.runtime.sendMessage({ action: "FETCH_BATCH_DOSSIERS", videoIds, lang }, (r) => {
-                resolve(r || {});
-              });
-            });
-            if (enrichRes?.success && enrichRes.dossiers) {
-              sampledVideos.forEach((v) => {
-                const d = enrichRes.dossiers[v.id];
-                if (d) {
-                  if (d.description) v.description = d.description;
-                  if (Array.isArray(d.chapters) && d.chapters.length > 0) v.chapters = d.chapters;
-                  if (d.hasCaptions !== void 0) v.hasCaptions = d.hasCaptions;
-                  if (Array.isArray(d.comments) && d.comments.length > 0) v.comments = d.comments;
-                }
-              });
-            }
-          } catch (_) {
-          }
-        }
-        options.onProgress?.({
-          step: "prompt",
-          percent: 24,
-          message: `Lancement de l'examen des ${sampledVideos.length} vid\xE9os...`,
-          detail: "Pr\xE9paration du dossier consolid\xE9 pour le mod\xE8le"
-        });
-        const systemPrompt = ChannelAuditPromptBuilder.buildSystemPrompt(lang);
-        const userPrompt = ChannelAuditPromptBuilder.buildUserPrompt(channelData, sampledVideos, lang);
-        const accumulatedText = await this._streamAI({
+        const batchPrompt = this._buildMapPrompt(channel, batch, i + 1, batches.length, lang);
+        const rawBatch = await streamFn({
           systemPrompt,
-          userPrompt,
+          userPrompt: batchPrompt,
           state: state2,
-          totalVideos: sampledVideos.length,
-          onChunk: options.onChunk,
-          onProgress: options.onProgress
+          totalVideos: batch.length,
+          onChunk,
+          onProgress: null,
+          signal
         });
-        const report = ChannelAuditReport.fromRawResponse(accumulatedText, {
-          channel: channelData,
-          sampledVideos
-        });
-        this.cachedReports.set(cacheKey, report);
-        if (channelData.handle) {
-          this.cachedReports.set(channelData.handle.toLowerCase(), report);
+        ChannelAuditJobTracker.throwIfAborted(signal, lang);
+        const block = this._extractEvalBlock(rawBatch);
+        if (block) {
+          evalBlocks.push(`[EVAL_VIDEOS]
+${block}
+[/EVAL_VIDEOS]`);
+          parsedEntries.push(...this._parseQuickEntries(block));
         }
-        return report;
-      } finally {
-        this.isAuditing = false;
-        this.currentPort = null;
       }
+      ChannelAuditJobTracker.throwIfAborted(signal, lang);
+      onProgress?.({
+        step: "reduce",
+        percent: 86,
+        message: isFr ? `Synth\xE8se globale sur ${sampledVideos.length} vid\xE9os \xE9valu\xE9es...` : `Synthesizing executive verdict across ${sampledVideos.length} videos...`,
+        detail: isFr ? "Consolidation statistique finale" : "Final statistical consolidation"
+      });
+      const reducePrompt = this._buildReducePrompt(channel, sampledVideos.length, parsedEntries, lang);
+      const reduceRaw = await streamFn({
+        systemPrompt,
+        userPrompt: reducePrompt,
+        state: state2,
+        totalVideos: sampledVideos.length,
+        onChunk,
+        onProgress,
+        signal
+      });
+      ChannelAuditJobTracker.throwIfAborted(signal, lang);
+      const cleanedReduce = reduceRaw.replace(/\[EVAL_VIDEOS\][\s\S]*?\[\/EVAL_VIDEOS\]/gi, "").trim();
+      return `${evalBlocks.join("\n\n")}
+
+${cleanedReduce}`;
     }
+    static _buildMapPrompt(channel, batch, batchIndex, totalBatches, lang) {
+      const basePrompt = ChannelAuditPromptBuilder.buildUserPrompt(channel, batch, lang);
+      const isFr = (lang || "fr").toLowerCase().startsWith("fr");
+      const targetLangName = AuditPromptBuilder.getLanguageLabel(lang);
+      const suffix = isFr ? `
+
+MODE LOT (${batchIndex}/${totalBatches}) : Retourne UNIQUEMENT le bloc [EVAL_VIDEOS] ... [/EVAL_VIDEOS] en conservant l'Index exact de chaque vid\xE9o fournie ci-dessus (Index | Score | Sensationnalisme% | Verdict | Note d'une phrase en FRAN\xC7AIS). Ne g\xE9n\xE8re pas [SCORE_GLOBAL] dans ce lot.` : `
+
+BATCH MODE (${batchIndex}/${totalBatches}): Output ONLY the [EVAL_VIDEOS] ... [/EVAL_VIDEOS] block preserving the exact provided Index numbers (Index | Score | Clickbait% | Verdict | One sentence note written exclusively in ${targetLangName}). Do NOT output [SCORE_GLOBAL] yet.`;
+      return `${basePrompt}${suffix}`;
+    }
+    static _buildReducePrompt(channel, totalSampled, entries, lang) {
+      const isFr = (lang || "fr").toLowerCase().startsWith("fr");
+      const targetLangName = AuditPromptBuilder.getLanguageLabel(lang);
+      const scores = entries.map((e) => e.score);
+      const clickbaits = entries.map((e) => e.clickbait);
+      const avgScore = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 50;
+      const avgCb = clickbaits.length > 0 ? Math.round(clickbaits.reduce((a, b) => a + b, 0) / clickbaits.length) : 0;
+      const sortedByScore = [...entries].sort((a, b) => a.score - b.score);
+      const selectedDigest = entries.length <= 45 ? entries : [...sortedByScore.slice(0, 15), ...sortedByScore.slice(-15), ...entries.slice(0, 15)];
+      const uniqueDigest = Array.from(new Map(selectedDigest.map((e) => [e.raw, e.raw])).values());
+      const digestLines = uniqueDigest.slice(0, 45).join("\n");
+      return isFr ? `SYNTH\xC8SE FINALE D'AUDIT DE CHA\xCENE (${channel.title || ""} ${channel.handle || ""}) :
+- Volume total \xE9valu\xE9 : ${entries.length} / ${totalSampled} vid\xE9os analys\xE9es par lots
+- Moyenne brute observ\xE9e : ${avgScore}/100 \u2022 Sensationnalisme moyen : ${avgCb}%
+
+EXTRAIT REPR\xC9SENTATIF DES NOTATIONS PAR VID\xC9O (Pires, Meilleures & R\xE9centes) :
+${digestLines}
+
+CONSIGNE FINALE :
+\xC0 partir de ces ${entries.length} \xE9valuations r\xE9elles, produis UNIQUEMENT :
+[SCORE_GLOBAL: ${avgScore}/100] (ajuste si la pond\xE9ration r\xE9cente/historique l'exige)
+[INDICE_CLICKBAIT: ${avgCb}%]
+[DISTRIBUTION: Fiable=A%, Modere=B%, Risque=C%]
+[TRAJECTOIRE: PROGRESSION | STABLE | DECLIN]
+Suivi exactement des 5 sections qualitatives r\xE9dig\xE9es en FRAN\xC7AIS : ### [\u2713], ### [!], ### [X], ### [\u{1F4C8}], ### Synth\xE8se & Recommandation Globale. Ne r\xE9p\xE8te pas [EVAL_VIDEOS].` : `FINAL CHANNEL AUDIT SYNTHESIS (${channel.title || ""} ${channel.handle || ""}):
+- Total videos scored across batches: ${entries.length} / ${totalSampled}
+- Observed raw mean score: ${avgScore}/100 \u2022 Mean sensationalism: ${avgCb}%
+
+REPRESENTATIVE VIDEO SCORE DIGEST (Lowest, Highest & Recent):
+${digestLines}
+
+FINAL INSTRUCTION:
+Based on these ${entries.length} evaluated videos, output ONLY:
+[SCORE_GLOBAL: ${avgScore}/100]
+[INDICE_CLICKBAIT: ${avgCb}%]
+[DISTRIBUTION: Fiable=A%, Modere=B%, Risque=C%]
+[TRAJECTOIRE: PROGRESSION | STABLE | DECLIN]
+Followed by the 5 qualitative sections written 100% in ${targetLangName}: ### [\u2713], ### [!], ### [X], ### [\u{1F4C8}], ### Executive Synthesis & Recommendation. Do not repeat [EVAL_VIDEOS].`;
+    }
+    static _extractEvalBlock(raw = "") {
+      const match = String(raw).match(/\[EVAL_VIDEOS\]([\s\S]*?)\[\/EVAL_VIDEOS\]/i);
+      if (match?.[1]) return match[1].trim();
+      const pipeLines = String(raw).split("\n").map((l) => l.trim()).filter((l) => /^\d+\s*\|\s*\d{1,3}/.test(l));
+      return pipeLines.join("\n");
+    }
+    static _parseQuickEntries(block = "") {
+      const entries = [];
+      for (const line of String(block).split("\n")) {
+        const m = line.trim().match(/^(\d+)\s*\|\s*(\d{1,3})\s*(?:%|\/100)?\s*\|\s*(\d{1,3})%?\s*\|\s*([^|]+)\|\s*(.+)$/);
+        if (m) {
+          entries.push({
+            index: parseInt(m[1], 10),
+            score: Math.max(0, Math.min(100, parseInt(m[2], 10))),
+            clickbait: Math.max(0, Math.min(100, parseInt(m[3], 10))),
+            raw: line.trim()
+          });
+        }
+      }
+      return entries;
+    }
+  };
+
+  // src/content/services/ChannelAuditStreamClient.js
+  var ChannelAuditStreamClient = class {
     /**
-     * Handles AI streaming via background port
-     * @private
+     * Streams an AI channel evaluation prompt and tracks line-by-line video progress
+     * @param {Object} params
+     * @returns {Promise<string>}
      */
-    async _streamAI({ systemPrompt, userPrompt, state: state2, totalVideos = 10, onChunk, onProgress }) {
+    static stream({ systemPrompt, userPrompt, state: state2, totalVideos = 10, onChunk, onProgress, signal = null, onPortCreated = null }) {
+      const lang = state2?.currentLang || "fr";
+      if (signal?.aborted) return Promise.reject(ChannelAuditJobTracker.createAbortError(lang));
       return new Promise((resolve, reject) => {
         if (typeof chrome === "undefined" || !chrome.runtime?.connect) {
           return reject(new Error("Chrome runtime connect non disponible"));
         }
-        const activeModel = typeof state2?.getActiveModel === "function" ? state2.getActiveModel() : state2?.selectedModel || "default";
-        const port = chrome.runtime.connect({ name: "ai_stream" });
-        this.currentPort = port;
+        const provider = state2?.currentProvider || "lmstudio";
+        let activeModel = typeof state2?.getActiveModel === "function" ? state2.getActiveModel() : state2?.selectedModel || "";
+        if (!activeModel && state2?.availableLocalModels?.[provider]?.length > 0) {
+          const first = state2.availableLocalModels[provider][0];
+          activeModel = first?.id || first?.name || "";
+        }
+        const port = chrome.runtime.connect({ name: "ai-stream" });
+        onPortCreated?.(port);
         let accumulated = "";
         let analyzedCount = 0;
         let isSynthesisStarted = false;
+        let settled = false;
+        const cleanup = () => {
+          signal?.removeEventListener("abort", onAbort);
+          onPortCreated?.(null);
+        };
+        const finishReject = (err) => {
+          if (settled) return;
+          settled = true;
+          cleanup();
+          reject(err);
+        };
+        const finishResolve = (val) => {
+          if (settled) return;
+          settled = true;
+          cleanup();
+          resolve(val);
+        };
+        const onAbort = () => {
+          try {
+            port.disconnect();
+          } catch (_) {
+          }
+          finishReject(ChannelAuditJobTracker.createAbortError(lang));
+        };
+        signal?.addEventListener("abort", onAbort, { once: true });
         port.onMessage.addListener((msg) => {
+          if (settled || signal?.aborted) return;
           if (msg.type === "CHUNK") {
             if (msg.reasoning) {
               onProgress?.({
                 step: "thinking",
                 percent: 26,
-                message: `Examen approfondi des vid\xE9os en cours...`,
+                message: "Examen approfondi des vid\xE9os en cours...",
                 detail: "Raisonnement critique du mod\xE8le sur les affirmations"
               });
             }
@@ -6089,9 +7810,7 @@ ${instruction}`;
               onChunk?.(msg.content, accumulated);
               const evalMatches = accumulated.match(/(?:^|\n)\s*\d+\s*\|\s*\d+\s*\|/g);
               const currentCount = evalMatches ? evalMatches.length : 0;
-              if (currentCount > analyzedCount) {
-                analyzedCount = Math.min(totalVideos, currentCount);
-              }
+              if (currentCount > analyzedCount) analyzedCount = Math.min(totalVideos, currentCount);
               const basePct = 26 + Math.round(analyzedCount / totalVideos * 62);
               const microBonus = Math.min(3, Math.round(accumulated.length % 500 / 500 * 3));
               let percent = Math.min(88, basePct + microBonus);
@@ -6105,12 +7824,7 @@ ${instruction}`;
                 message = "Examen final & calcul du score global de la cha\xEEne";
                 detail = `Synth\xE8se des ${totalVideos} vid\xE9os, forces et trajectoire d'\xE9volution`;
               }
-              onProgress?.({
-                step: isSynthesisStarted ? "synthesis" : "evaluating",
-                percent,
-                message,
-                detail
-              });
+              onProgress?.({ step: isSynthesisStarted ? "synthesis" : "evaluating", percent, message, detail });
             }
           } else if (msg.type === "DONE") {
             onProgress?.({
@@ -6119,29 +7833,417 @@ ${instruction}`;
               message: "\u2713 Examen de la cha\xEEne termin\xE9",
               detail: "Rapport d'int\xE9grit\xE9 et statistiques disponibles"
             });
-            resolve(accumulated);
-            resolve(accumulated);
+            finishResolve(accumulated);
           } else if (msg.type === "ERROR") {
-            reject(new Error(msg.error || "Erreur lors de l\u2019audit de la cha\xEEne"));
+            finishReject(new Error(msg.error || "Erreur lors de l\u2019audit de la cha\xEEne"));
           }
         });
         port.onDisconnect.addListener(() => {
-          if (!accumulated && this.isAuditing) {
-            reject(new Error("Connexion interrompue avec l\u2019IA"));
-          } else {
-            resolve(accumulated);
-          }
+          if (settled) return;
+          if (signal?.aborted) return onAbort();
+          if (!accumulated) return finishReject(new Error("Connexion interrompue avec l\u2019IA"));
+          finishResolve(accumulated);
         });
+        const serverUrl = state2?.serverUrls?.[provider] || state2?.serverUrl || "";
+        const apiKey = state2?.apiKeys?.[provider] || state2?.apiKey || "";
         port.postMessage({
           action: "START_STREAM",
           systemPrompt,
           userPrompt,
-          provider: state2?.currentProvider || "lmstudio",
+          provider,
           model: activeModel,
+          serverUrl,
           serverUrls: state2?.serverUrls,
-          apiKeys: state2?.apiKeys
+          apiKey,
+          apiKeys: state2?.apiKeys,
+          messages: [{ role: "user", content: userPrompt }]
         });
       });
+    }
+  };
+
+  // src/content/services/ChannelAuditService.js
+  var ChannelAuditService = class {
+    constructor(dependencies = {}) {
+      this.channelManager = dependencies.channelManager;
+      this.cachedReports = /* @__PURE__ */ new Map();
+      this.listeners = /* @__PURE__ */ new Set();
+      this.activeJob = null;
+      this.currentPort = null;
+      this.isAuditing = false;
+      this._hydratedPromise = ChannelAuditJobTracker.hydrateReports(this.cachedReports);
+    }
+    subscribe(listener) {
+      if (typeof listener !== "function") return () => {
+      };
+      this.listeners.add(listener);
+      return () => this.listeners.delete(listener);
+    }
+    _emit(event) {
+      for (const fn of this.listeners) {
+        try {
+          fn(event);
+        } catch (_) {
+        }
+      }
+    }
+    getActiveJob(channelQuery = null) {
+      if (!this.activeJob || this.activeJob.status !== "running") return null;
+      if (!channelQuery) return this.activeJob;
+      const targetKey = ChannelAuditJobTracker.normalizeKey(channelQuery);
+      if (!targetKey) return null;
+      return this.activeJob.channelKey === targetKey || this.activeJob.handleKey === targetKey ? this.activeJob : null;
+    }
+    isAuditRunning(channelQuery = null) {
+      return Boolean(this.getActiveJob(channelQuery));
+    }
+    async ensureHydrated() {
+      if (this._hydratedPromise) await this._hydratedPromise.catch(() => {
+      });
+    }
+    getCachedReport(query, period = null, maxVideos = null) {
+      if (!query) return null;
+      const key = String(query).trim().toLowerCase();
+      const norm = ChannelAuditJobTracker.normalizeKey(query);
+      if (period !== null || maxVideos !== null) {
+        const parsed = parseChannelAuditLimit(maxVideos ?? 30);
+        return this.cachedReports.get(`${key}::${period || "all"}::${parsed.key}`) || (norm ? this.cachedReports.get(`${norm}::${period || "all"}::${parsed.key}`) : null) || null;
+      }
+      return this.cachedReports.get(key) || (norm ? this.cachedReports.get(norm) : null) || null;
+    }
+    clearCache() {
+      this.cachedReports.clear();
+      ChannelAuditJobTracker.clearPersistedReports();
+    }
+    abortAudit(reason = "stopped") {
+      if (this.activeJob) {
+        this.activeJob.abortReason = reason;
+        this.activeJob.status = "aborted";
+        try {
+          this.activeJob.abortController?.abort(reason);
+        } catch (_) {
+        }
+      }
+      if (this.currentPort) {
+        try {
+          this.currentPort.disconnect();
+        } catch (_) {
+        }
+        this.currentPort = null;
+      }
+      this.isAuditing = false;
+    }
+    async executeChannelAudit(options = {}) {
+      const { channelQuery, period = "all", lang = "fr", state: state2 = {} } = options;
+      const parsedLimit = parseChannelAuditLimit(options.maxVideos ?? state2.channelAuditMaxVideos ?? 30);
+      const maxSample = parsedLimit.fetchCap;
+      const fetchLimit = parsedLimit.isAll ? parsedLimit.fetchCap : period !== "all" ? Math.max(90, maxSample) : Math.max(30, maxSample);
+      if (!channelQuery) throw new Error("Identifiant ou URL de cha\xEEne manquant pour l\u2019audit");
+      await this.ensureHydrated();
+      const qNorm = String(channelQuery).trim().toLowerCase();
+      const channelKey = ChannelAuditJobTracker.normalizeKey(channelQuery) || qNorm;
+      const cacheKey = `${channelKey}::${period}::${parsedLimit.key}`;
+      const existing = this.getCachedReport(channelQuery, period, parsedLimit.key);
+      if (existing) return existing;
+      this.abortAudit("superseded");
+      const abortController = new AbortController();
+      const signal = abortController.signal;
+      const job = {
+        id: `audit_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+        channelQuery,
+        channelKey,
+        handleKey: channelKey,
+        period,
+        maxVideos: parsedLimit.key,
+        lang,
+        status: "running",
+        progress: {
+          step: "fetch",
+          percent: 8,
+          message: lang.startsWith("fr") ? "Collecte du dossier de la cha\xEEne..." : "Fetching channel catalog...",
+          detail: parsedLimit.isAll ? lang.startsWith("fr") ? "Indexation du catalogue complet" : "Full catalog indexing" : `${maxSample} max`
+        },
+        abortController,
+        startedAt: Date.now()
+      };
+      this.activeJob = job;
+      this.isAuditing = true;
+      const emitProgress = (p) => {
+        if (!p || signal.aborted || this.activeJob?.id !== job.id) return;
+        job.progress = { ...p };
+        options.onProgress?.(job.progress);
+        this._emit({ type: "progress", job, progress: job.progress });
+      };
+      this._emit({ type: "started", job, progress: job.progress });
+      try {
+        emitProgress(job.progress);
+        const channelData = await ChannelAuditJobTracker.raceWithAbort(
+          this._resolveChannelDossier(channelQuery, fetchLimit),
+          signal,
+          lang
+        );
+        ChannelAuditJobTracker.throwIfAborted(signal, lang);
+        if (channelData.handle) {
+          job.handleKey = ChannelAuditJobTracker.normalizeKey(channelData.handle) || job.channelKey;
+        }
+        emitProgress({
+          step: "sample",
+          percent: 18,
+          message: lang.startsWith("fr") ? "\xC9chantillonnage statistique (pond\xE9ration temporelle)..." : "Statistical stratified sampling...",
+          detail: `${period === "all" ? "r\xE9cent ~65%, historique ~35%" : period}`
+        });
+        const allVideos = channelData.recentVideos || [];
+        const filteredVideos = ChannelStatisticalSampler.filterVideosByPeriod(allVideos, period);
+        const sampledVideos = ChannelStatisticalSampler.selectStratifiedSample(
+          filteredVideos.length > 0 ? filteredVideos : allVideos,
+          { maxSample }
+        );
+        if (sampledVideos.length === 0) throw new Error("Aucune vid\xE9o trouv\xE9e sur cette cha\xEEne pour constituer un \xE9chantillon.");
+        await this._enrichSampledVideos(sampledVideos, lang, emitProgress, signal);
+        ChannelAuditJobTracker.throwIfAborted(signal, lang);
+        let accumulatedText = "";
+        if (sampledVideos.length > 30) {
+          accumulatedText = await ChannelAuditBatchRunner.run({
+            channel: channelData,
+            sampledVideos,
+            lang,
+            state: state2,
+            streamFn: (params) => this._streamAI(params),
+            onChunk: options.onChunk,
+            onProgress: emitProgress,
+            signal
+          });
+        } else {
+          emitProgress({
+            step: "prompt",
+            percent: 24,
+            message: `Lancement de l'examen des ${sampledVideos.length} vid\xE9os...`,
+            detail: "Pr\xE9paration du dossier consolid\xE9 pour le mod\xE8le"
+          });
+          accumulatedText = await this._streamAI({
+            systemPrompt: ChannelAuditPromptBuilder.buildSystemPrompt(lang),
+            userPrompt: ChannelAuditPromptBuilder.buildUserPrompt(channelData, sampledVideos, lang),
+            state: state2,
+            totalVideos: sampledVideos.length,
+            onChunk: options.onChunk,
+            onProgress: emitProgress,
+            signal
+          });
+        }
+        ChannelAuditJobTracker.throwIfAborted(signal, lang);
+        const exactChannelTotal = channelData.totalChannelVideos || (channelData.hasMore === false ? allVideos.length : null);
+        const report = ChannelAuditReport.fromRawResponse(accumulatedText, {
+          channel: channelData,
+          sampledVideos,
+          totalAvailable: exactChannelTotal || allVideos.length,
+          requestedLimit: parsedLimit.key,
+          lang
+        });
+        report.channelTotalVideos = exactChannelTotal;
+        this._storeReport(cacheKey, qNorm, channelKey, period, parsedLimit.key, channelData.handle, report);
+        job.status = "completed";
+        if (this.activeJob?.id === job.id) this.activeJob = null;
+        this.isAuditing = false;
+        this._emit({ type: "completed", job, report });
+        return report;
+      } catch (err) {
+        if (this.activeJob?.id === job.id) {
+          this.activeJob = null;
+          this.isAuditing = false;
+          this.currentPort = null;
+        }
+        if (ChannelAuditJobTracker.isAbortError(err)) {
+          job.status = "aborted";
+          if (job.abortReason !== "superseded") this._emit({ type: "aborted", job, error: err });
+          throw err;
+        }
+        job.status = "error";
+        this._emit({ type: "error", job, error: err });
+        throw err;
+      }
+    }
+    _storeReport(cacheKey, qNorm, channelKey, period, limitKey, handle, report) {
+      this.cachedReports.set(cacheKey, report);
+      this.cachedReports.set(`${qNorm}::${period}::${limitKey}`, report);
+      this.cachedReports.set(qNorm, report);
+      this.cachedReports.set(channelKey, report);
+      if (handle) {
+        const handleLower = handle.toLowerCase();
+        this.cachedReports.set(`${handleLower}::${period}::${limitKey}`, report);
+        this.cachedReports.set(handleLower, report);
+      }
+      ChannelAuditJobTracker.persistReport(cacheKey, channelKey, report);
+    }
+    async _resolveChannelDossier(channelQuery, fetchLimit) {
+      if (typeof this.channelManager?.getOrFetchChannelDossier === "function") {
+        const res = await this.channelManager.getOrFetchChannelDossier(channelQuery, fetchLimit);
+        if (res?.success && res.channel) return res.channel;
+      }
+      const bgRes = await new Promise((res) => {
+        if (typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
+          chrome.runtime.sendMessage({ action: "FETCH_CHANNEL_DOSSIER", query: channelQuery, limit: fetchLimit }, (r) => res(r || {}));
+        } else {
+          res({ success: false, error: "Runtime unavailable" });
+        }
+      });
+      if (!bgRes?.success || !bgRes.channel) throw new Error(bgRes?.error || `Impossible de r\xE9cup\xE9rer les vid\xE9os pour : ${channelQuery}`);
+      return bgRes.channel;
+    }
+    async _enrichSampledVideos(sampledVideos, lang, emitProgress, signal) {
+      const enrichPool = sampledVideos.length <= 35 ? sampledVideos : sampledVideos.filter((_, i) => i % Math.ceil(sampledVideos.length / 35) === 0).slice(0, 35);
+      emitProgress({
+        step: "enrich",
+        percent: 21,
+        message: `Collecte approfondie (${enrichPool.length}/${sampledVideos.length} vid\xE9os)...`,
+        detail: "Recueil des descriptions, chapitres et signaux \xE9ditoriaux"
+      });
+      const videoIds = enrichPool.map((v) => v.id).filter(Boolean);
+      if (videoIds.length === 0 || typeof chrome === "undefined" || !chrome.runtime?.sendMessage) return;
+      try {
+        const enrichPromise = new Promise((res) => chrome.runtime.sendMessage(
+          { action: "FETCH_BATCH_DOSSIERS", videoIds, lang, includeComments: sampledVideos.length <= 30 },
+          (r) => res(r || {})
+        ));
+        const enrichRes = await ChannelAuditJobTracker.raceWithAbort(enrichPromise, signal, lang);
+        if (enrichRes?.success && enrichRes.dossiers) {
+          enrichPool.forEach((v) => {
+            const d = enrichRes.dossiers[v.id];
+            if (d) Object.assign(v, { description: d.description || v.description, chapters: d.chapters || v.chapters, hasCaptions: d.hasCaptions ?? v.hasCaptions, comments: d.comments || v.comments });
+          });
+        }
+      } catch (err) {
+        if (ChannelAuditJobTracker.isAbortError(err)) throw err;
+      }
+    }
+    _streamAI(params) {
+      return ChannelAuditStreamClient.stream({
+        ...params,
+        onPortCreated: (p) => {
+          this.currentPort = p;
+        }
+      });
+    }
+  };
+
+  // src/domain/services/SensationalismScale.js
+  var SENSATIONALISM_LEVELS = [
+    {
+      min: 0,
+      max: 4,
+      level: "sober",
+      hex: "#10b981",
+      macro: "success",
+      frLabel: "Sobri\xE9t\xE9 factuelle",
+      enLabel: "Factual Sobriety",
+      frDesc: "Titres neutres et fid\xE8les au contenu, sans exag\xE9ration notable.",
+      enDesc: "Neutral, content-faithful titles with negligible exaggeration."
+    },
+    {
+      min: 5,
+      max: 14,
+      level: "mild",
+      hex: "#84cc16",
+      macro: "success",
+      frLabel: "Accroches l\xE9g\xE8res",
+      enLabel: "Light Editorial Hooks",
+      frDesc: "Fond rigoureux avec quelques formulations dynamiques ou accrocheuses.",
+      enDesc: "Rigorous substance paired with occasional attention-grabbing titles."
+    },
+    {
+      min: 15,
+      max: 29,
+      level: "moderate",
+      hex: "#eab308",
+      macro: "warning",
+      frLabel: "Hyperboles mod\xE9r\xE9es",
+      enLabel: "Moderate Hyperbole",
+      frDesc: "Effets d\u2019annonce fr\xE9quents ; vigilance conseill\xE9e face aux titres.",
+      enDesc: "Frequent hype framing; verify title promises against actual substance."
+    },
+    {
+      min: 30,
+      max: 49,
+      level: "high",
+      hex: "#f97316",
+      macro: "danger",
+      frLabel: "Sensationnalisme marqu\xE9",
+      enLabel: "Marked Sensationalism",
+      frDesc: "D\xE9calage r\xE9current entre la promesse des titres et les faits expos\xE9s.",
+      enDesc: "Recurring gap between sensationalized promises and real evidence."
+    },
+    {
+      min: 50,
+      max: 100,
+      level: "clickbait",
+      hex: "#ef4444",
+      macro: "danger",
+      frLabel: "Clickbait prononc\xE9",
+      enLabel: "Heavy Clickbait",
+      frDesc: "Dramatisation syst\xE9matique ou accroches fortement trompeuses.",
+      enDesc: "Systematic dramatization, bait framing, or misleading promises."
+    }
+  ];
+  var SENSATIONALISM_BUCKETS = [
+    { id: "sober", min: 0, max: 9, range: "0\u20139%", hex: "#10b981", fr: "Factuel", en: "Factual" },
+    { id: "mild", min: 10, max: 24, range: "10\u201324%", hex: "#84cc16", fr: "Accrocheur", en: "Mild Hook" },
+    { id: "moderate", min: 25, max: 44, range: "25\u201344%", hex: "#eab308", fr: "Hyperbole", en: "Hyperbole" },
+    { id: "high", min: 45, max: 69, range: "45\u201369%", hex: "#f97316", fr: "Sensationnel", en: "Sensational" },
+    { id: "clickbait", min: 70, max: 100, range: "70\u2013100%", hex: "#ef4444", fr: "Clickbait", en: "Clickbait" }
+  ];
+  var SENSATIONALISM_SPECTRUM_GRADIENT = "linear-gradient(90deg, #10b981 0%, #84cc16 14%, #eab308 32%, #f97316 55%, #ef4444 100%)";
+  var SensationalismScale = class {
+    /**
+     * Computes complete visualization metadata for a channel's sensationalism index
+     * and per-video sensationalism distribution.
+     * @param {number} rawIndex Global clickbait/sensationalism index (0..100)
+     * @param {Array<Object>} [evaluatedVideos=[]] Videos with optional numeric clickbait property
+     * @param {string} [lang='fr']
+     * @returns {Object}
+     */
+    static getProfile(rawIndex, evaluatedVideos = [], lang = "fr") {
+      const index = Math.max(0, Math.min(100, Math.round(Number(rawIndex) || 0)));
+      const isFr = (lang || "fr").toLowerCase().startsWith("fr");
+      const levelDef = SENSATIONALISM_LEVELS.find((l) => index >= l.min && index <= l.max) || SENSATIONALISM_LEVELS[SENSATIONALISM_LEVELS.length - 1];
+      const sweepDeg = index === 0 ? 0 : Math.max(10, Math.round(index / 100 * 360));
+      const markerPct = Math.max(2, Math.min(98, index));
+      const ringBackground = `conic-gradient(${levelDef.hex} 0deg ${sweepDeg}deg, rgba(255, 255, 255, 0.09) ${sweepDeg}deg 360deg)`;
+      const validVideos = (Array.isArray(evaluatedVideos) ? evaluatedVideos : []).filter(
+        (v) => typeof v?.clickbait === "number" && !Number.isNaN(v.clickbait)
+      );
+      const total = validVideos.length;
+      const counts = SENSATIONALISM_BUCKETS.map(() => 0);
+      for (const video of validVideos) {
+        const cb = Math.max(0, Math.min(100, Math.round(video.clickbait)));
+        const idx = SENSATIONALISM_BUCKETS.findIndex((b) => cb >= b.min && cb <= b.max);
+        if (idx >= 0) counts[idx] += 1;
+      }
+      const buckets = SENSATIONALISM_BUCKETS.map((b, i) => {
+        const count = counts[i];
+        const pct = total > 0 ? Math.round(count / total * 100) : 0;
+        return {
+          id: b.id,
+          range: b.range,
+          label: isFr ? b.fr : b.en,
+          hex: b.hex,
+          count,
+          pct
+        };
+      });
+      return {
+        index,
+        level: levelDef.level,
+        macroColor: levelDef.macro,
+        hexColor: levelDef.hex,
+        label: isFr ? levelDef.frLabel : levelDef.enLabel,
+        description: isFr ? levelDef.frDesc : levelDef.enDesc,
+        sweepDeg,
+        markerPct,
+        ringBackground,
+        spectrumGradient: SENSATIONALISM_SPECTRUM_GRADIENT,
+        hasVideoBreakdown: total > 0,
+        videoSampleCount: total,
+        buckets
+      };
     }
   };
 
@@ -6158,6 +8260,15 @@ ${instruction}`;
       this.lastReport = null;
     }
     /**
+     * Alias for renderReport to guarantee compatibility across controllers
+     * @param {ChannelAuditReport} report
+     * @param {HTMLElement} container
+     * @param {string} [lang='fr']
+     */
+    renderChannelReport(report, container, lang = "fr") {
+      return this.renderReport(report, container, lang);
+    }
+    /**
      * Renders the complete channel audit view inside a target container
      * @param {ChannelAuditReport} report
      * @param {HTMLElement} container
@@ -6166,65 +8277,55 @@ ${instruction}`;
     renderReport(report, container, lang = "fr") {
       if (!report || !container) return;
       this.lastReport = report;
-      const t = I18N[lang] || I18N.fr;
-      const scoreClass = report.globalScore >= 75 ? "yt-ai-score-high" : report.globalScore >= 50 ? "yt-ai-score-med" : "yt-ai-score-low";
+      const t = I18N[lang] || I18N.en;
+      const isFr = (lang || "fr").toLowerCase().startsWith("fr");
+      const tier = typeof report.globalScore === "number" ? ScoreTierScale.getTier(report.globalScore, lang) : report.tier;
+      const fine = Array.isArray(report.evaluatedVideos) && report.evaluatedVideos.length > 0 ? ScoreTierScale.computeDistributionMetrics(report.evaluatedVideos, lang) : report.fineDistribution || ScoreTierScale.computeDistributionMetrics([], lang);
+      const sens = SensationalismScale.getProfile(report.clickbaitIndex, report.evaluatedVideos, lang);
+      const tierBadgeLabel = isFr && report.badge?.label ? report.badge.label : tier.label || report.badge?.label;
+      const scoreClass = tier.scoreClass || (report.globalScore >= 75 ? "yt-ai-score-high" : report.globalScore >= 50 ? "yt-ai-score-med" : "yt-ai-score-low");
       const trajIcon = report.trajectory === "improving" ? "\u2197" : report.trajectory === "declining" ? "\u2198" : "\u2192";
       const trajClass = report.trajectory === "improving" ? "yt-ai-traj-up" : report.trajectory === "declining" ? "yt-ai-traj-down" : "yt-ai-traj-stable";
-      const p = report.proportions || { reliablePct: 60, cautionPct: 30, clickbaitPct: 10 };
+      const scoreGradient = tier.gradient || ScoreTierScale.buildScoreGradient(report.globalScore, tier.hexColor);
+      const availSuffix = report.totalAvailable > report.sampleSize ? isFr ? ` sur ${report.totalAvailable} disponibles` : ` of ${report.totalAvailable} available` : "";
       const html = `
       <div class="yt-ai-channel-audit-wrapper">
-        <!-- Hero Header & Score Gauge -->
-        <div class="yt-ai-audit-hero-card">
-          <div class="yt-ai-gauge-wrapper">
-            <div class="yt-ai-gauge-circle ${scoreClass}">
-              <span class="yt-ai-gauge-num">${report.globalScore}</span>
-              <span class="yt-ai-gauge-unit">/100</span>
+        <!-- Hero Header & Graded Score Gauge -->
+        <div class="yt-ai-audit-hero-card ${scoreClass}" style="background: linear-gradient(135deg, ${tier.hexColor}1f 0%, var(--yt-ai-bg-card) 75%); border-color: ${tier.hexColor}55;">
+          <div class="yt-ai-audit-hero-main">
+            <div class="yt-ai-gauge-wrapper">
+              <div class="yt-ai-gauge-circle ${scoreClass}" style="border-color: ${tier.hexColor}; color: ${tier.hexColor}; background: radial-gradient(circle, ${tier.hexColor}22 0%, var(--yt-ai-bg-secondary) 72%); box-shadow: 0 0 14px ${tier.hexColor}33;">
+                <span class="yt-ai-gauge-num">${report.globalScore}</span>
+                <span class="yt-ai-gauge-unit">/100</span>
+              </div>
+            </div>
+            <div class="yt-ai-audit-meta">
+              <div class="yt-ai-audit-status-badge ${scoreClass}" style="background: ${tier.hexColor}1a; border: 1px solid ${tier.hexColor}66; color: ${tier.hexColor};">
+                <span class="yt-ai-badge-icon">${escapeHtml(report.badge?.symbol || "\u2713")}</span>
+                <span>${escapeHtml(tierBadgeLabel)}</span>
+              </div>
+              <div class="yt-ai-channel-title-row">
+                <strong>${escapeHtml(report.channelTitle)}</strong>
+                <span class="yt-ai-channel-handle">${escapeHtml(report.channelHandle)}</span>
+                ${report.subscribers ? `<span class="yt-ai-sub-pill">${escapeHtml(report.subscribers)}</span>` : ""}
+              </div>
+              <div class="yt-ai-sample-info-pill">
+                <span>${escapeHtml(t.channelSampleBadge || "Sample:")} <strong>${report.sampleSize} ${escapeHtml(t.channelVideosUnit || "videos")}${escapeHtml(availSuffix)}</strong> \xB7 ${escapeHtml(t.channelRecentHistoricMix || "")}</span>
+              </div>
             </div>
           </div>
-          <div class="yt-ai-audit-meta">
-            <div class="yt-ai-audit-status-badge ${scoreClass}">
-              <span class="yt-ai-badge-icon">${escapeHtml(report.badge?.symbol || "\u2713")}</span>
-              <span>${escapeHtml(report.badge?.label || "Score Global")}</span>
-            </div>
-            <div class="yt-ai-channel-title-row">
-              <strong>${escapeHtml(report.channelTitle)}</strong>
-              <span class="yt-ai-channel-handle">${escapeHtml(report.channelHandle)}</span>
-              ${report.subscribers ? `<span class="yt-ai-sub-pill">${escapeHtml(report.subscribers)}</span>` : ""}
-            </div>
-            <div class="yt-ai-sample-info-pill">
-              <span>\xC9chantillon : <strong>${report.sampleSize} vid\xE9os</strong> (Pond\xE9ration r\xE9cente ~65% & historique ~35%)</span>
-            </div>
+          <div class="yt-ai-audit-meter yt-ai-audit-meter-spectrum" title="${report.globalScore}/100">
+            <div class="yt-ai-audit-meter-fill" style="width:${Math.max(4, Math.min(100, report.globalScore))}%;background:${scoreGradient};box-shadow:0 0 8px ${tier.hexColor}66;"></div>
           </div>
         </div>
 
-        <!-- Proportion Distribution Bar & Clickbait Index -->
-        <div class="yt-ai-stat-card">
-          <div class="yt-ai-stat-header">
-            <span><strong>Proportion d'int\xE9grit\xE9 \xE9ditoriale</strong> (${report.sampleSize} vid\xE9os analys\xE9es)</span>
-            <span class="yt-ai-clickbait-tag">Indice Sensationnalisme : <strong>${report.clickbaitIndex}%</strong></span>
-          </div>
-          <div class="yt-ai-proportion-bar">
-            <div class="yt-ai-prop-segment yt-ai-prop-reliable" style="width: ${p.reliablePct}%" title="Fiable: ${p.reliablePct}%">
-              ${p.reliablePct >= 12 ? `${p.reliablePct}%` : ""}
-            </div>
-            <div class="yt-ai-prop-segment yt-ai-prop-caution" style="width: ${p.cautionPct}%" title="Vigilance: ${p.cautionPct}%">
-              ${p.cautionPct >= 12 ? `${p.cautionPct}%` : ""}
-            </div>
-            <div class="yt-ai-prop-segment yt-ai-prop-clickbait" style="width: ${p.clickbaitPct}%" title="Sensationnalisme: ${p.clickbaitPct}%">
-              ${p.clickbaitPct >= 12 ? `${p.clickbaitPct}%` : ""}
-            </div>
-          </div>
-          <div class="yt-ai-proportion-legend">
-            <span><span class="yt-ai-dot yt-ai-dot-green"></span> ${p.reliablePct}% Fiable (\u226575)</span>
-            <span><span class="yt-ai-dot yt-ai-dot-amber"></span> ${p.cautionPct}% Mod\xE9r\xE9 (50-74)</span>
-            <span><span class="yt-ai-dot yt-ai-dot-red"></span> ${p.clickbaitPct}% Risque (&lt;50)</span>
-          </div>
-        </div>
+        <!-- Dual Analytics Grid: 5%-Step Integrity Histogram & Dedicated Sensationalism Graph -->
+        ${this._renderAnalyticsGrid(report, tier, fine, sens, t)}
 
         <!-- Trajectory & Year-over-Year Evolution -->
         <div class="yt-ai-stat-card yt-ai-trajectory-card">
           <div class="yt-ai-stat-header">
-            <span><strong>\xC9volution & Trajectoire temporelle</strong></span>
+            <span><strong>${escapeHtml(t.channelEvolutionTitle || "\u{1F4C8} Editorial & Quality Evolution")}</strong></span>
             <span class="yt-ai-traj-badge ${trajClass}">[${trajIcon}] ${escapeHtml(report.trajectoryLabel)}</span>
           </div>
           ${report.temporalEvolution ? `<div class="yt-ai-traj-desc">${escapeHtml(report.temporalEvolution)}</div>` : ""}
@@ -6233,21 +8334,21 @@ ${instruction}`;
         <!-- The 3 Pillars: Good / Less good / Bad -->
         <div class="yt-ai-pillars-grid">
           <div class="yt-ai-pillar-col yt-ai-pillar-good">
-            <div class="yt-ai-pillar-title"><span class="yt-ai-pillar-icon">\u2713</span> Ce qu'elle fait de bien (Forces)</div>
+            <div class="yt-ai-pillar-title">${escapeHtml(t.channelStrengthsTitle || "\u2713 What It Does Well (Strengths)")}</div>
             <ul class="yt-ai-pillar-list">
-              ${(report.strengths.length > 0 ? report.strengths : ["Rigueur g\xE9n\xE9rale appr\xE9ciable"]).map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
+              ${(report.strengths.length > 0 ? report.strengths : [t.channelNoStrengths || "No major strengths reported."]).map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
             </ul>
           </div>
           <div class="yt-ai-pillar-col yt-ai-pillar-warn">
-            <div class="yt-ai-pillar-title"><span class="yt-ai-pillar-icon">!</span> Ce qu'elle fait de moins bien (Vigilance)</div>
+            <div class="yt-ai-pillar-title">${escapeHtml(t.channelWeaknessesTitle || "! Areas for Vigilance (Weaknesses)")}</div>
             <ul class="yt-ai-pillar-list">
-              ${(report.weaknesses.length > 0 ? report.weaknesses : ["Simplifications ponctuelles"]).map((w) => `<li>${escapeHtml(w)}</li>`).join("")}
+              ${(report.weaknesses.length > 0 ? report.weaknesses : [t.channelNoWeaknesses || "No major weaknesses reported."]).map((w) => `<li>${escapeHtml(w)}</li>`).join("")}
             </ul>
           </div>
           <div class="yt-ai-pillar-col yt-ai-pillar-bad">
-            <div class="yt-ai-pillar-title"><span class="yt-ai-pillar-icon">\u2715</span> \xC9cueils & Pi\xE8ges (\xC0 \xE9viter)</div>
+            <div class="yt-ai-pillar-title">${escapeHtml(t.channelDrawbacksTitle || "\u2715 Pitfalls & Red Flags (Drawbacks)")}</div>
             <ul class="yt-ai-pillar-list">
-              ${(report.drawbacks.length > 0 ? report.drawbacks : ["Titres parfois sensationnalistes"]).map((d) => `<li>${escapeHtml(d)}</li>`).join("")}
+              ${(report.drawbacks.length > 0 ? report.drawbacks : [t.channelNoDrawbacks || "No major red flags reported."]).map((d) => `<li>${escapeHtml(d)}</li>`).join("")}
             </ul>
           </div>
         </div>
@@ -6255,62 +8356,128 @@ ${instruction}`;
         <!-- Sampled Video Breakdown Accordion -->
         <details class="yt-ai-video-sample-accordion">
           <summary class="yt-ai-sample-summary">
-            <span>\u{1F3AC} D\xE9tail des vid\xE9os \xE9chantillonn\xE9es (${report.evaluatedVideos.length})</span>
+            <span>${escapeHtml(t.channelSampleVideosTitle || "\u{1F3AC} Analyzed Videos Breakdown")} (${report.evaluatedVideos.length})</span>
             <span class="yt-ai-accordion-arrow">\u25BE</span>
           </summary>
           <div class="yt-ai-sample-list">
-            ${report.evaluatedVideos.map((v, i) => `
+            ${report.evaluatedVideos.map((v, i) => {
+        const vt = ScoreTierScale.getTier(v.score, lang);
+        return `
               <div class="yt-ai-sample-item">
                 <div class="yt-ai-sample-item-top">
                   <span class="yt-ai-sample-num">#${i + 1}</span>
                   <span class="yt-ai-era-badge yt-ai-era-${v.era}">${escapeHtml(v.eraLabel || v.era)}</span>
                   <a href="${escapeHtml(v.url || `https://youtu.be/${v.id}`)}" target="_blank" class="yt-ai-sample-title">${escapeHtml(v.title)}</a>
-                  <span class="yt-ai-sample-score ${v.score >= 75 ? "yt-ai-score-high" : v.score >= 50 ? "yt-ai-score-med" : "yt-ai-score-low"}">${v.score}/100</span>
+                  <span class="yt-ai-sample-score ${vt.scoreClass}" style="color:${vt.hexColor};border-color:${vt.hexColor}55;">${v.score}/100</span>
                 </div>
                 ${v.comment ? `<div class="yt-ai-sample-comment">${escapeHtml(v.comment)}</div>` : ""}
               </div>
-            `).join("")}
+            `;
+      }).join("")}
           </div>
         </details>
 
         <!-- Executive Summary -->
         ${report.executiveSummary ? `
           <div class="yt-ai-exec-summary-box">
-            <h4>Synth\xE8se & Recommandation Globale</h4>
+            <h4>${escapeHtml(t.channelSynthesisTitle || "\u{1F4CB} Executive Synthesis")}</h4>
             <div class="yt-ai-exec-text">${escapeHtml(report.executiveSummary)}</div>
           </div>
         ` : ""}
 
         <!-- Actions -->
         <div class="yt-ai-audit-actions-row">
-          <button id="ytAiCopyChannelAuditBtn" class="yt-ai-btn yt-ai-btn-secondary">\u{1F4CB} Copier l'audit</button>
+          <button id="ytAiCopyChannelAuditBtn" class="yt-ai-btn yt-ai-btn-secondary">${escapeHtml(t.copyAuditBtn || "\u{1F4CB} Copy full channel report")}</button>
         </div>
       </div>
     `;
       safeSetInnerHTML(container, html);
       container.querySelector("#ytAiCopyChannelAuditBtn")?.addEventListener("click", () => {
-        this.handleCopyReport(report);
+        this.handleCopyReport(report, lang);
       });
     }
-    handleCopyReport(report) {
+    _renderAnalyticsGrid(report, tier, fine, sens, t = {}) {
+      const bins = fine.bins || [];
+      const maxBinCount = Math.max(1, ...bins.map((b) => b.count || 0));
+      const barsHtml = bins.map((b) => {
+        const h = b.count > 0 ? Math.max(16, Math.round(b.count / maxBinCount * 80)) : 3;
+        const cls = `${b.count === 0 ? "is-empty" : ""} ${b.index === tier.stepIndex ? "is-active-tier" : ""}`.trim();
+        const barBg = b.count > 0 ? `linear-gradient(180deg, ${b.hexColor}, ${b.hexColor}99)` : "var(--yt-ai-border-subtle)";
+        const countBadge = b.count > 0 ? `<span class="yt-ai-hist-count">${b.count}</span>` : "";
+        return `<div class="yt-ai-hist-col" title="${escapeHtml(b.label)} : ${b.count} (${b.pct}%)">${countBadge}<div class="yt-ai-hist-bar ${cls}" style="background:${barBg};height:${h}%;"></div></div>`;
+      }).join("");
+      const breakdownHtml = sens.hasVideoBreakdown ? `<div class="yt-ai-sensation-breakdown">
+          ${sens.buckets.map((b) => `
+            <div class="yt-ai-sens-row" title="${escapeHtml(b.label)} (${escapeHtml(b.range)}) : ${b.count} (${b.pct}%)">
+              <span class="yt-ai-sens-row-label">${escapeHtml(b.label)} <span class="yt-ai-sens-row-range">${escapeHtml(b.range)}</span></span>
+              <div class="yt-ai-sens-row-track"><div class="yt-ai-sens-row-fill" style="width:${b.pct}%;background:linear-gradient(90deg, ${b.hex}bb, ${b.hex});"></div></div>
+              <span class="yt-ai-sens-row-val">${b.pct}% <span class="yt-ai-sens-row-cnt">(${b.count})</span></span>
+            </div>
+          `).join("")}
+        </div>` : "";
+      return `
+      <div class="yt-ai-stat-analytics-grid">
+        <div class="yt-ai-stat-card yt-ai-dist-card">
+          <div class="yt-ai-stat-header">
+            <span><strong>${escapeHtml(t.channelIntegrityProportion || "Editorial Integrity Distribution")}</strong> <span class="yt-ai-stat-sub">(${report.sampleSize} ${escapeHtml(t.channelVideosUnit || "videos")})</span></span>
+            <div class="yt-ai-histogram-metrics">
+              <span class="yt-ai-metric-chip">${escapeHtml(t.channelMedianLabel || "Median:")} ${fine.median}/100</span>
+              <span class="yt-ai-metric-chip">${escapeHtml(fine.consistencyLabel || "")}</span>
+            </div>
+          </div>
+          <div class="yt-ai-histogram-box yt-ai-histogram-primary">
+            <div class="yt-ai-hist-bars">${barsHtml}</div>
+            <div class="yt-ai-hist-axis"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+            <div class="yt-ai-hist-footnote">${escapeHtml(t.channelDistributionLabel || "5% tier distribution")}</div>
+          </div>
+        </div>
+
+        <div class="yt-ai-stat-card yt-ai-sensation-card" style="border-color:${sens.hexColor}44;">
+          <div class="yt-ai-stat-header">
+            <span><strong>${escapeHtml(t.channelSensationalismLabel || "Sensationalism Index")}</strong></span>
+            <span class="yt-ai-sensation-badge" style="color:${sens.hexColor};background:${sens.hexColor}1a;border-color:${sens.hexColor}55;">${escapeHtml(sens.label)}</span>
+          </div>
+          <div class="yt-ai-sensation-hero">
+            <div class="yt-ai-sensation-donut" style="background:${sens.ringBackground};box-shadow:0 0 12px ${sens.hexColor}2a;">
+              <div class="yt-ai-sensation-donut-inner">
+                <span class="yt-ai-sensation-val" style="color:${sens.hexColor};">${sens.index}%</span>
+              </div>
+            </div>
+            <div class="yt-ai-sensation-context">
+              <div class="yt-ai-sensation-desc">${escapeHtml(sens.description)}</div>
+              <div class="yt-ai-sensation-spectrum-wrap" title="${escapeHtml(t.channelSensationalismLabel || "Sensationalism Index")}: ${sens.index}%">
+                <div class="yt-ai-sensation-spectrum" style="background:${sens.spectrumGradient};">
+                  <span class="yt-ai-sensation-marker" style="left:${sens.markerPct}%;border-color:${sens.hexColor};"></span>
+                </div>
+                <div class="yt-ai-sensation-scale"><span>0% ${escapeHtml(t.channelClickbaitLow || "Sober")}</span><span>50%</span><span>100% Clickbait</span></div>
+              </div>
+            </div>
+          </div>
+          ${breakdownHtml}
+        </div>
+      </div>
+    `;
+    }
+    handleCopyReport(report, lang = "en") {
       if (!report) return;
+      const t = I18N[lang] || I18N.en;
       const text = [
-        `### \u{1F4CA} AUDIT GLOBAL DE CHA\xCENE : ${report.channelTitle} (${report.channelHandle})`,
-        `- Note globale pond\xE9r\xE9e : ${report.globalScore}/100 (${report.badge?.label || ""})`,
-        `- Indice de sensationnalisme : ${report.clickbaitIndex}%`,
-        `- R\xE9partition : ${report.proportions?.reliablePct}% Fiable, ${report.proportions?.cautionPct}% Mod\xE9r\xE9, ${report.proportions?.clickbaitPct}% Risque`,
-        `- Trajectoire temporelle : ${report.trajectoryLabel}`,
+        `### ${t.channelAuditTitle || "\u{1F4CA} Global Channel Audit"} : ${report.channelTitle} (${report.channelHandle})`,
+        `- Score: ${report.globalScore}/100 (${report.badge?.label || ""})`,
+        `- ${t.channelSensationalismLabel || "Sensationalism Index"}: ${report.clickbaitIndex}%`,
+        `- ${t.channelIntegrityProportion || "Distribution"}: ${report.proportions?.reliablePct}% ${t.channelBucketReliable || "Reliable"}, ${report.proportions?.cautionPct}% ${t.channelBucketModerate || "Moderate"}, ${report.proportions?.clickbaitPct}% ${t.channelBucketRisk || "Risk"}`,
+        `- ${t.channelEvolutionTitle || "Evolution"}: ${report.trajectoryLabel}`,
         `
-#### Ce que la cha\xEEne fait de bien :`,
+#### ${t.channelStrengthsTitle || "Strengths"}:`,
         ...report.strengths.map((s) => `  * ${s}`),
         `
-#### Ce qu'elle fait de moins bien :`,
+#### ${t.channelWeaknessesTitle || "Weaknesses"}:`,
         ...report.weaknesses.map((w) => `  * ${w}`),
         `
-#### \xC9cueils et d\xE9rives constat\xE9s :`,
+#### ${t.channelDrawbacksTitle || "Drawbacks"}:`,
         ...report.drawbacks.map((d) => `  * ${d}`),
         `
-#### Synth\xE8se :`,
+#### ${t.channelSynthesisTitle || "Synthesis"}:`,
         report.executiveSummary || ""
       ].join("\n");
       if (navigator.clipboard?.writeText) {
@@ -6318,7 +8485,7 @@ ${instruction}`;
           const btn = document.getElementById("ytAiCopyChannelAuditBtn");
           if (btn) {
             const original = btn.textContent;
-            btn.textContent = "\u2713 Copi\xE9 !";
+            btn.textContent = t.copiedBtn || "\u2705 Copied!";
             setTimeout(() => {
               btn.textContent = original;
             }, 2e3);
@@ -6328,1472 +8495,131 @@ ${instruction}`;
     }
   };
 
-  // src/content/ui/ChannelCompanionCard.js
-  var ChannelCompanionCard = class {
+  // src/content/ui/ChannelCompanionTemplate.js
+  var ChannelCompanionTemplate = class {
     /**
+     * Generates the inner HTML of the Channel Companion Card
      * @param {Object} options
-     * @param {Object} options.channelAuditService
-     * @param {Object} options.channelAuditViewController
-     * @param {Object} options.state
+     * @param {string} options.channelIdentifier
+     * @param {boolean} options.isFr
+     * @param {string} [options.lang]
+     * @param {number|string} [options.maxVideos=30]
+     * @param {number|null} [options.totalVideos=null]
+     * @param {boolean} [options.isExpanded=true]
+     * @param {string} [options.drawerHtml='']
+     * @param {string} [options.version]
+     * @returns {string}
      */
-    constructor(options = {}) {
-      this.service = options.channelAuditService;
-      this.viewController = options.channelAuditViewController;
-      this.state = options.state || {};
-      this.currentChannel = "";
-      this.isExpanded = true;
-    }
-    /**
-     * Attempts injection on channel pages
-     */
-    tryInjectCompanion() {
-      if (!this.state.extensionEnabled) {
-        document.getElementById("yt-ai-channel-companion")?.remove();
-        return;
-      }
-      if (!isChannelPage()) {
-        document.getElementById("yt-ai-channel-companion")?.remove();
-        return;
-      }
-      const channelIdentifier = getChannelIdentifier();
-      if (!channelIdentifier) return;
-      const existing = document.getElementById("yt-ai-channel-companion");
-      if (existing && this.currentChannel === channelIdentifier) return;
-      if (existing) existing.remove();
-      this.currentChannel = channelIdentifier;
-      const targetParent = document.querySelector('ytd-browse[page-subtype="channels"] #content, ytd-browse #content, ytd-tabbed-page-header') || document.querySelector("ytd-browse") || document.getElementById("content");
-      if (!targetParent) {
-        setTimeout(() => this.tryInjectCompanion(), 400);
-        return;
-      }
-      const card = document.createElement("div");
-      card.id = "yt-ai-channel-companion";
-      card.className = "yt-ai-channel-card";
-      ThemeManager.syncThemeWithYouTube(card);
-      const lang = this.state.currentLang || "fr";
-      const isFr = lang.startsWith("fr");
-      const html = `
+    static render({ channelIdentifier, isFr, lang = null, maxVideos = 30, totalVideos = null, isExpanded = true, drawerHtml = "", version = "" }) {
+      const resolvedLang = lang || (isFr ? "fr" : "en");
+      const t = I18N[resolvedLang] || (isFr ? I18N.fr : I18N.en) || I18N.en;
+      const extVer = getExtensionVersionTag(version);
+      const handleSafe = escapeHtml(channelIdentifier);
+      const maxOptsHtml = renderChannelMaxOptionsHtml(maxVideos, resolvedLang.startsWith("fr"), totalVideos);
+      const suggestions = Array.isArray(t.channelChatSuggestions) ? t.channelChatSuggestions : [];
+      const suggestionChipsHtml = suggestions.map((s) => `<button type="button" class="yt-ai-suggestion-chip yt-ai-channel-suggestion-chip" data-question="${escapeHtml(s.question)}">${escapeHtml(s.label)}</button>`).join("");
+      const toggleLabel = isExpanded ? t.collapse || "Collapse" : t.expand || "Expand";
+      const toggleIcon = isExpanded ? "\u25B2" : "\u25BE";
+      return `
       <div class="yt-ai-card-inner">
-        <div class="yt-ai-card-header">
-          <div class="yt-ai-card-brand">
-            <span class="yt-ai-brand-badge">IA</span>
-            <span class="yt-ai-card-title">${isFr ? "Audit Global & Rigueur de la Cha\xEEne" : "Global Channel Audit & Rigor"}</span>
-            <span class="yt-ai-card-handle">${escapeHtml(channelIdentifier)}</span>
+        <div class="yt-ai-header-bar">
+          <div class="yt-ai-header-left">
+            <div class="yt-ai-brand" id="ytAiBrandToggle" title="${t.brandName || EXTENSION_BRAND_TITLE}">
+              ${renderBrandLogoSvg()}
+              <span id="ytAiCompBrandTitle">${t.brandName || EXTENSION_BRAND_TITLE}</span>
+            </div>
+            <span class="yt-ai-card-handle">${handleSafe}</span>
           </div>
-          <div class="yt-ai-card-controls">
-            <button id="ytAiCompanionToggleBtn" class="yt-ai-btn-icon" title="R\xE9duire/Agrandir">\u25BE</button>
+
+          <div class="yt-ai-header-center">
+            <div class="yt-ai-action-cluster">
+              <div class="yt-ai-header-select-wrapper yt-ai-header-lang-wrapper">
+                <select id="ytAiCompLangSelect" class="yt-ai-select yt-ai-header-lang-select" title="${t.langLabel || "Language:"}">
+                  ${renderLangOptionsHtml(resolvedLang)}
+                </select>
+              </div>
+              <button id="ytAiRunChannelAuditBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-summarize-cta">
+                ${t.runChannelAuditBtn || "\u26A1 Run Channel Audit"}
+              </button>
+            </div>
+          </div>
+
+          <div class="yt-ai-header-right">
+            <button id="ytAiCompanionSettingsBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-settings-toggle-btn" title="${t.settingsBtn || "Settings"}">
+              <span class="yt-ai-settings-icon">\u2699\uFE0F</span>
+              <span id="ytAiCompSettingsBtnText">${t.settingsBtn || "Settings"}</span>
+            </button>
+            <button id="ytAiCompanionToggleBtn" class="yt-ai-toggle-btn" title="${toggleLabel}">
+              <span id="ytAiCompToggleText">${toggleLabel}</span>
+              <span id="ytAiCompToggleIcon">${toggleIcon}</span>
+            </button>
           </div>
         </div>
 
-        <div id="ytAiCompanionBody" class="yt-ai-card-body">
-          <div class="yt-ai-onboarding-box">
-            <p class="yt-ai-onboarding-desc">
-              ${isFr ? "\xC9valuez l\u2019int\xE9grit\xE9 \xE9ditoriale, la transparence commerciale (partenariats, liens affili\xE9s) et l\u2019\xE9volution d\u2019ann\xE9e en ann\xE9e gr\xE2ce \xE0 un \xE9chantillonnage statistique group\xE9." : "Evaluate editorial integrity, commercial transparency (sponsorships, affiliate links), and Year-over-Year evolution using stratified statistical sampling."}
-            </p>
-            <div class="yt-ai-period-selector" style="display: flex; gap: 6px; margin: 8px 0 10px 0; align-items: center; flex-wrap: wrap;">
-              <span style="font-size: 11px; color: var(--yt-ai-text-secondary);">${isFr ? "P\xE9riode analys\xE9e :" : "Period:"}</span>
-              <button class="yt-ai-period-pill yt-ai-format-pill active" data-period="all">\u{1F310} ${isFr ? "Tout" : "All"}</button>
-              <button class="yt-ai-period-pill yt-ai-format-pill" data-period="month">\u26A1 ${isFr ? "Dernier mois" : "Last month"}</button>
-              <button class="yt-ai-period-pill yt-ai-format-pill" data-period="year">\u{1F4C5} ${isFr ? "Ann\xE9e en cours" : "Current year"}</button>
-              <button class="yt-ai-period-pill yt-ai-format-pill" data-period="6months">\u{1F3AF} ${isFr ? "6 derniers mois" : "6 months"}</button>
+        ${drawerHtml}
+
+        <div id="ytAiCompanionStatusBanner" class="yt-ai-reasoning yt-ai-hidden" style="margin: 0 16px;"></div>
+
+        <div id="ytAiCompanionBody" class="yt-ai-card-body" style="padding: 0 20px 14px 20px; background: var(--yt-ai-bg-expanded); border-bottom: 1px solid var(--yt-ai-border-subtle);">
+          <div class="yt-ai-tabs-nav yt-ai-channel-tabs-bar" style="margin: 0 -20px 14px -20px;">
+            <button type="button" id="ytAiChanTabAuditBtn" class="yt-ai-tab-btn active" data-tab="channelAudit">
+              ${t.tabChannelAudit || "\u{1F4CA} Channel Audit"}
+            </button>
+            <button type="button" id="ytAiChanTabChatBtn" class="yt-ai-tab-btn" data-tab="channelChat">
+              ${t.tabChat || "\u{1F4AC} Ask questions"} <span id="ytAiChannelChatCount" class="yt-ai-tab-count-badge">0</span>
+            </button>
+          </div>
+
+          <div id="ytAiChanPaneAudit" class="yt-ai-tab-pane active">
+            <div class="yt-ai-onboarding-box" style="padding: 0; text-align: left;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 10px;">
+                <p id="ytAiCompDesc" class="yt-ai-onboarding-desc" style="font-size: 13px; color: var(--yt-ai-text-secondary); margin: 0; line-height: 1.5; max-width: 750px;">
+                  ${t.channelCompanionDesc || ""}
+                </p>
+              </div>
+
+              <div class="yt-ai-period-selector" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <span class="yt-ai-period-label" style="font-size: 11px; color: var(--yt-ai-text-muted); font-weight: 600;">
+                  ${t.periodFilterLabel || "Analyzed period:"}
+                </span>
+                <button class="yt-ai-period-pill yt-ai-format-pill active" data-period="all">\u{1F310} ${t.periodAll || "All history"}</button>
+                <button class="yt-ai-period-pill yt-ai-format-pill" data-period="year">\u{1F4C5} ${t.periodYear || "Current year"}</button>
+                <button class="yt-ai-period-pill yt-ai-format-pill" data-period="6months">\u{1F3AF} ${t.period6Months || "Last 6 months"}</button>
+                <button class="yt-ai-period-pill yt-ai-format-pill" data-period="month">\u26A1 ${t.periodMonth || "Last month"}</button>
+
+                <span class="yt-ai-max-label" style="margin-left: 10px; font-size: 11px; color: var(--yt-ai-text-muted); font-weight: 600;">${t.maxVideosLabel || "Max Limit:"}</span>
+                <select id="ytAiCompanionMaxVideos" class="yt-ai-select" style="padding: 2px 6px; font-size: 11px; height: 26px;">
+                  ${maxOptsHtml}
+                </select>
+              </div>
+
+              <div id="ytAiChannelProgress" class="yt-ai-progress-box yt-ai-hidden" style="margin-top: 14px;"></div>
             </div>
-            <div class="yt-ai-cta-row">
-              <button id="ytAiRunChannelAuditBtn" class="yt-ai-btn yt-ai-btn-primary">
-                \u26A1 ${isFr ? "Lancer l\u2019Audit Global de la Cha\xEEne" : "Run Global Channel Audit"}
-              </button>
-            </div>
-            <div id="ytAiChannelProgress" class="yt-ai-progress-box yt-ai-hidden">
-              <div class="yt-ai-spinner"></div>
-              <span id="ytAiChannelProgressText" class="yt-ai-progress-msg">Initialisation de l\u2019audit...</span>
+
+            <div id="ytAiChannelResultContainer" class="yt-ai-result-box yt-ai-hidden" style="margin-top: 14px;"></div>
+          </div>
+
+          <div id="ytAiChanPaneChat" class="yt-ai-tab-pane">
+            <div class="yt-ai-chat-pane">
+              <div class="yt-ai-chat-container">
+                ${suggestionChipsHtml ? `<div class="yt-ai-chat-suggestions">${suggestionChipsHtml}</div>` : ""}
+                <div id="ytAiChannelChatMessages" class="yt-ai-chat-messages">
+                  <div class="yt-ai-chat-bubble ai yt-ai-markdown yt-ai-welcome-bubble">${t.channelChatWelcome || ""}</div>
+                </div>
+                <div class="yt-ai-chat-input-row">
+                  <textarea id="ytAiChannelChatInput" class="yt-ai-chat-input" rows="1" placeholder="${escapeHtml(t.channelChatPlaceholder || "")}"></textarea>
+                  <button type="button" id="ytAiChannelMicBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-mic-btn" title="${escapeHtml(t.micTitle || "Microphone")}"><span class="yt-ai-mic-icon">\u{1F3A4}</span></button>
+                  <button type="button" id="ytAiChannelSendChatBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 7px 16px;">${t.sendBtn || "Send \u27A4"}</button>
+                  <button type="button" id="ytAiChannelClearChatBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${escapeHtml(t.clearChatBtn || "Clear")}">\u{1F5D1}\uFE0F</button>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div id="ytAiChannelResultContainer" class="yt-ai-result-box yt-ai-hidden"></div>
+          ${renderExtensionFooterHtml(t, "ytAiCompFooter", extVer)}
         </div>
       </div>
     `;
-      safeSetInnerHTML(card, html);
-      targetParent.insertBefore(card, targetParent.firstChild);
-      this._bindEvents(card, channelIdentifier);
-      const cached = this.service?.getCachedReport(channelIdentifier);
-      if (cached) {
-        this._displayReport(cached);
-      }
-    }
-    _bindEvents(card, channelIdentifier) {
-      const runBtn = card.querySelector("#ytAiRunChannelAuditBtn");
-      const toggleBtn = card.querySelector("#ytAiCompanionToggleBtn");
-      const body = card.querySelector("#ytAiCompanionBody");
-      let selectedPeriod = "all";
-      card.querySelectorAll(".yt-ai-period-pill").forEach((pill) => {
-        pill.addEventListener("click", () => {
-          card.querySelectorAll(".yt-ai-period-pill").forEach((p) => p.classList.remove("active"));
-          pill.classList.add("active");
-          selectedPeriod = pill.getAttribute("data-period") || "all";
-        });
-      });
-      toggleBtn?.addEventListener("click", () => {
-        this.isExpanded = !this.isExpanded;
-        body?.classList.toggle("yt-ai-hidden", !this.isExpanded);
-        toggleBtn.textContent = this.isExpanded ? "\u25BE" : "\u25B2";
-      });
-      runBtn?.addEventListener("click", () => {
-        this.triggerAudit(channelIdentifier, selectedPeriod);
-      });
-    }
-    /**
-     * Triggers the channel audit
-     * @param {string} channelIdentifier
-     * @param {string} [period='all']
-     */
-    async triggerAudit(channelIdentifier, period = "all") {
-      const card = document.getElementById("yt-ai-channel-companion");
-      if (!card) return;
-      const runBtn = card.querySelector("#ytAiRunChannelAuditBtn");
-      const progressBox = card.querySelector("#ytAiChannelProgress");
-      const resultContainer = card.querySelector("#ytAiChannelResultContainer");
-      if (runBtn) runBtn.disabled = true;
-      if (progressBox) {
-        progressBox.classList.remove("yt-ai-hidden");
-        progressBox.innerHTML = AuditProgressBar.renderWidget({
-          percent: 10,
-          title: "Collecte des vid\xE9os et descriptions compl\xE8tes...",
-          detail: `Cha\xEEne : ${channelIdentifier} (0 coupure)`
-        });
-      }
-      try {
-        const report = await this.service.executeChannelAudit({
-          channelQuery: channelIdentifier,
-          period,
-          lang: this.state.currentLang || "fr",
-          state: this.state,
-          onProgress: (status) => {
-            if (progressBox) {
-              AuditProgressBar.updateWidget(progressBox, {
-                percent: status.percent,
-                title: status.message || status.title,
-                detail: status.detail || ""
-              });
-            }
-          }
-        });
-        this._displayReport(report);
-      } catch (err) {
-        if (progressBox) {
-          progressBox.innerHTML = `<p style="color: #ff7b72; font-size: 12px; margin: 8px 0;">[!] Erreur : ${escapeHtml(err.message || String(err))}</p>`;
-        }
-      } finally {
-        if (runBtn) runBtn.disabled = false;
-      }
-    }
-    _displayReport(report) {
-      const card = document.getElementById("yt-ai-channel-companion");
-      if (!card) return;
-      const onboardingBox = card.querySelector(".yt-ai-onboarding-box");
-      const resultContainer = card.querySelector("#ytAiChannelResultContainer");
-      if (onboardingBox) onboardingBox.classList.add("yt-ai-hidden");
-      if (resultContainer) {
-        resultContainer.classList.remove("yt-ai-hidden");
-        this.viewController.renderReport(report, resultContainer, this.state.currentLang || "fr");
-      }
-    }
-  };
-
-  // src/content/ui/BannerEventHandler.js
-  var BannerEventHandler = class {
-    /**
-     * Binds all UI interactions for the banner
-     * @param {HTMLElement} banner
-     * @param {Object} ctx
-     */
-    static bind(banner, ctx) {
-      if (!banner || !ctx) return;
-      const {
-        state: state2,
-        bannerView: bannerView2,
-        settingsDrawer: settingsDrawer2,
-        summaryViewController: summaryViewController2,
-        chatViewController: chatViewController2,
-        auditViewController: auditViewController2,
-        audioController: audioController2,
-        transcriptController: transcriptController2,
-        triggerSummarize: triggerSummarize2,
-        triggerAudit: triggerAudit2,
-        triggerChannelAudit: triggerChannelAudit2
-      } = ctx;
-      banner.querySelectorAll(".yt-ai-tab-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const tab = btn.getAttribute("data-tab");
-          if (tab) {
-            bannerView2.switchTab(tab);
-            if (tab === "transcript") {
-              const currentVideoId = getVideoId();
-              if (!transcriptController2.cachedTranscript.segments || transcriptController2.cachedTranscript.segments.length === 0 || transcriptController2.cachedTranscript.videoId !== currentVideoId) {
-                transcriptController2.extractYouTubeTranscript(state2.currentLang, true);
-              }
-            }
-          }
-        });
-      });
-      document.getElementById("ytAiBrandToggle")?.addEventListener("click", () => bannerView2.toggleExpand());
-      document.getElementById("ytAiToggleBtn")?.addEventListener("click", () => bannerView2.toggleExpand());
-      document.getElementById("ytAiSummarizeBtn")?.addEventListener("click", triggerSummarize2);
-      document.getElementById("ytAiRunAuditBtn")?.addEventListener("click", triggerAudit2);
-      document.getElementById("ytAiAuditChannelBtn")?.addEventListener("click", triggerChannelAudit2);
-      document.getElementById("ytAiCopyAuditBtn")?.addEventListener("click", () => auditViewController2?.handleCopyAudit?.());
-      document.getElementById("ytAiAuditSubtabVideoBtn")?.addEventListener("click", () => {
-        auditViewController2?.switchAuditSubtab("video");
-      });
-      document.getElementById("ytAiAuditSubtabChannelBtn")?.addEventListener("click", () => {
-        auditViewController2?.switchAuditSubtab("channel");
-      });
-      banner.querySelectorAll(".yt-ai-period-pill").forEach((pill) => {
-        pill.addEventListener("click", () => {
-          banner.querySelectorAll(".yt-ai-period-pill").forEach((p) => p.classList.remove("active"));
-          pill.classList.add("active");
-          state2.channelAuditPeriod = pill.getAttribute("data-period") || "all";
-        });
-      });
-      document.getElementById("ytAiSettingsToggleBtn")?.addEventListener("click", () => {
-        SettingsDrawerController.toggleSettingsDrawer((exp) => bannerView2.setExpanded(exp));
-      });
-      document.getElementById("ytAiSettingsCloseBtn")?.addEventListener("click", () => {
-        SettingsDrawerController.setSettingsDrawerOpen(false);
-      });
-      banner.querySelectorAll(".yt-ai-settings-tab-btn").forEach((btn) => btn.addEventListener("click", () => {
-        const sub = btn.getAttribute("data-subtab");
-        if (sub) SettingsDrawerController.switchSettingsSubtab(sub);
-      }));
-      banner.querySelectorAll(".yt-ai-format-pill").forEach((pill) => pill.addEventListener("click", () => {
-        const mode = pill.getAttribute("data-mode");
-        if (mode) bannerView2.setSummaryMode(mode);
-      }));
-      document.getElementById("ytAiModeSelect")?.addEventListener("change", (e) => bannerView2.setSummaryMode(e.target.value));
-      document.getElementById("ytAiLangSelect")?.addEventListener("change", (e) => {
-        state2.currentLang = e.target.value;
-        state2.savePreference("targetLang", state2.currentLang);
-        bannerView2.applyLanguage(state2.currentLang, summaryViewController2, chatViewController2, auditViewController2);
-        audioController2.populateVoiceDropdown(state2.currentLang);
-      });
-      document.getElementById("ytAiProviderSelect")?.addEventListener("change", (e) => {
-        state2.currentProvider = e.target.value;
-        state2.savePreference("aiProvider", state2.currentProvider);
-        settingsDrawer2.syncProviderUI();
-      });
-      document.getElementById("ytAiApiKeyInput")?.addEventListener("input", (e) => {
-        const val = e.target.value.trim();
-        state2.apiKeys[state2.currentProvider] = val;
-        state2.savePreference(`apiKey_${state2.currentProvider}`, val);
-        if (state2.keyVerified) delete state2.keyVerified[state2.currentProvider];
-        bannerView2.updateHeaderBadge();
-      });
-      document.getElementById("ytAiServerSelect")?.addEventListener("change", (e) => {
-        const isOllama = state2.currentProvider === "ollama";
-        const def = isOllama ? "http://localhost:11434" : "http://127.0.0.1:1234";
-        if (e.target.value === "custom") {
-          const custom = prompt(`Address for ${isOllama ? "Ollama" : "LM Studio"}:`, state2.serverUrls[state2.currentProvider] || def);
-          if (custom) {
-            const clean = custom.trim().replace(/\/+$/, "");
-            state2.serverUrls[state2.currentProvider] = clean;
-            state2.savePreference(`serverUrl_${state2.currentProvider}`, clean);
-            settingsDrawer2.updateServerUrlUI();
-            settingsDrawer2.refreshModelsList();
-          }
-        } else {
-          state2.serverUrls[state2.currentProvider] = e.target.value;
-          state2.savePreference(`serverUrl_${state2.currentProvider}`, e.target.value);
-          settingsDrawer2.updateServerUrlUI();
-          settingsDrawer2.refreshModelsList();
-        }
-      });
-      document.getElementById("ytAiRefreshModelsBtn")?.addEventListener("click", () => settingsDrawer2.refreshModelsList(true));
-      document.getElementById("ytAiTestModelBtn")?.addEventListener("click", () => settingsDrawer2.handleTestConnection());
-      document.getElementById("ytAiTestWhisperBtn")?.addEventListener("click", () => settingsDrawer2.handleTestWhisper());
-      document.getElementById("ytAiModelSelect")?.addEventListener("change", (e) => {
-        state2.setActiveModel(e.target.value);
-        state2.savePreference(`selectedModel_${state2.currentProvider}`, e.target.value);
-        state2.savePreference("selectedModel", e.target.value);
-        bannerView2.updateHeaderModelText();
-      });
-      audioController2.init();
-      document.getElementById("ytAiSpeakSummaryBtn")?.addEventListener("click", (e) => {
-        const text = summaryViewController2.fullSummaryMarkdown || document.getElementById("ytAiSummaryBody")?.innerText || "";
-        if (text.trim()) {
-          audioController2.speakText(text, e.currentTarget, { lang: state2.currentLang });
-        } else {
-          bannerView2.showStatusBanner(I18N[state2.currentLang]?.noSummaryToRead || "No summary to read", true);
-        }
-      });
-      const sendChat = (customText = null) => {
-        chatViewController2.handleSendChatMessage(customText, {
-          state: state2,
-          currentLang: state2.currentLang,
-          currentProvider: state2.currentProvider,
-          apiKeys: state2.apiKeys,
-          serverUrls: state2.serverUrls,
-          temperature: state2.temperature,
-          maxTokens: state2.maxTokens,
-          getActiveModel: () => state2.getActiveModel(),
-          setExpanded: (exp) => bannerView2.setExpanded(exp),
-          switchTab: (tab) => bannerView2.switchTab(tab)
-        });
-      };
-      document.getElementById("ytAiSendChatBtn")?.addEventListener("click", () => sendChat());
-      const chatInput = document.getElementById("ytAiChatInput");
-      chatInput?.addEventListener("input", () => {
-        chatInput.style.height = "auto";
-        chatInput.style.height = Math.min(chatInput.scrollHeight, 140) + "px";
-      });
-      chatInput?.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && !e.shiftKey) {
-          e.preventDefault();
-          sendChat();
-        }
-      });
-      document.getElementById("ytAiMicBtn")?.addEventListener("click", () => {
-        audioController2.toggleDictation({
-          localWhisperUrl: state2.localWhisperUrl,
-          groqKey: state2.apiKeys.groq,
-          openaiKey: state2.apiKeys.openai
-        });
-      });
-      document.getElementById("ytAiClearChatBtn")?.addEventListener("click", () => {
-        chatViewController2.handleClearChat(state2.currentLang);
-      });
-      banner.querySelectorAll(".yt-ai-suggestion-chip").forEach((chip) => {
-        chip.addEventListener("click", () => {
-          const q = chip.getAttribute("data-question") || chip.textContent.trim();
-          sendChat(q);
-        });
-      });
-      document.getElementById("ytAiCopyBtn")?.addEventListener("click", () => summaryViewController2.handleCopySummary(state2.currentLang));
-      document.getElementById("ytAiDownloadBtn")?.addEventListener("click", () => summaryViewController2.handleExport("md", state2.currentLang));
-      document.getElementById("ytAiSaveTxtBtn")?.addEventListener("click", () => summaryViewController2.handleExport("txt", state2.currentLang));
-      document.getElementById("ytAiSaveJsonBtn")?.addEventListener("click", () => summaryViewController2.handleExport("json", state2.currentLang));
-      document.getElementById("ytAiCopyTranscriptBtn")?.addEventListener("click", () => transcriptController2.handleCopyTranscript(state2.currentLang));
-    }
-  };
-
-  // src/content/services/DOMTranscriptExtractor.js
-  var DOMTranscriptExtractor = class {
-    /**
-     * Extracts text and timestamps from live YouTube DOM elements
-     * @returns {Array<{timestamp: string, text: string}> | null}
-     */
-    static extractTranscriptFromActiveDOM() {
-      const results = [];
-      const seen = /* @__PURE__ */ new Set();
-      const modernNodes = document.querySelectorAll(
-        'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"]:not(transcript-segment-view-model *)'
-      );
-      if (modernNodes && modernNodes.length > 0) {
-        modernNodes.forEach((node) => {
-          const timeEl = node.querySelector(
-            '.ytTranscriptSegmentViewModelTimestamp, .segment-timestamp, #time, [class*="Timestamp"], [class*="timestamp"]'
-          );
-          const textEl = node.querySelector(
-            'span[role="text"], .ytAttributedStringInlineHost, span.ytAttributedStringHost, .yt-core-attributed-string, .segment-text, #title, #details, [class*="Title"], yt-formatted-string'
-          );
-          let timestamp = timeEl ? timeEl.textContent.trim() : "";
-          let text = textEl ? textEl.textContent.trim() : "";
-          if (!timestamp) {
-            const m = (node.textContent || "").match(/\b(\d{1,2}:\d{2}(?::\d{2})?)\b/);
-            if (m) timestamp = m[1];
-          }
-          if (!text && timestamp) {
-            text = (node.textContent || "").replace(timestamp, "").trim();
-          }
-          text = text.replace(/^(afficher plus|show more|moins|show less)\b/i, "").replace(/[\n\r]+/g, " ").replace(/\s+/g, " ").trim();
-          if (text && timestamp) {
-            const key = `${timestamp}|${text.slice(0, 30)}`;
-            if (!seen.has(key)) {
-              seen.add(key);
-              results.push({ timestamp, text });
-            }
-          }
-        });
-        if (results.length > 0) return results;
-      }
-      const candidatePanels = Array.from(document.querySelectorAll(
-        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]:not([target-id*="macro-markers"])'
-      ));
-      let panel = candidatePanels.find((p) => {
-        const vis = p.getAttribute("visibility");
-        return vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" || p.offsetParent !== null && p.offsetWidth > 50;
-      }) || candidatePanels[0];
-      if (!panel) {
-        const macroPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]');
-        if (macroPanel) {
-          const tab = macroPanel.querySelector('[role="tab"][aria-selected="true"], yt-chip-cloud-chip-renderer.selected, button[aria-selected="true"]');
-          const tabText = (tab?.textContent || "").toLowerCase();
-          if (tabText.includes("transcription") || tabText.includes("transcript")) {
-            panel = macroPanel;
-          }
-        }
-      }
-      if (panel) {
-        const panelText = panel.innerText || "";
-        const lines = panelText.split("\n").map((l) => l.trim()).filter(Boolean);
-        const parsed = [];
-        let curTime = "";
-        let curText = "";
-        const ignoredHeaders = [
-          "dans cette vid\xE9o",
-          "in this video",
-          "chapitres",
-          "chapters",
-          "transcription",
-          "transcript",
-          "rechercher dans",
-          "search transcript",
-          "synchroniser avec",
-          "sync with video",
-          "tout",
-          "all",
-          "source :",
-          "podcast",
-          "g\xE9n\xE9r\xE9s automatiquement",
-          "auto-generated",
-          "english",
-          "fran\xE7ais"
-        ];
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i];
-          const lower = line.toLowerCase();
-          if (ignoredHeaders.some((h) => lower.includes(h))) continue;
-          const inlineMatch = line.match(/^\[?(\d{1,2}:\d{2}(?::\d{2})?)\]?\s+(.+)$/);
-          if (inlineMatch) {
-            if (curTime && curText) {
-              parsed.push({ timestamp: curTime, text: curText.trim() });
-              curText = "";
-            }
-            parsed.push({ timestamp: inlineMatch[1], text: inlineMatch[2].trim() });
-            curTime = "";
-            continue;
-          }
-          const match = line.match(/^(\d{1,2}:\d{2}(?::\d{2})?)$/);
-          if (match) {
-            if (curTime && curText) {
-              parsed.push({ timestamp: curTime, text: curText.trim() });
-              curText = "";
-            }
-            curTime = match[1];
-          } else if (curTime) {
-            curText += (curText ? " " : "") + line;
-          }
-        }
-        if (curTime && curText) {
-          parsed.push({ timestamp: curTime, text: curText.trim() });
-        }
-        if (parsed.length > 0) {
-          return parsed;
-        }
-      }
-      return null;
-    }
-  };
-  var extractTranscriptFromActiveDOM = DOMTranscriptExtractor.extractTranscriptFromActiveDOM;
-
-  // src/content/services/NativeTranscriptPanel.js
-  var CLOSE_BTN_LANG_REGEX = /fermer|close|schließen|cerrar|chiudi|fechar|закрыть|sluiten|stäng|luk|sulje|閉じる|닫기|关闭|關閉|إغلاق|बंद करें/i;
-  var TRANSCRIPT_LANG_REGEX = /transcription|transcript|transkript|transcripción|trascrizione|transcrição|транскрипция|文字起こし|자막|文字记录|文字記錄|نص|प्रतिलेख/i;
-  var ENGAGEMENT_SELECTORS = [
-    'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"]',
-    'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"]',
-    'ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"]',
-    'ytd-engagement-panel-section-list-renderer[target-id*="transcript"]',
-    'ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
-  ].join(", ");
-  function isNativeTranscriptPanelVisible() {
-    const segs = document.querySelectorAll(
-      'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"]'
-    );
-    if (segs && segs.length > 3) {
-      for (const seg of segs) {
-        if (seg.offsetParent !== null) return true;
-      }
-    }
-    const panels = document.querySelectorAll(ENGAGEMENT_SELECTORS);
-    for (const panel of panels) {
-      if (panel.style.display === "none" || panel.hasAttribute("hidden")) continue;
-      const vis = panel.getAttribute("visibility");
-      if (vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" && panel.offsetParent !== null && panel.offsetWidth > 50) {
-        return true;
-      }
-    }
-    return false;
-  }
-  function closeNativeTranscriptPanel() {
-    const panels = document.querySelectorAll(ENGAGEMENT_SELECTORS);
-    for (const panel of panels) {
-      const header = panel.querySelector('ytd-engagement-panel-title-header-renderer, #header, [id="header"]');
-      let closeBtn = null;
-      if (header) {
-        closeBtn = header.querySelector('#visibility-button button, [id="visibility-button"] button');
-        if (!closeBtn) {
-          const headerBtns = header.querySelectorAll("button, yt-icon-button, tp-yt-paper-icon-button");
-          for (const btn of headerBtns) {
-            const aria = btn.getAttribute("aria-label") || "";
-            const title = btn.getAttribute("title") || "";
-            if (CLOSE_BTN_LANG_REGEX.test(aria) || CLOSE_BTN_LANG_REGEX.test(title)) {
-              closeBtn = btn.querySelector("button") || btn;
-              break;
-            }
-          }
-        }
-        if (!closeBtn) {
-          const svgs = header.querySelectorAll("svg path");
-          for (const p of svgs) {
-            const d = p.getAttribute("d") || "";
-            if (d.includes("6.41") || d.includes("12.7") || d.includes("17.59") || d.includes("18.3 5.71")) {
-              closeBtn = p.closest("button, yt-icon-button") || p.closest('[role="button"]');
-              if (closeBtn) break;
-            }
-          }
-        }
-        if (!closeBtn) {
-          const allHeaderBtns = header.querySelectorAll("button, yt-icon-button button");
-          if (allHeaderBtns.length > 0) closeBtn = allHeaderBtns[allHeaderBtns.length - 1];
-        }
-      }
-      if (closeBtn) {
-        try {
-          closeBtn.click();
-        } catch (_) {
-        }
-      } else if (typeof panel.close === "function") {
-        try {
-          panel.close();
-        } catch (_) {
-        }
-      } else if (typeof panel.hide === "function") {
-        try {
-          panel.hide();
-        } catch (_) {
-        }
-      }
-      panel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_HIDDEN");
-      panel.style.setProperty("display", "none");
-    }
-  }
-  function collapseDescription() {
-    const collapseBtn = document.querySelector(
-      "tp-yt-paper-button#collapse, #collapse.ytd-text-inline-expander, #description-inline-expander #collapse"
-    );
-    if (collapseBtn && collapseBtn.offsetParent !== null) collapseBtn.click();
-  }
-  function findTranscriptButtonInDOM() {
-    let btn = document.querySelector('ytd-video-description-transcript-section-renderer button, ytd-video-description-transcript-section-renderer [role="button"]');
-    if (btn) return btn;
-    const allBtns = document.querySelectorAll(
-      '#description button, #description [role="button"], ytd-watch-metadata button, ytd-watch-metadata [role="button"], ytd-structured-description-content-renderer button, ytd-structured-description-content-renderer [role="button"]'
-    );
-    for (const b of allBtns) {
-      const aria = b.getAttribute("aria-label") || "";
-      const text = b.textContent || "";
-      if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) return b;
-    }
-    return null;
-  }
-  async function ensureTranscriptTabActive(targetPanel) {
-    const panels = document.querySelectorAll(ENGAGEMENT_SELECTORS);
-    let activePanel = targetPanel;
-    if (!activePanel) {
-      for (const p of panels) {
-        if (p.getAttribute("visibility") === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" || p.offsetParent !== null) {
-          activePanel = p;
-          break;
-        }
-      }
-      if (!activePanel && panels.length > 0) activePanel = panels[0];
-    }
-    if (!activePanel) return false;
-    if (document.querySelectorAll("transcript-segment-view-model, ytd-transcript-segment-renderer").length > 5) return true;
-    const candidates = activePanel.querySelectorAll('button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer');
-    for (const el of candidates) {
-      const text = (el.textContent || "").trim();
-      const aria = (el.getAttribute("aria-label") || "").trim();
-      if (TRANSCRIPT_LANG_REGEX.test(text) || TRANSCRIPT_LANG_REGEX.test(aria)) {
-        if (el.getAttribute("aria-selected") === "true" || el.classList.contains("selected")) return true;
-        const clickable = el.closest('button, [role="tab"], [role="button"]') || el;
-        clickable.querySelector("button")?.click();
-        clickable.click();
-        clickable.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
-        return true;
-      }
-    }
-    const tabList = activePanel.querySelectorAll('[role="tab"], yt-chip-cloud-chip-renderer, ytd-sub-feed-selector-renderer button');
-    if (tabList.length >= 2) {
-      const secondTab = tabList[1];
-      if (secondTab.getAttribute("aria-selected") === "true" || secondTab.classList.contains("selected")) return true;
-      secondTab.querySelector("button")?.click();
-      secondTab.click();
-      secondTab.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
-      return true;
-    }
-    return false;
-  }
-  async function triggerStealthNativeTranscript() {
-    if (!document.getElementById("movie_player") && !document.querySelector("video")) {
-      return null;
-    }
-    for (const p of document.querySelectorAll(ENGAGEMENT_SELECTORS)) {
-      p.style.removeProperty("display");
-    }
-    const wasPanelOpen = isNativeTranscriptPanelVisible();
-    let didWeOpenPanel = false;
-    const expandDesc = document.querySelector("tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand");
-    const wasDescExpanded = !expandDesc || expandDesc.offsetParent === null;
-    if (wasPanelOpen) {
-      await ensureTranscriptTabActive();
-      const direct = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
-      if (direct && direct.length > 0) return direct;
-    }
-    let stealthStyle = document.getElementById("yt-ai-stealth-style");
-    if (!stealthStyle) {
-      stealthStyle = document.createElement("style");
-      stealthStyle.id = "yt-ai-stealth-style";
-      stealthStyle.textContent = `
-      ytd-engagement-panel-section-list-renderer[target-id*="transcript"],
-      ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"] {
-        opacity: 0.01 !important; pointer-events: none !important;
-      }
-    `;
-      document.head.appendChild(stealthStyle);
-    }
-    try {
-      let directBtn = findTranscriptButtonInDOM();
-      if (!directBtn && expandDesc && expandDesc.offsetParent !== null) {
-        expandDesc.click();
-        await new Promise((r) => setTimeout(r, 250));
-        directBtn = findTranscriptButtonInDOM();
-      }
-      if (directBtn) {
-        didWeOpenPanel = true;
-        directBtn.click();
-      } else {
-        const markersBtn = document.querySelector('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]');
-        if (markersBtn) {
-          didWeOpenPanel = true;
-          markersBtn.click();
-          await new Promise((r) => setTimeout(r, 250));
-          await ensureTranscriptTabActive();
-        } else {
-          const hiddenPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]');
-          if (hiddenPanel) {
-            didWeOpenPanel = true;
-            hiddenPanel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED");
-            if (typeof hiddenPanel.show === "function") hiddenPanel.show();
-            await ensureTranscriptTabActive(hiddenPanel);
-          } else {
-            return null;
-          }
-        }
-      }
-      let segments = null;
-      for (let i = 0; i < 25; i++) {
-        await new Promise((r) => setTimeout(r, 120));
-        if (i % 3 === 0) await ensureTranscriptTabActive();
-        segments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
-        if (segments && segments.length > 0) break;
-      }
-      return segments;
-    } catch (_) {
-      return null;
-    } finally {
-      setTimeout(() => {
-        if (stealthStyle?.parentNode) {
-          stealthStyle.parentNode.removeChild(stealthStyle);
-        }
-      }, 350);
-      if (!wasPanelOpen) {
-        closeNativeTranscriptPanel();
-        if (!wasDescExpanded) collapseDescription();
-      }
-      for (const p of document.querySelectorAll(ENGAGEMENT_SELECTORS)) {
-        p.style.removeProperty("display");
-      }
-    }
-  }
-  var NativeTranscriptPanel = {
-    isNativeTranscriptPanelVisible,
-    closeNativeTranscriptPanel,
-    collapseDescription,
-    ensureTranscriptTabActive,
-    triggerStealthNativeTranscript
-  };
-
-  // src/content/services/InPageTranscriptController.js
-  var InPageTranscriptController = class _InPageTranscriptController {
-    constructor() {
-      this.cachedTranscript = { videoId: "", segments: [], fullText: "", isChapterOnly: false };
-      this.cachedVideoMetadata = {
-        videoId: "",
-        title: "",
-        author: "",
-        channelId: "",
-        subscribers: "",
-        description: "",
-        keywords: [],
-        category: "",
-        publishDate: "",
-        viewCount: ""
-      };
-    }
-    static cleanTranscriptText(text) {
-      if (!text) return "";
-      return text.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\n/g, " ").replace(/\s+/g, " ").trim();
-    }
-    static parseTimedtextContent(bodyText) {
-      if (!bodyText || typeof bodyText !== "string" || !bodyText.trim()) return null;
-      const trimmed = bodyText.trim();
-      if (trimmed.startsWith("{")) {
-        try {
-          const json = JSON.parse(trimmed);
-          if (json && Array.isArray(json.events)) {
-            const segs = [];
-            for (const ev of json.events) {
-              if (!ev.segs) continue;
-              const sec = Math.floor((ev.tStartMs || 0) / 1e3);
-              const m = Math.floor(sec / 60);
-              const s = (sec % 60).toString().padStart(2, "0");
-              const txt = _InPageTranscriptController.cleanTranscriptText(ev.segs.map((s2) => s2.utf8 || "").join(""));
-              if (txt && txt !== "\n") segs.push({ timestamp: `${m}:${s}`, text: txt });
-            }
-            if (segs.length > 0) return segs;
-          }
-        } catch (_) {
-        }
-      }
-      try {
-        const doc = new DOMParser().parseFromString(trimmed, "text/xml");
-        const nodes = Array.from(doc.querySelectorAll("text, p"));
-        if (nodes.length > 0) {
-          return nodes.map((n) => {
-            const tAttr = n.getAttribute("t");
-            const sec = tAttr ? Math.floor(parseInt(tAttr, 10) / 1e3) : Math.floor(parseFloat(n.getAttribute("start") || n.getAttribute("begin") || "0"));
-            const m = Math.floor(sec / 60);
-            const s = (sec % 60).toString().padStart(2, "0");
-            return { timestamp: `${m}:${s}`, text: _InPageTranscriptController.cleanTranscriptText(n.textContent || "") };
-          }).filter((s) => s.text.length > 0);
-        }
-      } catch (_) {
-      }
-      return null;
-    }
-    async fetchTimedtextSegments(baseUrl) {
-      if (!baseUrl) return null;
-      try {
-        const jsonUrl = baseUrl + (baseUrl.includes("?") ? "&" : "?") + "fmt=json3";
-        const resp = await fetch(jsonUrl, { credentials: "include" });
-        if (resp.ok) {
-          const segs = _InPageTranscriptController.parseTimedtextContent(await resp.text());
-          if (segs) return segs;
-        }
-      } catch (_) {
-      }
-      try {
-        const resp = await fetch(baseUrl, { credentials: "include" });
-        if (resp.ok) {
-          const segs = _InPageTranscriptController.parseTimedtextContent(await resp.text());
-          if (segs) return segs;
-        }
-      } catch (_) {
-      }
-      return null;
-    }
-    requestPlayerDataFromMainWorld(videoId, preferredLang = "fr") {
-      return new Promise((resolve) => {
-        let resolved = false;
-        const handler = (e) => {
-          if (e.source !== window || !e.data || e.data.type !== "YT_AI_RES_PLAYER_DATA") return;
-          const data = e.data || {};
-          if (videoId && data.videoId && data.videoId !== videoId) return;
-          resolved = true;
-          window.removeEventListener("message", handler);
-          if (data.videoId && (!videoId || data.videoId === videoId)) {
-            this.cachedVideoMetadata = {
-              videoId: data.videoId,
-              title: data.title || "",
-              author: data.author || "",
-              channelId: data.channelId || "",
-              subscribers: this.cachedVideoMetadata.subscribers || "",
-              description: data.description || "",
-              keywords: Array.isArray(data.keywords) ? data.keywords : [],
-              category: data.category || "",
-              publishDate: data.publishDate || "",
-              viewCount: data.viewCount || ""
-            };
-          }
-          resolve(data);
-        };
-        window.addEventListener("message", handler);
-        window.postMessage({ type: "YT_AI_REQ_PLAYER_DATA", videoId, preferredLang }, "*");
-        setTimeout(() => {
-          if (!resolved) {
-            window.removeEventListener("message", handler);
-            resolve({});
-          }
-        }, 5e3);
-      });
-    }
-    fetchTranscriptFromBackground(videoId, lang = "fr") {
-      if (!chrome?.runtime?.sendMessage) return Promise.resolve(null);
-      return new Promise((resolve) => {
-        chrome.runtime.sendMessage({ action: "FETCH_WATCH_PAGE_TRANSCRIPT", videoId, lang }, (res) => {
-          if (chrome.runtime.lastError || !res || !res.success) resolve(null);
-          else resolve(res);
-        });
-      });
-    }
-    async extractYouTubeTranscript(preferredLang = "en", isUserInitiated = false) {
-      const currentVideoId = getVideoId();
-      if (!currentVideoId) return null;
-      if (this.cachedTranscript.videoId === currentVideoId && this.cachedTranscript.segments.length > 0 && !this.cachedTranscript.isChapterOnly) {
-        return this.cachedTranscript.segments;
-      }
-      if (this.cachedTranscript.videoId && this.cachedTranscript.videoId !== currentVideoId) {
-        this.resetAllState(preferredLang);
-      }
-      const segments = await this.executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated);
-      if (segments && segments.length > 0) return segments;
-      if (isUserInitiated) {
-        const retryDelays = [600, 1200];
-        for (const delay of retryDelays) {
-          await new Promise((r) => setTimeout(r, delay));
-          const retrySegments = await this.executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated);
-          if (retrySegments && retrySegments.length > 0) return retrySegments;
-        }
-      }
-      return null;
-    }
-    async executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated) {
-      const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
-      if (domSegments && domSegments.length > 0) {
-        this.saveCachedTranscript(currentVideoId, domSegments, false);
-        return domSegments;
-      }
-      const playerData = await this.requestPlayerDataFromMainWorld(currentVideoId, preferredLang);
-      if (playerData?.videoId === currentVideoId && playerData?.segments?.length > 0) {
-        this.saveCachedTranscript(currentVideoId, playerData.segments, false);
-        return playerData.segments;
-      }
-      if (playerData?.videoId === currentVideoId && playerData?.captions?.length > 0) {
-        let track = playerData.captions.find((t) => t.languageCode === preferredLang) || playerData.captions.find((t) => t.languageCode?.startsWith(preferredLang)) || playerData.captions.find((t) => t.languageCode === "en" || t.languageCode?.startsWith("en")) || playerData.captions[0];
-        if (track?.baseUrl) {
-          const segments = await this.fetchTimedtextSegments(track.baseUrl);
-          if (segments && segments.length > 0) {
-            this.saveCachedTranscript(currentVideoId, segments, false);
-            return segments;
-          }
-        }
-      }
-      const bgResult = await this.fetchTranscriptFromBackground(currentVideoId, preferredLang);
-      if (bgResult?.segments?.length > 0) {
-        this.saveCachedTranscript(currentVideoId, bgResult.segments, false);
-        return bgResult.segments;
-      }
-      if (isUserInitiated) {
-        const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
-        if (stealthSegments && stealthSegments.length > 0) {
-          this.saveCachedTranscript(currentVideoId, stealthSegments, false);
-          return stealthSegments;
-        }
-      }
-      const chapterSegments = YouTubeDOMContext.extractChaptersFromDescription();
-      if (chapterSegments && chapterSegments.length > 1) {
-        this.saveCachedTranscript(currentVideoId, chapterSegments, true);
-        return chapterSegments;
-      }
-      return null;
-    }
-    saveCachedTranscript(videoId, segments, isChapterOnly = false) {
-      this.cachedTranscript = {
-        videoId,
-        segments,
-        fullText: segments.map((s) => s.text).join(" "),
-        isChapterOnly: !!isChapterOnly
-      };
-      const wordsCount = this.cachedTranscript.fullText.trim().split(/\s+/).filter(Boolean).length;
-      const wordCountEl = document.getElementById("ytAiWordCount");
-      const wordCountTab = document.getElementById("ytAiWordCountTab");
-      const transcriptBody = document.getElementById("ytAiTranscriptBody");
-      const currentLang = document.getElementById("ytAiLangSelect")?.value || "en";
-      const t = I18N[currentLang] || I18N.en;
-      if (wordCountEl) wordCountEl.textContent = wordsCount.toLocaleString();
-      if (wordCountTab) {
-        wordCountTab.textContent = isChapterOnly ? `${wordsCount.toLocaleString()} ${t.wordsBadge || "words"} (Chapitres)` : `${wordsCount.toLocaleString()} ${t.wordsBadge || "words"}`;
-      }
-      if (transcriptBody) {
-        transcriptBody.innerHTML = segments.map((s) => {
-          let sec = 0;
-          if (s.timestamp) {
-            const parts = s.timestamp.split(":").map(Number);
-            if (parts.length === 3) sec = parts[0] * 3600 + parts[1] * 60 + parts[2];
-            else if (parts.length === 2) sec = parts[0] * 60 + parts[1];
-          }
-          return `<div class="yt-ai-transcript-line"><a href="javascript:void(0)" class="yt-ai-timestamp-link" data-time="${sec}">[${s.timestamp || "--:--"}]</a> <span>${escapeHtml(s.text)}</span></div>`;
-        }).join("");
-      }
-    }
-    resetAllState(currentLang = "en") {
-      this.cachedTranscript = { videoId: "", segments: [], fullText: "", isChapterOnly: false };
-      this.cachedVideoMetadata = {
-        videoId: "",
-        title: "",
-        author: "",
-        channelId: "",
-        subscribers: "",
-        description: "",
-        keywords: [],
-        category: "",
-        publishDate: "",
-        viewCount: ""
-      };
-      const t = I18N[currentLang] || I18N.en;
-      const wordCountEl = document.getElementById("ytAiWordCount");
-      const wordCountTab = document.getElementById("ytAiWordCountTab");
-      const transcriptBody = document.getElementById("ytAiTranscriptBody");
-      if (wordCountEl) wordCountEl.textContent = "0";
-      if (wordCountTab) wordCountTab.textContent = `0 ${t.wordsBadge || "words"}`;
-      if (transcriptBody) {
-        transcriptBody.innerHTML = `<div class="yt-ai-loading">${escapeHtml(t.transcriptWaiting || "Waiting for transcript...")}</div>`;
-      }
-    }
-  };
-
-  // src/content/services/InPageTTSService.js
-  var DEFAULT_LANG_LOCALES = {
-    fr: "fr-FR",
-    en: "en-US",
-    es: "es-ES",
-    de: "de-DE",
-    it: "it-IT",
-    ru: "ru-RU",
-    ja: "ja-JP",
-    zh: "zh-CN"
-  };
-  var activeUtterance = null;
-  function splitTextIntoSpeechChunks(text, maxChunkLen = 200) {
-    if (!text) return [];
-    const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
-    const chunks = [];
-    let current = "";
-    for (const s of sentences) {
-      const trimmed = s.trim();
-      if (!trimmed) continue;
-      if ((current + " " + trimmed).length <= maxChunkLen) {
-        current = current ? current + " " + trimmed : trimmed;
-      } else {
-        if (current) chunks.push(current);
-        if (trimmed.length > maxChunkLen) {
-          const words = trimmed.split(/\s+/);
-          let sub = "";
-          for (const w of words) {
-            if ((sub + " " + w).length <= maxChunkLen) {
-              sub = sub ? sub + " " + w : w;
-            } else {
-              if (sub) chunks.push(sub);
-              sub = w;
-            }
-          }
-          if (sub) current = sub;
-        } else {
-          current = trimmed;
-        }
-      }
-    }
-    if (current) chunks.push(current);
-    return chunks;
-  }
-  var InPageTTSService = class _InPageTTSService {
-    constructor() {
-      this.availableVoices = [];
-      this.selectedVoiceURI = "";
-      this.activeSpeakingButton = null;
-      this.speechQueue = [];
-      this.speechQueueIndex = 0;
-      this.isSpeakingActive = false;
-      this.activeUtterance = null;
-      this.speechKeepAliveTimer = null;
-      this.activeAudio = null;
-      this.ttsSpeed = "1.0";
-    }
-    static cleanMarkdownForSpeech(md) {
-      if (!md) return "";
-      return md.replace(/^#{1,6}\s+/gm, "").replace(/\*\*([^*]+)\*\*/g, "$1").replace(/\*([^*]+)\*/g, "$1").replace(/__([^_]+)__/g, "$1").replace(/_([^_]+)_/g, "$1").replace(/`([^`]+)`/g, "$1").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/^\s*[-*•]\s+/gm, "").replace(/^\s*\d+\.\s+/gm, "").replace(/[\n\r]+/g, ". ").replace(/\s+/g, " ").trim();
-    }
-    initSpeechSynthesis(onVoicesReady) {
-      if ("speechSynthesis" in window) {
-        if (window.speechSynthesis.onvoiceschanged !== void 0) {
-          window.speechSynthesis.onvoiceschanged = () => {
-            this.availableVoices = window.speechSynthesis.getVoices();
-            if (typeof onVoicesReady === "function") onVoicesReady(this.availableVoices);
-          };
-        }
-        this.availableVoices = window.speechSynthesis.getVoices();
-        if (typeof onVoicesReady === "function" && this.availableVoices.length > 0) {
-          onVoicesReady(this.availableVoices);
-        }
-      }
-    }
-    populateVoiceDropdown(targetLang = "fr") {
-      const select = document.getElementById("ytAiVoiceSelect");
-      if (!select || !("speechSynthesis" in window)) return;
-      this.availableVoices = window.speechSynthesis.getVoices();
-      select.innerHTML = "";
-      const langCode = (targetLang || "fr").toLowerCase();
-      const matchingVoices = this.availableVoices.filter((v) => v.lang && v.lang.toLowerCase().startsWith(langCode));
-      const voicesToShow = matchingVoices.length > 0 ? matchingVoices : this.availableVoices;
-      let hasSelected = false;
-      voicesToShow.forEach((voice) => {
-        const opt = document.createElement("option");
-        opt.value = voice.voiceURI;
-        opt.textContent = `${voice.name} (${voice.lang})`;
-        if (voice.voiceURI === this.selectedVoiceURI && matchingVoices.some((m) => m.voiceURI === this.selectedVoiceURI)) {
-          opt.selected = true;
-          hasSelected = true;
-        }
-        select.appendChild(opt);
-      });
-      if (!hasSelected && select.options.length > 0) {
-        select.selectedIndex = 0;
-        this.selectedVoiceURI = select.value;
-      }
-    }
-    speakText(rawText, triggerBtn, options = {}) {
-      if (!("speechSynthesis" in window)) return;
-      if (this.isSpeakingActive) {
-        this.stopSpeech();
-        return;
-      }
-      const cleaned = _InPageTTSService.cleanMarkdownForSpeech(rawText);
-      if (!cleaned) return;
-      this.speechQueue = splitTextIntoSpeechChunks(cleaned, 220);
-      if (this.speechQueue.length === 0) return;
-      this.speechQueueIndex = 0;
-      this.isSpeakingActive = true;
-      this.activeSpeakingButton = triggerBtn;
-      const targetLang = options?.lang || document.getElementById("ytAiLangSelect")?.value || "fr";
-      const targetLocale = typeof LANG_LOCALES !== "undefined" && LANG_LOCALES[targetLang] || DEFAULT_LANG_LOCALES[targetLang] || "fr-FR";
-      const rate = parseFloat(options?.rate || this.ttsSpeed) || 1;
-      if (triggerBtn) {
-        triggerBtn.classList.add("speaking");
-        if (triggerBtn.id === "ytAiSpeakSummaryBtn") {
-          triggerBtn.textContent = "\u23F9 Stop";
-        }
-      }
-      if (!this.availableVoices || this.availableVoices.length === 0) {
-        this.availableVoices = window.speechSynthesis.getVoices();
-      }
-      let voiceToUse = null;
-      if (this.selectedVoiceURI) {
-        const chosen = this.availableVoices.find((v) => v.voiceURI === this.selectedVoiceURI);
-        if (chosen && chosen.lang && chosen.lang.toLowerCase().startsWith(targetLang.toLowerCase())) {
-          voiceToUse = chosen;
-        }
-      }
-      if (!voiceToUse && this.availableVoices.length > 0) {
-        voiceToUse = this.availableVoices.find((v) => v.lang && v.lang.toLowerCase() === targetLocale.toLowerCase()) || this.availableVoices.find((v) => v.lang && v.lang.toLowerCase().startsWith(targetLang.toLowerCase())) || this.availableVoices.find((v) => v.lang && v.lang.toLowerCase().startsWith(targetLocale.split("-")[0].toLowerCase()));
-        if (voiceToUse) {
-          this.selectedVoiceURI = voiceToUse.voiceURI;
-        }
-      }
-      const playAudioDataUrl = (dataUrl) => {
-        return new Promise((resolve) => {
-          if (!this.isSpeakingActive) return resolve();
-          const audio = new Audio(dataUrl);
-          audio.playbackRate = rate;
-          this.activeAudio = audio;
-          audio.onended = () => {
-            this.activeAudio = null;
-            resolve();
-          };
-          audio.onerror = () => {
-            this.activeAudio = null;
-            resolve();
-          };
-          audio.play().catch(() => {
-            this.activeAudio = null;
-            resolve();
-          });
-        });
-      };
-      const playNextChunk = async () => {
-        if (!this.isSpeakingActive || this.speechQueueIndex >= this.speechQueue.length) {
-          this.stopSpeech();
-          return;
-        }
-        const chunk = this.speechQueue[this.speechQueueIndex++];
-        if (!voiceToUse && typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
-          try {
-            const resp = await new Promise((resolve) => {
-              chrome.runtime.sendMessage({
-                action: "TTS_FETCH_AUDIO",
-                text: chunk,
-                lang: targetLang
-              }, resolve);
-            });
-            if (resp?.success && resp.audioDataUrl && this.isSpeakingActive) {
-              await playAudioDataUrl(resp.audioDataUrl);
-              if (this.isSpeakingActive) playNextChunk();
-              return;
-            }
-          } catch (_) {
-          }
-        }
-        const utterance = new SpeechSynthesisUtterance(chunk);
-        utterance.rate = rate;
-        if (voiceToUse) {
-          utterance.voice = voiceToUse;
-          utterance.lang = voiceToUse.lang || targetLocale;
-        } else {
-          utterance.lang = targetLocale;
-        }
-        this.activeUtterance = utterance;
-        activeUtterance = utterance;
-        utterance.onend = () => {
-          clearInterval(this.speechKeepAliveTimer);
-          playNextChunk();
-        };
-        utterance.onerror = () => {
-          clearInterval(this.speechKeepAliveTimer);
-          this.stopSpeech();
-        };
-        clearInterval(this.speechKeepAliveTimer);
-        this.speechKeepAliveTimer = setInterval(() => {
-          if (window.speechSynthesis?.speaking) {
-            window.speechSynthesis.pause();
-            window.speechSynthesis.resume();
-          } else {
-            clearInterval(this.speechKeepAliveTimer);
-          }
-        }, 1e4);
-        window.speechSynthesis.speak(utterance);
-      };
-      playNextChunk();
-    }
-    stopSpeech() {
-      this.isSpeakingActive = false;
-      clearInterval(this.speechKeepAliveTimer);
-      if (this.activeAudio) {
-        try {
-          this.activeAudio.pause();
-          this.activeAudio.currentTime = 0;
-        } catch (_) {
-        }
-        this.activeAudio = null;
-      }
-      if ("speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-      }
-      this.activeUtterance = null;
-      activeUtterance = null;
-      this.speechQueue = [];
-      this.speechQueueIndex = 0;
-      if (this.activeSpeakingButton) {
-        this.resetSpeakingButton(this.activeSpeakingButton);
-        this.activeSpeakingButton = null;
-      }
-    }
-    resetSpeakingButton(btn) {
-      if (!btn) return;
-      btn.classList.remove("speaking");
-      const lang = document.getElementById("ytAiLangSelect")?.value || "en";
-      const t = I18N[lang] || I18N.en;
-      if (btn.id === "ytAiSpeakSummaryBtn") {
-        btn.textContent = t.listenBtn || "\u{1F50A} Listen";
-      } else {
-        btn.textContent = t.listenBtn || "\u{1F50A}";
-      }
-    }
-  };
-  var cleanMarkdownForSpeech = InPageTTSService.cleanMarkdownForSpeech;
-
-  // src/content/services/InPageSTTService.js
-  var InPageSTTService = class {
-    constructor() {
-      this.isDictating = false;
-      this.isWhisperRecording = false;
-      this.activeMediaRecorder = null;
-      this.recordedAudioChunks = [];
-      this.selectedMicDeviceId = "";
-      this.availableMicrophones = [];
-      this.dictationBaseText = "";
-      this.isBraveBrowser = false;
-      this.onStopSpeechCallback = null;
-      try {
-        if (navigator.brave && typeof navigator.brave.isBrave === "function") {
-          navigator.brave.isBrave().then((val) => {
-            this.isBraveBrowser = !!val;
-          }).catch(() => {
-          });
-        }
-      } catch (_) {
-      }
-      this.setupMainWorldListener();
-    }
-    async initMicrophoneDevices() {
-      await this.refreshMicrophonesList();
-      if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
-        navigator.mediaDevices.addEventListener("devicechange", () => this.refreshMicrophonesList());
-      }
-    }
-    async refreshMicrophonesList() {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
-      try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        this.availableMicrophones = devices.filter((d) => d.kind === "audioinput");
-        const micSelect = document.getElementById("ytAiMicSelect");
-        if (!micSelect) return;
-        micSelect.innerHTML = '<option value="">\u{1F399}\uFE0F Default mic</option>';
-        this.availableMicrophones.forEach((dev, idx) => {
-          const opt = document.createElement("option");
-          opt.value = dev.deviceId;
-          opt.textContent = `\u{1F399}\uFE0F ${dev.label || `Microphone ${idx + 1}`}`;
-          if (dev.deviceId && dev.deviceId === this.selectedMicDeviceId) {
-            opt.selected = true;
-          }
-          micSelect.appendChild(opt);
-        });
-      } catch (_) {
-      }
-    }
-    setupMainWorldListener() {
-      window.addEventListener("message", (event) => {
-        if (event.source !== window || !event.data) return;
-        const targetLang = document.getElementById("ytAiLangSelect")?.value || "en";
-        const t = I18N[targetLang] || I18N.en;
-        if (event.data.type === "YT_AI_SPEECH_STARTED") {
-          this.isDictating = true;
-          this.showMicNotice(t.micActiveNotice || "\u{1F399}\uFE0F Voice dictation active... Speak now.", false);
-        } else if (event.data.type === "YT_AI_SPEECH_RESULT") {
-          const chatInput = document.getElementById("ytAiChatInput");
-          if (chatInput && this.isDictating) {
-            const prefix = this.dictationBaseText ? this.dictationBaseText.trim() + " " : "";
-            const full = (prefix + (event.data.finalText || "") + (event.data.interimText || "")).trimStart();
-            chatInput.value = full;
-          }
-        } else if (event.data.type === "YT_AI_SPEECH_ERROR") {
-          const err = event.data.error;
-          if (err === "not-allowed") this.showMicNotice(t.micBlockedNotice, true);
-          else if (err === "audio-capture") this.showMicNotice(t.micNoDeviceNotice, true);
-          else if (err === "network") this.showMicNotice(t.micNetworkNotice, true);
-          else if (err === "not-supported") this.showMicNotice(t.micNotSupportedNotice, true);
-          else if (err !== "no-speech") this.showMicNotice(`${t.micErrorNotice} ${err}`, true);
-          this.stopDictation();
-        } else if (event.data.type === "YT_AI_SPEECH_ENDED") {
-          if (this.isDictating) this.stopDictation();
-        }
-      });
-    }
-    showMicNotice(text, isError = false) {
-      const notice = document.getElementById("ytAiMicNotice");
-      if (!notice) return;
-      notice.textContent = text;
-      notice.className = `yt-ai-mic-notice ${isError ? "is-error" : "is-info"}`;
-      notice.classList.remove("yt-ai-hidden");
-      setTimeout(() => {
-        if (notice.textContent === text) notice.classList.add("yt-ai-hidden");
-      }, isError ? 9e3 : 4e3);
-    }
-    async toggleDictation(options = {}) {
-      if (this.isDictating) {
-        this.stopDictation();
-        return;
-      }
-      if (options.localWhisperUrl) {
-        await this.startWhisperRecording("", "local", options.localWhisperUrl);
-        return;
-      }
-      if (options.groqKey) {
-        await this.startWhisperRecording(options.groqKey, "groq");
-        return;
-      }
-      if (options.openaiKey) {
-        await this.startWhisperRecording(options.openaiKey, "openai");
-        return;
-      }
-      if (this.isBraveBrowser) {
-        const targetLang = document.getElementById("ytAiLangSelect")?.value || "en";
-        const t = I18N[targetLang] || I18N.en;
-        this.showMicNotice(t.braveMicNotice || "On Brave Browser, please use Local Whisper or add a Groq/OpenAI key.", true);
-        return;
-      }
-      await this.startDictation();
-    }
-    async startWhisperRecording(apiKey, provider, customUrl = "") {
-      if (typeof this.onStopSpeechCallback === "function") this.onStopSpeechCallback();
-      const targetLang = document.getElementById("ytAiLangSelect")?.value || "en";
-      const t = I18N[targetLang] || I18N.en;
-      try {
-        const constraints = this.selectedMicDeviceId ? { audio: { deviceId: { exact: this.selectedMicDeviceId } } } : { audio: true };
-        const stream = await navigator.mediaDevices.getUserMedia(constraints);
-        await this.refreshMicrophonesList();
-        this.recordedAudioChunks = [];
-        const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus") ? "audio/webm;codecs=opus" : MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "audio/mp4";
-        this.activeMediaRecorder = new MediaRecorder(stream, { mimeType });
-        this.activeMediaRecorder.ondataavailable = (e) => {
-          if (e.data && e.data.size > 0) this.recordedAudioChunks.push(e.data);
-        };
-        this.activeMediaRecorder.onstop = async () => {
-          stream.getTracks().forEach((track) => track.stop());
-          const audioBlob = new Blob(this.recordedAudioChunks, { type: mimeType });
-          if (audioBlob.size > 1500) {
-            await this.transcribeWithWhisperApi(audioBlob, apiKey, provider, targetLang, customUrl);
-          } else {
-            this.showMicNotice(t.whisperNoAudio || "No audio recorded. Please speak into your microphone.", false);
-          }
-        };
-        this.activeMediaRecorder.start();
-        this.isDictating = true;
-        this.isWhisperRecording = true;
-        const micBtn = document.getElementById("ytAiMicBtn");
-        const chatInput = document.getElementById("ytAiChatInput");
-        if (micBtn) {
-          micBtn.classList.add("is-recording");
-          micBtn.title = t.micStopTitle || "Stop dictation";
-          micBtn.innerHTML = '<span class="yt-ai-mic-icon">\u{1F534}</span>';
-        }
-        if (chatInput) {
-          chatInput.placeholder = t.whisperRecording || "\u{1F399}\uFE0F Whisper recording (Mic)...";
-        }
-        this.showMicNotice(t.whisperRecording || "\u{1F399}\uFE0F Whisper recording (Mic)...", false);
-      } catch (err) {
-        this.showMicNotice(`${t.micErrorNotice} ${err.message || err.name}`, true);
-        this.stopDictation();
-      }
-    }
-    async transcribeWithWhisperApi(audioBlob, apiKey, provider, targetLang, customUrl = "") {
-      const micBtn = document.getElementById("ytAiMicBtn");
-      const chatInput = document.getElementById("ytAiChatInput");
-      const t = I18N[targetLang] || I18N.en;
-      if (micBtn) micBtn.innerHTML = '<span class="yt-ai-spinner"></span>';
-      this.showMicNotice(t.whisperTranscribing || "\u23F3 Transcribing audio with Whisper...", false);
-      try {
-        const formData = new FormData();
-        formData.append("file", audioBlob, "speech.webm");
-        formData.append("model", provider === "groq" ? "whisper-large-v3-turbo" : "whisper-1");
-        if (targetLang) formData.append("language", targetLang);
-        const endpoint = provider === "local" ? customUrl || "http://localhost:8000/v1/audio/transcriptions" : provider === "groq" ? "https://api.groq.com/openai/v1/audio/transcriptions" : "https://api.openai.com/v1/audio/transcriptions";
-        const headers = {};
-        if (provider !== "local" && apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
-        const res = await fetch(endpoint, { method: "POST", headers, body: formData });
-        if (!res.ok) {
-          const errJson = await res.json().catch(() => ({}));
-          throw new Error(errJson.error?.message || `HTTP ${res.status}`);
-        }
-        const json = await res.json();
-        const text = json.text?.trim() || "";
-        if (text && chatInput) {
-          chatInput.value = (chatInput.value ? chatInput.value.trim() + " " : "") + text;
-          this.showMicNotice("\u2705 " + (t.transcriptExtracted || "Transcript extracted"), false);
-        }
-      } catch (err) {
-        this.showMicNotice(`${t.errorLabel || "Error: "}${err.message}`, true);
-      } finally {
-        if (micBtn) {
-          micBtn.classList.remove("is-recording");
-          micBtn.innerHTML = '<span class="yt-ai-mic-icon">\u{1F3A4}</span>';
-        }
-        if (chatInput) chatInput.placeholder = t.chatPlaceholder || "Ask a question or dictate with mic...";
-      }
-    }
-    async startDictation() {
-      if (typeof this.onStopSpeechCallback === "function") this.onStopSpeechCallback();
-      const targetLang = document.getElementById("ytAiLangSelect")?.value || "en";
-      const t = I18N[targetLang] || I18N.en;
-      try {
-        const constraints = this.selectedMicDeviceId ? { audio: { deviceId: { exact: this.selectedMicDeviceId } } } : { audio: true };
-        const testStream = await navigator.mediaDevices.getUserMedia(constraints);
-        testStream.getTracks().forEach((track) => track.stop());
-        await this.refreshMicrophonesList();
-      } catch (err) {
-        if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
-          this.showMicNotice(t.micBlockedNotice, true);
-        } else {
-          this.showMicNotice(`${t.micErrorNotice} ${err.message || err.name}`, true);
-        }
-        this.stopDictation();
-        return;
-      }
-      this.isDictating = true;
-      const micBtn = document.getElementById("ytAiMicBtn");
-      const chatInput = document.getElementById("ytAiChatInput");
-      this.dictationBaseText = chatInput ? chatInput.value : "";
-      if (micBtn) {
-        micBtn.classList.add("is-recording");
-        micBtn.title = t.micStopTitle || "Stop dictation";
-        micBtn.innerHTML = '<span class="yt-ai-mic-icon">\u{1F534}</span>';
-      }
-      if (chatInput) {
-        chatInput.placeholder = t.chatInputListening || "\u{1F399}\uFE0F Dictating... Speak into your microphone.";
-      }
-      this.showMicNotice(t.micActiveNotice || "\u{1F399}\uFE0F Voice dictation active... Speak now.", false);
-      window.postMessage({
-        type: "YT_AI_START_SPEECH",
-        lang: LANG_LOCALES[targetLang] || "en-US"
-      }, "*");
-    }
-    stopDictation() {
-      this.isDictating = false;
-      if (this.isWhisperRecording && this.activeMediaRecorder && this.activeMediaRecorder.state !== "inactive") {
-        this.isWhisperRecording = false;
-        try {
-          this.activeMediaRecorder.stop();
-        } catch (_) {
-        }
-        this.activeMediaRecorder = null;
-        return;
-      }
-      window.postMessage({ type: "YT_AI_STOP_SPEECH" }, "*");
-      const micBtn = document.getElementById("ytAiMicBtn");
-      const chatInput = document.getElementById("ytAiChatInput");
-      const targetLang = document.getElementById("ytAiLangSelect")?.value || "en";
-      const t = I18N[targetLang] || I18N.en;
-      if (micBtn) {
-        micBtn.classList.remove("is-recording");
-        micBtn.title = t.micTitle || "Dictate your question with microphone";
-        micBtn.innerHTML = '<span class="yt-ai-mic-icon">\u{1F3A4}</span>';
-      }
-      if (chatInput) {
-        chatInput.placeholder = t.chatPlaceholder || "Ask a question or dictate with mic... (Press Enter to send)";
-      }
-    }
-  };
-
-  // src/content/services/InPageAudioController.js
-  var InPageAudioController = class {
-    constructor() {
-      this.tts = new InPageTTSService();
-      this.stt = new InPageSTTService();
-      this.stt.onStopSpeechCallback = () => this.tts.stopSpeech();
-    }
-    init(currentLang, onVoicesReady) {
-      this.tts.initSpeechSynthesis(onVoicesReady);
-      this.stt.initMicrophoneDevices();
-    }
-    populateVoiceDropdown(currentLang) {
-      this.tts.populateVoiceDropdown(currentLang);
-    }
-    speakText(text, buttonEl, options) {
-      this.tts.speakText(text, buttonEl, options);
-    }
-    stopSpeech() {
-      this.tts.stopSpeech();
-    }
-    toggleDictation(options) {
-      return this.stt.toggleDictation(options);
-    }
-    stopDictation() {
-      this.stt.stopDictation();
-    }
-    stopAll() {
-      this.stopSpeech();
-      this.stopDictation();
-    }
-    showMicNotice(text, isError) {
-      this.stt.showMicNotice(text, isError);
     }
   };
 
@@ -8434,14 +9260,2292 @@ ${cfg.transcriptLabel}
 ${safeTranscript}
 """
 
-WRITING & AUDIO PLAYBACK GUIDELINES:
+WRITING & VISUAL PRESENTATION GUIDELINES:
 1. ${cfg.rule}
 2. ${lenDir}
-3. CONTINUOUS PROSE (TTS READY):
-   - Write in flowing, natural prose paragraphs without disjointed lists or decorative emojis for smooth audio playback.
-4. READABLE STRUCTURE:
-   - Break answers into short paragraphs with **bold** key terms.
-   - 100% faithful to the video content, transcript, and summary without hallucinations.`;
+3. SCANNABLE & STRUCTURED MARKDOWN (NO WALLS OF TEXT):
+   - Never output a dense, flat wall of unformatted prose.
+   - Start with a crisp direct answer (1-2 short sentences), then structure details cleanly using:
+     * Clear section headings (### Section) when covering 2+ themes or comparisons.
+     * Concise bullet points (- **Mot-cl\xE9 / Point :** Explication fluide sur la m\xEAme ligne) or numbered steps (1. ...).
+     * > Blockquotes for key takeaways, rules, or verbatim evidence quotes.
+     * Compact Markdown tables only when comparing several items/videos side-by-side.
+   - Highlight key figures, names, and **crucial terms in bold**; separate paragraphs clearly with blank lines.
+4. GROUNDING & ACCURACY:
+   - Cite relevant timestamps [MM:SS] or video titles when available.
+   - 100% faithful to the transcript, channel dossier, comments, and audit findings with zero hallucination.`;
+    }
+  };
+
+  // src/content/ui/ChannelChatController.js
+  var ChannelChatController = class {
+    constructor(dependencies = {}) {
+      this.channelManager = dependencies.channelManager || new ChannelIntelligenceManager();
+      this.channelAuditService = dependencies.channelAuditService || null;
+      this.audioController = dependencies.audioController || null;
+      this.transcriptController = dependencies.transcriptController || null;
+      this.transcriptManager = new ChatTranscriptManager();
+      this.streamClient = new ChatStreamClient();
+      this.chatHistory = [];
+      this.currentChannel = "";
+    }
+    /**
+     * Resets conversation state when clearing or switching channels.
+     */
+    resetChat(lang = "fr", showNotice = false) {
+      this.chatHistory = [];
+      this.transcriptManager.reset();
+      this.streamClient.disconnect();
+      if (this.audioController) {
+        this.audioController.stopSpeech();
+        this.audioController.stopDictation();
+      }
+      const badge = document.getElementById("ytAiChannelChatCount");
+      if (badge) badge.textContent = "0";
+      const container = document.getElementById("ytAiChannelChatMessages");
+      if (!container) return;
+      const t = I18N[lang] || I18N.fr;
+      const msg = showNotice ? t.channelChatResetNotice || "Nouvelle discussion lanc\xE9e sur cette cha\xEEne." : t.channelChatWelcome || "Posez vos questions sur cette cha\xEEne, sa ligne \xE9ditoriale, ses vid\xE9os ou ses partenaires.";
+      safeSetInnerHTML(container, `<div class="yt-ai-chat-bubble ai yt-ai-welcome-bubble">${escapeHtml(msg)}</div>`);
+    }
+    /**
+     * Binds send, clear, enter-key, suggestion chips, and mic events inside the channel card.
+     */
+    bindEvents(banner, state2) {
+      const getCtx = () => ({ state: state2, channelIdentifier: this.currentChannel });
+      banner.querySelector("#ytAiChannelSendChatBtn")?.addEventListener("click", () => this.sendMessage(null, getCtx()));
+      const input = banner.querySelector("#ytAiChannelChatInput");
+      input?.addEventListener("input", () => {
+        input.style.height = "auto";
+        input.style.height = Math.min(input.scrollHeight, 140) + "px";
+      });
+      input?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          this.sendMessage(null, getCtx());
+        }
+      });
+      banner.querySelector("#ytAiChannelClearChatBtn")?.addEventListener("click", () => {
+        this.resetChat(state2.currentLang || "fr", true);
+      });
+      banner.querySelector("#ytAiChannelMicBtn")?.addEventListener("click", () => {
+        this.audioController?.toggleDictation({
+          localWhisperUrl: state2.localWhisperUrl,
+          groqKey: state2.apiKeys?.groq,
+          openaiKey: state2.apiKeys?.openai,
+          targetInputId: "ytAiChannelChatInput"
+        });
+      });
+      const sugBox = banner.querySelector?.(".yt-ai-chat-suggestions");
+      if (sugBox) {
+        sugBox.addEventListener("click", (e) => {
+          const chip = e.target?.closest ? e.target.closest(".yt-ai-channel-suggestion-chip") : e.target?.classList?.contains?.("yt-ai-channel-suggestion-chip") ? e.target : null;
+          if (!chip) return;
+          const q = chip.getAttribute("data-question") || chip.textContent.trim();
+          this.sendMessage(q, getCtx());
+        });
+      } else {
+        banner.querySelectorAll(".yt-ai-channel-suggestion-chip").forEach((chip) => {
+          chip.addEventListener("click", () => {
+            const q = chip.getAttribute("data-question") || chip.textContent.trim();
+            this.sendMessage(q, getCtx());
+          });
+        });
+      }
+    }
+    /**
+     * Sends a user question about the active YouTube channel and streams AI reply.
+     */
+    async sendMessage(customText = null, ctx = {}) {
+      const inputEl = document.getElementById("ytAiChannelChatInput");
+      const text = (customText !== null ? customText : inputEl?.value || "").trim();
+      if (!text) return;
+      const stateObj = ctx.state || {};
+      const channelQuery = ctx.channelIdentifier || this.currentChannel;
+      const lang = document.getElementById?.("ytAiCompLangSelect")?.value || stateObj.currentLang || "fr";
+      const t = I18N[lang] || I18N.fr;
+      const currentProvider = stateObj.currentProvider || "lmstudio";
+      const isLocal = currentProvider === "lmstudio" || currentProvider === "ollama";
+      const key = stateObj.apiKeys?.[currentProvider] || "";
+      const activeModel = typeof stateObj.getActiveModel === "function" ? stateObj.getActiveModel() : stateObj.selectedModel || "";
+      if (!activeModel) {
+        ChatBubbleView.appendChatBubble("ai", `<span style="color:#ff7b72;">[!] ${escapeHtml(t.selectModelAlert || "Please select an AI model.")}</span>`, "ytAiChannelChatMessages");
+        return;
+      }
+      if (!isLocal && !key) {
+        ChatBubbleView.appendChatBubble("ai", QuickOnboardingHelper.formatMissingKeyNotice(currentProvider, lang), "ytAiChannelChatMessages");
+        return;
+      }
+      if (inputEl && customText === null) {
+        inputEl.value = "";
+        inputEl.style.height = "auto";
+      }
+      const msgContainer = document.getElementById("ytAiChannelChatMessages");
+      ChatBubbleView.appendChatBubble("user", escapeHtml(text).replace(/\n/g, "<br>"), "ytAiChannelChatMessages");
+      let channelDossierBlock = "";
+      let channelMeta = { title: channelQuery, author: channelQuery, channelUrl: channelQuery };
+      if (channelQuery) {
+        const waitNotice = (t.analyzingChannelNotice || "Analyse du dossier de la cha\xEEne ({query})...").replace("{query}", channelQuery);
+        const waitBubble = ChatBubbleView.appendChatBubble("ai", `<span class="yt-ai-spinner"></span> ${escapeHtml(waitNotice)}`, "ytAiChannelChatMessages");
+        waitBubble?.classList?.add("yt-ai-status-bubble");
+        const limit = Math.max(30, parseChannelAuditLimit(stateObj.channelAuditMaxVideos || 30).fetchCap);
+        const res = await this.channelManager.getOrFetchChannelDossier(channelQuery, Math.min(limit, 100));
+        waitBubble?.remove?.();
+        if (res?.success && res.channel) {
+          channelMeta = {
+            title: res.channel.title || channelQuery,
+            author: res.channel.title || channelQuery,
+            subscribers: res.channel.subscribers || "",
+            channelUrl: channelQuery
+          };
+          channelDossierBlock = this.channelManager.formatContextBlock(res.channel, lang);
+        }
+      }
+      const externalIds = extractAllVideoIdsFromText(text);
+      let safeContextTranscript = lang.startsWith("fr") ? `Contexte : Page officielle de la cha\xEEne ${channelMeta.author} (${channelQuery}). Utilise fid\xE8lement le dossier officiel de la cha\xEEne et l'\xE9ventuel rapport d'audit fournis ci-dessus pour r\xE9pondre \xE0 l'utilisateur.` : `Context: Official YouTube channel page for ${channelMeta.author} (${channelQuery}). Base answers faithfully on the official channel dossier and cached audit findings above.`;
+      if (externalIds.length > 0 && this.transcriptController) {
+        const { loaded } = await this.transcriptManager.ensureTranscriptsLoaded(externalIds, this.transcriptController, lang);
+        if (loaded.length > 0) {
+          const maxChars = CONTEXT_LIMITS[currentProvider] || 2e4;
+          const { safeTranscript } = this.transcriptManager.buildMultiVideoContext("", channelMeta, "", maxChars, PromptService.condenseTranscriptForContext);
+          safeContextTranscript = safeTranscript;
+        }
+      }
+      const cachedAudit = this.channelAuditService?.getCachedReport?.(channelQuery) || null;
+      const auditBlock = this._formatChannelAuditBlock(cachedAudit, lang);
+      const systemPrompt = PromptService.buildChatSystemPrompt(
+        channelMeta,
+        safeContextTranscript,
+        lang,
+        "standard",
+        "",
+        channelDossierBlock,
+        "",
+        auditBlock
+      );
+      const aiBubble = ChatBubbleView.appendChatBubble("ai", "", "ytAiChannelChatMessages");
+      aiBubble?.classList?.add("yt-ai-typing");
+      const historyPayload = this.chatHistory.slice(-8);
+      historyPayload.push({ role: "user", content: text });
+      let fullAnswer = "";
+      this.streamClient.startStream({
+        provider: currentProvider,
+        serverUrl: stateObj.serverUrls?.[currentProvider] || "",
+        apiKey: key,
+        model: activeModel,
+        systemPrompt,
+        messages: historyPayload,
+        temperature: stateObj.temperature || "0.3",
+        maxTokens: stateObj.maxTokens || "auto",
+        onChunk: (chunk) => {
+          fullAnswer += chunk;
+          if (aiBubble) renderMarkdown(fullAnswer, aiBubble);
+          ChatBubbleView.scrollToBottom(msgContainer);
+        },
+        onDone: () => {
+          aiBubble?.classList?.remove("yt-ai-typing");
+          if (!fullAnswer.trim()) {
+            if (aiBubble) aiBubble.innerHTML = `<span style="color:#ff7b72;">[!] ${escapeHtml(t.connectionError || "No response received from AI model.")}</span>`;
+            return;
+          }
+          this.chatHistory.push({ role: "user", content: text }, { role: "assistant", content: fullAnswer });
+          const badge = document.getElementById("ytAiChannelChatCount");
+          if (badge) badge.textContent = String(Math.floor(this.chatHistory.length / 2));
+          ChatBubbleView.attachAudioButton(aiBubble, fullAnswer, this.audioController, lang);
+        },
+        onError: (errMsg) => {
+          aiBubble?.classList?.remove("yt-ai-typing");
+          if (aiBubble) aiBubble.innerHTML = `<span style="color:#ff7b72;">[x] ${escapeHtml(errMsg)}</span>`;
+        }
+      });
+    }
+    _formatChannelAuditBlock(report, lang) {
+      if (!report) return "";
+      const isFr = (lang || "fr").toLowerCase().startsWith("fr");
+      const header = isFr ? "### \u{1F4CA} AUDIT STATISTIQUE DE LA CHA\xCENE EN M\xC9MOIRE" : "### \u{1F4CA} CACHED CHANNEL STATISTICAL AUDIT";
+      return [
+        header,
+        `- Score : ${report.globalScore}/100 (${report.tier?.label || report.badge?.label || ""})`,
+        `- Sensationnalisme : ${report.clickbaitIndex}% | Trajectoire : ${report.trajectoryLabel}`,
+        report.strengths?.length ? `- Forces : ${report.strengths.slice(0, 4).join(" ; ")}` : "",
+        report.weaknesses?.length ? `- Vigilance : ${report.weaknesses.slice(0, 4).join(" ; ")}` : "",
+        report.executiveSummary ? `- Synth\xE8se : ${report.executiveSummary}` : ""
+      ].filter(Boolean).join("\n");
+    }
+  };
+
+  // src/content/ui/ChannelCompanionRunController.js
+  var ChannelCompanionRunController = class {
+    constructor(card) {
+      this.card = card;
+      this._serviceUnsub = null;
+    }
+    get service() {
+      return this.card.service;
+    }
+    get viewController() {
+      return this.card.viewController;
+    }
+    get state() {
+      return this.card.state;
+    }
+    bindSubscription() {
+      if (this._serviceUnsub || typeof this.service?.subscribe !== "function") return;
+      this._serviceUnsub = this.service.subscribe((evt) => {
+        if (!evt) return;
+        const evtKey = ChannelAuditJobTracker.normalizeKey(evt.job?.channelQuery);
+        const curKey = ChannelAuditJobTracker.normalizeKey(this.card.currentChannel);
+        if (evtKey && curKey && evtKey !== curKey) return;
+        const lang = evt.job?.lang || document.getElementById?.("ytAiCompLangSelect")?.value || this.state.currentLang || "fr";
+        const isFr = lang.startsWith("fr");
+        const progBox = document.getElementById("ytAiChannelProgress");
+        const resultBox = document.getElementById("ytAiChannelResultContainer");
+        if (evt.type === "started" || evt.type === "progress") {
+          this.setRunButtonRunning(true, lang);
+          this.renderOrUpdateProgress(evt.progress, lang);
+        } else if (evt.type === "completed") {
+          this.setRunButtonRunning(false, lang);
+          progBox?.classList?.add("yt-ai-hidden");
+          if (evt.report?.channelTotalVideos > 0) {
+            this.card.knownTotalVideos = evt.report.channelTotalVideos;
+            syncChannelMaxSelectElement(document.getElementById("ytAiCompanionMaxVideos"), evt.job?.maxVideos || 30, isFr, evt.report.channelTotalVideos);
+          }
+          this.renderReport(evt.report, resultBox, lang);
+        } else if (evt.type === "aborted") {
+          this.setRunButtonRunning(false, lang);
+          progBox?.classList?.add("yt-ai-hidden");
+          this.showStatus((I18N[lang] || I18N.en).auditStoppedNote || "\u23F9 Processing stopped by user.");
+        } else if (evt.type === "error") {
+          this.setRunButtonRunning(false, lang);
+          progBox?.classList?.add("yt-ai-hidden");
+          if (resultBox) {
+            const errT = I18N[lang] || I18N.en;
+            resultBox.classList.remove("yt-ai-hidden");
+            resultBox.innerHTML = `<div class="yt-ai-reasoning offline" style="margin:0;padding:10px 14px;">[!] ${escapeHtml(errT.auditErrorPrefix || I18N.en.auditErrorPrefix)} ${escapeHtml(evt.error?.message || errT.connectionError || I18N.en.connectionError)}</div>`;
+          }
+        }
+      });
+    }
+    syncActiveJobUI(channelId, lang = "fr") {
+      const job = this.service?.getActiveJob?.(channelId);
+      if (!job) return false;
+      const cardEl = document.getElementById("yt-ai-channel-companion");
+      if (cardEl) {
+        cardEl.querySelectorAll(".yt-ai-period-pill").forEach((p) => {
+          p.classList?.toggle?.("active", p.dataset?.period === job.period);
+        });
+        const sel = cardEl.querySelector("#ytAiCompanionMaxVideos");
+        if (sel && job.maxVideos) sel.value = String(resolveEffectiveChannelLimit(job.maxVideos, this.card.knownTotalVideos));
+      }
+      this.setRunButtonRunning(true, lang);
+      this.renderOrUpdateProgress(job.progress, lang);
+      return true;
+    }
+    setRunButtonRunning(isRunning, lang = "fr") {
+      const runBtn = document.getElementById("ytAiRunChannelAuditBtn");
+      if (!runBtn) return;
+      const t = I18N[lang] || I18N.en;
+      runBtn.disabled = false;
+      if (typeof runBtn.classList?.toggle === "function") runBtn.classList.toggle("yt-ai-btn-stop", isRunning);
+      else if (isRunning) runBtn.classList?.add?.("yt-ai-btn-stop");
+      else runBtn.classList?.remove?.("yt-ai-btn-stop");
+      runBtn.textContent = isRunning ? t.stopAuditBtn || "\u23F9 Stop Audit" : t.runChannelAuditBtn || "\u26A1 Run Channel Audit";
+    }
+    renderOrUpdateProgress(p = {}, lang = "fr") {
+      const progBox = document.getElementById("ytAiChannelProgress");
+      if (!progBox) return;
+      const t = I18N[lang] || I18N.en;
+      progBox.classList.remove("yt-ai-hidden");
+      if (!progBox.querySelector?.(".yt-ai-progress-widget")) {
+        progBox.innerHTML = AuditProgressBar.renderWidget({
+          percent: p.percent ?? 5,
+          title: p.message || t.auditInProgress || "Audit in progress...",
+          detail: p.detail || "",
+          showStop: true,
+          stopLabel: t.stopShortBtn || "Stop"
+        });
+      } else {
+        AuditProgressBar.updateWidget(progBox, {
+          percent: p.percent,
+          title: p.message || t.auditInProgress || "Audit in progress...",
+          detail: p.detail || ""
+        });
+      }
+      AuditProgressBar.bindStopAction(progBox, () => this.stop());
+    }
+    showStatus(msg) {
+      const statusBox = document.getElementById("ytAiCompanionStatusBanner");
+      if (!statusBox || !msg) return;
+      statusBox.classList.remove("yt-ai-hidden");
+      statusBox.textContent = msg;
+      setTimeout(() => statusBox.classList?.add("yt-ai-hidden"), 4e3);
+    }
+    stop() {
+      this.service?.abortAudit?.("stopped");
+      const lang = this.state.currentLang || "fr";
+      this.setRunButtonRunning(false, lang);
+      document.getElementById("ytAiChannelProgress")?.classList?.add("yt-ai-hidden");
+    }
+    async run() {
+      if (!this.service || !this.viewController) return;
+      this.bindSubscription();
+      const hasSub = typeof this.service.subscribe === "function";
+      const lang = document.getElementById?.("ytAiCompLangSelect")?.value || this.state.currentLang || "fr";
+      const t = I18N[lang] || I18N.en;
+      const activePill = document.querySelector?.("#yt-ai-channel-companion .yt-ai-period-pill.active");
+      const period = activePill?.getAttribute?.("data-period") || this.state.channelAuditPeriod || "all";
+      const domSelect = document.getElementById?.("ytAiCompanionMaxVideos");
+      const maxVideos = parseChannelAuditLimit(domSelect?.value ?? this.state.channelAuditMaxVideos ?? 30).key;
+      this.state.channelAuditMaxVideos = maxVideos;
+      this.setRunButtonRunning(true, lang);
+      this.renderOrUpdateProgress({ percent: 5, message: t.auditStarting || "Preparing audit dossier...", detail: t.channelSampleInfo || "Weighted temporal sampling" }, lang);
+      try {
+        const report = await this.service.executeChannelAudit({
+          channelQuery: this.card.currentChannel,
+          period,
+          maxVideos,
+          lang,
+          state: this.state,
+          onProgress: (p) => {
+            if (!hasSub) this.renderOrUpdateProgress(p, lang);
+          }
+        });
+        if (!hasSub) {
+          this.setRunButtonRunning(false, lang);
+          document.getElementById("ytAiChannelProgress")?.classList?.add("yt-ai-hidden");
+          this.renderReport(report, document.getElementById("ytAiChannelResultContainer"), lang);
+        }
+      } catch (err) {
+        if (!hasSub) {
+          this.setRunButtonRunning(false, lang);
+          document.getElementById("ytAiChannelProgress")?.classList?.add("yt-ai-hidden");
+          if (!ChannelAuditJobTracker.isAbortError(err)) {
+            const resultBox = document.getElementById("ytAiChannelResultContainer");
+            if (resultBox) {
+              const errT = I18N[lang] || I18N.en;
+              resultBox.classList.remove("yt-ai-hidden");
+              resultBox.innerHTML = `<div class="yt-ai-reasoning offline" style="margin:0;padding:10px 14px;">[!] ${escapeHtml(errT.auditErrorPrefix || I18N.en.auditErrorPrefix)} ${escapeHtml(err.message || errT.connectionError || I18N.en.connectionError)}</div>`;
+            }
+          }
+        }
+      }
+    }
+    renderReport(report, resultBox, lang) {
+      if (!resultBox || !report) return;
+      resultBox.classList.remove("yt-ai-hidden");
+      const renderFn = this.viewController.renderChannelReport || this.viewController.renderReport;
+      if (typeof renderFn === "function") renderFn.call(this.viewController, report, resultBox, lang);
+    }
+    async restoreCachedReport(channelId) {
+      if (!this.service) return;
+      try {
+        await this.service.ensureHydrated?.();
+        if (this.card.currentChannel !== channelId || this.service.isAuditRunning?.(channelId)) return;
+        const period = this.state.channelAuditPeriod || "all";
+        const maxVideos = parseChannelAuditLimit(this.state.channelAuditMaxVideos || 30).key;
+        const cached = this.service.getCachedReport?.(channelId, period, maxVideos) || this.service.getCachedReport?.(channelId) || this.service.cache?.getCachedChannelReport?.(channelId, period);
+        if (cached) this.renderReport(cached, document.getElementById("ytAiChannelResultContainer"), this.state.currentLang || "fr");
+      } catch (_) {
+      }
+    }
+  };
+
+  // src/content/ui/ChannelCompanionI18n.js
+  var ChannelCompanionI18n = class _ChannelCompanionI18n {
+    /**
+     * Synchronizes every UI string inside the Channel Companion DOM node.
+     * @param {string} lang
+     * @param {Object} card ChannelCompanionCard instance
+     */
+    static applyLanguage(lang, card) {
+      const resolvedLang = lang || card?.state?.currentLang || "en";
+      if (card?.state) card.state.currentLang = resolvedLang;
+      const t = I18N[resolvedLang] || I18N.en;
+      const isFr = resolvedLang.startsWith("fr");
+      const root = document.getElementById("yt-ai-channel-companion");
+      if (!root) return;
+      const brandTitle = root.querySelector("#ytAiCompBrandTitle") || document.getElementById("ytAiCompBrandTitle");
+      if (brandTitle) brandTitle.textContent = t.brandName || EXTENSION_BRAND_TITLE;
+      const brandWrap = root.querySelector("#ytAiBrandToggle") || document.getElementById("ytAiBrandToggle");
+      if (brandWrap) brandWrap.title = t.brandName || EXTENSION_BRAND_TITLE;
+      const langSelect = root.querySelector("#ytAiCompLangSelect") || document.getElementById("ytAiCompLangSelect");
+      if (langSelect) {
+        langSelect.title = t.langLabel || "Language:";
+        if (langSelect.value !== resolvedLang) langSelect.value = resolvedLang;
+      }
+      const isRunning = !!(card?.currentChannel && card?.service?.isAuditRunning?.(card.currentChannel));
+      const runBtn = root.querySelector("#ytAiRunChannelAuditBtn") || document.getElementById("ytAiRunChannelAuditBtn");
+      if (runBtn) {
+        runBtn.textContent = isRunning ? t.stopAuditBtn || "\u23F9 Stop Audit" : t.runChannelAuditBtn || "\u26A1 Run Channel Audit";
+      }
+      const settingsBtn = root.querySelector("#ytAiCompanionSettingsBtn") || document.getElementById("ytAiCompanionSettingsBtn");
+      if (settingsBtn) settingsBtn.title = t.settingsBtn || "Settings";
+      const settingsText = root.querySelector("#ytAiCompSettingsBtnText") || document.getElementById("ytAiCompSettingsBtnText");
+      if (settingsText) settingsText.textContent = t.settingsBtn || "Settings";
+      const toggleBtn = root.querySelector("#ytAiCompanionToggleBtn") || document.getElementById("ytAiCompanionToggleBtn");
+      const toggleText = root.querySelector("#ytAiCompToggleText") || document.getElementById("ytAiCompToggleText");
+      const toggleIcon = root.querySelector("#ytAiCompToggleIcon") || document.getElementById("ytAiCompToggleIcon");
+      const expanded = card ? !!card.isExpanded : true;
+      const toggleLabel = expanded ? t.collapse || "Collapse" : t.expand || "Expand";
+      if (toggleBtn) toggleBtn.title = toggleLabel;
+      if (toggleText) toggleText.textContent = toggleLabel;
+      if (toggleIcon) toggleIcon.textContent = expanded ? "\u25B2" : "\u25BE";
+      SettingsDrawerI18n.applyLanguage(resolvedLang);
+      const tabAuditBtn = root.querySelector("#ytAiChanTabAuditBtn") || document.getElementById("ytAiChanTabAuditBtn");
+      if (tabAuditBtn) tabAuditBtn.textContent = t.tabChannelAudit || "\u{1F4CA} Channel Audit";
+      const tabChatBtn = root.querySelector("#ytAiChanTabChatBtn") || document.getElementById("ytAiChanTabChatBtn");
+      if (tabChatBtn) {
+        const count = (root.querySelector("#ytAiChannelChatCount") || document.getElementById("ytAiChannelChatCount"))?.textContent || "0";
+        tabChatBtn.innerHTML = `${escapeHtml(t.tabChat || "\u{1F4AC} Ask questions")} <span id="ytAiChannelChatCount" class="yt-ai-tab-count-badge">${escapeHtml(count)}</span>`;
+      }
+      const descEl = root.querySelector("#ytAiCompDesc") || document.getElementById("ytAiCompDesc");
+      if (descEl) descEl.textContent = t.channelCompanionDesc || "";
+      const periodLabel = root.querySelector(".yt-ai-period-label");
+      if (periodLabel) periodLabel.textContent = t.periodFilterLabel || "Analyzed period:";
+      const periodMap = {
+        all: `\u{1F310} ${t.periodAll || "All history"}`,
+        year: `\u{1F4C5} ${t.periodYear || "Current year"}`,
+        "6months": `\u{1F3AF} ${t.period6Months || "Last 6 months"}`,
+        month: `\u26A1 ${t.periodMonth || "Last month"}`
+      };
+      root.querySelectorAll(".yt-ai-period-pill").forEach((pill) => {
+        const key = pill.getAttribute?.("data-period");
+        if (key && periodMap[key]) pill.textContent = periodMap[key];
+      });
+      const maxLabel = root.querySelector(".yt-ai-max-label");
+      if (maxLabel) maxLabel.textContent = t.maxVideosLabel || "Max Limit:";
+      const maxSelect = root.querySelector("#ytAiCompanionMaxVideos") || document.getElementById("ytAiCompanionMaxVideos");
+      if (maxSelect) {
+        syncChannelMaxSelectElement(maxSelect, maxSelect.value || card?.state?.channelAuditMaxVideos || 30, isFr, card?.knownTotalVideos || null);
+      }
+      const progStop = root.querySelector("#ytAiChannelProgress .yt-ai-progress-stop");
+      if (progStop) progStop.textContent = t.stopShortBtn || "Stop";
+      const resultBox = root.querySelector("#ytAiChannelResultContainer") || document.getElementById("ytAiChannelResultContainer");
+      if (resultBox && !isRunning && card?.viewController?.lastReport && !resultBox.classList?.contains("yt-ai-hidden")) {
+        const hasReportDom = !!resultBox.querySelector?.(".yt-ai-channel-audit-wrapper");
+        if (hasReportDom) {
+          card.viewController.renderReport(card.viewController.lastReport, resultBox, resolvedLang);
+        }
+      }
+      _ChannelCompanionI18n.applyChatLanguage(t, root, card?.channelChat);
+      applyFooterLanguage(t, "ytAiCompFooter");
+    }
+    /**
+     * Translates Channel Q&A chrome without wiping active conversation bubbles.
+     */
+    static applyChatLanguage(t, root, channelChat = null) {
+      const sugBox = root.querySelector(".yt-ai-chat-suggestions");
+      const suggestions = Array.isArray(t.channelChatSuggestions) ? t.channelChatSuggestions : [];
+      if (sugBox && suggestions.length > 0) {
+        sugBox.innerHTML = suggestions.map((s) => `<button type="button" class="yt-ai-suggestion-chip yt-ai-channel-suggestion-chip" data-question="${escapeHtml(s.question)}">${escapeHtml(s.label)}</button>`).join("");
+      }
+      const historyLen = channelChat?.chatHistory?.length || 0;
+      if (historyLen === 0) {
+        const welcome = root.querySelector(".yt-ai-welcome-bubble");
+        if (welcome) welcome.textContent = t.channelChatWelcome || "";
+      }
+      const input = root.querySelector("#ytAiChannelChatInput") || document.getElementById("ytAiChannelChatInput");
+      if (input) input.placeholder = t.channelChatPlaceholder || "";
+      const micBtn = root.querySelector("#ytAiChannelMicBtn") || document.getElementById("ytAiChannelMicBtn");
+      if (micBtn) micBtn.title = t.micTitle || "Microphone";
+      const sendBtn = root.querySelector("#ytAiChannelSendChatBtn") || document.getElementById("ytAiChannelSendChatBtn");
+      if (sendBtn) sendBtn.textContent = t.sendBtn || "Send \u27A4";
+      const clearBtn = root.querySelector("#ytAiChannelClearChatBtn") || document.getElementById("ytAiChannelClearChatBtn");
+      if (clearBtn) clearBtn.title = t.clearChatBtn || "Clear";
+    }
+  };
+
+  // src/content/ui/SettingsDrawerEventHandler.js
+  var SettingsDrawerEventHandler = class {
+    /**
+     * Binds all interactions within the settings drawer container
+     * @param {HTMLElement} rootContainer
+     * @param {SettingsDrawerController} settingsDrawer
+     * @param {Object} state
+     * @param {Object} [bannerView=null]
+     */
+    static bind(rootContainer, settingsDrawer2, state2, bannerView2 = null) {
+      if (!rootContainer || !settingsDrawer2 || !state2) return;
+      rootContainer.querySelector("#ytAiSettingsCloseBtn")?.addEventListener("click", () => {
+        SettingsDrawerController.setSettingsDrawerOpen(false);
+      });
+      rootContainer.querySelectorAll(".yt-ai-settings-tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const sub = btn.getAttribute("data-subtab");
+          if (sub) SettingsDrawerController.switchSettingsSubtab(sub);
+        });
+      });
+      rootContainer.querySelector("#ytAiProviderSelect")?.addEventListener("change", (e) => {
+        state2.currentProvider = e.target.value;
+        state2.savePreference("aiProvider", state2.currentProvider);
+        settingsDrawer2.syncProviderUI();
+      });
+      rootContainer.querySelector("#ytAiApiKeyInput")?.addEventListener("input", (e) => {
+        const val = e.target.value.trim();
+        state2.apiKeys[state2.currentProvider] = val;
+        state2.savePreference(`apiKey_${state2.currentProvider}`, val);
+        if (state2.keyVerified) delete state2.keyVerified[state2.currentProvider];
+        if (bannerView2) bannerView2.updateHeaderBadge();
+      });
+      settingsDrawer2.bindPasteButton();
+      rootContainer.querySelector("#ytAiServerSelect")?.addEventListener("change", (e) => {
+        const isOllama = state2.currentProvider === "ollama";
+        const def = isOllama ? "http://localhost:11434" : "http://localhost:1234";
+        if (e.target.value === "custom") {
+          const custom = prompt(`Address for ${isOllama ? "Ollama" : "LM Studio"}:`, state2.serverUrls[state2.currentProvider] || def);
+          if (custom) {
+            const clean = custom.trim().replace(/\/+$/, "");
+            state2.serverUrls[state2.currentProvider] = clean;
+            state2.savePreference(`serverUrl_${state2.currentProvider}`, clean);
+            settingsDrawer2.updateServerUrlUI();
+            settingsDrawer2.refreshModelsList();
+          }
+        } else {
+          state2.serverUrls[state2.currentProvider] = e.target.value;
+          state2.savePreference(`serverUrl_${state2.currentProvider}`, e.target.value);
+          settingsDrawer2.updateServerUrlUI();
+          settingsDrawer2.refreshModelsList();
+        }
+      });
+      rootContainer.querySelector("#ytAiRefreshModelsBtn")?.addEventListener("click", () => settingsDrawer2.refreshModelsList(true));
+      rootContainer.querySelector("#ytAiTestModelBtn")?.addEventListener("click", () => settingsDrawer2.handleTestConnection());
+      rootContainer.querySelector("#ytAiTestWhisperBtn")?.addEventListener("click", () => settingsDrawer2.handleTestWhisper());
+      rootContainer.querySelector("#ytAiModelSelect")?.addEventListener("change", (e) => {
+        state2.setActiveModel(e.target.value);
+        state2.savePreference(`selectedModel_${state2.currentProvider}`, e.target.value);
+        state2.savePreference("selectedModel", e.target.value);
+        if (bannerView2) bannerView2.updateHeaderModelText();
+      });
+      rootContainer.querySelector("#ytAiTemperatureSelect")?.addEventListener("change", (e) => {
+        state2.temperature = e.target.value;
+        state2.savePreference("temperature", e.target.value);
+      });
+      rootContainer.querySelector("#ytAiMaxTokensSelect")?.addEventListener("change", (e) => {
+        state2.maxTokens = e.target.value;
+        state2.savePreference("maxTokens", e.target.value);
+      });
+      rootContainer.querySelector("#ytAiAutoSummarizeCheck")?.addEventListener("change", (e) => {
+        state2.autoSummarize = e.target.checked;
+        state2.savePreference("autoSummarize", e.target.checked);
+      });
+      rootContainer.querySelector("#ytAiCustomPromptInput")?.addEventListener("input", (e) => {
+        state2.customPrompt = e.target.value;
+        state2.savePreference("customPrompt", e.target.value);
+      });
+      rootContainer.querySelector("#ytAiTtsSpeedSelect")?.addEventListener("change", (e) => {
+        state2.ttsSpeed = e.target.value;
+        state2.savePreference("ttsSpeed", e.target.value);
+      });
+      rootContainer.querySelector("#ytAiVoiceSelect")?.addEventListener("change", (e) => {
+        state2.selectedVoiceURI = e.target.value;
+        state2.savePreference("selectedVoiceURI", e.target.value);
+      });
+      rootContainer.querySelector("#ytAiMicSelect")?.addEventListener("change", (e) => {
+        state2.selectedMicDeviceId = e.target.value;
+        state2.savePreference("selectedMicDeviceId", e.target.value);
+      });
+      rootContainer.querySelector("#ytAiWhisperUrlInput")?.addEventListener("input", (e) => {
+        state2.localWhisperUrl = e.target.value.trim();
+        state2.savePreference("localWhisperUrl", state2.localWhisperUrl);
+      });
+    }
+  };
+
+  // src/content/ui/ChannelCompanionCard.js
+  var ChannelCompanionCard = class {
+    constructor(options = {}) {
+      this.service = options.channelAuditService;
+      this.viewController = options.channelAuditViewController;
+      this.settingsDrawer = options.settingsDrawer || null;
+      this.audioController = options.audioController || null;
+      this.state = options.state || {};
+      this.currentChannel = "";
+      this.isExpanded = true;
+      this.activeTab = "channelAudit";
+      this.runController = new ChannelCompanionRunController(this);
+      this.channelChat = new ChannelChatController({
+        channelAuditService: this.service,
+        audioController: options.audioController,
+        transcriptController: options.transcriptController,
+        channelManager: options.channelManager
+      });
+    }
+    _findChannelAnchor() {
+      const phc = document.querySelector("#page-header-container");
+      if (phc) {
+        const ref = phc.querySelector("#page-header-banner") || phc.querySelector("#page-header") || phc.firstElementChild;
+        return { parent: phc, reference: ref };
+      }
+      const cc = document.querySelector("tp-yt-app-header #contentContainer");
+      if (cc) {
+        const phcIn = cc.querySelector("#page-header-container");
+        if (phcIn) {
+          const ref = phcIn.querySelector("#page-header-banner") || phcIn.querySelector("#page-header") || phcIn.firstElementChild;
+          return { parent: phcIn, reference: ref };
+        }
+        return { parent: cc, reference: cc.firstElementChild };
+      }
+      const mobileBrowse = document.querySelector("ytm-browse");
+      if (mobileBrowse) {
+        const ref = mobileBrowse.querySelector("ytm-section-list-renderer, ytm-single-column-browse-results-renderer") || mobileBrowse.firstElementChild;
+        return { parent: mobileBrowse, reference: ref };
+      }
+      return null;
+    }
+    tryInjectCompanion(forceReinject = false) {
+      if (!this.state.extensionEnabled || !isChannelPage()) {
+        document.getElementById("yt-ai-channel-companion")?.remove();
+        return;
+      }
+      const channelIdentifier = getChannelIdentifier();
+      if (!channelIdentifier) return;
+      const anchor = this._findChannelAnchor();
+      if (!anchor || !anchor.parent) {
+        setTimeout(() => this.tryInjectCompanion(forceReinject), 200);
+        return;
+      }
+      const existing = document.getElementById("yt-ai-channel-companion");
+      if (existing && existing.parentNode === anchor.parent && this.currentChannel === channelIdentifier && !forceReinject) {
+        syncFullscreenVisibility();
+        this.runController.syncActiveJobUI(channelIdentifier, this.state.currentLang || "fr");
+        return;
+      }
+      if (existing) existing.remove();
+      if (this.currentChannel && this.currentChannel !== channelIdentifier) {
+        this.channelChat.chatHistory = [];
+        this.knownTotalVideos = null;
+      }
+      this.currentChannel = channelIdentifier;
+      this.channelChat.currentChannel = channelIdentifier;
+      const domTotal = YouTubeDOMContext.extractChannelTotalVideosFromDOM?.() || null;
+      if (domTotal) this.knownTotalVideos = domTotal;
+      const banner = document.createElement("div");
+      banner.id = "yt-ai-channel-companion";
+      banner.className = "yt-ai-channel-card";
+      if (banner.style) {
+        banner.style.cssText = "width:100%;max-width:100%;margin:0;background:var(--yt-ai-bg);border-bottom:1px solid var(--yt-ai-border-subtle);color:var(--yt-ai-text);box-sizing:border-box;display:block;position:relative;z-index:999;";
+      }
+      ThemeManager.syncThemeWithYouTube(banner);
+      const lang = this.state.currentLang || "fr";
+      const isFr = lang.startsWith("fr");
+      const t = I18N[lang] || I18N.en;
+      const drawerHtml = SettingsDrawerTemplate.render(t, { showCloseBtn: true });
+      const activeJob = this.service?.getActiveJob?.(channelIdentifier) || null;
+      const maxVideos = resolveEffectiveChannelLimit(activeJob?.maxVideos || this.state.channelAuditMaxVideos || 30, this.knownTotalVideos);
+      const html = ChannelCompanionTemplate.render({
+        channelIdentifier,
+        isFr,
+        lang,
+        maxVideos,
+        totalVideos: this.knownTotalVideos,
+        isExpanded: this.isExpanded,
+        drawerHtml
+      });
+      safeSetInnerHTML(banner, html);
+      if (anchor.reference) anchor.parent.insertBefore(banner, anchor.reference);
+      else anchor.parent.appendChild(banner);
+      if (!this.isExpanded) {
+        const body = banner.querySelector("#ytAiCompanionBody");
+        body?.classList?.add("yt-ai-hidden");
+        if (body?.style) body.style.display = "none";
+      }
+      if (typeof window !== "undefined" && typeof window.dispatchEvent === "function") window.dispatchEvent(new Event("resize"));
+      syncFullscreenVisibility();
+      this._bindEvents(banner);
+      this.runController.bindSubscription();
+      if (!this.runController.syncActiveJobUI(channelIdentifier, lang)) {
+        this.runController.restoreCachedReport(channelIdentifier);
+      }
+      this._syncChannelCatalogTotal(channelIdentifier, lang);
+      this.settingsDrawer?.syncProviderUI?.();
+    }
+    async _syncChannelCatalogTotal(channelId, lang = "fr") {
+      const mgr = this.channelChat?.channelManager || this.service?.channelManager;
+      if (!channelId || typeof mgr?.getOrFetchChannelDossier !== "function") return;
+      try {
+        const res = await mgr.getOrFetchChannelDossier(channelId, 30);
+        if (this.currentChannel !== channelId || !res?.success || !res.channel) return;
+        const resolvedTotal = res.channel.hasMore === false && res.channel.recentVideos?.length > 0 ? res.channel.recentVideos.length : res.channel.totalChannelVideos || null;
+        if (resolvedTotal && resolvedTotal > 0) {
+          this.knownTotalVideos = resolvedTotal;
+          const sel = document.getElementById?.("ytAiCompanionMaxVideos");
+          const activeVal = sel?.value || this.state.channelAuditMaxVideos || 30;
+          syncChannelMaxSelectElement(sel, activeVal, lang.startsWith("fr"), resolvedTotal);
+        }
+      } catch (_) {
+      }
+    }
+    switchTab(tab = "channelAudit") {
+      this.activeTab = tab;
+      const root = document.getElementById?.("yt-ai-channel-companion") || document;
+      const isAudit = tab === "channelAudit";
+      const setActive = (id, on) => {
+        const el = root.querySelector?.(`#${id}`) || document.getElementById?.(id);
+        el?.classList?.[on ? "add" : "remove"]?.("active");
+      };
+      setActive("ytAiChanTabAuditBtn", isAudit);
+      setActive("ytAiChanTabChatBtn", !isAudit);
+      setActive("ytAiChanPaneAudit", isAudit);
+      setActive("ytAiChanPaneChat", !isAudit);
+    }
+    reset(lang = "fr") {
+      this.channelChat.resetChat(lang, false);
+      const resultBox = document.getElementById("ytAiChannelResultContainer");
+      if (resultBox) {
+        resultBox.innerHTML = "";
+        resultBox.classList.add("yt-ai-hidden");
+      }
+    }
+    refreshLanguage(lang) {
+      const resolved = lang || this.state.currentLang || "fr";
+      this.state.currentLang = resolved;
+      if (!isChannelPage()) return;
+      const existing = document.getElementById?.("yt-ai-channel-companion");
+      if (existing) {
+        ChannelCompanionI18n.applyLanguage(resolved, this);
+      } else {
+        this.tryInjectCompanion(true);
+      }
+    }
+    _bindEvents(banner) {
+      const toggleBtn = banner.querySelector("#ytAiCompanionToggleBtn");
+      const brandToggle = banner.querySelector("#ytAiBrandToggle");
+      const body = banner.querySelector("#ytAiCompanionBody");
+      const handleToggle = () => {
+        if (!body) return;
+        this.isExpanded = !this.isExpanded;
+        body.classList?.toggle("yt-ai-hidden", !this.isExpanded);
+        if (body.style) body.style.display = this.isExpanded ? "block" : "none";
+        const t = I18N[this.state.currentLang || "fr"] || I18N.en;
+        const toggleLabel = this.isExpanded ? t.collapse || "Collapse" : t.expand || "Expand";
+        const toggleText = banner.querySelector("#ytAiCompToggleText");
+        const toggleIcon = banner.querySelector("#ytAiCompToggleIcon");
+        if (toggleText && toggleIcon) {
+          toggleText.textContent = toggleLabel;
+          toggleIcon.textContent = this.isExpanded ? "\u25B2" : "\u25BE";
+        } else if (toggleBtn) {
+          toggleBtn.textContent = `${toggleLabel} ${this.isExpanded ? "\u25B2" : "\u25BE"}`;
+        }
+        if (toggleBtn) toggleBtn.title = toggleLabel;
+        if (typeof window !== "undefined" && typeof window.dispatchEvent === "function") window.dispatchEvent(new Event("resize"));
+      };
+      if (toggleBtn && body) {
+        toggleBtn.addEventListener("click", handleToggle);
+      }
+      if (brandToggle && body) {
+        brandToggle.addEventListener("click", handleToggle);
+      }
+      banner.querySelector("#ytAiCompLangSelect")?.addEventListener("change", (e) => {
+        const newLang = e.target.value;
+        if (!newLang) return;
+        this.state.currentLang = newLang;
+        this.state.savePreference?.("targetLang", newLang);
+        this.refreshLanguage(newLang);
+        this.audioController?.populateVoiceDropdown?.(newLang);
+      });
+      banner.querySelector("#ytAiCompanionSettingsBtn")?.addEventListener("click", () => {
+        SettingsDrawerController.toggleSettingsDrawer();
+        const drawer = banner.querySelector("#ytAiSettingsDrawer");
+        if (drawer && !drawer.classList.contains("yt-ai-hidden")) this.settingsDrawer?.syncProviderUI();
+      });
+      if (this.settingsDrawer) SettingsDrawerEventHandler.bind(banner, this.settingsDrawer, this.state, null);
+      banner.querySelector("#ytAiChanTabAuditBtn")?.addEventListener("click", () => this.switchTab("channelAudit"));
+      banner.querySelector("#ytAiChanTabChatBtn")?.addEventListener("click", () => this.switchTab("channelChat"));
+      banner.querySelector("#ytAiRunChannelAuditBtn")?.addEventListener("click", () => {
+        if (this.service?.isAuditRunning?.(this.currentChannel)) {
+          this.handleStopAudit();
+          return;
+        }
+        this.switchTab("channelAudit");
+        if (!this.isExpanded && toggleBtn) toggleBtn.click();
+        this.handleRunAudit();
+      });
+      banner.querySelectorAll(".yt-ai-period-pill").forEach((pill) => {
+        pill.addEventListener("click", (e) => {
+          banner.querySelectorAll(".yt-ai-period-pill").forEach((p) => p.classList.remove("active"));
+          const target = e?.currentTarget || pill;
+          target.classList?.add("active");
+          this.state.channelAuditPeriod = target.dataset && target.dataset.period || "all";
+        });
+      });
+      const maxSelect = banner.querySelector("#ytAiCompanionMaxVideos");
+      if (maxSelect) {
+        maxSelect.value = String(resolveEffectiveChannelLimit(this.state.channelAuditMaxVideos || 30, this.knownTotalVideos));
+        maxSelect.addEventListener("change", (e) => {
+          const parsed = parseChannelAuditLimit(e.target.value);
+          this.state.channelAuditMaxVideos = parsed.isAll ? "all" : parsed.numericLimit;
+          this.state.savePreference?.("channelAuditMaxVideos", this.state.channelAuditMaxVideos);
+        });
+      }
+      this.channelChat.bindEvents(banner, this.state);
+    }
+    handleStopAudit() {
+      this.runController.stop();
+    }
+    handleRunAudit() {
+      return this.runController.run();
+    }
+    _renderReport(report, resultBox, lang) {
+      this.runController.renderReport(report, resultBox, lang);
+    }
+    _restoreCachedReport(channelId) {
+      return this.runController.restoreCachedReport(channelId);
+    }
+  };
+
+  // src/content/ui/BannerEventHandler.js
+  var BannerEventHandler = class {
+    /**
+     * Binds all UI interactions for the banner
+     * @param {HTMLElement} banner
+     * @param {Object} ctx
+     */
+    static bind(banner, ctx) {
+      if (!banner || !ctx) return;
+      const {
+        state: state2,
+        bannerView: bannerView2,
+        settingsDrawer: settingsDrawer2,
+        summaryViewController: summaryViewController2,
+        chatViewController: chatViewController2,
+        auditViewController: auditViewController2,
+        audioController: audioController2,
+        transcriptController: transcriptController2,
+        triggerSummarize: triggerSummarize2,
+        triggerAudit: triggerAudit2,
+        triggerChannelAudit: triggerChannelAudit2
+      } = ctx;
+      banner.querySelectorAll(".yt-ai-tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tab = btn.getAttribute("data-tab");
+          if (tab) {
+            bannerView2.switchTab(tab);
+            if (tab === "transcript") {
+              const currentVideoId = getVideoId();
+              if (!transcriptController2.cachedTranscript.segments || transcriptController2.cachedTranscript.segments.length === 0 || transcriptController2.cachedTranscript.videoId !== currentVideoId || transcriptController2.cachedTranscript.isChapterOnly) {
+                transcriptController2.extractYouTubeTranscript(state2.currentLang, true);
+              }
+            } else if (tab === "channelAudit") {
+              const meta = YouTubeDOMContext.getVideoMetadata();
+              const query = meta.channelUrl || meta.author || "";
+              const handleEl = document.getElementById("ytAiWatchChannelHandle");
+              if (handleEl && query) {
+                handleEl.textContent = query.startsWith("/") ? query.replace(/^\//, "") : query;
+              }
+              if (query && chatViewController2?.channelManager?.getOrFetchChannelDossier) {
+                chatViewController2.channelManager.getOrFetchChannelDossier(query, 30).then((res) => {
+                  const total = res?.channel?.totalChannelVideos || (res?.channel?.hasMore === false ? res.channel.recentVideos?.length : null);
+                  if (total && total > 0) {
+                    state2.currentChannelTotalVideos = total;
+                    const sel = document.getElementById("ytAiWatchChannelMaxVideos");
+                    const activeVal = sel?.value || state2.channelAuditMaxVideos || 30;
+                    syncChannelMaxSelectElement(sel, activeVal, (state2.currentLang || "fr").startsWith("fr"), total);
+                  }
+                }).catch(() => {
+                });
+              }
+              auditViewController2?.syncChannelAuditUI?.(state2);
+            }
+          }
+        });
+      });
+      document.getElementById("ytAiBrandToggle")?.addEventListener("click", () => bannerView2.toggleExpand());
+      document.getElementById("ytAiToggleBtn")?.addEventListener("click", () => bannerView2.toggleExpand());
+      document.getElementById("ytAiLangSelect")?.addEventListener("change", (e) => {
+        const newLang = e.target.value;
+        if (!newLang) return;
+        state2.currentLang = newLang;
+        state2.savePreference?.("targetLang", newLang);
+        bannerView2.applyLanguage(newLang, summaryViewController2, chatViewController2, auditViewController2);
+        audioController2?.populateVoiceDropdown?.(newLang);
+      });
+      document.getElementById("ytAiSummarizeBtn")?.addEventListener("click", triggerSummarize2);
+      document.getElementById("ytAiStopSummaryBtn")?.addEventListener("click", () => summaryViewController2?.stopGeneration?.(state2.currentLang));
+      document.getElementById("ytAiRunAuditBtn")?.addEventListener("click", triggerAudit2);
+      document.getElementById("ytAiAuditChannelBtn")?.addEventListener("click", triggerChannelAudit2);
+      document.getElementById("ytAiRunWatchChannelAuditBtn")?.addEventListener("click", triggerChannelAudit2);
+      document.getElementById("ytAiCopyAuditBtn")?.addEventListener("click", () => auditViewController2?.handleCopyAudit?.());
+      document.getElementById("ytAiAuditSubtabVideoBtn")?.addEventListener("click", () => {
+        auditViewController2?.switchAuditSubtab("video");
+      });
+      document.getElementById("ytAiAuditSubtabChannelBtn")?.addEventListener("click", () => {
+        auditViewController2?.switchAuditSubtab("channel");
+      });
+      banner.querySelectorAll(".yt-ai-period-pill").forEach((pill) => {
+        pill.addEventListener("click", () => {
+          banner.querySelectorAll(".yt-ai-period-pill").forEach((p) => p.classList.remove("active"));
+          pill.classList.add("active");
+          state2.channelAuditPeriod = pill.getAttribute("data-period") || "all";
+        });
+      });
+      const watchMaxSelect = document.getElementById("ytAiWatchChannelMaxVideos");
+      if (watchMaxSelect) {
+        watchMaxSelect.value = resolveEffectiveChannelLimit(state2.channelAuditMaxVideos || 30, state2.currentChannelTotalVideos || null);
+        watchMaxSelect.addEventListener("change", (e) => {
+          const parsed = parseChannelAuditLimit(e.target.value);
+          state2.channelAuditMaxVideos = parsed.isAll ? "all" : parsed.numericLimit;
+          state2.savePreference("channelAuditMaxVideos", state2.channelAuditMaxVideos);
+        });
+      }
+      document.getElementById("ytAiSettingsToggleBtn")?.addEventListener("click", () => {
+        SettingsDrawerController.toggleSettingsDrawer((exp) => bannerView2.setExpanded(exp));
+      });
+      SettingsDrawerEventHandler.bind(banner, settingsDrawer2, state2, bannerView2);
+      audioController2.init();
+      document.getElementById("ytAiSpeakSummaryBtn")?.addEventListener("click", (e) => {
+        const text = summaryViewController2.fullSummaryMarkdown || document.getElementById("ytAiSummaryBody")?.innerText || "";
+        if (text.trim()) {
+          audioController2.speakText(text, e.currentTarget, { lang: state2.currentLang });
+        } else {
+          bannerView2.showStatusBanner(I18N[state2.currentLang]?.noSummaryToRead || "No summary to read", true);
+        }
+      });
+      const sendChat = (customText = null) => {
+        chatViewController2.handleSendChatMessage(customText, {
+          state: state2,
+          currentLang: state2.currentLang,
+          currentProvider: state2.currentProvider,
+          apiKeys: state2.apiKeys,
+          serverUrls: state2.serverUrls,
+          temperature: state2.temperature,
+          maxTokens: state2.maxTokens,
+          getActiveModel: () => state2.getActiveModel(),
+          setExpanded: (exp) => bannerView2.setExpanded(exp),
+          switchTab: (tab) => bannerView2.switchTab(tab)
+        });
+      };
+      document.getElementById("ytAiSendChatBtn")?.addEventListener("click", () => sendChat());
+      const chatInput = document.getElementById("ytAiChatInput");
+      chatInput?.addEventListener("input", () => {
+        chatInput.style.height = "auto";
+        chatInput.style.height = Math.min(chatInput.scrollHeight, 140) + "px";
+      });
+      chatInput?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          sendChat();
+        }
+      });
+      document.getElementById("ytAiMicBtn")?.addEventListener("click", () => {
+        audioController2.toggleDictation({
+          localWhisperUrl: state2.localWhisperUrl,
+          groqKey: state2.apiKeys.groq,
+          openaiKey: state2.apiKeys.openai
+        });
+      });
+      document.getElementById("ytAiClearChatBtn")?.addEventListener("click", () => {
+        chatViewController2.handleClearChat(state2.currentLang);
+      });
+      const sugBox = banner.querySelector?.(".yt-ai-chat-suggestions");
+      if (sugBox) {
+        sugBox.addEventListener("click", (e) => {
+          const chip = e.target?.closest ? e.target.closest(".yt-ai-suggestion-chip") : e.target?.classList?.contains?.("yt-ai-suggestion-chip") ? e.target : null;
+          if (!chip) return;
+          const q = chip.getAttribute("data-question") || chip.textContent.trim();
+          sendChat(q);
+        });
+      } else {
+        banner.querySelectorAll?.(".yt-ai-suggestion-chip").forEach((chip) => {
+          chip.addEventListener("click", () => {
+            const q = chip.getAttribute("data-question") || chip.textContent.trim();
+            sendChat(q);
+          });
+        });
+      }
+      document.getElementById("ytAiCopyBtn")?.addEventListener("click", () => summaryViewController2.handleCopySummary(state2.currentLang));
+      document.getElementById("ytAiDownloadBtn")?.addEventListener("click", () => summaryViewController2.handleExport("md", state2.currentLang));
+      document.getElementById("ytAiSaveTxtBtn")?.addEventListener("click", () => summaryViewController2.handleExport("txt", state2.currentLang));
+      document.getElementById("ytAiSaveJsonBtn")?.addEventListener("click", () => summaryViewController2.handleExport("json", state2.currentLang));
+      document.getElementById("ytAiCopyTranscriptBtn")?.addEventListener("click", () => transcriptController2.handleCopyTranscript(state2.currentLang));
+      settingsDrawer2?.syncProviderUI();
+      auditViewController2?.syncChannelAuditUI?.(state2);
+    }
+  };
+
+  // src/content/services/DOMTranscriptExtractor.js
+  var DOMTranscriptExtractor = class {
+    /**
+     * Extracts text and timestamps from live YouTube DOM elements
+     * @returns {Array<{timestamp: string, text: string}> | null}
+     */
+    static extractTranscriptFromActiveDOM() {
+      const results = [];
+      const seen = /* @__PURE__ */ new Set();
+      const modernNodes = document.querySelectorAll(
+        'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"]:not(transcript-segment-view-model *), [class*="ytwTranscriptSegmentViewModelHost"]:not(transcript-segment-view-model *)'
+      );
+      if (modernNodes && modernNodes.length > 0) {
+        modernNodes.forEach((node) => {
+          const timeEl = node.querySelector(
+            '.ytwTranscriptSegmentViewModelTimestamp, .ytTranscriptSegmentViewModelTimestamp, .segment-timestamp, #time, [class*="Timestamp"], [class*="timestamp"]'
+          );
+          const textEl = node.querySelector(
+            'span[role="text"], .ytAttributedStringHost, .ytAttributedStringInlineHost, span.ytAttributedStringHost, .yt-core-attributed-string, .segment-text, #title, #details, [class*="Title"], yt-formatted-string'
+          );
+          let timestamp = timeEl ? timeEl.textContent.trim() : "";
+          let text = textEl ? textEl.textContent.trim() : "";
+          if (!timestamp) {
+            const m = (node.textContent || "").match(/\b(\d{1,2}:\d{2}(?::\d{2})?)\b/);
+            if (m) timestamp = m[1];
+          }
+          if (!text && timestamp) {
+            text = (node.textContent || "").replace(timestamp, "").trim();
+          }
+          text = text.replace(/^(afficher plus|show more|moins|show less)\b/i, "").replace(/[\n\r]+/g, " ").replace(/\s+/g, " ").trim();
+          if (text && timestamp) {
+            const key = `${timestamp}|${text.slice(0, 30)}`;
+            if (!seen.has(key)) {
+              seen.add(key);
+              results.push({ timestamp, text });
+            }
+          }
+        });
+        if (results.length > 0) return results;
+      }
+      const candidatePanels = Array.from(document.querySelectorAll(
+        'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]:not([target-id*="macro-markers"])'
+      ));
+      let panel = candidatePanels.find((p) => {
+        const vis = p.getAttribute("visibility");
+        return vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" || p.offsetParent !== null && p.offsetWidth > 50;
+      }) || candidatePanels[0];
+      if (!panel) {
+        const macroPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]');
+        if (macroPanel) {
+          const tab = macroPanel.querySelector('[role="tab"][aria-selected="true"], yt-chip-cloud-chip-renderer.selected, button[aria-selected="true"]');
+          const tabText = (tab?.textContent || "").toLowerCase();
+          if (tabText.includes("transcription") || tabText.includes("transcript")) {
+            panel = macroPanel;
+          }
+        }
+      }
+      if (panel) {
+        const panelText = panel.innerText || "";
+        const lines = panelText.split("\n").map((l) => l.trim()).filter(Boolean);
+        const parsed = [];
+        let curTime = "";
+        let curText = "";
+        const ignoredHeaders = [
+          "dans cette vid\xE9o",
+          "in this video",
+          "chapitres",
+          "chapters",
+          "transcription",
+          "transcript",
+          "rechercher dans",
+          "search transcript",
+          "synchroniser avec",
+          "sync with video",
+          "tout",
+          "all",
+          "source :",
+          "podcast",
+          "g\xE9n\xE9r\xE9s automatiquement",
+          "auto-generated",
+          "english",
+          "fran\xE7ais"
+        ];
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const lower = line.toLowerCase();
+          if (ignoredHeaders.some((h) => lower.includes(h))) continue;
+          const inlineMatch = line.match(/^\[?(\d{1,2}:\d{2}(?::\d{2})?)\]?\s+(.+)$/);
+          if (inlineMatch) {
+            if (curTime && curText) {
+              parsed.push({ timestamp: curTime, text: curText.trim() });
+              curText = "";
+            }
+            parsed.push({ timestamp: inlineMatch[1], text: inlineMatch[2].trim() });
+            curTime = "";
+            continue;
+          }
+          const match = line.match(/^(\d{1,2}:\d{2}(?::\d{2})?)$/);
+          if (match) {
+            if (curTime && curText) {
+              parsed.push({ timestamp: curTime, text: curText.trim() });
+              curText = "";
+            }
+            curTime = match[1];
+          } else if (curTime) {
+            curText += (curText ? " " : "") + line;
+          }
+        }
+        if (curTime && curText) {
+          parsed.push({ timestamp: curTime, text: curText.trim() });
+        }
+        if (parsed.length > 0) {
+          return parsed;
+        }
+      }
+      return null;
+    }
+  };
+  var extractTranscriptFromActiveDOM = DOMTranscriptExtractor.extractTranscriptFromActiveDOM;
+
+  // src/content/services/NativeTranscriptPanel.js
+  var CLOSE_BTN_LANG_REGEX = /fermer|close|schließen|cerrar|chiudi|fechar|закрыть|sluiten|stäng|luk|sulje|閉じる|닫기|关闭|關閉|إغلاق|बंद करें/i;
+  var TRANSCRIPT_LANG_REGEX = /transcription|transcript|transkript|transcripción|trascrizione|transcrição|транскрипция|文字起こし|자막|文字记录|文字記錄|نص|प्रतिलेख/i;
+  var ENGAGEMENT_SELECTORS = [
+    'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"]',
+    'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-macro-markers-description-chapters"]',
+    'ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"]',
+    'ytd-engagement-panel-section-list-renderer[target-id*="transcript"]',
+    'ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'
+  ].join(", ");
+  function isNativeTranscriptPanelVisible() {
+    const segs = document.querySelectorAll(
+      'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"], [class*="ytwTranscriptSegmentViewModelHost"]'
+    );
+    if (segs && segs.length > 3) {
+      for (const seg of segs) {
+        if (seg.offsetParent !== null) return true;
+      }
+    }
+    const panels = document.querySelectorAll(ENGAGEMENT_SELECTORS);
+    for (const panel of panels) {
+      if (panel.style.display === "none" || panel.hasAttribute("hidden")) continue;
+      const vis = panel.getAttribute("visibility");
+      if (vis === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" && panel.offsetParent !== null && panel.offsetWidth > 50) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function closeNativeTranscriptPanel() {
+    const panels = document.querySelectorAll(ENGAGEMENT_SELECTORS);
+    for (const panel of panels) {
+      const header = panel.querySelector('ytd-engagement-panel-title-header-renderer, #header, [id="header"]');
+      let closeBtn = null;
+      if (header) {
+        closeBtn = header.querySelector('#visibility-button button, [id="visibility-button"] button');
+        if (!closeBtn) {
+          const headerBtns = header.querySelectorAll("button, yt-icon-button, tp-yt-paper-icon-button");
+          for (const btn of headerBtns) {
+            const aria = btn.getAttribute("aria-label") || "";
+            const title = btn.getAttribute("title") || "";
+            if (CLOSE_BTN_LANG_REGEX.test(aria) || CLOSE_BTN_LANG_REGEX.test(title)) {
+              closeBtn = btn.querySelector("button") || btn;
+              break;
+            }
+          }
+        }
+        if (!closeBtn) {
+          const svgs = header.querySelectorAll("svg path");
+          for (const p of svgs) {
+            const d = p.getAttribute("d") || "";
+            if (d.includes("6.41") || d.includes("12.7") || d.includes("17.59") || d.includes("18.3 5.71")) {
+              closeBtn = p.closest("button, yt-icon-button") || p.closest('[role="button"]');
+              if (closeBtn) break;
+            }
+          }
+        }
+        if (!closeBtn) {
+          const allHeaderBtns = header.querySelectorAll("button, yt-icon-button button");
+          if (allHeaderBtns.length > 0) closeBtn = allHeaderBtns[allHeaderBtns.length - 1];
+        }
+      }
+      if (closeBtn) {
+        try {
+          closeBtn.click();
+        } catch (_) {
+        }
+      } else if (typeof panel.close === "function") {
+        try {
+          panel.close();
+        } catch (_) {
+        }
+      } else if (typeof panel.hide === "function") {
+        try {
+          panel.hide();
+        } catch (_) {
+        }
+      }
+      panel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_HIDDEN");
+      panel.style.setProperty("display", "none");
+    }
+  }
+  function collapseDescription() {
+    const collapseBtn = document.querySelector(
+      "tp-yt-paper-button#collapse, #collapse.ytd-text-inline-expander, #description-inline-expander #collapse"
+    );
+    if (collapseBtn && collapseBtn.offsetParent !== null) collapseBtn.click();
+  }
+  function findTranscriptButtonInDOM() {
+    let btn = document.querySelector('ytd-video-description-transcript-section-renderer button, ytd-video-description-transcript-section-renderer [role="button"]');
+    if (btn) return btn;
+    const allBtns = document.querySelectorAll(
+      '#description button, #description [role="button"], ytd-watch-metadata button, ytd-watch-metadata [role="button"], ytd-structured-description-content-renderer button, ytd-structured-description-content-renderer [role="button"]'
+    );
+    for (const b of allBtns) {
+      const aria = b.getAttribute("aria-label") || "";
+      const text = b.textContent || "";
+      if (TRANSCRIPT_LANG_REGEX.test(aria) || TRANSCRIPT_LANG_REGEX.test(text)) return b;
+    }
+    return null;
+  }
+  async function ensureTranscriptTabActive(targetPanel) {
+    const panels = document.querySelectorAll(ENGAGEMENT_SELECTORS);
+    let activePanel = targetPanel;
+    if (!activePanel) {
+      for (const p of panels) {
+        if (p.getAttribute("visibility") === "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED" || p.offsetParent !== null) {
+          activePanel = p;
+          break;
+        }
+      }
+      if (!activePanel && panels.length > 0) activePanel = panels[0];
+    }
+    if (!activePanel) return false;
+    if (document.querySelectorAll("transcript-segment-view-model, ytd-transcript-segment-renderer").length > 5) return true;
+    const candidates = activePanel.querySelectorAll('button, [role="tab"], [role="button"], yt-chip-cloud-chip-renderer');
+    for (const el of candidates) {
+      const text = (el.textContent || "").trim();
+      const aria = (el.getAttribute("aria-label") || "").trim();
+      if (TRANSCRIPT_LANG_REGEX.test(text) || TRANSCRIPT_LANG_REGEX.test(aria)) {
+        if (el.getAttribute("aria-selected") === "true" || el.classList.contains("selected")) return true;
+        const clickable = el.closest('button, [role="tab"], [role="button"]') || el;
+        clickable.querySelector("button")?.click();
+        clickable.click();
+        clickable.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+        return true;
+      }
+    }
+    const tabList = activePanel.querySelectorAll('[role="tab"], yt-chip-cloud-chip-renderer, ytd-sub-feed-selector-renderer button');
+    if (tabList.length >= 2) {
+      const secondTab = tabList[1];
+      if (secondTab.getAttribute("aria-selected") === "true" || secondTab.classList.contains("selected")) return true;
+      secondTab.querySelector("button")?.click();
+      secondTab.click();
+      secondTab.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+      return true;
+    }
+    return false;
+  }
+  async function triggerStealthNativeTranscript() {
+    if (!document.getElementById("movie_player") && !document.querySelector("video")) {
+      return null;
+    }
+    for (const p of document.querySelectorAll(ENGAGEMENT_SELECTORS)) {
+      p.style.removeProperty("display");
+    }
+    const wasPanelOpen = isNativeTranscriptPanelVisible();
+    let didWeOpenPanel = false;
+    const expandDesc = document.querySelector("tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand");
+    const wasDescExpanded = !expandDesc || expandDesc.offsetParent === null;
+    if (wasPanelOpen) {
+      await ensureTranscriptTabActive();
+      const direct = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
+      if (direct && direct.length > 0) return direct;
+    }
+    let stealthStyle = document.getElementById("yt-ai-stealth-style");
+    if (!stealthStyle) {
+      stealthStyle = document.createElement("style");
+      stealthStyle.id = "yt-ai-stealth-style";
+      stealthStyle.textContent = `
+      ytd-engagement-panel-section-list-renderer[target-id*="transcript"],
+      ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"] {
+        opacity: 0.01 !important; pointer-events: none !important;
+      }
+    `;
+      document.head.appendChild(stealthStyle);
+    }
+    try {
+      let directBtn = findTranscriptButtonInDOM();
+      if (!directBtn && expandDesc && expandDesc.offsetParent !== null) {
+        expandDesc.click();
+        await new Promise((r) => setTimeout(r, 250));
+        directBtn = findTranscriptButtonInDOM();
+      }
+      if (directBtn) {
+        didWeOpenPanel = true;
+        directBtn.click();
+      } else {
+        const markersBtn = document.querySelector('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]');
+        if (markersBtn) {
+          didWeOpenPanel = true;
+          markersBtn.click();
+          await new Promise((r) => setTimeout(r, 250));
+          await ensureTranscriptTabActive();
+        } else {
+          const hiddenPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]');
+          if (hiddenPanel) {
+            didWeOpenPanel = true;
+            hiddenPanel.setAttribute("visibility", "ENGAGEMENT_PANEL_VISIBILITY_EXPANDED");
+            if (typeof hiddenPanel.show === "function") hiddenPanel.show();
+            await ensureTranscriptTabActive(hiddenPanel);
+          } else {
+            return null;
+          }
+        }
+      }
+      let segments = null;
+      for (let i = 0; i < 35; i++) {
+        await new Promise((r) => setTimeout(r, 120));
+        if (i % 3 === 0) await ensureTranscriptTabActive();
+        segments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
+        if (segments && segments.length > 0) break;
+      }
+      return segments;
+    } catch (_) {
+      return null;
+    } finally {
+      setTimeout(() => {
+        if (stealthStyle?.parentNode) {
+          stealthStyle.parentNode.removeChild(stealthStyle);
+        }
+      }, 350);
+      if (!wasPanelOpen) {
+        closeNativeTranscriptPanel();
+        if (!wasDescExpanded) collapseDescription();
+      }
+      for (const p of document.querySelectorAll(ENGAGEMENT_SELECTORS)) {
+        p.style.removeProperty("display");
+      }
+    }
+  }
+  var NativeTranscriptPanel = {
+    isNativeTranscriptPanelVisible,
+    closeNativeTranscriptPanel,
+    collapseDescription,
+    ensureTranscriptTabActive,
+    triggerStealthNativeTranscript
+  };
+
+  // src/parsers/CaptionTrackPrioritizer.js
+  var CaptionTrackPrioritizer = class {
+    /**
+     * Sorts candidate caption tracks so the most relevant tracks are attempted first
+     * @param {Array<Object>} tracks
+     * @param {string} [preferredLang='fr']
+     * @returns {Array<Object>}
+     */
+    static prioritizeTracks(tracks, preferredLang = "fr") {
+      if (!Array.isArray(tracks) || tracks.length === 0) return [];
+      const norm = (preferredLang || "en").toLowerCase().trim();
+      const exact = [];
+      const prefix = [];
+      const enManual = [];
+      const enAsr = [];
+      const others = [];
+      const seen = /* @__PURE__ */ new Set();
+      for (const t of tracks) {
+        if (!t || !t.baseUrl) continue;
+        const key = `${t.languageCode || ""}|${t.kind || ""}|${t.baseUrl}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        const code = (t.languageCode || "").toLowerCase();
+        const isAsr = t.kind === "asr";
+        if (code === norm) {
+          if (!isAsr) exact.unshift(t);
+          else exact.push(t);
+        } else if (code.startsWith(norm)) {
+          prefix.push(t);
+        } else if (code === "en" && !isAsr) {
+          enManual.push(t);
+        } else if (code === "en" && isAsr) {
+          enAsr.push(t);
+        } else {
+          others.push(t);
+        }
+      }
+      return [...exact, ...prefix, ...enManual, ...enAsr, ...others];
+    }
+  };
+
+  // src/parsers/TextCleaner.js
+  var TextCleaner = class {
+    /**
+     * Cleans HTML entities and excessive whitespace from subtitle text
+     * @param {string} text
+     * @returns {string}
+     */
+    static cleanTranscriptText(text) {
+      if (!text || typeof text !== "string") return "";
+      return text.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&apos;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&#(\d+);/g, (_, code) => String.fromCharCode(code)).replace(/&#x2F;/g, "/").replace(/&nbsp;/g, " ").replace(/[\n\r]+/g, " ").replace(/\s+/g, " ").trim();
+    }
+  };
+
+  // src/domain/models/TranscriptSegment.js
+  var TranscriptSegment = class {
+    /**
+     * @param {number} startMs - Start time in milliseconds
+     * @param {number} durationMs - Duration in milliseconds
+     * @param {string} text - Cleaned text content
+     */
+    constructor(startMs = 0, durationMs = 0, text = "") {
+      this.startMs = Number(startMs) || 0;
+      this.durationMs = Number(durationMs) || 0;
+      this.text = String(text || "").trim();
+      this.timestamp = this.formatTime();
+    }
+    /**
+     * Formats start time into m:ss or h:mm:ss format
+     * @returns {string}
+     */
+    formatTime() {
+      const totalSeconds = Math.floor(this.startMs / 1e3);
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor(totalSeconds % 3600 / 60);
+      const seconds = totalSeconds % 60;
+      const pad = (num) => String(num).padStart(2, "0");
+      if (hours > 0) {
+        return `${hours}:${pad(minutes)}:${pad(seconds)}`;
+      }
+      return `${minutes}:${pad(seconds)}`;
+    }
+  };
+
+  // src/parsers/TimedtextParser.js
+  var TimedtextParser = class {
+    /**
+     * Parses JSON3 events array into normalized TranscriptSegment list
+     * @param {Array<Object>} events
+     * @returns {Array<TranscriptSegment>}
+     */
+    static parseTimedtextEvents(events) {
+      if (!Array.isArray(events)) return [];
+      const segments = [];
+      for (const ev of events) {
+        if (!ev || !Array.isArray(ev.segs)) continue;
+        const rawText = ev.segs.map((s) => s && s.utf8 ? s.utf8 : "").join("");
+        const cleanText = TextCleaner.cleanTranscriptText(rawText);
+        if (!cleanText || cleanText === "\n") continue;
+        const startMs = Number(ev.tStartMs || ev.tOffsetMs) || 0;
+        const durationMs = Number(ev.dDurationMs) || 0;
+        segments.push(new TranscriptSegment(startMs, durationMs, cleanText));
+      }
+      return segments;
+    }
+    /**
+     * Parses standard XML or TTML string into TranscriptSegment list
+     * @param {string} xmlStr
+     * @returns {Array<TranscriptSegment>}
+     */
+    static parseTimedtextXml(xmlStr) {
+      if (!xmlStr || typeof xmlStr !== "string") return [];
+      try {
+        if (typeof DOMParser === "undefined") return [];
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(xmlStr, "text/xml");
+        const textNodes = Array.from(doc.querySelectorAll("text"));
+        if (textNodes.length > 3) {
+          return textNodes.map((n) => {
+            const sec = parseFloat(n.getAttribute("start") || "0");
+            const dur = parseFloat(n.getAttribute("dur") || "0");
+            const text = TextCleaner.cleanTranscriptText(n.textContent || "");
+            return new TranscriptSegment(Math.round(sec * 1e3), Math.round(dur * 1e3), text);
+          }).filter((s) => s.text.length > 0);
+        }
+        const pNodes = Array.from(doc.querySelectorAll("p"));
+        if (pNodes.length > 3) {
+          return pNodes.map((p) => {
+            const tAttr = p.getAttribute("t");
+            const dAttr = p.getAttribute("d");
+            const startMs = tAttr ? parseInt(tAttr, 10) : Math.round(parseFloat(p.getAttribute("begin") || "0") * 1e3);
+            const durMs = dAttr ? parseInt(dAttr, 10) : 0;
+            const text = TextCleaner.cleanTranscriptText(p.textContent || "");
+            return new TranscriptSegment(startMs, durMs, text);
+          }).filter((s) => s.text.length > 0);
+        }
+      } catch (_) {
+      }
+      return [];
+    }
+  };
+
+  // src/content/services/InPageTranscriptController.js
+  var InPageTranscriptController = class _InPageTranscriptController {
+    constructor() {
+      this.cachedTranscript = { videoId: "", segments: [], fullText: "", isChapterOnly: false };
+      this.cachedVideoMetadata = {
+        videoId: "",
+        title: "",
+        author: "",
+        channelId: "",
+        subscribers: "",
+        description: "",
+        keywords: [],
+        category: "",
+        publishDate: "",
+        viewCount: ""
+      };
+    }
+    static cleanTranscriptText(text) {
+      return TextCleaner.cleanTranscriptText(text);
+    }
+    static parseTimedtextContent(bodyText) {
+      if (!bodyText || typeof bodyText !== "string" || !bodyText.trim()) return null;
+      const trimmed = bodyText.trim();
+      if (trimmed.startsWith("{")) {
+        try {
+          const json = JSON.parse(trimmed);
+          const segs = TimedtextParser.parseTimedtextEvents(json?.events);
+          if (segs && segs.length > 0) {
+            return segs.map((s) => {
+              const sec = Math.floor(s.startMs / 1e3);
+              return { timestamp: `${Math.floor(sec / 60)}:${(sec % 60).toString().padStart(2, "0")}`, text: s.text };
+            });
+          }
+        } catch (_) {
+        }
+      }
+      const xmlSegs = TimedtextParser.parseTimedtextXml(trimmed);
+      if (xmlSegs && xmlSegs.length > 0) {
+        return xmlSegs.map((s) => {
+          const sec = Math.floor(s.startMs / 1e3);
+          return { timestamp: `${Math.floor(sec / 60)}:${(sec % 60).toString().padStart(2, "0")}`, text: s.text };
+        });
+      }
+      return null;
+    }
+    async fetchTimedtextSegments(baseUrl, preferredLang = null) {
+      if (!baseUrl) return null;
+      const urls = [];
+      if (preferredLang && !baseUrl.includes(`lang=${preferredLang}`)) {
+        urls.push(baseUrl + (baseUrl.includes("?") ? "&" : "?") + `tlang=${preferredLang}&fmt=json3`);
+      }
+      urls.push(baseUrl + (baseUrl.includes("?") ? "&" : "?") + "fmt=json3");
+      if (baseUrl.includes("&variant=")) {
+        const stripped = baseUrl.replace(/&variant=[^&]+/, "");
+        urls.push(stripped + (stripped.includes("?") ? "&" : "?") + "fmt=json3");
+        urls.push(stripped);
+      }
+      urls.push(baseUrl);
+      for (const u of urls) {
+        try {
+          const resp = await fetch(u, { credentials: "include" });
+          if (resp.ok) {
+            const segs = _InPageTranscriptController.parseTimedtextContent(await resp.text());
+            if (segs && segs.length > 0) return segs;
+          }
+        } catch (_) {
+        }
+      }
+      return null;
+    }
+    requestPlayerDataFromMainWorld(videoId, preferredLang = "fr") {
+      return new Promise((resolve) => {
+        let resolved = false;
+        const handler = (e) => {
+          if (e.source !== window || !e.data || e.data.type !== "YT_AI_RES_PLAYER_DATA") return;
+          const data = e.data || {};
+          if (videoId && data.videoId && data.videoId !== videoId) return;
+          resolved = true;
+          window.removeEventListener("message", handler);
+          if (data.videoId && (!videoId || data.videoId === videoId)) {
+            this.cachedVideoMetadata = {
+              videoId: data.videoId,
+              title: data.title || "",
+              author: data.author || "",
+              channelId: data.channelId || "",
+              subscribers: this.cachedVideoMetadata.subscribers || "",
+              description: data.description || "",
+              keywords: Array.isArray(data.keywords) ? data.keywords : [],
+              category: data.category || "",
+              publishDate: data.publishDate || "",
+              viewCount: data.viewCount || ""
+            };
+          }
+          resolve(data);
+        };
+        window.addEventListener("message", handler);
+        window.postMessage({ type: "YT_AI_REQ_PLAYER_DATA", videoId, preferredLang }, "*");
+        setTimeout(() => {
+          if (!resolved) {
+            window.removeEventListener("message", handler);
+            resolve({});
+          }
+        }, 5e3);
+      });
+    }
+    fetchTranscriptFromBackground(videoId, lang = "fr") {
+      if (!chrome?.runtime?.sendMessage) return Promise.resolve(null);
+      return new Promise((resolve) => {
+        chrome.runtime.sendMessage({ action: "FETCH_WATCH_PAGE_TRANSCRIPT", videoId, lang }, (res) => {
+          if (chrome.runtime.lastError || !res || !res.success) resolve(null);
+          else resolve(res);
+        });
+      });
+    }
+    async extractYouTubeTranscript(preferredLang = "en", isUserInitiated = false) {
+      const currentVideoId = getVideoId();
+      if (!currentVideoId) return null;
+      if (this.cachedTranscript.videoId === currentVideoId && this.cachedTranscript.segments.length > 0 && !this.cachedTranscript.isChapterOnly) {
+        return this.cachedTranscript.segments;
+      }
+      if (this.cachedTranscript.videoId && this.cachedTranscript.videoId !== currentVideoId) {
+        this.resetAllState(preferredLang);
+      }
+      const segments = await this.executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated);
+      if (segments && segments.length > 0) return segments;
+      if (isUserInitiated) {
+        const retryDelays = [600, 1200];
+        for (const delay of retryDelays) {
+          await new Promise((r) => setTimeout(r, delay));
+          const retrySegments = await this.executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated);
+          if (retrySegments && retrySegments.length > 0) return retrySegments;
+        }
+      }
+      return null;
+    }
+    async executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated) {
+      const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
+      if (domSegments && domSegments.length > 0) {
+        this.saveCachedTranscript(currentVideoId, domSegments, false);
+        return domSegments;
+      }
+      const playerData = await this.requestPlayerDataFromMainWorld(currentVideoId, preferredLang);
+      if (playerData?.videoId === currentVideoId && playerData?.segments?.length > 0) {
+        this.saveCachedTranscript(currentVideoId, playerData.segments, false);
+        return playerData.segments;
+      }
+      if (playerData?.videoId === currentVideoId && playerData?.captions?.length > 0) {
+        const ordered = CaptionTrackPrioritizer.prioritizeTracks(playerData.captions, preferredLang);
+        for (const track of ordered) {
+          if (track?.baseUrl) {
+            const segments = await this.fetchTimedtextSegments(track.baseUrl, preferredLang);
+            if (segments && segments.length > 0) {
+              this.saveCachedTranscript(currentVideoId, segments, false);
+              return segments;
+            }
+          }
+        }
+      }
+      const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
+      if (stealthSegments && stealthSegments.length > 0) {
+        this.saveCachedTranscript(currentVideoId, stealthSegments, false);
+        return stealthSegments;
+      }
+      const bgResult = await this.fetchTranscriptFromBackground(currentVideoId, preferredLang);
+      if (bgResult?.segments?.length > 0 && !bgResult.isChapterOnly) {
+        this.saveCachedTranscript(currentVideoId, bgResult.segments, false);
+        return bgResult.segments;
+      }
+      if (bgResult?.segments?.length > 0 && bgResult.isChapterOnly) {
+        this.saveCachedTranscript(currentVideoId, bgResult.segments, true);
+        return bgResult.segments;
+      }
+      const chapterSegments = YouTubeDOMContext.extractChaptersFromDescription();
+      if (chapterSegments && chapterSegments.length > 1) {
+        this.saveCachedTranscript(currentVideoId, chapterSegments, true);
+        return chapterSegments;
+      }
+      return null;
+    }
+    saveCachedTranscript(videoId, segments, isChapterOnly = false) {
+      this.cachedTranscript = {
+        videoId,
+        segments,
+        fullText: segments.map((s) => s.text).join(" "),
+        isChapterOnly: !!isChapterOnly
+      };
+      const wordsCount = this.cachedTranscript.fullText.trim().split(/\s+/).filter(Boolean).length;
+      const wordCountEl = document.getElementById("ytAiWordCount");
+      const wordCountTab = document.getElementById("ytAiWordCountTab");
+      const headerTitle = document.getElementById("ytAiTranscriptHeaderTitle");
+      const transcriptBody = document.getElementById("ytAiTranscriptBody");
+      const currentLang = document.getElementById("ytAiLangSelect")?.value || "en";
+      const t = I18N[currentLang] || I18N.en;
+      const fb = I18N.en;
+      const chapSuffix = t.chapterBadge || fb.chapterBadge;
+      if (wordCountEl) wordCountEl.textContent = wordsCount.toLocaleString();
+      if (wordCountTab) {
+        wordCountTab.textContent = isChapterOnly ? `${wordsCount.toLocaleString()} ${t.wordsBadge || fb.wordsBadge} ${chapSuffix}` : `${wordsCount.toLocaleString()} ${t.wordsBadge || fb.wordsBadge}`;
+      }
+      if (headerTitle) {
+        headerTitle.textContent = isChapterOnly ? `${t.transcriptTitle || fb.transcriptTitle} ${chapSuffix}` : t.transcriptTitle || fb.transcriptTitle;
+      }
+      if (transcriptBody) {
+        const warnHtml = isChapterOnly ? `<div class="yt-ai-chapter-warning" style="margin-bottom:8px;padding:8px 10px;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.3);border-radius:4px;font-size:11px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+             <span>\u26A0\uFE0F ${escapeHtml(t.chapterOnlyNotice || fb.chapterOnlyNotice)}</span>
+             <button id="ytAiForceTranscriptBtn" class="yt-ai-btn yt-ai-btn-secondary" style="font-size:11px;padding:2px 8px;cursor:pointer;">\u{1F504} ${escapeHtml(t.forceRetryBtn || fb.forceRetryBtn)}</button>
+           </div>` : "";
+        transcriptBody.innerHTML = warnHtml + segments.map((s) => {
+          let sec = 0;
+          if (s.timestamp) {
+            const parts = s.timestamp.split(":").map(Number);
+            if (parts.length === 3) sec = parts[0] * 3600 + parts[1] * 60 + parts[2];
+            else if (parts.length === 2) sec = parts[0] * 60 + parts[1];
+          }
+          return `<div class="yt-ai-transcript-line"><a href="javascript:void(0)" class="yt-ai-timestamp-link" data-time="${sec}">[${s.timestamp || "--:--"}]</a> <span>${escapeHtml(s.text)}</span></div>`;
+        }).join("");
+        if (isChapterOnly) {
+          document.getElementById("ytAiForceTranscriptBtn")?.addEventListener("click", async () => {
+            const activeLang = document.getElementById("ytAiLangSelect")?.value || currentLang;
+            const activeT = I18N[activeLang] || I18N.en;
+            transcriptBody.innerHTML = `<div class="yt-ai-loading">${escapeHtml(activeT.extractingLabel || fb.extractingLabel)}</div>`;
+            const segs = await NativeTranscriptPanel.triggerStealthNativeTranscript();
+            if (segs && segs.length > 0) {
+              this.saveCachedTranscript(videoId, segs, false);
+            } else {
+              this.saveCachedTranscript(videoId, segments, true);
+            }
+          });
+        }
+      }
+    }
+    resetAllState(currentLang = "en") {
+      this.cachedTranscript = { videoId: "", segments: [], fullText: "", isChapterOnly: false };
+      this.cachedVideoMetadata = {
+        videoId: "",
+        title: "",
+        author: "",
+        channelId: "",
+        subscribers: "",
+        description: "",
+        keywords: [],
+        category: "",
+        publishDate: "",
+        viewCount: ""
+      };
+      const t = I18N[currentLang] || I18N.en;
+      const wordCountEl = document.getElementById("ytAiWordCount");
+      const wordCountTab = document.getElementById("ytAiWordCountTab");
+      const headerTitle = document.getElementById("ytAiTranscriptHeaderTitle");
+      const transcriptBody = document.getElementById("ytAiTranscriptBody");
+      if (wordCountEl) wordCountEl.textContent = "0";
+      if (wordCountTab) wordCountTab.textContent = `0 ${t.wordsBadge || "words"}`;
+      if (headerTitle) headerTitle.textContent = t.transcriptTitle || "\u{1F4DC} Full Transcript";
+      if (transcriptBody) {
+        transcriptBody.innerHTML = `<div class="yt-ai-loading">${escapeHtml(t.transcriptWaiting || "Waiting for transcript...")}</div>`;
+      }
+    }
+  };
+
+  // src/content/services/InPageTTSService.js
+  var DEFAULT_LANG_LOCALES = {
+    fr: "fr-FR",
+    en: "en-US",
+    es: "es-ES",
+    de: "de-DE",
+    it: "it-IT",
+    ru: "ru-RU",
+    ja: "ja-JP",
+    zh: "zh-CN"
+  };
+  var activeUtterance = null;
+  function splitTextIntoSpeechChunks(text, maxChunkLen = 200) {
+    if (!text) return [];
+    const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+    const chunks = [];
+    let current = "";
+    for (const s of sentences) {
+      const trimmed = s.trim();
+      if (!trimmed) continue;
+      if ((current + " " + trimmed).length <= maxChunkLen) {
+        current = current ? current + " " + trimmed : trimmed;
+      } else {
+        if (current) chunks.push(current);
+        if (trimmed.length > maxChunkLen) {
+          const words = trimmed.split(/\s+/);
+          let sub = "";
+          for (const w of words) {
+            if ((sub + " " + w).length <= maxChunkLen) {
+              sub = sub ? sub + " " + w : w;
+            } else {
+              if (sub) chunks.push(sub);
+              sub = w;
+            }
+          }
+          if (sub) current = sub;
+        } else {
+          current = trimmed;
+        }
+      }
+    }
+    if (current) chunks.push(current);
+    return chunks;
+  }
+  var InPageTTSService = class _InPageTTSService {
+    constructor() {
+      this.availableVoices = [];
+      this.selectedVoiceURI = "";
+      this.activeSpeakingButton = null;
+      this.speechQueue = [];
+      this.speechQueueIndex = 0;
+      this.isSpeakingActive = false;
+      this.activeUtterance = null;
+      this.speechKeepAliveTimer = null;
+      this.activeAudio = null;
+      this.ttsSpeed = "1.0";
+    }
+    static cleanMarkdownForSpeech(md) {
+      if (!md) return "";
+      return md.replace(/^#{1,6}\s+/gm, "").replace(/\*\*([^*]+)\*\*/g, "$1").replace(/\*([^*]+)\*/g, "$1").replace(/__([^_]+)__/g, "$1").replace(/_([^_]+)_/g, "$1").replace(/`([^`]+)`/g, "$1").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/^\s*[-*•]\s+/gm, "").replace(/^\s*\d+\.\s+/gm, "").replace(/[\n\r]+/g, ". ").replace(/\s+/g, " ").trim();
+    }
+    initSpeechSynthesis(onVoicesReady) {
+      if ("speechSynthesis" in window) {
+        if (window.speechSynthesis.onvoiceschanged !== void 0) {
+          window.speechSynthesis.onvoiceschanged = () => {
+            this.availableVoices = window.speechSynthesis.getVoices();
+            if (typeof onVoicesReady === "function") onVoicesReady(this.availableVoices);
+          };
+        }
+        this.availableVoices = window.speechSynthesis.getVoices();
+        if (typeof onVoicesReady === "function" && this.availableVoices.length > 0) {
+          onVoicesReady(this.availableVoices);
+        }
+      }
+    }
+    populateVoiceDropdown(targetLang = "fr") {
+      const select = document.getElementById("ytAiVoiceSelect");
+      if (!select || !("speechSynthesis" in window)) return;
+      this.availableVoices = window.speechSynthesis.getVoices();
+      select.innerHTML = "";
+      const langCode = (targetLang || "fr").toLowerCase();
+      const matchingVoices = this.availableVoices.filter((v) => v.lang && v.lang.toLowerCase().startsWith(langCode));
+      const voicesToShow = matchingVoices.length > 0 ? matchingVoices : this.availableVoices;
+      let hasSelected = false;
+      voicesToShow.forEach((voice) => {
+        const opt = document.createElement("option");
+        opt.value = voice.voiceURI;
+        opt.textContent = `${voice.name} (${voice.lang})`;
+        if (voice.voiceURI === this.selectedVoiceURI && matchingVoices.some((m) => m.voiceURI === this.selectedVoiceURI)) {
+          opt.selected = true;
+          hasSelected = true;
+        }
+        select.appendChild(opt);
+      });
+      if (!hasSelected && select.options.length > 0) {
+        select.selectedIndex = 0;
+        this.selectedVoiceURI = select.value;
+      }
+    }
+    speakText(rawText, triggerBtn, options = {}) {
+      if (!("speechSynthesis" in window)) return;
+      if (this.isSpeakingActive) {
+        this.stopSpeech();
+        return;
+      }
+      const cleaned = _InPageTTSService.cleanMarkdownForSpeech(rawText);
+      if (!cleaned) return;
+      this.speechQueue = splitTextIntoSpeechChunks(cleaned, 220);
+      if (this.speechQueue.length === 0) return;
+      this.speechQueueIndex = 0;
+      this.isSpeakingActive = true;
+      this.activeSpeakingButton = triggerBtn;
+      const targetLang = options?.lang || document.getElementById("ytAiLangSelect")?.value || "fr";
+      const targetLocale = typeof LANG_LOCALES !== "undefined" && LANG_LOCALES[targetLang] || DEFAULT_LANG_LOCALES[targetLang] || "fr-FR";
+      const rate = parseFloat(options?.rate || this.ttsSpeed) || 1;
+      if (triggerBtn) {
+        triggerBtn.classList.add("speaking");
+        if (triggerBtn.id === "ytAiSpeakSummaryBtn") {
+          triggerBtn.textContent = "\u23F9 Stop";
+        }
+      }
+      if (!this.availableVoices || this.availableVoices.length === 0) {
+        this.availableVoices = window.speechSynthesis.getVoices();
+      }
+      let voiceToUse = null;
+      if (this.selectedVoiceURI) {
+        const chosen = this.availableVoices.find((v) => v.voiceURI === this.selectedVoiceURI);
+        if (chosen && chosen.lang && chosen.lang.toLowerCase().startsWith(targetLang.toLowerCase())) {
+          voiceToUse = chosen;
+        }
+      }
+      if (!voiceToUse && this.availableVoices.length > 0) {
+        voiceToUse = this.availableVoices.find((v) => v.lang && v.lang.toLowerCase() === targetLocale.toLowerCase()) || this.availableVoices.find((v) => v.lang && v.lang.toLowerCase().startsWith(targetLang.toLowerCase())) || this.availableVoices.find((v) => v.lang && v.lang.toLowerCase().startsWith(targetLocale.split("-")[0].toLowerCase()));
+        if (voiceToUse) {
+          this.selectedVoiceURI = voiceToUse.voiceURI;
+        }
+      }
+      const playAudioDataUrl = (dataUrl) => {
+        return new Promise((resolve) => {
+          if (!this.isSpeakingActive) return resolve();
+          const audio = new Audio(dataUrl);
+          audio.playbackRate = rate;
+          this.activeAudio = audio;
+          audio.onended = () => {
+            this.activeAudio = null;
+            resolve();
+          };
+          audio.onerror = () => {
+            this.activeAudio = null;
+            resolve();
+          };
+          audio.play().catch(() => {
+            this.activeAudio = null;
+            resolve();
+          });
+        });
+      };
+      const playNextChunk = async () => {
+        if (!this.isSpeakingActive || this.speechQueueIndex >= this.speechQueue.length) {
+          this.stopSpeech();
+          return;
+        }
+        const chunk = this.speechQueue[this.speechQueueIndex++];
+        if (!voiceToUse && typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
+          try {
+            const resp = await new Promise((resolve) => {
+              chrome.runtime.sendMessage({
+                action: "TTS_FETCH_AUDIO",
+                text: chunk,
+                lang: targetLang
+              }, resolve);
+            });
+            if (resp?.success && resp.audioDataUrl && this.isSpeakingActive) {
+              await playAudioDataUrl(resp.audioDataUrl);
+              if (this.isSpeakingActive) playNextChunk();
+              return;
+            }
+          } catch (_) {
+          }
+        }
+        const utterance = new SpeechSynthesisUtterance(chunk);
+        utterance.rate = rate;
+        if (voiceToUse) {
+          utterance.voice = voiceToUse;
+          utterance.lang = voiceToUse.lang || targetLocale;
+        } else {
+          utterance.lang = targetLocale;
+        }
+        this.activeUtterance = utterance;
+        activeUtterance = utterance;
+        utterance.onend = () => {
+          clearInterval(this.speechKeepAliveTimer);
+          playNextChunk();
+        };
+        utterance.onerror = () => {
+          clearInterval(this.speechKeepAliveTimer);
+          this.stopSpeech();
+        };
+        clearInterval(this.speechKeepAliveTimer);
+        this.speechKeepAliveTimer = setInterval(() => {
+          if (window.speechSynthesis?.speaking) {
+            window.speechSynthesis.pause();
+            window.speechSynthesis.resume();
+          } else {
+            clearInterval(this.speechKeepAliveTimer);
+          }
+        }, 1e4);
+        window.speechSynthesis.speak(utterance);
+      };
+      playNextChunk();
+    }
+    stopSpeech() {
+      this.isSpeakingActive = false;
+      clearInterval(this.speechKeepAliveTimer);
+      if (this.activeAudio) {
+        try {
+          this.activeAudio.pause();
+          this.activeAudio.currentTime = 0;
+        } catch (_) {
+        }
+        this.activeAudio = null;
+      }
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+      this.activeUtterance = null;
+      activeUtterance = null;
+      this.speechQueue = [];
+      this.speechQueueIndex = 0;
+      if (this.activeSpeakingButton) {
+        this.resetSpeakingButton(this.activeSpeakingButton);
+        this.activeSpeakingButton = null;
+      }
+    }
+    resetSpeakingButton(btn) {
+      if (!btn) return;
+      btn.classList.remove("speaking");
+      const lang = document.getElementById("ytAiLangSelect")?.value || "en";
+      const t = I18N[lang] || I18N.en;
+      if (btn.id === "ytAiSpeakSummaryBtn") {
+        btn.textContent = t.listenBtn || "\u{1F50A} Listen";
+      } else {
+        btn.textContent = t.listenBtn || "\u{1F50A}";
+      }
+    }
+  };
+  var cleanMarkdownForSpeech = InPageTTSService.cleanMarkdownForSpeech;
+
+  // src/content/services/InPageSTTService.js
+  var InPageSTTService = class {
+    constructor() {
+      this.isDictating = false;
+      this.isWhisperRecording = false;
+      this.activeMediaRecorder = null;
+      this.recordedAudioChunks = [];
+      this.selectedMicDeviceId = "";
+      this.availableMicrophones = [];
+      this.dictationBaseText = "";
+      this.isBraveBrowser = false;
+      this.onStopSpeechCallback = null;
+      try {
+        if (navigator.brave && typeof navigator.brave.isBrave === "function") {
+          navigator.brave.isBrave().then((val) => {
+            this.isBraveBrowser = !!val;
+          }).catch(() => {
+          });
+        }
+      } catch (_) {
+      }
+      this.setupMainWorldListener();
+    }
+    async initMicrophoneDevices() {
+      await this.refreshMicrophonesList();
+      if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
+        navigator.mediaDevices.addEventListener("devicechange", () => this.refreshMicrophonesList());
+      }
+    }
+    async refreshMicrophonesList() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        this.availableMicrophones = devices.filter((d) => d.kind === "audioinput");
+        const micSelect = document.getElementById("ytAiMicSelect");
+        if (!micSelect) return;
+        const lang = document.getElementById("ytAiLangSelect")?.value || document.getElementById("ytAiCompLangSelect")?.value || "en";
+        const t = I18N[lang] || I18N.en;
+        micSelect.innerHTML = `<option value="">${t.micDefault || I18N.en.micDefault}</option>`;
+        this.availableMicrophones.forEach((dev, idx) => {
+          const opt = document.createElement("option");
+          opt.value = dev.deviceId;
+          opt.textContent = `\u{1F399}\uFE0F ${dev.label || `Microphone ${idx + 1}`}`;
+          if (dev.deviceId && dev.deviceId === this.selectedMicDeviceId) {
+            opt.selected = true;
+          }
+          micSelect.appendChild(opt);
+        });
+      } catch (_) {
+      }
+    }
+    setupMainWorldListener() {
+      window.addEventListener("message", (event) => {
+        if (event.source !== window || !event.data) return;
+        const targetLang = document.getElementById("ytAiLangSelect")?.value || "en";
+        const t = I18N[targetLang] || I18N.en;
+        if (event.data.type === "YT_AI_SPEECH_STARTED") {
+          this.isDictating = true;
+          this.showMicNotice(t.micActiveNotice || "\u{1F399}\uFE0F Voice dictation active... Speak now.", false);
+        } else if (event.data.type === "YT_AI_SPEECH_RESULT") {
+          const chatInput = document.getElementById("ytAiChatInput") || document.getElementById("ytAiChannelChatInput");
+          if (chatInput && this.isDictating) {
+            const prefix = this.dictationBaseText ? this.dictationBaseText.trim() + " " : "";
+            const full = (prefix + (event.data.finalText || "") + (event.data.interimText || "")).trimStart();
+            chatInput.value = full;
+          }
+        } else if (event.data.type === "YT_AI_SPEECH_ERROR") {
+          const err = event.data.error;
+          if (err === "not-allowed") this.showMicNotice(t.micBlockedNotice, true);
+          else if (err === "audio-capture") this.showMicNotice(t.micNoDeviceNotice, true);
+          else if (err === "network") this.showMicNotice(t.micNetworkNotice, true);
+          else if (err === "not-supported") this.showMicNotice(t.micNotSupportedNotice, true);
+          else if (err !== "no-speech") this.showMicNotice(`${t.micErrorNotice} ${err}`, true);
+          this.stopDictation();
+        } else if (event.data.type === "YT_AI_SPEECH_ENDED") {
+          if (this.isDictating) this.stopDictation();
+        }
+      });
+    }
+    showMicNotice(text, isError = false) {
+      const notice = document.getElementById("ytAiMicNotice");
+      if (!notice) return;
+      notice.textContent = text;
+      notice.className = `yt-ai-mic-notice ${isError ? "is-error" : "is-info"}`;
+      notice.classList.remove("yt-ai-hidden");
+      setTimeout(() => {
+        if (notice.textContent === text) notice.classList.add("yt-ai-hidden");
+      }, isError ? 9e3 : 4e3);
+    }
+    async toggleDictation(options = {}) {
+      if (this.isDictating) {
+        this.stopDictation();
+        return;
+      }
+      if (options.localWhisperUrl) {
+        await this.startWhisperRecording("", "local", options.localWhisperUrl);
+        return;
+      }
+      if (options.groqKey) {
+        await this.startWhisperRecording(options.groqKey, "groq");
+        return;
+      }
+      if (options.openaiKey) {
+        await this.startWhisperRecording(options.openaiKey, "openai");
+        return;
+      }
+      if (this.isBraveBrowser) {
+        const targetLang = document.getElementById("ytAiLangSelect")?.value || "en";
+        const t = I18N[targetLang] || I18N.en;
+        this.showMicNotice(t.braveMicNotice || "On Brave Browser, please use Local Whisper or add a Groq/OpenAI key.", true);
+        return;
+      }
+      await this.startDictation();
+    }
+    async startWhisperRecording(apiKey, provider, customUrl = "") {
+      if (typeof this.onStopSpeechCallback === "function") this.onStopSpeechCallback();
+      const targetLang = document.getElementById("ytAiLangSelect")?.value || "en";
+      const t = I18N[targetLang] || I18N.en;
+      try {
+        const constraints = this.selectedMicDeviceId ? { audio: { deviceId: { exact: this.selectedMicDeviceId } } } : { audio: true };
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        await this.refreshMicrophonesList();
+        this.recordedAudioChunks = [];
+        const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus") ? "audio/webm;codecs=opus" : MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "audio/mp4";
+        this.activeMediaRecorder = new MediaRecorder(stream, { mimeType });
+        this.activeMediaRecorder.ondataavailable = (e) => {
+          if (e.data && e.data.size > 0) this.recordedAudioChunks.push(e.data);
+        };
+        this.activeMediaRecorder.onstop = async () => {
+          stream.getTracks().forEach((track) => track.stop());
+          const audioBlob = new Blob(this.recordedAudioChunks, { type: mimeType });
+          if (audioBlob.size > 1500) {
+            await this.transcribeWithWhisperApi(audioBlob, apiKey, provider, targetLang, customUrl);
+          } else {
+            this.showMicNotice(t.whisperNoAudio || "No audio recorded. Please speak into your microphone.", false);
+          }
+        };
+        this.activeMediaRecorder.start();
+        this.isDictating = true;
+        this.isWhisperRecording = true;
+        const micBtn = document.getElementById("ytAiMicBtn") || document.getElementById("ytAiChannelMicBtn");
+        const chatInput = document.getElementById("ytAiChatInput") || document.getElementById("ytAiChannelChatInput");
+        if (micBtn) {
+          micBtn.classList.add("is-recording");
+          micBtn.title = t.micStopTitle || "Stop dictation";
+          micBtn.innerHTML = '<span class="yt-ai-mic-icon">\u{1F534}</span>';
+        }
+        if (chatInput) {
+          chatInput.placeholder = t.whisperRecording || "\u{1F399}\uFE0F Whisper recording (Mic)...";
+        }
+        this.showMicNotice(t.whisperRecording || "\u{1F399}\uFE0F Whisper recording (Mic)...", false);
+      } catch (err) {
+        this.showMicNotice(`${t.micErrorNotice} ${err.message || err.name}`, true);
+        this.stopDictation();
+      }
+    }
+    async transcribeWithWhisperApi(audioBlob, apiKey, provider, targetLang, customUrl = "") {
+      const micBtn = document.getElementById("ytAiMicBtn") || document.getElementById("ytAiChannelMicBtn");
+      const chatInput = document.getElementById("ytAiChatInput") || document.getElementById("ytAiChannelChatInput");
+      const t = I18N[targetLang] || I18N.en;
+      if (micBtn) micBtn.innerHTML = '<span class="yt-ai-spinner"></span>';
+      this.showMicNotice(t.whisperTranscribing || "\u23F3 Transcribing audio with Whisper...", false);
+      try {
+        const formData = new FormData();
+        formData.append("file", audioBlob, "speech.webm");
+        formData.append("model", provider === "groq" ? "whisper-large-v3-turbo" : "whisper-1");
+        if (targetLang) formData.append("language", targetLang);
+        const endpoint = provider === "local" ? customUrl || "http://localhost:8000/v1/audio/transcriptions" : provider === "groq" ? "https://api.groq.com/openai/v1/audio/transcriptions" : "https://api.openai.com/v1/audio/transcriptions";
+        const headers = {};
+        if (provider !== "local" && apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
+        const res = await fetch(endpoint, { method: "POST", headers, body: formData });
+        if (!res.ok) {
+          const errJson = await res.json().catch(() => ({}));
+          throw new Error(errJson.error?.message || `HTTP ${res.status}`);
+        }
+        const json = await res.json();
+        const text = json.text?.trim() || "";
+        if (text && chatInput) {
+          chatInput.value = (chatInput.value ? chatInput.value.trim() + " " : "") + text;
+          this.showMicNotice("\u2705 " + (t.transcriptExtracted || "Transcript extracted"), false);
+        }
+      } catch (err) {
+        this.showMicNotice(`${t.errorLabel || "Error: "}${err.message}`, true);
+      } finally {
+        if (micBtn) {
+          micBtn.classList.remove("is-recording");
+          micBtn.innerHTML = '<span class="yt-ai-mic-icon">\u{1F3A4}</span>';
+        }
+        if (chatInput) chatInput.placeholder = t.chatPlaceholder || "Ask a question or dictate with mic...";
+      }
+    }
+    async startDictation() {
+      if (typeof this.onStopSpeechCallback === "function") this.onStopSpeechCallback();
+      const targetLang = document.getElementById("ytAiLangSelect")?.value || "en";
+      const t = I18N[targetLang] || I18N.en;
+      try {
+        const constraints = this.selectedMicDeviceId ? { audio: { deviceId: { exact: this.selectedMicDeviceId } } } : { audio: true };
+        const testStream = await navigator.mediaDevices.getUserMedia(constraints);
+        testStream.getTracks().forEach((track) => track.stop());
+        await this.refreshMicrophonesList();
+      } catch (err) {
+        if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+          this.showMicNotice(t.micBlockedNotice, true);
+        } else {
+          this.showMicNotice(`${t.micErrorNotice} ${err.message || err.name}`, true);
+        }
+        this.stopDictation();
+        return;
+      }
+      this.isDictating = true;
+      const micBtn = document.getElementById("ytAiMicBtn") || document.getElementById("ytAiChannelMicBtn");
+      const chatInput = document.getElementById("ytAiChatInput") || document.getElementById("ytAiChannelChatInput");
+      this.dictationBaseText = chatInput ? chatInput.value : "";
+      if (micBtn) {
+        micBtn.classList.add("is-recording");
+        micBtn.title = t.micStopTitle || "Stop dictation";
+        micBtn.innerHTML = '<span class="yt-ai-mic-icon">\u{1F534}</span>';
+      }
+      if (chatInput) {
+        chatInput.placeholder = t.chatInputListening || "\u{1F399}\uFE0F Dictating... Speak into your microphone.";
+      }
+      this.showMicNotice(t.micActiveNotice || "\u{1F399}\uFE0F Voice dictation active... Speak now.", false);
+      window.postMessage({
+        type: "YT_AI_START_SPEECH",
+        lang: LANG_LOCALES[targetLang] || "en-US"
+      }, "*");
+    }
+    stopDictation() {
+      this.isDictating = false;
+      if (this.isWhisperRecording && this.activeMediaRecorder && this.activeMediaRecorder.state !== "inactive") {
+        this.isWhisperRecording = false;
+        try {
+          this.activeMediaRecorder.stop();
+        } catch (_) {
+        }
+        this.activeMediaRecorder = null;
+        return;
+      }
+      window.postMessage({ type: "YT_AI_STOP_SPEECH" }, "*");
+      const micBtn = document.getElementById("ytAiMicBtn") || document.getElementById("ytAiChannelMicBtn");
+      const chatInput = document.getElementById("ytAiChatInput") || document.getElementById("ytAiChannelChatInput");
+      const targetLang = document.getElementById("ytAiLangSelect")?.value || "en";
+      const t = I18N[targetLang] || I18N.en;
+      if (micBtn) {
+        micBtn.classList.remove("is-recording");
+        micBtn.title = t.micTitle || "Dictate your question with microphone";
+        micBtn.innerHTML = '<span class="yt-ai-mic-icon">\u{1F3A4}</span>';
+      }
+      if (chatInput) {
+        chatInput.placeholder = t.chatPlaceholder || "Ask a question or dictate with mic... (Press Enter to send)";
+      }
+    }
+  };
+
+  // src/content/services/InPageAudioController.js
+  var InPageAudioController = class {
+    constructor() {
+      this.tts = new InPageTTSService();
+      this.stt = new InPageSTTService();
+      this.stt.onStopSpeechCallback = () => this.tts.stopSpeech();
+    }
+    init(currentLang, onVoicesReady) {
+      this.tts.initSpeechSynthesis(onVoicesReady);
+      this.stt.initMicrophoneDevices();
+    }
+    populateVoiceDropdown(currentLang) {
+      this.tts.populateVoiceDropdown(currentLang);
+    }
+    speakText(text, buttonEl, options) {
+      this.tts.speakText(text, buttonEl, options);
+    }
+    stopSpeech() {
+      this.tts.stopSpeech();
+    }
+    toggleDictation(options) {
+      return this.stt.toggleDictation(options);
+    }
+    stopDictation() {
+      this.stt.stopDictation();
+    }
+    stopAll() {
+      this.stopSpeech();
+      this.stopDictation();
+    }
+    showMicNotice(text, isError) {
+      this.stt.showMicNotice(text, isError);
     }
   };
 
@@ -8450,7 +11554,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
     return {
       extensionEnabled: true,
       currentProvider: "lmstudio",
-      serverUrls: { lmstudio: "http://127.0.0.1:1234", ollama: "http://localhost:11434" },
+      serverUrls: { lmstudio: "http://localhost:1234", ollama: "http://localhost:11434" },
       apiKeys: { openai: "", gemini: "", claude: "", groq: "", deepseek: "" },
       selectedModels: {},
       availableLocalModels: {},
@@ -8460,6 +11564,8 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       ttsSpeed: "1.0",
       localWhisperUrl: "http://127.0.0.1:8000",
       autoSummarize: false,
+      channelAuditPeriod: "all",
+      channelAuditMaxVideos: 30,
       customPrompt: "",
       selectedVoiceURI: "",
       selectedMicDeviceId: "",
@@ -8487,6 +11593,11 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
       if (items.maxTokens) state2.maxTokens = items.maxTokens;
       if (typeof items.autoSummarize === "boolean") state2.autoSummarize = items.autoSummarize;
       if (items.localWhisperUrl) state2.localWhisperUrl = items.localWhisperUrl;
+      if (items.channelAuditMaxVideos !== void 0) {
+        const parsedLimit = parseChannelAuditLimit(items.channelAuditMaxVideos);
+        state2.channelAuditMaxVideos = parsedLimit.isAll ? "all" : parsedLimit.numericLimit;
+      }
+      if (items.channelAuditPeriod) state2.channelAuditPeriod = items.channelAuditPeriod;
       if (items.ttsSpeed) state2.ttsSpeed = items.ttsSpeed;
       if (items.selectedVoiceURI) state2.selectedVoiceURI = items.selectedVoiceURI;
       ["openai", "gemini", "claude", "groq", "deepseek", "lmstudio", "ollama"].forEach((p) => {
@@ -8535,6 +11646,10 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
   var channelCompanionCard = new ChannelCompanionCard({
     channelAuditService,
     channelAuditViewController,
+    settingsDrawer,
+    audioController,
+    transcriptController,
+    channelManager: chatViewController.channelManager,
     state
   });
   var triggerSummarize = () => {
@@ -8561,7 +11676,7 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
   };
   var triggerChannelAudit = () => {
     bannerView.setExpanded(true);
-    bannerView.switchTab("audit");
+    bannerView.switchTab("channelAudit");
     auditViewController.handleTriggerChannelAudit({
       state,
       currentLang: state.currentLang
@@ -8584,15 +11699,53 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
   }
   function handlePageInjection() {
     if (isWatchPage()) {
+      document.getElementById("yt-ai-channel-companion")?.remove();
       bannerView.tryInjectBanner(bindEvents);
     } else if (isChannelPage()) {
+      document.getElementById("yt-ai-summarizer-container")?.remove();
       channelCompanionCard.tryInjectCompanion();
+    } else {
+      document.getElementById("yt-ai-channel-companion")?.remove();
+      document.getElementById("yt-ai-summarizer-container")?.remove();
     }
+  }
+  function proxyBrowseContinuationToMainWorld(req) {
+    return new Promise((resolve) => {
+      const requestId = `browse_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+      let settled = false;
+      const finish = (res) => {
+        if (settled) return;
+        settled = true;
+        window.removeEventListener("message", onMsg);
+        clearTimeout(timer);
+        resolve(res);
+      };
+      const onMsg = (event) => {
+        if (event.source !== window || !event.data) return;
+        if (event.data.type === "YT_AI_BROWSE_CONTINUATION_RESULT" && event.data.requestId === requestId) {
+          finish({ ok: !!event.data.ok, status: event.data.status || 0, items: event.data.items || [] });
+        }
+      };
+      const timer = setTimeout(() => finish({ ok: false, status: 408, items: [] }), 12e3);
+      window.addEventListener("message", onMsg);
+      window.postMessage({
+        type: "YT_AI_REQ_BROWSE_CONTINUATION",
+        requestId,
+        apiKey: req.apiKey,
+        clientVersion: req.clientVersion,
+        continuation: req.continuation,
+        visitorData: req.visitorData
+      }, "*");
+    });
   }
   function initContentScript() {
     ThemeManager.initThemeSync();
+    NavigationObserver.observeFullscreen();
     loadPreferences(state, () => {
       handlePageInjection();
+      if (settingsDrawer && typeof settingsDrawer.syncProviderUI === "function") {
+        settingsDrawer.syncProviderUI();
+      }
       NavigationObserver.observeNavigation(({ isNewVideo, isChannel }) => {
         if (isNewVideo) {
           audioController.stopAll();
@@ -8600,9 +11753,19 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
           transcriptController.resetAllState(state.currentLang);
           summaryViewController.resetSummaryOutput(state.currentLang, triggerSummarize);
           chatViewController.resetChatOutput?.(state.currentLang);
+          auditService.abortAudit?.("navigation");
           auditService.clearCache();
           auditViewController.lastReport = null;
           state.cachedAuditReport = null;
+          state.currentChannelTotalVideos = null;
+          if (!state.autoSummarize) {
+            bannerView.setExpanded(false);
+          }
+          if (typeof window !== "undefined" && typeof window.scrollTo === "function") {
+            window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+            setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: "instant" }), 100);
+            setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: "instant" }), 300);
+          }
         }
         handlePageInjection();
         if (isNewVideo && state.autoSummarize) {
@@ -8639,12 +11802,16 @@ WRITING & AUDIO PLAYBACK GUIDELINES:
           channelAuditService.clearCache();
           auditViewController.lastReport = null;
           state.cachedAuditReport = null;
+          channelCompanionCard.reset?.(state.currentLang);
           bannerView.showStatusBanner("\u2713 Cache cleared", false);
           sendResponse({ success: true });
+        } else if (act === "PROXY_INNERTUBE_BROWSE") {
+          proxyBrowseContinuationToMainWorld(req).then((result) => sendResponse(result));
         } else if (act === "SET_LANGUAGE") {
           if (req.lang) {
             state.currentLang = req.lang;
             bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController, auditViewController);
+            channelCompanionCard.refreshLanguage?.(state.currentLang);
             audioController.populateVoiceDropdown(state.currentLang);
           }
           sendResponse({ success: true });

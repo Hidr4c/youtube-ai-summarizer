@@ -1,5 +1,8 @@
 import { getVideoId } from './NavigationObserver.js';
 import { SettingsDrawerController } from './SettingsDrawerController.js';
+import { SettingsDrawerEventHandler } from './SettingsDrawerEventHandler.js';
+import { YouTubeDOMContext } from '../services/YouTubeDOMContext.js';
+import { parseChannelAuditLimit, resolveEffectiveChannelLimit, syncChannelMaxSelectElement } from '../../config/ExtensionConstants.js';
 import { I18N } from '../../locales/index.js';
 
 /**
@@ -29,9 +32,29 @@ export class BannerEventHandler {
             const currentVideoId = getVideoId();
             if (!transcriptController.cachedTranscript.segments ||
                 transcriptController.cachedTranscript.segments.length === 0 ||
-                transcriptController.cachedTranscript.videoId !== currentVideoId) {
+                transcriptController.cachedTranscript.videoId !== currentVideoId ||
+                transcriptController.cachedTranscript.isChapterOnly) {
               transcriptController.extractYouTubeTranscript(state.currentLang, true);
             }
+          } else if (tab === 'channelAudit') {
+            const meta = YouTubeDOMContext.getVideoMetadata();
+            const query = meta.channelUrl || meta.author || '';
+            const handleEl = document.getElementById('ytAiWatchChannelHandle');
+            if (handleEl && query) {
+              handleEl.textContent = query.startsWith('/') ? query.replace(/^\//, '') : query;
+            }
+            if (query && chatViewController?.channelManager?.getOrFetchChannelDossier) {
+              chatViewController.channelManager.getOrFetchChannelDossier(query, 30).then((res) => {
+                const total = res?.channel?.totalChannelVideos || (res?.channel?.hasMore === false ? res.channel.recentVideos?.length : null);
+                if (total && total > 0) {
+                  state.currentChannelTotalVideos = total;
+                  const sel = document.getElementById('ytAiWatchChannelMaxVideos');
+                  const activeVal = sel?.value || state.channelAuditMaxVideos || 30;
+                  syncChannelMaxSelectElement(sel, activeVal, (state.currentLang || 'fr').startsWith('fr'), total);
+                }
+              }).catch(() => {});
+            }
+            auditViewController?.syncChannelAuditUI?.(state);
           }
         }
       });
@@ -41,10 +64,22 @@ export class BannerEventHandler {
     document.getElementById('ytAiBrandToggle')?.addEventListener('click', () => bannerView.toggleExpand());
     document.getElementById('ytAiToggleBtn')?.addEventListener('click', () => bannerView.toggleExpand());
 
+    // 2b. Instant In-Page Language Switching
+    document.getElementById('ytAiLangSelect')?.addEventListener('change', (e) => {
+      const newLang = e.target.value;
+      if (!newLang) return;
+      state.currentLang = newLang;
+      state.savePreference?.('targetLang', newLang);
+      bannerView.applyLanguage(newLang, summaryViewController, chatViewController, auditViewController);
+      audioController?.populateVoiceDropdown?.(newLang);
+    });
+
     // 3. CTA actions & Subtabs
     document.getElementById('ytAiSummarizeBtn')?.addEventListener('click', triggerSummarize);
+    document.getElementById('ytAiStopSummaryBtn')?.addEventListener('click', () => summaryViewController?.stopGeneration?.(state.currentLang));
     document.getElementById('ytAiRunAuditBtn')?.addEventListener('click', triggerAudit);
     document.getElementById('ytAiAuditChannelBtn')?.addEventListener('click', triggerChannelAudit);
+    document.getElementById('ytAiRunWatchChannelAuditBtn')?.addEventListener('click', triggerChannelAudit);
     document.getElementById('ytAiCopyAuditBtn')?.addEventListener('click', () => auditViewController?.handleCopyAudit?.());
     document.getElementById('ytAiAuditSubtabVideoBtn')?.addEventListener('click', () => {
       auditViewController?.switchAuditSubtab('video');
@@ -62,74 +97,24 @@ export class BannerEventHandler {
       });
     });
 
-    // 4. Settings Drawer Toggle & Subtabs
+    // Max Videos Limit Selector
+    const watchMaxSelect = document.getElementById('ytAiWatchChannelMaxVideos');
+    if (watchMaxSelect) {
+      watchMaxSelect.value = resolveEffectiveChannelLimit(state.channelAuditMaxVideos || 30, state.currentChannelTotalVideos || null);
+      watchMaxSelect.addEventListener('change', (e) => {
+        const parsed = parseChannelAuditLimit(e.target.value);
+        state.channelAuditMaxVideos = parsed.isAll ? 'all' : parsed.numericLimit;
+        state.savePreference('channelAuditMaxVideos', state.channelAuditMaxVideos);
+      });
+    }
+
+    // 4. Settings Drawer Toggle
     document.getElementById('ytAiSettingsToggleBtn')?.addEventListener('click', () => {
       SettingsDrawerController.toggleSettingsDrawer(exp => bannerView.setExpanded(exp));
     });
-    document.getElementById('ytAiSettingsCloseBtn')?.addEventListener('click', () => {
-      SettingsDrawerController.setSettingsDrawerOpen(false);
-    });
-    banner.querySelectorAll('.yt-ai-settings-tab-btn').forEach(btn => btn.addEventListener('click', () => {
-      const sub = btn.getAttribute('data-subtab');
-      if (sub) SettingsDrawerController.switchSettingsSubtab(sub);
-    }));
 
-    // 5. Format & Language
-    banner.querySelectorAll('.yt-ai-format-pill').forEach(pill => pill.addEventListener('click', () => {
-      const mode = pill.getAttribute('data-mode');
-      if (mode) bannerView.setSummaryMode(mode);
-    }));
-    document.getElementById('ytAiModeSelect')?.addEventListener('change', (e) => bannerView.setSummaryMode(e.target.value));
-    document.getElementById('ytAiLangSelect')?.addEventListener('change', (e) => {
-      state.currentLang = e.target.value;
-      state.savePreference('targetLang', state.currentLang);
-      bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController, auditViewController);
-      audioController.populateVoiceDropdown(state.currentLang);
-    });
-
-    // 6. Provider, API Key & Server
-    document.getElementById('ytAiProviderSelect')?.addEventListener('change', (e) => {
-      state.currentProvider = e.target.value;
-      state.savePreference('aiProvider', state.currentProvider);
-      settingsDrawer.syncProviderUI();
-    });
-    document.getElementById('ytAiApiKeyInput')?.addEventListener('input', (e) => {
-      const val = e.target.value.trim();
-      state.apiKeys[state.currentProvider] = val;
-      state.savePreference(`apiKey_${state.currentProvider}`, val);
-      if (state.keyVerified) delete state.keyVerified[state.currentProvider];
-      bannerView.updateHeaderBadge();
-    });
-    document.getElementById('ytAiServerSelect')?.addEventListener('change', (e) => {
-      const isOllama = state.currentProvider === 'ollama';
-      const def = isOllama ? 'http://localhost:11434' : 'http://127.0.0.1:1234';
-      if (e.target.value === 'custom') {
-        const custom = prompt(`Address for ${isOllama ? 'Ollama' : 'LM Studio'}:`, state.serverUrls[state.currentProvider] || def);
-        if (custom) {
-          const clean = custom.trim().replace(/\/+$/, '');
-          state.serverUrls[state.currentProvider] = clean;
-          state.savePreference(`serverUrl_${state.currentProvider}`, clean);
-          settingsDrawer.updateServerUrlUI();
-          settingsDrawer.refreshModelsList();
-        }
-      } else {
-        state.serverUrls[state.currentProvider] = e.target.value;
-        state.savePreference(`serverUrl_${state.currentProvider}`, e.target.value);
-        settingsDrawer.updateServerUrlUI();
-        settingsDrawer.refreshModelsList();
-      }
-    });
-
-    // 7. Models
-    document.getElementById('ytAiRefreshModelsBtn')?.addEventListener('click', () => settingsDrawer.refreshModelsList(true));
-    document.getElementById('ytAiTestModelBtn')?.addEventListener('click', () => settingsDrawer.handleTestConnection());
-    document.getElementById('ytAiTestWhisperBtn')?.addEventListener('click', () => settingsDrawer.handleTestWhisper());
-    document.getElementById('ytAiModelSelect')?.addEventListener('change', (e) => {
-      state.setActiveModel(e.target.value);
-      state.savePreference(`selectedModel_${state.currentProvider}`, e.target.value);
-      state.savePreference('selectedModel', e.target.value);
-      bannerView.updateHeaderModelText();
-    });
+    // Delegate Settings Drawer interactions to dedicated handler
+    SettingsDrawerEventHandler.bind(banner, settingsDrawer, state, bannerView);
 
     // 8. Audio
     audioController.init();
@@ -175,13 +160,23 @@ export class BannerEventHandler {
       chatViewController.handleClearChat(state.currentLang);
     });
 
-    // Suggestion chips
-    banner.querySelectorAll('.yt-ai-suggestion-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
+    // Delegated suggestion chips (preserved across in-place language swaps)
+    const sugBox = banner.querySelector?.('.yt-ai-chat-suggestions');
+    if (sugBox) {
+      sugBox.addEventListener('click', (e) => {
+        const chip = e.target?.closest ? e.target.closest('.yt-ai-suggestion-chip') : (e.target?.classList?.contains?.('yt-ai-suggestion-chip') ? e.target : null);
+        if (!chip) return;
         const q = chip.getAttribute('data-question') || chip.textContent.trim();
         sendChat(q);
       });
-    });
+    } else {
+      banner.querySelectorAll?.('.yt-ai-suggestion-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const q = chip.getAttribute('data-question') || chip.textContent.trim();
+          sendChat(q);
+        });
+      });
+    }
 
     // 10. Exports & Copy
     document.getElementById('ytAiCopyBtn')?.addEventListener('click', () => summaryViewController.handleCopySummary(state.currentLang));
@@ -189,6 +184,10 @@ export class BannerEventHandler {
     document.getElementById('ytAiSaveTxtBtn')?.addEventListener('click', () => summaryViewController.handleExport('txt', state.currentLang));
     document.getElementById('ytAiSaveJsonBtn')?.addEventListener('click', () => summaryViewController.handleExport('json', state.currentLang));
     document.getElementById('ytAiCopyTranscriptBtn')?.addEventListener('click', () => transcriptController.handleCopyTranscript(state.currentLang));
+
+    // 11. Initial synchronization of Provider, Models & Active Channel Audits
+    settingsDrawer?.syncProviderUI();
+    auditViewController?.syncChannelAuditUI?.(state);
   }
 }
 

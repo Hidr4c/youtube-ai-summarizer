@@ -13,7 +13,7 @@ const ENGAGEMENT_SELECTORS = [
 
 export function isNativeTranscriptPanelVisible() {
   const segs = document.querySelectorAll(
-    'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"]'
+    'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"], [class*="ytwTranscriptSegmentViewModelHost"]'
   );
   if (segs && segs.length > 3) {
     for (const seg of segs) {
@@ -206,7 +206,7 @@ export async function triggerStealthNativeTranscript() {
     }
 
     let segments = null;
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 35; i++) {
       await new Promise(r => setTimeout(r, 120));
       if (i % 3 === 0) await ensureTranscriptTabActive();
       segments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();

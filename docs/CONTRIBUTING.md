@@ -25,11 +25,11 @@ This document outlines guidelines for contributing to this project.
    - Enable **Developer mode**.
    - Click **Load unpacked** and select the repository directory.
 
-4. **Verify Syntax & Automated Tests**:
+4. **Verify Architecture, Syntax & Automated Tests**:
    ```bash
-   npm run check
-   npm test
+   npm run check:gate
    ```
+   *(Runs the `<= 300` lines architecture check, builds `dist/`, verifies JavaScript syntax via `npm run check`, and executes `npm test`.)*
 
 ---
 

@@ -12,7 +12,7 @@ export class MessageRouter {
   static init() {
     // Port listener for streaming inference (supports both modern and legacy port names)
     chrome.runtime.onConnect.addListener((port) => {
-      if (port.name === 'ai-stream' || port.name === 'lm-studio-stream' || port.name === 'YT_AI_STREAM') {
+      if (port.name === 'ai-stream' || port.name === 'ai_stream' || port.name === 'lm-studio-stream' || port.name === 'YT_AI_STREAM') {
         port.onMessage.addListener((msg) => {
           if (msg.action === 'START_STREAM' || msg.action === 'CHAT_STREAM' || msg.action === 'STREAM_CHAT' || msg.action === 'GENERATE_STREAM' || msg.action === 'AUDIT_STREAM') {
             StreamRelay.handleStream(msg, port);
@@ -123,7 +123,25 @@ export class MessageRouter {
 
       if (request.action === 'FETCH_CHANNEL_DOSSIER') {
         const { query, limit = 30 } = request;
-        ChannelIntelligenceFetcher.fetchChannelDossier(query, limit)
+        const resolveBrowseTabId = () => new Promise((resolve) => {
+          if (sender?.tab?.id) return resolve(sender.tab.id);
+          if (!chrome.tabs?.query) return resolve(null);
+          chrome.tabs.query({ url: ['https://www.youtube.com/*', 'https://m.youtube.com/*'] }, (tabs) => {
+            const active = (tabs || []).find((t) => t.active) || tabs?.[0];
+            resolve(active?.id || null);
+          });
+        });
+        resolveBrowseTabId().then((tabId) => {
+          const browseFetcher = tabId && chrome.tabs?.sendMessage
+            ? (params) => new Promise((resolve) => {
+                chrome.tabs.sendMessage(tabId, { action: 'PROXY_INNERTUBE_BROWSE', ...params }, (res) => {
+                  if (chrome.runtime?.lastError || !res) return resolve({ ok: false, items: [] });
+                  resolve(res);
+                });
+              })
+            : null;
+          return ChannelIntelligenceFetcher.fetchChannelDossier(query, limit, { browseFetcher });
+        })
           .then(res => sendResponse(res))
           .catch(err => sendResponse({ success: false, error: err.message }));
         return true;
@@ -138,8 +156,8 @@ export class MessageRouter {
       }
 
       if (request.action === 'FETCH_BATCH_DOSSIERS') {
-        const { videoIds = [], lang = 'fr' } = request;
-        VideoDossierFetcher.fetchDossiersBatch(videoIds, lang)
+        const { videoIds = [], lang = 'fr', includeComments = true } = request;
+        VideoDossierFetcher.fetchDossiersBatch(videoIds, lang, { includeComments })
           .then(map => {
             const obj = {};
             for (const [k, v] of map.entries()) obj[k] = v;

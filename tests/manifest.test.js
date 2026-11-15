@@ -87,6 +87,16 @@ describe('Manifest V3 Structure & Integrity', () => {
     }
   });
 
+  it('declares both desktop www.youtube.com and mobile m.youtube.com matches', () => {
+    assert.ok(manifest.host_permissions.includes('https://www.youtube.com/*'));
+    assert.ok(manifest.host_permissions.includes('https://m.youtube.com/*'));
+    for (const cs of manifest.content_scripts) {
+      assert.ok(cs.matches.includes('https://www.youtube.com/*'));
+      assert.ok(cs.matches.includes('https://m.youtube.com/*'));
+    }
+    assert.ok(manifest.web_accessible_resources[0].matches.includes('https://m.youtube.com/*'));
+  });
+
   it('declares valid Chrome Web Store i18n localization structure', () => {
     assert.ok(manifest.default_locale, 'default_locale must be declared in manifest.json');
     assert.equal(manifest.default_locale, 'en', 'default_locale must default to "en"');
@@ -103,6 +113,8 @@ describe('Manifest V3 Structure & Integrity', () => {
       const messages = JSON.parse(raw);
       assert.ok(messages.appName && messages.appName.message, `locale "${locale}" must define appName.message`);
       assert.ok(messages.appDesc && messages.appDesc.message, `locale "${locale}" must define appDesc.message`);
+      assert.ok(messages.appName.message.length <= 75, `locale "${locale}" appName (${messages.appName.message.length}) must be <= 75 chars for CWS`);
+      assert.ok(messages.appDesc.message.length <= 132, `locale "${locale}" appDesc (${messages.appDesc.message.length}) must be <= 132 chars for CWS`);
     }
   });
 });

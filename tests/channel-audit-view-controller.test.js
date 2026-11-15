@@ -169,8 +169,8 @@ describe('ChannelAuditViewController - Rendering Channel Global Audit', () => {
       weaknesses: ['Vidéos denses demandant de l’attention'],
       drawbacks: ['Aucun piège constaté'],
       evaluatedVideos: [
-        { id: 'v1', title: 'Climatisation : désastre ?', score: 92, era: 'recent', comment: 'Très rigoureux' },
-        { id: 'v2', title: 'Chauffage au bois', score: 85, era: 'mid', comment: 'Analyse nuancée' }
+        { id: 'v1', title: 'Climatisation : désastre ?', score: 92, clickbait: 6, era: 'recent', comment: 'Très rigoureux' },
+        { id: 'v2', title: 'Chauffage au bois', score: 85, clickbait: 18, era: 'mid', comment: 'Analyse nuancée' }
       ],
       executiveSummary: 'Chaîne de vulgarisation de premier ordre.'
     });
@@ -187,9 +187,17 @@ describe('ChannelAuditViewController - Rendering Channel Global Audit', () => {
     assert.equal(gaugeNum.textContent, '88');
     assert.ok(container.querySelector('.yt-ai-gauge-circle.yt-ai-score-high'));
 
-    // Proportion bar segments
-    const relSegment = container.querySelector('.yt-ai-prop-reliable');
-    assert.equal(relSegment.style.width, '80%');
+    // Coarse 3-bucket proportion bar removed in favor of 5% histogram + dedicated sensationalism chart
+    assert.equal(container.querySelector('.yt-ai-proportion-bar'), null);
+    assert.equal(container.querySelectorAll('.yt-ai-dist-card .yt-ai-hist-col').length, 20);
+    assert.equal(container.querySelectorAll('.yt-ai-dist-card .yt-ai-hist-count').length, 2);
+
+    // Highlighted Sensationalism card with radial gauge, spectrum pin, and 5-bracket breakdown
+    assert.ok(container.querySelector('.yt-ai-sensation-card'));
+    assert.equal(container.querySelector('.yt-ai-sensation-val').textContent.trim(), '10%');
+    assert.ok(container.querySelector('.yt-ai-sensation-badge').textContent.includes('Accroches'));
+    assert.ok(container.querySelector('.yt-ai-sensation-marker').getAttribute('style').includes('left:10%'));
+    assert.equal(container.querySelectorAll('.yt-ai-sens-row').length, 5);
 
     // Trajectory badge
     const trajButton = container.querySelector('.yt-ai-traj-badge');
@@ -231,5 +239,15 @@ describe('ChannelAuditViewController - Rendering Channel Global Audit', () => {
     const controller = new ChannelAuditViewController();
     assert.doesNotThrow(() => controller.renderReport(null, document.createElement('div')));
     assert.doesNotThrow(() => controller.renderReport(new ChannelAuditReport(), null));
+  });
+
+  it('exposes renderChannelReport alias for compatibility with ChannelCompanionCard', () => {
+    const controller = new ChannelAuditViewController();
+    const container = document.createElement('div');
+    const report = new ChannelAuditReport({ globalScore: 90, trajectory: 'improving' });
+
+    assert.equal(typeof controller.renderChannelReport, 'function');
+    assert.doesNotThrow(() => controller.renderChannelReport(report, container, 'fr'));
+    assert.ok(container.querySelector('.yt-ai-channel-audit-wrapper'));
   });
 });

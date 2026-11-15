@@ -9,82 +9,144 @@ export class SettingsDrawerI18n {
    * @param {string} lang
    */
   static applyLanguage(lang) {
-    const t = I18N[lang] || I18N.en;
+    const fb = I18N.en;
+    const t = I18N[lang] || fb;
 
     const tabModel = document.getElementById('ytAiTabSettingsModelBtn');
-    if (tabModel) tabModel.textContent = t.tabSettingsModel || '🤖 AI Model & Server';
+    if (tabModel) tabModel.textContent = t.tabSettingsModel || fb.tabSettingsModel;
     const tabParams = document.getElementById('ytAiTabSettingsParamsBtn');
-    if (tabParams) tabParams.textContent = t.tabSettingsParams || '⚙️ Parameters & Prompt';
+    if (tabParams) tabParams.textContent = t.tabSettingsParams || fb.tabSettingsParams;
     const tabAudio = document.getElementById('ytAiTabSettingsAudioBtn');
-    if (tabAudio) tabAudio.textContent = t.tabSettingsAudio || '🎙️ Voice & Audio';
+    if (tabAudio) tabAudio.textContent = t.tabSettingsAudio || fb.tabSettingsAudio;
     const closeBtn = document.getElementById('ytAiSettingsCloseBtn');
-    if (closeBtn) closeBtn.title = t.settingsHideBtn || 'Close Settings';
+    if (closeBtn) closeBtn.title = t.settingsHideBtn || fb.settingsHideBtn;
 
     // Provider & Cloud / Local Settings
     const providerLabel = document.getElementById('ytAiProviderLabel');
-    if (providerLabel) providerLabel.textContent = t.providerLabel || 'AI Provider:';
+    if (providerLabel) providerLabel.textContent = t.providerLabel || fb.providerLabel;
+    const ogLocal = document.getElementById('ytAiOptGroupLocal');
+    if (ogLocal) {
+      const val = t.groupLocal || fb.groupLocal;
+      ogLocal.label = val;
+      ogLocal.setAttribute?.('label', val);
+    }
+    const ogFast = document.getElementById('ytAiOptGroupFast');
+    if (ogFast) {
+      const val = t.groupFast || fb.groupFast;
+      ogFast.label = val;
+      ogFast.setAttribute?.('label', val);
+    }
+    const ogCloud = document.getElementById('ytAiOptGroupCloud');
+    if (ogCloud) {
+      const val = t.groupCloud || fb.groupCloud;
+      ogCloud.label = val;
+      ogCloud.setAttribute?.('label', val);
+    }
+
     const serverLabel = document.getElementById('ytAiServerLabel');
-    if (serverLabel) serverLabel.textContent = t.serverLabel || 'Server:';
+    if (serverLabel) serverLabel.textContent = t.serverLabel || fb.serverLabel;
+    const customServerOpt = document.querySelector('#ytAiServerSelect option[value="custom"]');
+    if (customServerOpt) customServerOpt.textContent = t.customServer || fb.customServer;
+    const refreshBtn = document.getElementById('ytAiRefreshModelsBtn');
+    if (refreshBtn) refreshBtn.title = t.refreshTooltip || fb.refreshTooltip;
+
     const apiKeyLabel = document.getElementById('ytAiApiKeyLabel');
-    if (apiKeyLabel) apiKeyLabel.textContent = t.apiKeyLabel || 'API Key:';
+    if (apiKeyLabel) apiKeyLabel.textContent = t.apiKeyLabel || fb.apiKeyLabel;
     const apiKeyInput = document.getElementById('ytAiApiKeyInput');
-    if (apiKeyInput) apiKeyInput.placeholder = t.apiKeyPlaceholder || 'Paste your API key...';
+    if (apiKeyInput) apiKeyInput.placeholder = t.apiKeyPlaceholder || fb.apiKeyPlaceholder;
+    const pasteBtn = document.getElementById('ytAiPasteApiKeyBtn');
+    if (pasteBtn) {
+      pasteBtn.textContent = `📋 ${t.pasteBtn || fb.pasteBtn}`;
+      pasteBtn.title = t.pasteTooltip || fb.pasteTooltip;
+    }
+    const getKeyLink = document.getElementById('ytAiGetApiKeyLink');
+    if (getKeyLink) getKeyLink.textContent = t.getApiKeyLink || fb.getApiKeyLink;
+
     const modelLabel = document.getElementById('ytAiModelLabel');
-    if (modelLabel) modelLabel.textContent = t.modelLabel || 'Model:';
+    if (modelLabel) modelLabel.textContent = t.modelLabel || fb.modelLabel;
+    const emptyModelOpt = document.querySelector('#ytAiModelSelect option[value=""]');
+    if (emptyModelOpt) emptyModelOpt.textContent = t.modelLoading || fb.modelLoading;
     const testModelBtn = document.getElementById('ytAiTestModelBtn');
-    if (testModelBtn) testModelBtn.textContent = t.testModelBtn || '⚡ Test';
+    if (testModelBtn) {
+      testModelBtn.textContent = t.testModelBtn || fb.testModelBtn;
+      testModelBtn.title = t.testModelTooltip || fb.testModelTooltip;
+    }
 
     // Parameters Subpane
     const tempLabel = document.getElementById('ytAiTempLabel');
-    if (tempLabel) tempLabel.textContent = t.tempLabel || 'AI Creativity (Temperature):';
+    if (tempLabel) tempLabel.textContent = t.tempLabel || fb.tempLabel;
     const tempSelect = document.getElementById('ytAiTemperatureSelect');
     if (tempSelect) {
-      const opt0 = tempSelect.querySelector('option[value="0.0"]');
-      if (opt0) opt0.textContent = t.tempStrict || '0.0 - Strict & Precise';
-      const opt3 = tempSelect.querySelector('option[value="0.3"]');
-      if (opt3) opt3.textContent = t.tempBalanced || '0.3 - Balanced (Default)';
-      const opt7 = tempSelect.querySelector('option[value="0.7"]');
-      if (opt7) opt7.textContent = t.tempCreative || '0.7 - Creative & Detailed';
-      const opt1 = tempSelect.querySelector('option[value="1.0"]');
-      if (opt1) opt1.textContent = t.tempWild || '1.0 - Highly Inventive';
+      const tempOpts = [
+        ['0.0', t.tempStrict || fb.tempStrict],
+        ['0.3', t.tempBalanced || fb.tempBalanced],
+        ['0.7', t.tempCreative || fb.tempCreative],
+        ['1.0', t.tempWild || fb.tempWild]
+      ];
+      tempOpts.forEach(([val, label]) => {
+        const opt = tempSelect.querySelector(`option[value="${val}"]`);
+        if (opt) opt.textContent = label;
+      });
     }
 
     const maxTokensLabel = document.getElementById('ytAiMaxTokensLabel');
-    if (maxTokensLabel) maxTokensLabel.textContent = t.maxTokensLabel || 'Max Length (Tokens):';
+    if (maxTokensLabel) maxTokensLabel.textContent = t.maxTokensLabel || fb.maxTokensLabel;
     const tokensSelect = document.getElementById('ytAiMaxTokensSelect');
     if (tokensSelect) {
-      const optAuto = tokensSelect.querySelector('option[value="auto"]');
-      if (optAuto) optAuto.textContent = t.tokensAuto || 'Automatic (Default)';
-      const opt1k = tokensSelect.querySelector('option[value="1024"]');
-      if (opt1k) opt1k.textContent = t.tokensShort || 'Short (1,024)';
-      const opt2k = tokensSelect.querySelector('option[value="2048"]');
-      if (opt2k) opt2k.textContent = t.tokensStandard || 'Standard (2,048)';
-      const opt4k = tokensSelect.querySelector('option[value="4096"]');
-      if (opt4k) opt4k.textContent = t.tokensDetailed || 'Detailed (4,096)';
-      const opt8k = tokensSelect.querySelector('option[value="8192"]');
-      if (opt8k) opt8k.textContent = t.tokensMax || 'Maximum (8,192)';
+      const tokenOpts = [
+        ['auto', t.tokensAuto || fb.tokensAuto],
+        ['1024', t.tokensShort || fb.tokensShort],
+        ['2048', t.tokensStandard || fb.tokensStandard],
+        ['4096', t.tokensDetailed || fb.tokensDetailed],
+        ['8192', t.tokensMax || fb.tokensMax]
+      ];
+      tokenOpts.forEach(([val, label]) => {
+        const opt = tokensSelect.querySelector(`option[value="${val}"]`);
+        if (opt) opt.textContent = label;
+      });
     }
 
     const autoSummarizeLabel = document.getElementById('ytAiAutoSummarizeLabel');
-    if (autoSummarizeLabel) autoSummarizeLabel.textContent = t.autoSummarizeLabel || 'Auto-summarize';
+    if (autoSummarizeLabel) autoSummarizeLabel.textContent = t.autoSummarizeLabel || fb.autoSummarizeLabel;
     const customPromptLabel = document.getElementById('ytAiCustomPromptLabel');
-    if (customPromptLabel) customPromptLabel.textContent = t.customPromptLabel || 'Custom AI Instructions:';
+    if (customPromptLabel) customPromptLabel.textContent = t.customPromptLabel || fb.customPromptLabel;
     const customPromptInput = document.getElementById('ytAiCustomPromptInput');
-    if (customPromptInput) customPromptInput.placeholder = t.customPromptPlaceholder || 'e.g. Focus on technical details...';
+    if (customPromptInput) customPromptInput.placeholder = t.customPromptPlaceholder || fb.customPromptPlaceholder;
 
     // Voice & Audio Subpane
     const voiceLabel = document.getElementById('ytAiVoiceLabel');
-    if (voiceLabel) voiceLabel.textContent = t.voiceSelectLabel || 'Voice:';
+    if (voiceLabel) voiceLabel.textContent = t.voiceLabel || fb.voiceLabel;
+    const defaultVoiceOpt = document.querySelector('#ytAiVoiceSelect option[value=""]');
+    if (defaultVoiceOpt) defaultVoiceOpt.textContent = t.voiceDefault || fb.voiceDefault;
+
     const ttsSpeedLabel = document.getElementById('ytAiTtsSpeedLabel');
-    if (ttsSpeedLabel) ttsSpeedLabel.textContent = t.ttsSpeedLabel || 'Voice Speed:';
-    const testSpeechBtn = document.getElementById('ytAiTestSpeechBtn');
-    if (testSpeechBtn) testSpeechBtn.textContent = t.testTtsBtn || '🔊 Test Voice';
+    if (ttsSpeedLabel) ttsSpeedLabel.textContent = t.ttsSpeedLabel || fb.ttsSpeedLabel;
+    const speedSelect = document.getElementById('ytAiTtsSpeedSelect');
+    if (speedSelect) {
+      const speedOpts = [
+        ['0.75', t.speedSlow || fb.speedSlow],
+        ['1.0', t.speedNormal || fb.speedNormal],
+        ['1.25', t.speedFast || fb.speedFast],
+        ['1.5', t.speedVeryFast || fb.speedVeryFast],
+        ['2.0', t.speedDouble || fb.speedDouble]
+      ];
+      speedOpts.forEach(([val, label]) => {
+        const opt = speedSelect.querySelector(`option[value="${val}"]`);
+        if (opt) opt.textContent = label;
+      });
+    }
+
+    const micLabel = document.getElementById('ytAiMicLabel');
+    if (micLabel) micLabel.textContent = t.micLabel || fb.micLabel;
+    const defaultMicOpt = document.querySelector('#ytAiMicSelect option[value=""]');
+    if (defaultMicOpt) defaultMicOpt.textContent = t.micDefault || fb.micDefault;
+
     const whisperUrlLabel = document.getElementById('ytAiWhisperUrlLabel');
-    if (whisperUrlLabel) whisperUrlLabel.textContent = t.whisperUrlLabel || 'Local Whisper Server:';
+    if (whisperUrlLabel) whisperUrlLabel.textContent = t.whisperUrlLabel || fb.whisperUrlLabel;
     const whisperUrlInput = document.getElementById('ytAiWhisperUrlInput');
-    if (whisperUrlInput) whisperUrlInput.placeholder = t.whisperUrlPlaceholder || 'e.g. http://localhost:8000/...';
+    if (whisperUrlInput) whisperUrlInput.placeholder = t.whisperUrlPlaceholder || fb.whisperUrlPlaceholder;
     const testWhisperBtn = document.getElementById('ytAiTestWhisperBtn');
-    if (testWhisperBtn) testWhisperBtn.textContent = t.testSttBtn || '⚡ Test STT';
+    if (testWhisperBtn) testWhisperBtn.textContent = t.testSttBtn || fb.testSttBtn;
   }
 }
 

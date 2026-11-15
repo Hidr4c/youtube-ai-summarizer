@@ -12,11 +12,16 @@ export class BackgroundTranscriptFetcher {
   static async fetchTranscript(videoId, lang = 'fr') {
     if (!videoId) return { success: false, error: 'No videoId provided' };
 
+    let chapterFallback = null;
+
     // 1. Fast path: Direct watch page fetch (< 300ms)
     try {
       const fastResult = await BackgroundTranscriptFetcher.fetchDirect(videoId, lang);
       if (fastResult?.segments?.length > 0) {
-        return { success: true, segments: fastResult.segments, title: fastResult.title };
+        if (!fastResult.isChapterOnly) {
+          return { success: true, segments: fastResult.segments, title: fastResult.title, isChapterOnly: false };
+        }
+        chapterFallback = fastResult;
       }
     } catch (_) {}
 
@@ -25,9 +30,14 @@ export class BackgroundTranscriptFetcher {
       try {
         const tabResult = await BackgroundTranscriptFetcher.fetchViaBackgroundTab(videoId, lang);
         if (tabResult?.segments?.length > 0) {
-          return { success: true, segments: tabResult.segments, title: tabResult.title };
+          return { success: true, segments: tabResult.segments, title: tabResult.title, isChapterOnly: !!tabResult.isChapterOnly };
         }
       } catch (_) {}
+    }
+
+    // 3. Fallback to description chapters if dialogue subtitles were completely unserved
+    if (chapterFallback?.segments?.length > 0) {
+      return { success: true, segments: chapterFallback.segments, title: chapterFallback.title, isChapterOnly: true };
     }
 
     return { success: false, error: 'Unable to extract transcript for video ' + videoId };
@@ -48,13 +58,13 @@ export class BackgroundTranscriptFetcher {
     // 1. Try timedtext captions
     const timedtextSegments = await BackgroundTranscriptFetcher.extractTimedtextFromHtml(html, lang);
     if (timedtextSegments?.length > 0) {
-      return { title, segments: timedtextSegments };
+      return { title, segments: timedtextSegments, isChapterOnly: false };
     }
 
     // 2. Try chapters from ytInitialData
     const chapters = BackgroundTranscriptFetcher.extractChaptersFromHtml(html);
     if (chapters?.length > 0) {
-      return { title, segments: chapters };
+      return { title, segments: chapters, isChapterOnly: true };
     }
 
     return null;
@@ -176,7 +186,7 @@ export class BackgroundTranscriptFetcher {
                     return m ? { timestamp: m[1], text: m[2] } : { timestamp: '', text: el.innerText };
                   }).filter(s => s.text);
                   if (segments.length > 0) {
-                    return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, '').trim(), segments };
+                    return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, '').trim(), segments, isChapterOnly: false };
                   }
                 }
 
@@ -206,7 +216,7 @@ export class BackgroundTranscriptFetcher {
                       return { timestamp: timeEl?.textContent?.trim() || '', text: textEl?.textContent?.trim() || '' };
                     }).filter(s => s.text);
                     if (segments.length > 0) {
-                      return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, '').trim(), segments };
+                      return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, '').trim(), segments, isChapterOnly: false };
                     }
                   }
                 }
@@ -228,7 +238,7 @@ export class BackgroundTranscriptFetcher {
                   }
                 }
                 if (chapters.length > 0) {
-                  return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, '').trim(), segments: chapters };
+                  return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, '').trim(), segments: chapters, isChapterOnly: true };
                 }
 
                 // Fallback to DOM macro markers
@@ -240,7 +250,7 @@ export class BackgroundTranscriptFetcher {
                     return { timestamp: timeEl?.textContent?.trim() || '', text: titleEl?.textContent?.trim() || '' };
                   }).filter(c => c.timestamp && c.text);
                   if (domChapters.length > 0) {
-                    return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, '').trim(), segments: domChapters };
+                    return { title: document.title.replace(/\s*-\s*YouTube\s*$/i, '').trim(), segments: domChapters, isChapterOnly: true };
                   }
                 }
 

@@ -4,7 +4,7 @@
     "description": "The extension name displayed in the Chrome Web Store and browser."
   },
   "appDesc": {
-    "message": "Summarize YouTube videos locally (LM Studio, Ollama) or Cloud (Gemini, Groq, GPT-4o). Interactive Q&A chat, voice STT & TTS audio.",
+    "message": "AI YouTube summaries, fact-check & channel audits, and Q&A chat. 100% local (LM Studio, Ollama) or Cloud, voice STT & TTS.",
     "description": "Short extension description displayed in the Chrome Web Store."
   }
 }

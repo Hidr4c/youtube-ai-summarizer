@@ -1,293 +1,289 @@
 import { ChannelStatisticalSampler } from '../../services/implementations/ChannelStatisticalSampler.js';
 import { ChannelAuditPromptBuilder } from '../../services/implementations/ChannelAuditPromptBuilder.js';
 import { ChannelAuditReport } from '../../domain/models/ChannelAuditReport.js';
+import { parseChannelAuditLimit } from '../../config/ExtensionConstants.js';
+import { ChannelAuditBatchRunner } from './ChannelAuditBatchRunner.js';
+import { ChannelAuditJobTracker } from './ChannelAuditJobTracker.js';
+import { ChannelAuditStreamClient } from './ChannelAuditStreamClient.js';
 
 /**
- * Service for orchestrating consolidated statistical channel audits
- * Analyzes multi-video samples in a single AI round-trip with recency weighting
+ * Orchestrates consolidated statistical channel audits with SPA navigation recovery,
+ * instant cancellation via AbortSignal, and persisted report hydration.
  */
 export class ChannelAuditService {
-  /**
-   * @param {Object} [dependencies]
-   * @param {Object} [dependencies.channelManager]
-   */
   constructor(dependencies = {}) {
     this.channelManager = dependencies.channelManager;
     this.cachedReports = new Map();
+    this.listeners = new Set();
+    this.activeJob = null;
     this.currentPort = null;
     this.isAuditing = false;
+    this._hydratedPromise = ChannelAuditJobTracker.hydrateReports(this.cachedReports);
   }
 
-  /**
-   * Retrieves cached audit report for a given channel query/handle
-   * @param {string} query
-   * @returns {ChannelAuditReport|null}
-   */
-  getCachedReport(query) {
+  subscribe(listener) {
+    if (typeof listener !== 'function') return () => {};
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  }
+
+  _emit(event) {
+    for (const fn of this.listeners) {
+      try { fn(event); } catch (_) {}
+    }
+  }
+
+  getActiveJob(channelQuery = null) {
+    if (!this.activeJob || this.activeJob.status !== 'running') return null;
+    if (!channelQuery) return this.activeJob;
+    const targetKey = ChannelAuditJobTracker.normalizeKey(channelQuery);
+    if (!targetKey) return null;
+    return (this.activeJob.channelKey === targetKey || this.activeJob.handleKey === targetKey)
+      ? this.activeJob
+      : null;
+  }
+
+  isAuditRunning(channelQuery = null) {
+    return Boolean(this.getActiveJob(channelQuery));
+  }
+
+  async ensureHydrated() {
+    if (this._hydratedPromise) await this._hydratedPromise.catch(() => {});
+  }
+
+  getCachedReport(query, period = null, maxVideos = null) {
     if (!query) return null;
     const key = String(query).trim().toLowerCase();
-    return this.cachedReports.get(key) || null;
+    const norm = ChannelAuditJobTracker.normalizeKey(query);
+    if (period !== null || maxVideos !== null) {
+      const parsed = parseChannelAuditLimit(maxVideos ?? 30);
+      return this.cachedReports.get(`${key}::${period || 'all'}::${parsed.key}`)
+        || (norm ? this.cachedReports.get(`${norm}::${period || 'all'}::${parsed.key}`) : null)
+        || null;
+    }
+    return this.cachedReports.get(key) || (norm ? this.cachedReports.get(norm) : null) || null;
   }
 
-  /**
-   * Clears active in-memory cache
-   */
   clearCache() {
     this.cachedReports.clear();
+    ChannelAuditJobTracker.clearPersistedReports();
   }
 
-  /**
-   * Aborts ongoing channel audit stream
-   */
-  abortAudit() {
+  abortAudit(reason = 'stopped') {
+    if (this.activeJob) {
+      this.activeJob.abortReason = reason;
+      this.activeJob.status = 'aborted';
+      try { this.activeJob.abortController?.abort(reason); } catch (_) {}
+    }
     if (this.currentPort) {
-      try {
-        this.currentPort.disconnect();
-      } catch (_) {}
+      try { this.currentPort.disconnect(); } catch (_) {}
       this.currentPort = null;
     }
     this.isAuditing = false;
   }
 
-  /**
-   * Executes a consolidated statistical audit for a channel
-   * @param {Object} options
-   * @param {string} options.channelQuery - Channel handle (@name) or URL
-   * @param {string} [options.lang='fr']
-   * @param {Object} options.state - InPageState instance
-   * @param {Function} [options.onChunk] - Stream chunk callback
-   * @param {Function} [options.onProgress] - Status update callback
-   * @returns {Promise<ChannelAuditReport>}
-   */
   async executeChannelAudit(options = {}) {
     const { channelQuery, period = 'all', lang = 'fr', state = {} } = options;
-    if (!channelQuery) {
-      throw new Error('Identifiant ou URL de chaîne manquant pour l’audit');
-    }
+    const parsedLimit = parseChannelAuditLimit(options.maxVideos ?? state.channelAuditMaxVideos ?? 30);
+    const maxSample = parsedLimit.fetchCap;
+    const fetchLimit = parsedLimit.isAll ? parsedLimit.fetchCap : (period !== 'all' ? Math.max(90, maxSample) : Math.max(30, maxSample));
+    if (!channelQuery) throw new Error('Identifiant ou URL de chaîne manquant pour l’audit');
 
-    const cacheKey = `${String(channelQuery).trim().toLowerCase()}::${period}`;
-    if (this.cachedReports.has(cacheKey)) {
-      return this.cachedReports.get(cacheKey);
-    }
+    await this.ensureHydrated();
+    const qNorm = String(channelQuery).trim().toLowerCase();
+    const channelKey = ChannelAuditJobTracker.normalizeKey(channelQuery) || qNorm;
+    const cacheKey = `${channelKey}::${period}::${parsedLimit.key}`;
+    const existing = this.getCachedReport(channelQuery, period, parsedLimit.key);
+    if (existing) return existing;
 
-    this.abortAudit();
+    this.abortAudit('superseded');
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+    const job = {
+      id: `audit_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      channelQuery,
+      channelKey,
+      handleKey: channelKey,
+      period,
+      maxVideos: parsedLimit.key,
+      lang,
+      status: 'running',
+      progress: {
+        step: 'fetch',
+        percent: 8,
+        message: lang.startsWith('fr') ? 'Collecte du dossier de la chaîne...' : 'Fetching channel catalog...',
+        detail: parsedLimit.isAll ? (lang.startsWith('fr') ? 'Indexation du catalogue complet' : 'Full catalog indexing') : `${maxSample} max`
+      },
+      abortController,
+      startedAt: Date.now()
+    };
+    this.activeJob = job;
     this.isAuditing = true;
 
+    const emitProgress = (p) => {
+      if (!p || signal.aborted || this.activeJob?.id !== job.id) return;
+      job.progress = { ...p };
+      options.onProgress?.(job.progress);
+      this._emit({ type: 'progress', job, progress: job.progress });
+    };
+    this._emit({ type: 'started', job, progress: job.progress });
+
     try {
-      options.onProgress?.({
-        step: 'fetch',
-        percent: 10,
-        message: 'Collecte du dossier de la chaîne et des vidéos...',
-        detail: 'Recueil des métadonnées et descriptions (0 coupure)'
-      });
-
-      // 1. Fetch channel dossier & video catalog
-      let channelData = null;
-      if (this.channelManager && typeof this.channelManager.getOrFetchChannelDossier === 'function') {
-        const res = await this.channelManager.getOrFetchChannelDossier(channelQuery, 30);
-        if (res && res.success && res.channel) {
-          channelData = res.channel;
-        }
+      emitProgress(job.progress);
+      const channelData = await ChannelAuditJobTracker.raceWithAbort(
+        this._resolveChannelDossier(channelQuery, fetchLimit),
+        signal,
+        lang
+      );
+      ChannelAuditJobTracker.throwIfAborted(signal, lang);
+      if (channelData.handle) {
+        job.handleKey = ChannelAuditJobTracker.normalizeKey(channelData.handle) || job.channelKey;
       }
 
-      if (!channelData) {
-        const bgRes = await new Promise((resolve) => {
-          if (typeof chrome !== 'undefined' && chrome.runtime?.sendMessage) {
-            chrome.runtime.sendMessage(
-              { action: 'FETCH_CHANNEL_DOSSIER', query: channelQuery, limit: 30 },
-              (res) => resolve(res || { success: false, error: 'No response' })
-            );
-          } else {
-            resolve({ success: false, error: 'Runtime unavailable' });
-          }
-        });
-        if (bgRes?.success && bgRes.channel) {
-          channelData = bgRes.channel;
-        } else {
-          throw new Error(bgRes?.error || `Impossible de récupérer les vidéos pour : ${channelQuery}`);
-        }
-      }
-
-      // 2. Select stratified statistical sample filtered by requested period
-      options.onProgress?.({
+      emitProgress({
         step: 'sample',
         percent: 18,
-        message: 'Échantillonnage statistique (pondération temporelle)...',
-        detail: `Sélection des vidéos représentatives (${period === 'all' ? 'récent ~65%, historique ~35%' : period})`
+        message: lang.startsWith('fr') ? 'Échantillonnage statistique (pondération temporelle)...' : 'Statistical stratified sampling...',
+        detail: `${period === 'all' ? 'récent ~65%, historique ~35%' : period}`
       });
       const allVideos = channelData.recentVideos || [];
       const filteredVideos = ChannelStatisticalSampler.filterVideosByPeriod(allVideos, period);
       const sampledVideos = ChannelStatisticalSampler.selectStratifiedSample(
         filteredVideos.length > 0 ? filteredVideos : allVideos,
-        { maxSample: 10 }
+        { maxSample }
       );
+      if (sampledVideos.length === 0) throw new Error('Aucune vidéo trouvée sur cette chaîne pour constituer un échantillon.');
 
-      if (sampledVideos.length === 0) {
-        throw new Error('Aucune vidéo trouvée sur cette chaîne pour constituer un échantillon.');
+      await this._enrichSampledVideos(sampledVideos, lang, emitProgress, signal);
+      ChannelAuditJobTracker.throwIfAborted(signal, lang);
+
+      let accumulatedText = '';
+      if (sampledVideos.length > 30) {
+        accumulatedText = await ChannelAuditBatchRunner.run({
+          channel: channelData,
+          sampledVideos,
+          lang,
+          state,
+          streamFn: (params) => this._streamAI(params),
+          onChunk: options.onChunk,
+          onProgress: emitProgress,
+          signal
+        });
+      } else {
+        emitProgress({
+          step: 'prompt',
+          percent: 24,
+          message: `Lancement de l'examen des ${sampledVideos.length} vidéos...`,
+          detail: 'Préparation du dossier consolidé pour le modèle'
+        });
+        accumulatedText = await this._streamAI({
+          systemPrompt: ChannelAuditPromptBuilder.buildSystemPrompt(lang),
+          userPrompt: ChannelAuditPromptBuilder.buildUserPrompt(channelData, sampledVideos, lang),
+          state,
+          totalVideos: sampledVideos.length,
+          onChunk: options.onChunk,
+          onProgress: emitProgress,
+          signal
+        });
       }
+      ChannelAuditJobTracker.throwIfAborted(signal, lang);
 
-      // 2b. Enrich sample with rich dossiers (descriptions, chapters, sources)
-      options.onProgress?.({
-        step: 'enrich',
-        percent: 21,
-        message: `Collecte approfondie des ${sampledVideos.length} vidéos...`,
-        detail: 'Recueil des descriptions, chapitres, sources et partenaires'
-      });
-      const videoIds = sampledVideos.map(v => v.id).filter(Boolean);
-      if (videoIds.length > 0 && typeof chrome !== 'undefined' && chrome.runtime?.sendMessage) {
-        try {
-          const enrichRes = await new Promise((resolve) => {
-            chrome.runtime.sendMessage({ action: 'FETCH_BATCH_DOSSIERS', videoIds, lang }, (r) => {
-              resolve(r || {});
-            });
-          });
-          if (enrichRes?.success && enrichRes.dossiers) {
-            sampledVideos.forEach(v => {
-              const d = enrichRes.dossiers[v.id];
-              if (d) {
-                if (d.description) v.description = d.description;
-                if (Array.isArray(d.chapters) && d.chapters.length > 0) v.chapters = d.chapters;
-                if (d.hasCaptions !== undefined) v.hasCaptions = d.hasCaptions;
-                if (Array.isArray(d.comments) && d.comments.length > 0) v.comments = d.comments;
-              }
-            });
-          }
-        } catch (_) {}
-      }
-
-      // 3. Build consolidated prompts
-      options.onProgress?.({
-        step: 'prompt',
-        percent: 24,
-        message: `Lancement de l'examen des ${sampledVideos.length} vidéos...`,
-        detail: 'Préparation du dossier consolidé pour le modèle'
-      });
-      const systemPrompt = ChannelAuditPromptBuilder.buildSystemPrompt(lang);
-      const userPrompt = ChannelAuditPromptBuilder.buildUserPrompt(channelData, sampledVideos, lang);
-
-      // 4. Single consolidated streaming call to background
-      const accumulatedText = await this._streamAI({
-        systemPrompt,
-        userPrompt,
-        state,
-        totalVideos: sampledVideos.length,
-        onChunk: options.onChunk,
-        onProgress: options.onProgress
-      });
-
-      // 5. Parse aggregate report
+      const exactChannelTotal = channelData.totalChannelVideos || (channelData.hasMore === false ? allVideos.length : null);
       const report = ChannelAuditReport.fromRawResponse(accumulatedText, {
         channel: channelData,
-        sampledVideos
+        sampledVideos,
+        totalAvailable: exactChannelTotal || allVideos.length,
+        requestedLimit: parsedLimit.key,
+        lang
       });
+      report.channelTotalVideos = exactChannelTotal;
 
-      this.cachedReports.set(cacheKey, report);
-      if (channelData.handle) {
-        this.cachedReports.set(channelData.handle.toLowerCase(), report);
-      }
+      this._storeReport(cacheKey, qNorm, channelKey, period, parsedLimit.key, channelData.handle, report);
 
-      return report;
-    } finally {
+      job.status = 'completed';
+      if (this.activeJob?.id === job.id) this.activeJob = null;
       this.isAuditing = false;
-      this.currentPort = null;
+      this._emit({ type: 'completed', job, report });
+      return report;
+    } catch (err) {
+      if (this.activeJob?.id === job.id) {
+        this.activeJob = null;
+        this.isAuditing = false;
+        this.currentPort = null;
+      }
+      if (ChannelAuditJobTracker.isAbortError(err)) {
+        job.status = 'aborted';
+        if (job.abortReason !== 'superseded') this._emit({ type: 'aborted', job, error: err });
+        throw err;
+      }
+      job.status = 'error';
+      this._emit({ type: 'error', job, error: err });
+      throw err;
     }
   }
 
-  /**
-   * Handles AI streaming via background port
-   * @private
-   */
-  async _streamAI({ systemPrompt, userPrompt, state, totalVideos = 10, onChunk, onProgress }) {
-    return new Promise((resolve, reject) => {
-      if (typeof chrome === 'undefined' || !chrome.runtime?.connect) {
-        return reject(new Error('Chrome runtime connect non disponible'));
+  _storeReport(cacheKey, qNorm, channelKey, period, limitKey, handle, report) {
+    this.cachedReports.set(cacheKey, report);
+    this.cachedReports.set(`${qNorm}::${period}::${limitKey}`, report);
+    this.cachedReports.set(qNorm, report);
+    this.cachedReports.set(channelKey, report);
+    if (handle) {
+      const handleLower = handle.toLowerCase();
+      this.cachedReports.set(`${handleLower}::${period}::${limitKey}`, report);
+      this.cachedReports.set(handleLower, report);
+    }
+    ChannelAuditJobTracker.persistReport(cacheKey, channelKey, report);
+  }
+
+  async _resolveChannelDossier(channelQuery, fetchLimit) {
+    if (typeof this.channelManager?.getOrFetchChannelDossier === 'function') {
+      const res = await this.channelManager.getOrFetchChannelDossier(channelQuery, fetchLimit);
+      if (res?.success && res.channel) return res.channel;
+    }
+    const bgRes = await new Promise((res) => {
+      if (typeof chrome !== 'undefined' && chrome.runtime?.sendMessage) {
+        chrome.runtime.sendMessage({ action: 'FETCH_CHANNEL_DOSSIER', query: channelQuery, limit: fetchLimit }, (r) => res(r || {}));
+      } else {
+        res({ success: false, error: 'Runtime unavailable' });
       }
+    });
+    if (!bgRes?.success || !bgRes.channel) throw new Error(bgRes?.error || `Impossible de récupérer les vidéos pour : ${channelQuery}`);
+    return bgRes.channel;
+  }
 
-      const activeModel = typeof state?.getActiveModel === 'function'
-        ? state.getActiveModel()
-        : (state?.selectedModel || 'default');
+  async _enrichSampledVideos(sampledVideos, lang, emitProgress, signal) {
+    const enrichPool = sampledVideos.length <= 35
+      ? sampledVideos
+      : sampledVideos.filter((_, i) => i % Math.ceil(sampledVideos.length / 35) === 0).slice(0, 35);
+    emitProgress({
+      step: 'enrich',
+      percent: 21,
+      message: `Collecte approfondie (${enrichPool.length}/${sampledVideos.length} vidéos)...`,
+      detail: 'Recueil des descriptions, chapitres et signaux éditoriaux'
+    });
+    const videoIds = enrichPool.map((v) => v.id).filter(Boolean);
+    if (videoIds.length === 0 || typeof chrome === 'undefined' || !chrome.runtime?.sendMessage) return;
+    try {
+      const enrichPromise = new Promise((res) => chrome.runtime.sendMessage(
+        { action: 'FETCH_BATCH_DOSSIERS', videoIds, lang, includeComments: sampledVideos.length <= 30 },
+        (r) => res(r || {})
+      ));
+      const enrichRes = await ChannelAuditJobTracker.raceWithAbort(enrichPromise, signal, lang);
+      if (enrichRes?.success && enrichRes.dossiers) {
+        enrichPool.forEach((v) => {
+          const d = enrichRes.dossiers[v.id];
+          if (d) Object.assign(v, { description: d.description || v.description, chapters: d.chapters || v.chapters, hasCaptions: d.hasCaptions ?? v.hasCaptions, comments: d.comments || v.comments });
+        });
+      }
+    } catch (err) {
+      if (ChannelAuditJobTracker.isAbortError(err)) throw err;
+    }
+  }
 
-      const port = chrome.runtime.connect({ name: 'ai_stream' });
-      this.currentPort = port;
-
-      let accumulated = '';
-      let analyzedCount = 0;
-      let isSynthesisStarted = false;
-
-      port.onMessage.addListener((msg) => {
-        if (msg.type === 'CHUNK') {
-          if (msg.reasoning) {
-            onProgress?.({
-              step: 'thinking',
-              percent: 26,
-              message: `Examen approfondi des vidéos en cours...`,
-              detail: 'Raisonnement critique du modèle sur les affirmations'
-            });
-          }
-          if (msg.content) {
-            accumulated += msg.content;
-            onChunk?.(msg.content, accumulated);
-
-            const evalMatches = accumulated.match(/(?:^|\n)\s*\d+\s*\|\s*\d+\s*\|/g);
-            const currentCount = evalMatches ? evalMatches.length : 0;
-            if (currentCount > analyzedCount) {
-              analyzedCount = Math.min(totalVideos, currentCount);
-            }
-
-            const basePct = 26 + Math.round((analyzedCount / totalVideos) * 62);
-            const microBonus = Math.min(3, Math.round(((accumulated.length % 500) / 500) * 3));
-            let percent = Math.min(88, basePct + microBonus);
-            let message = `Examen des vidéos (${analyzedCount} / ${totalVideos} analysées)`;
-            let detail = 'Examen de la rigueur des faits, des sources et de la transparence commerciale';
-
-            if (!isSynthesisStarted && (accumulated.includes('[SCORE_GLOBAL') || accumulated.includes('### [✓]') || accumulated.includes('### Synthèse'))) {
-              isSynthesisStarted = true;
-            }
-
-            if (isSynthesisStarted) {
-              percent = Math.max(percent, 92);
-              message = 'Examen final & calcul du score global de la chaîne';
-              detail = `Synthèse des ${totalVideos} vidéos, forces et trajectoire d'évolution`;
-            }
-
-            onProgress?.({
-              step: isSynthesisStarted ? 'synthesis' : 'evaluating',
-              percent,
-              message,
-              detail
-            });
-          }
-        } else if (msg.type === 'DONE') {
-          onProgress?.({
-            step: 'done',
-            percent: 100,
-            message: '✓ Examen de la chaîne terminé',
-            detail: 'Rapport d\'intégrité et statistiques disponibles'
-          });
-          resolve(accumulated);
-          resolve(accumulated);
-        } else if (msg.type === 'ERROR') {
-          reject(new Error(msg.error || 'Erreur lors de l’audit de la chaîne'));
-        }
-      });
-
-      port.onDisconnect.addListener(() => {
-        if (!accumulated && this.isAuditing) {
-          reject(new Error('Connexion interrompue avec l’IA'));
-        } else {
-          resolve(accumulated);
-        }
-      });
-
-      port.postMessage({
-        action: 'START_STREAM',
-        systemPrompt,
-        userPrompt,
-        provider: state?.currentProvider || 'lmstudio',
-        model: activeModel,
-        serverUrls: state?.serverUrls,
-        apiKeys: state?.apiKeys
-      });
+  _streamAI(params) {
+    return ChannelAuditStreamClient.stream({
+      ...params,
+      onPortCreated: (p) => { this.currentPort = p; }
     });
   }
 }

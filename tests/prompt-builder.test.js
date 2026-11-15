@@ -2,6 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { PromptBuilder } from '../src/services/implementations/PromptBuilder.js';
 import { PromptService } from '../src/content/services/PromptService.js';
+import { MarkdownRenderer } from '../src/content/ui/MarkdownRenderer.js';
 
 const builder = new PromptBuilder();
 
@@ -147,5 +148,38 @@ describe('Prompt Generation & Context Compression', () => {
 
     assert.ok(prompt.includes('PREVIOUSLY GENERATED VIDEO SUMMARY'), 'Must include summary section');
     assert.ok(prompt.includes('Quantum gates manipulate qubits'), 'Must contain actual summary markdown text');
+  });
+
+  it('PromptService instructs AI to avoid flat walls of text and MarkdownRenderer formats rich Q&A blocks', () => {
+    const prompt = PromptService.buildChatSystemPrompt({ title: 'T', author: 'A' }, 'Transcript', 'fr', 'standard');
+    assert.ok(prompt.includes('SCANNABLE & STRUCTURED MARKDOWN'), 'Must enforce structured formatting');
+    assert.ok(!prompt.includes('without disjointed lists'), 'Must not forbid structured lists');
+
+    const richMd = [
+      '### Points clés',
+      '- **Transparence :** Très bonne',
+      '#### Sous-analyse',
+      '1. Étape un',
+      '2. Étape deux',
+      '> Citation importante [1:23]',
+      '',
+      '| Critère | Note |',
+      '|---|---|',
+      '| Sources | 9/10 |',
+      '',
+      '---',
+      '```js',
+      'const x = 1;',
+      '```'
+    ].join('\n');
+
+    const html = MarkdownRenderer.renderMarkdown(richMd, null);
+    assert.ok(html.includes('<h3>Points clés</h3>'));
+    assert.ok(html.includes('<h4>Sous-analyse</h4>'));
+    assert.ok(html.includes('<ol class="yt-ai-ordered-list">'));
+    assert.ok(html.includes('<blockquote class="yt-ai-blockquote">'));
+    assert.ok(html.includes('<table class="yt-ai-md-table">'));
+    assert.ok(html.includes('<hr class="yt-ai-md-hr">'));
+    assert.ok(html.includes('<pre class="yt-ai-code-block"><code>const x = 1;</code></pre>'));
   });
 });

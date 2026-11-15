@@ -2,8 +2,10 @@
   "manifest_version": 3,
   "name": "__MSG_appName__",
   "default_locale": "en",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "__MSG_appDesc__",
+  "author": "Hidr4c",
+  "homepage_url": "https://github.com/Hidr4c/youtube-ai-summarizer",
   "permissions": [
     "activeTab",
     "scripting",
@@ -12,6 +14,7 @@
   ],
   "host_permissions": [
     "https://www.youtube.com/*",
+    "https://m.youtube.com/*",
     "*://*/*"
   ],
   "background": {
@@ -33,7 +36,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.youtube.com/*"
+        "https://www.youtube.com/*",
+        "https://m.youtube.com/*"
       ],
       "js": [
         "dist/main_world.js"
@@ -43,7 +47,8 @@
     },
     {
       "matches": [
-        "https://www.youtube.com/*"
+        "https://www.youtube.com/*",
+        "https://m.youtube.com/*"
       ],
       "js": [
         "dist/content.js"
@@ -60,7 +65,8 @@
         "dist/main_world.js"
       ],
       "matches": [
-        "https://www.youtube.com/*"
+        "https://www.youtube.com/*",
+        "https://m.youtube.com/*"
       ]
     }
   ]

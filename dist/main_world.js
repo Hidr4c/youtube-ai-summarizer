@@ -13,7 +13,7 @@
   };
 
   // src/parsers/InnerTubeParser.js
-  var InnerTubeParser = class {
+  var InnerTubeParser = class _InnerTubeParser {
     /**
      * Formats milliseconds into m:ss
      * @param {number} ms
@@ -57,11 +57,25 @@
         }
         const vm = node.transcriptSegmentViewModel;
         if (vm) {
-          const time = vm.startTimeText?.content || (typeof vm.startTimeText === "string" ? vm.startTimeText : "");
-          let text = "";
-          if (vm.snippet) {
+          const time = vm.timestamp || vm.startTimeText?.content || (typeof vm.startTimeText === "string" ? vm.startTimeText : "");
+          let text = vm.simpleText || "";
+          if (!text && vm.snippet) {
             text = vm.snippet.content || (vm.snippet.runs || []).map((r) => r.text || "").join("") || (typeof vm.snippet === "string" ? vm.snippet : "");
           }
+          if (time && text) {
+            const cleaned = TextCleaner.cleanTranscriptText(text);
+            const key = `${time}|${cleaned.slice(0, 30)}`;
+            if (!seenSpeech.has(key)) {
+              seenSpeech.add(key);
+              speechSegments.push({ timestamp: time.trim(), text: cleaned });
+            }
+          }
+        }
+        const cue = node.transcriptCueRenderer;
+        if (cue) {
+          const ms = parseInt(cue.startOffsetMs || "0", 10);
+          const time = _InnerTubeParser.formatMs(ms);
+          const text = cue.cue?.simpleText || (cue.cue?.runs || []).map((r) => r.text || "").join("") || (typeof cue.cue === "string" ? cue.cue : "");
           if (time && text) {
             const cleaned = TextCleaner.cleanTranscriptText(text);
             const key = `${time}|${cleaned.slice(0, 30)}`;
@@ -247,10 +261,29 @@
     /**
      * Fetches timedtext segments in memory with 3.5s timeout
      * @param {string} baseUrl
+     * @param {string} [preferredLang=null]
      * @returns {Promise<Array<{timestamp: string, text: string}> | null>}
      */
-    static async fetchTrackSegments(baseUrl) {
+    static async fetchTrackSegments(baseUrl, preferredLang = null) {
       if (!baseUrl) return null;
+      if (preferredLang && !baseUrl.includes(`lang=${preferredLang}`)) {
+        try {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 3500);
+          const transUrl = baseUrl + (baseUrl.includes("?") ? "&" : "?") + `tlang=${preferredLang}&fmt=json3`;
+          const res = await fetch(transUrl, { credentials: "include", signal: controller.signal });
+          clearTimeout(timer);
+          if (res.ok) {
+            const raw = await res.text();
+            if (raw && raw.trim().startsWith("{")) {
+              const json = JSON.parse(raw);
+              const segs = TimedtextParser.parseTimedtextEvents(json?.events);
+              if (segs && segs.length > 0) return segs;
+            }
+          }
+        } catch (_) {
+        }
+      }
       try {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 3500);
@@ -289,13 +322,8 @@
     }
   };
 
-  // src/injected/InnerTubeBridge.js
-  var InnerTubeBridge = class _InnerTubeBridge {
-    /**
-     * Finds transcript params in YouTube memory structures
-     * @param {string} [requestedVideoId]
-     * @returns {{ type: string, params?: string, continuation?: string } | null}
-     */
+  // src/injected/ProtobufHelper.js
+  var ProtobufHelper = class _ProtobufHelper {
     /**
      * Encodes variable integer according to protobuf specifications
      * @param {number} val
@@ -320,27 +348,75 @@
     static encodeField(fieldNumber, strOrBytes) {
       const bytes = typeof strOrBytes === "string" ? Array.from(new TextEncoder().encode(strOrBytes)) : strOrBytes;
       const tag = fieldNumber << 3 | 2;
-      return [..._InnerTubeBridge.encodeVarint(tag), ..._InnerTubeBridge.encodeVarint(bytes.length), ...bytes];
+      return [..._ProtobufHelper.encodeVarint(tag), ..._ProtobufHelper.encodeVarint(bytes.length), ...bytes];
     }
     /**
-     * Synthesizes valid protobuf params string for InnerTube get_transcript API
+     * Synthesizes valid protobuf params string for legacy InnerTube get_transcript API
      * @param {string} videoId
-     * @param {string} [lang=""]
-     * @param {string} [kind="asr"]
+     * @param {string} [lang='']
+     * @param {string} [kind='asr']
      * @returns {string|null}
      */
     static generateTranscriptParams(videoId, lang = "", kind = "asr") {
       if (!videoId) return null;
       const inner = [];
-      if (kind) inner.push(..._InnerTubeBridge.encodeField(1, kind));
-      if (lang) inner.push(..._InnerTubeBridge.encodeField(2, lang));
+      if (kind) inner.push(..._ProtobufHelper.encodeField(1, kind));
+      if (lang) inner.push(..._ProtobufHelper.encodeField(2, lang));
       const outer = [
-        ..._InnerTubeBridge.encodeField(1, videoId),
-        ...inner.length > 0 ? _InnerTubeBridge.encodeField(2, inner) : []
+        ..._ProtobufHelper.encodeField(1, videoId),
+        ...inner.length > 0 ? _ProtobufHelper.encodeField(2, inner) : []
       ];
       let binary = "";
       for (let i = 0; i < outer.length; i++) binary += String.fromCharCode(outer[i]);
       return btoa(binary);
+    }
+    /**
+     * Synthesizes deterministic protobuf params for modern InnerTube get_panel API (PAmodern_transcript_view)
+     * Field 149 = { field 1: videoId, field 3: 1 }
+     * @param {string} videoId
+     * @returns {string|null}
+     */
+    static generateModernTranscriptPanelParams(videoId) {
+      if (!videoId) return null;
+      const idBytes = Array.from(new TextEncoder().encode(videoId));
+      const inner = [
+        10,
+        idBytes.length,
+        ...idBytes,
+        24,
+        1
+      ];
+      const outer = [
+        170,
+        9,
+        inner.length,
+        ...inner
+      ];
+      let binary = "";
+      for (let i = 0; i < outer.length; i++) binary += String.fromCharCode(outer[i]);
+      return btoa(binary);
+    }
+  };
+
+  // src/injected/InnerTubeBridge.js
+  var InnerTubeBridge = class _InnerTubeBridge {
+    static _youtubeOrigin() {
+      if (typeof window !== "undefined" && window.location?.origin?.includes("youtube.com")) {
+        return window.location.origin;
+      }
+      return "https://www.youtube.com";
+    }
+    static encodeVarint(val) {
+      return ProtobufHelper.encodeVarint(val);
+    }
+    static encodeField(fieldNumber, strOrBytes) {
+      return ProtobufHelper.encodeField(fieldNumber, strOrBytes);
+    }
+    static generateTranscriptParams(videoId, lang = "", kind = "asr") {
+      return ProtobufHelper.generateTranscriptParams(videoId, lang, kind);
+    }
+    static generateModernTranscriptPanelParams(videoId) {
+      return ProtobufHelper.generateModernTranscriptPanelParams(videoId);
     }
     static searchParamsInObject(obj, depth = 0) {
       if (!obj || depth > 10 || typeof obj !== "object") return null;
@@ -368,16 +444,10 @@
     }
     static findTranscriptParams(requestedVideoId) {
       try {
-        const flexy = document.querySelector("ytd-watch-flexy");
-        const flexyData = flexy?.data || flexy?.playerData;
-        if (flexyData) {
-          const p = _InnerTubeBridge.searchParamsInObject(flexyData);
-          if (p) return p;
-        }
-        const grid = document.querySelector("ytd-watch-grid");
-        const gridData = grid?.data || grid?.playerData;
-        if (gridData) {
-          const p = _InnerTubeBridge.searchParamsInObject(gridData);
+        const watchEl = document.querySelector("ytd-watch-flexy, ytd-watch-grid, ytm-watch");
+        const watchData = watchEl?.data || watchEl?.playerData;
+        if (watchData) {
+          const p = _InnerTubeBridge.searchParamsInObject(watchData);
           if (p) return p;
         }
         if (window.ytInitialData) {
@@ -398,7 +468,8 @@
         const apiKey = window.ytcfg?.get?.("INNERTUBE_API_KEY");
         const context = window.ytcfg?.get?.("INNERTUBE_CONTEXT");
         if (!apiKey || !context) return null;
-        const res = await fetch(`https://www.youtube.com/youtubei/v1/next?key=${apiKey}`, {
+        const origin = _InnerTubeBridge._youtubeOrigin();
+        const res = await fetch(`${origin}/youtubei/v1/next?key=${apiKey}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -421,7 +492,8 @@
         const apiKey = window.ytcfg?.get?.("INNERTUBE_API_KEY");
         const context = window.ytcfg?.get?.("INNERTUBE_CONTEXT");
         if (!apiKey || !context) return null;
-        const res = await fetch(`https://www.youtube.com/youtubei/v1/player?key=${apiKey}`, {
+        const origin = _InnerTubeBridge._youtubeOrigin();
+        const res = await fetch(`${origin}/youtubei/v1/player?key=${apiKey}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -437,8 +509,45 @@
         return null;
       }
     }
+    static async fetchModernTranscriptPanel(videoId) {
+      if (!videoId) return null;
+      try {
+        const context = window.ytcfg?.get?.("INNERTUBE_CONTEXT");
+        if (!context) return null;
+        const clientName = String(window.ytcfg?.get?.("INNERTUBE_CLIENT_NAME") || "1");
+        const clientVersion = String(window.ytcfg?.get?.("INNERTUBE_CLIENT_VERSION") || "");
+        const params = _InnerTubeBridge.generateModernTranscriptPanelParams(videoId);
+        if (!params) return null;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 4e3);
+        const origin = _InnerTubeBridge._youtubeOrigin();
+        const res = await fetch(`${origin}/youtubei/v1/get_panel?prettyPrint=false`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-YouTube-Client-Name": clientName,
+            "X-YouTube-Client-Version": clientVersion
+          },
+          body: JSON.stringify({
+            context,
+            panelId: "PAmodern_transcript_view",
+            params
+          }),
+          credentials: "include",
+          signal: controller.signal
+        }).catch(() => null);
+        clearTimeout(timer);
+        if (!res || !res.ok) return null;
+        const json = await res.json().catch(() => null);
+        return InnerTubeParser.extractSegmentsFromInnerTubeJson(json, { allowChapters: false });
+      } catch (_) {
+        return null;
+      }
+    }
     static async fetchTranscriptDirect(videoId, preferredLang = "fr") {
       if (!videoId) return null;
+      const modernSegments = await _InnerTubeBridge.fetchModernTranscriptPanel(videoId);
+      if (modernSegments && modernSegments.length > 0) return modernSegments;
       const nextParams = await _InnerTubeBridge.fetchNextParams(videoId);
       if (nextParams) {
         const segs = await _InnerTubeBridge.fetchTranscript(nextParams);
@@ -479,15 +588,16 @@
         const timer = setTimeout(() => controller.abort(), 4e3);
         let urls = [];
         let bodyData = { context };
+        const origin = _InnerTubeBridge._youtubeOrigin();
         if (typeof paramObj === "string" || paramObj.type === "get_transcript" && paramObj.params) {
           bodyData.params = typeof paramObj === "string" ? paramObj : paramObj.params;
           urls = [
-            "https://www.youtube.com/youtubei/v1/get_transcript?prettyPrint=false",
-            `https://www.youtube.com/youtubei/v1/get_transcript?key=${apiKey}`
+            `${origin}/youtubei/v1/get_transcript?prettyPrint=false`,
+            `${origin}/youtubei/v1/get_transcript?key=${apiKey}`
           ];
         } else if (paramObj.type === "browse_continuation" && paramObj.continuation) {
           bodyData.continuation = paramObj.continuation;
-          urls = [`https://www.youtube.com/youtubei/v1/browse?key=${apiKey}`];
+          urls = [`${origin}/youtubei/v1/browse?key=${apiKey}`];
         } else {
           clearTimeout(timer);
           return null;
@@ -510,6 +620,98 @@
       } catch (_) {
       }
       return null;
+    }
+  };
+
+  // src/injected/BrowseContinuationFetcher.js
+  var BrowseContinuationFetcher = class {
+    /**
+     * Fetches one continuation page of videos from YouTube InnerTube browse endpoint.
+     * @param {Object} params
+     * @returns {Promise<{ok: boolean, status: number, items: Array<Object>}>}
+     */
+    static async fetchPage({ apiKey, clientVersion, continuation, visitorData } = {}) {
+      try {
+        const cfgKey = apiKey || window.ytcfg?.get?.("INNERTUBE_API_KEY") || "";
+        if (!cfgKey || !continuation) {
+          return { ok: false, status: 400, items: [] };
+        }
+        const resolvedVersion = clientVersion || window.ytcfg?.get?.("INNERTUBE_CLIENT_VERSION") || "2.20260101.00.00";
+        const resolvedVisitor = visitorData || window.ytcfg?.get?.("VISITOR_DATA") || "";
+        const client = {
+          clientName: "WEB",
+          clientVersion: resolvedVersion,
+          hl: "fr",
+          gl: "FR"
+        };
+        if (resolvedVisitor) client.visitorData = resolvedVisitor;
+        const origin = typeof window !== "undefined" && window.location?.origin?.includes("youtube.com") ? window.location.origin : "https://www.youtube.com";
+        const headers = {
+          "Content-Type": "application/json",
+          "X-YouTube-Client-Name": "1",
+          "X-YouTube-Client-Version": resolvedVersion
+        };
+        if (resolvedVisitor) headers["X-Goog-Visitor-Id"] = resolvedVisitor;
+        const res = await fetch(`${origin}/youtubei/v1/browse?key=${encodeURIComponent(cfgKey)}`, {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ context: { client }, continuation }),
+          credentials: "include"
+        });
+        if (!res.ok) {
+          return { ok: false, status: res.status, items: [] };
+        }
+        const json = await res.json().catch(() => null);
+        const items = [];
+        for (const action of json?.onResponseReceivedActions || []) {
+          const batch = action.appendContinuationItemsAction?.continuationItems || action.reloadContinuationItemsCommand?.continuationItems;
+          if (Array.isArray(batch)) items.push(...batch);
+        }
+        return { ok: true, status: 200, items };
+      } catch (_) {
+        return { ok: false, status: 0, items: [] };
+      }
+    }
+  };
+
+  // src/parsers/CaptionTrackPrioritizer.js
+  var CaptionTrackPrioritizer = class {
+    /**
+     * Sorts candidate caption tracks so the most relevant tracks are attempted first
+     * @param {Array<Object>} tracks
+     * @param {string} [preferredLang='fr']
+     * @returns {Array<Object>}
+     */
+    static prioritizeTracks(tracks, preferredLang = "fr") {
+      if (!Array.isArray(tracks) || tracks.length === 0) return [];
+      const norm = (preferredLang || "en").toLowerCase().trim();
+      const exact = [];
+      const prefix = [];
+      const enManual = [];
+      const enAsr = [];
+      const others = [];
+      const seen = /* @__PURE__ */ new Set();
+      for (const t of tracks) {
+        if (!t || !t.baseUrl) continue;
+        const key = `${t.languageCode || ""}|${t.kind || ""}|${t.baseUrl}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        const code = (t.languageCode || "").toLowerCase();
+        const isAsr = t.kind === "asr";
+        if (code === norm) {
+          if (!isAsr) exact.unshift(t);
+          else exact.push(t);
+        } else if (code.startsWith(norm)) {
+          prefix.push(t);
+        } else if (code === "en" && !isAsr) {
+          enManual.push(t);
+        } else if (code === "en" && isAsr) {
+          enAsr.push(t);
+        } else {
+          others.push(t);
+        }
+      }
+      return [...exact, ...prefix, ...enManual, ...enAsr, ...others];
     }
   };
 
@@ -543,6 +745,17 @@
           await this.handlePlayerDataRequest(videoId, preferredLang);
           return;
         }
+        if (event.data.type === "YT_AI_REQ_BROWSE_CONTINUATION") {
+          const result = await BrowseContinuationFetcher.fetchPage(event.data);
+          window.postMessage({
+            type: "YT_AI_BROWSE_CONTINUATION_RESULT",
+            requestId: event.data.requestId,
+            ok: result.ok,
+            status: result.status,
+            items: result.items
+          }, "*");
+          return;
+        }
         if (event.data.type === "YT_AI_REQUEST_TRANSCRIPT") {
           const videoId = event.data.videoId;
           const result = await this.extractTranscript(videoId, event.data.preferredLang || "en");
@@ -565,9 +778,12 @@
         const captions = this.resolveCaptionTracks(playerResponse);
         let directSegments = null;
         if (captions && captions.length > 0) {
-          const track = this.pickCaptionTrack(captions, preferredLang);
-          if (track?.baseUrl) {
-            directSegments = await this.fetchTrackSegments(track.baseUrl);
+          const ordered = CaptionTrackPrioritizer.prioritizeTracks(captions, preferredLang);
+          for (const track of ordered) {
+            if (track?.baseUrl) {
+              directSegments = await this.fetchTrackSegments(track.baseUrl, preferredLang);
+              if (directSegments && directSegments.length > 0) break;
+            }
           }
         }
         if (!directSegments || directSegments.length === 0) {
@@ -608,7 +824,7 @@
         const initId = window.ytInitialPlayerResponse?.videoDetails?.videoId;
         if (!requestedVideoId || initId === requestedVideoId) return window.ytInitialPlayerResponse;
       }
-      const flexy = document.querySelector("ytd-watch-flexy, ytd-watch-grid");
+      const flexy = document.querySelector("ytd-watch-flexy, ytd-watch-grid, ytm-watch");
       const flexyData = flexy?.playerData || flexy?.data;
       if (flexyData) {
         const fId = flexyData?.videoDetails?.videoId;
@@ -645,10 +861,8 @@
       return captions;
     }
     pickCaptionTrack(captions, preferredLang) {
-      let track = captions.find((t) => t.languageCode === preferredLang);
-      if (!track) track = captions.find((t) => t.languageCode?.startsWith(preferredLang));
-      if (!track) track = captions.find((t) => t.languageCode === "en" || t.languageCode?.startsWith("en"));
-      return track || captions[0] || null;
+      const list = CaptionTrackPrioritizer.prioritizeTracks(captions, preferredLang);
+      return list[0] || null;
     }
     /**
      * Handles in-memory player data and transcript extraction
@@ -680,9 +894,12 @@
         const videoDetails = playerResponse?.videoDetails || (isInitialMatch ? window.ytInitialPlayerResponse?.videoDetails : {}) || {};
         let directSegments = null;
         if (captions && captions.length > 0) {
-          const track = this.pickCaptionTrack(captions, preferredLang);
-          if (track?.baseUrl) {
-            directSegments = await this.fetchTrackSegments(track.baseUrl);
+          const ordered = CaptionTrackPrioritizer.prioritizeTracks(captions, preferredLang);
+          for (const track of ordered) {
+            if (track?.baseUrl) {
+              directSegments = await this.fetchTrackSegments(track.baseUrl, preferredLang);
+              if (directSegments && directSegments.length > 0) break;
+            }
           }
         }
         if (!directSegments || directSegments.length === 0) {
@@ -734,8 +951,8 @@
         }, "*");
       }
     }
-    async fetchTrackSegments(baseUrl) {
-      return TimedtextTrackFetcher.fetchTrackSegments(baseUrl);
+    async fetchTrackSegments(baseUrl, preferredLang = null) {
+      return TimedtextTrackFetcher.fetchTrackSegments(baseUrl, preferredLang);
     }
     findTranscriptParams(requestedVideoId) {
       return InnerTubeBridge.findTranscriptParams(requestedVideoId);

@@ -41,7 +41,9 @@ export class InPageSTTService {
       const micSelect = document.getElementById('ytAiMicSelect');
       if (!micSelect) return;
 
-      micSelect.innerHTML = '<option value="">🎙️ Default mic</option>';
+      const lang = document.getElementById('ytAiLangSelect')?.value || document.getElementById('ytAiCompLangSelect')?.value || 'en';
+      const t = I18N[lang] || I18N.en;
+      micSelect.innerHTML = `<option value="">${t.micDefault || I18N.en.micDefault}</option>`;
       this.availableMicrophones.forEach((dev, idx) => {
         const opt = document.createElement('option');
         opt.value = dev.deviceId;
@@ -64,7 +66,7 @@ export class InPageSTTService {
         this.isDictating = true;
         this.showMicNotice(t.micActiveNotice || '🎙️ Voice dictation active... Speak now.', false);
       } else if (event.data.type === 'YT_AI_SPEECH_RESULT') {
-        const chatInput = document.getElementById('ytAiChatInput');
+        const chatInput = (document.getElementById('ytAiChatInput') || document.getElementById('ytAiChannelChatInput'));
         if (chatInput && this.isDictating) {
           const prefix = this.dictationBaseText ? this.dictationBaseText.trim() + ' ' : '';
           const full = (prefix + (event.data.finalText || '') + (event.data.interimText || '')).trimStart();
@@ -161,8 +163,8 @@ export class InPageSTTService {
       this.isDictating = true;
       this.isWhisperRecording = true;
 
-      const micBtn = document.getElementById('ytAiMicBtn');
-      const chatInput = document.getElementById('ytAiChatInput');
+      const micBtn = (document.getElementById('ytAiMicBtn') || document.getElementById('ytAiChannelMicBtn'));
+      const chatInput = (document.getElementById('ytAiChatInput') || document.getElementById('ytAiChannelChatInput'));
       if (micBtn) {
         micBtn.classList.add('is-recording');
         micBtn.title = t.micStopTitle || 'Stop dictation';
@@ -179,8 +181,8 @@ export class InPageSTTService {
   }
 
   async transcribeWithWhisperApi(audioBlob, apiKey, provider, targetLang, customUrl = '') {
-    const micBtn = document.getElementById('ytAiMicBtn');
-    const chatInput = document.getElementById('ytAiChatInput');
+    const micBtn = (document.getElementById('ytAiMicBtn') || document.getElementById('ytAiChannelMicBtn'));
+    const chatInput = (document.getElementById('ytAiChatInput') || document.getElementById('ytAiChannelChatInput'));
     const t = I18N[targetLang] || I18N.en;
 
     if (micBtn) micBtn.innerHTML = '<span class="yt-ai-spinner"></span>';
@@ -244,8 +246,8 @@ export class InPageSTTService {
     }
 
     this.isDictating = true;
-    const micBtn = document.getElementById('ytAiMicBtn');
-    const chatInput = document.getElementById('ytAiChatInput');
+    const micBtn = (document.getElementById('ytAiMicBtn') || document.getElementById('ytAiChannelMicBtn'));
+    const chatInput = (document.getElementById('ytAiChatInput') || document.getElementById('ytAiChannelChatInput'));
     this.dictationBaseText = chatInput ? chatInput.value : '';
 
     if (micBtn) {
@@ -274,8 +276,8 @@ export class InPageSTTService {
     }
 
     window.postMessage({ type: 'YT_AI_STOP_SPEECH' }, '*');
-    const micBtn = document.getElementById('ytAiMicBtn');
-    const chatInput = document.getElementById('ytAiChatInput');
+    const micBtn = (document.getElementById('ytAiMicBtn') || document.getElementById('ytAiChannelMicBtn'));
+    const chatInput = (document.getElementById('ytAiChatInput') || document.getElementById('ytAiChannelChatInput'));
     const targetLang = document.getElementById('ytAiLangSelect')?.value || 'en';
     const t = I18N[targetLang] || I18N.en;
 

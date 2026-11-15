@@ -4,7 +4,7 @@
     "description": "Name der Erweiterung"
   },
   "appDesc": {
-    "message": "YouTube-Videos lokal zusammenfassen (LM Studio, Ollama) oder Cloud. Interaktiver Q&A-Chat, Sprache-zu-Text und Audio-TTS.",
+    "message": "KI-YouTube-Zusammenfassungen, Faktencheck- & Kanal-Audits, Q&A-Chat. Lokal (LM Studio, Ollama) oder Cloud, STT & TTS.",
     "description": "Kurzbeschreibung der Erweiterung"
   }
 }

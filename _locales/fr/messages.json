@@ -4,7 +4,7 @@
     "description": "Nom de l'extension affiché dans le Chrome Web Store et le navigateur."
   },
   "appDesc": {
-    "message": "Résumez vos vidéos YouTube en local (LM Studio, Ollama) ou Cloud. Chat interactif Q&A, dictée vocale STT et synthèse audio TTS.",
+    "message": "Résumés IA YouTube, audits fact-check & chaîne et chat Q&A. 100% local (LM Studio, Ollama) ou Cloud, dictée STT & audio TTS.",
     "description": "Description courte de l'extension dans le Chrome Web Store."
   }
 }

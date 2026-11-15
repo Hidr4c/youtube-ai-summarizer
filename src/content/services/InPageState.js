@@ -1,3 +1,5 @@
+import { parseChannelAuditLimit } from '../../config/ExtensionConstants.js';
+
 /**
  * In-Page Application State and Chrome Storage Synchronization
  */
@@ -5,7 +7,7 @@ export function createInPageState() {
   return {
     extensionEnabled: true,
     currentProvider: 'lmstudio',
-    serverUrls: { lmstudio: 'http://127.0.0.1:1234', ollama: 'http://localhost:11434' },
+    serverUrls: { lmstudio: 'http://localhost:1234', ollama: 'http://localhost:11434' },
     apiKeys: { openai: '', gemini: '', claude: '', groq: '', deepseek: '' },
     selectedModels: {},
     availableLocalModels: {},
@@ -15,6 +17,8 @@ export function createInPageState() {
     ttsSpeed: '1.0',
     localWhisperUrl: 'http://127.0.0.1:8000',
     autoSummarize: false,
+    channelAuditPeriod: 'all',
+    channelAuditMaxVideos: 30,
     customPrompt: '',
     selectedVoiceURI: '',
     selectedMicDeviceId: '',
@@ -43,6 +47,11 @@ export function loadPreferences(state, callback) {
     if (items.maxTokens) state.maxTokens = items.maxTokens;
     if (typeof items.autoSummarize === 'boolean') state.autoSummarize = items.autoSummarize;
     if (items.localWhisperUrl) state.localWhisperUrl = items.localWhisperUrl;
+    if (items.channelAuditMaxVideos !== undefined) {
+      const parsedLimit = parseChannelAuditLimit(items.channelAuditMaxVideos);
+      state.channelAuditMaxVideos = parsedLimit.isAll ? 'all' : parsedLimit.numericLimit;
+    }
+    if (items.channelAuditPeriod) state.channelAuditPeriod = items.channelAuditPeriod;
     if (items.ttsSpeed) state.ttsSpeed = items.ttsSpeed;
     if (items.selectedVoiceURI) state.selectedVoiceURI = items.selectedVoiceURI;
     ['openai', 'gemini', 'claude', 'groq', 'deepseek', 'lmstudio', 'ollama'].forEach(p => {

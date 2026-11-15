@@ -1,4 +1,5 @@
 import { ChannelStatisticalSampler } from '../../services/implementations/ChannelStatisticalSampler.js';
+import { ScoreTierScale } from '../services/ScoreTierScale.js';
 
 /**
  * Domain Aggregate Model for YouTube Channel Global Audit Report
@@ -10,6 +11,9 @@ export class ChannelAuditReport {
     this.subscribers = data.subscribers || '';
     this.totalVideos = data.totalVideos || '';
     this.sampleSize = data.sampleSize || 0;
+    this.totalAvailable = data.totalAvailable || this.sampleSize;
+    this.requestedLimit = data.requestedLimit || this.sampleSize;
+    this.lang = data.lang || 'fr';
 
     this.globalScore = typeof data.globalScore === 'number' ? Math.max(0, Math.min(100, data.globalScore)) : 50;
     this.clickbaitIndex = typeof data.clickbaitIndex === 'number' ? Math.max(0, Math.min(100, data.clickbaitIndex)) : 20;
@@ -29,17 +33,22 @@ export class ChannelAuditReport {
     this.rawText = data.rawText || '';
     this.timestamp = data.timestamp || Date.now();
 
+    this.tier = ScoreTierScale.getTier(this.globalScore, this.lang);
+    this.fineDistribution = data.fineDistribution || ScoreTierScale.computeDistributionMetrics(this.evaluatedVideos, this.lang);
     this.badge = this._computeBadge();
   }
 
   _computeBadge() {
-    if (this.globalScore >= 75) {
-      return { label: 'Chaîne Recommandable & Factuelle', color: 'success', symbol: '✓' };
-    }
-    if (this.globalScore >= 50) {
-      return { label: 'Vigilance & Esprit Critique Recommandés', color: 'warning', symbol: '!' };
-    }
-    return { label: 'Sensationnalisme / Accroches Trompeuses', color: 'danger', symbol: '!' };
+    const t = this.tier || ScoreTierScale.getTier(this.globalScore, this.lang);
+    const symbol = t.macroColor === 'success' ? '✓' : '!';
+    return {
+      label: t.label,
+      shortLabel: t.shortLabel,
+      rangeLabel: t.rangeLabel,
+      hexColor: t.hexColor,
+      color: t.macroColor,
+      symbol
+    };
   }
 
   /**
@@ -120,6 +129,9 @@ export class ChannelAuditReport {
       subscribers: channel.subscribers || '',
       totalVideos: channel.videoCount || `${sampledVideos.length} vidéos analysées`,
       sampleSize: sampledVideos.length,
+      totalAvailable: context.totalAvailable || (Array.isArray(channel.recentVideos) ? channel.recentVideos.length : sampledVideos.length),
+      requestedLimit: context.requestedLimit || sampledVideos.length,
+      lang: context.lang || 'fr',
       globalScore: parsedScore,
       clickbaitIndex: parsedClickbait,
       proportions: stats.proportions,
@@ -138,8 +150,8 @@ export class ChannelAuditReport {
 
   static _parseEvaluatedVideos(rawText, sampledVideos) {
     const result = [];
-    const blockMatch = rawText.match(/\[EVAL_VIDEOS\]([\s\S]*?)\[\/EVAL_VIDEOS\]/i);
-    const content = blockMatch ? blockMatch[1] : rawText;
+    const blocks = [...rawText.matchAll(/\[EVAL_VIDEOS\]([\s\S]*?)\[\/EVAL_VIDEOS\]/gi)];
+    const content = blocks.length > 0 ? blocks.map(b => b[1]).join('\n') : rawText;
 
     const lines = content.split('\n');
     const parsedMap = new Map();

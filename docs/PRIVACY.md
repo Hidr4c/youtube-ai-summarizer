@@ -1,6 +1,6 @@
 # Privacy Policy for YouTube Summarizer AI
 
-**Last updated:** November 8, 2026  
+**Last updated:** November 15, 2026  
 **Author:** Hidr4c ([https://github.com/Hidr4c](https://github.com/Hidr4c))  
 **Repository:** [https://github.com/Hidr4c/youtube-ai-summarizer](https://github.com/Hidr4c/youtube-ai-summarizer)
 
@@ -23,9 +23,10 @@ If you choose to use Cloud AI providers (such as OpenAI, Google Gemini, Groq, An
 - If you use **LM Studio** or **Ollama** locally, **zero data is transmitted over the Internet**.
 
 ## 4. Single Purpose & Permissions Justification
-- `activeTab` & `scripting`: Required to inject the summarizer interface under the YouTube video player and read public transcript captions.
-- `storage`: Required to save user preferences locally (model, language, voice, and API keys).
-- `host_permissions`: Required to communicate with YouTube and your local or cloud AI endpoints.
+- `activeTab` & `scripting`: Required to inject the summarizer and channel companion interfaces into YouTube (`www.youtube.com` and `m.youtube.com`) and extract public transcript captions directly in the page.
+- `tabs`: Required to inspect whether the active tab is a YouTube page from the extension popup and synchronize language, enable/disable state, and cache invalidation across open YouTube tabs.
+- `storage`: Required to save user preferences (model, language, voice, API keys) and the local video/channel cache in `chrome.storage.local`.
+- `host_permissions`: Required to communicate with YouTube (`www.youtube.com` / `m.youtube.com`), fetch channel transcripts/metadata on demand, and connect directly to user-configured local (`localhost` / LAN) or Cloud AI/Whisper endpoints.
 
 ## 5. Contact & Open Source
 This extension is free and open-source under the MIT License.  

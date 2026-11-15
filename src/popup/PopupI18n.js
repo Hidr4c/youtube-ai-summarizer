@@ -25,7 +25,11 @@ export const POPUP_I18N = {
     purge7Days: 'Older than 7 days',
     purge30Days: 'Older than 30 days',
     purgeSuccess: '✓ Cache successfully purged ({count} video(s))',
-    cacheEmpty: '0 Ko (0 videos)'
+    cacheEmpty: '0 Ko (0 videos)',
+    bannerExpanded: 'Expanded',
+    bannerCollapsed: 'Collapsed',
+    youtubeVideoFallback: 'YouTube Video',
+    privacyTagline: 'Privacy-First'
   },
   fr: {
     switchTitle: 'Extension sur YouTube',
@@ -50,7 +54,11 @@ export const POPUP_I18N = {
     purge7Days: 'Plus ancien que 7 jours',
     purge30Days: 'Plus ancien que 30 jours',
     purgeSuccess: '✓ Cache purgé avec succès ({count} vidéo(s))',
-    cacheEmpty: '0 Ko (0 vidéo)'
+    cacheEmpty: '0 Ko (0 vidéo)',
+    bannerExpanded: 'Déplié',
+    bannerCollapsed: 'Replié',
+    youtubeVideoFallback: 'Vidéo YouTube',
+    privacyTagline: 'Confidentialité d’abord'
   },
   es: {
     switchTitle: 'Extensión en YouTube',
@@ -75,7 +83,11 @@ export const POPUP_I18N = {
     purge7Days: 'Más de 7 días',
     purge30Days: 'Más de 30 días',
     purgeSuccess: '✓ Caché purgada con éxito ({count} vídeo(s))',
-    cacheEmpty: '0 Ko (0 vídeos)'
+    cacheEmpty: '0 Ko (0 vídeos)',
+    bannerExpanded: 'Expandido',
+    bannerCollapsed: 'Contraído',
+    youtubeVideoFallback: 'Vídeo de YouTube',
+    privacyTagline: 'Privacidad primero'
   },
   de: {
     switchTitle: 'Erweiterung auf YouTube',
@@ -100,7 +112,11 @@ export const POPUP_I18N = {
     purge7Days: 'Älter als 7 Tage',
     purge30Days: 'Älter als 30 Tage',
     purgeSuccess: '✓ Cache erfolgreich bereinigt ({count} Video(s))',
-    cacheEmpty: '0 Ko (0 Videos)'
+    cacheEmpty: '0 Ko (0 Videos)',
+    bannerExpanded: 'Ausgeklappt',
+    bannerCollapsed: 'Eingeklappt',
+    youtubeVideoFallback: 'YouTube-Video',
+    privacyTagline: 'Datenschutz zuerst'
   },
   it: {
     switchTitle: 'Estensione su YouTube',
@@ -125,7 +141,11 @@ export const POPUP_I18N = {
     purge7Days: 'Più vecchio di 7 giorni',
     purge30Days: 'Più vecchio di 30 giorni',
     purgeSuccess: '✓ Cache svuotata con successo ({count} video)',
-    cacheEmpty: '0 Ko (0 video)'
+    cacheEmpty: '0 Ko (0 video)',
+    bannerExpanded: 'Espanso',
+    bannerCollapsed: 'Compresso',
+    youtubeVideoFallback: 'Video YouTube',
+    privacyTagline: 'Privacy al primo posto'
   },
   ru: {
     switchTitle: 'Расширение на YouTube',
@@ -150,7 +170,11 @@ export const POPUP_I18N = {
     purge7Days: 'Старше 7 дней',
     purge30Days: 'Старше 30 дней',
     purgeSuccess: '✓ Кэш успешно очищен ({count} видео)',
-    cacheEmpty: '0 Ko (0 видео)'
+    cacheEmpty: '0 Ko (0 видео)',
+    bannerExpanded: 'Развёрнуто',
+    bannerCollapsed: 'Свёрнуто',
+    youtubeVideoFallback: 'Видео YouTube',
+    privacyTagline: 'Приватность прежде всего'
   },
   ja: {
     switchTitle: 'YouTube拡張機能',
@@ -175,7 +199,11 @@ export const POPUP_I18N = {
     purge7Days: '7日より前',
     purge30Days: '30日より前',
     purgeSuccess: '✓ キャッシュを削除しました ({count}件)',
-    cacheEmpty: '0 Ko (0件)'
+    cacheEmpty: '0 Ko (0件)',
+    bannerExpanded: '展開中',
+    bannerCollapsed: '折りたたみ中',
+    youtubeVideoFallback: 'YouTube動画',
+    privacyTagline: 'プライバシー優先'
   },
   zh: {
     switchTitle: 'YouTube 扩展功能',
@@ -200,7 +228,11 @@ export const POPUP_I18N = {
     purge7Days: '7天以前',
     purge30Days: '30天以前',
     purgeSuccess: '✓ 缓存已成功清理 ({count} 个视频)',
-    cacheEmpty: '0 Ko (0 个视频)'
+    cacheEmpty: '0 Ko (0 个视频)',
+    bannerExpanded: '已展开',
+    bannerCollapsed: '已折叠',
+    youtubeVideoFallback: 'YouTube 视频',
+    privacyTagline: '隐私优先'
   }
 };
 

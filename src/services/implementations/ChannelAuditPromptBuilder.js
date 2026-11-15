@@ -2,6 +2,8 @@
  * Prompt Builder for Consolidated Statistical YouTube Channel Audits
  * Bundles multi-video samples into a single round-trip prompt with temporal weighting
  */
+import { AuditPromptBuilder } from './AuditPromptBuilder.js';
+
 export class ChannelAuditPromptBuilder {
   /**
    * Builds the system prompt for channel audit in the requested language
@@ -10,6 +12,7 @@ export class ChannelAuditPromptBuilder {
    */
   static buildSystemPrompt(lang = 'fr') {
     const isFr = (lang || 'fr').toLowerCase().startsWith('fr');
+    const targetLangName = AuditPromptBuilder.getLanguageLabel(lang);
     const now = new Date();
     const currentDateStr = now.toLocaleDateString(isFr ? 'fr-FR' : 'en-US', {
       year: 'numeric',
@@ -26,12 +29,13 @@ REPÈRE CHRONOLOGIQUE DU MONDE RÉEL :
 - Situe chronologiquement les vidéos de l'échantillon par rapport à cette date contemporaine.
 
 MÉTHODOLOGIE D'ÉCHANTILLONNAGE & CRITÈRES D'ANALYSE :
-1. PONDÉRATION FORTE SUR LE RÉCENT (~65% du poids) : Les vidéos récentes reflètent l'état actuel de la chaîne, sa maturité, ses progrès éditoriaux ou au contraire une dérive sensationnaliste.
-2. PERSPECTIVE TEMPORELLE (~35% du poids) : Compare les vidéos récentes aux vidéos intermédiaires (~1 an) et plus anciennes pour mesurer l'évolution d'année en année (professionnalisation, nuance, transparence).
-3. SENSATIONNALISME & ACCROCHES TROMPEUSES : Mesure le décalage éventuel entre les promesses des titres et le contenu réel. Reste toujours neutre et factuel : si la chaîne est sobre et honnête, reconnais-le sans forcer la critique. Ne mentionne le sensationnalisme que s'il est réellement présent.
-4. TRANSPARENCE COMMERCIALE & DISCERNEMENT MARKETING : Il est normal et légitime qu'un créateur gagne sa vie (sponsors, partenariats, vente d'ouvrages ou de formations). L'exigence clé est la transparence envers le public et la préservation de son esprit critique : l'auteur développe-t-il des arguments réels, vérifiés et nuancés, ou répète-t-il un discours marketing préformaté sans recul ? ("Le mal n'est pas partout : une vidéo sponsorisée peut être rigoureuse si les arguments sont honnêtes").
-5. POSTURE DÉCLARATIVE VS PREUVE RÉELLE : Ne prends jamais l'auto-proclamation d'honnêteté (« je suis totalement indépendant », « je vous dis toute la vérité ») pour argent comptant. C'est à l'audit de juger de la sincérité et de la probité du propos en vérifiant les faits, la solidité des arguments et la cohérence des démonstrations.
-6. ZÉRO MALUS POUR CONTRAINTE TECHNIQUE : Il est strictement interdit de baisser la note d'une vidéo ou d'une chaîne sous prétexte que les sous-titres complets ne sont pas disponibles sur la plateforme. Juge la rigueur et l'honnêteté à 100% sur les éléments observables.
+1. CONTEXTE ÉDITORIAL & TYPOLOGIE DE CHAÎNE : Identifie la vocation première de la chaîne et son public cible (Jeunesse / Enfants, Vulgarisation scientifique, Journalisme / Actualité, Humour / Fiction, Gaming). Adapte impérativement les critères d'exigence au genre : pour une chaîne jeunesse ou familiale, évalue l'éthique envers les jeunes spectateurs (absence de manipulation, de surconsommation forcée ou de conditionnement commercial insidieux ciblant la naïveté des enfants).
+2. PONDÉRATION FORTE SUR LE RÉCENT (~65% du poids) : Les vidéos récentes reflètent l'état actuel de la chaîne, sa maturité, ses progrès éditoriaux ou au contraire une dérive sensationnaliste.
+3. PERSPECTIVE TEMPORELLE (~35% du poids) : Compare les vidéos récentes aux vidéos intermédiaires (~1 an) et plus anciennes pour mesurer l'évolution d'année en année (professionnalisation, nuance, transparence).
+4. SENSATIONNALISME & ACCROCHES TROMPEUSES : Mesure le décalage éventuel entre les promesses des titres et le contenu réel. Reste toujours neutre et factuel : si la chaîne est sobre et honnête, reconnais-le sans forcer la critique. Ne mentionne le sensationnalisme que s'il est réellement présent.
+5. TRANSPARENCE COMMERCIALE & DISCERNEMENT MARKETING : Il est normal et légitime qu'un créateur gagne sa vie (sponsors, partenariats, vente d'ouvrages ou de formations). L'exigence clé est la transparence envers le public et la préservation de son esprit critique : l'auteur développe-t-il des arguments réels, vérifiés et nuancés, ou répète-t-il un discours marketing préformaté sans recul ? ("Le mal n'est pas partout : une vidéo sponsorisée peut être rigoureuse si les arguments sont honnêtes").
+6. POSTURE DÉCLARATIVE VS PREUVE RÉELLE : Ne prends jamais l'auto-proclamation d'honnêteté (« je suis totalement indépendant », « je vous dis toute la vérité ») pour argent comptant. C'est à l'audit de juger de la sincérité et de la probité du propos en vérifiant les faits, la solidité des arguments et la cohérence des démonstrations.
+7. ZÉRO MALUS POUR CONTRAINTE TECHNIQUE : Il est strictement interdit de baisser la note d'une vidéo ou d'une chaîne sous prétexte que les sous-titres complets ne sont pas disponibles sur la plateforme. Juge la rigueur et l'honnêteté à 100% sur les éléments observables.
 
 FORMAT IMPÉRATIF DE RÉPONSE :
 Pour permettre le parsing automatique et l'affichage des graphiques statistiques, ta réponse DOIT inclure STRICTEMENT :
@@ -68,18 +72,20 @@ Numéro | Score | Sensationnalisme% | Verdict | Commentaire d'une phrase
 DIRECTIVE DE CONCISION : Rédige directement le bloc [EVAL_VIDEOS] puis les balises synthétiques et les sections qualitatives succinctes. Reste toujours neutre, constructif et direct. N'invente pas de défauts inexistants.`;
     }
 
-    return `You are a digital media auditor and expert in YouTube editorial analysis.
+    return `You are a digital media auditor and expert in YouTube editorial analysis. You must respond exclusively in ${targetLangName}.
 Your mission is to audit a YouTube channel impartially based on a CONSOLIDATED STATISTICAL SAMPLE of its videos.
 
 REAL-WORLD TEMPORAL REFERENCE:
 - Today's date: ${currentDateStr}.
 - Anchor the sampled videos relative to this contemporary observation date.
 
-TEMPORAL WEIGHTING METHODOLOGY:
-1. RECENCY WEIGHT (~65% of weight): Recent videos best reflect current maturity or recent changes.
-2. HISTORICAL PERSPECTIVE (~35% of weight): Compare recent videos against earlier ones to evaluate Year-over-Year evolution.
-3. SENSATIONALISM SENSITIVITY: Evaluate title exaggeration vs informative substance.
-4. COMMERCIAL TRANSPARENCY: Differentiate author self-promotion from undisclosed third-party sponsorships.
+TEMPORAL & CONTEXTUAL METHODOLOGY:
+1. CONTEXT & EDITORIAL GENRE: Identify channel purpose and target audience (Kids/Family, Science, Journalism, Fiction, Gaming). Adapt scrutiny: for children content, actively verify ethical safeguards against commercial manipulation or psychological habit conditioning.
+2. RECENCY WEIGHT (~65% of weight): Recent videos best reflect current maturity or recent changes.
+3. HISTORICAL PERSPECTIVE (~35% of weight): Compare recent videos against earlier ones to evaluate Year-over-Year evolution.
+4. SENSATIONALISM SENSITIVITY: Evaluate title exaggeration vs informative substance.
+5. COMMERCIAL TRANSPARENCY: Differentiate legitimate author monetization from undisclosed sponsorship pressure.
+6. EVIDENCE OVER SELF-CLAIMS: Evaluate rigor objectively from observable facts; NEVER penalize missing transcripts caused by technical platform limits.
 
 MANDATORY OUTPUT FORMAT:
 [EVAL_VIDEOS]
@@ -95,7 +101,9 @@ Index | Score | Clickbait% | Verdict | One sentence note
 ### [!] Areas of Caution & Subtle Biases
 ### [X] Critical Flaws & Sensationalism Traps
 ### [📈] Year-over-Year Trajectory
-### Executive Synthesis & Recommendation`;
+### Executive Synthesis & Recommendation
+
+STRICT LANGUAGE RULE: Write ALL prose, bullet items, Executive Synthesis, and per-video notes inside [EVAL_VIDEOS] exclusively in ${targetLangName}. Keep bracketed parser tags ([EVAL_VIDEOS], [SCORE_GLOBAL], [INDICE_CLICKBAIT], [DISTRIBUTION], [TRAJECTOIRE], ### [✓], ### [!], ### [X], ### [📈]) exact for machine parsing.`;
   }
 
   /**
@@ -107,11 +115,12 @@ Index | Score | Clickbait% | Verdict | One sentence note
    */
   static buildUserPrompt(channel = {}, sampledVideos = [], lang = 'fr') {
     const isFr = (lang || 'fr').toLowerCase().startsWith('fr');
-    const title = channel.title || 'Créateur YouTube';
+    const targetLangName = AuditPromptBuilder.getLanguageLabel(lang);
+    const title = channel.title || (isFr ? 'Créateur YouTube' : 'YouTube Creator');
     const handle = channel.handle || '';
-    const subs = channel.subscribers || 'Non spécifié';
-    const videoCount = channel.videoCount || `${sampledVideos.length} vidéos`;
-    const bio = channel.bio ? channel.bio.trim() : 'Aucune bio renseignée.';
+    const subs = channel.subscribers || (isFr ? 'Non spécifié' : 'Not specified');
+    const videoCount = channel.videoCount || `${sampledVideos.length} ${isFr ? 'vidéos' : 'videos'}`;
+    const bio = channel.bio ? channel.bio.trim() : (isFr ? 'Aucune bio renseignée.' : 'No bio provided.');
 
     const recent = sampledVideos.filter(v => v.era === 'recent');
     const mid = sampledVideos.filter(v => v.era === 'mid');
@@ -123,15 +132,15 @@ Index | Score | Clickbait% | Verdict | One sentence note
       cohortList.forEach(v => {
         lines.push(`  ${v.sampleIndex || '•'}. "${v.title}" (${v.meta || v.eraLabel || ''}) [ID: ${v.id}]`);
         if (Array.isArray(v.chapters) && v.chapters.length > 0) {
-          lines.push(`     └ Chapitres : ${v.chapters.slice(0, 5).join(' | ')}`);
+          lines.push(`     └ ${isFr ? 'Chapitres' : 'Chapters'} : ${v.chapters.slice(0, 5).join(' | ')}`);
         }
         if (v.description) {
           const cleanDesc = v.description.replace(/\s+/g, ' ').trim().slice(0, 180);
-          lines.push(`     └ Liens & Description : """${cleanDesc}…"""`);
+          lines.push(`     └ ${isFr ? 'Liens & Description' : 'Links & Description'} : """${cleanDesc}…"""`);
         }
         if (Array.isArray(v.comments) && v.comments.length > 0) {
           const topComms = v.comments.slice(0, 2).map(c => `"${c.author}: ${(c.text || '').replace(/\s+/g, ' ').slice(0, 75)}"`).join(' | ');
-          lines.push(`     └ Réactions du public : ${topComms}`);
+          lines.push(`     └ ${isFr ? 'Réactions du public' : 'Audience feedback'} : ${topComms}`);
         }
       });
       return lines.join('\n');
@@ -158,10 +167,10 @@ REPRESENTATIVE GROUP SAMPLE (${sampledVideos.length} SELECTED VIDEOS):`;
     const instruction = isFr
       ? `\nCONSIGNE D'ANALYSE GROUPÉE :
 Procède en UNE SEULE ÉVALUATION CONSOLIDÉE :
-1. Note chaque vidéo dans le bloc [EVAL_VIDEOS] ... [/EVAL_VIDEOS] avec son taux de sensationnalisme et une justification d'une phrase.
+1. Note chaque vidéo dans le bloc [EVAL_VIDEOS] ... [/EVAL_VIDEOS] avec son taux de sensationnalisme et une justification d'une phrase en FRANÇAIS.
 2. Établis la note globale [SCORE_GLOBAL], le taux de sensationnalisme [INDICE_SENSATIONNALISME], la proportion [DISTRIBUTION] et la [TRAJECTOIRE].
-3. Rédige les sections qualitatives [✓], [!], [X], [📈] et la synthèse finale.`
-      : `\nINSTRUCTION: Perform a single consolidated evaluation with [EVAL_VIDEOS], global tags, and the qualitative sections.`;
+3. Rédige les sections qualitatives [✓], [!], [X], [📈] et la synthèse finale exclusivement en FRANÇAIS.`
+      : `\nINSTRUCTION: Perform a single consolidated evaluation with [EVAL_VIDEOS], global tags, and the qualitative sections. Write ALL commentary, video notes, bullets, and synthesis exclusively in ${targetLangName}.`;
 
     return `${header}${cohort1}${cohort2}${cohort3}\n${instruction}`;
   }

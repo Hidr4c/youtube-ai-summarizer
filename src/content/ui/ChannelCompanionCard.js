@@ -1,37 +1,65 @@
-import { isChannelPage, getChannelIdentifier } from './NavigationObserver.js';
-import { safeSetInnerHTML, escapeHtml } from './MarkdownRenderer.js';
+import { isChannelPage, getChannelIdentifier, syncFullscreenVisibility } from './NavigationObserver.js';
+import { safeSetInnerHTML } from './MarkdownRenderer.js';
 import { ThemeManager } from './ThemeManager.js';
-import { AuditProgressBar } from './AuditProgressBar.js';
+import { ChannelCompanionTemplate } from './ChannelCompanionTemplate.js';
+import { ChannelChatController } from './ChannelChatController.js';
+import { ChannelCompanionRunController } from './ChannelCompanionRunController.js';
+import { ChannelCompanionI18n } from './ChannelCompanionI18n.js';
+import { YouTubeDOMContext } from '../services/YouTubeDOMContext.js';
+import { parseChannelAuditLimit, resolveEffectiveChannelLimit, syncChannelMaxSelectElement } from '../../config/ExtensionConstants.js';
+import { SettingsDrawerTemplate } from '../templates/SettingsDrawerTemplate.js';
+import { SettingsDrawerController } from './SettingsDrawerController.js';
+import { SettingsDrawerEventHandler } from './SettingsDrawerEventHandler.js';
+import { I18N } from '../../locales/index.js';
 
 /**
- * In-Page Companion Card for YouTube Channel Pages (@handle, /channel/, /c/)
- * Injects a statistical channel auditor card with temporal sampling and distribution stats
+ * Official Top-of-Page Channel Companion Banner (@handle, /channel/, /c/).
+ * Exposes channel-only tabs and delegates execution/recovery to ChannelCompanionRunController.
  */
 export class ChannelCompanionCard {
-  /**
-   * @param {Object} options
-   * @param {Object} options.channelAuditService
-   * @param {Object} options.channelAuditViewController
-   * @param {Object} options.state
-   */
   constructor(options = {}) {
     this.service = options.channelAuditService;
     this.viewController = options.channelAuditViewController;
+    this.settingsDrawer = options.settingsDrawer || null;
+    this.audioController = options.audioController || null;
     this.state = options.state || {};
     this.currentChannel = '';
     this.isExpanded = true;
+    this.activeTab = 'channelAudit';
+    this.runController = new ChannelCompanionRunController(this);
+    this.channelChat = new ChannelChatController({
+      channelAuditService: this.service,
+      audioController: options.audioController,
+      transcriptController: options.transcriptController,
+      channelManager: options.channelManager
+    });
   }
 
-  /**
-   * Attempts injection on channel pages
-   */
-  tryInjectCompanion() {
-    if (!this.state.extensionEnabled) {
-      document.getElementById('yt-ai-channel-companion')?.remove();
-      return;
+  _findChannelAnchor() {
+    const phc = document.querySelector('#page-header-container');
+    if (phc) {
+      const ref = phc.querySelector('#page-header-banner') || phc.querySelector('#page-header') || phc.firstElementChild;
+      return { parent: phc, reference: ref };
     }
+    const cc = document.querySelector('tp-yt-app-header #contentContainer');
+    if (cc) {
+      const phcIn = cc.querySelector('#page-header-container');
+      if (phcIn) {
+        const ref = phcIn.querySelector('#page-header-banner') || phcIn.querySelector('#page-header') || phcIn.firstElementChild;
+        return { parent: phcIn, reference: ref };
+      }
+      return { parent: cc, reference: cc.firstElementChild };
+    }
+    const mobileBrowse = document.querySelector('ytm-browse');
+    if (mobileBrowse) {
+      const ref = mobileBrowse.querySelector('ytm-section-list-renderer, ytm-single-column-browse-results-renderer') || mobileBrowse.firstElementChild;
+      return { parent: mobileBrowse, reference: ref };
+    }
+    return null;
+  }
 
-    if (!isChannelPage()) {
+  tryInjectCompanion(forceReinject = false) {
+    if (!this.state.extensionEnabled || !isChannelPage()) {
       document.getElementById('yt-ai-channel-companion')?.remove();
       return;
     }
@@ -39,172 +67,222 @@ export class ChannelCompanionCard {
     const channelIdentifier = getChannelIdentifier();
     if (!channelIdentifier) return;
 
-    const existing = document.getElementById('yt-ai-channel-companion');
-    if (existing && this.currentChannel === channelIdentifier) return;
-    if (existing) existing.remove();
-
-    this.currentChannel = channelIdentifier;
-
-    // Anchor: beneath channel header or tabs
-    const targetParent = document.querySelector('ytd-browse[page-subtype="channels"] #content, ytd-browse #content, ytd-tabbed-page-header') ||
-      document.querySelector('ytd-browse') ||
-      document.getElementById('content');
-
-    if (!targetParent) {
-      setTimeout(() => this.tryInjectCompanion(), 400);
+    const anchor = this._findChannelAnchor();
+    if (!anchor || !anchor.parent) {
+      setTimeout(() => this.tryInjectCompanion(forceReinject), 200);
       return;
     }
 
-    const card = document.createElement('div');
-    card.id = 'yt-ai-channel-companion';
-    card.className = 'yt-ai-channel-card';
-    ThemeManager.syncThemeWithYouTube(card);
+    const existing = document.getElementById('yt-ai-channel-companion');
+    if (existing && existing.parentNode === anchor.parent && this.currentChannel === channelIdentifier && !forceReinject) {
+      syncFullscreenVisibility();
+      this.runController.syncActiveJobUI(channelIdentifier, this.state.currentLang || 'fr');
+      return;
+    }
+    if (existing) existing.remove();
+
+    if (this.currentChannel && this.currentChannel !== channelIdentifier) {
+      this.channelChat.chatHistory = [];
+      this.knownTotalVideos = null;
+    }
+    this.currentChannel = channelIdentifier;
+    this.channelChat.currentChannel = channelIdentifier;
+    const domTotal = YouTubeDOMContext.extractChannelTotalVideosFromDOM?.() || null;
+    if (domTotal) this.knownTotalVideos = domTotal;
+
+    const banner = document.createElement('div');
+    banner.id = 'yt-ai-channel-companion';
+    banner.className = 'yt-ai-channel-card';
+    if (banner.style) {
+      banner.style.cssText = 'width:100%;max-width:100%;margin:0;background:var(--yt-ai-bg);border-bottom:1px solid var(--yt-ai-border-subtle);color:var(--yt-ai-text);box-sizing:border-box;display:block;position:relative;z-index:999;';
+    }
+    ThemeManager.syncThemeWithYouTube(banner);
 
     const lang = this.state.currentLang || 'fr';
     const isFr = lang.startsWith('fr');
+    const t = I18N[lang] || I18N.en;
+    const drawerHtml = SettingsDrawerTemplate.render(t, { showCloseBtn: true });
+    const activeJob = this.service?.getActiveJob?.(channelIdentifier) || null;
+    const maxVideos = resolveEffectiveChannelLimit(activeJob?.maxVideos || this.state.channelAuditMaxVideos || 30, this.knownTotalVideos);
+    const html = ChannelCompanionTemplate.render({
+      channelIdentifier,
+      isFr,
+      lang,
+      maxVideos,
+      totalVideos: this.knownTotalVideos,
+      isExpanded: this.isExpanded,
+      drawerHtml
+    });
 
-    const html = `
-      <div class="yt-ai-card-inner">
-        <div class="yt-ai-card-header">
-          <div class="yt-ai-card-brand">
-            <span class="yt-ai-brand-badge">IA</span>
-            <span class="yt-ai-card-title">${isFr ? 'Audit Global & Rigueur de la Chaîne' : 'Global Channel Audit & Rigor'}</span>
-            <span class="yt-ai-card-handle">${escapeHtml(channelIdentifier)}</span>
-          </div>
-          <div class="yt-ai-card-controls">
-            <button id="ytAiCompanionToggleBtn" class="yt-ai-btn-icon" title="Réduire/Agrandir">▾</button>
-          </div>
-        </div>
+    safeSetInnerHTML(banner, html);
+    if (anchor.reference) anchor.parent.insertBefore(banner, anchor.reference);
+    else anchor.parent.appendChild(banner);
 
-        <div id="ytAiCompanionBody" class="yt-ai-card-body">
-          <div class="yt-ai-onboarding-box">
-            <p class="yt-ai-onboarding-desc">
-              ${isFr
-                ? 'Évaluez l’intégrité éditoriale, la transparence commerciale (partenariats, liens affiliés) et l’évolution d’année en année grâce à un échantillonnage statistique groupé.'
-                : 'Evaluate editorial integrity, commercial transparency (sponsorships, affiliate links), and Year-over-Year evolution using stratified statistical sampling.'}
-            </p>
-            <div class="yt-ai-period-selector" style="display: flex; gap: 6px; margin: 8px 0 10px 0; align-items: center; flex-wrap: wrap;">
-              <span style="font-size: 11px; color: var(--yt-ai-text-secondary);">${isFr ? 'Période analysée :' : 'Period:'}</span>
-              <button class="yt-ai-period-pill yt-ai-format-pill active" data-period="all">🌐 ${isFr ? 'Tout' : 'All'}</button>
-              <button class="yt-ai-period-pill yt-ai-format-pill" data-period="month">⚡ ${isFr ? 'Dernier mois' : 'Last month'}</button>
-              <button class="yt-ai-period-pill yt-ai-format-pill" data-period="year">📅 ${isFr ? 'Année en cours' : 'Current year'}</button>
-              <button class="yt-ai-period-pill yt-ai-format-pill" data-period="6months">🎯 ${isFr ? '6 derniers mois' : '6 months'}</button>
-            </div>
-            <div class="yt-ai-cta-row">
-              <button id="ytAiRunChannelAuditBtn" class="yt-ai-btn yt-ai-btn-primary">
-                ⚡ ${isFr ? 'Lancer l’Audit Global de la Chaîne' : 'Run Global Channel Audit'}
-              </button>
-            </div>
-            <div id="ytAiChannelProgress" class="yt-ai-progress-box yt-ai-hidden">
-              <div class="yt-ai-spinner"></div>
-              <span id="ytAiChannelProgressText" class="yt-ai-progress-msg">Initialisation de l’audit...</span>
-            </div>
-          </div>
-
-          <div id="ytAiChannelResultContainer" class="yt-ai-result-box yt-ai-hidden"></div>
-        </div>
-      </div>
-    `;
-
-    safeSetInnerHTML(card, html);
-    targetParent.insertBefore(card, targetParent.firstChild);
-
-    this._bindEvents(card, channelIdentifier);
-
-    // If report is already cached in memory, display immediately
-    const cached = this.service?.getCachedReport(channelIdentifier);
-    if (cached) {
-      this._displayReport(cached);
+    if (!this.isExpanded) {
+      const body = banner.querySelector('#ytAiCompanionBody');
+      body?.classList?.add('yt-ai-hidden');
+      if (body?.style) body.style.display = 'none';
     }
+    if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') window.dispatchEvent(new Event('resize'));
+
+    syncFullscreenVisibility();
+    this._bindEvents(banner);
+    this.runController.bindSubscription();
+    if (!this.runController.syncActiveJobUI(channelIdentifier, lang)) {
+      this.runController.restoreCachedReport(channelIdentifier);
+    }
+    this._syncChannelCatalogTotal(channelIdentifier, lang);
+    this.settingsDrawer?.syncProviderUI?.();
   }
 
-  _bindEvents(card, channelIdentifier) {
-    const runBtn = card.querySelector('#ytAiRunChannelAuditBtn');
-    const toggleBtn = card.querySelector('#ytAiCompanionToggleBtn');
-    const body = card.querySelector('#ytAiCompanionBody');
-    let selectedPeriod = 'all';
-
-    card.querySelectorAll('.yt-ai-period-pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        card.querySelectorAll('.yt-ai-period-pill').forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-        selectedPeriod = pill.getAttribute('data-period') || 'all';
-      });
-    });
-
-    toggleBtn?.addEventListener('click', () => {
-      this.isExpanded = !this.isExpanded;
-      body?.classList.toggle('yt-ai-hidden', !this.isExpanded);
-      toggleBtn.textContent = this.isExpanded ? '▾' : '▲';
-    });
-
-    runBtn?.addEventListener('click', () => {
-      this.triggerAudit(channelIdentifier, selectedPeriod);
-    });
-  }
-
-  /**
-   * Triggers the channel audit
-   * @param {string} channelIdentifier
-   * @param {string} [period='all']
-   */
-  async triggerAudit(channelIdentifier, period = 'all') {
-    const card = document.getElementById('yt-ai-channel-companion');
-    if (!card) return;
-
-    const runBtn = card.querySelector('#ytAiRunChannelAuditBtn');
-    const progressBox = card.querySelector('#ytAiChannelProgress');
-    const resultContainer = card.querySelector('#ytAiChannelResultContainer');
-
-    if (runBtn) runBtn.disabled = true;
-    if (progressBox) {
-      progressBox.classList.remove('yt-ai-hidden');
-      progressBox.innerHTML = AuditProgressBar.renderWidget({
-        percent: 10,
-        title: 'Collecte des vidéos et descriptions complètes...',
-        detail: `Chaîne : ${channelIdentifier} (0 coupure)`
-      });
-    }
-
+  async _syncChannelCatalogTotal(channelId, lang = 'fr') {
+    const mgr = this.channelChat?.channelManager || this.service?.channelManager;
+    if (!channelId || typeof mgr?.getOrFetchChannelDossier !== 'function') return;
     try {
-      const report = await this.service.executeChannelAudit({
-        channelQuery: channelIdentifier,
-        period,
-        lang: this.state.currentLang || 'fr',
-        state: this.state,
-        onProgress: (status) => {
-          if (progressBox) {
-            AuditProgressBar.updateWidget(progressBox, {
-              percent: status.percent,
-              title: status.message || status.title,
-              detail: status.detail || ''
-            });
-          }
-        }
-      });
-
-      this._displayReport(report);
-    } catch (err) {
-      if (progressBox) {
-        progressBox.innerHTML = `<p style="color: #ff7b72; font-size: 12px; margin: 8px 0;">[!] Erreur : ${escapeHtml(err.message || String(err))}</p>`;
+      const res = await mgr.getOrFetchChannelDossier(channelId, 30);
+      if (this.currentChannel !== channelId || !res?.success || !res.channel) return;
+      const resolvedTotal = res.channel.hasMore === false && res.channel.recentVideos?.length > 0
+        ? res.channel.recentVideos.length
+        : (res.channel.totalChannelVideos || null);
+      if (resolvedTotal && resolvedTotal > 0) {
+        this.knownTotalVideos = resolvedTotal;
+        const sel = document.getElementById?.('ytAiCompanionMaxVideos');
+        const activeVal = sel?.value || this.state.channelAuditMaxVideos || 30;
+        syncChannelMaxSelectElement(sel, activeVal, lang.startsWith('fr'), resolvedTotal);
       }
-    } finally {
-      if (runBtn) runBtn.disabled = false;
+    } catch (_) {}
+  }
+
+  switchTab(tab = 'channelAudit') {
+    this.activeTab = tab;
+    const root = document.getElementById?.('yt-ai-channel-companion') || document;
+    const isAudit = tab === 'channelAudit';
+    const setActive = (id, on) => {
+      const el = root.querySelector?.(`#${id}`) || document.getElementById?.(id);
+      el?.classList?.[on ? 'add' : 'remove']?.('active');
+    };
+    setActive('ytAiChanTabAuditBtn', isAudit);
+    setActive('ytAiChanTabChatBtn', !isAudit);
+    setActive('ytAiChanPaneAudit', isAudit);
+    setActive('ytAiChanPaneChat', !isAudit);
+  }
+
+  reset(lang = 'fr') {
+    this.channelChat.resetChat(lang, false);
+    const resultBox = document.getElementById('ytAiChannelResultContainer');
+    if (resultBox) {
+      resultBox.innerHTML = '';
+      resultBox.classList.add('yt-ai-hidden');
     }
   }
 
-  _displayReport(report) {
-    const card = document.getElementById('yt-ai-channel-companion');
-    if (!card) return;
-
-    const onboardingBox = card.querySelector('.yt-ai-onboarding-box');
-    const resultContainer = card.querySelector('#ytAiChannelResultContainer');
-
-    if (onboardingBox) onboardingBox.classList.add('yt-ai-hidden');
-    if (resultContainer) {
-      resultContainer.classList.remove('yt-ai-hidden');
-      this.viewController.renderReport(report, resultContainer, this.state.currentLang || 'fr');
+  refreshLanguage(lang) {
+    const resolved = lang || this.state.currentLang || 'fr';
+    this.state.currentLang = resolved;
+    if (!isChannelPage()) return;
+    const existing = document.getElementById?.('yt-ai-channel-companion');
+    if (existing) {
+      ChannelCompanionI18n.applyLanguage(resolved, this);
+    } else {
+      this.tryInjectCompanion(true);
     }
+  }
+
+  _bindEvents(banner) {
+    const toggleBtn = banner.querySelector('#ytAiCompanionToggleBtn');
+    const brandToggle = banner.querySelector('#ytAiBrandToggle');
+    const body = banner.querySelector('#ytAiCompanionBody');
+    const handleToggle = () => {
+      if (!body) return;
+      this.isExpanded = !this.isExpanded;
+      body.classList?.toggle('yt-ai-hidden', !this.isExpanded);
+      if (body.style) body.style.display = this.isExpanded ? 'block' : 'none';
+      const t = I18N[this.state.currentLang || 'fr'] || I18N.en;
+      const toggleLabel = this.isExpanded ? (t.collapse || 'Collapse') : (t.expand || 'Expand');
+      const toggleText = banner.querySelector('#ytAiCompToggleText');
+      const toggleIcon = banner.querySelector('#ytAiCompToggleIcon');
+      if (toggleText && toggleIcon) {
+        toggleText.textContent = toggleLabel;
+        toggleIcon.textContent = this.isExpanded ? '▲' : '▾';
+      } else if (toggleBtn) {
+        toggleBtn.textContent = `${toggleLabel} ${this.isExpanded ? '▲' : '▾'}`;
+      }
+      if (toggleBtn) toggleBtn.title = toggleLabel;
+      if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') window.dispatchEvent(new Event('resize'));
+    };
+    if (toggleBtn && body) {
+      toggleBtn.addEventListener('click', handleToggle);
+    }
+    if (brandToggle && body) {
+      brandToggle.addEventListener('click', handleToggle);
+    }
+
+    banner.querySelector('#ytAiCompLangSelect')?.addEventListener('change', (e) => {
+      const newLang = e.target.value;
+      if (!newLang) return;
+      this.state.currentLang = newLang;
+      this.state.savePreference?.('targetLang', newLang);
+      this.refreshLanguage(newLang);
+      this.audioController?.populateVoiceDropdown?.(newLang);
+    });
+
+    banner.querySelector('#ytAiCompanionSettingsBtn')?.addEventListener('click', () => {
+      SettingsDrawerController.toggleSettingsDrawer();
+      const drawer = banner.querySelector('#ytAiSettingsDrawer');
+      if (drawer && !drawer.classList.contains('yt-ai-hidden')) this.settingsDrawer?.syncProviderUI();
+    });
+
+    if (this.settingsDrawer) SettingsDrawerEventHandler.bind(banner, this.settingsDrawer, this.state, null);
+
+    banner.querySelector('#ytAiChanTabAuditBtn')?.addEventListener('click', () => this.switchTab('channelAudit'));
+    banner.querySelector('#ytAiChanTabChatBtn')?.addEventListener('click', () => this.switchTab('channelChat'));
+
+    banner.querySelector('#ytAiRunChannelAuditBtn')?.addEventListener('click', () => {
+      if (this.service?.isAuditRunning?.(this.currentChannel)) {
+        this.handleStopAudit();
+        return;
+      }
+      this.switchTab('channelAudit');
+      if (!this.isExpanded && toggleBtn) toggleBtn.click();
+      this.handleRunAudit();
+    });
+
+    banner.querySelectorAll('.yt-ai-period-pill').forEach((pill) => {
+      pill.addEventListener('click', (e) => {
+        banner.querySelectorAll('.yt-ai-period-pill').forEach((p) => p.classList.remove('active'));
+        const target = e?.currentTarget || pill;
+        target.classList?.add('active');
+        this.state.channelAuditPeriod = (target.dataset && target.dataset.period) || 'all';
+      });
+    });
+
+    const maxSelect = banner.querySelector('#ytAiCompanionMaxVideos');
+    if (maxSelect) {
+      maxSelect.value = String(resolveEffectiveChannelLimit(this.state.channelAuditMaxVideos || 30, this.knownTotalVideos));
+      maxSelect.addEventListener('change', (e) => {
+        const parsed = parseChannelAuditLimit(e.target.value);
+        this.state.channelAuditMaxVideos = parsed.isAll ? 'all' : parsed.numericLimit;
+        this.state.savePreference?.('channelAuditMaxVideos', this.state.channelAuditMaxVideos);
+      });
+    }
+
+    this.channelChat.bindEvents(banner, this.state);
+  }
+
+  handleStopAudit() {
+    this.runController.stop();
+  }
+
+  handleRunAudit() {
+    return this.runController.run();
+  }
+
+  _renderReport(report, resultBox, lang) {
+    this.runController.renderReport(report, resultBox, lang);
+  }
+
+  _restoreCachedReport(channelId) {
+    return this.runController.restoreCachedReport(channelId);
   }
 }
 

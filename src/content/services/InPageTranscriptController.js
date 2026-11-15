@@ -1,6 +1,9 @@
 import { DOMTranscriptExtractor } from './DOMTranscriptExtractor.js';
 import { NativeTranscriptPanel } from './NativeTranscriptPanel.js';
 import { YouTubeDOMContext } from './YouTubeDOMContext.js';
+import { CaptionTrackPrioritizer } from '../../parsers/CaptionTrackPrioritizer.js';
+import { TimedtextParser } from '../../parsers/TimedtextParser.js';
+import { TextCleaner } from '../../parsers/TextCleaner.js';
 import { getVideoId } from '../ui/NavigationObserver.js';
 import { escapeHtml } from '../ui/MarkdownRenderer.js';
 import { I18N } from '../../locales/index.js';
@@ -18,69 +21,57 @@ export class InPageTranscriptController {
   }
 
   static cleanTranscriptText(text) {
-    if (!text) return '';
-    return text
-      .replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&apos;/g, "'")
-      .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\n/g, ' ').replace(/\s+/g, ' ')
-      .trim();
+    return TextCleaner.cleanTranscriptText(text);
   }
 
   static parseTimedtextContent(bodyText) {
     if (!bodyText || typeof bodyText !== 'string' || !bodyText.trim()) return null;
     const trimmed = bodyText.trim();
-
     if (trimmed.startsWith('{')) {
       try {
         const json = JSON.parse(trimmed);
-        if (json && Array.isArray(json.events)) {
-          const segs = [];
-          for (const ev of json.events) {
-            if (!ev.segs) continue;
-            const sec = Math.floor((ev.tStartMs || 0) / 1000);
-            const m = Math.floor(sec / 60);
-            const s = (sec % 60).toString().padStart(2, '0');
-            const txt = InPageTranscriptController.cleanTranscriptText(ev.segs.map(s => s.utf8 || '').join(''));
-            if (txt && txt !== '\n') segs.push({ timestamp: `${m}:${s}`, text: txt });
-          }
-          if (segs.length > 0) return segs;
+        const segs = TimedtextParser.parseTimedtextEvents(json?.events);
+        if (segs && segs.length > 0) {
+          return segs.map(s => {
+            const sec = Math.floor(s.startMs / 1000);
+            return { timestamp: `${Math.floor(sec / 60)}:${(sec % 60).toString().padStart(2, '0')}`, text: s.text };
+          });
         }
       } catch (_) {}
     }
-
-    try {
-      const doc = new DOMParser().parseFromString(trimmed, 'text/xml');
-      const nodes = Array.from(doc.querySelectorAll('text, p'));
-      if (nodes.length > 0) {
-        return nodes.map(n => {
-          const tAttr = n.getAttribute('t');
-          const sec = tAttr ? Math.floor(parseInt(tAttr, 10) / 1000) : Math.floor(parseFloat(n.getAttribute('start') || n.getAttribute('begin') || '0'));
-          const m = Math.floor(sec / 60);
-          const s = (sec % 60).toString().padStart(2, '0');
-          return { timestamp: `${m}:${s}`, text: InPageTranscriptController.cleanTranscriptText(n.textContent || '') };
-        }).filter(s => s.text.length > 0);
-      }
-    } catch (_) {}
+    const xmlSegs = TimedtextParser.parseTimedtextXml(trimmed);
+    if (xmlSegs && xmlSegs.length > 0) {
+      return xmlSegs.map(s => {
+        const sec = Math.floor(s.startMs / 1000);
+        return { timestamp: `${Math.floor(sec / 60)}:${(sec % 60).toString().padStart(2, '0')}`, text: s.text };
+      });
+    }
     return null;
   }
 
-  async fetchTimedtextSegments(baseUrl) {
+  async fetchTimedtextSegments(baseUrl, preferredLang = null) {
     if (!baseUrl) return null;
-    try {
-      const jsonUrl = baseUrl + (baseUrl.includes('?') ? '&' : '?') + 'fmt=json3';
-      const resp = await fetch(jsonUrl, { credentials: 'include' });
-      if (resp.ok) {
-        const segs = InPageTranscriptController.parseTimedtextContent(await resp.text());
-        if (segs) return segs;
-      }
-    } catch (_) {}
+    const urls = [];
+    if (preferredLang && !baseUrl.includes(`lang=${preferredLang}`)) {
+      urls.push(baseUrl + (baseUrl.includes('?') ? '&' : '?') + `tlang=${preferredLang}&fmt=json3`);
+    }
+    urls.push(baseUrl + (baseUrl.includes('?') ? '&' : '?') + 'fmt=json3');
+    if (baseUrl.includes('&variant=')) {
+      const stripped = baseUrl.replace(/&variant=[^&]+/, '');
+      urls.push(stripped + (stripped.includes('?') ? '&' : '?') + 'fmt=json3');
+      urls.push(stripped);
+    }
+    urls.push(baseUrl);
 
-    try {
-      const resp = await fetch(baseUrl, { credentials: 'include' });
-      if (resp.ok) {
-        const segs = InPageTranscriptController.parseTimedtextContent(await resp.text());
-        if (segs) return segs;
-      }
-    } catch (_) {}
+    for (const u of urls) {
+      try {
+        const resp = await fetch(u, { credentials: 'include' });
+        if (resp.ok) {
+          const segs = InPageTranscriptController.parseTimedtextContent(await resp.text());
+          if (segs && segs.length > 0) return segs;
+        }
+      } catch (_) {}
+    }
     return null;
   }
 
@@ -172,38 +163,40 @@ export class InPageTranscriptController {
       return playerData.segments;
     }
 
-    // STRATÉGIE 3 : Timedtext Direct Streams
+    // STRATÉGIE 3 : Timedtext Direct Streams (All candidate tracks)
     if (playerData?.videoId === currentVideoId && playerData?.captions?.length > 0) {
-      let track = playerData.captions.find(t => t.languageCode === preferredLang) ||
-                  playerData.captions.find(t => t.languageCode?.startsWith(preferredLang)) ||
-                  playerData.captions.find(t => t.languageCode === 'en' || t.languageCode?.startsWith('en')) ||
-                  playerData.captions[0];
-      if (track?.baseUrl) {
-        const segments = await this.fetchTimedtextSegments(track.baseUrl);
-        if (segments && segments.length > 0) {
-          this.saveCachedTranscript(currentVideoId, segments, false);
-          return segments;
+      const ordered = CaptionTrackPrioritizer.prioritizeTracks(playerData.captions, preferredLang);
+      for (const track of ordered) {
+        if (track?.baseUrl) {
+          const segments = await this.fetchTimedtextSegments(track.baseUrl, preferredLang);
+          if (segments && segments.length > 0) {
+            this.saveCachedTranscript(currentVideoId, segments, false);
+            return segments;
+          }
         }
       }
     }
 
-    // STRATÉGIE 4 : Background Direct Fetch via Service Worker
+    // STRATÉGIE 4 : Stealth Native Panel (Full dialogue transcript in DOM)
+    const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
+    if (stealthSegments && stealthSegments.length > 0) {
+      this.saveCachedTranscript(currentVideoId, stealthSegments, false);
+      return stealthSegments;
+    }
+
+    // STRATÉGIE 5 : Background Fetch via Service Worker
     const bgResult = await this.fetchTranscriptFromBackground(currentVideoId, preferredLang);
-    if (bgResult?.segments?.length > 0) {
+    if (bgResult?.segments?.length > 0 && !bgResult.isChapterOnly) {
       this.saveCachedTranscript(currentVideoId, bgResult.segments, false);
       return bgResult.segments;
     }
 
-    // STRATÉGIE 5 : Stealth Native Panel (Full dialogue transcript)
-    if (isUserInitiated) {
-      const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
-      if (stealthSegments && stealthSegments.length > 0) {
-        this.saveCachedTranscript(currentVideoId, stealthSegments, false);
-        return stealthSegments;
-      }
+    // STRATÉGIE 6 : Description Chapters / Timestamps (Transparent fallback)
+    if (bgResult?.segments?.length > 0 && bgResult.isChapterOnly) {
+      this.saveCachedTranscript(currentVideoId, bgResult.segments, true);
+      return bgResult.segments;
     }
 
-    // STRATÉGIE 6 : Description Chapters / Timestamps (Ultimate fallback)
     const chapterSegments = YouTubeDOMContext.extractChaptersFromDescription();
     if (chapterSegments && chapterSegments.length > 1) {
       this.saveCachedTranscript(currentVideoId, chapterSegments, true);
@@ -223,19 +216,33 @@ export class InPageTranscriptController {
     const wordsCount = this.cachedTranscript.fullText.trim().split(/\s+/).filter(Boolean).length;
     const wordCountEl = document.getElementById('ytAiWordCount');
     const wordCountTab = document.getElementById('ytAiWordCountTab');
+    const headerTitle = document.getElementById('ytAiTranscriptHeaderTitle');
     const transcriptBody = document.getElementById('ytAiTranscriptBody');
     const currentLang = document.getElementById('ytAiLangSelect')?.value || 'en';
     const t = I18N[currentLang] || I18N.en;
+    const fb = I18N.en;
 
+    const chapSuffix = t.chapterBadge || fb.chapterBadge;
     if (wordCountEl) wordCountEl.textContent = wordsCount.toLocaleString();
     if (wordCountTab) {
       wordCountTab.textContent = isChapterOnly
-        ? `${wordsCount.toLocaleString()} ${t.wordsBadge || 'words'} (Chapitres)`
-        : `${wordsCount.toLocaleString()} ${t.wordsBadge || 'words'}`;
+        ? `${wordsCount.toLocaleString()} ${t.wordsBadge || fb.wordsBadge} ${chapSuffix}`
+        : `${wordsCount.toLocaleString()} ${t.wordsBadge || fb.wordsBadge}`;
+    }
+    if (headerTitle) {
+      headerTitle.textContent = isChapterOnly
+        ? `${t.transcriptTitle || fb.transcriptTitle} ${chapSuffix}`
+        : (t.transcriptTitle || fb.transcriptTitle);
     }
 
     if (transcriptBody) {
-      transcriptBody.innerHTML = segments.map(s => {
+      const warnHtml = isChapterOnly
+        ? `<div class="yt-ai-chapter-warning" style="margin-bottom:8px;padding:8px 10px;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.3);border-radius:4px;font-size:11px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+             <span>⚠️ ${escapeHtml(t.chapterOnlyNotice || fb.chapterOnlyNotice)}</span>
+             <button id="ytAiForceTranscriptBtn" class="yt-ai-btn yt-ai-btn-secondary" style="font-size:11px;padding:2px 8px;cursor:pointer;">🔄 ${escapeHtml(t.forceRetryBtn || fb.forceRetryBtn)}</button>
+           </div>`
+        : '';
+      transcriptBody.innerHTML = warnHtml + segments.map(s => {
         let sec = 0;
         if (s.timestamp) {
           const parts = s.timestamp.split(':').map(Number);
@@ -244,6 +251,20 @@ export class InPageTranscriptController {
         }
         return `<div class="yt-ai-transcript-line"><a href="javascript:void(0)" class="yt-ai-timestamp-link" data-time="${sec}">[${s.timestamp || '--:--'}]</a> <span>${escapeHtml(s.text)}</span></div>`;
       }).join('');
+
+      if (isChapterOnly) {
+        document.getElementById('ytAiForceTranscriptBtn')?.addEventListener('click', async () => {
+          const activeLang = document.getElementById('ytAiLangSelect')?.value || currentLang;
+          const activeT = I18N[activeLang] || I18N.en;
+          transcriptBody.innerHTML = `<div class="yt-ai-loading">${escapeHtml(activeT.extractingLabel || fb.extractingLabel)}</div>`;
+          const segs = await NativeTranscriptPanel.triggerStealthNativeTranscript();
+          if (segs && segs.length > 0) {
+            this.saveCachedTranscript(videoId, segs, false);
+          } else {
+            this.saveCachedTranscript(videoId, segments, true);
+          }
+        });
+      }
     }
   }
 
@@ -256,9 +277,11 @@ export class InPageTranscriptController {
     const t = I18N[currentLang] || I18N.en;
     const wordCountEl = document.getElementById('ytAiWordCount');
     const wordCountTab = document.getElementById('ytAiWordCountTab');
+    const headerTitle = document.getElementById('ytAiTranscriptHeaderTitle');
     const transcriptBody = document.getElementById('ytAiTranscriptBody');
     if (wordCountEl) wordCountEl.textContent = '0';
     if (wordCountTab) wordCountTab.textContent = `0 ${t.wordsBadge || 'words'}`;
+    if (headerTitle) headerTitle.textContent = t.transcriptTitle || '📜 Full Transcript';
     if (transcriptBody) {
       transcriptBody.innerHTML = `<div class="yt-ai-loading">${escapeHtml(t.transcriptWaiting || 'Waiting for transcript...')}</div>`;
     }

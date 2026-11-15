@@ -78,16 +78,21 @@ export class ChannelIntelligenceManager {
   async getOrFetchChannelDossier(query, limit = 30) {
     if (!query) return { success: false, error: 'Empty query' };
 
+    const numericLimit = limit === 'all' ? 5000 : Math.max(1, parseInt(limit, 10) || 30);
     const cacheKey = String(query).trim().toLowerCase();
     if (this.cachedDossiers.has(cacheKey)) {
-      return { success: true, channel: this.cachedDossiers.get(cacheKey) };
+      const cached = this.cachedDossiers.get(cacheKey);
+      const prevLimit = cached._fetchedLimit ?? 30;
+      if (numericLimit <= prevLimit || cached.hasMore === false) {
+        return { success: true, channel: cached };
+      }
     }
 
     try {
       const response = await new Promise((resolve) => {
         if (typeof chrome !== 'undefined' && chrome.runtime?.sendMessage) {
           chrome.runtime.sendMessage(
-            { action: 'FETCH_CHANNEL_DOSSIER', query, limit },
+            { action: 'FETCH_CHANNEL_DOSSIER', query, limit: numericLimit },
             (res) => resolve(res || { success: false, error: 'No response from background' })
           );
         } else {
@@ -96,6 +101,7 @@ export class ChannelIntelligenceManager {
       });
 
       if (response && response.success && response.channel) {
+        response.channel._fetchedLimit = numericLimit;
         this.cachedDossiers.set(cacheKey, response.channel);
         if (response.channel.handle) {
           this.cachedDossiers.set(response.channel.handle.toLowerCase(), response.channel);

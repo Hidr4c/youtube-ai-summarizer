@@ -52,7 +52,15 @@ export class SettingsDrawerController {
   showStatusBanner(text, isError = false) {
     if (this.bannerView) {
       this.bannerView.showStatusBanner(text, isError);
+      return;
     }
+    const el = document.getElementById('ytAiStatusBanner') || document.getElementById('ytAiCompanionStatusBanner');
+    if (!el) return;
+    const clean = (text || '').trim().replace(/^❌\s*/, '');
+    el.textContent = isError ? `❌ ${clean}` : clean;
+    el.className = `yt-ai-reasoning ${isError ? 'offline' : ''}`;
+    el.classList.remove('yt-ai-hidden');
+    setTimeout(() => { if (el.textContent.includes(clean)) el.classList.add('yt-ai-hidden'); }, 7000);
   }
 
   updateHeaderBadge() {
@@ -139,15 +147,9 @@ export class SettingsDrawerController {
 
     const activeM = this.state.getActiveModel();
     if (select.options.length > 0) {
-      let found = false;
-      for (const opt of select.options) {
-        if (opt.value === activeM) {
-          select.value = activeM;
-          found = true;
-          break;
-        }
-      }
-      if (!found) select.selectedIndex = 0;
+      const match = Array.from(select.options).some(o => o.value === activeM);
+      if (match) select.value = activeM;
+      else select.selectedIndex = 0;
       this.state.setActiveModel(select.value);
       this.state.savePreference(`selectedModel_${provider}`, select.value);
       this.state.savePreference('selectedModel', select.value);
@@ -159,11 +161,9 @@ export class SettingsDrawerController {
     if (!serverSelect) return;
 
     const isOllama = this.state.currentProvider === 'ollama';
-    const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? 'http://localhost:11434' : 'http://127.0.0.1:1234');
+    const currentUrl = this.state.serverUrls[this.state.currentProvider] || (isOllama ? 'http://localhost:11434' : 'http://localhost:1234');
     serverSelect.innerHTML = '';
-    const presets = isOllama
-      ? ['http://localhost:11434', 'http://127.0.0.1:11434']
-      : ['http://127.0.0.1:1234', 'http://localhost:1234'];
+    const presets = isOllama ? ['http://localhost:11434', 'http://127.0.0.1:11434'] : ['http://localhost:1234', 'http://127.0.0.1:1234'];
 
     presets.forEach(u => {
       const opt = document.createElement('option');
@@ -176,11 +176,8 @@ export class SettingsDrawerController {
     const t = I18N[this.state.currentLang] || I18N.en;
     const customOpt = document.createElement('option');
     customOpt.value = 'custom';
-    customOpt.textContent = t.customServer || 'Custom IP...';
-    if (!presets.includes(currentUrl)) {
-      customOpt.selected = true;
-      customOpt.textContent = `Custom (${currentUrl.replace(/https?:\/\//, '')})`;
-    }
+    customOpt.textContent = !presets.includes(currentUrl) ? `Custom (${currentUrl.replace(/https?:\/\//, '')})` : (t.customServer || 'Custom IP...');
+    if (!presets.includes(currentUrl)) customOpt.selected = true;
     serverSelect.appendChild(customOpt);
   }
 
@@ -250,18 +247,16 @@ export class SettingsDrawerController {
   bindPasteButton() {
     const btn = document.getElementById("ytAiPasteApiKeyBtn");
     const input = document.getElementById("ytAiApiKeyInput");
-    if (!btn || !input || btn.dataset.bound === "true") return;
-    btn.dataset.bound = "true";
+    if (!btn || !input || btn.dataset?.bound === "true" || btn.getAttribute?.('data-bound') === "true") return;
+    if (btn.dataset) btn.dataset.bound = "true";
+    btn.setAttribute?.('data-bound', 'true');
     btn.addEventListener("click", async () => {
       await QuickOnboardingHelper.pasteApiKeyFromClipboard(input, (val) => {
         const provider = this.state.currentProvider;
         this.state.apiKeys[provider] = val;
         this.state.savePreference(`apiKey_${provider}`, val);
         QuickOnboardingHelper.testAndValidateKey({
-          state: this.state,
-          provider,
-          key: val,
-          model: this.state.getActiveModel(),
+          state: this.state, provider, key: val, model: this.state.getActiveModel(),
           showStatusBanner: (m, e) => this.showStatusBanner(m, e),
           updateHeaderBadge: () => this.updateHeaderBadge()
         });

@@ -58,6 +58,10 @@ chatViewController.auditViewController = auditViewController;
 const channelCompanionCard = new ChannelCompanionCard({
   channelAuditService,
   channelAuditViewController,
+  settingsDrawer,
+  audioController,
+  transcriptController,
+  channelManager: chatViewController.channelManager,
   state
 });
 
@@ -83,7 +87,7 @@ const triggerAudit = () => {
 
 const triggerChannelAudit = () => {
   bannerView.setExpanded(true);
-  bannerView.switchTab('audit');
+  bannerView.switchTab('channelAudit');
   auditViewController.handleTriggerChannelAudit({
     state, currentLang: state.currentLang
   });
@@ -99,17 +103,56 @@ function bindEvents(banner) {
 
 function handlePageInjection() {
   if (isWatchPage()) {
+    document.getElementById('yt-ai-channel-companion')?.remove();
     bannerView.tryInjectBanner(bindEvents);
   } else if (isChannelPage()) {
+    document.getElementById('yt-ai-summarizer-container')?.remove();
     channelCompanionCard.tryInjectCompanion();
+  } else {
+    document.getElementById('yt-ai-channel-companion')?.remove();
+    document.getElementById('yt-ai-summarizer-container')?.remove();
   }
+}
+
+function proxyBrowseContinuationToMainWorld(req) {
+  return new Promise((resolve) => {
+    const requestId = `browse_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    let settled = false;
+    const finish = (res) => {
+      if (settled) return;
+      settled = true;
+      window.removeEventListener('message', onMsg);
+      clearTimeout(timer);
+      resolve(res);
+    };
+    const onMsg = (event) => {
+      if (event.source !== window || !event.data) return;
+      if (event.data.type === 'YT_AI_BROWSE_CONTINUATION_RESULT' && event.data.requestId === requestId) {
+        finish({ ok: !!event.data.ok, status: event.data.status || 0, items: event.data.items || [] });
+      }
+    };
+    const timer = setTimeout(() => finish({ ok: false, status: 408, items: [] }), 12000);
+    window.addEventListener('message', onMsg);
+    window.postMessage({
+      type: 'YT_AI_REQ_BROWSE_CONTINUATION',
+      requestId,
+      apiKey: req.apiKey,
+      clientVersion: req.clientVersion,
+      continuation: req.continuation,
+      visitorData: req.visitorData
+    }, '*');
+  });
 }
 
 function initContentScript() {
   ThemeManager.initThemeSync();
+  NavigationObserver.observeFullscreen();
 
   loadPreferences(state, () => {
     handlePageInjection();
+    if (settingsDrawer && typeof settingsDrawer.syncProviderUI === 'function') {
+      settingsDrawer.syncProviderUI();
+    }
 
     NavigationObserver.observeNavigation(({ isNewVideo, isChannel }) => {
       if (isNewVideo) {
@@ -118,9 +161,20 @@ function initContentScript() {
         transcriptController.resetAllState(state.currentLang);
         summaryViewController.resetSummaryOutput(state.currentLang, triggerSummarize);
         chatViewController.resetChatOutput?.(state.currentLang);
+        auditService.abortAudit?.('navigation');
         auditService.clearCache();
         auditViewController.lastReport = null;
         state.cachedAuditReport = null;
+        state.currentChannelTotalVideos = null;
+
+        if (!state.autoSummarize) {
+          bannerView.setExpanded(false);
+        }
+        if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+          setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' }), 100);
+          setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' }), 300);
+        }
       }
 
       handlePageInjection();
@@ -160,12 +214,16 @@ function initContentScript() {
         channelAuditService.clearCache();
         auditViewController.lastReport = null;
         state.cachedAuditReport = null;
+        channelCompanionCard.reset?.(state.currentLang);
         bannerView.showStatusBanner('✓ Cache cleared', false);
         sendResponse({ success: true });
+      } else if (act === 'PROXY_INNERTUBE_BROWSE') {
+        proxyBrowseContinuationToMainWorld(req).then((result) => sendResponse(result));
       } else if (act === 'SET_LANGUAGE') {
         if (req.lang) {
           state.currentLang = req.lang;
           bannerView.applyLanguage(state.currentLang, summaryViewController, chatViewController, auditViewController);
+          channelCompanionCard.refreshLanguage?.(state.currentLang);
           audioController.populateVoiceDropdown(state.currentLang);
         }
         sendResponse({ success: true });
