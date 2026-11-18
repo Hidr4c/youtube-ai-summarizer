@@ -1,4 +1,5 @@
-import { PROVIDER_CONFIGS } from '../config/AIProviderPresets.js';
+import { PROVIDER_CONFIGS, resolveDeprecatedModel } from '../config/AIProviderPresets.js';
+import { CloudModelDiscovery } from '../services/ai/providers/CloudModelDiscovery.js';
 
 /**
  * Handles streaming HTTP inference and dispatches chunks over Chrome Runtime Port
@@ -57,6 +58,9 @@ export class StreamRelay {
         await this.streamClaude(port, apiKey, model, systemPrompt, chatMessages, temperature, maxTokens, abortController.signal, safePost);
       } else {
         await this.streamOpenAICompatible(port, provider, serverUrl, apiKey, model, chatMessages, temperature, maxTokens, abortController.signal, safePost);
+      }
+      if (provider !== 'lmstudio' && provider !== 'ollama') {
+        chrome?.storage?.local?.set?.({ [`keyVerified_${provider}`]: true });
       }
       safePost({ type: 'DONE' });
     } catch (err) {
@@ -143,6 +147,7 @@ export class StreamRelay {
       }
       throw new Error(`Aucun modèle sélectionné pour ${provider.toUpperCase()}.`);
     }
+    effectiveModel = resolveDeprecatedModel(provider, effectiveModel);
 
     const bodyPayload = {
       model: effectiveModel,
@@ -158,56 +163,35 @@ export class StreamRelay {
       }
     }
 
-    const fetchOptions = {
-      method: 'POST',
+    const { response, resolvedModel, errorText } = await CloudModelDiscovery.fetchWithModelFallback({
+      endpoint,
       headers,
-      body: JSON.stringify(bodyPayload)
-    };
-    if (signal) fetchOptions.signal = signal;
+      payload: bodyPayload,
+      signal,
+      provider,
+      apiKey
+    });
 
-    const response = await fetch(endpoint, fetchOptions);
-
+    if (resolvedModel && response.ok) {
+      const postResolved = safePost || ((m) => port?.postMessage?.(m));
+      postResolved({ type: 'MODEL_RESOLVED', provider, model: resolvedModel });
+      chrome?.storage?.local?.set?.({
+        [`selectedModel_${provider}`]: resolvedModel,
+        selectedModel: resolvedModel,
+        [`keyVerified_${provider}`]: true
+      });
+    }
     if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`Erreur ${provider.toUpperCase()} (${response.status}) : ${errText || response.statusText}`);
+      const msg = (provider === 'lmstudio' || provider === 'ollama')
+        ? `Erreur ${provider.toUpperCase()} (${response.status}) : ${errorText || response.statusText}`
+        : CloudModelDiscovery.formatHttpError(provider, response.status, errorText || response.statusText);
+      throw new Error(msg);
     }
 
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder('utf-8');
-    let buffer = '';
-
-    while (true) {
-      if (signal?.aborted) {
-        try { await reader.cancel(); } catch (_) {}
-        break;
-      }
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop(); // Retain incomplete line for next iteration
-
-      for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed || trimmed.startsWith(':') || trimmed === 'data: [DONE]') continue;
-
-        if (trimmed.startsWith('data: ')) {
-          try {
-            const parsed = JSON.parse(trimmed.slice(6));
-            const delta = parsed.choices?.[0]?.delta || {};
-            const chunkMsg = {
-              type: 'CHUNK',
-              content: delta.content || '',
-              reasoning: delta.reasoning_content || '',
-              text: delta.content || ''
-            };
-            if (safePost) safePost(chunkMsg);
-            else port.postMessage(chunkMsg);
-          } catch (e) {}
-        }
-      }
-    }
+    await StreamRelay._consumeSseStream(response, signal, safePost, port, (parsed) => {
+      const delta = parsed.choices?.[0]?.delta || {};
+      return { content: delta.content || '', reasoning: delta.reasoning_content || '', text: delta.content || '' };
+    });
   }
 
   /**
@@ -223,7 +207,7 @@ export class StreamRelay {
     const parsedMax = parseInt(maxTokens, 10);
 
     const bodyPayload = {
-      model: model || 'claude-3-5-haiku-20241022',
+      model: resolveDeprecatedModel('claude', model) || PROVIDER_CONFIGS.claude.defaultModel,
       max_tokens: (!isNaN(parsedMax) && parsedMax > 0) ? parsedMax : 4096,
       system: systemContent,
       messages: claudeMessages,
@@ -234,27 +218,51 @@ export class StreamRelay {
       bodyPayload.temperature = Math.max(0, Math.min(parsedTemp, 1.0));
     }
 
-    const fetchOptions = {
-      method: 'POST',
-      headers: {
-        'x-api-key': apiKey.trim(),
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(bodyPayload)
+    const headers = {
+      'x-api-key': apiKey.trim(),
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json'
     };
-    if (signal) fetchOptions.signal = signal;
 
-    const response = await fetch(PROVIDER_CONFIGS.claude.endpoint, fetchOptions);
+    const { response, resolvedModel, errorText } = await CloudModelDiscovery.fetchWithModelFallback({
+      endpoint: PROVIDER_CONFIGS.claude.endpoint,
+      headers,
+      payload: bodyPayload,
+      signal,
+      provider: 'claude',
+      apiKey: apiKey.trim()
+    });
 
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`Erreur Claude (${response.status}) : ${errText}`);
+    if (resolvedModel && response.ok) {
+      const postResolved = safePost || ((m) => port?.postMessage?.(m));
+      postResolved({ type: 'MODEL_RESOLVED', provider: 'claude', model: resolvedModel });
+      chrome?.storage?.local?.set?.({
+        selectedModel_claude: resolvedModel,
+        selectedModel: resolvedModel,
+        keyVerified_claude: true
+      });
     }
 
+    if (!response.ok) {
+      throw new Error(CloudModelDiscovery.formatHttpError('claude', response.status, errorText || response.statusText));
+    }
+
+    await StreamRelay._consumeSseStream(response, signal, safePost, port, (parsed) => {
+      if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+        return { content: parsed.delta.text, reasoning: '', text: parsed.delta.text };
+      }
+      return null;
+    });
+  }
+
+  /**
+   * Shared Server-Sent Events (SSE) stream reader for OpenAI-compatible and Claude streams
+   */
+  static async _consumeSseStream(response, signal, safePost, port, extractChunk) {
     const reader = response.body.getReader();
     const decoder = new TextDecoder('utf-8');
     let buffer = '';
+    const emit = safePost || ((m) => port.postMessage(m));
 
     while (true) {
       if (signal?.aborted) {
@@ -266,27 +274,15 @@ export class StreamRelay {
 
       buffer += decoder.decode(value, { stream: true });
       const lines = buffer.split('\n');
-      buffer = lines.pop();
+      buffer = lines.pop(); // Retain incomplete line for next iteration
 
       for (const line of lines) {
         const trimmed = line.trim();
-        if (!trimmed || trimmed.startsWith(':')) continue;
-
-        if (trimmed.startsWith('data: ')) {
-          try {
-            const parsed = JSON.parse(trimmed.slice(6));
-            if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
-              const chunkMsg = {
-                type: 'CHUNK',
-                content: parsed.delta.text,
-                reasoning: '',
-                text: parsed.delta.text
-              };
-              if (safePost) safePost(chunkMsg);
-              else port.postMessage(chunkMsg);
-            }
-          } catch (e) {}
-        }
+        if (!trimmed || trimmed.startsWith(':') || trimmed === 'data: [DONE]' || !trimmed.startsWith('data: ')) continue;
+        try {
+          const chunk = extractChunk(JSON.parse(trimmed.slice(6)));
+          if (chunk) emit({ type: 'CHUNK', ...chunk });
+        } catch (_) {}
       }
     }
   }

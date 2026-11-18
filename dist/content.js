@@ -21,9 +21,12 @@
     "keyOk": "Cl\xE9 OK",
     "keySaved": "Cl\xE9 enregistr\xE9e",
     "invalidKey": "Cl\xE9 invalide",
+    "serverBusy": "Serveur satur\xE9 (r\xE9essayer)",
     "keyRequired": "Cl\xE9 requise",
     "customServer": "Autre IP...",
-    "refreshTooltip": "Actualiser les mod\xE8les locaux",
+    "refreshTooltip": "Actualiser la liste des mod\xE8les",
+    "toggleKeyVisTooltip": "Afficher / masquer la cl\xE9 API",
+    "pasteClipboardHint": "[i] Presse-papiers vide ou bloqu\xE9 \u2014 collez avec Ctrl+V dans le champ Cl\xE9 API.",
     "apiKeyLabel": "Cl\xE9 API :",
     "apiKeyPlaceholder": "Collez votre cl\xE9 API...",
     "getApiKeyLink": "\u{1F511} Obtenir une cl\xE9",
@@ -251,9 +254,12 @@
     "keyOk": "Key OK",
     "keySaved": "Key saved",
     "invalidKey": "Invalid key",
+    "serverBusy": "Server busy (retry)",
     "keyRequired": "Key required",
     "customServer": "Custom IP...",
-    "refreshTooltip": "Refresh local models",
+    "refreshTooltip": "Refresh models list",
+    "toggleKeyVisTooltip": "Show / hide API key",
+    "pasteClipboardHint": "[i] Clipboard empty or blocked \u2014 paste with Ctrl+V in the API Key field.",
     "apiKeyLabel": "API Key:",
     "apiKeyPlaceholder": "Paste your API key...",
     "getApiKeyLink": "\u{1F511} Get an API key",
@@ -481,9 +487,12 @@
     "keyOk": "Clave OK",
     "keySaved": "Clave guardada",
     "invalidKey": "Clave inv\xE1lida",
+    "serverBusy": "Servidor ocupado (reintentar)",
     "keyRequired": "Clave requerida",
     "customServer": "Otra IP...",
-    "refreshTooltip": "Actualizar modelos locales",
+    "refreshTooltip": "Actualizar lista de modelos",
+    "toggleKeyVisTooltip": "Mostrar / ocultar clave API",
+    "pasteClipboardHint": "[i] Portapapeles vac\xEDo o bloqueado \u2014 pega con Ctrl+V en el campo Clave API.",
     "apiKeyLabel": "Clave API:",
     "apiKeyPlaceholder": "Pega tu clave API...",
     "getApiKeyLink": "\u{1F511} Obtener una clave",
@@ -711,9 +720,12 @@
     "keyOk": "Schl\xFCssel OK",
     "keySaved": "Schl\xFCssel gespeichert",
     "invalidKey": "Ung\xFCltiger Schl\xFCssel",
+    "serverBusy": "Server ausgelastet (erneut testen)",
     "keyRequired": "Schl\xFCssel erforderlich",
     "customServer": "Andere IP...",
-    "refreshTooltip": "Lokale Modelle aktualisieren",
+    "refreshTooltip": "Modellliste aktualisieren",
+    "toggleKeyVisTooltip": "API-Schl\xFCssel ein-/ausblenden",
+    "pasteClipboardHint": "[i] Zwischenablage leer oder blockiert \u2014 mit Strg+V in das API-Schl\xFCsselfeld einf\xFCgen.",
     "apiKeyLabel": "API-Schl\xFCssel:",
     "apiKeyPlaceholder": "F\xFCgen Sie Ihren API-Schl\xFCssel ein...",
     "getApiKeyLink": "\u{1F511} Schl\xFCssel anfordern",
@@ -941,9 +953,12 @@
     "keyOk": "Chiave OK",
     "keySaved": "Chiave salvata",
     "invalidKey": "Chiave non valida",
+    "serverBusy": "Server occupato (riprova)",
     "keyRequired": "Chiave richiesta",
     "customServer": "Altro IP...",
-    "refreshTooltip": "Aggiorna modelli locali",
+    "refreshTooltip": "Aggiorna elenco modelli",
+    "toggleKeyVisTooltip": "Mostra / nascondi chiave API",
+    "pasteClipboardHint": "[i] Appunti vuoti o bloccati \u2014 incolla con Ctrl+V nel campo Chiave API.",
     "apiKeyLabel": "Chiave API:",
     "apiKeyPlaceholder": "Incolla la tua chiave API...",
     "getApiKeyLink": "\u{1F511} Ottieni una chiave",
@@ -1171,9 +1186,12 @@
     "keyOk": "\u041A\u043B\u044E\u0447 OK",
     "keySaved": "\u041A\u043B\u044E\u0447 \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D",
     "invalidKey": "\u041D\u0435\u0432\u0435\u0440\u043D\u044B\u0439 \u043A\u043B\u044E\u0447",
+    "serverBusy": "\u0421\u0435\u0440\u0432\u0435\u0440 \u0437\u0430\u043D\u044F\u0442 (\u043F\u043E\u0432\u0442\u043E\u0440\u0438\u0442\u044C)",
     "keyRequired": "\u0422\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044F \u043A\u043B\u044E\u0447",
     "customServer": "\u0414\u0440\u0443\u0433\u043E\u0439 IP...",
-    "refreshTooltip": "\u041E\u0431\u043D\u043E\u0432\u0438\u0442\u044C \u043B\u043E\u043A\u0430\u043B\u044C\u043D\u044B\u0435 \u043C\u043E\u0434\u0435\u043B\u0438",
+    "refreshTooltip": "\u041E\u0431\u043D\u043E\u0432\u0438\u0442\u044C \u0441\u043F\u0438\u0441\u043E\u043A \u043C\u043E\u0434\u0435\u043B\u0435\u0439",
+    "toggleKeyVisTooltip": "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C / \u0441\u043A\u0440\u044B\u0442\u044C API-\u043A\u043B\u044E\u0447",
+    "pasteClipboardHint": "[i] \u0411\u0443\u0444\u0435\u0440 \u043E\u0431\u043C\u0435\u043D\u0430 \u043F\u0443\u0441\u0442 \u0438\u043B\u0438 \u0437\u0430\u0431\u043B\u043E\u043A\u0438\u0440\u043E\u0432\u0430\u043D \u2014 \u0432\u0441\u0442\u0430\u0432\u044C\u0442\u0435 \u0447\u0435\u0440\u0435\u0437 Ctrl+V \u0432 \u043F\u043E\u043B\u0435 API-\u043A\u043B\u044E\u0447\u0430.",
     "apiKeyLabel": "\u041A\u043B\u044E\u0447 API:",
     "apiKeyPlaceholder": "\u0412\u0441\u0442\u0430\u0432\u044C\u0442\u0435 \u0432\u0430\u0448 API-\u043A\u043B\u044E\u0447...",
     "getApiKeyLink": "\u{1F511} \u041F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u043A\u043B\u044E\u0447",
@@ -1401,9 +1419,12 @@
     "keyOk": "\u30AD\u30FC OK",
     "keySaved": "\u30AD\u30FC\u304C\u4FDD\u5B58\u3055\u308C\u307E\u3057\u305F",
     "invalidKey": "\u7121\u52B9\u306A\u30AD\u30FC",
+    "serverBusy": "\u30B5\u30FC\u30D0\u30FC\u6DF7\u96D1\uFF08\u518D\u8A66\u884C\uFF09",
     "keyRequired": "\u30AD\u30FC\u304C\u5FC5\u8981",
     "customServer": "\u30AB\u30B9\u30BF\u30E0IP...",
-    "refreshTooltip": "\u30ED\u30FC\u30AB\u30EB\u30E2\u30C7\u30EB\u3092\u518D\u8AAD\u307F\u8FBC\u307F",
+    "refreshTooltip": "\u30E2\u30C7\u30EB\u4E00\u89A7\u3092\u66F4\u65B0",
+    "toggleKeyVisTooltip": "API\u30AD\u30FC\u3092\u8868\u793A / \u975E\u8868\u793A",
+    "pasteClipboardHint": "[i] \u30AF\u30EA\u30C3\u30D7\u30DC\u30FC\u30C9\u304C\u7A7A\u307E\u305F\u306F\u30D6\u30ED\u30C3\u30AF\u3055\u308C\u3066\u3044\u307E\u3059 \u2014 API\u30AD\u30FC\u6B04\u306B Ctrl+V \u3067\u8CBC\u308A\u4ED8\u3051\u3066\u304F\u3060\u3055\u3044\u3002",
     "apiKeyLabel": "API\u30AD\u30FC:",
     "apiKeyPlaceholder": "API\u30AD\u30FC\u3092\u8CBC\u308A\u4ED8\u3051...",
     "getApiKeyLink": "\u{1F511} API\u30AD\u30FC\u3092\u53D6\u5F97",
@@ -1631,9 +1652,12 @@
     "keyOk": "\u5BC6\u94A5\u6B63\u5E38",
     "keySaved": "\u5BC6\u94A5\u5DF2\u4FDD\u5B58",
     "invalidKey": "\u5BC6\u94A5\u65E0\u6548",
+    "serverBusy": "\u670D\u52A1\u5668\u7E41\u5FD9\uFF08\u91CD\u8BD5\uFF09",
     "keyRequired": "\u9700\u8981\u5BC6\u94A5",
     "customServer": "\u81EA\u5B9A\u4E49IP...",
-    "refreshTooltip": "\u5237\u65B0\u672C\u5730\u6A21\u578B",
+    "refreshTooltip": "\u5237\u65B0\u6A21\u578B\u5217\u8868",
+    "toggleKeyVisTooltip": "\u663E\u793A / \u9690\u85CF API \u5BC6\u94A5",
+    "pasteClipboardHint": "[i] \u526A\u8D34\u677F\u4E3A\u7A7A\u6216\u53D7\u9650 \u2014 \u8BF7\u5728 API \u5BC6\u94A5\u6846\u4E2D\u4F7F\u7528 Ctrl+V \u7C98\u8D34\u3002",
     "apiKeyLabel": "API \u5BC6\u94A5:",
     "apiKeyPlaceholder": "\u7C98\u8D34\u60A8\u7684 API \u5BC6\u94A5...",
     "getApiKeyLink": "\u{1F511} \u83B7\u53D6\u5BC6\u94A5",
@@ -1894,6 +1918,10 @@
       if (customServerOpt) customServerOpt.textContent = t.customServer || fb.customServer;
       const refreshBtn = document.getElementById("ytAiRefreshModelsBtn");
       if (refreshBtn) refreshBtn.title = t.refreshTooltip || fb.refreshTooltip;
+      const refreshCloudBtn = document.getElementById("ytAiRefreshCloudModelsBtn");
+      if (refreshCloudBtn) refreshCloudBtn.title = t.refreshTooltip || fb.refreshTooltip;
+      const toggleKeyBtn = document.getElementById("ytAiToggleKeyVisBtn");
+      if (toggleKeyBtn) toggleKeyBtn.title = t.toggleKeyVisTooltip || fb.toggleKeyVisTooltip;
       const apiKeyLabel = document.getElementById("ytAiApiKeyLabel");
       if (apiKeyLabel) apiKeyLabel.textContent = t.apiKeyLabel || fb.apiKeyLabel;
       const apiKeyInput = document.getElementById("ytAiApiKeyInput");
@@ -1984,6 +2012,165 @@
     }
   };
 
+  // src/content/ui/MarkdownBlockHelper.js
+  var MarkdownBlockHelper = class _MarkdownBlockHelper {
+    /**
+     * Strips raw audit control tags (e.g. [SCORE: 92/100]) from visual output
+     * without altering the underlying stored Markdown report.
+     * @param {string} mdText
+     * @returns {string}
+     */
+    static stripScoreTags(mdText) {
+      if (!mdText) return "";
+      return String(mdText).replace(/^\s*(?:[-*•]\s*)?(?:\*\*)?\[(?:SCORE|AXES|GENRE):[^\]]+\](?:\*\*)?\s*$/gim, "").replace(/\s*\[(?:SCORE|AXES|GENRE):[^\]]+\]\s*/gi, " ").replace(/^\s*\n+/, "").replace(/\n{3,}/g, "\n\n").trimEnd();
+    }
+    /**
+     * Formats inline Markdown safely using placeholder tokens so code spans and URLs
+     * are protected from emphasis and timestamp substitutions.
+     * @param {string} text
+     * @param {Function} escapeHtmlFn
+     * @returns {string}
+     */
+    static formatInline(text, escapeHtmlFn) {
+      if (!text) return "";
+      let escaped = escapeHtmlFn(text);
+      const tokens = [];
+      const stash = (renderedHtml) => {
+        const idx = tokens.length;
+        tokens.push(renderedHtml);
+        return `\0YTMD${idx}\0`;
+      };
+      escaped = escaped.replace(/`([^`]+)`/g, (_, code) => stash(`<code>${code}</code>`));
+      escaped = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (_, label, url) => {
+        const styledLabel = label.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\*([^*]+)\*/g, "<em>$1</em>");
+        return stash(`<a href="${url}" target="_blank" rel="noopener noreferrer" class="yt-ai-md-link">${styledLabel}</a>`);
+      });
+      escaped = escaped.replace(/\*\*\*(.*?)\*\*\*/g, "<strong><em>$1</em></strong>");
+      escaped = escaped.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+      escaped = escaped.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+      const tsRegex = /\[(?:(\d{1,2}):)?(\d{1,2}):(\d{2})\]|\b(?:(\d{1,2}):)?(\d{1,2}):(\d{2})\b/g;
+      escaped = escaped.replace(tsRegex, (match, bH, bM, bS, pH, pM, pS) => {
+        const h = bH ?? pH;
+        const m = bM ?? pM;
+        const s = bS ?? pS;
+        const hours = h ? parseInt(h, 10) : 0;
+        const minutes = parseInt(m, 10);
+        const seconds = parseInt(s, 10);
+        if (seconds >= 60 || h && minutes >= 60) return match;
+        const totalSec = hours * 3600 + minutes * 60 + seconds;
+        const displayTime = h ? `${h}:${m}:${s}` : `${m}:${s}`;
+        return `<a href="javascript:void(0)" class="yt-ai-timestamp-link" data-time="${totalSec}" title="Go to ${displayTime}">\u23F1\uFE0F ${displayTime}</a>`;
+      });
+      return escaped.replace(/\u0000YTMD(\d+)\u0000/g, (_, idx) => tokens[Number(idx)] ?? "");
+    }
+    /**
+     * Parses a pipe-delimited Markdown table block starting at startIdx.
+     * @param {Array<string>} lines
+     * @param {number} startIdx
+     * @param {Function} formatInlineFn
+     * @returns {{ html: string, nextIndex: number }|null}
+     */
+    static parseTableBlock(lines, startIdx, formatInlineFn) {
+      if (startIdx + 1 >= lines.length) return null;
+      const headLine = lines[startIdx].trim();
+      const sepLine = lines[startIdx + 1].trim();
+      if (!headLine.includes("|") || !/^\|?[\s:-]+\|[\s|:-]*$/.test(sepLine)) return null;
+      const splitRow = (row) => row.replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
+      const headers = splitRow(headLine);
+      let html = `<div class="yt-ai-table-wrap"><table class="yt-ai-md-table"><thead><tr>${headers.map((h) => `<th>${formatInlineFn(h)}</th>`).join("")}</tr></thead><tbody>`;
+      let idx = startIdx + 2;
+      while (idx < lines.length && lines[idx].trim().includes("|")) {
+        const cells = splitRow(lines[idx].trim());
+        html += `<tr>${cells.map((c) => `<td>${formatInlineFn(c)}</td>`).join("")}</tr>`;
+        idx++;
+      }
+      html += "</tbody></table></div>";
+      return { html, nextIndex: idx - 1 };
+    }
+    /**
+     * Checks whether lines[idx] begins a short semicolon-delimited prose list
+     * (e.g. isolated phrases ending with ';' separated by blank lines).
+     * @param {Array<string>} lines
+     * @param {number} idx
+     * @returns {boolean}
+     */
+    static isSemicolonListLine(lines, idx) {
+      const line = lines[idx]?.trim() || "";
+      if (!line || line.length > 95 || !/;\s*$/.test(line)) return false;
+      if (/^(?:#|>|\||[-*•]\s|\d+[.)]\s|```)/.test(line)) return false;
+      for (let j = idx - 1; j >= 0; j--) {
+        const prev = lines[j].trim();
+        if (!prev) continue;
+        if (/;\s*$/.test(prev) && prev.length <= 95 && !/^(?:#|>|\||```)/.test(prev)) return true;
+        break;
+      }
+      for (let j = idx + 1; j < lines.length; j++) {
+        const next = lines[j].trim();
+        if (!next) continue;
+        if (/;\s*$/.test(next) && next.length <= 95 && !/^(?:#|>|\||```)/.test(next)) return true;
+        break;
+      }
+      return false;
+    }
+    /**
+     * Checks whether a preceding open semicolon list is terminated by a final '.' item.
+     * @param {Array<string>} lines
+     * @param {number} idx
+     * @returns {boolean}
+     */
+    static isSemicolonListClosingLine(lines, idx) {
+      const line = lines[idx]?.trim() || "";
+      if (!line || line.length > 95 || !/[.;]\s*$/.test(line)) return false;
+      if (/^(?:#|>|\||[-*•]\s|\d+[.)]\s|```)/.test(line)) return false;
+      for (let j = idx - 1; j >= 0; j--) {
+        const prev = lines[j].trim();
+        if (!prev) continue;
+        return /;\s*$/.test(prev) && prev.length <= 95 && !/^(?:#|>|\||```)/.test(prev);
+      }
+      return false;
+    }
+    /**
+     * Checks whether an active list remains unbroken across a blank line
+     * @param {Array<string>} lines
+     * @param {number} blankIdx
+     * @param {'ul'|'ol'} listTag
+     * @returns {boolean}
+     */
+    static canContinueListOnBlankLine(lines, blankIdx, listTag) {
+      let nextIdx = -1;
+      for (let j = blankIdx + 1; j < lines.length; j++) {
+        if (lines[j].trim().length > 0) {
+          nextIdx = j;
+          break;
+        }
+      }
+      if (nextIdx < 0) return false;
+      const nextRaw = lines[nextIdx];
+      const nextTrim = nextRaw.trim();
+      if (listTag === "ol") {
+        return /^\s*\d+[.)]\s+/.test(nextRaw) || /^\s{2,}[-*•]\s+/.test(nextRaw);
+      }
+      return /^\s*[-*•]\s+/.test(nextRaw) || _MarkdownBlockHelper.isSemicolonListLine(lines, nextIdx) || _MarkdownBlockHelper.isSemicolonListClosingLine(lines, nextIdx) || /^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\u0400-\u04FF\u3040-\u30FF\u4E00-\u9FFF\s'\-_–—]{2,60})\s*[:：]\s+(.*[.!?。！？].*)$/.test(nextTrim);
+    }
+    /**
+     * Wraps top-level heading groups (<h2>/<h3> sections) into card containers.
+     * @param {string} html
+     * @returns {string}
+     */
+    static wrapSectionCards(html) {
+      if (!html || !/<h[23]\b/.test(html)) return html;
+      const parts = html.split(/(?=<h[23]\b)/g).filter(Boolean);
+      return parts.map((part) => {
+        const cleaned = part.replace(/<hr class="yt-ai-md-hr">\s*$/g, "");
+        if (!cleaned.trim()) return "";
+        if (/^<h[23]\b/.test(cleaned)) {
+          return `<section class="yt-ai-md-section">${cleaned}</section>`;
+        }
+        return `<div class="yt-ai-md-intro">${cleaned}</div>`;
+      }).join("");
+    }
+  };
+
   // src/content/ui/MarkdownRenderer.js
   var MarkdownRenderer = class _MarkdownRenderer {
     /**
@@ -2054,44 +2241,33 @@
      * @returns {{ hasTitle: boolean, title: string, sentences: Array<string> }}
      */
     static parsePoint(rawText) {
-      const colonMatch = rawText.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\s'\-_–—]{2,60})\s*:\s*(.*)$/);
+      const colonMatch = rawText.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\u0400-\u04FF\u3040-\u30FF\u4E00-\u9FFF\s'\-_–—]{2,60})\s*[:：]\s*(.*)$/);
       if (colonMatch) {
         const rawTitle = colonMatch[1].trim();
         const cleanTitle = rawTitle.replace(/^\*\*|\*\*$/g, "").trim();
         const body = colonMatch[2].trim();
-        return {
-          hasTitle: true,
-          title: cleanTitle + " :",
-          sentences: [body]
-        };
+        return { hasTitle: true, title: cleanTitle + " :", sentences: [body] };
       }
-      return {
-        hasTitle: false,
-        title: "",
-        sentences: [rawText]
-      };
+      return { hasTitle: false, title: "", sentences: [rawText] };
     }
     /**
-     * Formats inline Markdown (bold, italic, code, clickable timestamps)
+     * Strips raw audit metadata control tags ([SCORE: XX/100]) for clean UI rendering
+     * @param {string} mdText
+     * @returns {string}
+     */
+    static stripScoreTags(mdText) {
+      return MarkdownBlockHelper.stripScoreTags(mdText);
+    }
+    /**
+     * Formats inline Markdown (bold, italic, code, links, clickable timestamps)
      * @param {string} text
      * @returns {string}
      */
     static formatInline(text) {
-      let escaped = _MarkdownRenderer.escapeHtml(text);
-      escaped = escaped.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-      escaped = escaped.replace(/\*(.*?)\*/g, "<em>$1</em>");
-      escaped = escaped.replace(/`([^`]+)`/g, "<code>$1</code>");
-      escaped = escaped.replace(/\b(?:(\d{1,2}):)?(\d{1,2}):(\d{2})\b/g, (match, h, m, s) => {
-        const hours = h ? parseInt(h, 10) : 0;
-        const minutes = parseInt(m, 10);
-        const seconds = parseInt(s, 10);
-        const totalSec = hours * 3600 + minutes * 60 + seconds;
-        return `<a href="javascript:void(0)" class="yt-ai-timestamp-link" data-time="${totalSec}" title="Go to ${match}">\u23F1\uFE0F ${match}</a>`;
-      });
-      return escaped;
+      return MarkdownBlockHelper.formatInline(text, _MarkdownRenderer.escapeHtml);
     }
     /**
-     * Renders structured list item ensuring bold keyword and explanation stay fluid on the same line
+     * Renders a single list item node
      * @param {string} rawText
      * @returns {string}
      */
@@ -2099,32 +2275,14 @@
       return `<li class="yt-ai-point-item">${_MarkdownRenderer.formatInline(rawText)}</li>`;
     }
     /**
-     * Renders a Markdown pipe-delimited table starting at startIdx.
-     * @returns {{ html: string, nextIndex: number }|null}
-     */
-    static _parseTableBlock(lines, startIdx) {
-      if (startIdx + 1 >= lines.length) return null;
-      const headLine = lines[startIdx].trim();
-      const sepLine = lines[startIdx + 1].trim();
-      if (!headLine.includes("|") || !/^\|?[\s:-]+\|[\s|:-]*$/.test(sepLine)) return null;
-      const splitRow = (row) => row.replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
-      const headers = splitRow(headLine);
-      let html = `<div class="yt-ai-table-wrap"><table class="yt-ai-md-table"><thead><tr>${headers.map((h) => `<th>${_MarkdownRenderer.formatInline(h)}</th>`).join("")}</tr></thead><tbody>`;
-      let idx = startIdx + 2;
-      while (idx < lines.length && lines[idx].trim().includes("|")) {
-        const cells = splitRow(lines[idx].trim());
-        html += `<tr>${cells.map((c) => `<td>${_MarkdownRenderer.formatInline(c)}</td>`).join("")}</tr>`;
-        idx++;
-      }
-      html += "</tbody></table></div>";
-      return { html, nextIndex: idx - 1 };
-    }
-    /**
      * Renders complete Markdown document into target DOM container
      * @param {string} mdText
-     * @param {HTMLElement} container
+     * @param {HTMLElement|null} container
+     * @param {Object} [options={}]
+     * @param {boolean} [options.sectionCards=false] - Wraps h2/h3 sections into visual cards
+     * @returns {string} Rendered HTML string
      */
-    static renderMarkdown(mdText, container) {
+    static renderMarkdown(mdText, container, options = {}) {
       if (!mdText) {
         if (container) container.innerHTML = "";
         return "";
@@ -2132,18 +2290,45 @@
       const lines = String(mdText).split("\n");
       let html = "";
       let listTag = null;
+      let openLi = false;
+      let inSublist = false;
       let inQuote = false;
       let inCode = false;
       let codeLines = [];
-      const closeOpenBlocks = () => {
+      const closeOpenLi = () => {
+        if (inSublist) {
+          html += "</ul>";
+          inSublist = false;
+        }
+        if (openLi) {
+          html += "</li>";
+          openLi = false;
+        }
+      };
+      const closeList = () => {
+        closeOpenLi();
         if (listTag) {
           html += `</${listTag}>`;
           listTag = null;
         }
+      };
+      const closeOpenBlocks = () => {
+        closeList();
         if (inQuote) {
           html += "</blockquote>";
           inQuote = false;
         }
+      };
+      const appendTopListItem = (tag, content) => {
+        if (listTag && listTag !== tag) closeList();
+        if (!listTag) {
+          const cls = tag === "ol" ? "yt-ai-ordered-list" : "yt-ai-points-list";
+          html += `<${tag} class="${cls}">`;
+          listTag = tag;
+        }
+        closeOpenLi();
+        html += `<li class="yt-ai-point-item">${_MarkdownRenderer.formatInline(content)}`;
+        openLi = true;
       };
       for (let i = 0; i < lines.length; i++) {
         const rawLine = lines[i];
@@ -2163,6 +2348,16 @@
           codeLines.push(rawLine);
           continue;
         }
+        if (!trimmed) {
+          if (inQuote) {
+            html += "</blockquote>";
+            inQuote = false;
+          }
+          if (listTag && !MarkdownBlockHelper.canContinueListOnBlankLine(lines, i, listTag)) {
+            closeList();
+          }
+          continue;
+        }
         if (/^(?:---+|\*\*\*+)$/.test(trimmed)) {
           closeOpenBlocks();
           html += '<hr class="yt-ai-md-hr">';
@@ -2176,7 +2371,7 @@
           html += `<${tag}>${_MarkdownRenderer.formatInline(headingMatch[2])}</${tag}>`;
           continue;
         }
-        const tableRes = _MarkdownRenderer._parseTableBlock(lines, i);
+        const tableRes = MarkdownBlockHelper.parseTableBlock(lines, i, _MarkdownRenderer.formatInline);
         if (tableRes) {
           closeOpenBlocks();
           html += tableRes.html;
@@ -2185,10 +2380,7 @@
         }
         const quoteMatch = trimmed.match(/^>\s?(.*)$/);
         if (quoteMatch) {
-          if (listTag) {
-            html += `</${listTag}>`;
-            listTag = null;
-          }
+          closeList();
           if (!inQuote) {
             html += '<blockquote class="yt-ai-blockquote">';
             inQuote = true;
@@ -2200,47 +2392,42 @@
           html += "</blockquote>";
           inQuote = false;
         }
-        const ulMatch = rawLine.match(/^\s*[-*•]\s+(.*)$/);
+        const ulMatch = rawLine.match(/^(\s*)[-*•]\s+(.*)$/);
         if (ulMatch) {
-          if (listTag === "ol") {
-            html += "</ol>";
-            listTag = null;
+          const indent = ulMatch[1].length;
+          if (indent >= 2 && listTag && openLi) {
+            if (!inSublist) {
+              html += '<ul class="yt-ai-sublist">';
+              inSublist = true;
+            }
+            html += `<li class="yt-ai-subitem">${_MarkdownRenderer.formatInline(ulMatch[2])}</li>`;
+          } else {
+            appendTopListItem("ul", ulMatch[2]);
           }
-          if (!listTag) {
-            html += '<ul class="yt-ai-points-list">';
-            listTag = "ul";
-          }
-          html += _MarkdownRenderer.renderListItem(ulMatch[1]);
           continue;
         }
         const olMatch = rawLine.match(/^\s*\d+[.)]\s+(.*)$/);
         if (olMatch) {
-          if (listTag === "ul") {
-            html += "</ul>";
-            listTag = null;
-          }
-          if (!listTag) {
-            html += '<ol class="yt-ai-ordered-list">';
-            listTag = "ol";
-          }
-          html += _MarkdownRenderer.renderListItem(olMatch[1]);
+          appendTopListItem("ol", olMatch[1]);
           continue;
         }
-        if (listTag) {
-          html += `</${listTag}>`;
-          listTag = null;
+        const pointMatch = trimmed.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\u0400-\u04FF\u3040-\u30FF\u4E00-\u9FFF\s'\-_–—]{2,60})\s*[:：]\s+(.*[.!?。！？].*)$/);
+        if (pointMatch) {
+          appendTopListItem("ul", trimmed);
+          continue;
         }
-        if (trimmed.length > 0) {
-          const pointMatch = trimmed.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\s'\-_–—]{2,60})\s*:\s+(.*[.!?].*)$/);
-          if (pointMatch) {
-            html += `<ul class="yt-ai-points-list">${_MarkdownRenderer.renderListItem(trimmed)}</ul>`;
-          } else {
-            html += `<p>${_MarkdownRenderer.formatInline(trimmed)}</p>`;
-          }
+        if (MarkdownBlockHelper.isSemicolonListLine(lines, i) || listTag === "ul" && MarkdownBlockHelper.isSemicolonListClosingLine(lines, i)) {
+          appendTopListItem("ul", trimmed);
+          continue;
         }
+        closeList();
+        html += `<p>${_MarkdownRenderer.formatInline(trimmed)}</p>`;
       }
       if (inCode) html += `<pre class="yt-ai-code-block"><code>${_MarkdownRenderer.escapeHtml(codeLines.join("\n"))}</code></pre>`;
       closeOpenBlocks();
+      if (options && options.sectionCards) {
+        html = MarkdownBlockHelper.wrapSectionCards(html);
+      }
       if (container) {
         _MarkdownRenderer.safeSetInnerHTML(container, html);
       }
@@ -2254,6 +2441,8 @@
   var renderListItem = MarkdownRenderer.renderListItem;
   var splitSentences = MarkdownRenderer.splitSentences;
   var parsePoint = MarkdownRenderer.parsePoint;
+  var stripScoreTags = MarkdownRenderer.stripScoreTags;
+  var wrapSectionCards = MarkdownBlockHelper.wrapSectionCards;
 
   // src/content/templates/BannerHeaderParts.js
   var EXTENSION_VERSION_FALLBACK = "v1.5.1";
@@ -4076,15 +4265,15 @@ ${parts.join("\n\n")}`;
   // src/config/AIProviderPresets.js
   var CLOUD_MODELS = {
     gemini: [
-      { id: "gemini-1.5-flash", name: "\u2B50 gemini-1.5-flash (Gratuit, 1M ctx)" },
-      { id: "gemini-2.0-flash", name: "gemini-2.0-flash (Nouveau & Rapide)" },
-      { id: "gemini-1.5-pro", name: "gemini-1.5-pro (Analyse approfondie)" }
+      { id: "gemini-flash-latest", name: "\u2B50 gemini-flash-latest (Gratuit, Auto-\xE0-jour)" },
+      { id: "gemini-3.8-flash", name: "gemini-3.8-flash (Rapide & Polyvalent)" },
+      { id: "gemini-3.5-flash-lite", name: "gemini-3.5-flash-lite (Ultra-l\xE9ger, Gratuit)" },
+      { id: "gemini-pro-latest", name: "gemini-pro-latest (Analyse approfondie)" }
     ],
     groq: [
-      { id: "llama-3.3-70b-versatile", name: "\u2B50 llama-3.3-70b-versatile (Ultra-rapide)" },
-      { id: "deepseek-r1-distill-llama-70b", name: "deepseek-r1-distill-llama-70b (R1 Thinking)" },
-      { id: "llama-3.1-8b-instant", name: "llama-3.1-8b-instant (\xC9clair)" },
-      { id: "mixtral-8x7b-32768", name: "mixtral-8x7b-32768 (Mixtral)" }
+      { id: "openai/gpt-oss-120b", name: "\u2B50 openai/gpt-oss-120b (Puissant & Gratuit)" },
+      { id: "openai/gpt-oss-20b", name: "openai/gpt-oss-20b (Ultra-rapide)" },
+      { id: "qwen/qwen3.8-27b", name: "qwen/qwen3.8-27b (Polyvalent)" }
     ],
     openai: [
       { id: "gpt-4o-mini", name: "\u2B50 gpt-4o-mini (\xC9conomique & Rapide)" },
@@ -4120,7 +4309,7 @@ ${parts.join("\n\n")}`;
       { id: "qwen/qwen-2.5-72b-instruct", name: "qwen/qwen-2.5-72b-instruct" },
       { id: "meta-llama/llama-3.3-70b-instruct", name: "meta-llama/llama-3.3-70b-instruct" },
       { id: "anthropic/claude-3.5-sonnet", name: "anthropic/claude-3.5-sonnet" },
-      { id: "google/gemini-2.0-flash-exp:free", name: "google/gemini-2.0-flash-exp (Gratuit)" }
+      { id: "openai/gpt-oss-120b", name: "openai/gpt-oss-120b" }
     ],
     perplexity: [
       { id: "sonar", name: "\u2B50 sonar (Rapide)" },
@@ -4176,6 +4365,116 @@ ${parts.join("\n\n")}`;
     perplexity: "Perplexity AI",
     together: "Together AI"
   };
+  var PROVIDER_CONFIGS = {
+    lmstudio: { name: "LM Studio (Local)" },
+    ollama: { name: "Ollama (Local / Cloud)" },
+    gemini: {
+      name: "Google Gemini",
+      endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      defaultModel: "gemini-flash-latest"
+    },
+    groq: {
+      name: "Groq (Inf\xE9rence Rapide)",
+      endpoint: "https://api.groq.com/openai/v1/chat/completions",
+      defaultModel: "openai/gpt-oss-120b"
+    },
+    openai: {
+      name: "OpenAI (ChatGPT)",
+      endpoint: "https://api.openai.com/v1/chat/completions",
+      defaultModel: "gpt-4o-mini"
+    },
+    claude: {
+      name: "Anthropic Claude",
+      endpoint: "https://api.anthropic.com/v1/messages",
+      defaultModel: "claude-3-5-haiku-20241022"
+    },
+    deepseek: {
+      name: "DeepSeek",
+      endpoint: "https://api.deepseek.com/chat/completions",
+      defaultModel: "deepseek-chat"
+    },
+    grok: {
+      name: "xAI (Grok)",
+      endpoint: "https://api.x.ai/v1/chat/completions",
+      defaultModel: "grok-2-latest"
+    },
+    qwen: {
+      name: "Qwen (Alibaba DashScope)",
+      endpoint: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
+      defaultModel: "qwen-plus"
+    },
+    mistral: {
+      name: "Mistral AI",
+      endpoint: "https://api.mistral.ai/v1/chat/completions",
+      defaultModel: "mistral-small-latest"
+    },
+    openrouter: {
+      name: "OpenRouter",
+      endpoint: "https://openrouter.ai/api/v1/chat/completions",
+      defaultModel: "deepseek/deepseek-r1"
+    },
+    perplexity: {
+      name: "Perplexity AI",
+      endpoint: "https://api.perplexity.ai/chat/completions",
+      defaultModel: "sonar"
+    },
+    together: {
+      name: "Together AI",
+      endpoint: "https://api.together.xyz/v1/chat/completions",
+      defaultModel: "meta-llama/Llama-3.3-70B-Instruct-Turbo"
+    }
+  };
+  var DEPRECATED_MODEL_ALIASES = {
+    gemini: {
+      "gemini-1.5-flash": "gemini-flash-latest",
+      "gemini-1.5-flash-latest": "gemini-flash-latest",
+      "gemini-1.5-flash-001": "gemini-flash-latest",
+      "gemini-1.5-flash-002": "gemini-flash-latest",
+      "gemini-1.5-pro": "gemini-pro-latest",
+      "gemini-1.5-pro-latest": "gemini-pro-latest",
+      "gemini-2.0-flash": "gemini-flash-latest",
+      "gemini-2.0-flash-exp": "gemini-flash-latest",
+      "gemini-2.0-flash-lite": "gemini-3.5-flash-lite"
+    },
+    groq: {
+      "llama-3.3-70b-versatile": "openai/gpt-oss-120b",
+      "llama-3.1-8b-instant": "openai/gpt-oss-20b",
+      "mixtral-8x7b-32768": "openai/gpt-oss-120b",
+      "llama3-70b-8192": "openai/gpt-oss-120b",
+      "llama3-8b-8192": "openai/gpt-oss-20b",
+      "gemma2-9b-it": "openai/gpt-oss-20b",
+      "deepseek-r1-distill-llama-70b": "openai/gpt-oss-120b"
+    },
+    claude: {
+      "claude-3-5-sonnet-20240620": "claude-3-5-sonnet-20241022",
+      "claude-3-sonnet-20240229": "claude-3-5-sonnet-20241022",
+      "claude-3-opus-20240229": "claude-3-5-sonnet-20241022",
+      "claude-3-haiku-20240307": "claude-3-5-haiku-20241022"
+    },
+    openai: {
+      "gpt-4-vision-preview": "gpt-4o",
+      "gpt-4-32k": "gpt-4o",
+      "gpt-3.5-turbo-16k": "gpt-4o-mini"
+    },
+    mistral: {
+      "open-mistral-7b": "mistral-small-latest",
+      "open-mixtral-8x7b": "mistral-small-latest",
+      "mistral-tiny": "mistral-small-latest",
+      "mistral-medium": "mistral-large-latest"
+    },
+    openrouter: {
+      "google/gemini-2.0-flash-exp:free": "deepseek/deepseek-r1",
+      "meta-llama/llama-3.1-8b-instruct:free": "deepseek/deepseek-r1"
+    }
+  };
+  function resolveDeprecatedModel(provider, modelId) {
+    const cleanProvider = String(provider || "").toLowerCase();
+    const rawModel = String(modelId || "").trim();
+    const cleanModel = cleanProvider === "gemini" ? rawModel.replace(/^models\//, "") : rawModel;
+    if (!cleanModel) return PROVIDER_CONFIGS[cleanProvider]?.defaultModel || "";
+    const aliasMap = DEPRECATED_MODEL_ALIASES[cleanProvider];
+    return aliasMap && aliasMap[cleanModel] ? aliasMap[cleanModel] : cleanModel;
+  }
   var LANG_LOCALES = {
     fr: "fr-FR",
     en: "en-US",
@@ -4240,7 +4539,7 @@ ${parts.join("\n\n")}`;
                     </optgroup>
                     <optgroup id="ytAiOptGroupFast" label="${t.groupFast || "\u26A1 Fast / Free Cloud Inference"}">
                       <option value="gemini">\u{1F535} Google Gemini (1M ctx, free)</option>
-                      <option value="groq">\u26A1 Groq (Llama 3.3, ultra-fast)</option>
+                      <option value="groq">\u26A1 Groq (Fast Cloud AI, free)</option>
                     </optgroup>
                     <optgroup id="ytAiOptGroupCloud" label="${t.groupCloud || "\u2601\uFE0F Major Cloud Providers"}">
                       <option value="openai">\u{1F7E2} OpenAI (ChatGPT / GPT-4o)</option>
@@ -4277,6 +4576,7 @@ ${parts.join("\n\n")}`;
                   </div>
                   <div class="yt-ai-input-with-btn">
                     <input type="password" id="ytAiApiKeyInput" class="yt-ai-input yt-ai-api-key-input" placeholder="${t.apiKeyPlaceholder || "Paste your API key..."}" style="flex: 1;">
+                    <button id="ytAiToggleKeyVisBtn" type="button" class="yt-ai-btn yt-ai-btn-secondary" title="${t.toggleKeyVisTooltip || "Show / hide API key"}" style="padding: 4px 7px; font-size: 11px;">\u{1F441}</button>
                     <button id="ytAiPasteApiKeyBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.pasteTooltip || "Paste from clipboard"}" style="padding: 4px 8px; font-size: 11px;">\u{1F4CB} ${t.pasteBtn || "Paste"}</button>
                     <a id="ytAiGetApiKeyLink" class="yt-ai-link-pill" href="#" target="_blank" rel="noopener">${t.getApiKeyLink || "\u{1F511} Get Key"}</a>
                   </div>
@@ -4289,6 +4589,7 @@ ${parts.join("\n\n")}`;
                     <select id="ytAiModelSelect" class="yt-ai-select" style="flex: 1;">
                       ${initialOptionHtml}
                     </select>
+                    <button id="ytAiRefreshCloudModelsBtn" type="button" class="yt-ai-btn yt-ai-btn-secondary" title="${t.refreshTooltip || "Refresh model list"}" style="padding: 4px 7px;">\u{1F504}</button>
                     <button id="ytAiTestModelBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.testModelTooltip || "Test connection and model"}">${t.testModelBtn || "\u26A1 Test"}</button>
                   </div>
                 </div>
@@ -4870,6 +5171,9 @@ ${parts.join("\n\n")}`;
       } else if (isVerified === true) {
         badge.className = "yt-ai-badge online";
         badgeText.textContent = `${name} (${t.keyOk || "Key OK"})`;
+      } else if (isVerified === "busy") {
+        badge.className = "yt-ai-badge";
+        badgeText.textContent = `${name} (${t.serverBusy || "Server busy"})`;
       } else if (isVerified === false) {
         badge.className = "yt-ai-badge offline";
         badgeText.textContent = `${name} (${t.invalidKey || "Invalid key"})`;
@@ -4916,10 +5220,42 @@ ${parts.join("\n\n")}`;
           if (typeof onFallbackNeeded === "function") onFallbackNeeded();
           return;
         }
-        const data = response.data;
-        const models = Array.isArray(data?.data) ? data.data : Array.isArray(data?.models) ? data.models : Array.isArray(data) ? data : Array.isArray(response.models) ? response.models : [];
         if (typeof onModelsLoaded === "function") {
-          onModelsLoaded(models, currentUrl);
+          onModelsLoaded(_LocalModelDiscovery.extractModels(response), currentUrl);
+        }
+      });
+    }
+    /**
+     * Extracts a normalized model array from Chrome runtime FETCH_MODELS responses
+     * @param {Object} response
+     * @returns {Array<Object>}
+     */
+    static extractModels(response) {
+      const data = response?.data;
+      if (Array.isArray(data?.data)) return data.data;
+      if (Array.isArray(data?.models)) return data.models;
+      if (Array.isArray(data)) return data;
+      return Array.isArray(response?.models) ? response.models : [];
+    }
+    /**
+     * Fetches live models from a Cloud AI provider without blocking preset rendering
+     * @param {string} provider
+     * @param {string} apiKey
+     * @param {Function} onModelsLoaded
+     */
+    static refreshCloudModels(provider, apiKey, onModelsLoaded) {
+      const cleanKey = (apiKey || "").trim();
+      if (!provider || provider === "lmstudio" || provider === "ollama" || !cleanKey) return;
+      if (typeof chrome === "undefined" || !chrome.runtime?.sendMessage) return;
+      chrome.runtime.sendMessage({
+        action: "FETCH_MODELS",
+        provider,
+        apiKey: cleanKey
+      }, (response) => {
+        if (chrome.runtime?.lastError || !response || !response.success && !response.ok) return;
+        const models = _LocalModelDiscovery.extractModels(response);
+        if (models.length > 0 && typeof onModelsLoaded === "function") {
+          onModelsLoaded(models);
         }
       });
     }
@@ -4947,10 +5283,8 @@ ${parts.join("\n\n")}`;
         serverUrl: candidate
       }, (res) => {
         if (res && (res.success || res.ok)) {
-          const data = res.data;
-          const models = Array.isArray(data?.data) ? data.data : Array.isArray(data?.models) ? data.models : Array.isArray(data) ? data : Array.isArray(res.models) ? res.models : [];
           if (typeof onSuccess === "function") {
-            onSuccess(candidate, models);
+            onSuccess(candidate, _LocalModelDiscovery.extractModels(res));
           }
         } else {
           _LocalModelDiscovery.tryFallbackUrls(ctx, testedUrls, onSuccess, onExhausted);
@@ -5041,11 +5375,20 @@ ${parts.join("\n\n")}`;
         model
       }, (res) => {
         if (res && (res.success || res.ok)) {
-          const msg = (t.modelReady || 'Model "{model}" ready ({latency}ms)!').replace("{model}", model).replace("{latency}", res.latency || res.latencyMs || 0);
-          callback({ message: `[\u2713] ${msg}`, isError: false, latencyMs: res.latency || res.latencyMs || 0 });
+          const activeModelName = res.resolvedModel || model;
+          const msg = (t.modelReady || 'Model "{model}" ready ({latency}ms)!').replace("{model}", activeModelName).replace("{latency}", res.latency || res.latencyMs || 0);
+          callback({
+            message: `[\u2713] ${msg}`,
+            isError: false,
+            latencyMs: res.latency || res.latencyMs || 0,
+            resolvedModel: res.resolvedModel || null
+          });
         } else {
-          const errText = (t.connectionFailed || "Failed: {error}").replace("{error}", res?.error || t.connectionError || "Connection error");
-          callback({ message: `[!] ${errText}`, isError: true, error: res?.error });
+          const rawErr = res?.error || t.connectionError || "Connection error";
+          const errText = (t.connectionFailed || "Failed: {error}").replace("{error}", rawErr);
+          const isAuthError = res?.errorKind ? res.errorKind === "auth" : /(?:401|403|api key not valid|invalid_api_key|unauthorized|clé api refusée|clé invalide)/i.test(rawErr);
+          const isBusyError = res?.errorKind === "busy" || /(?:502|503|504|529|unavailable|high demand|saturé|429|quota)/i.test(rawErr);
+          callback({ message: `[!] ${errText}`, isError: true, error: res?.error, isAuthError, isBusyError });
         }
       });
     }
@@ -5078,7 +5421,7 @@ ${parts.join("\n\n")}`;
   };
 
   // src/content/services/QuickOnboardingHelper.js
-  var QuickOnboardingHelper = class {
+  var QuickOnboardingHelper = class _QuickOnboardingHelper {
     /**
      * Retrieves quick-start guidance for a provider
      * @param {string} provider
@@ -5108,7 +5451,7 @@ ${parts.join("\n\n")}`;
         return {
           url: defaultUrl,
           label: isFr ? "\u26A1 Obtenir ma cl\xE9 Groq (Gratuit)" : "\u26A1 Get Free Groq Key (Ultra-fast)",
-          hint: isFr ? "Inf\xE9rence ultra-rapide et gratuite (Llama 3.3)." : "Ultra-fast and free inference (Llama 3.3)."
+          hint: isFr ? "Inf\xE9rence ultra-rapide et gratuite (GPT-OSS, Llama, Qwen)." : "Ultra-fast and free inference (GPT-OSS, Llama, Qwen)."
         };
       }
       const name = PROVIDER_NAMES[p] || p.toUpperCase();
@@ -5143,6 +5486,83 @@ ${parts.join("\n\n")}`;
       return false;
     }
     /**
+     * Updates verification badge state and auto-resolved model cleanly from ConnectionTester results.
+     * @param {Object} state
+     * @param {string} provider
+     * @param {string} testedModel
+     * @param {Object} res
+     */
+    static applyVerificationState(state2, provider, testedModel, { isError, resolvedModel, isAuthError, isBusyError } = {}) {
+      if (!state2.keyVerified) state2.keyVerified = {};
+      if (!isError) {
+        state2.keyVerified[provider] = true;
+        state2.savePreference?.(`keyVerified_${provider}`, true);
+        if (resolvedModel && resolvedModel !== testedModel) {
+          _QuickOnboardingHelper.syncResolvedModel(state2, provider, resolvedModel);
+        }
+      } else {
+        const nextStatus = isBusyError && !isAuthError || isAuthError === false ? "busy" : false;
+        state2.keyVerified[provider] = nextStatus;
+        state2.savePreference?.(`keyVerified_${provider}`, nextStatus);
+      }
+    }
+    /**
+     * Applies an auto-recovered model ID received from background MODEL_RESOLVED events.
+     * @param {Object} state
+     * @param {string} provider
+     * @param {string} resolvedModel
+     */
+    static syncResolvedModel(state2, provider, resolvedModel) {
+      if (!resolvedModel) return;
+      if (state2) {
+        if (!provider || state2.currentProvider === provider) {
+          state2.setActiveModel?.(resolvedModel);
+        } else if (state2.selectedModels) {
+          state2.selectedModels[provider] = resolvedModel;
+        }
+        if (provider) state2.savePreference?.(`selectedModel_${provider}`, resolvedModel);
+        state2.savePreference?.("selectedModel", resolvedModel);
+        if (!state2.keyVerified) state2.keyVerified = {};
+        if (provider) {
+          state2.keyVerified[provider] = true;
+          state2.savePreference?.(`keyVerified_${provider}`, true);
+        }
+      } else if (typeof chrome !== "undefined" && chrome.storage?.local?.set) {
+        const patch = { selectedModel: resolvedModel };
+        if (provider) {
+          patch[`selectedModel_${provider}`] = resolvedModel;
+          patch[`keyVerified_${provider}`] = true;
+        }
+        chrome.storage.local.set(patch);
+      }
+      if (typeof document !== "undefined" && (!state2 || !provider || state2.currentProvider === provider)) {
+        const select = document.getElementById("ytAiModelSelect");
+        if (select && select.options) {
+          const hasOpt = Array.from(select.options).some((o) => o.value === resolvedModel);
+          if (hasOpt) select.value = resolvedModel;
+        }
+        const headerModel = document.getElementById("ytAiHeaderModelText");
+        if (headerModel) {
+          const t = I18N[state2?.currentLang] || I18N.en;
+          headerModel.textContent = `${t.modelPrefix || "Model: "}${resolvedModel}`;
+        }
+      }
+    }
+    /**
+     * Saves, validates, and refreshes live Cloud models for an entered or pasted API key.
+     * @param {Object} params
+     */
+    static validateAndSyncCloudKey({ state: state2, provider, key, settingsDrawer: settingsDrawer2, showStatusBanner, updateHeaderBadge }) {
+      if (!state2 || !provider || provider === "lmstudio" || provider === "ollama") return;
+      const clean = String(key || "").trim();
+      if (!state2.apiKeys) state2.apiKeys = {};
+      state2.apiKeys[provider] = clean;
+      state2.savePreference?.(`apiKey_${provider}`, clean);
+      const model = resolveDeprecatedModel(provider, state2.getActiveModel?.() || "");
+      _QuickOnboardingHelper.testAndValidateKey({ state: state2, provider, key: clean, model, showStatusBanner, updateHeaderBadge });
+      if (clean) settingsDrawer2?.populateCloudModels?.(provider, null, true);
+    }
+    /**
      * Tests and validates API key in real-time with provider servers
      * @param {Object} params
      */
@@ -5150,6 +5570,7 @@ ${parts.join("\n\n")}`;
       if (!state2.keyVerified) state2.keyVerified = {};
       if (!key) {
         delete state2.keyVerified[provider];
+        state2.savePreference?.(`keyVerified_${provider}`, null);
         if (typeof updateHeaderBadge === "function") updateHeaderBadge();
         return;
       }
@@ -5164,15 +5585,15 @@ ${parts.join("\n\n")}`;
         apiKey: key,
         model,
         lang: state2.currentLang
-      }, ({ message, error, isError, latencyMs }) => {
-        state2.keyVerified[provider] = !isError;
+      }, (res) => {
+        _QuickOnboardingHelper.applyVerificationState(state2, provider, model, res);
         if (typeof updateHeaderBadge === "function") updateHeaderBadge();
         if (typeof showStatusBanner === "function") {
-          if (!isError) {
-            const successMsg = isFr ? `[\u2713] Cl\xE9 API valid\xE9e avec succ\xE8s par ${provider.toUpperCase()} (${latencyMs || 0}ms) !` : `[\u2713] API key verified successfully by ${provider.toUpperCase()} (${latencyMs || 0}ms)!`;
+          if (!res.isError) {
+            const successMsg = isFr ? `[\u2713] Cl\xE9 API valid\xE9e avec succ\xE8s par ${provider.toUpperCase()} (${res.latencyMs || 0}ms) !` : `[\u2713] API key verified successfully by ${provider.toUpperCase()} (${res.latencyMs || 0}ms)!`;
             showStatusBanner(successMsg, false);
           } else {
-            showStatusBanner(message || error, true);
+            showStatusBanner(res.message || res.error, true);
           }
         }
       });
@@ -5328,25 +5749,36 @@ ${parts.join("\n\n")}`;
       this.updateHeaderBadge();
       this.updateHeaderModelText();
     }
-    populateCloudModels(provider) {
+    populateCloudModels(provider, overrideList = null, forceRefresh = false) {
       const select = document.getElementById("ytAiModelSelect");
       if (!select) return;
-      select.innerHTML = "";
-      const list = CLOUD_MODELS[provider] || [];
-      list.forEach((m) => {
-        const opt = document.createElement("option");
-        opt.value = m.id;
-        opt.textContent = m.name;
-        select.appendChild(opt);
-      });
-      const activeM = this.state.getActiveModel();
+      const list = Array.isArray(overrideList) && overrideList.length > 0 ? overrideList : CLOUD_MODELS[provider] || [];
+      const sameList = select.options && select.options.length === list.length && Array.from(select.options).every((o, i) => o.value === list[i].id);
+      if (!sameList) {
+        select.innerHTML = "";
+        list.forEach((m) => {
+          const opt = document.createElement("option");
+          opt.value = m.id;
+          opt.textContent = m.name || m.id;
+          select.appendChild(opt);
+        });
+      }
+      const activeM = resolveDeprecatedModel(provider, this.state.getActiveModel());
       if (select.options.length > 0) {
-        const match = Array.from(select.options).some((o) => o.value === activeM);
-        if (match) select.value = activeM;
-        else select.selectedIndex = 0;
+        select.value = Array.from(select.options).some((o) => o.value === activeM) ? activeM : select.options[0].value;
         this.state.setActiveModel(select.value);
         this.state.savePreference(`selectedModel_${provider}`, select.value);
         this.state.savePreference("selectedModel", select.value);
+      }
+      this.updateHeaderModelText();
+      const key = (this.state.apiKeys?.[provider] || "").trim();
+      if ((!overrideList || forceRefresh) && key) {
+        const seq = this._cloudFetchSeq = (this._cloudFetchSeq || 0) + 1;
+        LocalModelDiscovery.refreshCloudModels(provider, key, (live) => {
+          if (seq !== this._cloudFetchSeq || this.state.currentProvider !== provider || (this.state.apiKeys?.[provider] || "").trim() !== key) return;
+          if (typeof document !== "undefined" && document.activeElement === select && !forceRefresh) return;
+          this.populateCloudModels(provider, live, false);
+        });
       }
     }
     updateServerUrlUI() {
@@ -5411,13 +5843,11 @@ ${parts.join("\n\n")}`;
       });
     }
     populateModelDropdown(models) {
-      const select = document.getElementById("ytAiModelSelect");
-      const currentSaved = this.state.getActiveModel();
       const activeVal = LocalModelDiscovery.populateModelSelect(
-        select,
+        document.getElementById("ytAiModelSelect"),
         models,
         this.state.currentProvider,
-        currentSaved,
+        this.state.getActiveModel(),
         this.state.currentLang
       );
       if (activeVal) {
@@ -5434,32 +5864,37 @@ ${parts.join("\n\n")}`;
       if (btn.dataset) btn.dataset.bound = "true";
       btn.setAttribute?.("data-bound", "true");
       btn.addEventListener("click", async () => {
-        await QuickOnboardingHelper.pasteApiKeyFromClipboard(input, (val) => {
-          const provider = this.state.currentProvider;
-          this.state.apiKeys[provider] = val;
-          this.state.savePreference(`apiKey_${provider}`, val);
-          QuickOnboardingHelper.testAndValidateKey({
+        const pasted = await QuickOnboardingHelper.pasteApiKeyFromClipboard(input, (val) => {
+          QuickOnboardingHelper.validateAndSyncCloudKey({
             state: this.state,
-            provider,
+            provider: this.state.currentProvider,
             key: val,
-            model: this.state.getActiveModel(),
+            settingsDrawer: this,
             showStatusBanner: (m, e) => this.showStatusBanner(m, e),
             updateHeaderBadge: () => this.updateHeaderBadge()
           });
         });
+        if (!pasted) {
+          const msg = (I18N[this.state.currentLang] || I18N.en).pasteClipboardHint || "[i] Clipboard empty or blocked \u2014 paste with Ctrl+V in the API Key field.";
+          this.showStatusBanner(msg, false);
+        }
       });
     }
     handleTestConnection() {
-      const model = this.state.getActiveModel();
+      const provider = this.state.currentProvider;
+      const model = resolveDeprecatedModel(provider, this.state.getActiveModel());
       this.showStatusBanner(`Testing connection to ${model}...`, false);
       ConnectionTester.testModelConnection({
-        provider: this.state.currentProvider,
-        serverUrl: this.state.serverUrls[this.state.currentProvider] || "",
-        apiKey: this.state.apiKeys[this.state.currentProvider],
+        provider,
+        serverUrl: this.state.serverUrls[provider] || "",
+        apiKey: this.state.apiKeys[provider],
         model,
         lang: this.state.currentLang
-      }, ({ message, error, isError }) => {
-        this.showStatusBanner(message || error, isError);
+      }, (res) => {
+        QuickOnboardingHelper.applyVerificationState(this.state, provider, model, res);
+        if (!res.isError && res.resolvedModel && res.resolvedModel !== model) this.populateCloudModels(provider);
+        this.updateHeaderBadge();
+        this.showStatusBanner(res.message || res.error, res.isError);
       });
     }
     async handleTestWhisper() {
@@ -5632,8 +6067,10 @@ ${parts.join("\n\n")}`;
                 if (reasoningBox) reasoningBox.open = false;
               }
               this.fullSummaryMarkdown += msg.content;
-              if (summaryBody) renderMarkdown(this.fullSummaryMarkdown, summaryBody);
+              if (summaryBody) renderMarkdown(this.fullSummaryMarkdown, summaryBody, { sectionCards: true });
             }
+          } else if (msg.type === "MODEL_RESOLVED") {
+            QuickOnboardingHelper.syncResolvedModel(stateObj, msg.provider || currentProvider, msg.model);
           } else if (msg.type === "DONE") {
             this.finishGeneration(lang);
           } else if (msg.type === "ERROR") {
@@ -6245,6 +6682,8 @@ ${condenseFn(text, externalBudget)}`);
         port.onMessage.addListener((msg) => {
           if (msg.type === "CHUNK" && msg.content) {
             if (typeof onChunk === "function") onChunk(msg.content);
+          } else if (msg.type === "MODEL_RESOLVED") {
+            QuickOnboardingHelper.syncResolvedModel(null, msg.provider || provider, msg.model);
           } else if (msg.type === "DONE") {
             this.disconnect();
             if (typeof onDone === "function") onDone();
@@ -6541,6 +6980,201 @@ ${condenseFn(text, externalBudget)}`);
     }
   };
 
+  // src/content/ui/AuditVisualDashboard.js
+  var AXIS_LABELS = {
+    fr: { logic: "Rigueur logique", sources: "Sources & preuves", transparency: "Transparence", facts: "Fiabilit\xE9 factuelle", radarTitle: "PROFIL DE FIABILIT\xC9 (4 AXES)", breakdownTitle: "D\xC9TAIL PAR CRIT\xC8RE", detailsHint: "D\xE9tails" },
+    en: { logic: "Logical rigor", sources: "Evidence & sources", transparency: "Transparency", facts: "Factual accuracy", radarTitle: "CREDIBILITY PROFILE (4 AXES)", breakdownTitle: "CRITERIA BREAKDOWN", detailsHint: "Details" },
+    es: { logic: "Rigor l\xF3gico", sources: "Fuentes y pruebas", transparency: "Transparencia", facts: "Fiabilidad factual", radarTitle: "PERFIL DE FIABILIDAD", breakdownTitle: "DESGLOSE POR CRITERIO", detailsHint: "Detalles" },
+    it: { logic: "Rigore logico", sources: "Fonti e prove", transparency: "Trasparenza", facts: "Affidabilit\xE0 fattuale", radarTitle: "PROFILO DI AFFIDABILIT\xC0", breakdownTitle: "DETTAGLIO CRITERI", detailsHint: "Dettagli" },
+    de: { logic: "Logische Strenge", sources: "Quellen & Belege", transparency: "Transparenz", facts: "Faktentreue", radarTitle: "GLAUBW\xDCRDIGKEITSPROFIL", breakdownTitle: "DETAILBEWERTUNG", detailsHint: "Details" },
+    ru: { logic: "\u041B\u043E\u0433\u0438\u043A\u0430", sources: "\u0418\u0441\u0442\u043E\u0447\u043D\u0438\u043A\u0438", transparency: "\u041F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u043E\u0441\u0442\u044C", facts: "\u0424\u0430\u043A\u0442\u044B", radarTitle: "\u041F\u0420\u041E\u0424\u0418\u041B\u042C \u041D\u0410\u0414\u0401\u0416\u041D\u041E\u0421\u0422\u0418", breakdownTitle: "\u0420\u0410\u0417\u0411\u0418\u0412\u041A\u0410 \u041F\u041E \u041E\u0421\u042F\u041C", detailsHint: "\u0414\u0435\u0442\u0430\u043B\u0438" },
+    ja: { logic: "\u8AD6\u7406\u6027", sources: "\u6839\u62E0\u30FB\u60C5\u5831\u6E90", transparency: "\u900F\u660E\u6027", facts: "\u4E8B\u5B9F\u6B63\u78BA\u6027", radarTitle: "\u4FE1\u983C\u6027\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB", breakdownTitle: "\u8A55\u4FA1\u8EF8\u306E\u5185\u8A33", detailsHint: "\u8A73\u7D30" },
+    zh: { logic: "\u903B\u8F91\u4E25\u8C28\u5EA6", sources: "\u8BC1\u636E\u4E0E\u6765\u6E90", transparency: "\u900F\u660E\u5EA6", facts: "\u4E8B\u5B9E\u51C6\u786E\u6027", radarTitle: "\u53EF\u4FE1\u5EA6\u96F7\u8FBE\u56FE", breakdownTitle: "\u5206\u9879\u6307\u6807\u8BC4\u4F30", detailsHint: "\u8BE6\u60C5" }
+  };
+  var CORE_OPEN_RE = /(?:🎯|🔍|📌|Verdict|Reliability|Fiabilité|Recoupement|Cross-Check|Conseils|Takeaways)/i;
+  var AuditVisualDashboard = class _AuditVisualDashboard {
+    /**
+     * Parses [AXES: ...] and [GENRE: ...] metadata from raw audit Markdown.
+     * @param {string} rawMarkdown
+     * @param {string} [lang='fr']
+     * @returns {{ genre: string, axes: Array<Object>|null }}
+     */
+    static parseVisualMetrics(rawMarkdown = "", lang = "fr") {
+      const raw = String(rawMarkdown || "");
+      const code = String(lang || "en").toLowerCase().slice(0, 2);
+      const labels = AXIS_LABELS[code] || AXIS_LABELS.en;
+      const genreTagMatch = raw.match(/\[GENRE\s*:\s*([^\]]+)\]/i);
+      let genre = genreTagMatch ? genreTagMatch[1].trim() : "";
+      if (!genre) {
+        const lineMatch = raw.match(/\*\*Genre(?:\s*&\s*Typologie|\s*&\s*Format)?\s*:\*\*\s*([^\n(]+)/i);
+        if (lineMatch) genre = lineMatch[1].trim().replace(/[.;]$/, "");
+      }
+      if (genre.length > 44) genre = genre.slice(0, 41).trimEnd() + "\u2026";
+      const axesMatch = raw.match(/\[AXES\s*:\s*([^\]]+)\]/i);
+      if (!axesMatch) return { genre, axes: null };
+      const block = axesMatch[1];
+      const readAxis = (patterns) => {
+        const m = block.match(new RegExp(`(?:${patterns})\\s*[:=]\\s*(\\d{1,3})`, "i"));
+        if (!m) return null;
+        return Math.max(0, Math.min(100, parseInt(m[1], 10)));
+      };
+      const logic = readAxis("Logic|Logique|Logik|L\xF3gica|Logica|\u041B\u043E\u0433\u0438\u043A\u0430|\u8AD6\u7406\u6027?|\u903B\u8F91");
+      const sources = readAxis("Sources|Evidence|Preuves|Quellen|Fuentes|Fonti|\u0418\u0441\u0442\u043E\u0447\u043D\u0438\u043A\u0438|\u6839\u62E0|\u6765\u6E90|\u8BC1\u636E");
+      const transparency = readAxis("Transparency|Transparence|Transparenz|Transparencia|Trasparenza|\u041F\u0440\u043E\u0437\u0440\u0430\u0447\u043D\u043E\u0441\u0442\u044C|\u900F\u660E\u6027|\u900F\u660E\u5EA6");
+      const facts = readAxis("Facts|Factual|Faits|V\xE9racit\xE9|Fakten|Hechos|Fatti|\u0424\u0430\u043A\u0442\u044B|\u4E8B\u5B9F|\u4E8B\u5B9E");
+      if (logic === null && sources === null && transparency === null && facts === null) {
+        return { genre, axes: null };
+      }
+      const specs = [
+        { key: "logic", icon: "\u{1F9E0}", label: labels.logic, value: logic ?? 75 },
+        { key: "sources", icon: "\u{1F52C}", label: labels.sources, value: sources ?? 75 },
+        { key: "transparency", icon: "\u{1F4BC}", label: labels.transparency, value: transparency ?? 75 },
+        { key: "facts", icon: "\u{1F50D}", label: labels.facts, value: facts ?? 75 }
+      ].map((item) => ({ ...item, hexColor: ScoreTierScale.getTier(item.value, lang).hexColor }));
+      return { genre, axes: specs };
+    }
+    /**
+     * Renders the 4-axis SVG radar polygon chart.
+     * @param {Array<Object>} axes
+     * @param {number} overallScore
+     * @returns {string}
+     */
+    static renderRadarSvg(axes, overallScore = 80) {
+      if (!Array.isArray(axes) || axes.length < 4) return "";
+      const cx = 110;
+      const cy = 82;
+      const maxR = 46;
+      const tierColor = ScoreTierScale.getTier(overallScore).hexColor;
+      const dirs = [
+        { dx: 0, dy: -1, anchor: "middle", tx: 0, ty: -10 },
+        { dx: 1, dy: 0, anchor: "start", tx: 8, ty: 4 },
+        { dx: 0, dy: 1, anchor: "middle", tx: 0, ty: 15 },
+        { dx: -1, dy: 0, anchor: "end", tx: -8, ty: 4 }
+      ];
+      const ringPolys = [0.25, 0.5, 0.75, 1].map((ratio) => {
+        const pts = dirs.map((d) => `${(cx + d.dx * maxR * ratio).toFixed(1)},${(cy + d.dy * maxR * ratio).toFixed(1)}`).join(" ");
+        return `<polygon points="${pts}" fill="none" stroke="var(--yt-ai-border)" stroke-width="1" stroke-dasharray="${ratio < 1 ? "2,2" : ""}" />`;
+      }).join("");
+      const dataPoints = axes.map((a, idx) => {
+        const r = maxR * (Math.max(8, Math.min(100, a.value)) / 100);
+        return `${(cx + dirs[idx].dx * r).toFixed(1)},${(cy + dirs[idx].dy * r).toFixed(1)}`;
+      }).join(" ");
+      const dotsAndLabels = axes.map((a, idx) => {
+        const d = dirs[idx];
+        const r = maxR * (Math.max(8, Math.min(100, a.value)) / 100);
+        const px = (cx + d.dx * r).toFixed(1);
+        const py = (cy + d.dy * r).toFixed(1);
+        const lx = (cx + d.dx * maxR + d.tx).toFixed(1);
+        const ly = (cy + d.dy * maxR + d.ty).toFixed(1);
+        return `
+        <circle cx="${px}" cy="${py}" r="3.5" fill="${a.hexColor}" stroke="var(--yt-ai-bg)" stroke-width="1.2" />
+        <text x="${lx}" y="${ly}" text-anchor="${d.anchor}" class="yt-ai-radar-svg-label">${a.icon} ${a.value}%</text>
+      `;
+      }).join("");
+      return `
+      <svg viewBox="0 0 220 164" class="yt-ai-audit-radar-svg" aria-hidden="true">
+        ${ringPolys}
+        <line x1="${cx}" y1="${cy - maxR}" x2="${cx}" y2="${cy + maxR}" stroke="var(--yt-ai-border-subtle)" stroke-width="1" />
+        <line x1="${cx - maxR}" y1="${cy}" x2="${cx + maxR}" y2="${cy}" stroke="var(--yt-ai-border-subtle)" stroke-width="1" />
+        <polygon points="${dataPoints}" fill="${tierColor}33" stroke="${tierColor}" stroke-width="2" stroke-linejoin="round" />
+        ${dotsAndLabels}
+      </svg>
+    `;
+    }
+    /**
+     * Renders the side-by-side 4-axis graphical scorecard (SVG radar + metric progress bars).
+     * @param {Object} metrics
+     * @param {number} overallScore
+     * @param {string} [lang='fr']
+     * @returns {string}
+     */
+    static renderVisualDashboard(metrics, overallScore = 80, lang = "fr") {
+      if (!metrics?.axes || metrics.axes.length === 0) return "";
+      const code = String(lang || "en").toLowerCase().slice(0, 2);
+      const ui = AXIS_LABELS[code] || AXIS_LABELS.en;
+      const barsHtml = metrics.axes.map((a) => `
+      <div class="yt-ai-axis-row">
+        <div class="yt-ai-axis-header">
+          <span class="yt-ai-axis-name">${a.icon} ${escapeHtml(a.label)}</span>
+          <span class="yt-ai-axis-val" style="color:${a.hexColor};">${a.value}/100</span>
+        </div>
+        <div class="yt-ai-axis-track">
+          <div class="yt-ai-axis-fill" style="width:${Math.max(4, a.value)}%;background:linear-gradient(90deg, ${a.hexColor}aa, ${a.hexColor});"></div>
+        </div>
+      </div>
+    `).join("");
+      return `
+      <div class="yt-ai-audit-visual-grid">
+        <div class="yt-ai-audit-radar-card">
+          <div class="yt-ai-audit-card-kicker">${escapeHtml(ui.radarTitle)}</div>
+          ${_AuditVisualDashboard.renderRadarSvg(metrics.axes, overallScore)}
+        </div>
+        <div class="yt-ai-audit-axes-card">
+          <div class="yt-ai-audit-card-kicker">${escapeHtml(ui.breakdownTitle)}</div>
+          <div class="yt-ai-axis-list">${barsHtml}</div>
+        </div>
+      </div>
+    `;
+    }
+    /**
+     * Highlights concise verdict table cells with color-coded status chips.
+     * @param {string} html
+     * @returns {string}
+     */
+    static enhanceStatusBadges(html) {
+      if (!html || !html.includes("<td>")) return html;
+      return html.replace(/<td>([\s\S]*?)<\/td>/g, (full, inner) => {
+        const text = inner.replace(/<[^>]+>/g, "").trim();
+        if (!text || text.length > 36) return full;
+        if (/^(?:vérifi[ée]|verified|fiable|valid[ée]|solide|exact|confirmed)$/i.test(text)) {
+          return `<td><span class="yt-ai-status-pill yt-ai-pill-pass">\u2713 ${escapeHtml(text)}</span></td>`;
+        }
+        if (/^(?:[àa] nuancer|caution|vigilance|partiel|partial|mod[ée]r[ée]|nuanc[ée]|mixed)$/i.test(text)) {
+          return `<td><span class="yt-ai-status-pill yt-ai-pill-warn">! ${escapeHtml(text)}</span></td>`;
+        }
+        if (/^(?:fautif|faux|refuted|trompeur|manipulateur|erreur|false|unverified|non v[ée]rifi[ée])$/i.test(text)) {
+          return `<td><span class="yt-ai-status-pill yt-ai-pill-fail">\u2715 ${escapeHtml(text)}</span></td>`;
+        }
+        return full;
+      });
+    }
+    /**
+     * Formats rendered audit sections so Verdict, Fact-Check Table & Tips stay open
+     * while deep analytical breakdowns collapse cleanly into 1-line-preview accordions.
+     * @param {string} html
+     * @param {string} [lang='fr']
+     * @returns {string}
+     */
+    static formatInteractiveSections(html, lang = "fr") {
+      if (!html) return "";
+      const enhanced = _AuditVisualDashboard.enhanceStatusBadges(html);
+      const sections = enhanced.match(/<section class="yt-ai-md-section">[\s\S]*?<\/section>/g);
+      if (!sections || sections.length < 4) return enhanced;
+      const code = String(lang || "en").toLowerCase().slice(0, 2);
+      const hintLabel = (AXIS_LABELS[code] || AXIS_LABELS.en).detailsHint;
+      return enhanced.replace(/<section class="yt-ai-md-section">(<h[23]>([\s\S]*?)<\/h[23]>)([\s\S]*?)<\/section>/g, (match, headingTag, headingText, bodyHtml) => {
+        const plainTitle = headingText.replace(/<[^>]+>/g, "").trim();
+        if (CORE_OPEN_RE.test(plainTitle)) {
+          return `<section class="yt-ai-md-section yt-ai-audit-core-card">${headingTag}${bodyHtml}</section>`;
+        }
+        const rawPreview = bodyHtml.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/\s+/g, " ").trim();
+        const preview = rawPreview.length > 96 ? rawPreview.slice(0, 93).trimEnd() + "\u2026" : rawPreview;
+        return `
+        <details class="yt-ai-md-section yt-ai-audit-accordion">
+          <summary class="yt-ai-audit-accordion-summary">
+            <div class="yt-ai-audit-accordion-top">
+              <span class="yt-ai-audit-accordion-title">${headingText}</span>
+              <span class="yt-ai-audit-accordion-toggle">${escapeHtml(hintLabel)} \u25BE</span>
+            </div>
+            ${preview ? `<div class="yt-ai-audit-accordion-preview">${escapeHtml(preview)}</div>` : ""}
+          </summary>
+          <div class="yt-ai-audit-accordion-body">${bodyHtml}</div>
+        </details>
+      `;
+      });
+    }
+  };
+
   // src/content/ui/AuditViewController.js
   var AuditViewController = class {
     /**
@@ -6565,22 +7199,24 @@ ${condenseFn(text, externalBudget)}`);
      * @param {string} [lang='fr']
      * @returns {string} HTML
      */
-    renderAuditHeroCard(report, lang = "fr") {
+    renderAuditHeroCard(report, lang = "fr", metrics = null) {
       if (!report) return "";
       const score = typeof report.reliabilityScore === "number" ? report.reliabilityScore : 80;
       const badge = report.getReliabilityBadge(lang);
       const tier = typeof report.getGranularTier === "function" ? report.getGranularTier(lang) : null;
+      const resolvedMetrics = metrics || AuditVisualDashboard.parseVisualMetrics(report.rawMarkdown, lang);
       const isLow = score < 50;
       const isMed = score >= 50 && score < 75;
       const levelClass = isLow ? "yt-ai-score-low" : isMed ? "yt-ai-score-med" : "yt-ai-score-high";
       const verdictDesc = tier?.desc || (isLow ? lang === "fr" ? "Biais cognitifs, sp\xE9culation ou affirmations trompeuses" : "High bias or deceptive claims" : isMed ? lang === "fr" ? "Analyse nuanc\xE9e, affirmations \xE0 v\xE9rifier avec recul" : "Mixed rigor, claims require caution" : lang === "fr" ? "Rigueur et coh\xE9rence logique \xE9lev\xE9es" : "High logical rigor & consistency");
       const tierPill = tier ? `<span class="yt-ai-tier-pill" style="border-color:${tier.hexColor}66;color:${tier.hexColor};">${escapeHtml(tier.rangeLabel)} \xB7 ${escapeHtml(tier.shortLabel)}</span>` : "";
+      const genrePill = resolvedMetrics?.genre ? `<span class="yt-ai-genre-pill">\u{1F3F7}\uFE0F ${escapeHtml(resolvedMetrics.genre)}</span>` : "";
       return `
       <div class="yt-ai-audit-hero-card ${levelClass}">
         <div class="yt-ai-audit-hero-main">
           <div class="yt-ai-audit-gauge-circle" ${tier ? `style="border-color:${tier.hexColor};color:${tier.hexColor};"` : ""}><span class="yt-ai-audit-gauge-val">${score}</span><span class="yt-ai-audit-gauge-max">/100</span></div>
           <div class="yt-ai-audit-hero-meta">
-            <div class="yt-ai-audit-status-badge">${escapeHtml(badge.label)} ${tierPill}</div>
+            <div class="yt-ai-audit-status-badge">${escapeHtml(badge.label)} ${tierPill} ${genrePill}</div>
             <div class="yt-ai-audit-hero-desc">${escapeHtml(verdictDesc)}</div>
           </div>
         </div>
@@ -6673,7 +7309,7 @@ ${condenseFn(text, externalBudget)}`);
           onChunk: (chunk, acc) => {
             hasStreamedChunks = true;
             if (bodyBox) {
-              renderMarkdown(acc, bodyBox);
+              renderMarkdown(stripScoreTags(acc), bodyBox, { sectionCards: true });
               this.bindTimestampLinks(bodyBox);
             }
           }
@@ -6685,8 +7321,12 @@ ${condenseFn(text, externalBudget)}`);
           progBox.innerHTML = "";
         }
         if (bodyBox) {
-          const heroHtml = this.renderAuditHeroCard(report, lang);
-          safeSetInnerHTML(bodyBox, heroHtml + renderMarkdown(report.rawMarkdown));
+          const metrics = AuditVisualDashboard.parseVisualMetrics(report.rawMarkdown, lang);
+          const heroHtml = this.renderAuditHeroCard(report, lang, metrics);
+          const visualGridHtml = AuditVisualDashboard.renderVisualDashboard(metrics, report.reliabilityScore, lang);
+          const rawBodyHtml = renderMarkdown(stripScoreTags(report.rawMarkdown), null, { sectionCards: true });
+          const bodyHtml = AuditVisualDashboard.formatInteractiveSections(rawBodyHtml, lang);
+          safeSetInnerHTML(bodyBox, heroHtml + visualGridHtml + bodyHtml);
           this.bindTimestampLinks(bodyBox);
         }
         const auditTabBadge = document.getElementById("ytAiTabAuditBtn");
@@ -6864,7 +7504,12 @@ Crit\xE8res d'\xE9valuation :
 8. Signaux communautaires : mise en perspective des observations pertinentes des spectateurs en commentaires.
 
 Ton ton doit \xEAtre constructif, pr\xE9cis, p\xE9dagogique et rigoureusement objectif.
-Inclus toujours un indice global sur 100 au format : [SCORE: XX/100].`;
+MISE EN FORME SOIGN\xC9E & LISIBILIT\xC9 (IMP\xC9RATIF \u2014 Z\xC9RO TEXTE BRUT) :
+- Ne produis JAMAIS de mur de texte compact ni de mots \xE9num\xE9r\xE9s sur des lignes vides avec \xAB ; \xBB.
+- Ouvre le verdict par un encadr\xE9 de synth\xE8se (\`> **Verdict :** ...\`) et mets les citations marquantes en bloc citation (\`> \xAB ... \xBB [MM:SS]\`).
+- Utilise un tableau Markdown compact (\`| Affirmation / Crit\xE8re | Preuves & Sources | Verdict |\`) pour synth\xE9tiser les recoupements factuels ou comparaisons d\xE8s que pertinent.
+- Chaque puce DOIT suivre le format lisible \`- **Point cl\xE9 :** Explication claire et concise.\` (gras sur les chiffres/notions cl\xE9s et horodatages \`[MM:SS]\`).
+Inclus toujours un indice global sur 100 uniquement sur la premi\xE8re ligne au format : [SCORE: XX/100].`;
       }
       return `${specificLang}
 
@@ -6887,7 +7532,12 @@ Evaluation criteria:
 8. Community signals: Contextualize constructive viewer observations from comments.
 
 Strict language rule: Write ALL section headings and narrative content exclusively in ${targetLangName}. Keep your tone constructive, precise, pedagogical, and objective.
-Always include an overall score out of 100 using the exact tag format: [SCORE: XX/100].`;
+SCANNABLE & VISUAL PRESENTATION (NO RAW WALLS OF TEXT):
+- Never produce dense unformatted prose walls or isolated fragments stacked across blank lines.
+- Open the verdict section with a highlighted summary callout (\`> **Verdict:** ...\`) and quote verbatim evidence cleanly (\`> "..." [MM:SS]\`).
+- Include a compact Markdown verification table (\`| Claim / Criterion | Evidence & Sources | Verdict |\`) when assessing multiple facts or comparisons.
+- Write crisp, single-line bullet points (\`- **Key Point:** Clear, direct explanation.\`), highlight metrics in **bold**, and cite clickable \`[MM:SS]\` timestamps.
+Always include an overall score out of 100 strictly on the first line using the exact tag format: [SCORE: XX/100].`;
     }
     /**
      * Builds the complete user prompt for the audit
@@ -6935,35 +7585,44 @@ ${commentsSection2}
 ${contentSection2}
 
 --- CRITICAL AUDIT REPORT DIRECTIVES ---
-Write a structured Markdown report keeping [SCORE: XX/100] intact and translating all section titles below into ${targetLangName}:
+Write a concise, high-signal visual Markdown report (keep explanations short & punchy: max 2 crisp bullets per section, ~1-2 lines each) starting STRICTLY with these 3 metadata lines on top, translating every heading and value into ${targetLangName}:
 
 [SCORE: XX/100]
-
-### \u{1F3AD} Editorial Context & Target Audience
-- **Genre & Format**: Clarify the content type and evaluate proportionally to that genre.
+[AXES: Logic=YY, Sources=ZZ, Transparency=WW, Facts=VV]
+[GENRE: Short genre label]
 
 ### \u{1F3AF} Reliability Score & Overall Verdict
-- Concise 2-3 sentence rationale and posture assessment.
-
-### \u2696\uFE0F Logical Analysis & Argumentative Rigor
-- Reasoning clarity, methodological caution, and any fallacies or shortcuts observed.
-
-### \u{1F52C} Source Rigor & Level of Evidence
-- Empirical/official sources vs hypotheses, plus temporal nuance if covering recent events.
-
-### \u{1F4BC} Commercial Transparency & Marketing Discernment
-- Disclosure clarity, verified reasoning vs promotional scripting (quote exact phrases if problematic), and proof over self-proclaimed objectivity.
+> **Verdict:** 1-2 punchy sentences summarizing overall credibility, posture, and trustworthiness.
+- **Core Rationale:** Key strengths and any reservations in concise language.
 
 ### \u{1F50D} Factual, Temporal & Spatial Cross-Check
-- Timeline alignment and plausibility of numerical/physical claims.
-
-### \u{1F4AC} Community Feedback & Viewer Consensus
-- Key constructive takeaways from viewer comments.
+(When factual, numerical, or timeline claims exist, summarize them in a compact Markdown table using Verified / Caution / Refuted verdicts; for pure fiction/kids/music with no metrics, briefly verify framing in 1-2 crisp bullets:)
+| Claim / Aspect | Verification & Data | Verdict |
+|---|---|---|
+| (Key factual, timeline, or numerical check) | (Supporting/contradicting proof) | (Verified / Caution / Refuted) |
 
 ### \u{1F4CC} Critical Thinking Takeaways
-- 2 to 3 actionable viewer guidelines.
+1. Concise, actionable viewer takeaway.
+2. Concise, actionable viewer takeaway.
 
-CRITICAL LANGUAGE REQUIREMENT: Translate every heading and write 100% of the audit report exclusively in ${targetLangName}.`;
+### \u{1F3AD} Editorial Context & Target Audience
+- **Genre & Format:** Clarify content type in 1 short sentence.
+- **Framing Assessment:** Concise contextual check (safeguarding accuracy/wholesomeness).
+
+### \u2696\uFE0F Logical Analysis & Argumentative Rigor
+- **Reasoning Structure:** Clarity of deductions and internal consistency (1 short sentence).
+- **Methodological Caution & Biases:** Fact vs opinion separation and any fallacies (or confirm solid logic).
+
+### \u{1F52C} Source Rigor & Level of Evidence
+- **Evidence Quality & Timing:** Empirical/official sources vs claims and temporal nuance.
+
+### \u{1F4BC} Commercial Transparency & Marketing Discernment
+- **Disclosure & Honesty:** Sponsored clarity vs uncritical promotional script (quote \`> "..." [MM:SS]\` verbatim if misleading).
+
+### \u{1F4AC} Community Feedback & Viewer Consensus
+- 1-2 short bullets on constructive viewer feedback.
+
+CRITICAL LANGUAGE REQUIREMENT: Translate every heading, table header, and narrative line 100% into ${targetLangName} (keep [SCORE:], [AXES:], [GENRE:] tag keys exact).`;
       }
       const headerInfo = [
         `Date d'observation : ${currentDateStr}`,
@@ -6991,48 +7650,44 @@ ${commentsSection}
 ${contentSection}
 
 --- DIRECTIVES DU RAPPORT D'AUDIT CRITIQUE ---
-R\xE9dige un rapport structur\xE9 respectant EXACTEMENT le format Markdown suivant :
+R\xE9dige un rapport visuel **court, percutant et facile \xE0 lire** (max 2 puces concises de 1\u20132 lignes par section, z\xE9ro pav\xE9 long !) en commen\xE7ant STRICTEMENT par ces 3 lignes techniques en t\xEAte :
 
 [SCORE: XX/100]
-
-### \u{1F3AD} Contexte \xC9ditorial & Public Cible
-- **Genre & Typologie** : (Ex: Divertissement jeunesse / Documentaire scientifique / Fiction / Gaming / D\xE9bat).
-- **Discernement adapt\xE9 au contexte** : \xC9valuation adapt\xE9e au genre. Pour un contenu jeunesse : analyse de la bienveillance, absence ou pr\xE9sence de manipulation commerciale insidieuse (conditionnement d'habitudes de consommation d\xE9guis\xE9, placements pr\xE9dateurs, exploitation de la cr\xE9dulit\xE9 infantile). Pour un contenu documentaire/informatif : niveau de preuve et rigueur de d\xE9monstration.
+[AXES: Logic=YY, Sources=ZZ, Transparency=WW, Facts=VV]
+[GENRE: Tag court du genre]
 
 ### \u{1F3AF} Indice de Fiabilit\xE9 & Verdict Global
-- Score de solidit\xE9 (sur 100) avec explication synth\xE9tique en 2-3 phrases.
-- \xC9valuation globale de la posture : (Ex: D\xE9marche rigoureuse / Vulgarisation \xE9quilibr\xE9e / Posture engag\xE9e / Prudence requise).
-
-### \u2696\uFE0F Analyse Logique & Rigueur Argumentative
-- Analyse la coh\xE9rence de l'argumentation :
-  - **Structure du raisonnement** : Clart\xE9 des d\xE9ductions, pr\xE9sence ou absence de contradictions internes.
-  - **Prudence m\xE9thodologique** : Pr\xE9cision du vocabulaire employ\xE9, distinction entre certitudes, indices et hypoth\xE8ses de travail.
-  - **Biais ou raccourcis \xE9ventuels** : Causalit\xE9s h\xE2tives, g\xE9n\xE9ralisations excessives ou extrapolations si constat\xE9es (ou confirmer la solidit\xE9 du raisonnement).
-
-### \u{1F52C} Rigueur des Sources & Niveau de Preuve
-- \xC9value les r\xE9f\xE9rences et donn\xE9es pr\xE9sent\xE9es :
-  - **Niveau de preuve** : R\xE9f\xE9rences techniques ou officielles vs t\xE9moignages pr\xE9liminaires ou d\xE9ductions logiques.
-  - **Prise en compte de la temporalit\xE9 de l'enqu\xEAte** : S'il s'agit d'un \xE9v\xE9nement r\xE9cent, v\xE9rifier si l'auteur pr\xE9cise les limites des donn\xE9es pr\xE9liminaires disponibles.
-
-### \u{1F4BC} Transparence Commerciale & Discernement Marketing
-- \xC9value avec subtilit\xE9 la sinc\xE9rit\xE9 \xE9ditoriale et la valeur r\xE9elle de l'argumentation :
-  - **Transparence du mod\xE8le \xE9conomique (l\xE9gitime et assum\xE9)** : Il est parfaitement normal qu'un cr\xE9ateur vive de son travail (sponsors, partenariats commerciaux, affiliations ou promotion de ses propres livres/conf\xE9rences). L'exigence cl\xE9 est la transparence : ces collaborations sont-elles annonc\xE9es de mani\xE8re claire et loyale au spectateur ?
-  - **Arguments v\xE9rifi\xE9s vs Discours marketing r\xE9p\xE9t\xE9** : \xC9value si les arguments pr\xE9sent\xE9s sont solides, document\xE9s et critiques... ou s'il s'agit d'un simple discours commercial pr\xE9format\xE9. [OBLIGATION DE CITATION : Si tu juges un argument marketing ou manipulateur, cite la phrase exacte de l'auteur et explique pourquoi elle pose probl\xE8me].
-  - **D\xE9monstration concr\xE8te du pr\xE9judice ou du biais** : Explique ce que l'auteur a dit ou fait de concret et pourquoi c'est pr\xE9judiciable ou n\xE9gatif pour le spectateur (ex: fausse promesse sant\xE9, conditionnement d'habitudes d'achat pr\xE9coce chez l'enfant, omission volontaire de dysfonctionnements).
-  - **V\xE9rification active de l'honn\xEAtet\xE9 (ne pas croire sur parole)** : Ce n'est pas parce que l'auteur proclame \xAB je suis honn\xEAte \xBB, \xAB test 100% objectif \xBB ou \xAB aucun sponsor ne m'influence \xBB qu'il l'est r\xE9ellement. C'est \xE0 l'auditeur de juger son honn\xEAtet\xE9 \xE0 l'aune des preuves mat\xE9rielles, des donn\xE9es v\xE9rifiables et de la coh\xE9rence de ses d\xE9monstrations.
-  - **Discernement ("le mal n'est pas partout")** : Une vid\xE9o sponsoris\xE9e peut \xEAtre excellente et rigoureuse si l'analyse reste int\xE8gre. Ne p\xE9nalise pas la pr\xE9sence d'un sponsor, mais juge la libert\xE9 de ton, la pr\xE9cision technique et l'honn\xEAtet\xE9 intellectuelle du propos.
+> **Verdict :** Synth\xE8se percutante en 1\u20132 phrases sur la solidit\xE9 et la posture \xE9ditoriale globale.
+- **Posture \xE9ditoriale :** (D\xE9marche rigoureuse / Vulgarisation \xE9quilibr\xE9e / Prudence requise) en 1 phrase.
 
 ### \u{1F50D} Recoupement Factuel, Temporel & Spatial
-- Coh\xE9rence chronologique entre la date de mise en ligne et les \xE9v\xE9nements analys\xE9s.
-- Pertinence des ordres de grandeur ou donn\xE9es physiques mentionn\xE9es.
-
-### \u{1F4AC} \xC9clairage des Commentaires & Consensus du Public
-- Synth\xE8se des retours du public (remarques constructives, partages d'exp\xE9rience ou points de discussion soulev\xE9s).
+(Si la vid\xE9o avance des faits, dates ou chiffres v\xE9rifiables, synth\xE9tise-les en tableau compact ; pour une \u0153uvre purement r\xE9cr\xE9ative, musicale ou jeunesse sans donn\xE9es chiffr\xE9es, v\xE9rifie la coh\xE9rence en 1\u20132 puces nettes :)
+| \xC9l\xE9ment / Affirmation | V\xE9rification & Ordres de grandeur | Statut |
+|---|---|---|
+| (Fait, date ou chiffre cl\xE9 analys\xE9) | (Preuve, coh\xE9rence temporelle ou limite) | (V\xE9rifi\xE9 / \xC0 nuancer / Fautif) |
 
 ### \u{1F4CC} Conseils pour l'Esprit Critique
-- 2 \xE0 3 recommandations p\xE9dagogiques pour appr\xE9hender ce type de sujet avec discernement.
+1. Recommandation actionnable en 1 phrase claire.
+2. Deuxi\xE8me recommandation pratique pour garder du recul.
 
-IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts inexistants. R\xE9dige l'int\xE9gralit\xE9 du rapport dans la langue cible : FRAN\xC7AIS.`;
+### \u{1F3AD} Contexte \xC9ditorial & Public Cible
+- **Genre & Typologie :** (Ex : Divertissement jeunesse / Vulgarisation / Tech / Documentaire).
+- **Discernement adapt\xE9 au contexte :** \xC9valuation courte proportionn\xE9e au genre (pour un contenu jeunesse : bienveillance vs manipulation commerciale insidieuse et conditionnement d'habitudes de consommation d\xE9guis\xE9).
+
+### \u2696\uFE0F Analyse Logique & Rigueur Argumentative
+- **Structure du raisonnement :** Clart\xE9 des d\xE9ductions et coh\xE9rence interne en 1\u20132 phrases.
+- **Prudence & Biais \xE9ventuels :** Faits vs hypoth\xE8ses, sophismes \xE9ventuels (ou solidit\xE9 confirm\xE9e).
+
+### \u{1F52C} Rigueur des Sources & Niveau de Preuve
+- **Niveau de preuve & Temporalit\xE9 :** Sources techniques/officielles vs assertions et recul temporel.
+
+### \u{1F4BC} Transparence Commerciale & Discernement Marketing
+- **Mod\xE8le \xE9conomique & loyaut\xE9 :** Sponsors l\xE9gitimes si transparents ; preuve contre discours marketing (\`> \xAB citation \xBB [MM:SS]\` si biais).
+
+### \u{1F4AC} \xC9clairage des Commentaires & Consensus du Public
+- 1\u20132 puces courtes sur les retours pertinents du public.
+
+IMPORTANT : Reste constructif, neutre, factuel et concis. R\xE9dige l'int\xE9gralit\xE9 du rapport dans la langue cible : FRAN\xC7AIS (garde [SCORE:], [AXES:], [GENRE:] exacts).`;
     }
   };
 
@@ -7346,6 +8001,8 @@ IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de d\xE9fauts in
                 options.onProgress?.({ step: "streaming", percent, message, detail });
                 options.onChunk?.(chunkText, accumulatedMarkdown);
               }
+            } else if (msg.type === "MODEL_RESOLVED") {
+              QuickOnboardingHelper.syncResolvedModel(state2, msg.provider || provider, msg.model);
             } else if (msg.type === "DONE") {
               options.onProgress?.({ step: "done", percent: 100, message: "\u2713 Examen de la vid\xE9o termin\xE9", detail: "Rapport d'int\xE9grit\xE9 et score de fiabilit\xE9 pr\xEAts" });
               const scoreMatch = accumulatedMarkdown.match(/\[SCORE:\s*(\d{1,3})\/100\]/i);
@@ -7440,23 +8097,23 @@ Num\xE9ro | Score | Sensationnalisme% | Verdict | Commentaire d'une phrase
 [DISTRIBUTION: Fiable=A%, Modere=B%, Risque=C%]
 [TRAJECTOIRE: PROGRESSION | STABLE | DECLIN]
 
-3. Le rapport qualitatif structur\xE9 :
+3. Le rapport qualitatif structur\xE9 (FORME SOIGN\xC9E \u2014 Z\xC9RO TEXTE BRUT) :
 ### [\u2713] Ce que la cha\xEEne fait de bien (Forces & Rigueur)
-- 2 \xE0 4 points concrets sur les qualit\xE9s \xE9ditoriales, la clart\xE9 p\xE9dagogique, la d\xE9marche d'auteur et les sources.
+- **Crit\xE8re fort :** 2 \xE0 4 puces concises sur la rigueur \xE9ditoriale, la p\xE9dagogie et les sources (1 phrase par puce, mot-cl\xE9 en gras).
 
 ### [!] Ce qu'elle fait de moins bien (Points de vigilance)
-- 2 \xE0 3 nuances constructives sur les raccourcis \xE9ventuels ou la simplification p\xE9dagogique.
+- **Nuance constructive :** 2 \xE0 3 puces claires et courtes sur les raccourcis ou points \xE0 surveiller.
 
 ### [X] \xC9cueils et d\xE9rives constat\xE9s (Accroches trompeuses & Discours publicitaire non assum\xE9)
-- 1 \xE0 3 observations franches si des titres trompeurs, un manque de transparence sur les partenariats ou un discours marketing r\xE9p\xE9t\xE9 sans esprit critique sont constat\xE9s (ou "Aucun \xE9cueil majeur constat\xE9" si la cha\xEEne est exemplaire).
+- **Constat factuel :** 1 \xE0 3 puces franches si des titres trompeurs, conflits ou discours marketing sont observ\xE9s (ou "Aucun \xE9cueil majeur constat\xE9" si la cha\xEEne est exemplaire).
 
 ### [\u{1F4C8}] \xC9volution temporelle (Trajectoire d'ann\xE9e en ann\xE9e)
-- Analyse synth\xE9tique montrant l'\xE9volution entre les vid\xE9os plus anciennes et la production actuelle.
+- **Tendance observ\xE9e :** Analyse synth\xE9tique comparant les productions pass\xE9es et r\xE9centes avec p\xE9riodes cl\xE9s en **gras**.
 
 ### Synth\xE8se & Recommandation Globale
-- Verdict final clair pour un spectateur exigeant.
+> **Verdict :** Recommandation finale claire et directe en 1-2 phrases pour un spectateur exigeant.
 
-DIRECTIVE DE CONCISION : R\xE9dige directement le bloc [EVAL_VIDEOS] puis les balises synth\xE9tiques et les sections qualitatives succinctes. Reste toujours neutre, constructif et direct. N'invente pas de d\xE9fauts inexistants.`;
+DIRECTIVE DE CONCISION & LISIBILIT\xC9 : R\xE9dige directement [EVAL_VIDEOS] puis les balises synth\xE9tiques et les sections ci-dessus avec des puces nettes sur une seule ligne (\`- **Mot-cl\xE9 :** Explication courte\`). Reste toujours neutre, constructif et factuel.`;
       }
       return `You are a digital media auditor and expert in YouTube editorial analysis. You must respond exclusively in ${targetLangName}.
 Your mission is to audit a YouTube channel impartially based on a CONSOLIDATED STATISTICAL SAMPLE of its videos.
@@ -7484,12 +8141,17 @@ Index | Score | Clickbait% | Verdict | One sentence note
 [TRAJECTOIRE: PROGRESSION | STABLE | DECLIN]
 
 ### [\u2713] Strengths & Editorial Rigor
+- **Key Strength:** 2-4 crisp single-line bullets highlighting clarity, methodology, or verifiable sources.
 ### [!] Areas of Caution & Subtle Biases
+- **Watchpoint:** 2-3 concise constructive caveats or areas requiring nuance.
 ### [X] Critical Flaws & Sensationalism Traps
+- **Verified Issue:** 1-3 direct bullets if clickbait or undisclosed marketing exists (or "No major red flags observed").
 ### [\u{1F4C8}] Year-over-Year Trajectory
+- **Observed Trend:** Concise temporal comparison highlighting recent vs historic quality shifts in **bold**.
 ### Executive Synthesis & Recommendation
+> **Verdict:** Crisp 1-2 sentence final guidance for discerning viewers.
 
-STRICT LANGUAGE RULE: Write ALL prose, bullet items, Executive Synthesis, and per-video notes inside [EVAL_VIDEOS] exclusively in ${targetLangName}. Keep bracketed parser tags ([EVAL_VIDEOS], [SCORE_GLOBAL], [INDICE_CLICKBAIT], [DISTRIBUTION], [TRAJECTOIRE], ### [\u2713], ### [!], ### [X], ### [\u{1F4C8}]) exact for machine parsing.`;
+STRICT LANGUAGE & FORMATTING RULE: Write ALL prose, concise \`- **Label:** ...\` bullet items, Executive Synthesis, and per-video notes inside [EVAL_VIDEOS] exclusively in ${targetLangName}. Never produce dense walls of unformatted prose. Keep bracketed parser tags ([EVAL_VIDEOS], [SCORE_GLOBAL], [INDICE_CLICKBAIT], [DISTRIBUTION], [TRAJECTOIRE], ### [\u2713], ### [!], ### [X], ### [\u{1F4C8}]) exact for machine parsing.`;
     }
     /**
      * Builds the consolidated multi-video prompt
@@ -7826,6 +8488,8 @@ Followed by the 5 qualitative sections written 100% in ${targetLangName}: ### [\
               }
               onProgress?.({ step: isSynthesisStarted ? "synthesis" : "evaluating", percent, message, detail });
             }
+          } else if (msg.type === "MODEL_RESOLVED") {
+            QuickOnboardingHelper.syncResolvedModel(state2, msg.provider || provider, msg.model);
           } else if (msg.type === "DONE") {
             onProgress?.({
               step: "done",
@@ -8328,7 +8992,7 @@ Followed by the 5 qualitative sections written 100% in ${targetLangName}: ### [\
             <span><strong>${escapeHtml(t.channelEvolutionTitle || "\u{1F4C8} Editorial & Quality Evolution")}</strong></span>
             <span class="yt-ai-traj-badge ${trajClass}">[${trajIcon}] ${escapeHtml(report.trajectoryLabel)}</span>
           </div>
-          ${report.temporalEvolution ? `<div class="yt-ai-traj-desc">${escapeHtml(report.temporalEvolution)}</div>` : ""}
+          ${report.temporalEvolution ? `<div class="yt-ai-traj-desc yt-ai-markdown">${renderMarkdown(report.temporalEvolution)}</div>` : ""}
         </div>
 
         <!-- The 3 Pillars: Good / Less good / Bad -->
@@ -8336,19 +9000,19 @@ Followed by the 5 qualitative sections written 100% in ${targetLangName}: ### [\
           <div class="yt-ai-pillar-col yt-ai-pillar-good">
             <div class="yt-ai-pillar-title">${escapeHtml(t.channelStrengthsTitle || "\u2713 What It Does Well (Strengths)")}</div>
             <ul class="yt-ai-pillar-list">
-              ${(report.strengths.length > 0 ? report.strengths : [t.channelNoStrengths || "No major strengths reported."]).map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
+              ${(report.strengths.length > 0 ? report.strengths : [t.channelNoStrengths || "No major strengths reported."]).map((s) => `<li>${formatInline(s)}</li>`).join("")}
             </ul>
           </div>
           <div class="yt-ai-pillar-col yt-ai-pillar-warn">
             <div class="yt-ai-pillar-title">${escapeHtml(t.channelWeaknessesTitle || "! Areas for Vigilance (Weaknesses)")}</div>
             <ul class="yt-ai-pillar-list">
-              ${(report.weaknesses.length > 0 ? report.weaknesses : [t.channelNoWeaknesses || "No major weaknesses reported."]).map((w) => `<li>${escapeHtml(w)}</li>`).join("")}
+              ${(report.weaknesses.length > 0 ? report.weaknesses : [t.channelNoWeaknesses || "No major weaknesses reported."]).map((w) => `<li>${formatInline(w)}</li>`).join("")}
             </ul>
           </div>
           <div class="yt-ai-pillar-col yt-ai-pillar-bad">
             <div class="yt-ai-pillar-title">${escapeHtml(t.channelDrawbacksTitle || "\u2715 Pitfalls & Red Flags (Drawbacks)")}</div>
             <ul class="yt-ai-pillar-list">
-              ${(report.drawbacks.length > 0 ? report.drawbacks : [t.channelNoDrawbacks || "No major red flags reported."]).map((d) => `<li>${escapeHtml(d)}</li>`).join("")}
+              ${(report.drawbacks.length > 0 ? report.drawbacks : [t.channelNoDrawbacks || "No major red flags reported."]).map((d) => `<li>${formatInline(d)}</li>`).join("")}
             </ul>
           </div>
         </div>
@@ -8370,7 +9034,7 @@ Followed by the 5 qualitative sections written 100% in ${targetLangName}: ### [\
                   <a href="${escapeHtml(v.url || `https://youtu.be/${v.id}`)}" target="_blank" class="yt-ai-sample-title">${escapeHtml(v.title)}</a>
                   <span class="yt-ai-sample-score ${vt.scoreClass}" style="color:${vt.hexColor};border-color:${vt.hexColor}55;">${v.score}/100</span>
                 </div>
-                ${v.comment ? `<div class="yt-ai-sample-comment">${escapeHtml(v.comment)}</div>` : ""}
+                ${v.comment ? `<div class="yt-ai-sample-comment">${formatInline(v.comment)}</div>` : ""}
               </div>
             `;
       }).join("")}
@@ -8381,7 +9045,7 @@ Followed by the 5 qualitative sections written 100% in ${targetLangName}: ### [\
         ${report.executiveSummary ? `
           <div class="yt-ai-exec-summary-box">
             <h4>${escapeHtml(t.channelSynthesisTitle || "\u{1F4CB} Executive Synthesis")}</h4>
-            <div class="yt-ai-exec-text">${escapeHtml(report.executiveSummary)}</div>
+            <div class="yt-ai-exec-text yt-ai-markdown">${renderMarkdown(report.executiveSummary)}</div>
           </div>
         ` : ""}
 
@@ -8663,6 +9327,414 @@ Followed by the 5 qualitative sections written 100% in ${targetLangName}: ### [\
     }
   };
 
+  // src/services/implementations/templates/WesternTemplates.js
+  var WESTERN_TEMPLATES = {
+    fr: {
+      quick: `Produis un r\xE9sum\xE9 COURT, CONCIS et DIRECT sous cette forme :
+### \u26A1 En Bref
+(2 \xE0 3 phrases percutantes r\xE9sumant l'essentiel absolu)
+
+### \u{1F3AF} Points Cl\xE9s \xE0 Retenir
+- **[00:00] [Point 1]** : Explication courte et concr\xE8te en 1 phrase.
+- **[02:15] [Point 2]** : Explication courte et concr\xE8te en 1 phrase.
+- **[04:48] [Point 3]** : Explication courte et concr\xE8te en 1 phrase.
+(Cite obligatoirement les horodatages r\xE9els [mm:ss] de la transcription pour chaque point)
+
+### \u{1F4CC} Conclusion
+(1 phrase de conclusion finale)`,
+      detailed: `Produis une synth\xE8se COMPL\xC8TE, D\xC9TAILL\xC9E et EXHAUSTIVE :
+### \u{1F3AF} Vue d'ensemble & Enjeux
+(Contexte, probl\xE8me abord\xE9 et th\xE8se de la vid\xE9o)
+
+### \u23F1\uFE0F D\xE9roul\xE9 chronologique & Chapitres cl\xE9s
+- **[00:00] [\xC9tape 1]** : Analyse et faits marquants.
+- **[02:15] [\xC9tape 2]** : Analyse et faits marquants.
+- **[04:48] [\xC9tape 3]** : Analyse et faits marquants.
+(Reconstitue les grandes \xE9tapes avec leurs horodatages r\xE9els [mm:ss] de la transcription)
+
+### \u{1F4A1} Analyses, Arguments & Exemples cit\xE9s
+- **[Argument / Donn\xE9e 1] :** Analyse des chiffres, exemples ou preuves pr\xE9sent\xE9s [MM:SS].
+- **[Argument / Donn\xE9e 2] :** Mise en perspective ou comparaison (tableau Markdown compact si pertinent).
+
+### \u{1F6E0}\uFE0F Conseils pratiques & Actions concr\xE8tes
+1. Action concr\xE8te et directement applicable pour le spectateur.
+2. Deuxi\xE8me recommandation pratique issue de la vid\xE9o.
+
+### \u{1F4CC} Conclusion & Perspective
+> **\xC0 retenir :** Synth\xE8se finale du message et de la perspective de l'auteur.`,
+      standard: `Produis un r\xE9sum\xE9 \xC9QUILIBR\xC9, NATUREL et STRUCTUR\xC9 (format interm\xE9diaire d'environ 350 \xE0 450 mots) :
+
+DIRECTIVE DE CALIBRAGE : Ne sois ni trop exp\xE9ditif comme le format court, ni trop exhaustif comme le format d\xE9taill\xE9. Reste direct, fluide et percutant en \xE9vitant les digressions.
+
+### \u{1F3AF} Synth\xE8se Globale
+(Un paragraphe fluide de 3 \xE0 4 phrases r\xE9sumant le sujet central, les enjeux et l'int\xE9r\xEAt principal de la vid\xE9o)
+
+### \u23F1\uFE0F D\xE9roul\xE9 & Temps Forts
+- **[00:00] [\xC9tape 1]** : Analyse claire et fait marquant en 2 phrases concr\xE8tes.
+- **[02:15] [\xC9tape 2]** : Analyse claire et fait marquant en 2 phrases concr\xE8tes.
+- **[04:48] [\xC9tape 3]** : Analyse claire et fait marquant en 2 phrases concr\xE8tes.
+- **[07:30] [\xC9tape 4]** : Analyse claire et fait marquant en 2 phrases concr\xE8tes.
+(Reconstitue les 4 \xE0 5 \xE9tapes majeures avec leurs horodatages r\xE9els [mm:ss] de la transcription)
+
+### \u{1F4CC} L'Enseignement Cl\xE9 & Conclusion
+> **\xC0 retenir :** 1 \xE0 2 phrases synth\xE9tisant le conseil majeur de l'auteur et l'essentiel final.`
+    },
+    es: {
+      quick: `Produce un resumen CORTO, CONCISO y DIRECTO en este formato:
+### \u26A1 En Breve
+(2 a 3 frases impactantes resumiendo lo esencial)
+
+### \u{1F3AF} Puntos Clave a Recordar
+- **[00:00] [Punto 1]** : Explicaci\xF3n corta y concreta en 1 frase.
+- **[02:15] [Punto 2]** : Explicaci\xF3n corta y concreta en 1 frase.
+- **[04:48] [Punto 3]** : Explicaci\xF3n corta y concreta en 1 frase.
+(Cita obligatoriamente las marcas de tiempo reales [mm:ss] de la transcripci\xF3n)
+
+### \u{1F4CC} Conclusi\xF3n
+(1 frase de conclusi\xF3n final)`,
+      detailed: `Produce una s\xEDntesis COMPLETA, DETALLADA y EXHAUSTIVA:
+### \u{1F3AF} Visi\xF3n General & Contexto
+(Contexto, problema abordado y tesis del v\xEDdeo)
+
+### \u23F1\uFE0F Desarrollo Cronol\xF3gico & Cap\xEDtulos Clave
+- **[00:00] [Etapa 1]** : An\xE1lisis y hechos destacados.
+- **[02:15] [Etapa 2]** : An\xE1lisis y hechos destacados.
+- **[04:48] [Etapa 3]** : An\xE1lisis y hechos destacados.
+(Reconstruye las etapas principales con marcas de tiempo reales [mm:ss])
+
+### \u{1F4A1} An\xE1lisis, Argumentos & Ejemplos
+- **[Dato / Ejemplo 1] :** An\xE1lisis concreto con cifras y referencias reales [MM:SS].
+- **[Dato / Ejemplo 2] :** Comparativa o argumento clave (tabla Markdown compacta si aplica).
+
+### \u{1F6E0}\uFE0F Consejos Pr\xE1cticos & Acciones Concretas
+1. Acci\xF3n pr\xE1ctica directa para el espectador.
+2. Segunda recomendaci\xF3n concreta del v\xEDdeo.
+
+### \u{1F4CC} Conclusi\xF3n & Perspectiva
+> **Clave final :** S\xEDntesis concisa del mensaje y conclusi\xF3n del autor.`,
+      standard: `Produce un resumen EQUILIBRADO, NATURAL y BIEN ESTRUCTURADO (formato intermedio de ~350 a 450 palabras):
+
+DIRECTIVA DE CALIBRACI\xD3N: No seas demasiado breve como en el modo r\xE1pido, ni excesivamente extenso como en el modo detallado. Mant\xE9n un aut\xE9ntico t\xE9rmino medio: fluido, conciso y sustancioso.
+
+### \u{1F3AF} S\xEDntesis Global
+(Un p\xE1rrafo fluido de 3 a 4 frases resumiendo el tema principal, el contexto y el mensaje central)
+
+### \u23F1\uFE0F Momentos Clave & Desarrollo
+- **[00:00] [Hito 1]** : Explicaci\xF3n concreta y punto clave en 2 frases concisas.
+- **[02:15] [Hito 2]** : Explicaci\xF3n concreta y punto clave en 2 frases concisas.
+- **[04:48] [Hito 3]** : Explicaci\xF3n concreta y punto clave en 2 frases concisas.
+- **[07:30] [Hito 4]** : Explicaci\xF3n concreta y punto clave en 2 frases concisas.
+(Re\xFAne 4 a 5 momentos clave con sus marcas de tiempo reales [mm:ss] de la transcripci\xF3n)
+
+### \u{1F4CC} Conclusi\xF3n & Aprendizaje Clave
+(2 frases sintetizando el consejo principal del autor y la conclusi\xF3n definitiva)`
+    },
+    it: {
+      quick: `Produci un riassunto BREVE, CONCISO e DIRETTO in questo formato:
+### \u26A1 In Breve
+(2-3 frasi incisive che riassumono l'essenziale)
+
+### \u{1F3AF} Punti Chiave da Ricordare
+- **[00:00] [Punto 1]** : Spiegazione breve e concreta in 1 frase.
+- **[02:15] [Punto 2]** : Spiegazione breve e concreta in 1 frase.
+- **[04:48] [Punto 3]** : Spiegazione breve e concreta in 1 frase.
+(Cita obbligatoriamente i timestamp reali [mm:ss] della trascrizione per ogni punto)
+
+### \u{1F4CC} Conclusione
+(1 frase di conclusione finale)`,
+      detailed: `Produci una sintesi COMPLETA, DETTAGLIATA ed ESAUSTIVA:
+### \u{1F3AF} Panoramica & Obiettivi
+(Contesto, problema affrontato e tesi del video)
+
+### \u23F1\uFE0F Svolgimento Cronologico & Capitoli Chiave
+- **[00:00] [Fase 1]** : Analisi e fatti salienti.
+- **[02:15] [Fase 2]** : Analisi e fatti salienti.
+- **[04:48] [Fase 3]** : Analisi e fatti salienti.
+(Ricostruisci i passaggi chiave con i timestamp reali [mm:ss] della trascrizione)
+
+### \u{1F4A1} Analisi, Argomentazioni & Esempi
+- **[Dato / Esempio 1] :** Analisi concreta con cifre ed evidenze reali [MM:SS].
+- **[Dato / Esempio 2] :** Confronto o argomento chiave (tabella Markdown compatta se utile).
+
+### \u{1F6E0}\uFE0F Consigli Pratici & Azioni Concrete
+1. Azione pratica immediata per lo spettatore.
+2. Secondo suggerimento concreto tratto dal video.
+
+### \u{1F4CC} Conclusione & Prospettiva
+> **Da ricordare :** Sintesi finale del messaggio e della prospettiva dell'autore.`,
+      standard: `Produci un riassunto EQUILIBRATO, NATURALE e BEN STRUTTURATO (formato intermedio di ~350 a 450 parole):
+
+DIRETTIVA DI CALIBRAZIONE: Non essere troppo sbrigativo come nel formato rapido, n\xE9 prolisso come nel formato dettagliato. Offri un vero punto d'incontro: fluido, concreto e senza divagazioni.
+
+### \u{1F3AF} Panoramica Globale
+(Un paragrafo scorrevole di 3-4 frasi che riassume il tema centrale, il contesto e il messaggio)
+
+### \u23F1\uFE0F Momenti Salienti & Svolgimento
+- **[00:00] [Fase 1]** : Spiegazione concreta e punto chiave in 2 frasi concise.
+- **[02:15] [Fase 2]** : Spiegazione concreta e punto chiave in 2 frasi concise.
+- **[04:48] [Fase 3]** : Spiegazione concreta e punto chiave in 2 frasi concise.
+- **[07:30] [Fase 4]** : Spiegazione concreta e punto chiave in 2 frasi concise.
+(Seleziona 4 o 5 tappe salienti con i loro timestamp reali [mm:ss] della trascrizione)
+
+### \u{1F4CC} Conclusione & Insegnamento Chiave
+(2 frasi che sintetizzano il consiglio principale dell'autore e il messaggio finale)`
+    },
+    de: {
+      quick: `Erstelle eine KURZE, PR\xC4GNANTE und DIREKTE Zusammenfassung:
+### \u26A1 Kurz & B\xFCndig
+(2 bis 3 treffende S\xE4tze, die das Wesentliche zusammenfassen)
+
+### \u{1F3AF} Die wichtigsten Kernpunkte
+- **[00:00] [Punkt 1]**: Kurze und konkrete Erkl\xE4rung in 1 Satz.
+- **[02:15] [Punkt 2]**: Kurze und konkrete Erkl\xE4rung in 1 Satz.
+- **[04:48] [Punkt 3]**: Kurze und konkrete Erkl\xE4rung in 1 Satz.
+(Nenne zwingend die echten Zeitstempel [mm:ss] aus dem Transkript)
+
+### \u{1F4CC} Fazit
+(1 abschlie\xDFender Schlusssatz)`,
+      detailed: `Erstelle eine VOLLST\xC4NDIGE, DETAILLIERTE und ERSCH\xD6PFENDE Analyse:
+### \u{1F3AF} \xDCberblick & Fragestellung
+(Kontext, behandelte Problemstellung und Hauptthese des Videos)
+
+### \u23F1\uFE0F Chronologischer Ablauf & Schl\xFCsselkapitel
+- **[00:00] [Phase 1]**: Analyse und wesentliche Fakten.
+- **[02:15] [Phase 2]**: Analyse und wesentliche Fakten.
+- **[04:48] [Phase 3]**: Analyse und wesentliche Fakten.
+(Stelle die Hauptetappen mit ihren realen Zeitstempeln [mm:ss] aus dem Transkript dar)
+
+### \u{1F4A1} Tiefenanalyse: Argumente, Daten & Beispiele
+- **[Datenpunkt / Beispiel 1]:** Konkrete Analyse der Fakten, Zahlen oder Fallbeispiele [MM:SS].
+- **[Datenpunkt / Beispiel 2]:** Vergleich oder zentrales Argument (kompakte Markdown-Tabelle falls passend).
+
+### \u{1F6E0}\uFE0F Praktische Ratschl\xE4ge & Handlungsschritte
+1. Konkreter, sofort anwendbarer Schritt f\xFCr den Zuschauer.
+2. Zweite praktische Empfehlung aus dem Video.
+
+### \u{1F4CC} Fazit & Ausblick
+> **Wichtigste Erkenntnis:** Pr\xE4gnante Zusammenfassung der Schlussbotschaft und Perspektive des Autors.`,
+      standard: `Erstelle eine AUSGEWOGENE, NAT\xDCRLICHE und GUT STRUKTURIERTE Zusammenfassung (mittleres Format, ca. 350 bis 450 W\xF6rter):
+
+KALIBRIERUNGS-RICHTLINIE: Sei weder zu knapp wie im Kurzmodus, noch ausufernd wie im Detailmodus. Biete einen echten Mittelweg: pr\xE4gnant, informativ und fl\xFCssig ohne F\xFCllw\xF6rter.
+
+### \u{1F3AF} Gesamt\xFCberblick & Kernaussage
+(Ein fl\xFCssiger Absatz aus 3-4 S\xE4tzen, der das Thema, den Kontext und die Hauptbotschaft zusammenfasst)
+
+### \u23F1\uFE0F Wichtige Stationen & Ablauf
+- **[00:00] [Meilenstein 1]**: Konkrete Erkl\xE4rung und Kernpunkt in 2 pr\xE4gnanten S\xE4tzen.
+- **[02:15] [Meilenstein 2]**: Konkrete Erkl\xE4rung und Kernpunkt in 2 pr\xE4gnanten S\xE4tzen.
+- **[04:48] [Meilenstein 3]**: Konkrete Erkl\xE4rung und Kernpunkt in 2 pr\xE4gnanten S\xE4tzen.
+- **[07:30] [Meilenstein 4]**: Konkrete Erkl\xE4rung und Kernpunkt in 2 pr\xE4gnanten S\xE4tzen.
+(W\xE4hle 4 bis 5 Meilensteine mit ihren echten Zeitstempeln [mm:ss] aus dem Transkript)
+
+### \u{1F4CC} Kernaussage & Fazit
+(2 S\xE4tze mit der wichtigsten Handlungsempfehlung des Autors und dem abschlie\xDFenden Fazit)`
+    },
+    en: {
+      quick: `Produce a SHORT, CONCISE, and DIRECT summary in this format:
+### \u26A1 Quick Summary
+(2 to 3 impactful sentences capturing the absolute essence)
+
+### \u{1F3AF} Key Takeaways
+- **[00:00] [Point 1]**: Short, concrete explanation in 1 sentence.
+- **[02:15] [Point 2]**: Short, concrete explanation in 1 sentence.
+- **[04:48] [Point 3]**: Short, concrete explanation in 1 sentence.
+(Mandatorily cite real timestamps [mm:ss] from the transcript for each key takeaway)
+
+### \u{1F4CC} Conclusion
+(1 final concluding sentence)`,
+      detailed: `Produce a THOROUGH, DETAILED, and COMPREHENSIVE study guide:
+### \u{1F3AF} Overview & Core Thesis
+(Context, problem addressed, and central thesis of the video)
+
+### \u23F1\uFE0F Chronological Breakdown & Key Chapters
+- **[00:00] [Milestone 1]**: In-depth analysis and key observations.
+- **[02:15] [Milestone 2]**: In-depth analysis and key observations.
+- **[04:48] [Milestone 3]**: In-depth analysis and key observations.
+(Reconstruct key sections using their real timestamps [mm:ss] to enable player navigation)
+
+### \u{1F4A1} Deep Dive: Arguments, Data & Examples
+- **[Argument / Data Point 1]:** Concrete explanation of facts, metrics, or examples [MM:SS].
+- **[Argument / Data Point 2]:** Deeper insight or comparison (compact Markdown table if comparing options).
+
+### \u{1F6E0}\uFE0F Actionable Advice & Practical Steps
+1. Practical, immediately usable viewer takeaway.
+2. Second concrete step recommended in the video.
+
+### \u{1F4CC} Author's Conclusion & Key Takeaway
+> **Key Takeaway:** Concise final synthesis of the author's conclusion and perspective.`,
+      standard: `Produce a BALANCED, NATURAL, and STRUCTURED summary (intermediate format, ~350 to 450 words):
+
+CALIBRATION DIRECTIVE: Do not be overly brief like quick mode, nor excessively exhaustive like deep mode. Deliver a true middle-ground: substantive, engaging, and to the point without fluff.
+
+### \u{1F3AF} Overview & Core Idea
+(One engaging paragraph of 3-4 sentences establishing the video's context, thesis, and core message)
+
+### \u23F1\uFE0F Key Milestones & Breakdown
+- **[00:00] [Highlight 1]**: Concrete explanation and key takeaway in 2 focused sentences.
+- **[02:15] [Highlight 2]**: Concrete explanation and key takeaway in 2 focused sentences.
+- **[04:48] [Highlight 3]**: Concrete explanation and key takeaway in 2 focused sentences.
+- **[07:30] [Highlight 4]**: Concrete explanation and key takeaway in 2 focused sentences.
+(Select 4 to 5 key milestones with their real [mm:ss] timestamps from the transcript)
+
+### \u{1F4CC} Main Takeaway & Conclusion
+> **Key Takeaway:** 1-2 sentences summarizing the author's primary advice and closing insight.`
+    }
+  };
+
+  // src/services/implementations/templates/EasternTemplates.js
+  var EASTERN_TEMPLATES = {
+    zh: {
+      quick: `\u8BF7\u6309\u7167\u4EE5\u4E0B\u683C\u5F0F\u8F93\u51FA\u7B80\u660E\u627C\u8981\u7684\u4E2D\u6587\u603B\u7ED3\uFF1A
+### \u26A1 \u6838\u5FC3\u6982\u8981
+(\u75282\u81F33\u53E5\u7CBE\u70BC\u6709\u529B\u7684\u8BDD\u603B\u7ED3\u89C6\u9891\u7684\u6700\u6838\u5FC3\u4E3B\u65E8)
+
+### \u{1F3AF} \u91CD\u70B9\u8981\u70B9
+- **[00:00] [\u8981\u70B9 1]** : \u7B80\u8981\u5177\u4F53\u7684\u89E3\u91CA\u8BF4\u660E\uFF081\u53E5\u8BDD\uFF09\u3002
+- **[02:15] [\u8981\u70B9 2]** : \u7B80\u8981\u5177\u4F53\u7684\u89E3\u91CA\u8BF4\u660E\uFF081\u53E5\u8BDD\uFF09\u3002
+- **[04:48] [\u8981\u70B9 3]** : \u7B80\u8981\u5177\u4F53\u7684\u89E3\u91CA\u8BF4\u660E\uFF081\u53E5\u8BDD\uFF09\u3002
+(\u5FC5\u987B\u5F15\u7528\u9010\u5B57\u7A3F\u4E2D\u7684\u771F\u5B9E\u65F6\u95F4\u6233 [mm:ss] \u4EE5\u652F\u6301\u70B9\u51FB\u8DF3\u8F6C)
+
+### \u{1F4CC} \u6700\u7EC8\u7ED3\u8BBA
+(1\u53E5\u7B80\u7EC3\u7684\u6700\u7EC8\u603B\u7ED3)`,
+      detailed: `\u8BF7\u8F93\u51FA\u5168\u9762\u3001\u8BE6\u5C3D\u4E14\u5177\u5907\u6DF1\u5EA6\u7814\u7A76\u4EF7\u503C\u7684\u4E2D\u6587\u957F\u7BC7\u5408\u6210\u62A5\u544A\uFF1A
+### \u{1F3AF} \u89C6\u9891\u5168\u666F\u4E0E\u6838\u5FC3\u8BBA\u70B9
+(\u80CC\u666F\u3001\u89E3\u51B3\u7684\u6838\u5FC3\u95EE\u9898\u4E0E\u5168\u7247\u6838\u5FC3\u8BBA\u70B9)
+
+### \u23F1\uFE0F \u65F6\u95F4\u7EBF\u4E0E\u91CD\u8981\u7AE0\u8282
+- **[00:00] [\u9636\u6BB5 1]** : \u5173\u952E\u5185\u5BB9\u5206\u6790\u4E0E\u4E8B\u5B9E\u5448\u73B0\u3002
+- **[02:15] [\u9636\u6BB5 2]** : \u5173\u952E\u5185\u5BB9\u5206\u6790\u4E0E\u4E8B\u5B9E\u5448\u73B0\u3002
+- **[04:48] [\u9636\u6BB5 3]** : \u5173\u952E\u5185\u5BB9\u5206\u6790\u4E0E\u4E8B\u5B9E\u5448\u73B0\u3002
+(\u4F7F\u7528\u9010\u5B57\u7A3F\u4E2D\u7684\u771F\u5B9E\u65F6\u95F4\u6233 [mm:ss] \u4EE5\u652F\u6301\u70B9\u51FB\u8DF3\u8F6C)
+
+### \u{1F4A1} \u6838\u5FC3\u8BBA\u70B9\u3001\u6570\u636E\u4E0E\u5B9E\u4F8B\u5206\u6790
+- **[\u8BBA\u636E / \u6570\u636E 1]\uFF1A** \u5256\u6790\u5177\u4F53\u6570\u636E\u3001\u6848\u4F8B\u6216\u6838\u5FC3\u8BBA\u65AD [MM:SS]\u3002
+- **[\u8BBA\u636E / \u6570\u636E 2]\uFF1A** \u5BF9\u6BD4\u5206\u6790\u6216\u8981\u70B9\u68B3\u7406\uFF08\u5FC5\u8981\u65F6\u4F7F\u7528\u7B80\u6D01\u7684 Markdown \u8868\u683C\uFF09\u3002
+
+### \u{1F6E0}\uFE0F \u5B9E\u64CD\u5EFA\u8BAE\u4E0E\u884C\u52A8\u6307\u5357
+1. \u89C2\u4F17\u53EF\u7ACB\u5373\u843D\u5730\u7684\u7B2C\u4E00\u6761\u5EFA\u8BAE\u3002
+2. \u89C6\u9891\u7ED9\u51FA\u7684\u7B2C\u4E8C\u6761\u5177\u4F53\u5B9E\u64CD\u65B9\u6CD5\u3002
+
+### \u{1F4CC} \u6700\u7EC8\u7ED3\u8BBA\u4E0E\u672A\u6765\u6D1E\u5BDF
+> **\u6838\u5FC3\u603B\u7ED3\uFF1A** \u75281\u81F32\u53E5\u7CBE\u70BC\u6982\u62EC\u4F5C\u8005\u7684\u6838\u5FC3\u843D\u811A\u70B9\u4E0E\u8D8B\u52BF\u5C55\u671B\u3002`,
+      standard: `\u8BF7\u8F93\u51FA\u7ED3\u6784\u5E73\u8861\u3001\u81EA\u7136\u6D41\u7545\u4E14\u9002\u4E2D\u7684\u4E2D\u6587\u6807\u51C6\u603B\u7ED3\uFF08\u4E2D\u95F4\u6863\u4F4D\uFF0C\u7EA6350\u81F3450\u5B57\uFF09\uFF1A
+
+\u3010\u7BC7\u5E45\u5B9A\u6807\u8981\u6C42\u3011\uFF1A\u65E2\u4E0D\u8981\u50CF\u6781\u7B80\u6A21\u5F0F\u90A3\u6837\u8FC7\u4E8E\u77ED\u4FC3\uFF0C\u4E5F\u4E0D\u8981\u50CF\u6DF1\u5EA6\u62A5\u544A\u90A3\u6837\u5197\u957F\u7E41\u7410\u3002\u5448\u73B0\u6070\u5230\u597D\u5904\u7684\u4E2D\u95F4\u4F53\u88C1\uFF1A\u4FE1\u606F\u9971\u6EE1\u3001\u91CD\u70B9\u7A81\u51FA\u3001\u8A00\u7B80\u610F\u8D45\u3002
+
+### \u{1F3AF} \u6838\u5FC3\u6982\u8FF0\u4E0E\u80CC\u666F
+(\u75283\u81F34\u53E5\u6D41\u7545\u901A\u987A\u7684\u8BDD\u6982\u62EC\u5168\u7247\u6838\u5FC3\u4E3B\u9898\u3001\u80CC\u666F\u8109\u7EDC\u4E0E\u5173\u952E\u89C2\u70B9)
+
+### \u23F1\uFE0F \u5173\u952E\u8109\u7EDC\u4E0E\u65F6\u95F4\u8282\u70B9
+- **[00:00] [\u6838\u5FC3\u8282\u70B9 1]** : \u75282\u53E5\u51DD\u7EC3\u5177\u4F53\u7684\u8BED\u53E5\u89E3\u6790\u8981\u70B9\u4E0E\u8BBA\u636E\u3002
+- **[02:15] [\u6838\u5FC3\u8282\u70B9 2]** : \u75282\u53E5\u51DD\u7EC3\u5177\u4F53\u7684\u8BED\u53E5\u89E3\u6790\u8981\u70B9\u4E0E\u8BBA\u636E\u3002
+- **[04:48] [\u6838\u5FC3\u8282\u70B9 3]** : \u75282\u53E5\u51DD\u7EC3\u5177\u4F53\u7684\u8BED\u53E5\u89E3\u6790\u8981\u70B9\u4E0E\u8BBA\u636E\u3002
+- **[07:30] [\u6838\u5FC3\u8282\u70B9 4]** : \u75282\u53E5\u51DD\u7EC3\u5177\u4F53\u7684\u8BED\u53E5\u89E3\u6790\u8981\u70B9\u4E0E\u8BBA\u636E\u3002
+(\u63D0\u70BC4\u81F35\u4E2A\u6700\u5177\u4EE3\u8868\u6027\u7684\u65F6\u95F4\u8282\u70B9\uFF0C\u5FC5\u987B\u6807\u6CE8 [mm:ss] \u771F\u5B9E\u65F6\u95F4\u6233)
+
+### \u{1F4CC} \u6838\u5FC3\u542F\u793A\u4E0E\u603B\u7ED3
+(\u75282\u53E5\u8BDD\u603B\u7ED3\u4F5C\u8005\u7684\u6838\u5FC3\u5B9E\u7528\u5EFA\u8BAE\u4E0E\u6700\u7EC8\u7ED3\u8BBA)`
+    },
+    ja: {
+      quick: `\u4EE5\u4E0B\u306E\u5F62\u5F0F\u3067\u7C21\u6F54\u304B\u3064\u7684\u78BA\u306A\u65E5\u672C\u8A9E\u306E\u8981\u7D04\u3092\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\uFF1A
+### \u26A1 \u8981\u70B9\u30C0\u30A4\u30B8\u30A7\u30B9\u30C8
+(\u52D5\u753B\u306E\u6838\u5FC3\u30922\u301C3\u6587\u3067\u7C21\u6F54\u306B\u307E\u3068\u3081\u308B)
+
+### \u{1F3AF} \u6CE8\u76EE\u3059\u3079\u304D\u91CD\u8981\u30DD\u30A4\u30F3\u30C8
+- **[00:00] [\u30DD\u30A4\u30F3\u30C8 1]** : \u7C21\u6F54\u3067\u5177\u4F53\u7684\u306A\u89E3\u8AAC\uFF081\u6587\uFF09\u3002
+- **[02:15] [\u30DD\u30A4\u30F3\u30C8 2]** : \u7C21\u6F54\u3067\u5177\u4F53\u7684\u306A\u89E3\u8AAC\uFF081\u6587\uFF09\u3002
+- **[04:48] [\u30DD\u30A4\u30F3\u30C8 3]** : \u7C21\u6F54\u3067\u5177\u4F53\u7684\u306A\u89E3\u8AAC\uFF081\u6587\uFF09\u3002
+(\u5FC5\u305A\u6587\u5B57\u8D77\u3053\u3057\u306E\u5B9F\u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7 [mm:ss] \u3092\u4ED8\u4E0E\u3057\u3066\u304F\u3060\u3055\u3044)
+
+### \u{1F4CC} \u7D50\u8AD6
+(\u52D5\u753B\u5168\u4F53\u306E\u307E\u3068\u30811\u6587)`,
+      detailed: `\u5305\u62EC\u7684\u304B\u3064\u8A73\u7D30\u3067\u6DF1\u3044\u6D1E\u5BDF\u3092\u542B\u3080\u65E5\u672C\u8A9E\u306E\u8981\u7D04\u3092\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\uFF1A
+### \u{1F3AF} \u5168\u4F53\u50CF\u3068\u4E2D\u5FC3\u30C6\u30FC\u30DE
+(\u52D5\u753B\u306E\u6587\u8108\u3001\u63D0\u8D77\u3055\u308C\u305F\u8AB2\u984C\u3001\u4E2D\u5FC3\u7684\u306A\u4E3B\u5F35)
+
+### \u23F1\uFE0F \u6642\u7CFB\u5217\u306E\u5C55\u958B\u3068\u4E3B\u8981\u30C1\u30E3\u30D7\u30BF\u30FC
+- **[00:00] [\u30D5\u30A7\u30FC\u30BA 1]** : \u5206\u6790\u3068\u91CD\u8981\u30DD\u30A4\u30F3\u30C8\u3002
+- **[02:15] [\u30D5\u30A7\u30FC\u30BA 2]** : \u5206\u6790\u3068\u91CD\u8981\u30DD\u30A4\u30F3\u30C8\u3002
+- **[04:48] [\u30D5\u30A7\u30FC\u30BA 3]** : \u5206\u6790\u3068\u91CD\u8981\u30DD\u30A4\u30F3\u30C8\u3002
+(\u52D5\u753B\u5185\u3092\u30B8\u30E3\u30F3\u30D7\u3067\u304D\u308B\u3088\u3046\u5B9F\u969B\u306E\u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7 [mm:ss] \u3092\u8A18\u8F09)
+
+### \u{1F4A1} \u8B70\u8AD6\u3001\u30C7\u30FC\u30BF\u304A\u3088\u3073\u4E8B\u4F8B\u306E\u6DF1\u6398\u308A
+- **[\u8AD6\u62E0 / \u30C7\u30FC\u30BF 1]\uFF1A** \u5177\u4F53\u7684\u306A\u6570\u5024\u30FB\u6839\u62E0\u30FB\u4E8B\u4F8B\u306E\u89E3\u8AAC [MM:SS]\u3002
+- **[\u8AD6\u62E0 / \u30C7\u30FC\u30BF 2]\uFF1A** \u6BD4\u8F03\u3084\u88DC\u8DB3\u306E\u5206\u6790\uFF08\u5FC5\u8981\u306B\u5FDC\u3058\u3066\u7C21\u6F54\u306AMarkdown\u8868\u3092\u4F7F\u7528\uFF09\u3002
+
+### \u{1F6E0}\uFE0F \u5B9F\u8DF5\u7684\u306A\u30A2\u30C9\u30D0\u30A4\u30B9\u3068\u30A2\u30AF\u30B7\u30E7\u30F3
+1. \u8996\u8074\u8005\u304C\u3059\u3050\u306B\u5B9F\u8DF5\u3067\u304D\u308B\u5177\u4F53\u7684\u306A\u30A2\u30AF\u30B7\u30E7\u30F3\u3002
+2. \u52D5\u753B\u5185\u3067\u63A8\u5968\u3055\u308C\u3066\u3044\u308B\u6B21\u306E\u5B9F\u8DF5\u30B9\u30C6\u30C3\u30D7\u3002
+
+### \u{1F4CC} \u7D50\u8AD6\u3068\u5C55\u671B
+> **\u8981\u70B9\u307E\u3068\u3081\uFF1A** \u8457\u8005\u306E\u6700\u7D42\u7684\u306A\u7D50\u8AD6\u3068\u4ECA\u5F8C\u306E\u793A\u5506\u30921\u301C2\u6587\u3067\u7C21\u6F54\u306B\u8981\u7D04\u3002`,
+      standard: `\u81EA\u7136\u3067\u30D0\u30E9\u30F3\u30B9\u304C\u53D6\u308C\u3001\u9069\u5EA6\u306A\u60C5\u5831\u91CF\u3092\u6301\u3064\u65E5\u672C\u8A9E\u306E\u6A19\u6E96\u8981\u7D04\u3092\u4F5C\u6210\u3057\u3066\u304F\u3060\u3055\u3044\uFF08\u4E2D\u9593\u30D5\u30A9\u30FC\u30DE\u30C3\u30C8\u3001\u7D04350\u301C450\u6587\u5B57\uFF09\uFF1A
+
+\u3010\u5206\u91CF\u30D0\u30E9\u30F3\u30B9\u306E\u53B3\u683C\u306A\u6307\u793A\u3011\uFF1A\u30AF\u30A4\u30C3\u30AF\u8981\u7D04\u306E\u3088\u3046\u306B\u7AEF\u6298\u308A\u3059\u304E\u305A\u3001\u8A73\u7D30\u8981\u7D04\u306E\u3088\u3046\u306B\u9577\u6587\u306B\u306A\u308A\u3059\u304E\u306A\u3044\u3001\u7406\u60F3\u7684\u306A\u4E2D\u9593\u30D0\u30E9\u30F3\u30B9\u3092\u4FDD\u3063\u3066\u304F\u3060\u3055\u3044\u3002\u7C21\u6F54\u304B\u3064\u8981\u70B9\u3092\u7684\u78BA\u306B\u6349\u3048\u3066\u304F\u3060\u3055\u3044\u3002
+
+### \u{1F3AF} \u5168\u4F53\u50CF\u3068\u4E2D\u5FC3\u30C6\u30FC\u30DE
+(\u52D5\u753B\u306E\u80CC\u666F\u3001\u4E2D\u5FC3\u3068\u306A\u308B\u4E3B\u5F35\u3001\u304A\u3088\u3073\u8981\u70B9\u30923\u301C4\u6587\u3067\u81EA\u7136\u306B\u307E\u3068\u3081\u308B)
+
+### \u23F1\uFE0F \u4E3B\u306A\u5C55\u958B\u3068\u30CF\u30A4\u30E9\u30A4\u30C8
+- **[00:00] [\u91CD\u8981\u30DD\u30A4\u30F3\u30C8 1]** : \u5177\u4F53\u7684\u304B\u3064\u7684\u78BA\u306B2\u6587\u3067\u8981\u70B9\u3092\u89E3\u8AAC\u3002
+- **[02:15] [\u91CD\u8981\u30DD\u30A4\u30F3\u30C8 2]** : \u5177\u4F53\u7684\u304B\u3064\u7684\u78BA\u306B2\u6587\u3067\u8981\u70B9\u3092\u89E3\u8AAC\u3002
+- **[04:48] [\u91CD\u8981\u30DD\u30A4\u30F3\u30C8 3]** : \u5177\u4F53\u7684\u304B\u3064\u7684\u78BA\u306B2\u6587\u3067\u8981\u70B9\u3092\u89E3\u8AAC\u3002
+- **[07:30] [\u91CD\u8981\u30DD\u30A4\u30F3\u30C8 4]** : \u5177\u4F53\u7684\u304B\u3064\u7684\u78BA\u306B2\u6587\u3067\u8981\u70B9\u3092\u89E3\u8AAC\u3002
+(4\u301C5\u500B\u306E\u91CD\u8981\u5C55\u958B\u3092\u5B9F\u969B\u306E\u6587\u5B57\u8D77\u3053\u3057\u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7 [mm:ss] \u3068\u3068\u3082\u306B\u63D0\u793A)
+
+### \u{1F4CC} \u91CD\u8981\u306A\u5B66\u3073\u3068\u307E\u3068\u3081
+(\u52D5\u753B\u304B\u3089\u5F97\u3089\u308C\u308B\u6700\u5927\u306E\u6559\u8A13\u3068\u7D50\u8AD6\u30922\u6587\u3067\u7C21\u6F54\u306B\u307E\u3068\u3081\u308B)`
+    },
+    ru: {
+      quick: `\u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u041A\u0420\u0410\u0422\u041A\u041E\u0415, \u041B\u0410\u041A\u041E\u041D\u0418\u0427\u041D\u041E\u0415 \u0438 \u041F\u0420\u042F\u041C\u041E\u0415 \u0440\u0435\u0437\u044E\u043C\u0435:
+### \u26A1 \u041A\u0440\u0430\u0442\u043A\u0438\u0439 \u0434\u0430\u0439\u0434\u0436\u0435\u0441\u0442
+(2\u20133 \u0435\u043C\u043A\u0438\u0445 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F, \u043E\u0442\u0440\u0430\u0436\u0430\u044E\u0449\u0438\u0445 \u0441\u0430\u043C\u0443\u044E \u0441\u0443\u0442\u044C)
+
+### \u{1F3AF} \u041A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0432\u044B\u0432\u043E\u0434\u044B
+- **[00:00] [\u041F\u0443\u043D\u043A\u0442 1]**: \u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u0438 \u0447\u0435\u0442\u043A\u043E\u0435 \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0432 1 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435.
+- **[02:15] [\u041F\u0443\u043D\u043A\u0442 2]**: \u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u0438 \u0447\u0435\u0442\u043A\u043E\u0435 \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0432 1 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435.
+- **[04:48] [\u041F\u0443\u043D\u043A\u0442 3]**: \u041A\u0440\u0430\u0442\u043A\u043E\u0435 \u0438 \u0447\u0435\u0442\u043A\u043E\u0435 \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0432 1 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435.
+(\u041E\u0431\u044F\u0437\u0430\u0442\u0435\u043B\u044C\u043D\u043E \u0443\u043A\u0430\u0437\u044B\u0432\u0430\u0439\u0442\u0435 \u0440\u0435\u0430\u043B\u044C\u043D\u044B\u0435 \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u044B [mm:ss] \u0438\u0437 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430)
+
+### \u{1F4CC} \u0418\u0442\u043E\u0433
+(1 \u0444\u0438\u043D\u0430\u043B\u044C\u043D\u043E\u0435 \u0437\u0430\u043A\u043B\u044E\u0447\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0435 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0435)`,
+      detailed: `\u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u041F\u041E\u041B\u041D\u042B\u0419, \u041F\u041E\u0414\u0420\u041E\u0411\u041D\u042B\u0419 \u0438 \u0418\u0421\u0427\u0415\u0420\u041F\u042B\u0412\u0410\u042E\u0429\u0418\u0419 \u0430\u043D\u0430\u043B\u0438\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u043E\u0442\u0447\u0435\u0442:
+### \u{1F3AF} \u041E\u0431\u0449\u0430\u044F \u043F\u0430\u043D\u043E\u0440\u0430\u043C\u0430 \u0438 \u043F\u0440\u043E\u0431\u043B\u0435\u043C\u0430\u0442\u0438\u043A\u0430
+(\u041A\u043E\u043D\u0442\u0435\u043A\u0441\u0442, \u043F\u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043D\u044B\u0439 \u0432\u043E\u043F\u0440\u043E\u0441 \u0438 \u0433\u043B\u0430\u0432\u043D\u044B\u0439 \u0442\u0435\u0437\u0438\u0441 \u0432\u0438\u0434\u0435\u043E)
+
+### \u23F1\uFE0F \u0425\u0440\u043E\u043D\u043E\u043B\u043E\u0433\u0438\u0447\u0435\u0441\u043A\u0438\u0439 \u0440\u0430\u0437\u0431\u043E\u0440 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0433\u043B\u0430\u0432\u044B
+- **[00:00] [\u042D\u0442\u0430\u043F 1]**: \u0410\u043D\u0430\u043B\u0438\u0437 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0444\u0430\u043A\u0442\u044B.
+- **[02:15] [\u042D\u0442\u0430\u043F 2]**: \u0410\u043D\u0430\u043B\u0438\u0437 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0444\u0430\u043A\u0442\u044B.
+- **[04:48] [\u042D\u0442\u0430\u043F 3]**: \u0410\u043D\u0430\u043B\u0438\u0437 \u0438 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0444\u0430\u043A\u0442\u044B.
+(\u0412\u043E\u0441\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0435 \u043E\u0441\u043D\u043E\u0432\u043D\u044B\u0435 \u0433\u043B\u0430\u0432\u044B \u0441 \u0440\u0435\u0430\u043B\u044C\u043D\u044B\u043C\u0438 \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u0430\u043C\u0438 [mm:ss])
+
+### \u{1F4A1} \u0410\u043D\u0430\u043B\u0438\u0437 \u0430\u0440\u0433\u0443\u043C\u0435\u043D\u0442\u043E\u0432, \u0444\u0430\u043A\u0442\u043E\u0432 \u0438 \u043F\u0440\u0438\u043C\u0435\u0440\u043E\u0432
+- **[\u0410\u0440\u0433\u0443\u043C\u0435\u043D\u0442 / \u0424\u0430\u043A\u0442 1]:** \u0420\u0430\u0437\u0431\u043E\u0440 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0445 \u0434\u0430\u043D\u043D\u044B\u0445, \u043A\u0435\u0439\u0441\u043E\u0432 \u0438 \u0434\u043E\u043A\u0430\u0437\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432 [MM:SS].
+- **[\u0410\u0440\u0433\u0443\u043C\u0435\u043D\u0442 / \u0424\u0430\u043A\u0442 2]:** \u0421\u0440\u0430\u0432\u043D\u0435\u043D\u0438\u0435 \u0438\u043B\u0438 \u043F\u043E\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u043A\u043E\u043D\u0446\u0435\u043F\u0446\u0438\u0438 (\u043F\u0440\u0438 \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E\u0441\u0442\u0438 \u2014 \u043A\u043E\u043C\u043F\u0430\u043A\u0442\u043D\u0430\u044F \u0442\u0430\u0431\u043B\u0438\u0446\u0430 Markdown).
+
+### \u{1F6E0}\uFE0F \u041F\u0440\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435 \u0441\u043E\u0432\u0435\u0442\u044B \u0438 \u043F\u043B\u0430\u043D \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439
+1. \u041F\u0435\u0440\u0432\u044B\u0439 \u043A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u044B\u0439 \u0448\u0430\u0433 \u0434\u043B\u044F \u0437\u0440\u0438\u0442\u0435\u043B\u044F.
+2. \u0412\u0442\u043E\u0440\u0430\u044F \u043F\u0440\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0430\u044F \u0440\u0435\u043A\u043E\u043C\u0435\u043D\u0434\u0430\u0446\u0438\u044F \u0438\u0437 \u0432\u0438\u0434\u0435\u043E.
+
+### \u{1F4CC} \u0412\u044B\u0432\u043E\u0434 \u0438 \u043F\u0435\u0440\u0441\u043F\u0435\u043A\u0442\u0438\u0432\u0430 \u0430\u0432\u0442\u043E\u0440\u0430
+> **\u0413\u043B\u0430\u0432\u043D\u044B\u0439 \u0432\u044B\u0432\u043E\u0434:** \u041A\u0440\u0430\u0442\u043A\u0438\u0439 \u0438\u0442\u043E\u0433 \u0438 \u0444\u0438\u043D\u0430\u043B\u044C\u043D\u0430\u044F \u043F\u0435\u0440\u0441\u043F\u0435\u043A\u0442\u0438\u0432\u0430 \u0430\u0432\u0442\u043E\u0440\u0430 \u0432 1\u20132 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.`,
+      standard: `\u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u0421\u0411\u0410\u041B\u0410\u041D\u0421\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415, \u0415\u0421\u0422\u0415\u0421\u0422\u0412\u0415\u041D\u041D\u041E\u0415 \u0438 \u0421\u0422\u0420\u0423\u041A\u0422\u0423\u0420\u0418\u0420\u041E\u0412\u0410\u041D\u041D\u041E\u0415 \u0440\u0435\u0437\u044E\u043C\u0435 (\u0441\u0440\u0435\u0434\u043D\u0438\u0439 \u0444\u043E\u0440\u043C\u0430\u0442, ~350\u2013450 \u0441\u043B\u043E\u0432):
+
+\u0414\u0418\u0420\u0415\u041A\u0422\u0418\u0412\u0410 \u041F\u041E \u041E\u0411\u042A\u0415\u041C\u0423: \u041D\u0435 \u0431\u0443\u0434\u044C\u0442\u0435 \u0441\u043B\u0438\u0448\u043A\u043E\u043C \u043A\u0440\u0430\u0442\u043A\u0438\u043C\u0438, \u043A\u0430\u043A \u0432 \u044D\u043A\u0441\u043F\u0440\u0435\u0441\u0441-\u0444\u043E\u0440\u043C\u0430\u0442\u0435, \u0438 \u043D\u0435 \u043F\u0438\u0448\u0438\u0442\u0435 \u0442\u0440\u0430\u043A\u0442\u0430\u0442\u044B, \u043A\u0430\u043A \u0432 \u043F\u043E\u0434\u0440\u043E\u0431\u043D\u043E\u043C \u0440\u0435\u0436\u0438\u043C\u0435. \u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435 \u0438\u0434\u0435\u0430\u043B\u044C\u043D\u0443\u044E \u0437\u043E\u043B\u043E\u0442\u0443\u044E \u0441\u0435\u0440\u0435\u0434\u0438\u043D\u0443: \u0441\u043E\u0434\u0435\u0440\u0436\u0430\u0442\u0435\u043B\u044C\u043D\u043E, \u043F\u043E\u043D\u044F\u0442\u043D\u043E \u0438 \u043F\u043E \u0434\u0435\u043B\u0443.
+
+### \u{1F3AF} \u041E\u0431\u0449\u0438\u0439 \u043E\u0431\u0437\u043E\u0440 \u0438 \u0433\u043B\u0430\u0432\u043D\u0430\u044F \u0438\u0434\u0435\u044F
+(\u041E\u0434\u0438\u043D \u0441\u0432\u044F\u0437\u043D\u044B\u0439 \u0430\u0431\u0437\u0430\u0446 \u0438\u0437 3\u20134 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u0439, \u0440\u0430\u0441\u043A\u0440\u044B\u0432\u0430\u044E\u0449\u0438\u0439 \u0442\u0435\u043C\u0443, \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442 \u0438 \u0433\u043B\u0430\u0432\u043D\u0443\u044E \u043C\u044B\u0441\u043B\u044C)
+
+### \u23F1\uFE0F \u041A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u043C\u043E\u043C\u0435\u043D\u0442\u044B \u0438 \u0445\u0440\u043E\u043D\u043E\u043B\u043E\u0433\u0438\u044F
+- **[00:00] [\u042D\u0442\u0430\u043F 1]**: \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0438 \u0441\u0443\u0442\u044C \u0432 2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.
+- **[02:15] [\u042D\u0442\u0430\u043F 2]**: \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0438 \u0441\u0443\u0442\u044C \u0432 2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.
+- **[04:48] [\u042D\u0442\u0430\u043F 3]**: \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0438 \u0441\u0443\u0442\u044C \u0432 2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.
+- **[07:30] [\u042D\u0442\u0430\u043F 4]**: \u041A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u043E\u0435 \u043E\u0431\u044A\u044F\u0441\u043D\u0435\u043D\u0438\u0435 \u0438 \u0441\u0443\u0442\u044C \u0432 2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F\u0445.
+(\u0412\u044B\u0434\u0435\u043B\u0438\u0442\u0435 4\u20135 \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0445 \u044D\u0442\u0430\u043F\u043E\u0432 \u0441 \u0440\u0435\u0430\u043B\u044C\u043D\u044B\u043C\u0438 \u0442\u0430\u0439\u043C\u043A\u043E\u0434\u0430\u043C\u0438 [mm:ss] \u0438\u0437 \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0442\u0430)
+
+### \u{1F4CC} \u0413\u043B\u0430\u0432\u043D\u044B\u0439 \u0432\u044B\u0432\u043E\u0434 \u0438 \u0438\u0442\u043E\u0433
+(2 \u043F\u0440\u0435\u0434\u043B\u043E\u0436\u0435\u043D\u0438\u044F \u0441 \u0433\u043B\u0430\u0432\u043D\u044B\u043C \u043F\u0440\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u043C \u0441\u043E\u0432\u0435\u0442\u043E\u043C \u0430\u0432\u0442\u043E\u0440\u0430 \u0438 \u0444\u0438\u043D\u0430\u043B\u044C\u043D\u044B\u043C \u0437\u0430\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u0435\u043C)`
+    }
+  };
+
   // src/services/implementations/PromptTemplates.js
   var TARGET_LANG_NAMES = {
     fr: "FRAN\xC7AIS",
@@ -8675,228 +9747,15 @@ Followed by the 5 qualitative sections written 100% in ${targetLangName}: ### [\
     zh: "\u4E2D\u6587 (SIMPLIFIED CHINESE)"
   };
   var TEMPLATES = {
-    fr: {
-      quick: `Produis un r\xE9sum\xE9 COURT, CONCIS et DIRECT sous cette forme :
-### \u26A1 En Bref
-(2 \xE0 3 phrases percutantes r\xE9sumant l'essentiel absolu)
-
-### \u{1F3AF} Points Cl\xE9s \xE0 Retenir
-- **[Point 1]** : Explication courte et concr\xE8te.
-- **[Point 2]** : Explication courte et concr\xE8te.
-- **[Point 3]** : Explication courte et concr\xE8te.
-
-### \u{1F4CC} Conclusion
-(1 phrase de conclusion finale)`,
-      detailed: `Produis une synth\xE8se COMPL\xC8TE, D\xC9TAILL\xC9E et EXHAUSTIVE :
-### \u{1F3AF} Vue d'ensemble & Enjeux
-(Contexte, probl\xE8me abord\xE9 et th\xE8se de la vid\xE9o)
-
-### \u23F1\uFE0F D\xE9roul\xE9 chronologique & Chapitres cl\xE9s
-(Reconstitue les grandes \xE9tapes avec timestamps si mentionn\xE9s)
-
-### \u{1F4A1} Analyses, Arguments & Exemples cit\xE9s
-(D\xE9cortique les donn\xE9es, anecdotes ou concepts expliqu\xE9s)
-
-### \u{1F6E0}\uFE0F Conseils pratiques & Actions concr\xE8tes
-(Tout ce qui est actionnable pour le spectateur)
-
-### \u{1F4CC} Conclusion & Perspective
-(Message final et conclusion de l'auteur)`,
-      standard: `Produis un r\xE9sum\xE9 \xC9QUILIBR\xC9, NATUREL et STRUCTUR\xC9 :
-### \u{1F3AF} L'Essentiel
-(2-3 phrases r\xE9sumant le sujet et le message central)
-
-### \u23F1\uFE0F Moments Cl\xE9s & D\xE9roulement
-- **[Th\xE8me 1]** : Ce qui est expliqu\xE9 ou d\xE9montr\xE9.
-- **[Th\xE8me 2]** : Ce qui est expliqu\xE9 ou d\xE9montr\xE9.
-- **[Th\xE8me 3]** : Ce qui est expliqu\xE9 ou d\xE9montr\xE9.
-
-### \u{1F4A1} Enseignements & Conseils
-- **[Le\xE7on cl\xE9]** : D\xE9tail concret et utile.
-- **[Actionable]** : Recommandation de l'auteur.
-
-### \u{1F4CC} Ce qu'il faut en retenir
-(Conclusion synth\xE9tique)`
-    },
-    es: {
-      quick: `Produce un resumen CORTO, CONCISO y DIRECTO en este formato:
-### \u26A1 En Breve
-(2 a 3 frases impactantes resumiendo lo esencial)
-
-### \u{1F3AF} Puntos Clave a Recordar
-- **[Punto 1]** : Explicaci\xF3n corta y concreta.
-- **[Punto 2]** : Explicaci\xF3n corta y concreta.
-- **[Punto 3]** : Explicaci\xF3n corta y concreta.
-
-### \u{1F4CC} Conclusi\xF3n
-(1 frase de conclusi\xF3n final)`,
-      detailed: `Produce una s\xEDntesis COMPLETA, DETALLADA y EXHAUSTIVA:
-### \u{1F3AF} Visi\xF3n General & Contexto
-(Contexto, problema abordado y tesis del v\xEDdeo)
-
-### \u23F1\uFE0F Desarrollo Cronol\xF3gico & Cap\xEDtulos Clave
-(Reconstruye las etapas principales con marcas de tiempo)
-
-### \u{1F4A1} An\xE1lisis, Argumentos & Ejemplos
-(Detalla datos, an\xE9cdotas o conceptos expuestos)
-
-### \u{1F6E0}\uFE0F Consejos Pr\xE1cticos & Acciones Concretas
-(Todo lo accionable para el espectador)
-
-### \u{1F4CC} Conclusi\xF3n & Perspectiva
-(Mensaje final y conclusi\xF3n del autor)`,
-      standard: `Produce un resumen EQUILIBRADO, NATURAL y ESTRUCTURADO:
-### \u{1F3AF} Lo Esencial
-(2-3 frases resumiendo el tema y mensaje principal)
-
-### \u23F1\uFE0F Momentos Clave & Desarrollo
-- **[Tema 1]** : Lo que se explica o demuestra.
-- **[Tema 2]** : Lo que se explica o demuestra.
-- **[Tema 3]** : Lo que se explica o demuestra.
-
-### \u{1F4A1} Ense\xF1anzas & Consejos
-- **[Lecci\xF3n clave]** : Detalle concreto y \xFAtil.
-- **[Acci\xF3n pr\xE1ctica]** : Recomendaci\xF3n del autor.
-
-### \u{1F4CC} Conclusi\xF3n General
-(Conclusi\xF3n sint\xE9tica)`
-    },
-    it: {
-      quick: `Produci un riassunto BREVE, CONCISO e DIRETTO in questo formato:
-### \u26A1 In Breve
-(2-3 frasi incisive che riassumono l'essenziale)
-
-### \u{1F3AF} Punti Chiave da Ricordare
-- **[Punto 1]** : Spiegazione breve e concreta.
-- **[Punto 2]** : Spiegazione breve e concreta.
-- **[Punto 3]** : Spiegazione breve e concreta.
-
-### \u{1F4CC} Conclusione
-(1 frase di conclusione finale)`,
-      detailed: `Produci una sintesi COMPLETA, DETTAGLIATA ed ESAUSTIVA:
-### \u{1F3AF} Panoramica & Obiettivi
-(Contesto, problema affrontato e tesi del video)
-
-### \u23F1\uFE0F Svolgimento Cronologico & Capitoli Chiave
-(Ricostruisci i passaggi chiave con timestamp se presenti)
-
-### \u{1F4A1} Analisi, Argomentazioni & Esempi
-(Analizza dati, aneddoti o concetti illustrati)
-
-### \u{1F6E0}\uFE0F Consigli Pratici & Azioni Concrete
-(Tutto ci\xF2 che \xE8 attuabile per lo spettatore)
-
-### \u{1F4CC} Conclusione & Prospettiva
-(Messaggio finale e conclusione dell'autore)`,
-      standard: `Produci un riassunto EQUILIBRATO, NATURALE e STRUTTURATO:
-### \u{1F3AF} L'Essenziale
-(2-3 frasi che riassumono l'argomento e il messaggio centrale)
-
-### \u23F1\uFE0F Momenti Chiave & Svolgimento
-- **[Tema 1]** : Spiegazione o dimostrazione.
-- **[Tema 2]** : Spiegazione o dimostrazione.
-- **[Tema 3]** : Spiegazione o dimostrazione.
-
-### \u{1F4A1} Insegnamenti & Consigli Pratici
-- **[Lezione chiave]** : Dettaglio concreto e utile.
-- **[Azione pratica]** : Raccomandazione dell'autore.
-
-### \u{1F4CC} Da Ricordare
-(Conclusione sintetica)`
-    },
-    de: {
-      quick: `Erstelle eine KURZE, PR\xC4ZISE und DIREKTE Zusammenfassung:
-### \u26A1 Kurz & B\xFCndig
-(2 bis 3 pr\xE4gnante S\xE4tze mit dem Wesentlichen)
-
-### \u{1F3AF} Wichtigste Erkenntnisse
-- **[Punkt 1]** : Kurze, konkrete Erkl\xE4rung.
-- **[Punkt 2]** : Kurze, konkrete Erkl\xE4rung.
-- **[Punkt 3]** : Kurze, konkrete Erkl\xE4rung.
-
-### \u{1F4CC} Fazit
-(1 abschlie\xDFender Schlusssatz)`,
-      detailed: `Erstelle eine VOLLST\xC4NDIGE, DETAILLIERTE und UMFASSENDE Analyse:
-### \u{1F3AF} \xDCberblick & Kernfrage
-(Kontext, Thema und Hauptthese des Videos)
-
-### \u23F1\uFE0F Chronologischer Ablauf & Wichtige Kapitel
-(Hauptabschnitte mit Zeitstempeln)
-
-### \u{1F4A1} Analysen, Argumente & Beispiele
-(Daten, Fakten oder erkl\xE4rte Konzepte)
-
-### \u{1F6E0}\uFE0F Praktische Ratschl\xE4ge & Handlungsschritte
-(Konkret anwendbare Tipps f\xFCr den Zuschauer)
-
-### \u{1F4CC} Fazit & Ausblick
-(Schlussgedanke des Autors)`,
-      standard: `Erstelle eine AUSGEWOGENE, NAT\xDCRLICHE und STRUKTURIERTE Zusammenfassung:
-### \u{1F3AF} Das Wesentliche
-(2-3 S\xE4tze als Zusammenfassung des Themas)
-
-### \u23F1\uFE0F Wichtige Abschnitte & Verlauf
-- **[Thema 1]** : Was erkl\xE4rt oder gezeigt wird.
-- **[Thema 2]** : Was erkl\xE4rt oder gezeigt wird.
-- **[Thema 3]** : Was erkl\xE4rt oder gezeigt wird.
-
-### \u{1F4A1} Erkenntnisse & Praktische Tipps
-- **[Kernlektion]** : Konkretes und n\xFCtzliches Detail.
-- **[Handlungsempfehlung]** : Empfehlung des Autors.
-
-### \u{1F4CC} Wichtigste Erkenntnis
-(Synthetisches Fazit)`
-    },
-    en: {
-      quick: `Produce a SHORT, CONCISE, and DIRECT summary in this format:
-### \u26A1 Quick Summary
-(2 to 3 impactful sentences capturing the absolute essence)
-
-### \u{1F3AF} Key Takeaways
-- **[Point 1]**: Short, concrete explanation.
-- **[Point 2]**: Short, concrete explanation.
-- **[Point 3]**: Short, concrete explanation.
-
-### \u{1F4CC} Conclusion
-(1 final concluding sentence)`,
-      detailed: `Produce a THOROUGH, DETAILED, and COMPREHENSIVE study guide:
-### \u{1F3AF} Overview & Core Thesis
-(Context, problem addressed, and central thesis of the video)
-
-### \u23F1\uFE0F Chronological Breakdown & Key Chapters
-(Reconstruct key sections with timestamps if present)
-
-### \u{1F4A1} Deep Dive: Arguments, Data & Examples
-(Analyze the data, case studies, or concepts presented)
-
-### \u{1F6E0}\uFE0F Actionable Advice & Practical Steps
-(Actionable takeaways for the viewer)
-
-### \u{1F4CC} Author's Conclusion & Key Takeaway
-(Final takeaway and perspective)`,
-      standard: `Produce a BALANCED, NATURAL, and STRUCTURED summary:
-### \u{1F3AF} Core Takeaways
-(2-3 sentences summarizing the topic and central message)
-
-### \u23F1\uFE0F Key Highlights & Chapters
-- **[Topic 1]**: What is explained or demonstrated.
-- **[Topic 2]**: What is explained or demonstrated.
-- **[Topic 3]**: What is explained or demonstrated.
-
-### \u{1F4A1} Insights & Practical Advice
-- **[Key insight]**: Concrete and actionable takeaway.
-- **[Actionable item]**: Author recommendation.
-
-### \u{1F4CC} Final Summary
-(Synthetic concluding thought)`
-    }
+    ...WESTERN_TEMPLATES,
+    ...EASTERN_TEMPLATES
   };
   function getFormatInstructions(mode, langOrIsFr = "en") {
     let lang = "en";
     if (typeof langOrIsFr === "boolean") {
       lang = langOrIsFr ? "fr" : "en";
     } else if (typeof langOrIsFr === "string") {
-      lang = langOrIsFr;
+      lang = String(langOrIsFr).toLowerCase().slice(0, 2);
     }
     const langTemplates = TEMPLATES[lang] || TEMPLATES.en;
     return langTemplates[mode] || langTemplates.standard;
@@ -8995,6 +9854,7 @@ R\xC8GLES DE STYLE & MISE EN PAGE :
 - Style naturel, direct et percutant : va droit au but sans phrases de remplissage.
 - R\xC8GLE ABSOLUE POUR LES PUCES : Chaque puce Markdown DOIT tenir d'un seul bloc avec le mot-cl\xE9 en gras ET son explication sur la M\xCAME ligne (ex: - **Mot-cl\xE9 :** Explication fluide et d'un seul bloc).
 - INTERDICTION FORMELLE : Ne jamais renvoyer l'explication \xE0 la ligne suivante et ne jamais cr\xE9er de sous-puces coup\xE9es. Chaque point doit \xEAtre une phrase fluide et compl\xE8te.
+- MISE EN FORME SOIGN\xC9E : Ouvre ou conclus l'essentiel par un encadr\xE9 (\`> **\xC0 retenir :** ...\`), cite les horodatages \`[MM:SS]\` pertinents, utilise un tableau Markdown compact uniquement si plusieurs notions sont compar\xE9es, et mets les **chiffres cl\xE9s en gras**.
 - Fid\xE9lit\xE9 \xE0 100% \xE0 la transcription, z\xE9ro hallucination ou extrapolation.` : `You are an expert AI assistant YouTube Summarizer AI specializing in video summarization and insights.
 Your absolute goal is to produce a clear, natural, well-structured, and faithful summary EXCLUSIVELY in ${targetLangName}, regardless of the original video language.
 MANDATORY LANGUAGE DIRECTIVE: Write the ENTIRE summary, all section headings, bullet points, and analysis strictly in ${targetLangName}. Do NOT use English unless the requested language is English.
@@ -9002,6 +9862,7 @@ STYLE & FORMATTING RULES:
 - Natural, direct, and engaging style: go straight to the point without filler phrases.
 - STRICT BULLET FORMATTING: Every Markdown bullet point MUST be a single cohesive block with the bold keyword AND explanation on the SAME line (e.g. - **Keyword:** Clear, fluent explanation in a single block).
 - STRICT PROHIBITION: Never insert a line break between the keyword and its explanation, and never break ideas into fragmented sub-bullets.
+- SCANNABLE LAYOUT: Highlight key takeaways in a callout (\`> **Key Takeaway:** ...\`), cite clickable \`[MM:SS]\` timestamps, use a compact Markdown comparison table when helpful, and bold **key figures**.
 - 100% faithful to the transcript, with zero hallucinations or extrapolation.`;
       const formatInstructions = getFormatInstructions(mode, lang);
       const contextBlock = this.formatContextBlock(extraContext, lang);
@@ -9766,6 +10627,9 @@ WRITING & VISUAL PRESENTATION GUIDELINES:
      */
     static bind(rootContainer, settingsDrawer2, state2, bannerView2 = null) {
       if (!rootContainer || !settingsDrawer2 || !state2) return;
+      const refreshBadge = () => bannerView2?.updateHeaderBadge ? bannerView2.updateHeaderBadge() : settingsDrawer2.updateHeaderBadge?.();
+      const refreshModelText = () => bannerView2?.updateHeaderModelText ? bannerView2.updateHeaderModelText() : settingsDrawer2.updateHeaderModelText?.();
+      const showStatus = (m, e) => bannerView2?.showStatusBanner ? bannerView2.showStatusBanner(m, e) : settingsDrawer2.showStatusBanner?.(m, e);
       rootContainer.querySelector("#ytAiSettingsCloseBtn")?.addEventListener("click", () => {
         SettingsDrawerController.setSettingsDrawerOpen(false);
       });
@@ -9775,17 +10639,67 @@ WRITING & VISUAL PRESENTATION GUIDELINES:
           if (sub) SettingsDrawerController.switchSettingsSubtab(sub);
         });
       });
+      let keyDebounceTimer = null;
+      let lastAutoValidated = "";
+      const runCloudKeySync = (val) => {
+        const provider = state2.currentProvider;
+        if (!val || provider === "lmstudio" || provider === "ollama") return;
+        const sig = `${provider}:${val}`;
+        if (sig === lastAutoValidated) return;
+        lastAutoValidated = sig;
+        QuickOnboardingHelper.validateAndSyncCloudKey({
+          state: state2,
+          provider,
+          key: val,
+          settingsDrawer: settingsDrawer2,
+          showStatusBanner: showStatus,
+          updateHeaderBadge: refreshBadge
+        });
+      };
       rootContainer.querySelector("#ytAiProviderSelect")?.addEventListener("change", (e) => {
+        if (keyDebounceTimer) clearTimeout(keyDebounceTimer);
+        lastAutoValidated = "";
         state2.currentProvider = e.target.value;
         state2.savePreference("aiProvider", state2.currentProvider);
         settingsDrawer2.syncProviderUI();
       });
-      rootContainer.querySelector("#ytAiApiKeyInput")?.addEventListener("input", (e) => {
+      const apiKeyInput = rootContainer.querySelector("#ytAiApiKeyInput");
+      apiKeyInput?.addEventListener("input", (e) => {
         const val = e.target.value.trim();
+        if (e.target.value !== val) e.target.value = val;
         state2.apiKeys[state2.currentProvider] = val;
         state2.savePreference(`apiKey_${state2.currentProvider}`, val);
         if (state2.keyVerified) delete state2.keyVerified[state2.currentProvider];
-        if (bannerView2) bannerView2.updateHeaderBadge();
+        state2.savePreference(`keyVerified_${state2.currentProvider}`, null);
+        refreshBadge();
+        if (keyDebounceTimer) clearTimeout(keyDebounceTimer);
+        if (val && val.length >= 12) {
+          keyDebounceTimer = setTimeout(() => runCloudKeySync(val), 550);
+        } else {
+          lastAutoValidated = "";
+        }
+      });
+      apiKeyInput?.addEventListener("paste", () => {
+        setTimeout(() => {
+          const val = apiKeyInput.value.trim();
+          if (keyDebounceTimer) clearTimeout(keyDebounceTimer);
+          if (val) {
+            state2.apiKeys[state2.currentProvider] = val;
+            state2.savePreference(`apiKey_${state2.currentProvider}`, val);
+            runCloudKeySync(val);
+          }
+        }, 0);
+      });
+      apiKeyInput?.addEventListener("change", (e) => {
+        if (keyDebounceTimer) clearTimeout(keyDebounceTimer);
+        const val = e.target.value.trim();
+        if (val) runCloudKeySync(val);
+      });
+      rootContainer.querySelector("#ytAiToggleKeyVisBtn")?.addEventListener("click", (e) => {
+        if (!apiKeyInput) return;
+        const isHidden = apiKeyInput.type === "password";
+        apiKeyInput.type = isHidden ? "text" : "password";
+        if (e.currentTarget) e.currentTarget.textContent = isHidden ? "\u{1F648}" : "\u{1F441}";
       });
       settingsDrawer2.bindPasteButton();
       rootContainer.querySelector("#ytAiServerSelect")?.addEventListener("change", (e) => {
@@ -9808,13 +10722,20 @@ WRITING & VISUAL PRESENTATION GUIDELINES:
         }
       });
       rootContainer.querySelector("#ytAiRefreshModelsBtn")?.addEventListener("click", () => settingsDrawer2.refreshModelsList(true));
+      rootContainer.querySelector("#ytAiRefreshCloudModelsBtn")?.addEventListener("click", () => {
+        if (state2.currentProvider === "lmstudio" || state2.currentProvider === "ollama") {
+          settingsDrawer2.refreshModelsList(true);
+        } else {
+          settingsDrawer2.populateCloudModels(state2.currentProvider, null, true);
+        }
+      });
       rootContainer.querySelector("#ytAiTestModelBtn")?.addEventListener("click", () => settingsDrawer2.handleTestConnection());
       rootContainer.querySelector("#ytAiTestWhisperBtn")?.addEventListener("click", () => settingsDrawer2.handleTestWhisper());
       rootContainer.querySelector("#ytAiModelSelect")?.addEventListener("change", (e) => {
         state2.setActiveModel(e.target.value);
         state2.savePreference(`selectedModel_${state2.currentProvider}`, e.target.value);
         state2.savePreference("selectedModel", e.target.value);
-        if (bannerView2) bannerView2.updateHeaderModelText();
+        refreshModelText();
       });
       rootContainer.querySelector("#ytAiTemperatureSelect")?.addEventListener("change", (e) => {
         state2.temperature = e.target.value;
@@ -10257,6 +11178,19 @@ WRITING & VISUAL PRESENTATION GUIDELINES:
       document.getElementById("ytAiSaveTxtBtn")?.addEventListener("click", () => summaryViewController2.handleExport("txt", state2.currentLang));
       document.getElementById("ytAiSaveJsonBtn")?.addEventListener("click", () => summaryViewController2.handleExport("json", state2.currentLang));
       document.getElementById("ytAiCopyTranscriptBtn")?.addEventListener("click", () => transcriptController2.handleCopyTranscript(state2.currentLang));
+      banner.addEventListener?.("click", (e) => {
+        const link = e.target?.closest ? e.target.closest('.yt-ai-timestamp-link, a[data-seek], a[href^="#t="]') : null;
+        if (!link) return;
+        e.preventDefault();
+        const rawSec = link.getAttribute("data-time") || link.getAttribute("data-seek") || link.getAttribute("href")?.replace("#t=", "") || "";
+        const sec = parseFloat(rawSec);
+        const video = document.querySelector?.("video");
+        if (video && !isNaN(sec)) {
+          video.currentTime = sec;
+          video.play?.().catch?.(() => {
+          });
+        }
+      });
       settingsDrawer2?.syncProviderUI();
       auditViewController2?.syncChannelAuditUI?.(state2);
     }
@@ -11550,12 +12484,18 @@ WRITING & VISUAL PRESENTATION GUIDELINES:
   };
 
   // src/content/services/InPageState.js
+  var ALL_PERSISTED_PROVIDERS = [...Object.keys(PROVIDER_CONFIGS), "lmstudio", "ollama"];
   function createInPageState() {
+    const apiKeys = {};
+    Object.keys(PROVIDER_CONFIGS).forEach((p) => {
+      apiKeys[p] = "";
+    });
     return {
       extensionEnabled: true,
       currentProvider: "lmstudio",
       serverUrls: { lmstudio: "http://localhost:1234", ollama: "http://localhost:11434" },
-      apiKeys: { openai: "", gemini: "", claude: "", groq: "", deepseek: "" },
+      apiKeys,
+      keyVerified: {},
       selectedModels: {},
       availableLocalModels: {},
       currentLang: "fr",
@@ -11571,7 +12511,7 @@ WRITING & VISUAL PRESENTATION GUIDELINES:
       selectedMicDeviceId: "",
       cachedAuditReport: null,
       getActiveModel() {
-        return this.selectedModels[this.currentProvider] || "";
+        return this.selectedModels[this.currentProvider] || PROVIDER_CONFIGS[this.currentProvider]?.defaultModel || "";
       },
       setActiveModel(m) {
         this.selectedModels[this.currentProvider] = m;
@@ -11600,10 +12540,14 @@ WRITING & VISUAL PRESENTATION GUIDELINES:
       if (items.channelAuditPeriod) state2.channelAuditPeriod = items.channelAuditPeriod;
       if (items.ttsSpeed) state2.ttsSpeed = items.ttsSpeed;
       if (items.selectedVoiceURI) state2.selectedVoiceURI = items.selectedVoiceURI;
-      ["openai", "gemini", "claude", "groq", "deepseek", "lmstudio", "ollama"].forEach((p) => {
+      if (!state2.keyVerified) state2.keyVerified = {};
+      ALL_PERSISTED_PROVIDERS.forEach((p) => {
         if (items[`apiKey_${p}`]) state2.apiKeys[p] = items[`apiKey_${p}`];
         if (items[`serverUrl_${p}`]) state2.serverUrls[p] = items[`serverUrl_${p}`];
         if (items[`selectedModel_${p}`]) state2.selectedModels[p] = items[`selectedModel_${p}`];
+        if (items[`keyVerified_${p}`] !== void 0 && items[`keyVerified_${p}`] !== null) {
+          state2.keyVerified[p] = items[`keyVerified_${p}`];
+        }
       });
       callback?.();
     });

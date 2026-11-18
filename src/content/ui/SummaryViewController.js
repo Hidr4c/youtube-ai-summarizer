@@ -3,6 +3,7 @@ import { CONTEXT_LIMITS } from '../../config/AIProviderPresets.js';
 import { renderMarkdown, escapeHtml, safeSetInnerHTML } from './MarkdownRenderer.js';
 import { getVideoId } from './NavigationObserver.js';
 import { ChannelAuditJobTracker } from '../services/ChannelAuditJobTracker.js';
+import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
 
 /**
  * Controller for Video AI Summarization tab, reasoning stream, and empty state
@@ -178,8 +179,10 @@ export class SummaryViewController {
               if (reasoningBox) reasoningBox.open = false;
             }
             this.fullSummaryMarkdown += msg.content;
-            if (summaryBody) renderMarkdown(this.fullSummaryMarkdown, summaryBody);
+            if (summaryBody) renderMarkdown(this.fullSummaryMarkdown, summaryBody, { sectionCards: true });
           }
+        } else if (msg.type === 'MODEL_RESOLVED') {
+          QuickOnboardingHelper.syncResolvedModel(stateObj, msg.provider || currentProvider, msg.model);
         } else if (msg.type === 'DONE') {
           this.finishGeneration(lang);
         } else if (msg.type === 'ERROR') {

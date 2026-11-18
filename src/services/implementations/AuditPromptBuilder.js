@@ -75,7 +75,12 @@ Critères d'évaluation :
 8. Signaux communautaires : mise en perspective des observations pertinentes des spectateurs en commentaires.
 
 Ton ton doit être constructif, précis, pédagogique et rigoureusement objectif.
-Inclus toujours un indice global sur 100 au format : [SCORE: XX/100].`;
+MISE EN FORME SOIGNÉE & LISIBILITÉ (IMPÉRATIF — ZÉRO TEXTE BRUT) :
+- Ne produis JAMAIS de mur de texte compact ni de mots énumérés sur des lignes vides avec « ; ».
+- Ouvre le verdict par un encadré de synthèse (\`> **Verdict :** ...\`) et mets les citations marquantes en bloc citation (\`> « ... » [MM:SS]\`).
+- Utilise un tableau Markdown compact (\`| Affirmation / Critère | Preuves & Sources | Verdict |\`) pour synthétiser les recoupements factuels ou comparaisons dès que pertinent.
+- Chaque puce DOIT suivre le format lisible \`- **Point clé :** Explication claire et concise.\` (gras sur les chiffres/notions clés et horodatages \`[MM:SS]\`).
+Inclus toujours un indice global sur 100 uniquement sur la première ligne au format : [SCORE: XX/100].`;
     }
 
     return `${specificLang}
@@ -99,7 +104,12 @@ Evaluation criteria:
 8. Community signals: Contextualize constructive viewer observations from comments.
 
 Strict language rule: Write ALL section headings and narrative content exclusively in ${targetLangName}. Keep your tone constructive, precise, pedagogical, and objective.
-Always include an overall score out of 100 using the exact tag format: [SCORE: XX/100].`;
+SCANNABLE & VISUAL PRESENTATION (NO RAW WALLS OF TEXT):
+- Never produce dense unformatted prose walls or isolated fragments stacked across blank lines.
+- Open the verdict section with a highlighted summary callout (\`> **Verdict:** ...\`) and quote verbatim evidence cleanly (\`> "..." [MM:SS]\`).
+- Include a compact Markdown verification table (\`| Claim / Criterion | Evidence & Sources | Verdict |\`) when assessing multiple facts or comparisons.
+- Write crisp, single-line bullet points (\`- **Key Point:** Clear, direct explanation.\`), highlight metrics in **bold**, and cite clickable \`[MM:SS]\` timestamps.
+Always include an overall score out of 100 strictly on the first line using the exact tag format: [SCORE: XX/100].`;
   }
 
   /**
@@ -144,35 +154,44 @@ ${commentsSection}
 ${contentSection}
 
 --- CRITICAL AUDIT REPORT DIRECTIVES ---
-Write a structured Markdown report keeping [SCORE: XX/100] intact and translating all section titles below into ${targetLangName}:
+Write a concise, high-signal visual Markdown report (keep explanations short & punchy: max 2 crisp bullets per section, ~1-2 lines each) starting STRICTLY with these 3 metadata lines on top, translating every heading and value into ${targetLangName}:
 
 [SCORE: XX/100]
-
-### 🎭 Editorial Context & Target Audience
-- **Genre & Format**: Clarify the content type and evaluate proportionally to that genre.
+[AXES: Logic=YY, Sources=ZZ, Transparency=WW, Facts=VV]
+[GENRE: Short genre label]
 
 ### 🎯 Reliability Score & Overall Verdict
-- Concise 2-3 sentence rationale and posture assessment.
-
-### ⚖️ Logical Analysis & Argumentative Rigor
-- Reasoning clarity, methodological caution, and any fallacies or shortcuts observed.
-
-### 🔬 Source Rigor & Level of Evidence
-- Empirical/official sources vs hypotheses, plus temporal nuance if covering recent events.
-
-### 💼 Commercial Transparency & Marketing Discernment
-- Disclosure clarity, verified reasoning vs promotional scripting (quote exact phrases if problematic), and proof over self-proclaimed objectivity.
+> **Verdict:** 1-2 punchy sentences summarizing overall credibility, posture, and trustworthiness.
+- **Core Rationale:** Key strengths and any reservations in concise language.
 
 ### 🔍 Factual, Temporal & Spatial Cross-Check
-- Timeline alignment and plausibility of numerical/physical claims.
-
-### 💬 Community Feedback & Viewer Consensus
-- Key constructive takeaways from viewer comments.
+(When factual, numerical, or timeline claims exist, summarize them in a compact Markdown table using Verified / Caution / Refuted verdicts; for pure fiction/kids/music with no metrics, briefly verify framing in 1-2 crisp bullets:)
+| Claim / Aspect | Verification & Data | Verdict |
+|---|---|---|
+| (Key factual, timeline, or numerical check) | (Supporting/contradicting proof) | (Verified / Caution / Refuted) |
 
 ### 📌 Critical Thinking Takeaways
-- 2 to 3 actionable viewer guidelines.
+1. Concise, actionable viewer takeaway.
+2. Concise, actionable viewer takeaway.
 
-CRITICAL LANGUAGE REQUIREMENT: Translate every heading and write 100% of the audit report exclusively in ${targetLangName}.`;
+### 🎭 Editorial Context & Target Audience
+- **Genre & Format:** Clarify content type in 1 short sentence.
+- **Framing Assessment:** Concise contextual check (safeguarding accuracy/wholesomeness).
+
+### ⚖️ Logical Analysis & Argumentative Rigor
+- **Reasoning Structure:** Clarity of deductions and internal consistency (1 short sentence).
+- **Methodological Caution & Biases:** Fact vs opinion separation and any fallacies (or confirm solid logic).
+
+### 🔬 Source Rigor & Level of Evidence
+- **Evidence Quality & Timing:** Empirical/official sources vs claims and temporal nuance.
+
+### 💼 Commercial Transparency & Marketing Discernment
+- **Disclosure & Honesty:** Sponsored clarity vs uncritical promotional script (quote \`> "..." [MM:SS]\` verbatim if misleading).
+
+### 💬 Community Feedback & Viewer Consensus
+- 1-2 short bullets on constructive viewer feedback.
+
+CRITICAL LANGUAGE REQUIREMENT: Translate every heading, table header, and narrative line 100% into ${targetLangName} (keep [SCORE:], [AXES:], [GENRE:] tag keys exact).`;
     }
 
     const headerInfo = [
@@ -197,48 +216,44 @@ ${commentsSection}
 ${contentSection}
 
 --- DIRECTIVES DU RAPPORT D'AUDIT CRITIQUE ---
-Rédige un rapport structuré respectant EXACTEMENT le format Markdown suivant :
+Rédige un rapport visuel **court, percutant et facile à lire** (max 2 puces concises de 1–2 lignes par section, zéro pavé long !) en commençant STRICTEMENT par ces 3 lignes techniques en tête :
 
 [SCORE: XX/100]
-
-### 🎭 Contexte Éditorial & Public Cible
-- **Genre & Typologie** : (Ex: Divertissement jeunesse / Documentaire scientifique / Fiction / Gaming / Débat).
-- **Discernement adapté au contexte** : Évaluation adaptée au genre. Pour un contenu jeunesse : analyse de la bienveillance, absence ou présence de manipulation commerciale insidieuse (conditionnement d'habitudes de consommation déguisé, placements prédateurs, exploitation de la crédulité infantile). Pour un contenu documentaire/informatif : niveau de preuve et rigueur de démonstration.
+[AXES: Logic=YY, Sources=ZZ, Transparency=WW, Facts=VV]
+[GENRE: Tag court du genre]
 
 ### 🎯 Indice de Fiabilité & Verdict Global
-- Score de solidité (sur 100) avec explication synthétique en 2-3 phrases.
-- Évaluation globale de la posture : (Ex: Démarche rigoureuse / Vulgarisation équilibrée / Posture engagée / Prudence requise).
-
-### ⚖️ Analyse Logique & Rigueur Argumentative
-- Analyse la cohérence de l'argumentation :
-  - **Structure du raisonnement** : Clarté des déductions, présence ou absence de contradictions internes.
-  - **Prudence méthodologique** : Précision du vocabulaire employé, distinction entre certitudes, indices et hypothèses de travail.
-  - **Biais ou raccourcis éventuels** : Causalités hâtives, généralisations excessives ou extrapolations si constatées (ou confirmer la solidité du raisonnement).
-
-### 🔬 Rigueur des Sources & Niveau de Preuve
-- Évalue les références et données présentées :
-  - **Niveau de preuve** : Références techniques ou officielles vs témoignages préliminaires ou déductions logiques.
-  - **Prise en compte de la temporalité de l'enquête** : S'il s'agit d'un événement récent, vérifier si l'auteur précise les limites des données préliminaires disponibles.
-
-### 💼 Transparence Commerciale & Discernement Marketing
-- Évalue avec subtilité la sincérité éditoriale et la valeur réelle de l'argumentation :
-  - **Transparence du modèle économique (légitime et assumé)** : Il est parfaitement normal qu'un créateur vive de son travail (sponsors, partenariats commerciaux, affiliations ou promotion de ses propres livres/conférences). L'exigence clé est la transparence : ces collaborations sont-elles annoncées de manière claire et loyale au spectateur ?
-  - **Arguments vérifiés vs Discours marketing répété** : Évalue si les arguments présentés sont solides, documentés et critiques... ou s'il s'agit d'un simple discours commercial préformaté. [OBLIGATION DE CITATION : Si tu juges un argument marketing ou manipulateur, cite la phrase exacte de l'auteur et explique pourquoi elle pose problème].
-  - **Démonstration concrète du préjudice ou du biais** : Explique ce que l'auteur a dit ou fait de concret et pourquoi c'est préjudiciable ou négatif pour le spectateur (ex: fausse promesse santé, conditionnement d'habitudes d'achat précoce chez l'enfant, omission volontaire de dysfonctionnements).
-  - **Vérification active de l'honnêteté (ne pas croire sur parole)** : Ce n'est pas parce que l'auteur proclame « je suis honnête », « test 100% objectif » ou « aucun sponsor ne m'influence » qu'il l'est réellement. C'est à l'auditeur de juger son honnêteté à l'aune des preuves matérielles, des données vérifiables et de la cohérence de ses démonstrations.
-  - **Discernement ("le mal n'est pas partout")** : Une vidéo sponsorisée peut être excellente et rigoureuse si l'analyse reste intègre. Ne pénalise pas la présence d'un sponsor, mais juge la liberté de ton, la précision technique et l'honnêteté intellectuelle du propos.
+> **Verdict :** Synthèse percutante en 1–2 phrases sur la solidité et la posture éditoriale globale.
+- **Posture éditoriale :** (Démarche rigoureuse / Vulgarisation équilibrée / Prudence requise) en 1 phrase.
 
 ### 🔍 Recoupement Factuel, Temporel & Spatial
-- Cohérence chronologique entre la date de mise en ligne et les événements analysés.
-- Pertinence des ordres de grandeur ou données physiques mentionnées.
-
-### 💬 Éclairage des Commentaires & Consensus du Public
-- Synthèse des retours du public (remarques constructives, partages d'expérience ou points de discussion soulevés).
+(Si la vidéo avance des faits, dates ou chiffres vérifiables, synthétise-les en tableau compact ; pour une œuvre purement récréative, musicale ou jeunesse sans données chiffrées, vérifie la cohérence en 1–2 puces nettes :)
+| Élément / Affirmation | Vérification & Ordres de grandeur | Statut |
+|---|---|---|
+| (Fait, date ou chiffre clé analysé) | (Preuve, cohérence temporelle ou limite) | (Vérifié / À nuancer / Fautif) |
 
 ### 📌 Conseils pour l'Esprit Critique
-- 2 à 3 recommandations pédagogiques pour appréhender ce type de sujet avec discernement.
+1. Recommandation actionnable en 1 phrase claire.
+2. Deuxième recommandation pratique pour garder du recul.
 
-IMPORTANT : Reste constructif, neutre et factuel. N'invente pas de défauts inexistants. Rédige l'intégralité du rapport dans la langue cible : FRANÇAIS.`;
+### 🎭 Contexte Éditorial & Public Cible
+- **Genre & Typologie :** (Ex : Divertissement jeunesse / Vulgarisation / Tech / Documentaire).
+- **Discernement adapté au contexte :** Évaluation courte proportionnée au genre (pour un contenu jeunesse : bienveillance vs manipulation commerciale insidieuse et conditionnement d'habitudes de consommation déguisé).
+
+### ⚖️ Analyse Logique & Rigueur Argumentative
+- **Structure du raisonnement :** Clarté des déductions et cohérence interne en 1–2 phrases.
+- **Prudence & Biais éventuels :** Faits vs hypothèses, sophismes éventuels (ou solidité confirmée).
+
+### 🔬 Rigueur des Sources & Niveau de Preuve
+- **Niveau de preuve & Temporalité :** Sources techniques/officielles vs assertions et recul temporel.
+
+### 💼 Transparence Commerciale & Discernement Marketing
+- **Modèle économique & loyauté :** Sponsors légitimes si transparents ; preuve contre discours marketing (\`> « citation » [MM:SS]\` si biais).
+
+### 💬 Éclairage des Commentaires & Consensus du Public
+- 1–2 puces courtes sur les retours pertinents du public.
+
+IMPORTANT : Reste constructif, neutre, factuel et concis. Rédige l'intégralité du rapport dans la langue cible : FRANÇAIS (garde [SCORE:], [AXES:], [GENRE:] exacts).`;
   }
 }
 

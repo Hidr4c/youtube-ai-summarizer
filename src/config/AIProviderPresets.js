@@ -4,15 +4,15 @@
 
 export const CLOUD_MODELS = {
   gemini: [
-    { id: 'gemini-1.5-flash', name: '⭐ gemini-1.5-flash (Gratuit, 1M ctx)' },
-    { id: 'gemini-2.0-flash', name: 'gemini-2.0-flash (Nouveau & Rapide)' },
-    { id: 'gemini-1.5-pro', name: 'gemini-1.5-pro (Analyse approfondie)' }
+    { id: 'gemini-flash-latest', name: '⭐ gemini-flash-latest (Gratuit, Auto-à-jour)' },
+    { id: 'gemini-3.8-flash', name: 'gemini-3.8-flash (Rapide & Polyvalent)' },
+    { id: 'gemini-3.5-flash-lite', name: 'gemini-3.5-flash-lite (Ultra-léger, Gratuit)' },
+    { id: 'gemini-pro-latest', name: 'gemini-pro-latest (Analyse approfondie)' }
   ],
   groq: [
-    { id: 'llama-3.3-70b-versatile', name: '⭐ llama-3.3-70b-versatile (Ultra-rapide)' },
-    { id: 'deepseek-r1-distill-llama-70b', name: 'deepseek-r1-distill-llama-70b (R1 Thinking)' },
-    { id: 'llama-3.1-8b-instant', name: 'llama-3.1-8b-instant (Éclair)' },
-    { id: 'mixtral-8x7b-32768', name: 'mixtral-8x7b-32768 (Mixtral)' }
+    { id: 'openai/gpt-oss-120b', name: '⭐ openai/gpt-oss-120b (Puissant & Gratuit)' },
+    { id: 'openai/gpt-oss-20b', name: 'openai/gpt-oss-20b (Ultra-rapide)' },
+    { id: 'qwen/qwen3.8-27b', name: 'qwen/qwen3.8-27b (Polyvalent)' }
   ],
   openai: [
     { id: 'gpt-4o-mini', name: '⭐ gpt-4o-mini (Économique & Rapide)' },
@@ -48,7 +48,7 @@ export const CLOUD_MODELS = {
     { id: 'qwen/qwen-2.5-72b-instruct', name: 'qwen/qwen-2.5-72b-instruct' },
     { id: 'meta-llama/llama-3.3-70b-instruct', name: 'meta-llama/llama-3.3-70b-instruct' },
     { id: 'anthropic/claude-3.5-sonnet', name: 'anthropic/claude-3.5-sonnet' },
-    { id: 'google/gemini-2.0-flash-exp:free', name: 'google/gemini-2.0-flash-exp (Gratuit)' }
+    { id: 'openai/gpt-oss-120b', name: 'openai/gpt-oss-120b' }
   ],
   perplexity: [
     { id: 'sonar', name: '⭐ sonar (Rapide)' },
@@ -114,12 +114,12 @@ export const PROVIDER_CONFIGS = {
   gemini: {
     name: 'Google Gemini',
     endpoint: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    defaultModel: 'gemini-1.5-flash'
+    defaultModel: 'gemini-flash-latest'
   },
   groq: {
     name: 'Groq (Inférence Rapide)',
     endpoint: 'https://api.groq.com/openai/v1/chat/completions',
-    defaultModel: 'llama-3.3-70b-versatile'
+    defaultModel: 'openai/gpt-oss-120b'
   },
   openai: {
     name: 'OpenAI (ChatGPT)',
@@ -167,6 +167,65 @@ export const PROVIDER_CONFIGS = {
     defaultModel: 'meta-llama/Llama-3.3-70B-Instruct-Turbo'
   }
 };
+
+export const DEPRECATED_MODEL_ALIASES = {
+  gemini: {
+    'gemini-1.5-flash': 'gemini-flash-latest',
+    'gemini-1.5-flash-latest': 'gemini-flash-latest',
+    'gemini-1.5-flash-001': 'gemini-flash-latest',
+    'gemini-1.5-flash-002': 'gemini-flash-latest',
+    'gemini-1.5-pro': 'gemini-pro-latest',
+    'gemini-1.5-pro-latest': 'gemini-pro-latest',
+    'gemini-2.0-flash': 'gemini-flash-latest',
+    'gemini-2.0-flash-exp': 'gemini-flash-latest',
+    'gemini-2.0-flash-lite': 'gemini-3.5-flash-lite'
+  },
+  groq: {
+    'llama-3.3-70b-versatile': 'openai/gpt-oss-120b',
+    'llama-3.1-8b-instant': 'openai/gpt-oss-20b',
+    'mixtral-8x7b-32768': 'openai/gpt-oss-120b',
+    'llama3-70b-8192': 'openai/gpt-oss-120b',
+    'llama3-8b-8192': 'openai/gpt-oss-20b',
+    'gemma2-9b-it': 'openai/gpt-oss-20b',
+    'deepseek-r1-distill-llama-70b': 'openai/gpt-oss-120b'
+  },
+  claude: {
+    'claude-3-5-sonnet-20240620': 'claude-3-5-sonnet-20241022',
+    'claude-3-sonnet-20240229': 'claude-3-5-sonnet-20241022',
+    'claude-3-opus-20240229': 'claude-3-5-sonnet-20241022',
+    'claude-3-haiku-20240307': 'claude-3-5-haiku-20241022'
+  },
+  openai: {
+    'gpt-4-vision-preview': 'gpt-4o',
+    'gpt-4-32k': 'gpt-4o',
+    'gpt-3.5-turbo-16k': 'gpt-4o-mini'
+  },
+  mistral: {
+    'open-mistral-7b': 'mistral-small-latest',
+    'open-mixtral-8x7b': 'mistral-small-latest',
+    'mistral-tiny': 'mistral-small-latest',
+    'mistral-medium': 'mistral-large-latest'
+  },
+  openrouter: {
+    'google/gemini-2.0-flash-exp:free': 'deepseek/deepseek-r1',
+    'meta-llama/llama-3.1-8b-instruct:free': 'deepseek/deepseek-r1'
+  }
+};
+
+/**
+ * Resolves known retired cloud model IDs to their active replacement cleanly.
+ * @param {string} provider
+ * @param {string} modelId
+ * @returns {string}
+ */
+export function resolveDeprecatedModel(provider, modelId) {
+  const cleanProvider = String(provider || '').toLowerCase();
+  const rawModel = String(modelId || '').trim();
+  const cleanModel = cleanProvider === 'gemini' ? rawModel.replace(/^models\//, '') : rawModel;
+  if (!cleanModel) return PROVIDER_CONFIGS[cleanProvider]?.defaultModel || '';
+  const aliasMap = DEPRECATED_MODEL_ALIASES[cleanProvider];
+  return (aliasMap && aliasMap[cleanModel]) ? aliasMap[cleanModel] : cleanModel;
+}
 
 export const LANG_LOCALES = {
   fr: 'fr-FR',

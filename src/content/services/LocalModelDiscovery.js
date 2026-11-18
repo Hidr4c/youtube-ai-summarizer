@@ -26,17 +26,45 @@ export class LocalModelDiscovery {
         if (typeof onFallbackNeeded === 'function') onFallbackNeeded();
         return;
       }
-      const data = response.data;
-      const models = Array.isArray(data?.data)
-        ? data.data
-        : (Array.isArray(data?.models)
-          ? data.models
-          : (Array.isArray(data)
-            ? data
-            : (Array.isArray(response.models) ? response.models : [])));
-
       if (typeof onModelsLoaded === 'function') {
-        onModelsLoaded(models, currentUrl);
+        onModelsLoaded(LocalModelDiscovery.extractModels(response), currentUrl);
+      }
+    });
+  }
+
+  /**
+   * Extracts a normalized model array from Chrome runtime FETCH_MODELS responses
+   * @param {Object} response
+   * @returns {Array<Object>}
+   */
+  static extractModels(response) {
+    const data = response?.data;
+    if (Array.isArray(data?.data)) return data.data;
+    if (Array.isArray(data?.models)) return data.models;
+    if (Array.isArray(data)) return data;
+    return Array.isArray(response?.models) ? response.models : [];
+  }
+
+  /**
+   * Fetches live models from a Cloud AI provider without blocking preset rendering
+   * @param {string} provider
+   * @param {string} apiKey
+   * @param {Function} onModelsLoaded
+   */
+  static refreshCloudModels(provider, apiKey, onModelsLoaded) {
+    const cleanKey = (apiKey || '').trim();
+    if (!provider || provider === 'lmstudio' || provider === 'ollama' || !cleanKey) return;
+    if (typeof chrome === 'undefined' || !chrome.runtime?.sendMessage) return;
+
+    chrome.runtime.sendMessage({
+      action: 'FETCH_MODELS',
+      provider,
+      apiKey: cleanKey
+    }, (response) => {
+      if (chrome.runtime?.lastError || !response || (!response.success && !response.ok)) return;
+      const models = LocalModelDiscovery.extractModels(response);
+      if (models.length > 0 && typeof onModelsLoaded === 'function') {
+        onModelsLoaded(models);
       }
     });
   }
@@ -70,17 +98,8 @@ export class LocalModelDiscovery {
       serverUrl: candidate
     }, (res) => {
       if (res && (res.success || res.ok)) {
-        const data = res.data;
-        const models = Array.isArray(data?.data)
-          ? data.data
-          : (Array.isArray(data?.models)
-            ? data.models
-            : (Array.isArray(data)
-              ? data
-              : (Array.isArray(res.models) ? res.models : [])));
-
         if (typeof onSuccess === 'function') {
-          onSuccess(candidate, models);
+          onSuccess(candidate, LocalModelDiscovery.extractModels(res));
         }
       } else {
         LocalModelDiscovery.tryFallbackUrls(ctx, testedUrls, onSuccess, onExhausted);

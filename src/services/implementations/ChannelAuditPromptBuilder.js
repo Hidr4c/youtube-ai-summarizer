@@ -53,23 +53,23 @@ Numéro | Score | Sensationnalisme% | Verdict | Commentaire d'une phrase
 [DISTRIBUTION: Fiable=A%, Modere=B%, Risque=C%]
 [TRAJECTOIRE: PROGRESSION | STABLE | DECLIN]
 
-3. Le rapport qualitatif structuré :
+3. Le rapport qualitatif structuré (FORME SOIGNÉE — ZÉRO TEXTE BRUT) :
 ### [✓] Ce que la chaîne fait de bien (Forces & Rigueur)
-- 2 à 4 points concrets sur les qualités éditoriales, la clarté pédagogique, la démarche d'auteur et les sources.
+- **Critère fort :** 2 à 4 puces concises sur la rigueur éditoriale, la pédagogie et les sources (1 phrase par puce, mot-clé en gras).
 
 ### [!] Ce qu'elle fait de moins bien (Points de vigilance)
-- 2 à 3 nuances constructives sur les raccourcis éventuels ou la simplification pédagogique.
+- **Nuance constructive :** 2 à 3 puces claires et courtes sur les raccourcis ou points à surveiller.
 
 ### [X] Écueils et dérives constatés (Accroches trompeuses & Discours publicitaire non assumé)
-- 1 à 3 observations franches si des titres trompeurs, un manque de transparence sur les partenariats ou un discours marketing répété sans esprit critique sont constatés (ou "Aucun écueil majeur constaté" si la chaîne est exemplaire).
+- **Constat factuel :** 1 à 3 puces franches si des titres trompeurs, conflits ou discours marketing sont observés (ou "Aucun écueil majeur constaté" si la chaîne est exemplaire).
 
 ### [📈] Évolution temporelle (Trajectoire d'année en année)
-- Analyse synthétique montrant l'évolution entre les vidéos plus anciennes et la production actuelle.
+- **Tendance observée :** Analyse synthétique comparant les productions passées et récentes avec périodes clés en **gras**.
 
 ### Synthèse & Recommandation Globale
-- Verdict final clair pour un spectateur exigeant.
+> **Verdict :** Recommandation finale claire et directe en 1-2 phrases pour un spectateur exigeant.
 
-DIRECTIVE DE CONCISION : Rédige directement le bloc [EVAL_VIDEOS] puis les balises synthétiques et les sections qualitatives succinctes. Reste toujours neutre, constructif et direct. N'invente pas de défauts inexistants.`;
+DIRECTIVE DE CONCISION & LISIBILITÉ : Rédige directement [EVAL_VIDEOS] puis les balises synthétiques et les sections ci-dessus avec des puces nettes sur une seule ligne (\`- **Mot-clé :** Explication courte\`). Reste toujours neutre, constructif et factuel.`;
     }
 
     return `You are a digital media auditor and expert in YouTube editorial analysis. You must respond exclusively in ${targetLangName}.
@@ -98,12 +98,17 @@ Index | Score | Clickbait% | Verdict | One sentence note
 [TRAJECTOIRE: PROGRESSION | STABLE | DECLIN]
 
 ### [✓] Strengths & Editorial Rigor
+- **Key Strength:** 2-4 crisp single-line bullets highlighting clarity, methodology, or verifiable sources.
 ### [!] Areas of Caution & Subtle Biases
+- **Watchpoint:** 2-3 concise constructive caveats or areas requiring nuance.
 ### [X] Critical Flaws & Sensationalism Traps
+- **Verified Issue:** 1-3 direct bullets if clickbait or undisclosed marketing exists (or "No major red flags observed").
 ### [📈] Year-over-Year Trajectory
+- **Observed Trend:** Concise temporal comparison highlighting recent vs historic quality shifts in **bold**.
 ### Executive Synthesis & Recommendation
+> **Verdict:** Crisp 1-2 sentence final guidance for discerning viewers.
 
-STRICT LANGUAGE RULE: Write ALL prose, bullet items, Executive Synthesis, and per-video notes inside [EVAL_VIDEOS] exclusively in ${targetLangName}. Keep bracketed parser tags ([EVAL_VIDEOS], [SCORE_GLOBAL], [INDICE_CLICKBAIT], [DISTRIBUTION], [TRAJECTOIRE], ### [✓], ### [!], ### [X], ### [📈]) exact for machine parsing.`;
+STRICT LANGUAGE & FORMATTING RULE: Write ALL prose, concise \`- **Label:** ...\` bullet items, Executive Synthesis, and per-video notes inside [EVAL_VIDEOS] exclusively in ${targetLangName}. Never produce dense walls of unformatted prose. Keep bracketed parser tags ([EVAL_VIDEOS], [SCORE_GLOBAL], [INDICE_CLICKBAIT], [DISTRIBUTION], [TRAJECTOIRE], ### [✓], ### [!], ### [X], ### [📈]) exact for machine parsing.`;
   }
 
   /**

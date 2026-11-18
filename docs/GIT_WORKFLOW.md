@@ -21,7 +21,7 @@ This document outlines the strict branching and release methodology used in the 
    - When a release is finalized, the candidate branch is consolidated into `main` via a **squash merge**.
    - As a result:
      - `main` receives exactly **1 single, clean commit** representing the release.
-     - The `candidate/vX.Y.Z` branch remains preserved on GitHub with all granular intermediate commits.
+     - All `candidate/vX.Y.Z` branches stay **strictly local** to preserve granular history privately while public GitHub tracks only `main` and release tags (`vX.Y.Z`).
 
 ---
 
@@ -61,10 +61,11 @@ Develop your features, fix bugs, update tests:
 git add <files>
 git commit -m "feat(ui): improve responsive layout"
 
-# Push candidate branch to GitHub for CI verification
-git push origin candidate/v1.3.1
+# Commit granular changes locally on the candidate branch
+git add <files>
+git commit -m "feat(ui): improve responsive layout"
 ```
-GitHub Actions will run on every push to `candidate/v*` and verify syntax integrity and test coverage (> 80%).
+Run `npm run check:gate` locally (and verify cross-platform tests before releasing). Candidate branches remain local-only to keep public GitHub history strictly limited to `main` and release tags.
 
 ---
 
@@ -84,18 +85,18 @@ Then it:
 - Performs a squash merge of `candidate/v1.3.1` into `main`.
 - Creates a single release commit: `release: v1.3.1 - production release candidate consolidation`.
 - Creates annotated tag `v1.3.1`.
-- Pushes `main`, the tag `v1.3.1`, and `candidate/v1.3.1` to GitHub.
+- Pushes `main` and the release tag `v1.3.1` to GitHub (`candidate/v1.3.1` remains local-only).
 
 ---
 
 ## 📊 Tree & History Representation
 
 ```text
-main:         (v1.2.0) ──> [ release: v1.3.0 ] ──────────────────> [ release: v1.3.1 ]
+main:         (v1.2.0) ──> [ release: v1.3.0 ] ──────────────────> [ release: v1.3.1 ]  (Public)
                                 \                                         ^ (squash merge)
                                  \                                       /
-candidate/v1.3.1:                 ──> [ commit 1 ] ──> [ commit 2 ] ──> [ commit 3 ]
+candidate/v1.3.1:                 ──> [ commit 1 ] ──> [ commit 2 ] ──> [ commit 3 ]    (Local-Only History)
 ```
 
-- **Visitors on GitHub viewing `main`**: See a clean release log with only major versions.
-- **Developers auditing code**: Can switch to `candidate/v1.3.1` to inspect every individual step and experiment.
+- **Public GitHub (`main` + tags)**: Shows a clean release log with 1 commit per release version.
+- **Developers auditing locally**: Can switch to `candidate/v1.3.1` locally to inspect every individual step and experiment.

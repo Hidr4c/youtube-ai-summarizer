@@ -55,7 +55,7 @@ export class SettingsDrawerTemplate {
                     </optgroup>
                     <optgroup id="ytAiOptGroupFast" label="${t.groupFast || '⚡ Fast / Free Cloud Inference'}">
                       <option value="gemini">🔵 Google Gemini (1M ctx, free)</option>
-                      <option value="groq">⚡ Groq (Llama 3.3, ultra-fast)</option>
+                      <option value="groq">⚡ Groq (Fast Cloud AI, free)</option>
                     </optgroup>
                     <optgroup id="ytAiOptGroupCloud" label="${t.groupCloud || '☁️ Major Cloud Providers'}">
                       <option value="openai">🟢 OpenAI (ChatGPT / GPT-4o)</option>
@@ -92,6 +92,7 @@ export class SettingsDrawerTemplate {
                   </div>
                   <div class="yt-ai-input-with-btn">
                     <input type="password" id="ytAiApiKeyInput" class="yt-ai-input yt-ai-api-key-input" placeholder="${t.apiKeyPlaceholder || 'Paste your API key...'}" style="flex: 1;">
+                    <button id="ytAiToggleKeyVisBtn" type="button" class="yt-ai-btn yt-ai-btn-secondary" title="${t.toggleKeyVisTooltip || 'Show / hide API key'}" style="padding: 4px 7px; font-size: 11px;">👁</button>
                     <button id="ytAiPasteApiKeyBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.pasteTooltip || 'Paste from clipboard'}" style="padding: 4px 8px; font-size: 11px;">📋 ${t.pasteBtn || 'Paste'}</button>
                     <a id="ytAiGetApiKeyLink" class="yt-ai-link-pill" href="#" target="_blank" rel="noopener">${t.getApiKeyLink || '🔑 Get Key'}</a>
                   </div>
@@ -104,6 +105,7 @@ export class SettingsDrawerTemplate {
                     <select id="ytAiModelSelect" class="yt-ai-select" style="flex: 1;">
                       ${initialOptionHtml}
                     </select>
+                    <button id="ytAiRefreshCloudModelsBtn" type="button" class="yt-ai-btn yt-ai-btn-secondary" title="${t.refreshTooltip || 'Refresh model list'}" style="padding: 4px 7px;">🔄</button>
                     <button id="ytAiTestModelBtn" class="yt-ai-btn yt-ai-btn-secondary" title="${t.testModelTooltip || 'Test connection and model'}">${t.testModelBtn || '⚡ Test'}</button>
                   </div>
                 </div>

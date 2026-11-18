@@ -1,5 +1,5 @@
 import { I18N } from '../../locales/index.js';
-import { CLOUD_MODELS, API_KEY_PORTALS, PROVIDER_NAMES } from '../../config/AIProviderPresets.js';
+import { CLOUD_MODELS, API_KEY_PORTALS, PROVIDER_NAMES, resolveDeprecatedModel } from '../../config/AIProviderPresets.js';
 import { LocalModelDiscovery } from '../services/LocalModelDiscovery.js';
 import { ConnectionTester } from '../services/ConnectionTester.js';
 import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
@@ -132,27 +132,40 @@ export class SettingsDrawerController {
     this.updateHeaderModelText();
   }
 
-  populateCloudModels(provider) {
+  populateCloudModels(provider, overrideList = null, forceRefresh = false) {
     const select = document.getElementById('ytAiModelSelect');
     if (!select) return;
-    select.innerHTML = '';
 
-    const list = CLOUD_MODELS[provider] || [];
-    list.forEach(m => {
-      const opt = document.createElement('option');
-      opt.value = m.id;
-      opt.textContent = m.name;
-      select.appendChild(opt);
-    });
+    const list = (Array.isArray(overrideList) && overrideList.length > 0) ? overrideList : (CLOUD_MODELS[provider] || []);
+    const sameList = select.options && select.options.length === list.length
+      && Array.from(select.options).every((o, i) => o.value === list[i].id);
+    if (!sameList) {
+      select.innerHTML = '';
+      list.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.id;
+        opt.textContent = m.name || m.id;
+        select.appendChild(opt);
+      });
+    }
 
-    const activeM = this.state.getActiveModel();
+    const activeM = resolveDeprecatedModel(provider, this.state.getActiveModel());
     if (select.options.length > 0) {
-      const match = Array.from(select.options).some(o => o.value === activeM);
-      if (match) select.value = activeM;
-      else select.selectedIndex = 0;
+      select.value = Array.from(select.options).some(o => o.value === activeM) ? activeM : select.options[0].value;
       this.state.setActiveModel(select.value);
       this.state.savePreference(`selectedModel_${provider}`, select.value);
       this.state.savePreference('selectedModel', select.value);
+    }
+    this.updateHeaderModelText();
+
+    const key = (this.state.apiKeys?.[provider] || '').trim();
+    if ((!overrideList || forceRefresh) && key) {
+      const seq = (this._cloudFetchSeq = (this._cloudFetchSeq || 0) + 1);
+      LocalModelDiscovery.refreshCloudModels(provider, key, (live) => {
+        if (seq !== this._cloudFetchSeq || this.state.currentProvider !== provider || (this.state.apiKeys?.[provider] || '').trim() !== key) return;
+        if (typeof document !== 'undefined' && document.activeElement === select && !forceRefresh) return;
+        this.populateCloudModels(provider, live, false);
+      });
     }
   }
 
@@ -227,14 +240,9 @@ export class SettingsDrawerController {
   }
 
   populateModelDropdown(models) {
-    const select = document.getElementById('ytAiModelSelect');
-    const currentSaved = this.state.getActiveModel();
     const activeVal = LocalModelDiscovery.populateModelSelect(
-      select,
-      models,
-      this.state.currentProvider,
-      currentSaved,
-      this.state.currentLang
+      document.getElementById('ytAiModelSelect'), models,
+      this.state.currentProvider, this.state.getActiveModel(), this.state.currentLang
     );
     if (activeVal) {
       this.state.setActiveModel(activeVal);
@@ -251,30 +259,31 @@ export class SettingsDrawerController {
     if (btn.dataset) btn.dataset.bound = "true";
     btn.setAttribute?.('data-bound', 'true');
     btn.addEventListener("click", async () => {
-      await QuickOnboardingHelper.pasteApiKeyFromClipboard(input, (val) => {
-        const provider = this.state.currentProvider;
-        this.state.apiKeys[provider] = val;
-        this.state.savePreference(`apiKey_${provider}`, val);
-        QuickOnboardingHelper.testAndValidateKey({
-          state: this.state, provider, key: val, model: this.state.getActiveModel(),
-          showStatusBanner: (m, e) => this.showStatusBanner(m, e),
-          updateHeaderBadge: () => this.updateHeaderBadge()
+      const pasted = await QuickOnboardingHelper.pasteApiKeyFromClipboard(input, (val) => {
+        QuickOnboardingHelper.validateAndSyncCloudKey({
+          state: this.state, provider: this.state.currentProvider, key: val, settingsDrawer: this,
+          showStatusBanner: (m, e) => this.showStatusBanner(m, e), updateHeaderBadge: () => this.updateHeaderBadge()
         });
       });
+      if (!pasted) {
+        const msg = (I18N[this.state.currentLang] || I18N.en).pasteClipboardHint || '[i] Clipboard empty or blocked — paste with Ctrl+V in the API Key field.';
+        this.showStatusBanner(msg, false);
+      }
     });
   }
 
   handleTestConnection() {
-    const model = this.state.getActiveModel();
+    const provider = this.state.currentProvider;
+    const model = resolveDeprecatedModel(provider, this.state.getActiveModel());
     this.showStatusBanner(`Testing connection to ${model}...`, false);
     ConnectionTester.testModelConnection({
-      provider: this.state.currentProvider,
-      serverUrl: this.state.serverUrls[this.state.currentProvider] || '',
-      apiKey: this.state.apiKeys[this.state.currentProvider],
-      model,
-      lang: this.state.currentLang
-    }, ({ message, error, isError }) => {
-      this.showStatusBanner(message || error, isError);
+      provider, serverUrl: this.state.serverUrls[provider] || '',
+      apiKey: this.state.apiKeys[provider], model, lang: this.state.currentLang
+    }, (res) => {
+      QuickOnboardingHelper.applyVerificationState(this.state, provider, model, res);
+      if (!res.isError && res.resolvedModel && res.resolvedModel !== model) this.populateCloudModels(provider);
+      this.updateHeaderBadge();
+      this.showStatusBanner(res.message || res.error, res.isError);
     });
   }
 

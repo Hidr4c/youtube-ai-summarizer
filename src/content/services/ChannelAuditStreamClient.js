@@ -1,4 +1,5 @@
 import { ChannelAuditJobTracker } from './ChannelAuditJobTracker.js';
+import { QuickOnboardingHelper } from './QuickOnboardingHelper.js';
 
 /**
  * Runtime Streaming Client for Channel Audits via Chrome MV3 Port (`ai-stream`)
@@ -91,6 +92,8 @@ export class ChannelAuditStreamClient {
             }
             onProgress?.({ step: isSynthesisStarted ? 'synthesis' : 'evaluating', percent, message, detail });
           }
+        } else if (msg.type === 'MODEL_RESOLVED') {
+          QuickOnboardingHelper.syncResolvedModel(state, msg.provider || provider, msg.model);
         } else if (msg.type === 'DONE') {
           onProgress?.({
             step: 'done',

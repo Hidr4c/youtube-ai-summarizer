@@ -184,20 +184,20 @@ function finishCandidate(version) {
     run(`git tag -a "${tagName}" -m "Release ${tagName}"`);
   }
 
-  // 5. Push to GitHub
-  console.log(`\n🚀 Pushing '${primary}', tag '${tagName}', and '${candidateBranch}' to origin...`);
+  // 5. Push to GitHub (keep candidate branch local-only per release privacy policy)
+  console.log(`\n🚀 Pushing '${primary}' and release tag '${tagName}' to origin (keeping '${candidateBranch}' local-only)...`);
   try {
-    run(`git push origin ${primary} --tags`);
-    run(`git push origin ${candidateBranch}`);
-    console.log(`  -> Successfully pushed to GitHub!`);
+    run(`git push origin ${primary}`);
+    run(`git push origin ${tagName}`);
+    console.log(`  -> Successfully pushed ${primary} and ${tagName} to GitHub!`);
   } catch (err) {
     console.error(`  ⚠️ Git push failed or remote was unreachable. You can manually run:`);
-    console.error(`     git push origin ${primary} --tags && git push origin ${candidateBranch}`);
+    console.error(`     git push origin ${primary} && git push origin ${tagName}`);
   }
 
   console.log(`\n🎉 RELEASE v${targetVersion} SUCCESSFULLY COMPLETED!`);
   console.log(`  - Branch '${primary}': Exactly ONE single clean commit for v${targetVersion} 🟢`);
-  console.log(`  - Branch '${candidateBranch}': Full granular commit history preserved 🟢`);
+  console.log(`  - Local Branch '${candidateBranch}': Full granular commit history preserved locally 🟢`);
   console.log(`  - Tag: ${tagName} created and synced 🟢\n`);
 }
 

@@ -1,4 +1,5 @@
 import { SettingsDrawerController } from './SettingsDrawerController.js';
+import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
 
 /**
  * Reusable event binder for Settings Drawer across Watch and Channel views
@@ -14,6 +15,10 @@ export class SettingsDrawerEventHandler {
   static bind(rootContainer, settingsDrawer, state, bannerView = null) {
     if (!rootContainer || !settingsDrawer || !state) return;
 
+    const refreshBadge = () => (bannerView?.updateHeaderBadge ? bannerView.updateHeaderBadge() : settingsDrawer.updateHeaderBadge?.());
+    const refreshModelText = () => (bannerView?.updateHeaderModelText ? bannerView.updateHeaderModelText() : settingsDrawer.updateHeaderModelText?.());
+    const showStatus = (m, e) => (bannerView?.showStatusBanner ? bannerView.showStatusBanner(m, e) : settingsDrawer.showStatusBanner?.(m, e));
+
     // 1. Close button and Subtab navigation
     rootContainer.querySelector('#ytAiSettingsCloseBtn')?.addEventListener('click', () => {
       SettingsDrawerController.setSettingsDrawerOpen(false);
@@ -26,19 +31,69 @@ export class SettingsDrawerEventHandler {
       });
     });
 
-    // 2. Provider selection & API key
+    // 2. Provider selection & API key (typing, Ctrl+V paste, visibility toggle)
+    let keyDebounceTimer = null;
+    let lastAutoValidated = '';
+
+    const runCloudKeySync = (val) => {
+      const provider = state.currentProvider;
+      if (!val || provider === 'lmstudio' || provider === 'ollama') return;
+      const sig = `${provider}:${val}`;
+      if (sig === lastAutoValidated) return;
+      lastAutoValidated = sig;
+      QuickOnboardingHelper.validateAndSyncCloudKey({
+        state, provider, key: val, settingsDrawer, showStatusBanner: showStatus, updateHeaderBadge: refreshBadge
+      });
+    };
+
     rootContainer.querySelector('#ytAiProviderSelect')?.addEventListener('change', (e) => {
+      if (keyDebounceTimer) clearTimeout(keyDebounceTimer);
+      lastAutoValidated = '';
       state.currentProvider = e.target.value;
       state.savePreference('aiProvider', state.currentProvider);
       settingsDrawer.syncProviderUI();
     });
 
-    rootContainer.querySelector('#ytAiApiKeyInput')?.addEventListener('input', (e) => {
+    const apiKeyInput = rootContainer.querySelector('#ytAiApiKeyInput');
+    apiKeyInput?.addEventListener('input', (e) => {
       const val = e.target.value.trim();
+      if (e.target.value !== val) e.target.value = val;
       state.apiKeys[state.currentProvider] = val;
       state.savePreference(`apiKey_${state.currentProvider}`, val);
       if (state.keyVerified) delete state.keyVerified[state.currentProvider];
-      if (bannerView) bannerView.updateHeaderBadge();
+      state.savePreference(`keyVerified_${state.currentProvider}`, null);
+      refreshBadge();
+      if (keyDebounceTimer) clearTimeout(keyDebounceTimer);
+      if (val && val.length >= 12) {
+        keyDebounceTimer = setTimeout(() => runCloudKeySync(val), 550);
+      } else {
+        lastAutoValidated = '';
+      }
+    });
+
+    apiKeyInput?.addEventListener('paste', () => {
+      setTimeout(() => {
+        const val = apiKeyInput.value.trim();
+        if (keyDebounceTimer) clearTimeout(keyDebounceTimer);
+        if (val) {
+          state.apiKeys[state.currentProvider] = val;
+          state.savePreference(`apiKey_${state.currentProvider}`, val);
+          runCloudKeySync(val);
+        }
+      }, 0);
+    });
+
+    apiKeyInput?.addEventListener('change', (e) => {
+      if (keyDebounceTimer) clearTimeout(keyDebounceTimer);
+      const val = e.target.value.trim();
+      if (val) runCloudKeySync(val);
+    });
+
+    rootContainer.querySelector('#ytAiToggleKeyVisBtn')?.addEventListener('click', (e) => {
+      if (!apiKeyInput) return;
+      const isHidden = apiKeyInput.type === 'password';
+      apiKeyInput.type = isHidden ? 'text' : 'password';
+      if (e.currentTarget) e.currentTarget.textContent = isHidden ? '🙈' : '👁';
     });
 
     settingsDrawer.bindPasteButton();
@@ -66,6 +121,13 @@ export class SettingsDrawerEventHandler {
 
     // 4. Model operations
     rootContainer.querySelector('#ytAiRefreshModelsBtn')?.addEventListener('click', () => settingsDrawer.refreshModelsList(true));
+    rootContainer.querySelector('#ytAiRefreshCloudModelsBtn')?.addEventListener('click', () => {
+      if (state.currentProvider === 'lmstudio' || state.currentProvider === 'ollama') {
+        settingsDrawer.refreshModelsList(true);
+      } else {
+        settingsDrawer.populateCloudModels(state.currentProvider, null, true);
+      }
+    });
     rootContainer.querySelector('#ytAiTestModelBtn')?.addEventListener('click', () => settingsDrawer.handleTestConnection());
     rootContainer.querySelector('#ytAiTestWhisperBtn')?.addEventListener('click', () => settingsDrawer.handleTestWhisper());
 
@@ -73,7 +135,7 @@ export class SettingsDrawerEventHandler {
       state.setActiveModel(e.target.value);
       state.savePreference(`selectedModel_${state.currentProvider}`, e.target.value);
       state.savePreference('selectedModel', e.target.value);
-      if (bannerView) bannerView.updateHeaderModelText();
+      refreshModelText();
     });
 
     // 5. Parameters & Prompt

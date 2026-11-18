@@ -2,7 +2,7 @@
 
 [![CI Build](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml/badge.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml)
 [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Available-blue?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/youtube-summarizer-ai-lm/pkjmoccofaflidcdmjelmbnlfeipadee)
-[![Version](https://img.shields.io/badge/version-1.5.2-blue.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/releases)
+[![Version](https://img.shields.io/badge/version-1.5.3-blue.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/releases)
 [![Manifest](https://img.shields.io/badge/manifest-v3-success.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![GitHub](https://img.shields.io/badge/GitHub-Hidr4c-181717.svg?logo=github)](https://github.com/Hidr4c/youtube-ai-summarizer)
@@ -62,7 +62,7 @@ Install directly from the official Google Chrome Web Store:
 👉 **[Install YouTube Summarizer AI on Chrome Web Store](https://chromewebstore.google.com/detail/youtube-summarizer-ai-lm/pkjmoccofaflidcdmjelmbnlfeipadee)**
 
 ### Option 2 : Developer Mode (Unpacked)
-1. Download the latest release package: [`youtube-summarizer-ai-v1.5.2.zip`](releases/youtube-summarizer-ai-v1.5.2.zip) or from the [GitHub Releases page](https://github.com/Hidr4c/youtube-ai-summarizer/releases).
+1. Download the latest release package: [`youtube-summarizer-ai-v1.5.3.zip`](releases/youtube-summarizer-ai-v1.5.3.zip) or from the [GitHub Releases page](https://github.com/Hidr4c/youtube-ai-summarizer/releases).
 2. Unzip the archive into a folder of your choice on your computer.
 3. Open your browser's extensions manager:
    - **Chrome**: `chrome://extensions/`
@@ -87,7 +87,7 @@ Install directly from the official Google Chrome Web Store:
 
 ### 3. Google Gemini (Free Cloud Tier)
 1. Generate a free API key at [Google AI Studio](https://aistudio.google.com/app/apikey).
-2. Paste the key in the extension settings and select `gemini-1.5-flash` or `gemini-2.0-flash`.
+2. Paste the key in the extension settings: live Flash/Pro models (such as `gemini-flash-latest` or `gemini-3.5-flash-lite`) are discovered automatically, with built-in fallback if a model hits a temporary overload.
 
 ### 4. Groq (Ultra-Fast Cloud & Whisper STT)
 1. Get a free API key at [Groq Console](https://console.groq.com/keys).

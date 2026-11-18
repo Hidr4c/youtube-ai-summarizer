@@ -2,15 +2,15 @@
   // src/config/AIProviderPresets.js
   var CLOUD_MODELS = {
     gemini: [
-      { id: "gemini-1.5-flash", name: "\u2B50 gemini-1.5-flash (Gratuit, 1M ctx)" },
-      { id: "gemini-2.0-flash", name: "gemini-2.0-flash (Nouveau & Rapide)" },
-      { id: "gemini-1.5-pro", name: "gemini-1.5-pro (Analyse approfondie)" }
+      { id: "gemini-flash-latest", name: "\u2B50 gemini-flash-latest (Gratuit, Auto-\xE0-jour)" },
+      { id: "gemini-3.8-flash", name: "gemini-3.8-flash (Rapide & Polyvalent)" },
+      { id: "gemini-3.5-flash-lite", name: "gemini-3.5-flash-lite (Ultra-l\xE9ger, Gratuit)" },
+      { id: "gemini-pro-latest", name: "gemini-pro-latest (Analyse approfondie)" }
     ],
     groq: [
-      { id: "llama-3.3-70b-versatile", name: "\u2B50 llama-3.3-70b-versatile (Ultra-rapide)" },
-      { id: "deepseek-r1-distill-llama-70b", name: "deepseek-r1-distill-llama-70b (R1 Thinking)" },
-      { id: "llama-3.1-8b-instant", name: "llama-3.1-8b-instant (\xC9clair)" },
-      { id: "mixtral-8x7b-32768", name: "mixtral-8x7b-32768 (Mixtral)" }
+      { id: "openai/gpt-oss-120b", name: "\u2B50 openai/gpt-oss-120b (Puissant & Gratuit)" },
+      { id: "openai/gpt-oss-20b", name: "openai/gpt-oss-20b (Ultra-rapide)" },
+      { id: "qwen/qwen3.8-27b", name: "qwen/qwen3.8-27b (Polyvalent)" }
     ],
     openai: [
       { id: "gpt-4o-mini", name: "\u2B50 gpt-4o-mini (\xC9conomique & Rapide)" },
@@ -46,7 +46,7 @@
       { id: "qwen/qwen-2.5-72b-instruct", name: "qwen/qwen-2.5-72b-instruct" },
       { id: "meta-llama/llama-3.3-70b-instruct", name: "meta-llama/llama-3.3-70b-instruct" },
       { id: "anthropic/claude-3.5-sonnet", name: "anthropic/claude-3.5-sonnet" },
-      { id: "google/gemini-2.0-flash-exp:free", name: "google/gemini-2.0-flash-exp (Gratuit)" }
+      { id: "openai/gpt-oss-120b", name: "openai/gpt-oss-120b" }
     ],
     perplexity: [
       { id: "sonar", name: "\u2B50 sonar (Rapide)" },
@@ -59,18 +59,33 @@
       { id: "deepseek-ai/DeepSeek-R1", name: "deepseek-ai/DeepSeek-R1" }
     ]
   };
+  var PROVIDER_NAMES = {
+    lmstudio: "LM Studio",
+    ollama: "Ollama",
+    gemini: "Google Gemini",
+    groq: "Groq",
+    openai: "OpenAI (ChatGPT)",
+    claude: "Anthropic Claude",
+    deepseek: "DeepSeek",
+    grok: "xAI (Grok)",
+    qwen: "Qwen (DashScope)",
+    mistral: "Mistral AI",
+    openrouter: "OpenRouter",
+    perplexity: "Perplexity AI",
+    together: "Together AI"
+  };
   var PROVIDER_CONFIGS = {
     lmstudio: { name: "LM Studio (Local)" },
     ollama: { name: "Ollama (Local / Cloud)" },
     gemini: {
       name: "Google Gemini",
       endpoint: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
-      defaultModel: "gemini-1.5-flash"
+      defaultModel: "gemini-flash-latest"
     },
     groq: {
       name: "Groq (Inf\xE9rence Rapide)",
       endpoint: "https://api.groq.com/openai/v1/chat/completions",
-      defaultModel: "llama-3.3-70b-versatile"
+      defaultModel: "openai/gpt-oss-120b"
     },
     openai: {
       name: "OpenAI (ChatGPT)",
@@ -118,9 +133,347 @@
       defaultModel: "meta-llama/Llama-3.3-70B-Instruct-Turbo"
     }
   };
+  var DEPRECATED_MODEL_ALIASES = {
+    gemini: {
+      "gemini-1.5-flash": "gemini-flash-latest",
+      "gemini-1.5-flash-latest": "gemini-flash-latest",
+      "gemini-1.5-flash-001": "gemini-flash-latest",
+      "gemini-1.5-flash-002": "gemini-flash-latest",
+      "gemini-1.5-pro": "gemini-pro-latest",
+      "gemini-1.5-pro-latest": "gemini-pro-latest",
+      "gemini-2.0-flash": "gemini-flash-latest",
+      "gemini-2.0-flash-exp": "gemini-flash-latest",
+      "gemini-2.0-flash-lite": "gemini-3.5-flash-lite"
+    },
+    groq: {
+      "llama-3.3-70b-versatile": "openai/gpt-oss-120b",
+      "llama-3.1-8b-instant": "openai/gpt-oss-20b",
+      "mixtral-8x7b-32768": "openai/gpt-oss-120b",
+      "llama3-70b-8192": "openai/gpt-oss-120b",
+      "llama3-8b-8192": "openai/gpt-oss-20b",
+      "gemma2-9b-it": "openai/gpt-oss-20b",
+      "deepseek-r1-distill-llama-70b": "openai/gpt-oss-120b"
+    },
+    claude: {
+      "claude-3-5-sonnet-20240620": "claude-3-5-sonnet-20241022",
+      "claude-3-sonnet-20240229": "claude-3-5-sonnet-20241022",
+      "claude-3-opus-20240229": "claude-3-5-sonnet-20241022",
+      "claude-3-haiku-20240307": "claude-3-5-haiku-20241022"
+    },
+    openai: {
+      "gpt-4-vision-preview": "gpt-4o",
+      "gpt-4-32k": "gpt-4o",
+      "gpt-3.5-turbo-16k": "gpt-4o-mini"
+    },
+    mistral: {
+      "open-mistral-7b": "mistral-small-latest",
+      "open-mixtral-8x7b": "mistral-small-latest",
+      "mistral-tiny": "mistral-small-latest",
+      "mistral-medium": "mistral-large-latest"
+    },
+    openrouter: {
+      "google/gemini-2.0-flash-exp:free": "deepseek/deepseek-r1",
+      "meta-llama/llama-3.1-8b-instruct:free": "deepseek/deepseek-r1"
+    }
+  };
+  function resolveDeprecatedModel(provider, modelId) {
+    const cleanProvider = String(provider || "").toLowerCase();
+    const rawModel = String(modelId || "").trim();
+    const cleanModel = cleanProvider === "gemini" ? rawModel.replace(/^models\//, "") : rawModel;
+    if (!cleanModel) return PROVIDER_CONFIGS[cleanProvider]?.defaultModel || "";
+    const aliasMap = DEPRECATED_MODEL_ALIASES[cleanProvider];
+    return aliasMap && aliasMap[cleanModel] ? aliasMap[cleanModel] : cleanModel;
+  }
+
+  // src/services/ai/providers/CloudErrorClassifier.js
+  var CloudErrorClassifier = class _CloudErrorClassifier {
+    /**
+     * Unwraps error message text from either JSON objects or array-wrapped error payloads.
+     * @param {string} [rawText='']
+     * @returns {string}
+     */
+    static extractErrorDetail(rawText = "") {
+      const clean = String(rawText || "").trim();
+      if (!clean) return "";
+      try {
+        const rawParsed = JSON.parse(clean);
+        const item = Array.isArray(rawParsed) ? rawParsed[0] : rawParsed;
+        return String(item?.error?.message || item?.message || clean).trim();
+      } catch (_) {
+        return clean;
+      }
+    }
+    /**
+     * Detects HTTP status/payload indicating an invalid or unauthorized API key.
+     * @param {number} status
+     * @param {string} [errText='']
+     * @returns {boolean}
+     */
+    static isAuthError(status, errText = "") {
+      const raw = String(errText || "").toLowerCase();
+      const msg = _CloudErrorClassifier.extractErrorDetail(errText).toLowerCase();
+      return status === 401 || status === 403 || /(?:api key not valid|api_key_invalid|invalid_api_key|authentication_error|unauthorized|permission_denied|clé api refusée)/.test(`${msg} ${raw}`);
+    }
+    /**
+     * Detects temporary server overload / high-demand errors suitable for alternate-model failover.
+     * @param {number} status
+     * @param {string} [errText='']
+     * @returns {boolean}
+     */
+    static isTransientOverloadError(status, errText = "") {
+      const raw = String(errText || "").toLowerCase();
+      const msg = _CloudErrorClassifier.extractErrorDetail(errText).toLowerCase();
+      return status === 502 || status === 503 || status === 504 || status === 529 || /(?:unavailable|high demand|overloaded|overloaded_error|try again later|service unavailable)/.test(`${msg} ${raw}`);
+    }
+    /**
+     * Detects HTTP status/payload indicating a retired, decommissioned, or unknown model ID.
+     * @param {number} status
+     * @param {string} [errText='']
+     * @returns {boolean}
+     */
+    static isRetiredModelError(status, errText = "") {
+      const raw = String(errText || "").toLowerCase();
+      const msg = _CloudErrorClassifier.extractErrorDetail(errText).toLowerCase();
+      if (status === 404 || status === 410) return true;
+      return (status === 400 || status === 422) && /(?:not found|not_found_error|decommissioned|deprecated|not supported for generatecontent|does not exist|model_not_found)/.test(`${msg} ${raw}`);
+    }
+    /**
+     * Classifies HTTP error into UI badge category ('auth' | 'busy' | 'other').
+     * @param {number} status
+     * @param {string} [errText='']
+     * @returns {'auth'|'busy'|'other'}
+     */
+    static classifyHttpError(status, errText = "") {
+      if (_CloudErrorClassifier.isAuthError(status, errText)) return "auth";
+      if (_CloudErrorClassifier.isTransientOverloadError(status, errText) || status === 429) return "busy";
+      return "other";
+    }
+    /**
+     * Parses raw provider HTTP error payload into a concise, actionable user message.
+     * @param {string} provider
+     * @param {number} status
+     * @param {string} [errText='']
+     * @returns {string}
+     */
+    static formatHttpError(provider, status, errText = "") {
+      const tag = String(provider || "AI").toUpperCase();
+      const detail = _CloudErrorClassifier.extractErrorDetail(errText);
+      if (_CloudErrorClassifier.isAuthError(status, detail)) {
+        return `Erreur ${tag} (${status}) : Cl\xE9 API refus\xE9e ou invalide. V\xE9rifiez ou r\xE9g\xE9n\xE9rez votre cl\xE9 API. D\xE9tail : ${detail}`;
+      }
+      if (_CloudErrorClassifier.isTransientOverloadError(status, detail)) {
+        return `Serveur ${tag} temporairement satur\xE9 (${status} \u2014 forte demande). R\xE9essayez dans un instant ou choisissez un autre mod\xE8le (ex. flash-lite). D\xE9tail : ${detail}`;
+      }
+      if (status === 429 || /resource_exhausted|rate limit|quota/i.test(detail)) {
+        return `Quota / limite atteinte sur ${tag} (${status}). Patientez un instant ou essayez un mod\xE8le plus l\xE9ger (ex. flash-lite). D\xE9tail : ${detail}`;
+      }
+      if (_CloudErrorClassifier.isRetiredModelError(status, detail)) {
+        return `Mod\xE8le introuvable ou retir\xE9 sur ${tag} (${status}). S\xE9lectionnez un autre mod\xE8le ou actualisez la liste dans R\xE9glages. D\xE9tail : ${detail}`;
+      }
+      return `Erreur ${tag} (${status}) : ${detail || "HTTP Error"}`;
+    }
+  };
+
+  // src/services/ai/providers/CloudModelDiscovery.js
+  var CLOUD_MODELS_ENDPOINTS = {
+    gemini: "https://generativelanguage.googleapis.com/v1beta/openai/models",
+    geminiNative: "https://generativelanguage.googleapis.com/v1beta/models",
+    groq: "https://api.groq.com/openai/v1/models",
+    openai: "https://api.openai.com/v1/models",
+    claude: "https://api.anthropic.com/v1/models",
+    deepseek: "https://api.deepseek.com/models",
+    grok: "https://api.x.ai/v1/models",
+    qwen: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/models",
+    mistral: "https://api.mistral.ai/v1/models",
+    openrouter: "https://openrouter.ai/api/v1/models",
+    perplexity: "https://api.perplexity.ai/models",
+    together: "https://api.together.xyz/v1/models"
+  };
+  var NON_CHAT_MODEL_RE = /(?:embed|whisper|tts|imagen|veo|sora|dall-e|moderation|audio|realtime|aqa|bisociation|prompt-guard|safeguard|transcribe|-image|image-|gpt-image|robotics|computer-use|banana|learnlm|-live-|live-preview|babbage|davinci|voxtral|ocr|wanx|paraformer)/i;
+  var EXCLUDED_TYPES = /* @__PURE__ */ new Set(["image", "embedding", "moderation", "rerank", "audio", "video", "tts", "transcribe"]);
+  var _inFlightLiveModels = /* @__PURE__ */ new Map();
+  var CloudModelDiscovery = class _CloudModelDiscovery {
+    static _extractErrorDetail(rawText = "") {
+      return CloudErrorClassifier.extractErrorDetail(rawText);
+    }
+    static isAuthError(status, errText = "") {
+      return CloudErrorClassifier.isAuthError(status, errText);
+    }
+    static isTransientOverloadError(status, errText = "") {
+      return CloudErrorClassifier.isTransientOverloadError(status, errText);
+    }
+    static isRetiredModelError(status, errText = "") {
+      return CloudErrorClassifier.isRetiredModelError(status, errText);
+    }
+    static classifyHttpError(status, errText = "") {
+      return CloudErrorClassifier.classifyHttpError(status, errText);
+    }
+    static formatHttpError(provider, status, errText = "") {
+      return CloudErrorClassifier.formatHttpError(provider, status, errText);
+    }
+    /**
+     * Filters non-chat entries and ranks discovered models consistently across all Cloud providers.
+     * @param {string} provider
+     * @param {Array<Object>} rawList
+     * @returns {Array<{ id: string, name: string }>}
+     */
+    static normalizeModelList(provider, rawList = []) {
+      const p = String(provider || "").toLowerCase();
+      const presets = CLOUD_MODELS[p] || [];
+      const presetNameMap = new Map(presets.map((m) => [m.id, m.name]));
+      const presetOrderMap = new Map(presets.map((m, idx) => [m.id, idx]));
+      const seen = /* @__PURE__ */ new Set();
+      const cleaned = [];
+      for (const item of rawList) {
+        if (Array.isArray(item?.supportedGenerationMethods) && !item.supportedGenerationMethods.includes("generateContent")) continue;
+        if (item?.capabilities && item.capabilities.completion_chat === false) continue;
+        if (item?.type && EXCLUDED_TYPES.has(String(item.type).toLowerCase())) continue;
+        if (item?.architecture?.modality && !/->\s*text/i.test(String(item.architecture.modality))) continue;
+        const rawId = item?.id || item?.name || "";
+        const id = String(rawId).replace(/^models\//, "").trim();
+        if (!id || seen.has(id) || NON_CHAT_MODEL_RE.test(id)) continue;
+        if (p === "gemini" && !/^gemini-/i.test(id)) continue;
+        seen.add(id);
+        const apiLabel = item?.displayName || item?.display_name || (item?.name && item.name !== id ? item.name : "");
+        const isFreeTier = String(item?.pricing?.prompt) === "0" && String(item?.pricing?.completion) === "0";
+        let displayName = presetNameMap.get(id) || (apiLabel && apiLabel !== id ? `${id} (${apiLabel})` : id);
+        if (isFreeTier && !/free|gratuit/i.test(displayName)) displayName = `${displayName} (Free)`;
+        cleaned.push({ id, name: displayName, _isFree: isFreeTier || id.endsWith(":free") });
+      }
+      const rankModel = (entry) => {
+        const id = entry.id;
+        if (p === "gemini") {
+          if (id === "gemini-flash-latest") return 0;
+          if (id.includes("flash") && !id.includes("exp") && !id.includes("1.5") && !id.includes("2.0")) return 1;
+          if (id === "gemini-pro-latest" || id.includes("pro") && !id.includes("exp") && !id.includes("1.5")) return 2;
+          if (id.includes("flash")) return 3;
+          return 4;
+        }
+        if (presetOrderMap.has(id)) return presetOrderMap.get(id);
+        if (p === "openrouter" && entry._isFree) return 100;
+        if (/(?:latest|gpt-4o|gpt-4\.1|gpt-5|o3|o4|claude-3-5|claude-3-7|claude-sonnet-4|claude-haiku-4|deepseek|qwen|grok|sonar|oss)/i.test(id)) return 200;
+        return 300;
+      };
+      cleaned.sort((a, b) => rankModel(a) - rankModel(b) || b.id.localeCompare(a.id));
+      return cleaned.map(({ id, name }) => ({ id, name }));
+    }
+    /**
+     * Queries live cloud provider `/models` catalog, coalescing concurrent identical lookups
+     * and falling back to `CLOUD_MODELS[provider]` when offline or unconfigured.
+     * @param {string} provider
+     * @param {string} [apiKey='']
+     * @param {Function} [fetchFn=fetch]
+     * @returns {Promise<Array<{ id: string, name: string }>>}
+     */
+    static async fetchLiveModels(provider, apiKey = "", fetchFn = fetch) {
+      const p = String(provider || "").toLowerCase();
+      const fallback = CLOUD_MODELS[p] || [];
+      const cleanKey = String(apiKey || "").trim();
+      const endpoint = CLOUD_MODELS_ENDPOINTS[p];
+      if (!cleanKey || !endpoint) return fallback;
+      const inflightKey = `${p}:${cleanKey}`;
+      if (fetchFn === fetch && _inFlightLiveModels.has(inflightKey)) {
+        return _inFlightLiveModels.get(inflightKey);
+      }
+      const work = _CloudModelDiscovery._fetchLiveModelsRequest(p, cleanKey, endpoint, fallback, fetchFn);
+      if (fetchFn !== fetch) return work;
+      _inFlightLiveModels.set(inflightKey, work);
+      try {
+        return await work;
+      } finally {
+        _inFlightLiveModels.delete(inflightKey);
+      }
+    }
+    /**
+     * Executes live provider `/models` fetch with provider-specific auth & response extraction.
+     * @private
+     */
+    static async _fetchLiveModelsRequest(p, cleanKey, endpoint, fallback, fetchFn) {
+      try {
+        const headers = p === "claude" ? { "x-api-key": cleanKey, "anthropic-version": "2023-06-01", "Accept": "application/json" } : { "Authorization": `Bearer ${cleanKey}`, "Accept": "application/json" };
+        if (p === "openrouter") {
+          headers["HTTP-Referer"] = "https://youtube.com";
+          headers["X-Title"] = "YouTube AI Summarizer";
+        }
+        const res = await fetchFn(endpoint, { method: "GET", headers });
+        if (res && res.ok) {
+          const json = await res.json();
+          const rawList = Array.isArray(json) ? json : Array.isArray(json?.data) ? json.data : Array.isArray(json?.models) ? json.models : [];
+          const normalized = _CloudModelDiscovery.normalizeModelList(p, rawList);
+          if (normalized.length > 0) return normalized;
+        }
+        if (p === "gemini") {
+          const nativeRes = await fetchFn(CLOUD_MODELS_ENDPOINTS.geminiNative, {
+            method: "GET",
+            headers: { "x-goog-api-key": cleanKey, "Accept": "application/json" }
+          });
+          if (nativeRes && nativeRes.ok) {
+            const nativeJson = await nativeRes.json();
+            const normalized = _CloudModelDiscovery.normalizeModelList("gemini", nativeJson?.models || []);
+            if (normalized.length > 0) return normalized;
+          }
+        }
+      } catch (_) {
+      }
+      return fallback;
+    }
+    /**
+     * Resolves a working fallback model ID after a retired/404 or transient overload/503/529 failure.
+     * @param {string} provider
+     * @param {string} failingModel
+     * @param {string} [apiKey='']
+     * @param {Function} [fetchFn=fetch]
+     * @param {Set<string>} [excludeModels=new Set()]
+     * @returns {Promise<string|null>}
+     */
+    static async resolveModelFallback(provider, failingModel, apiKey = "", fetchFn = fetch, excludeModels = /* @__PURE__ */ new Set()) {
+      const p = String(provider || "").toLowerCase();
+      const current = String(failingModel || "").trim();
+      const excluded = new Set(excludeModels);
+      if (current) excluded.add(current);
+      const aliased = resolveDeprecatedModel(p, current);
+      if (aliased && !excluded.has(aliased)) return aliased;
+      const liveList = await _CloudModelDiscovery.fetchLiveModels(p, apiKey, fetchFn);
+      const candidate = liveList.find((m) => m.id && !excluded.has(m.id));
+      if (candidate) return candidate.id;
+      const def = PROVIDER_CONFIGS[p]?.defaultModel;
+      return def && !excluded.has(def) ? def : null;
+    }
+    /**
+     * Executes a chat completion POST and automatically retries with alternate live models
+     * on retired-model (404/410) or transient high-demand overload (502/503/504/529) errors.
+     * @param {Object} params
+     * @returns {Promise<{ response: Response, resolvedModel: string|null, errorText: string }>}
+     */
+    static async fetchWithModelFallback({ endpoint, headers, payload, signal = null, provider, apiKey = "", fetchFn = fetch }) {
+      const isLocal = provider === "lmstudio" || provider === "ollama";
+      const post = (bodyObj) => {
+        const opts = { method: "POST", headers, body: JSON.stringify(bodyObj) };
+        if (signal) opts.signal = signal;
+        return fetchFn(endpoint, opts);
+      };
+      const tried = /* @__PURE__ */ new Set([payload.model]);
+      let response = await post(payload);
+      if (response.ok) return { response, resolvedModel: null, errorText: "" };
+      let errorText = await response.text().catch(() => "");
+      let currentModel = payload.model;
+      for (let attempt = 0; attempt < 2 && !isLocal; attempt++) {
+        const canRecover = CloudErrorClassifier.isRetiredModelError(response.status, errorText) || CloudErrorClassifier.isTransientOverloadError(response.status, errorText);
+        if (!canRecover) break;
+        const fallbackModel = await _CloudModelDiscovery.resolveModelFallback(provider, currentModel, apiKey, fetchFn, tried);
+        if (!fallbackModel || tried.has(fallbackModel)) break;
+        tried.add(fallbackModel);
+        currentModel = fallbackModel;
+        response = await post({ ...payload, model: fallbackModel });
+        if (response.ok) return { response, resolvedModel: fallbackModel, errorText: "" };
+        errorText = await response.text().catch(() => "");
+      }
+      return { response, resolvedModel: tried.size > 1 ? currentModel : null, errorText };
+    }
+  };
 
   // src/background/StreamRelay.js
-  var StreamRelay = class {
+  var StreamRelay = class _StreamRelay {
     /**
      * Connects and streams LLM response to client port
      * @param {Object} request
@@ -171,6 +524,9 @@
           await this.streamClaude(port, apiKey, model, systemPrompt, chatMessages, temperature, maxTokens, abortController.signal, safePost);
         } else {
           await this.streamOpenAICompatible(port, provider, serverUrl, apiKey, model, chatMessages, temperature, maxTokens, abortController.signal, safePost);
+        }
+        if (provider !== "lmstudio" && provider !== "ollama") {
+          chrome?.storage?.local?.set?.({ [`keyVerified_${provider}`]: true });
         }
         safePost({ type: "DONE" });
       } catch (err) {
@@ -247,6 +603,7 @@
         }
         throw new Error(`Aucun mod\xE8le s\xE9lectionn\xE9 pour ${provider.toUpperCase()}.`);
       }
+      effectiveModel = resolveDeprecatedModel(provider, effectiveModel);
       const bodyPayload = {
         model: effectiveModel,
         messages,
@@ -259,53 +616,31 @@
           bodyPayload.max_tokens = parsedMax;
         }
       }
-      const fetchOptions = {
-        method: "POST",
+      const { response, resolvedModel, errorText } = await CloudModelDiscovery.fetchWithModelFallback({
+        endpoint,
         headers,
-        body: JSON.stringify(bodyPayload)
-      };
-      if (signal) fetchOptions.signal = signal;
-      const response = await fetch(endpoint, fetchOptions);
+        payload: bodyPayload,
+        signal,
+        provider,
+        apiKey
+      });
+      if (resolvedModel && response.ok) {
+        const postResolved = safePost || ((m) => port?.postMessage?.(m));
+        postResolved({ type: "MODEL_RESOLVED", provider, model: resolvedModel });
+        chrome?.storage?.local?.set?.({
+          [`selectedModel_${provider}`]: resolvedModel,
+          selectedModel: resolvedModel,
+          [`keyVerified_${provider}`]: true
+        });
+      }
       if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(`Erreur ${provider.toUpperCase()} (${response.status}) : ${errText || response.statusText}`);
+        const msg = provider === "lmstudio" || provider === "ollama" ? `Erreur ${provider.toUpperCase()} (${response.status}) : ${errorText || response.statusText}` : CloudModelDiscovery.formatHttpError(provider, response.status, errorText || response.statusText);
+        throw new Error(msg);
       }
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-      let buffer = "";
-      while (true) {
-        if (signal?.aborted) {
-          try {
-            await reader.cancel();
-          } catch (_) {
-          }
-          break;
-        }
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop();
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed || trimmed.startsWith(":") || trimmed === "data: [DONE]") continue;
-          if (trimmed.startsWith("data: ")) {
-            try {
-              const parsed = JSON.parse(trimmed.slice(6));
-              const delta = parsed.choices?.[0]?.delta || {};
-              const chunkMsg = {
-                type: "CHUNK",
-                content: delta.content || "",
-                reasoning: delta.reasoning_content || "",
-                text: delta.content || ""
-              };
-              if (safePost) safePost(chunkMsg);
-              else port.postMessage(chunkMsg);
-            } catch (e) {
-            }
-          }
-        }
-      }
+      await _StreamRelay._consumeSseStream(response, signal, safePost, port, (parsed) => {
+        const delta = parsed.choices?.[0]?.delta || {};
+        return { content: delta.content || "", reasoning: delta.reasoning_content || "", text: delta.content || "" };
+      });
     }
     /**
      * Streams from Anthropic Claude API (/v1/messages)
@@ -317,7 +652,7 @@
       const parsedTemp = parseFloat(temperature);
       const parsedMax = parseInt(maxTokens, 10);
       const bodyPayload = {
-        model: model || "claude-3-5-haiku-20241022",
+        model: resolveDeprecatedModel("claude", model) || PROVIDER_CONFIGS.claude.defaultModel,
         max_tokens: !isNaN(parsedMax) && parsedMax > 0 ? parsedMax : 4096,
         system: systemContent,
         messages: claudeMessages,
@@ -326,24 +661,46 @@
       if (!isNaN(parsedTemp)) {
         bodyPayload.temperature = Math.max(0, Math.min(parsedTemp, 1));
       }
-      const fetchOptions = {
-        method: "POST",
-        headers: {
-          "x-api-key": apiKey.trim(),
-          "anthropic-version": "2023-06-01",
-          "content-type": "application/json"
-        },
-        body: JSON.stringify(bodyPayload)
+      const headers = {
+        "x-api-key": apiKey.trim(),
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json"
       };
-      if (signal) fetchOptions.signal = signal;
-      const response = await fetch(PROVIDER_CONFIGS.claude.endpoint, fetchOptions);
-      if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(`Erreur Claude (${response.status}) : ${errText}`);
+      const { response, resolvedModel, errorText } = await CloudModelDiscovery.fetchWithModelFallback({
+        endpoint: PROVIDER_CONFIGS.claude.endpoint,
+        headers,
+        payload: bodyPayload,
+        signal,
+        provider: "claude",
+        apiKey: apiKey.trim()
+      });
+      if (resolvedModel && response.ok) {
+        const postResolved = safePost || ((m) => port?.postMessage?.(m));
+        postResolved({ type: "MODEL_RESOLVED", provider: "claude", model: resolvedModel });
+        chrome?.storage?.local?.set?.({
+          selectedModel_claude: resolvedModel,
+          selectedModel: resolvedModel,
+          keyVerified_claude: true
+        });
       }
+      if (!response.ok) {
+        throw new Error(CloudModelDiscovery.formatHttpError("claude", response.status, errorText || response.statusText));
+      }
+      await _StreamRelay._consumeSseStream(response, signal, safePost, port, (parsed) => {
+        if (parsed.type === "content_block_delta" && parsed.delta?.text) {
+          return { content: parsed.delta.text, reasoning: "", text: parsed.delta.text };
+        }
+        return null;
+      });
+    }
+    /**
+     * Shared Server-Sent Events (SSE) stream reader for OpenAI-compatible and Claude streams
+     */
+    static async _consumeSseStream(response, signal, safePost, port, extractChunk) {
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
       let buffer = "";
+      const emit = safePost || ((m) => port.postMessage(m));
       while (true) {
         if (signal?.aborted) {
           try {
@@ -359,22 +716,11 @@
         buffer = lines.pop();
         for (const line of lines) {
           const trimmed = line.trim();
-          if (!trimmed || trimmed.startsWith(":")) continue;
-          if (trimmed.startsWith("data: ")) {
-            try {
-              const parsed = JSON.parse(trimmed.slice(6));
-              if (parsed.type === "content_block_delta" && parsed.delta?.text) {
-                const chunkMsg = {
-                  type: "CHUNK",
-                  content: parsed.delta.text,
-                  reasoning: "",
-                  text: parsed.delta.text
-                };
-                if (safePost) safePost(chunkMsg);
-                else port.postMessage(chunkMsg);
-              }
-            } catch (e) {
-            }
+          if (!trimmed || trimmed.startsWith(":") || trimmed === "data: [DONE]" || !trimmed.startsWith("data: ")) continue;
+          try {
+            const chunk = extractChunk(JSON.parse(trimmed.slice(6)));
+            if (chunk) emit({ type: "CHUNK", ...chunk });
+          } catch (_) {
           }
         }
       }
@@ -431,12 +777,14 @@
      * @param {string} id
      * @param {string} displayName
      * @param {boolean} isLocalProvider
+     * @param {string} [endpoint='']
      */
-    constructor(id, displayName, isLocalProvider = false) {
+    constructor(id, displayName, isLocalProvider = false, endpoint = "") {
       super();
       this.id = id;
       this.displayName = displayName;
       this.isLocalProvider = isLocalProvider;
+      this.endpoint = endpoint || PROVIDER_CONFIGS[String(id || "").toLowerCase()]?.endpoint || "";
     }
     getProviderId() {
       return this.id;
@@ -446,6 +794,58 @@
     }
     isLocal() {
       return this.isLocalProvider;
+    }
+    /**
+     * Returns live or preset model list for cloud providers.
+     * @param {string} [_serverUrl='']
+     * @param {string} [apiKey='']
+     * @returns {Promise<Array<{ id: string, name: string }>>}
+     */
+    async fetchModels(_serverUrl = "", apiKey = "") {
+      if (this.isLocalProvider) return [];
+      const boundFetch = (url, opts) => this.fetchWithTimeout(url, opts, 5e3);
+      return CloudModelDiscovery.fetchLiveModels(this.id, apiKey, boundFetch);
+    }
+    /**
+     * Tests OpenAI-compatible Cloud API key and model with automatic retired-model recovery.
+     * @param {string} _serverUrl
+     * @param {string} apiKey
+     * @param {string} [model]
+     * @returns {Promise<{ ok: boolean, latencyMs?: number, resolvedModel?: string, error?: string }>}
+     */
+    async testConnection(_serverUrl, apiKey, model) {
+      if (!apiKey) return { ok: false, error: "API Key missing" };
+      if (!this.endpoint) return { ok: false, error: `Unsupported provider: ${this.id}` };
+      const cleanKey = String(apiKey).trim();
+      const effectiveModel = resolveDeprecatedModel(this.id, model);
+      const boundFetch = (url, opts) => this.fetchWithTimeout(url, opts, 5e3);
+      const start = performance.now();
+      try {
+        const { response, resolvedModel, errorText } = await CloudModelDiscovery.fetchWithModelFallback({
+          endpoint: this.endpoint,
+          headers: {
+            "Authorization": `Bearer ${cleanKey}`,
+            "Content-Type": "application/json"
+          },
+          payload: {
+            model: effectiveModel,
+            messages: [{ role: "user", content: "ping" }],
+            max_tokens: 1
+          },
+          provider: this.id,
+          apiKey: cleanKey,
+          fetchFn: boundFetch
+        });
+        const latencyMs = Math.round(performance.now() - start);
+        const finalResolved = resolvedModel || (effectiveModel !== String(model || "").trim() ? effectiveModel : void 0);
+        if (response.ok) {
+          return finalResolved ? { ok: true, latencyMs, resolvedModel: finalResolved } : { ok: true, latencyMs };
+        }
+        const errorKind = CloudModelDiscovery.classifyHttpError(response.status, errorText);
+        return { ok: false, latencyMs, errorKind, error: CloudModelDiscovery.formatHttpError(this.id, response.status, errorText) };
+      } catch (err) {
+        return { ok: false, error: err.message };
+      }
     }
     /**
      * Safe fetch with timeout
@@ -613,141 +1013,59 @@
   // src/services/ai/providers/GeminiProvider.js
   var GeminiProvider = class extends BaseAIProvider {
     constructor() {
-      super("gemini", "Google Gemini", false);
-      this.endpoint = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
-    }
-    /**
-     * Returns preset models for Gemini
-     * @returns {Promise<Array<{ id: string, name: string }>>}
-     */
-    async fetchModels() {
-      return CLOUD_MODELS.gemini || [];
-    }
-    /**
-     * Tests API key validity with a quick ping
-     * @param {string} _serverUrl
-     * @param {string} apiKey
-     * @param {string} [model]
-     * @returns {Promise<{ ok: boolean, latencyMs?: number, error?: string }>}
-     */
-    async testConnection(_serverUrl, apiKey, model = "gemini-1.5-flash") {
-      if (!apiKey) return { ok: false, error: "API Key missing" };
-      const start = performance.now();
-      try {
-        const res = await this.fetchWithTimeout(this.endpoint, {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${apiKey}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model,
-            messages: [{ role: "user", content: "ping" }],
-            max_tokens: 1
-          })
-        }, 5e3);
-        const latencyMs = Math.round(performance.now() - start);
-        return { ok: res.ok, latencyMs };
-      } catch (err) {
-        return { ok: false, error: err.message };
-      }
+      super("gemini", "Google Gemini", false, PROVIDER_CONFIGS.gemini.endpoint);
     }
   };
 
   // src/services/ai/providers/GroqProvider.js
   var GroqProvider = class extends BaseAIProvider {
     constructor() {
-      super("groq", "Groq (Ultra-Fast)", false);
-      this.endpoint = "https://api.groq.com/openai/v1/chat/completions";
-    }
-    async fetchModels() {
-      return CLOUD_MODELS.groq || [];
-    }
-    async testConnection(_serverUrl, apiKey, model = "llama-3.3-70b-versatile") {
-      if (!apiKey) return { ok: false, error: "API Key missing" };
-      const start = performance.now();
-      try {
-        const res = await this.fetchWithTimeout(this.endpoint, {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${apiKey}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model,
-            messages: [{ role: "user", content: "ping" }],
-            max_tokens: 1
-          })
-        }, 5e3);
-        const latencyMs = Math.round(performance.now() - start);
-        return { ok: res.ok, latencyMs };
-      } catch (err) {
-        return { ok: false, error: err.message };
-      }
+      super("groq", "Groq (Ultra-Fast)", false, PROVIDER_CONFIGS.groq.endpoint);
     }
   };
 
   // src/services/ai/providers/OpenAIProvider.js
   var OpenAIProvider = class extends BaseAIProvider {
     constructor() {
-      super("openai", "OpenAI", false);
-      this.endpoint = "https://api.openai.com/v1/chat/completions";
-    }
-    async fetchModels() {
-      return CLOUD_MODELS.openai || [];
-    }
-    async testConnection(_serverUrl, apiKey, model = "gpt-4o-mini") {
-      if (!apiKey) return { ok: false, error: "API Key missing" };
-      const start = performance.now();
-      try {
-        const res = await this.fetchWithTimeout(this.endpoint, {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${apiKey}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model,
-            messages: [{ role: "user", content: "ping" }],
-            max_tokens: 1
-          })
-        }, 5e3);
-        const latencyMs = Math.round(performance.now() - start);
-        return { ok: res.ok, latencyMs };
-      } catch (err) {
-        return { ok: false, error: err.message };
-      }
+      super("openai", "OpenAI", false, PROVIDER_CONFIGS.openai.endpoint);
     }
   };
 
   // src/services/ai/providers/ClaudeProvider.js
   var ClaudeProvider = class extends BaseAIProvider {
     constructor() {
-      super("claude", "Anthropic Claude", false);
-      this.endpoint = "https://api.anthropic.com/v1/messages";
+      super("claude", "Anthropic Claude", false, PROVIDER_CONFIGS.claude.endpoint);
     }
-    async fetchModels() {
-      return CLOUD_MODELS.claude || [];
-    }
-    async testConnection(_serverUrl, apiKey, model = "claude-3-5-haiku-20241022") {
+    async testConnection(_serverUrl, apiKey, model = PROVIDER_CONFIGS.claude.defaultModel) {
       if (!apiKey) return { ok: false, error: "API Key missing" };
+      const cleanKey = String(apiKey).trim();
+      const effectiveModel = resolveDeprecatedModel("claude", model);
+      const boundFetch = (url, opts) => this.fetchWithTimeout(url, opts, 5e3);
       const start = performance.now();
       try {
-        const res = await this.fetchWithTimeout(this.endpoint, {
-          method: "POST",
+        const { response, resolvedModel, errorText } = await CloudModelDiscovery.fetchWithModelFallback({
+          endpoint: this.endpoint,
           headers: {
-            "x-api-key": apiKey,
+            "x-api-key": cleanKey,
             "anthropic-version": "2023-06-01",
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({
-            model,
+          payload: {
+            model: effectiveModel,
             messages: [{ role: "user", content: "ping" }],
             max_tokens: 1
-          })
-        }, 5e3);
+          },
+          provider: "claude",
+          apiKey: cleanKey,
+          fetchFn: boundFetch
+        });
         const latencyMs = Math.round(performance.now() - start);
-        return { ok: res.ok, latencyMs };
+        const finalResolved = resolvedModel || (effectiveModel !== String(model || "").trim() ? effectiveModel : void 0);
+        if (response.ok) {
+          return finalResolved ? { ok: true, latencyMs, resolvedModel: finalResolved } : { ok: true, latencyMs };
+        }
+        const errorKind = CloudModelDiscovery.classifyHttpError(response.status, errorText);
+        return { ok: false, latencyMs, errorKind, error: CloudModelDiscovery.formatHttpError("claude", response.status, errorText) };
       } catch (err) {
         return { ok: false, error: err.message };
       }
@@ -757,33 +1075,7 @@
   // src/services/ai/providers/DeepSeekProvider.js
   var DeepSeekProvider = class extends BaseAIProvider {
     constructor() {
-      super("deepseek", "DeepSeek", false);
-      this.endpoint = "https://api.deepseek.com/chat/completions";
-    }
-    async fetchModels() {
-      return CLOUD_MODELS.deepseek || [];
-    }
-    async testConnection(_serverUrl, apiKey, model = "deepseek-chat") {
-      if (!apiKey) return { ok: false, error: "API Key missing" };
-      const start = performance.now();
-      try {
-        const res = await this.fetchWithTimeout(this.endpoint, {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${apiKey}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model,
-            messages: [{ role: "user", content: "ping" }],
-            max_tokens: 1
-          })
-        }, 5e3);
-        const latencyMs = Math.round(performance.now() - start);
-        return { ok: res.ok, latencyMs };
-      } catch (err) {
-        return { ok: false, error: err.message };
-      }
+      super("deepseek", "DeepSeek", false, PROVIDER_CONFIGS.deepseek.endpoint);
     }
   };
 
@@ -824,7 +1116,7 @@
           instance = new DeepSeekProvider();
           break;
         default:
-          instance = new BaseAIProvider(id, id.toUpperCase(), false);
+          instance = new BaseAIProvider(id, PROVIDER_NAMES[id] || id.toUpperCase(), false);
           break;
       }
       this.instances.set(id, instance);
@@ -1644,6 +1936,8 @@ ${bio.trim()}
               ok: result.ok,
               latency: result.latencyMs || 0,
               latencyMs: result.latencyMs || 0,
+              resolvedModel: result.resolvedModel || null,
+              errorKind: result.errorKind || null,
               error: result.error || null,
               message: result.error ? `Failed: ${result.error}` : "Connected"
             });

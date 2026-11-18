@@ -53,6 +53,8 @@ export class MessageRouter {
               ok: result.ok,
               latency: result.latencyMs || 0,
               latencyMs: result.latencyMs || 0,
+              resolvedModel: result.resolvedModel || null,
+              errorKind: result.errorKind || null,
               error: result.error || null,
               message: result.error ? `Failed: ${result.error}` : 'Connected'
             });

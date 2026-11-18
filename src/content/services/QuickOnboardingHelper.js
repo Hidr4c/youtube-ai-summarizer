@@ -1,4 +1,4 @@
-import { API_KEY_PORTALS, PROVIDER_NAMES } from '../../config/AIProviderPresets.js';
+import { API_KEY_PORTALS, PROVIDER_NAMES, resolveDeprecatedModel } from '../../config/AIProviderPresets.js';
 import { I18N } from '../../locales/index.js';
 import { ConnectionTester } from './ConnectionTester.js';
 
@@ -38,7 +38,7 @@ export class QuickOnboardingHelper {
       return {
         url: defaultUrl,
         label: isFr ? '⚡ Obtenir ma clé Groq (Gratuit)' : '⚡ Get Free Groq Key (Ultra-fast)',
-        hint: isFr ? 'Inférence ultra-rapide et gratuite (Llama 3.3).' : 'Ultra-fast and free inference (Llama 3.3).'
+        hint: isFr ? 'Inférence ultra-rapide et gratuite (GPT-OSS, Llama, Qwen).' : 'Ultra-fast and free inference (GPT-OSS, Llama, Qwen).'
       };
     }
 
@@ -77,6 +77,87 @@ export class QuickOnboardingHelper {
   }
 
   /**
+   * Updates verification badge state and auto-resolved model cleanly from ConnectionTester results.
+   * @param {Object} state
+   * @param {string} provider
+   * @param {string} testedModel
+   * @param {Object} res
+   */
+  static applyVerificationState(state, provider, testedModel, { isError, resolvedModel, isAuthError, isBusyError } = {}) {
+    if (!state.keyVerified) state.keyVerified = {};
+    if (!isError) {
+      state.keyVerified[provider] = true;
+      state.savePreference?.(`keyVerified_${provider}`, true);
+      if (resolvedModel && resolvedModel !== testedModel) {
+        QuickOnboardingHelper.syncResolvedModel(state, provider, resolvedModel);
+      }
+    } else {
+      const nextStatus = (isBusyError && !isAuthError) || isAuthError === false ? 'busy' : false;
+      state.keyVerified[provider] = nextStatus;
+      state.savePreference?.(`keyVerified_${provider}`, nextStatus);
+    }
+  }
+
+  /**
+   * Applies an auto-recovered model ID received from background MODEL_RESOLVED events.
+   * @param {Object} state
+   * @param {string} provider
+   * @param {string} resolvedModel
+   */
+  static syncResolvedModel(state, provider, resolvedModel) {
+    if (!resolvedModel) return;
+    if (state) {
+      if (!provider || state.currentProvider === provider) {
+        state.setActiveModel?.(resolvedModel);
+      } else if (state.selectedModels) {
+        state.selectedModels[provider] = resolvedModel;
+      }
+      if (provider) state.savePreference?.(`selectedModel_${provider}`, resolvedModel);
+      state.savePreference?.('selectedModel', resolvedModel);
+      if (!state.keyVerified) state.keyVerified = {};
+      if (provider) {
+        state.keyVerified[provider] = true;
+        state.savePreference?.(`keyVerified_${provider}`, true);
+      }
+    } else if (typeof chrome !== 'undefined' && chrome.storage?.local?.set) {
+      const patch = { selectedModel: resolvedModel };
+      if (provider) {
+        patch[`selectedModel_${provider}`] = resolvedModel;
+        patch[`keyVerified_${provider}`] = true;
+      }
+      chrome.storage.local.set(patch);
+    }
+
+    if (typeof document !== 'undefined' && (!state || !provider || state.currentProvider === provider)) {
+      const select = document.getElementById('ytAiModelSelect');
+      if (select && select.options) {
+        const hasOpt = Array.from(select.options).some(o => o.value === resolvedModel);
+        if (hasOpt) select.value = resolvedModel;
+      }
+      const headerModel = document.getElementById('ytAiHeaderModelText');
+      if (headerModel) {
+        const t = I18N[state?.currentLang] || I18N.en;
+        headerModel.textContent = `${t.modelPrefix || 'Model: '}${resolvedModel}`;
+      }
+    }
+  }
+
+  /**
+   * Saves, validates, and refreshes live Cloud models for an entered or pasted API key.
+   * @param {Object} params
+   */
+  static validateAndSyncCloudKey({ state, provider, key, settingsDrawer, showStatusBanner, updateHeaderBadge }) {
+    if (!state || !provider || provider === 'lmstudio' || provider === 'ollama') return;
+    const clean = String(key || '').trim();
+    if (!state.apiKeys) state.apiKeys = {};
+    state.apiKeys[provider] = clean;
+    state.savePreference?.(`apiKey_${provider}`, clean);
+    const model = resolveDeprecatedModel(provider, state.getActiveModel?.() || '');
+    QuickOnboardingHelper.testAndValidateKey({ state, provider, key: clean, model, showStatusBanner, updateHeaderBadge });
+    if (clean) settingsDrawer?.populateCloudModels?.(provider, null, true);
+  }
+
+  /**
    * Tests and validates API key in real-time with provider servers
    * @param {Object} params
    */
@@ -84,6 +165,7 @@ export class QuickOnboardingHelper {
     if (!state.keyVerified) state.keyVerified = {};
     if (!key) {
       delete state.keyVerified[provider];
+      state.savePreference?.(`keyVerified_${provider}`, null);
       if (typeof updateHeaderBadge === 'function') updateHeaderBadge();
       return;
     }
@@ -103,17 +185,17 @@ export class QuickOnboardingHelper {
       apiKey: key,
       model,
       lang: state.currentLang
-    }, ({ message, error, isError, latencyMs }) => {
-      state.keyVerified[provider] = !isError;
+    }, (res) => {
+      QuickOnboardingHelper.applyVerificationState(state, provider, model, res);
       if (typeof updateHeaderBadge === 'function') updateHeaderBadge();
       if (typeof showStatusBanner === 'function') {
-        if (!isError) {
+        if (!res.isError) {
           const successMsg = isFr
-            ? `[✓] Clé API validée avec succès par ${provider.toUpperCase()} (${latencyMs || 0}ms) !`
-            : `[✓] API key verified successfully by ${provider.toUpperCase()} (${latencyMs || 0}ms)!`;
+            ? `[✓] Clé API validée avec succès par ${provider.toUpperCase()} (${res.latencyMs || 0}ms) !`
+            : `[✓] API key verified successfully by ${provider.toUpperCase()} (${res.latencyMs || 0}ms)!`;
           showStatusBanner(successMsg, false);
         } else {
-          showStatusBanner(message || error, true);
+          showStatusBanner(res.message || res.error, true);
         }
       }
     });

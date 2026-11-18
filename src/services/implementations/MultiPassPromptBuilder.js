@@ -66,40 +66,36 @@ ${commentsSection}
 ${compiledSegments}
 
 --- DIRECTIVES DU RAPPORT D'AUDIT CRITIQUE FINAL ---
-Rédige un rapport complet et structuré respectant EXACTEMENT le format Markdown :
+Rédige un rapport visuel court, percutant et agréable à lire en commençant STRICTEMENT par ces 3 lignes techniques :
 
 [SCORE: XX/100]
+[AXES: Logic=YY, Sources=ZZ, Transparency=WW, Facts=VV]
+[GENRE: Tag court du genre]
 
 ### 🎯 Indice de Fiabilité & Verdict Global
-- Score de solidité (sur 100) avec explication synthétique en 2-3 phrases.
-- Évaluation globale de la posture : (Ex: Démarche rigoureuse / Sensationalisme / Rhétorique partisane / Risque de désinformation).
-
-### ⚖️ Analyse Logique & Sophismes Identifiés
-- Détecte au moins 2 à 5 anomalies de raisonnement si présentes, ou confirme la solidité logique :
-  - **Fausse corrélation / Causalité douteuse** (attribuer un effet sans lien prouvé).
-  - **Contradiction interne** : Confronte les différents segments temporels. Si l'auteur contredit un point plus tard, cite les deux moments [MM:SS].
-  - **Faux dilemme ou Homme de paille** : Caricature ou réduction binaire.
-  - **Biais statistique ou extrapolation abusive**.
-- Pour chaque faille, cite le passage ou le moment [MM:SS] et explique pourquoi le raisonnement pèche.
-
-### 🔬 Rigueur du Sourçage & Niveau de Preuve (Détection des Fake News Sourcées)
-- Évalue la solidité des sources et références invoquées (dans le discours ou la description) :
-  - **Niveau de preuve (Pyramide EBM)** : Consensus scientifique / méta-analyse vs étude de cas isolée, observationnelle ou animale extrapolée à l'humain.
-  - **Détournement de source & Cherry-picking** : L'auteur fait-il dire à une étude ce qu'elle ne dit pas ? Isole-t-il une étude marginale contredite par l'état de l'art ?
-  - **Revues prédatrices & Sourçage circulaire** : Indices d'organismes paravents, blogs d'opinion déguisés en études, ou absence de relecture par les pairs.
-  - **Conflits d'intérêts et liens marchands** : Liens d'affiliation ou vente de produits corrélés au discours de la vidéo.
+> **Verdict :** Synthèse percutante en 1–2 phrases sur la solidité et la posture éditoriale globale.
+- **Posture éditoriale :** (Démarche rigoureuse / Sensationalisme / Prudence requise) en 1 phrase.
 
 ### 🔍 Recoupement Factuel, Temporel & Spatial
-- La vidéo correspond-elle bien à l'époque et au lieu mentionnés ? Y a-t-il un risque d'anachronisme ou de séquence recyclée ?
-- Les affirmations chiffrées ou factuelles fortes sont-elles conformes à l'état de l'art ou des connaissances actuelles ?
-
-### 💬 Éclairage des Commentaires & Consensus du Public
-- Résume ce que pointent les spectateurs (critiques pertinentes, signalements de fake, compléments factuels).
+| Affirmation / Critère | Preuve & Vérification | Statut |
+|---|---|---|
+| (Date, lieu ou chiffre clé) | (Conformité à l'état de l'art ou anomalie) | (Vérifié / À nuancer / Fautif) |
 
 ### 📌 Conseils pour l'Esprit Critique
-- 2 à 3 points clés à retenir pour ne pas se laisser tromper par ce discours.
+1. Point clé actionnable en 1 phrase nette.
+2. Deuxième recommandation pratique de vérification.
 
-IMPORTANT : Reste neutre et factuel. Rédige l'intégralité du rapport dans la langue cible : ${lang.toUpperCase()}.`;
+### ⚖️ Analyse Logique & Sophismes Identifiés
+- **Structure & cohérence :** Confronte les segments et relève les anomalies éventuelles avec \`[MM:SS]\` (ou confirme la solidité).
+- **Preuves citables :** \`> « ... » [MM:SS]\`.
+
+### 🔬 Rigueur du Sourçage & Niveau de Preuve
+- **Niveau de preuve :** Consensus scientifique / méta-analyse vs étude isolée et conflits d'intérêts éventuels.
+
+### 💬 Éclairage des Commentaires & Consensus du Public
+- 1–2 puces courtes sur les retours pertinents du public.
+
+IMPORTANT : Reste neutre, factuel et concis. Rédige l'intégralité du rapport dans la langue cible : ${lang.toUpperCase()}.`;
   }
 }
 

@@ -6,6 +6,7 @@ import { OpenAIProvider } from './OpenAIProvider.js';
 import { ClaudeProvider } from './ClaudeProvider.js';
 import { DeepSeekProvider } from './DeepSeekProvider.js';
 import { BaseAIProvider } from './BaseAIProvider.js';
+import { PROVIDER_NAMES } from '../../../config/AIProviderPresets.js';
 
 /**
  * Factory for creating and retrieving AI inference provider instances
@@ -48,7 +49,7 @@ export class AIProviderFactory {
         instance = new DeepSeekProvider();
         break;
       default:
-        instance = new BaseAIProvider(id, id.toUpperCase(), false);
+        instance = new BaseAIProvider(id, PROVIDER_NAMES[id] || id.toUpperCase(), false);
         break;
     }
 

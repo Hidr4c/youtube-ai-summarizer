@@ -35,14 +35,22 @@ export class ConnectionTester {
       model
     }, (res) => {
       if (res && (res.success || res.ok)) {
+        const activeModelName = res.resolvedModel || model;
         const msg = (t.modelReady || 'Model "{model}" ready ({latency}ms)!')
-          .replace('{model}', model)
+          .replace('{model}', activeModelName)
           .replace('{latency}', res.latency || res.latencyMs || 0);
-        callback({ message: `[✓] ${msg}`, isError: false, latencyMs: res.latency || res.latencyMs || 0 });
+        callback({
+          message: `[✓] ${msg}`,
+          isError: false,
+          latencyMs: res.latency || res.latencyMs || 0,
+          resolvedModel: res.resolvedModel || null
+        });
       } else {
-        const errText = (t.connectionFailed || 'Failed: {error}')
-          .replace('{error}', res?.error || t.connectionError || 'Connection error');
-        callback({ message: `[!] ${errText}`, isError: true, error: res?.error });
+        const rawErr = res?.error || t.connectionError || 'Connection error';
+        const errText = (t.connectionFailed || 'Failed: {error}').replace('{error}', rawErr);
+        const isAuthError = res?.errorKind ? res.errorKind === 'auth' : /(?:401|403|api key not valid|invalid_api_key|unauthorized|clé api refusée|clé invalide)/i.test(rawErr);
+        const isBusyError = res?.errorKind === 'busy' || /(?:502|503|504|529|unavailable|high demand|saturé|429|quota)/i.test(rawErr);
+        callback({ message: `[!] ${errText}`, isError: true, error: res?.error, isAuthError, isBusyError });
       }
     });
   }

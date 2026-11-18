@@ -1,5 +1,6 @@
 import { I18N } from '../../locales/index.js';
-import { renderMarkdown, escapeHtml, safeSetInnerHTML } from './MarkdownRenderer.js';
+import { renderMarkdown, escapeHtml, safeSetInnerHTML, stripScoreTags } from './MarkdownRenderer.js';
+import { AuditVisualDashboard } from './AuditVisualDashboard.js';
 import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
 import { AuditProgressBar } from './AuditProgressBar.js';
 import { ChannelAuditJobTracker } from '../services/ChannelAuditJobTracker.js';
@@ -32,11 +33,12 @@ export class AuditViewController {
    * @param {string} [lang='fr']
    * @returns {string} HTML
    */
-  renderAuditHeroCard(report, lang = 'fr') {
+  renderAuditHeroCard(report, lang = 'fr', metrics = null) {
     if (!report) return '';
     const score = typeof report.reliabilityScore === 'number' ? report.reliabilityScore : 80;
     const badge = report.getReliabilityBadge(lang);
     const tier = typeof report.getGranularTier === 'function' ? report.getGranularTier(lang) : null;
+    const resolvedMetrics = metrics || AuditVisualDashboard.parseVisualMetrics(report.rawMarkdown, lang);
     const isLow = score < 50;
     const isMed = score >= 50 && score < 75;
     const levelClass = isLow ? 'yt-ai-score-low' : isMed ? 'yt-ai-score-med' : 'yt-ai-score-high';
@@ -46,13 +48,14 @@ export class AuditViewController {
         ? (lang === 'fr' ? 'Analyse nuancée, affirmations à vérifier avec recul' : 'Mixed rigor, claims require caution')
         : (lang === 'fr' ? 'Rigueur et cohérence logique élevées' : 'High logical rigor & consistency'));
     const tierPill = tier ? `<span class="yt-ai-tier-pill" style="border-color:${tier.hexColor}66;color:${tier.hexColor};">${escapeHtml(tier.rangeLabel)} · ${escapeHtml(tier.shortLabel)}</span>` : '';
+    const genrePill = resolvedMetrics?.genre ? `<span class="yt-ai-genre-pill">🏷️ ${escapeHtml(resolvedMetrics.genre)}</span>` : '';
 
     return `
       <div class="yt-ai-audit-hero-card ${levelClass}">
         <div class="yt-ai-audit-hero-main">
           <div class="yt-ai-audit-gauge-circle" ${tier ? `style="border-color:${tier.hexColor};color:${tier.hexColor};"` : ''}><span class="yt-ai-audit-gauge-val">${score}</span><span class="yt-ai-audit-gauge-max">/100</span></div>
           <div class="yt-ai-audit-hero-meta">
-            <div class="yt-ai-audit-status-badge">${escapeHtml(badge.label)} ${tierPill}</div>
+            <div class="yt-ai-audit-status-badge">${escapeHtml(badge.label)} ${tierPill} ${genrePill}</div>
             <div class="yt-ai-audit-hero-desc">${escapeHtml(verdictDesc)}</div>
           </div>
         </div>
@@ -157,7 +160,7 @@ export class AuditViewController {
         onChunk: (chunk, acc) => {
           hasStreamedChunks = true;
           if (bodyBox) {
-            renderMarkdown(acc, bodyBox);
+            renderMarkdown(stripScoreTags(acc), bodyBox, { sectionCards: true });
             this.bindTimestampLinks(bodyBox);
           }
         }
@@ -172,8 +175,12 @@ export class AuditViewController {
       }
 
       if (bodyBox) {
-        const heroHtml = this.renderAuditHeroCard(report, lang);
-        safeSetInnerHTML(bodyBox, heroHtml + renderMarkdown(report.rawMarkdown));
+        const metrics = AuditVisualDashboard.parseVisualMetrics(report.rawMarkdown, lang);
+        const heroHtml = this.renderAuditHeroCard(report, lang, metrics);
+        const visualGridHtml = AuditVisualDashboard.renderVisualDashboard(metrics, report.reliabilityScore, lang);
+        const rawBodyHtml = renderMarkdown(stripScoreTags(report.rawMarkdown), null, { sectionCards: true });
+        const bodyHtml = AuditVisualDashboard.formatInteractiveSections(rawBodyHtml, lang);
+        safeSetInnerHTML(bodyBox, heroHtml + visualGridHtml + bodyHtml);
         this.bindTimestampLinks(bodyBox);
       }
 

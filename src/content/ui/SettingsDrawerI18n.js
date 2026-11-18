@@ -49,6 +49,10 @@ export class SettingsDrawerI18n {
     if (customServerOpt) customServerOpt.textContent = t.customServer || fb.customServer;
     const refreshBtn = document.getElementById('ytAiRefreshModelsBtn');
     if (refreshBtn) refreshBtn.title = t.refreshTooltip || fb.refreshTooltip;
+    const refreshCloudBtn = document.getElementById('ytAiRefreshCloudModelsBtn');
+    if (refreshCloudBtn) refreshCloudBtn.title = t.refreshTooltip || fb.refreshTooltip;
+    const toggleKeyBtn = document.getElementById('ytAiToggleKeyVisBtn');
+    if (toggleKeyBtn) toggleKeyBtn.title = t.toggleKeyVisTooltip || fb.toggleKeyVisTooltip;
 
     const apiKeyLabel = document.getElementById('ytAiApiKeyLabel');
     if (apiKeyLabel) apiKeyLabel.textContent = t.apiKeyLabel || fb.apiKeyLabel;

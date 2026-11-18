@@ -1,4 +1,4 @@
-import { escapeHtml, safeSetInnerHTML, renderMarkdown } from './MarkdownRenderer.js';
+import { escapeHtml, safeSetInnerHTML, renderMarkdown, formatInline } from './MarkdownRenderer.js';
 import { I18N } from '../../locales/index.js';
 import { ScoreTierScale } from '../../domain/services/ScoreTierScale.js';
 import { SensationalismScale } from '../../domain/services/SensationalismScale.js';
@@ -97,7 +97,7 @@ export class ChannelAuditViewController {
             <span><strong>${escapeHtml(t.channelEvolutionTitle || '📈 Editorial & Quality Evolution')}</strong></span>
             <span class="yt-ai-traj-badge ${trajClass}">[${trajIcon}] ${escapeHtml(report.trajectoryLabel)}</span>
           </div>
-          ${report.temporalEvolution ? `<div class="yt-ai-traj-desc">${escapeHtml(report.temporalEvolution)}</div>` : ''}
+          ${report.temporalEvolution ? `<div class="yt-ai-traj-desc yt-ai-markdown">${renderMarkdown(report.temporalEvolution)}</div>` : ''}
         </div>
 
         <!-- The 3 Pillars: Good / Less good / Bad -->
@@ -105,19 +105,19 @@ export class ChannelAuditViewController {
           <div class="yt-ai-pillar-col yt-ai-pillar-good">
             <div class="yt-ai-pillar-title">${escapeHtml(t.channelStrengthsTitle || '✓ What It Does Well (Strengths)')}</div>
             <ul class="yt-ai-pillar-list">
-              ${(report.strengths.length > 0 ? report.strengths : [t.channelNoStrengths || 'No major strengths reported.']).map(s => `<li>${escapeHtml(s)}</li>`).join('')}
+              ${(report.strengths.length > 0 ? report.strengths : [t.channelNoStrengths || 'No major strengths reported.']).map(s => `<li>${formatInline(s)}</li>`).join('')}
             </ul>
           </div>
           <div class="yt-ai-pillar-col yt-ai-pillar-warn">
             <div class="yt-ai-pillar-title">${escapeHtml(t.channelWeaknessesTitle || '! Areas for Vigilance (Weaknesses)')}</div>
             <ul class="yt-ai-pillar-list">
-              ${(report.weaknesses.length > 0 ? report.weaknesses : [t.channelNoWeaknesses || 'No major weaknesses reported.']).map(w => `<li>${escapeHtml(w)}</li>`).join('')}
+              ${(report.weaknesses.length > 0 ? report.weaknesses : [t.channelNoWeaknesses || 'No major weaknesses reported.']).map(w => `<li>${formatInline(w)}</li>`).join('')}
             </ul>
           </div>
           <div class="yt-ai-pillar-col yt-ai-pillar-bad">
             <div class="yt-ai-pillar-title">${escapeHtml(t.channelDrawbacksTitle || '✕ Pitfalls & Red Flags (Drawbacks)')}</div>
             <ul class="yt-ai-pillar-list">
-              ${(report.drawbacks.length > 0 ? report.drawbacks : [t.channelNoDrawbacks || 'No major red flags reported.']).map(d => `<li>${escapeHtml(d)}</li>`).join('')}
+              ${(report.drawbacks.length > 0 ? report.drawbacks : [t.channelNoDrawbacks || 'No major red flags reported.']).map(d => `<li>${formatInline(d)}</li>`).join('')}
             </ul>
           </div>
         </div>
@@ -139,7 +139,7 @@ export class ChannelAuditViewController {
                   <a href="${escapeHtml(v.url || `https://youtu.be/${v.id}`)}" target="_blank" class="yt-ai-sample-title">${escapeHtml(v.title)}</a>
                   <span class="yt-ai-sample-score ${vt.scoreClass}" style="color:${vt.hexColor};border-color:${vt.hexColor}55;">${v.score}/100</span>
                 </div>
-                ${v.comment ? `<div class="yt-ai-sample-comment">${escapeHtml(v.comment)}</div>` : ''}
+                ${v.comment ? `<div class="yt-ai-sample-comment">${formatInline(v.comment)}</div>` : ''}
               </div>
             `;
             }).join('')}
@@ -150,7 +150,7 @@ export class ChannelAuditViewController {
         ${report.executiveSummary ? `
           <div class="yt-ai-exec-summary-box">
             <h4>${escapeHtml(t.channelSynthesisTitle || '📋 Executive Synthesis')}</h4>
-            <div class="yt-ai-exec-text">${escapeHtml(report.executiveSummary)}</div>
+            <div class="yt-ai-exec-text yt-ai-markdown">${renderMarkdown(report.executiveSummary)}</div>
           </div>
         ` : ''}
 

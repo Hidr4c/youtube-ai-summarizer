@@ -1,6 +1,8 @@
+import { MarkdownBlockHelper } from './MarkdownBlockHelper.js';
+
 /**
  * Markdown & HTML Sanitizing / Rendering Engine
- * Formats headings, structured bullet lists, bold text, code blocks, and clickable timestamps.
+ * Formats headings, structured nested lists, blockquotes, tables, code blocks, and clickable timestamps.
  */
 export class MarkdownRenderer {
   /**
@@ -78,48 +80,36 @@ export class MarkdownRenderer {
    * @returns {{ hasTitle: boolean, title: string, sentences: Array<string> }}
    */
   static parsePoint(rawText) {
-    const colonMatch = rawText.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\s'\-_–—]{2,60})\s*:\s*(.*)$/);
+    const colonMatch = rawText.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\u0400-\u04FF\u3040-\u30FF\u4E00-\u9FFF\s'\-_–—]{2,60})\s*[:：]\s*(.*)$/);
     if (colonMatch) {
       const rawTitle = colonMatch[1].trim();
       const cleanTitle = rawTitle.replace(/^\*\*|\*\*$/g, '').trim();
       const body = colonMatch[2].trim();
-      return {
-        hasTitle: true,
-        title: cleanTitle + ' :',
-        sentences: [body]
-      };
+      return { hasTitle: true, title: cleanTitle + ' :', sentences: [body] };
     }
-    return {
-      hasTitle: false,
-      title: '',
-      sentences: [rawText]
-    };
+    return { hasTitle: false, title: '', sentences: [rawText] };
   }
 
   /**
-   * Formats inline Markdown (bold, italic, code, clickable timestamps)
+   * Strips raw audit metadata control tags ([SCORE: XX/100]) for clean UI rendering
+   * @param {string} mdText
+   * @returns {string}
+   */
+  static stripScoreTags(mdText) {
+    return MarkdownBlockHelper.stripScoreTags(mdText);
+  }
+
+  /**
+   * Formats inline Markdown (bold, italic, code, links, clickable timestamps)
    * @param {string} text
    * @returns {string}
    */
   static formatInline(text) {
-    let escaped = MarkdownRenderer.escapeHtml(text);
-    escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    escaped = escaped.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    escaped = escaped.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-    // Clickable timestamps: [1:23], [12:45], [1:05:30]
-    escaped = escaped.replace(/\b(?:(\d{1,2}):)?(\d{1,2}):(\d{2})\b/g, (match, h, m, s) => {
-      const hours = h ? parseInt(h, 10) : 0;
-      const minutes = parseInt(m, 10);
-      const seconds = parseInt(s, 10);
-      const totalSec = hours * 3600 + minutes * 60 + seconds;
-      return `<a href="javascript:void(0)" class="yt-ai-timestamp-link" data-time="${totalSec}" title="Go to ${match}">⏱️ ${match}</a>`;
-    });
-    return escaped;
+    return MarkdownBlockHelper.formatInline(text, MarkdownRenderer.escapeHtml);
   }
 
   /**
-   * Renders structured list item ensuring bold keyword and explanation stay fluid on the same line
+   * Renders a single list item node
    * @param {string} rawText
    * @returns {string}
    */
@@ -128,33 +118,14 @@ export class MarkdownRenderer {
   }
 
   /**
-   * Renders a Markdown pipe-delimited table starting at startIdx.
-   * @returns {{ html: string, nextIndex: number }|null}
-   */
-  static _parseTableBlock(lines, startIdx) {
-    if (startIdx + 1 >= lines.length) return null;
-    const headLine = lines[startIdx].trim();
-    const sepLine = lines[startIdx + 1].trim();
-    if (!headLine.includes('|') || !/^\|?[\s:-]+\|[\s|:-]*$/.test(sepLine)) return null;
-    const splitRow = (row) => row.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
-    const headers = splitRow(headLine);
-    let html = `<div class="yt-ai-table-wrap"><table class="yt-ai-md-table"><thead><tr>${headers.map(h => `<th>${MarkdownRenderer.formatInline(h)}</th>`).join('')}</tr></thead><tbody>`;
-    let idx = startIdx + 2;
-    while (idx < lines.length && lines[idx].trim().includes('|')) {
-      const cells = splitRow(lines[idx].trim());
-      html += `<tr>${cells.map(c => `<td>${MarkdownRenderer.formatInline(c)}</td>`).join('')}</tr>`;
-      idx++;
-    }
-    html += '</tbody></table></div>';
-    return { html, nextIndex: idx - 1 };
-  }
-
-  /**
    * Renders complete Markdown document into target DOM container
    * @param {string} mdText
-   * @param {HTMLElement} container
+   * @param {HTMLElement|null} container
+   * @param {Object} [options={}]
+   * @param {boolean} [options.sectionCards=false] - Wraps h2/h3 sections into visual cards
+   * @returns {string} Rendered HTML string
    */
-  static renderMarkdown(mdText, container) {
+  static renderMarkdown(mdText, container, options = {}) {
     if (!mdText) {
       if (container) container.innerHTML = '';
       return '';
@@ -163,13 +134,34 @@ export class MarkdownRenderer {
     const lines = String(mdText).split('\n');
     let html = '';
     let listTag = null;
+    let openLi = false;
+    let inSublist = false;
     let inQuote = false;
     let inCode = false;
     let codeLines = [];
 
-    const closeOpenBlocks = () => {
+    const closeOpenLi = () => {
+      if (inSublist) { html += '</ul>'; inSublist = false; }
+      if (openLi) { html += '</li>'; openLi = false; }
+    };
+    const closeList = () => {
+      closeOpenLi();
       if (listTag) { html += `</${listTag}>`; listTag = null; }
+    };
+    const closeOpenBlocks = () => {
+      closeList();
       if (inQuote) { html += '</blockquote>'; inQuote = false; }
+    };
+    const appendTopListItem = (tag, content) => {
+      if (listTag && listTag !== tag) closeList();
+      if (!listTag) {
+        const cls = tag === 'ol' ? 'yt-ai-ordered-list' : 'yt-ai-points-list';
+        html += `<${tag} class="${cls}">`;
+        listTag = tag;
+      }
+      closeOpenLi();
+      html += `<li class="yt-ai-point-item">${MarkdownRenderer.formatInline(content)}`;
+      openLi = true;
     };
 
     for (let i = 0; i < lines.length; i++) {
@@ -189,6 +181,14 @@ export class MarkdownRenderer {
       }
       if (inCode) { codeLines.push(rawLine); continue; }
 
+      if (!trimmed) {
+        if (inQuote) { html += '</blockquote>'; inQuote = false; }
+        if (listTag && !MarkdownBlockHelper.canContinueListOnBlankLine(lines, i, listTag)) {
+          closeList();
+        }
+        continue;
+      }
+
       if (/^(?:---+|\*\*\*+)$/.test(trimmed)) {
         closeOpenBlocks();
         html += '<hr class="yt-ai-md-hr">';
@@ -204,7 +204,7 @@ export class MarkdownRenderer {
         continue;
       }
 
-      const tableRes = MarkdownRenderer._parseTableBlock(lines, i);
+      const tableRes = MarkdownBlockHelper.parseTableBlock(lines, i, MarkdownRenderer.formatInline);
       if (tableRes) {
         closeOpenBlocks();
         html += tableRes.html;
@@ -214,43 +214,54 @@ export class MarkdownRenderer {
 
       const quoteMatch = trimmed.match(/^>\s?(.*)$/);
       if (quoteMatch) {
-        if (listTag) { html += `</${listTag}>`; listTag = null; }
+        closeList();
         if (!inQuote) { html += '<blockquote class="yt-ai-blockquote">'; inQuote = true; }
         if (quoteMatch[1]) html += `<p>${MarkdownRenderer.formatInline(quoteMatch[1])}</p>`;
         continue;
       }
       if (inQuote) { html += '</blockquote>'; inQuote = false; }
 
-      const ulMatch = rawLine.match(/^\s*[-*•]\s+(.*)$/);
+      const ulMatch = rawLine.match(/^(\s*)[-*•]\s+(.*)$/);
       if (ulMatch) {
-        if (listTag === 'ol') { html += '</ol>'; listTag = null; }
-        if (!listTag) { html += '<ul class="yt-ai-points-list">'; listTag = 'ul'; }
-        html += MarkdownRenderer.renderListItem(ulMatch[1]);
+        const indent = ulMatch[1].length;
+        if (indent >= 2 && listTag && openLi) {
+          if (!inSublist) { html += '<ul class="yt-ai-sublist">'; inSublist = true; }
+          html += `<li class="yt-ai-subitem">${MarkdownRenderer.formatInline(ulMatch[2])}</li>`;
+        } else {
+          appendTopListItem('ul', ulMatch[2]);
+        }
         continue;
       }
 
       const olMatch = rawLine.match(/^\s*\d+[.)]\s+(.*)$/);
       if (olMatch) {
-        if (listTag === 'ul') { html += '</ul>'; listTag = null; }
-        if (!listTag) { html += '<ol class="yt-ai-ordered-list">'; listTag = 'ol'; }
-        html += MarkdownRenderer.renderListItem(olMatch[1]);
+        appendTopListItem('ol', olMatch[1]);
         continue;
       }
 
-      if (listTag) { html += `</${listTag}>`; listTag = null; }
-
-      if (trimmed.length > 0) {
-        const pointMatch = trimmed.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\s'\-_–—]{2,60})\s*:\s+(.*[.!?].*)$/);
-        if (pointMatch) {
-          html += `<ul class="yt-ai-points-list">${MarkdownRenderer.renderListItem(trimmed)}</ul>`;
-        } else {
-          html += `<p>${MarkdownRenderer.formatInline(trimmed)}</p>`;
-        }
+      const pointMatch = trimmed.match(/^(\*\*.*?\*\*|[A-Za-z0-9À-ÿ\u0400-\u04FF\u3040-\u30FF\u4E00-\u9FFF\s'\-_–—]{2,60})\s*[:：]\s+(.*[.!?。！？].*)$/);
+      if (pointMatch) {
+        appendTopListItem('ul', trimmed);
+        continue;
       }
+
+      if (MarkdownBlockHelper.isSemicolonListLine(lines, i) ||
+          (listTag === 'ul' && MarkdownBlockHelper.isSemicolonListClosingLine(lines, i))) {
+        appendTopListItem('ul', trimmed);
+        continue;
+      }
+
+      closeList();
+      html += `<p>${MarkdownRenderer.formatInline(trimmed)}</p>`;
     }
 
     if (inCode) html += `<pre class="yt-ai-code-block"><code>${MarkdownRenderer.escapeHtml(codeLines.join('\n'))}</code></pre>`;
     closeOpenBlocks();
+
+    if (options && options.sectionCards) {
+      html = MarkdownBlockHelper.wrapSectionCards(html);
+    }
+
     if (container) { MarkdownRenderer.safeSetInnerHTML(container, html); }
     return html;
   }
@@ -263,4 +274,6 @@ export const renderMarkdown = MarkdownRenderer.renderMarkdown;
 export const renderListItem = MarkdownRenderer.renderListItem;
 export const splitSentences = MarkdownRenderer.splitSentences;
 export const parsePoint = MarkdownRenderer.parsePoint;
+export const stripScoreTags = MarkdownRenderer.stripScoreTags;
+export const wrapSectionCards = MarkdownBlockHelper.wrapSectionCards;
 export default MarkdownRenderer;

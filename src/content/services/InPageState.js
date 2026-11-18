@@ -1,14 +1,21 @@
 import { parseChannelAuditLimit } from '../../config/ExtensionConstants.js';
+import { PROVIDER_CONFIGS } from '../../config/AIProviderPresets.js';
+
+const ALL_PERSISTED_PROVIDERS = [...Object.keys(PROVIDER_CONFIGS), 'lmstudio', 'ollama'];
 
 /**
  * In-Page Application State and Chrome Storage Synchronization
  */
 export function createInPageState() {
+  const apiKeys = {};
+  Object.keys(PROVIDER_CONFIGS).forEach((p) => { apiKeys[p] = ''; });
+
   return {
     extensionEnabled: true,
     currentProvider: 'lmstudio',
     serverUrls: { lmstudio: 'http://localhost:1234', ollama: 'http://localhost:11434' },
-    apiKeys: { openai: '', gemini: '', claude: '', groq: '', deepseek: '' },
+    apiKeys,
+    keyVerified: {},
     selectedModels: {},
     availableLocalModels: {},
     currentLang: 'fr',
@@ -24,7 +31,7 @@ export function createInPageState() {
     selectedMicDeviceId: '',
     cachedAuditReport: null,
     getActiveModel() {
-      return this.selectedModels[this.currentProvider] || '';
+      return this.selectedModels[this.currentProvider] || PROVIDER_CONFIGS[this.currentProvider]?.defaultModel || '';
     },
     setActiveModel(m) {
       this.selectedModels[this.currentProvider] = m;
@@ -54,10 +61,14 @@ export function loadPreferences(state, callback) {
     if (items.channelAuditPeriod) state.channelAuditPeriod = items.channelAuditPeriod;
     if (items.ttsSpeed) state.ttsSpeed = items.ttsSpeed;
     if (items.selectedVoiceURI) state.selectedVoiceURI = items.selectedVoiceURI;
-    ['openai', 'gemini', 'claude', 'groq', 'deepseek', 'lmstudio', 'ollama'].forEach(p => {
+    if (!state.keyVerified) state.keyVerified = {};
+    ALL_PERSISTED_PROVIDERS.forEach(p => {
       if (items[`apiKey_${p}`]) state.apiKeys[p] = items[`apiKey_${p}`];
       if (items[`serverUrl_${p}`]) state.serverUrls[p] = items[`serverUrl_${p}`];
       if (items[`selectedModel_${p}`]) state.selectedModels[p] = items[`selectedModel_${p}`];
+      if (items[`keyVerified_${p}`] !== undefined && items[`keyVerified_${p}`] !== null) {
+        state.keyVerified[p] = items[`keyVerified_${p}`];
+      }
     });
     callback?.();
   });

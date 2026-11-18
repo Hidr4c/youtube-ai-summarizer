@@ -27,13 +27,15 @@ export const WESTERN_TEMPLATES = {
 (Reconstitue les grandes étapes avec leurs horodatages réels [mm:ss] de la transcription)
 
 ### 💡 Analyses, Arguments & Exemples cités
-(Décortique les données, anecdotes ou concepts expliqués)
+- **[Argument / Donnée 1] :** Analyse des chiffres, exemples ou preuves présentés [MM:SS].
+- **[Argument / Donnée 2] :** Mise en perspective ou comparaison (tableau Markdown compact si pertinent).
 
 ### 🛠️ Conseils pratiques & Actions concrètes
-(Tout ce qui est actionnable pour le spectateur)
+1. Action concrète et directement applicable pour le spectateur.
+2. Deuxième recommandation pratique issue de la vidéo.
 
 ### 📌 Conclusion & Perspective
-(Message final et conclusion de l'auteur)`,
+> **À retenir :** Synthèse finale du message et de la perspective de l'auteur.`,
     standard: `Produis un résumé ÉQUILIBRÉ, NATUREL et STRUCTURÉ (format intermédiaire d'environ 350 à 450 mots) :
 
 DIRECTIVE DE CALIBRAGE : Ne sois ni trop expéditif comme le format court, ni trop exhaustif comme le format détaillé. Reste direct, fluide et percutant en évitant les digressions.
@@ -49,7 +51,7 @@ DIRECTIVE DE CALIBRAGE : Ne sois ni trop expéditif comme le format court, ni tr
 (Reconstitue les 4 à 5 étapes majeures avec leurs horodatages réels [mm:ss] de la transcription)
 
 ### 📌 L'Enseignement Clé & Conclusion
-(2 phrases synthétisant le conseil majeur de l'auteur et ce qu'il faut absolument en retenir)`
+> **À retenir :** 1 à 2 phrases synthétisant le conseil majeur de l'auteur et l'essentiel final.`
   },
   es: {
     quick: `Produce un resumen CORTO, CONCISO y DIRECTO en este formato:
@@ -75,13 +77,15 @@ DIRECTIVE DE CALIBRAGE : Ne sois ni trop expéditif comme le format court, ni tr
 (Reconstruye las etapas principales con marcas de tiempo reales [mm:ss])
 
 ### 💡 Análisis, Argumentos & Ejemplos
-(Detalla datos, anécdotas o conceptos expuestos)
+- **[Dato / Ejemplo 1] :** Análisis concreto con cifras y referencias reales [MM:SS].
+- **[Dato / Ejemplo 2] :** Comparativa o argumento clave (tabla Markdown compacta si aplica).
 
 ### 🛠️ Consejos Prácticos & Acciones Concretas
-(Todo lo accionable para el espectador)
+1. Acción práctica directa para el espectador.
+2. Segunda recomendación concreta del vídeo.
 
 ### 📌 Conclusión & Perspectiva
-(Mensaje final y conclusión del autor)`,
+> **Clave final :** Síntesis concisa del mensaje y conclusión del autor.`,
     standard: `Produce un resumen EQUILIBRADO, NATURAL y BIEN ESTRUCTURADO (formato intermedio de ~350 a 450 palabras):
 
 DIRECTIVA DE CALIBRACIÓN: No seas demasiado breve como en el modo rápido, ni excesivamente extenso como en el modo detallado. Mantén un auténtico término medio: fluido, conciso y sustancioso.
@@ -123,13 +127,15 @@ DIRECTIVA DE CALIBRACIÓN: No seas demasiado breve como en el modo rápido, ni e
 (Ricostruisci i passaggi chiave con i timestamp reali [mm:ss] della trascrizione)
 
 ### 💡 Analisi, Argomentazioni & Esempi
-(Analizza dati, aneddoti o concetti illustrati)
+- **[Dato / Esempio 1] :** Analisi concreta con cifre ed evidenze reali [MM:SS].
+- **[Dato / Esempio 2] :** Confronto o argomento chiave (tabella Markdown compatta se utile).
 
 ### 🛠️ Consigli Pratici & Azioni Concrete
-(Tutto ciò che è attuabile per lo spettatore)
+1. Azione pratica immediata per lo spettatore.
+2. Secondo suggerimento concreto tratto dal video.
 
 ### 📌 Conclusione & Prospettiva
-(Messaggio finale e conclusione dell'autore)`,
+> **Da ricordare :** Sintesi finale del messaggio e della prospettiva dell'autore.`,
     standard: `Produci un riassunto EQUILIBRATO, NATURALE e BEN STRUTTURATO (formato intermedio di ~350 a 450 parole):
 
 DIRETTIVA DI CALIBRAZIONE: Non essere troppo sbrigativo come nel formato rapido, né prolisso come nel formato dettagliato. Offri un vero punto d'incontro: fluido, concreto e senza divagazioni.
@@ -171,13 +177,15 @@ DIRETTIVA DI CALIBRAZIONE: Non essere troppo sbrigativo come nel formato rapido,
 (Stelle die Hauptetappen mit ihren realen Zeitstempeln [mm:ss] aus dem Transkript dar)
 
 ### 💡 Tiefenanalyse: Argumente, Daten & Beispiele
-(Untersuche die dargelegten Fakten, Anekdoten oder Konzepte)
+- **[Datenpunkt / Beispiel 1]:** Konkrete Analyse der Fakten, Zahlen oder Fallbeispiele [MM:SS].
+- **[Datenpunkt / Beispiel 2]:** Vergleich oder zentrales Argument (kompakte Markdown-Tabelle falls passend).
 
 ### 🛠️ Praktische Ratschläge & Handlungsschritte
-(Alle sofort anwendbaren Erkenntnisse für den Zuschauer)
+1. Konkreter, sofort anwendbarer Schritt für den Zuschauer.
+2. Zweite praktische Empfehlung aus dem Video.
 
 ### 📌 Fazit & Ausblick
-(Abschließende Botschaft und Ausblick des Autors)`,
+> **Wichtigste Erkenntnis:** Prägnante Zusammenfassung der Schlussbotschaft und Perspektive des Autors.`,
     standard: `Erstelle eine AUSGEWOGENE, NATÜRLICHE und GUT STRUKTURIERTE Zusammenfassung (mittleres Format, ca. 350 bis 450 Wörter):
 
 KALIBRIERUNGS-RICHTLINIE: Sei weder zu knapp wie im Kurzmodus, noch ausufernd wie im Detailmodus. Biete einen echten Mittelweg: prägnant, informativ und flüssig ohne Füllwörter.
@@ -219,13 +227,15 @@ KALIBRIERUNGS-RICHTLINIE: Sei weder zu knapp wie im Kurzmodus, noch ausufernd wi
 (Reconstruct key sections using their real timestamps [mm:ss] to enable player navigation)
 
 ### 💡 Deep Dive: Arguments, Data & Examples
-(Analyze the data, case studies, or concepts presented)
+- **[Argument / Data Point 1]:** Concrete explanation of facts, metrics, or examples [MM:SS].
+- **[Argument / Data Point 2]:** Deeper insight or comparison (compact Markdown table if comparing options).
 
 ### 🛠️ Actionable Advice & Practical Steps
-(Actionable takeaways for the viewer)
+1. Practical, immediately usable viewer takeaway.
+2. Second concrete step recommended in the video.
 
 ### 📌 Author's Conclusion & Key Takeaway
-(Final takeaway and perspective)`,
+> **Key Takeaway:** Concise final synthesis of the author's conclusion and perspective.`,
     standard: `Produce a BALANCED, NATURAL, and STRUCTURED summary (intermediate format, ~350 to 450 words):
 
 CALIBRATION DIRECTIVE: Do not be overly brief like quick mode, nor excessively exhaustive like deep mode. Deliver a true middle-ground: substantive, engaging, and to the point without fluff.
@@ -241,7 +251,7 @@ CALIBRATION DIRECTIVE: Do not be overly brief like quick mode, nor excessively e
 (Select 4 to 5 key milestones with their real [mm:ss] timestamps from the transcript)
 
 ### 📌 Main Takeaway & Conclusion
-(2 sentences summarizing the author's primary actionable advice and concluding perspective)`
+> **Key Takeaway:** 1-2 sentences summarizing the author's primary advice and closing insight.`
   }
 };
 

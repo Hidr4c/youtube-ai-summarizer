@@ -3,6 +3,7 @@ import { AuditReport } from '../../domain/models/AuditReport.js';
 import { YouTubeDOMContext } from './YouTubeDOMContext.js';
 import { getVideoId } from '../ui/NavigationObserver.js';
 import { ChannelAuditJobTracker } from './ChannelAuditJobTracker.js';
+import { QuickOnboardingHelper } from './QuickOnboardingHelper.js';
 
 /**
  * Service for orchestrating critical fact-checking & logic consistency audits
@@ -238,6 +239,8 @@ export class AuditService {
               options.onProgress?.({ step: 'streaming', percent, message, detail });
               options.onChunk?.(chunkText, accumulatedMarkdown);
             }
+          } else if (msg.type === 'MODEL_RESOLVED') {
+            QuickOnboardingHelper.syncResolvedModel(state, msg.provider || provider, msg.model);
           } else if (msg.type === 'DONE') {
             options.onProgress?.({ step: 'done', percent: 100, message: '✓ Examen de la vidéo terminé', detail: 'Rapport d\'intégrité et score de fiabilité prêts' });
             const scoreMatch = accumulatedMarkdown.match(/\[SCORE:\s*(\d{1,3})\/100\]/i);

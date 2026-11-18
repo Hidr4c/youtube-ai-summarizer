@@ -1,3 +1,5 @@
+import { QuickOnboardingHelper } from './QuickOnboardingHelper.js';
+
 /**
  * Client for streaming AI chat messages through Chrome background runtime port
  */
@@ -72,6 +74,8 @@ export class ChatStreamClient {
       port.onMessage.addListener((msg) => {
         if (msg.type === 'CHUNK' && msg.content) {
           if (typeof onChunk === 'function') onChunk(msg.content);
+        } else if (msg.type === 'MODEL_RESOLVED') {
+          QuickOnboardingHelper.syncResolvedModel(null, msg.provider || provider, msg.model);
         } else if (msg.type === 'DONE') {
           this.disconnect();
           if (typeof onDone === 'function') onDone();

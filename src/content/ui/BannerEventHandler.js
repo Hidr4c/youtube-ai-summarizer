@@ -185,6 +185,20 @@ export class BannerEventHandler {
     document.getElementById('ytAiSaveJsonBtn')?.addEventListener('click', () => summaryViewController.handleExport('json', state.currentLang));
     document.getElementById('ytAiCopyTranscriptBtn')?.addEventListener('click', () => transcriptController.handleCopyTranscript(state.currentLang));
 
+    // 10b. Delegated clickable timestamp seek across Summary, Audit, Q&A Chat & Transcript
+    banner.addEventListener?.('click', (e) => {
+      const link = e.target?.closest ? e.target.closest('.yt-ai-timestamp-link, a[data-seek], a[href^="#t="]') : null;
+      if (!link) return;
+      e.preventDefault();
+      const rawSec = link.getAttribute('data-time') || link.getAttribute('data-seek') || link.getAttribute('href')?.replace('#t=', '') || '';
+      const sec = parseFloat(rawSec);
+      const video = document.querySelector?.('video');
+      if (video && !isNaN(sec)) {
+        video.currentTime = sec;
+        video.play?.().catch?.(() => {});
+      }
+    });
+
     // 11. Initial synchronization of Provider, Models & Active Channel Audits
     settingsDrawer?.syncProviderUI();
     auditViewController?.syncChannelAuditUI?.(state);

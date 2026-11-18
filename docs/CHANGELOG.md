@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.3] - 2026-11-18
+
+### Added
+- **Visual Video Audit Dashboard**: Replaced plain-text critical audits with an editorial dashboard featuring a 4-axis SVG radar chart, dual reliability & sensationalism gauges, status verdict badges, genre classification tags, and collapsible detail accordions across all 8 languages.
+- **Universal Live Cloud Model Discovery & Automatic Failover**: Added dynamic `/models` catalog lookup (`CloudModelDiscovery`), provider-specific capability filtering, smart ranking, and automatic `404`/`503`/`529` failover across all 11 Cloud AI providers (including Gemini `AQ.` `x-goog-api-key` native fallback, Together raw array parsing, Mistral chat filtering, OpenRouter free-tier tagging, and Anthropic Claude streaming failover).
+- **Unified HTTP Error Classification (`CloudErrorClassifier`)**: Unwraps Google array-wrapped `[{ "error": ... }]` and Anthropic JSON errors into clear diagnostics, separating invalid API key authentication errors (`401`/`403`) from temporary server saturation (`503`/`429` "Server busy" header badge).
+- **API Key Inspection & Refresh Controls**: Added an inline show/hide API key visibility toggle (`#ytAiToggleKeyVisBtn`), a manual Cloud model refresh button (`#ytAiRefreshCloudModelsBtn`), debounced auto-validation on paste/input, and live `MODEL_RESOLVED` state persistence across streaming clients.
+
+### Fixed
+- **Cloud Provider Persistence & Async Race Guards**: Persisted API keys, active models, and `keyVerified` badges across all 13 local and Cloud providers in `InPageState`, eliminated stale async `FETCH_MODELS` overwrites via sequence guards, synchronized header model pills on Watch and Channel views, and resolved Chrome Web Store `v1.5.1` Gemini `404` failures caused by retired default model presets.
+- **Expanded Hermetic Test Suite**: Added comprehensive unit and integration suites covering Cloud discovery, failover, array error unwrapping, and API settings concurrency (`327` automated tests passing with `0` failures and `91.79%` line coverage).
+
+---
+
 ## [1.5.2] - 2026-11-16
 
 ### Fixed

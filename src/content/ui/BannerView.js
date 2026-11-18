@@ -260,6 +260,9 @@ export class BannerView {
     } else if (isVerified === true) {
       badge.className = 'yt-ai-badge online';
       badgeText.textContent = `${name} (${t.keyOk || 'Key OK'})`;
+    } else if (isVerified === 'busy') {
+      badge.className = 'yt-ai-badge';
+      badgeText.textContent = `${name} (${t.serverBusy || 'Server busy'})`;
     } else if (isVerified === false) {
       badge.className = 'yt-ai-badge offline';
       badgeText.textContent = `${name} (${t.invalidKey || 'Invalid key'})`;
