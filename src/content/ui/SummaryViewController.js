@@ -1,9 +1,11 @@
 import { I18N } from '../../locales/index.js';
-import { CONTEXT_LIMITS } from '../../config/AIProviderPresets.js';
+import { resolveContextCharLimit } from '../../config/AIProviderPresets.js';
 import { renderMarkdown, escapeHtml, safeSetInnerHTML } from './MarkdownRenderer.js';
 import { getVideoId } from './NavigationObserver.js';
 import { ChannelAuditJobTracker } from '../services/ChannelAuditJobTracker.js';
 import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
+import { PortKeepaliveHelper } from '../services/PortKeepaliveHelper.js';
+import { StreamRenderScheduler } from './StreamRenderScheduler.js';
 
 /**
  * Controller for Video AI Summarization tab, reasoning stream, and empty state
@@ -16,6 +18,8 @@ export class SummaryViewController {
     this.isGenerating = false;
     this.isStoppedByUser = false;
     this.activePort = null;
+    this.activeKeepalive = null;
+    this.activeRenderSchedulers = [];
     this.activeAbortController = null;
     this.fullSummaryMarkdown = '';
     this.fullReasoningText = '';
@@ -61,7 +65,8 @@ export class SummaryViewController {
 
     const lang = document.getElementById('ytAiLangSelect')?.value || ctx.currentLang || 'en';
     const t = I18N[lang] || I18N.en;
-    const activeModel = ctx.getActiveModel ? ctx.getActiveModel() : (ctx.selectedModel || '');
+    const stateObj = ctx.state || ctx;
+    const activeModel = ctx.getActiveModel ? ctx.getActiveModel() : (ctx.selectedModel || stateObj.getActiveModel?.() || stateObj.selectedModel || '');
 
     if (!activeModel) {
       if (typeof ctx.showStatusBanner === 'function') {
@@ -70,7 +75,6 @@ export class SummaryViewController {
       return;
     }
 
-    const stateObj = ctx.state || ctx;
     const currentProvider = ctx.currentProvider || stateObj.currentProvider || 'lmstudio';
     const isLocal = (currentProvider === 'lmstudio' || currentProvider === 'ollama');
     const key = ctx.apiKeys ? ctx.apiKeys[currentProvider] : (stateObj.apiKeys ? stateObj.apiKeys[currentProvider] : '');
@@ -127,7 +131,10 @@ export class SummaryViewController {
         summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${shortModel} (${wordsCount.toLocaleString()} ${t.wordsBadge || 'words'})...`;
         summarizeBtn.title = `${modelDisplayName} (${wordsCount.toLocaleString()} words)`;
       }
-      if (summaryBody) { summaryBody.innerHTML = ''; summaryBody.classList.add('yt-ai-typing'); }
+      if (summaryBody) {
+        summaryBody.classList.remove('yt-ai-typing');
+        summaryBody.innerHTML = PortKeepaliveHelper.renderWaitingHtml((t.waitingForModel || 'Loading AI model ({sec}s)...').replace('{sec}', 0), escapeHtml);
+      }
       if (reasoningBox) reasoningBox.classList.add('yt-ai-hidden');
       if (reasoningText) reasoningText.textContent = '';
       this.fullSummaryMarkdown = '';
@@ -140,13 +147,21 @@ export class SummaryViewController {
       ChannelAuditJobTracker.throwIfAborted(signal, lang);
 
       const meta = ctx.getVideoMetadata ? ctx.getVideoMetadata() : this.transcriptController.cachedVideoMetadata;
-      const maxAllowedChars = CONTEXT_LIMITS[currentProvider] || 25000;
+      const localCtx = ctx.localContextLength || stateObj.localContextLength || 'auto';
+      const maxAllowedChars = resolveContextCharLimit(currentProvider, localCtx);
       const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(fullText, maxAllowedChars);
       const { systemPrompt, userPrompt } = this.promptService.constructor.buildPrompts(meta.title, meta.author, safeTranscript, lang, mode, meta);
 
       const serverUrls = ctx.serverUrls || stateObj.serverUrls || {};
       const serverUrl = serverUrls[currentProvider] || (stateObj.serverUrl || '');
+      let streamSettled = false;
+      const reasoningScheduler = StreamRenderScheduler.create((text) => { if (reasoningText) reasoningText.textContent = text; }, 75);
+      const summaryScheduler = StreamRenderScheduler.create((md) => {
+        if (summaryBody) { summaryBody.classList.add('yt-ai-typing'); renderMarkdown(md, summaryBody, { sectionCards: true }); }
+      }, 75);
+      this.activeRenderSchedulers = [reasoningScheduler, summaryScheduler];
       this.activePort = chrome.runtime.connect({ name: 'ai-stream' });
+      this.activeKeepalive = PortKeepaliveHelper.attach(this.activePort);
 
       this.activePort.postMessage({
         action: 'START_STREAM',
@@ -156,36 +171,44 @@ export class SummaryViewController {
         model: activeModel,
         systemPrompt,
         userPrompt,
-        temperature: ctx.temperature || '0.3',
-        maxTokens: ctx.maxTokens || 'auto'
+        temperature: ctx.temperature || stateObj.temperature || '0.3',
+        maxTokens: ctx.maxTokens || stateObj.maxTokens || 'auto',
+        localContextLength: localCtx
       });
 
       this.activePort.onMessage.addListener((msg) => {
         if (!this.isGenerating || this.isStoppedByUser) return;
-        if (msg.type === 'CHUNK') {
+        if (msg.type === 'KEEPALIVE') {
+          if (msg.waitingForModel && !this.fullSummaryMarkdown && !this.fullReasoningText && summaryBody) {
+            summaryBody.innerHTML = PortKeepaliveHelper.renderWaitingHtml((t.waitingForModel || 'Loading AI model ({sec}s)...').replace('{sec}', msg.elapsedSec || 0), escapeHtml);
+          }
+        } else if (msg.type === 'CHUNK') {
           if (msg.reasoning) {
             this.fullReasoningText += msg.reasoning;
-            if (reasoningBox) {
-              reasoningBox.classList.remove('yt-ai-hidden');
-              reasoningBox.open = true;
-            }
-            if (reasoningText) reasoningText.textContent = this.fullReasoningText;
+            if (reasoningBox) { reasoningBox.classList.remove('yt-ai-hidden'); reasoningBox.open = true; }
             if (reasoningStatus) reasoningStatus.textContent = t.reasoningInProgress || 'thinking...';
+            reasoningScheduler.schedule(this.fullReasoningText);
           }
-
           if (msg.content) {
             if (this.fullReasoningText && reasoningStatus && reasoningStatus.textContent !== (t.reasoningDone || 'completed')) {
+              reasoningScheduler.flush();
               reasoningStatus.textContent = t.reasoningDone || 'completed';
               if (reasoningBox) reasoningBox.open = false;
             }
             this.fullSummaryMarkdown += msg.content;
-            if (summaryBody) renderMarkdown(this.fullSummaryMarkdown, summaryBody, { sectionCards: true });
+            summaryScheduler.schedule(this.fullSummaryMarkdown);
           }
         } else if (msg.type === 'MODEL_RESOLVED') {
           QuickOnboardingHelper.syncResolvedModel(stateObj, msg.provider || currentProvider, msg.model);
         } else if (msg.type === 'DONE') {
+          streamSettled = true;
+          reasoningScheduler.flush();
+          summaryScheduler.flush();
           this.finishGeneration(lang);
         } else if (msg.type === 'ERROR') {
+          streamSettled = true;
+          reasoningScheduler.cancel();
+          summaryScheduler.cancel();
           if (typeof ctx.showStatusBanner === 'function') ctx.showStatusBanner(msg.error, true);
           this.renderErrorState(msg.error, lang, ctx);
           this.finishGeneration(lang);
@@ -193,6 +216,12 @@ export class SummaryViewController {
       });
 
       this.activePort.onDisconnect.addListener(() => {
+        this.activeKeepalive?.stop?.();
+        if (!streamSettled && !this.isStoppedByUser && this.isGenerating) {
+          const interrupted = t.streamInterrupted || 'Connection interrupted before model response.';
+          ctx.showStatusBanner?.(interrupted, true);
+          this.renderErrorState(interrupted, lang, ctx);
+        }
         this.finishGeneration(lang);
       });
     } catch (err) {
@@ -216,74 +245,49 @@ export class SummaryViewController {
     if (!summaryBody) return;
     const t = I18N[currentLang] || I18N.en;
     const cleanErr = (errorMessage || "").replace(/^❌\s*/, "");
-    summaryBody.innerHTML = `
-      <div class="yt-ai-error-box">
-        <div class="yt-ai-error-title"><strong>${escapeHtml(t.errorLabel || "Error: ")}</strong>${escapeHtml(cleanErr)}</div>
-        <button id="ytAiRetrySummarizeBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-retry-btn">
-          ${escapeHtml(t.retryBtn || "🔄 Retry")}
-        </button>
-      </div>
-    `;
-    document.getElementById("ytAiRetrySummarizeBtn")?.addEventListener("click", () => {
-      this.startSummarization(ctx);
-    });
+    summaryBody.innerHTML = `<div class="yt-ai-error-box"><div class="yt-ai-error-title"><strong>${escapeHtml(t.errorLabel || "Error: ")}</strong>${escapeHtml(cleanErr)}</div><button id="ytAiRetrySummarizeBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-retry-btn">${escapeHtml(t.retryBtn || "🔄 Retry")}</button></div>`;
+    document.getElementById("ytAiRetrySummarizeBtn")?.addEventListener("click", () => this.startSummarization(ctx));
   }
 
   finishGeneration(currentLang = 'en') {
     this.isGenerating = false;
     this.activeAbortController = null;
+    this.activeKeepalive?.stop?.();
+    this.activeKeepalive = null;
+    this.activeRenderSchedulers.forEach((s) => s?.cancel?.());
+    this.activeRenderSchedulers = [];
     const summaryBody = document.getElementById('ytAiSummaryBody');
     const summarizeBtn = document.getElementById('ytAiSummarizeBtn');
     const stopBtn = document.getElementById('ytAiStopSummaryBtn');
     const t = I18N[currentLang] || I18N.en;
-
-    if (summaryBody) summaryBody.classList.remove('yt-ai-typing');
-    if (summarizeBtn) {
-      summarizeBtn.disabled = false;
-      summarizeBtn.innerHTML = t.summarizeBtn || '✨ Summarize video';
-    }
-    if (stopBtn) stopBtn.classList?.add('yt-ai-hidden');
-    if (this.activePort) {
-      try { this.activePort.disconnect(); } catch (_) {}
-      this.activePort = null;
-    }
+    summaryBody?.classList?.remove('yt-ai-typing');
+    if (summarizeBtn) { summarizeBtn.disabled = false; summarizeBtn.innerHTML = t.summarizeBtn || '✨ Summarize video'; }
+    stopBtn?.classList?.add('yt-ai-hidden');
+    if (this.activePort) { try { this.activePort.disconnect(); } catch (_) {} this.activePort = null; }
   }
 
   applyLanguage(currentLang = 'en') {
     const t = I18N[currentLang] || I18N.en;
     const summarizeBtn = document.getElementById('ytAiSummarizeBtn');
     const stopBtn = document.getElementById('ytAiStopSummaryBtn');
-    if (stopBtn) {
-      stopBtn.textContent = t.stopListenBtn || '⏹️ Stop';
-      stopBtn.title = t.stopListenBtn || '⏹️ Stop';
-    }
+    if (stopBtn) { stopBtn.textContent = t.stopListenBtn || '⏹️ Stop'; stopBtn.title = stopBtn.textContent; }
 
     if (this.isGenerating) {
-      if (summarizeBtn) {
-        summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || 'Generating summary...'}`;
-      }
+      if (summarizeBtn) summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || 'Generating summary...'}`;
       const loadingEl = document.querySelector('#ytAiSummaryBody .yt-ai-loading');
-      if (loadingEl) {
-        loadingEl.innerHTML = `<span class="yt-ai-spinner"></span> ${escapeHtml(t.generatingSummary || 'Generating summary...')}`;
-      }
-    } else {
-      if (summarizeBtn) summarizeBtn.textContent = t.summarizeBtn || '✨ Summarize video';
-
-      const retryBtn = document.getElementById('ytAiRetrySummarizeBtn');
-      if (retryBtn) retryBtn.textContent = t.retryBtn || '🔄 Retry';
-
-      const errTitle = document.querySelector('#ytAiSummaryBody .yt-ai-error-title strong');
-      if (errTitle) errTitle.textContent = t.errorLabel || 'Error: ';
-
-      const stoppedNote = document.querySelector('#ytAiSummaryBody .yt-ai-stopped-note');
-      if (stoppedNote) {
-        stoppedNote.textContent = t.auditStoppedNote || '⏹ Processing stopped by user.';
-      } else if (!this.fullSummaryMarkdown?.trim()) {
-        const placeholderP = document.querySelector('#ytAiSummaryBody .yt-ai-placeholder-text');
-        if (placeholderP) {
-          placeholderP.textContent = t.summaryPlaceholder || 'Click "✨ Summarize video" to generate the summary.';
-        }
-      }
+      if (loadingEl) loadingEl.innerHTML = `<span class="yt-ai-spinner"></span> ${escapeHtml(t.generatingSummary || 'Generating summary...')}`;
+      return;
+    }
+    if (summarizeBtn) summarizeBtn.textContent = t.summarizeBtn || '✨ Summarize video';
+    const retryBtn = document.getElementById('ytAiRetrySummarizeBtn');
+    if (retryBtn) retryBtn.textContent = t.retryBtn || '🔄 Retry';
+    const errTitle = document.querySelector('#ytAiSummaryBody .yt-ai-error-title strong');
+    if (errTitle) errTitle.textContent = t.errorLabel || 'Error: ';
+    const stoppedNote = document.querySelector('#ytAiSummaryBody .yt-ai-stopped-note');
+    if (stoppedNote) { stoppedNote.textContent = t.auditStoppedNote || '⏹ Processing stopped by user.'; return; }
+    if (!this.fullSummaryMarkdown?.trim()) {
+      const placeholderP = document.querySelector('#ytAiSummaryBody .yt-ai-placeholder-text');
+      if (placeholderP) placeholderP.textContent = t.summaryPlaceholder || 'Click "✨ Summarize video" to generate the summary.';
     }
   }
 }

@@ -494,4 +494,232 @@ describe('ChatViewController - Q&A Interactive Tab Specification', () => {
 
     assert.ok(capturedSystemPrompt.includes('DOSSIER JULIEN CHIEZE'), 'System prompt must include the channel dossier');
   });
+
+  it('handleSendChatMessage exposes diagnostic tools to LLM and runs video audit only when LLM emits [TOOL_CALL:AUDIT_VIDEO]', async () => {
+    const { chatInput } = setupMockDom();
+    chatInput.value = 'Je peux suivre ses conseils financiers ?';
+
+    const mockTranscriptController = {
+      cachedTranscript: { videoId: 'CURRENT_VID', segments: [{ text: 'Guaranteed 50% monthly returns' }], fullText: 'Guaranteed 50% monthly returns' },
+      cachedVideoMetadata: { videoId: 'CURRENT_VID', title: 'Get Rich Quick', author: 'FinanceGuru' }
+    };
+
+    let auditTriggered = false;
+    let streamCount = 0;
+    let secondPassPrompt = '';
+    const mockAuditViewController = {
+      lastReport: null,
+      startAudit: async (ctx) => {
+        auditTriggered = true;
+        const rep = { toChatContextBlock: () => 'AUTO_AUDIT_SCORE_45_100' };
+        mockAuditViewController.lastReport = rep;
+        ctx.state.cachedAuditReport = rep;
+      }
+    };
+
+    global.chrome = {
+      runtime: {
+        connect: () => {
+          const listeners = { msg: [], disc: [] };
+          return {
+            postMessage: (payload) => {
+              streamCount += 1;
+              if (streamCount === 1) {
+                assert.ok(payload.systemPrompt.includes('[TOOL_CALL:AUDIT_VIDEO]'));
+                listeners.msg.forEach((fn) => fn({ type: 'CHUNK', content: '[TOOL_CALL:AUDIT_VIDEO]' }));
+                listeners.msg.forEach((fn) => fn({ type: 'DONE' }));
+              } else {
+                secondPassPrompt = payload.systemPrompt;
+                listeners.msg.forEach((fn) => fn({ type: 'CHUNK', content: 'Attention, promesses irréalistes.' }));
+                listeners.msg.forEach((fn) => fn({ type: 'DONE' }));
+              }
+            },
+            onMessage: { addListener: (fn) => listeners.msg.push(fn) },
+            onDisconnect: { addListener: (fn) => listeners.disc.push(fn) },
+            disconnect: () => {}
+          };
+        }
+      }
+    };
+
+    const controller = new ChatViewController({
+      transcriptController: mockTranscriptController,
+      auditViewController: mockAuditViewController,
+      promptService: {
+        constructor: {
+          buildChatSystemPrompt: (meta, safeTranscript, lang, mode, summary, dossier, comments, auditBlock) => 'PROMPT::' + (auditBlock || ''),
+          condenseTranscriptForContext: (t) => t
+        }
+      }
+    });
+
+    await controller.handleSendChatMessage(null, {
+      currentProvider: 'lmstudio',
+      getActiveModel: () => 'local-model'
+    });
+    await new Promise((r) => setTimeout(r, 20));
+
+    assert.equal(auditTriggered, true);
+    assert.equal(streamCount, 2);
+    assert.ok(secondPassPrompt.includes('AUTO_AUDIT_SCORE_45_100'));
+  });
+
+  it('handleSendChatMessage runs [TOOL_CALL:AUDIT_CHANNEL] on demand and skips tools on direct LLM answers', async () => {
+    const { chatInput } = setupMockDom();
+    chatInput.value = 'Quel est le parcours de ce créateur ?';
+
+    const mockTranscriptController = {
+      cachedTranscript: { videoId: 'CURRENT_VID', segments: [{ text: 'Hello world' }], fullText: 'Hello world' },
+      cachedVideoMetadata: { videoId: 'CURRENT_VID', title: 'Intro', author: 'CreatorX', channelUrl: 'https://www.youtube.com/@creatorx' }
+    };
+
+    let channelFetched = false;
+    let streamCount = 0;
+    let secondPrompt = '';
+    global.chrome = {
+      runtime: {
+        connect: () => {
+          const listeners = { msg: [], disc: [] };
+          return {
+            postMessage: (payload) => {
+              streamCount += 1;
+              if (streamCount === 1) {
+                assert.ok(payload.systemPrompt.includes('[TOOL_CALL:AUDIT_CHANNEL]'));
+                listeners.msg.forEach((fn) => fn({ type: 'CHUNK', content: '[TOOL_CALL:AUDIT_CHANNEL]' }));
+                listeners.msg.forEach((fn) => fn({ type: 'DONE' }));
+              } else {
+                secondPrompt = payload.systemPrompt;
+                listeners.msg.forEach((fn) => fn({ type: 'CHUNK', content: 'Chaîne orientée vulgarisation.' }));
+                listeners.msg.forEach((fn) => fn({ type: 'DONE' }));
+              }
+            },
+            onMessage: { addListener: (fn) => listeners.msg.push(fn) },
+            onDisconnect: { addListener: (fn) => listeners.disc.push(fn) },
+            disconnect: () => {}
+          };
+        }
+      }
+    };
+
+    const controller = new ChatViewController({
+      transcriptController: mockTranscriptController,
+      promptService: {
+        constructor: {
+          buildChatSystemPrompt: (meta, safeTranscript, lang, mode, summary, dossier) => 'PROMPT::' + (dossier || ''),
+          condenseTranscriptForContext: (t) => t
+        }
+      }
+    });
+    controller.channelManager.getOrFetchChannelDossier = async () => {
+      channelFetched = true;
+      return { success: true, channel: { title: 'CreatorX', handle: '@creatorx', markdownDossier: 'DOSSIER_CREATOR_X' } };
+    };
+
+    await controller.handleSendChatMessage(null, {
+      currentProvider: 'lmstudio',
+      getActiveModel: () => 'local-model'
+    });
+    await new Promise((r) => setTimeout(r, 20));
+
+    assert.equal(channelFetched, true);
+    assert.equal(streamCount, 2);
+    assert.ok(secondPrompt.includes('DOSSIER_CREATOR_X'));
+
+    // Direct 1-pass answer when LLM does NOT emit any [TOOL_CALL]
+    channelFetched = false;
+    streamCount = 0;
+    global.chrome = {
+      runtime: {
+        connect: () => {
+          const listeners = { msg: [], disc: [] };
+          return {
+            postMessage: () => {
+              streamCount += 1;
+              listeners.msg.forEach((fn) => fn({ type: 'CHUNK', content: 'Il dit simplement bonjour.' }));
+              listeners.msg.forEach((fn) => fn({ type: 'DONE' }));
+            },
+            onMessage: { addListener: (fn) => listeners.msg.push(fn) },
+            onDisconnect: { addListener: (fn) => listeners.disc.push(fn) },
+            disconnect: () => {}
+          };
+        }
+      }
+    };
+    chatInput.value = 'Que dit-il au début ?';
+    await controller.handleSendChatMessage(null, {
+      currentProvider: 'lmstudio',
+      getActiveModel: () => 'local-model'
+    });
+    await new Promise((r) => setTimeout(r, 20));
+    assert.equal(channelFetched, false);
+    assert.equal(streamCount, 1);
+  });
+
+  it('handleSendChatMessage inspects external websites listed in YouTube Q&A via [TOOL_CALL:AUDIT_EXTERNAL_SITE|...]', async () => {
+    const { chatInput } = setupMockDom();
+    chatInput.value = 'Les sites https://promo-a.example et https://promo-b.example cités en description sont-ils fiables ?';
+
+    const mockTranscriptController = {
+      cachedTranscript: { videoId: 'CURRENT_VID', segments: [{ text: 'Check links below' }], fullText: 'Check links below' },
+      cachedVideoMetadata: { videoId: 'CURRENT_VID', title: 'Sponsor Video', author: 'CreatorY' }
+    };
+
+    const inspectedOrigins = [];
+    let streamCount = 0;
+    let secondPrompt = '';
+    global.chrome = {
+      runtime: {
+        sendMessage: (msg, cb) => {
+          if (msg.action === 'FETCH_DOMAIN_AUDIT') {
+            inspectedOrigins.push(msg.origin);
+            cb({ success: true, dossier: { origin: msg.origin, hostname: msg.hostname, hasRobotsTxt: false, legalPages: [], home: { title: msg.hostname, excerpt: `Content of ${msg.hostname}` } } });
+          } else {
+            cb({ success: false });
+          }
+        },
+        connect: () => {
+          const listeners = { msg: [], disc: [] };
+          return {
+            postMessage: (payload) => {
+              streamCount += 1;
+              if (streamCount === 1) {
+                assert.ok(payload.systemPrompt.includes('[TOOL_CALL:AUDIT_EXTERNAL_SITE'));
+                listeners.msg.forEach((fn) => fn({ type: 'CHUNK', content: '[TOOL_CALL:AUDIT_EXTERNAL_SITE|https://promo-a.example]\n[TOOL_CALL:AUDIT_EXTERNAL_SITE|https://promo-b.example]' }));
+                listeners.msg.forEach((fn) => fn({ type: 'DONE' }));
+              } else {
+                secondPrompt = payload.systemPrompt;
+                listeners.msg.forEach((fn) => fn({ type: 'CHUNK', content: 'Les deux sites ont été vérifiés.' }));
+                listeners.msg.forEach((fn) => fn({ type: 'DONE' }));
+              }
+            },
+            onMessage: { addListener: (fn) => listeners.msg.push(fn) },
+            onDisconnect: { addListener: (fn) => listeners.disc.push(fn) },
+            disconnect: () => {}
+          };
+        }
+      }
+    };
+
+    const controller = new ChatViewController({
+      transcriptController: mockTranscriptController,
+      promptService: {
+        constructor: {
+          buildChatSystemPrompt: () => 'BASE_YT_PROMPT',
+          condenseTranscriptForContext: (t) => t
+        }
+      }
+    });
+
+    await controller.handleSendChatMessage(null, {
+      currentProvider: 'lmstudio',
+      getActiveModel: () => 'local-model'
+    });
+    await new Promise((r) => setTimeout(r, 30));
+
+    assert.deepEqual(inspectedOrigins.sort(), ['https://promo-a.example', 'https://promo-b.example']);
+    assert.equal(streamCount, 2);
+    assert.ok(secondPrompt.includes('=== EXTERNAL SITES INSPECTED ==='));
+    assert.ok(secondPrompt.includes('Content of promo-a.example'));
+    assert.ok(secondPrompt.includes('Content of promo-b.example'));
+  });
 });

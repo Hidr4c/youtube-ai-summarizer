@@ -11,16 +11,20 @@ function createMockNode(tagName = 'div') {
   const node = {
     tagName: tagName.toUpperCase(),
     id: '',
-    className: '',
+    get className() { return Array.from(classes).join(' '); },
+    set className(val) {
+      classes.clear();
+      String(val || '').split(/\s+/).filter(Boolean).forEach(c => classes.add(c));
+    },
     children: [],
     parentNode: null,
     attributes,
     classList: {
-      add: (c) => { classes.add(c); node.className = Array.from(classes).join(' '); },
-      remove: (c) => { classes.delete(c); node.className = Array.from(classes).join(' '); },
+      add: (c) => { classes.add(c); },
+      remove: (c) => { classes.delete(c); },
       toggle: (c) => {
-        if (classes.has(c)) { classes.delete(c); node.className = Array.from(classes).join(' '); return false; }
-        classes.add(c); node.className = Array.from(classes).join(' '); return true;
+        if (classes.has(c)) { classes.delete(c); return false; }
+        classes.add(c); return true;
       },
       contains: (c) => classes.has(c)
     },
@@ -216,11 +220,16 @@ describe('ChannelCompanionCard - In-Page Channel Companion UI Component', () => 
     const brandTitle = injectedCard.querySelector('#ytAiCompBrandTitle');
     assert.ok(brandEl, 'Brand header group should exist');
     assert.ok(injectedCard.querySelector('.yt-ai-brand-logo-svg'), 'YouTube brand SVG logo should exist');
-    assert.equal(brandTitle.textContent.trim(), 'YT Summarizer AI');
+    assert.equal(brandTitle.textContent.trim(), 'ClarifAI');
     assert.equal(injectedCard.querySelector('.yt-ai-card-title'), null, 'Redundant channel banner title should be removed');
 
-    const langSelect = injectedCard.querySelector('#ytAiCompLangSelect');
-    assert.ok(langSelect, 'Channel companion header should expose language selector');
+    const headerTabs = injectedCard.querySelector('.yt-ai-header-tabs');
+    assert.ok(headerTabs, 'Channel companion header should render unified single-row tab actions');
+    assert.ok(headerTabs.querySelector('#ytAiChanTabAuditBtn'), 'Channel Audit tab action must live in header');
+    assert.ok(headerTabs.querySelector('#ytAiChanTabChatBtn'), 'Channel Q&A tab action must live in header');
+    assert.equal(injectedCard.querySelector('#ytAiCompLangSelect'), null, 'Legacy header language selector must not clutter top bar');
+    assert.ok(injectedCard.querySelector('#ytAiSettingsDrawer #ytAiLangSelect'), 'Language selector should live in Settings Drawer');
+    assert.ok(injectedCard.querySelector('#ytAiChannelAuditModeSelect'), 'Channel audit depth selector should live inside audit pane');
     assert.ok(injectedCard.querySelector('.yt-ai-footer-info'), 'Channel companion should render footer attribution');
 
     const chatPane = injectedCard.querySelector('#ytAiChanPaneChat');
@@ -228,7 +237,7 @@ describe('ChannelCompanionCard - In-Page Channel Companion UI Component', () => 
     assert.ok(chatPane.querySelector('.yt-ai-chat-input-row'), 'Channel Q&A input must use flex yt-ai-chat-input-row');
 
     const runBtn = injectedCard.querySelector('#ytAiRunChannelAuditBtn');
-    assert.ok(runBtn, 'Run button should exist');
+    assert.ok(runBtn, 'Run button should exist inside audit pane');
     assert.ok(/Lancer l['’]audit de la cha[îi]ne/i.test(runBtn.textContent));
 
     // Check period pills
@@ -237,7 +246,7 @@ describe('ChannelCompanionCard - In-Page Channel Companion UI Component', () => 
     assert.ok(pills[0].classList.contains('active'));
   });
 
-  it('toggles expansion state when toggle button is clicked', () => {
+  it('starts collapsed and toggles expansion state when toggle button is clicked', () => {
     const cardController = new ChannelCompanionCard({
       state: { extensionEnabled: true, currentLang: 'fr' }
     });
@@ -247,21 +256,25 @@ describe('ChannelCompanionCard - In-Page Channel Companion UI Component', () => 
     const toggleBtn = card.querySelector('#ytAiCompanionToggleBtn');
     const body = card.querySelector('#ytAiCompanionBody');
 
-    assert.equal(cardController.isExpanded, true);
-    assert.equal(body.classList.contains('yt-ai-hidden'), false);
-    assert.ok(toggleBtn.textContent.includes('▲'));
-
-    // Click toggle to collapse
-    toggleBtn.click();
     assert.equal(cardController.isExpanded, false);
+    assert.equal(card.classList.contains('is-collapsed'), true);
+    assert.equal(card.classList.contains('yt-ai-top-shell'), true);
     assert.equal(body.classList.contains('yt-ai-hidden'), true);
     assert.ok(toggleBtn.textContent.includes('▾'));
 
     // Click toggle to expand
     toggleBtn.click();
     assert.equal(cardController.isExpanded, true);
+    assert.equal(card.classList.contains('is-collapsed'), false);
     assert.equal(body.classList.contains('yt-ai-hidden'), false);
     assert.ok(toggleBtn.textContent.includes('▲'));
+
+    // Click toggle to collapse
+    toggleBtn.click();
+    assert.equal(cardController.isExpanded, false);
+    assert.equal(card.classList.contains('is-collapsed'), true);
+    assert.equal(body.classList.contains('yt-ai-hidden'), true);
+    assert.ok(toggleBtn.textContent.includes('▾'));
   });
 
   it('updates selected period when clicking period filter pills', () => {
@@ -303,5 +316,33 @@ describe('ChannelCompanionCard - In-Page Channel Companion UI Component', () => 
     cardController.tryInjectCompanion();
     await cardController.handleRunAudit();
     assert.equal(rendered, true);
+  });
+
+  it('auto-expands and launches channel audit or focuses Q&A in 1 click from collapsed header tabs', async () => {
+    let auditLaunched = 0;
+    const mockService = {
+      getCachedReport: () => null,
+      executeChannelAudit: async () => { auditLaunched += 1; return { globalScore: 88 }; }
+    };
+    const cardController = new ChannelCompanionCard({
+      channelAuditService: mockService,
+      channelAuditViewController: { renderReport: () => {} },
+      state: { extensionEnabled: true, currentLang: 'fr' }
+    });
+
+    cardController.tryInjectCompanion();
+    assert.equal(cardController.isExpanded, false);
+
+    document.getElementById('ytAiChanTabAuditBtn').click();
+    await new Promise(r => setTimeout(r, 0));
+    assert.equal(cardController.isExpanded, true);
+    assert.equal(cardController.activeTab, 'channelAudit');
+    assert.equal(auditLaunched, 1, '1-click audit tab must launch channel audit when uncached');
+
+    document.getElementById('ytAiCompanionToggleBtn').click();
+    assert.equal(cardController.isExpanded, false);
+    document.getElementById('ytAiChanTabChatBtn').click();
+    assert.equal(cardController.isExpanded, true);
+    assert.equal(cardController.activeTab, 'channelChat');
   });
 });

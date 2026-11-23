@@ -1,10 +1,10 @@
 {
   "appName": {
-    "message": "YouTube Summarizer AI (LM Studio, Ollama & Cloud)",
-    "description": "Name der Erweiterung"
+    "message": "ClarifAI — Web & YouTube KI: Zusammenfassung, Q&A",
+    "description": "Name der Erweiterung im Chrome Web Store und Browser."
   },
   "appDesc": {
-    "message": "KI-YouTube-Zusammenfassungen, Faktencheck- & Kanal-Audits, Q&A-Chat. Lokal (LM Studio, Ollama) oder Cloud, STT & TTS.",
-    "description": "Kurzbeschreibung der Erweiterung"
+    "message": "Fassen Sie Webseiten und YouTube-Videos zusammen, stellen Sie Fragen und prüfen Sie die Vertrauenswürdigkeit per lokaler/Cloud-KI.",
+    "description": "Kurzbeschreibung der Erweiterung im Chrome Web Store."
   }
 }

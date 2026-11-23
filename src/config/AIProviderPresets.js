@@ -92,6 +92,21 @@ export const CONTEXT_LIMITS = {
   together: 60000
 };
 
+/**
+ * Computes transcript character budget tailored to configured local context window.
+ * @param {string} provider
+ * @param {string|number} [localContextLength='auto']
+ * @returns {number}
+ */
+export function resolveContextCharLimit(provider, localContextLength = 'auto') {
+  const baseLimit = CONTEXT_LIMITS[provider] || 25000;
+  if (provider !== 'lmstudio' && provider !== 'ollama') return baseLimit;
+  if (!localContextLength || localContextLength === 'auto') return baseLimit;
+  const ctxTokens = parseInt(String(localContextLength), 10);
+  if (!Number.isFinite(ctxTokens) || ctxTokens < 2048) return baseLimit;
+  return Math.max(8000, Math.min(90000, Math.floor((ctxTokens - 3000) * 3)));
+}
+
 export const PROVIDER_NAMES = {
   lmstudio: 'LM Studio',
   ollama: 'Ollama',

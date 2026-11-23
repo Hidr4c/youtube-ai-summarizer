@@ -1,10 +1,10 @@
 {
   "appName": {
-    "message": "YouTube Summarizer AI (LM Studio, Ollama & Cloud)",
-    "description": "Название расширения"
+    "message": "ClarifAI — Сводки сайтов и YouTube, Q&A и аудит",
+    "description": "Название расширения в Chrome Web Store."
   },
   "appDesc": {
-    "message": "ИИ-резюме YouTube, фактчек-аудит видео и каналов, Q&A чат. Локально (LM Studio, Ollama) или облако, голос STT и TTS.",
-    "description": "Краткое описание расширения"
+    "message": "Резюмируйте веб-страницы и видео YouTube, задавайте вопросы и проверяйте надёжность сайтов с локальным или облачным ИИ.",
+    "description": "Краткое описание расширения в Chrome Web Store."
   }
 }

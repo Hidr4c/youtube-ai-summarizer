@@ -83,7 +83,7 @@ export class ChannelAuditService {
   }
 
   async executeChannelAudit(options = {}) {
-    const { channelQuery, period = 'all', lang = 'fr', state = {} } = options;
+    const { channelQuery, period = 'all', lang = 'fr', state = {}, mode = state.channelAuditMode || 'standard' } = options;
     const parsedLimit = parseChannelAuditLimit(options.maxVideos ?? state.channelAuditMaxVideos ?? 30);
     const maxSample = parsedLimit.fetchCap;
     const fetchLimit = parsedLimit.isAll ? parsedLimit.fetchCap : (period !== 'all' ? Math.max(90, maxSample) : Math.max(30, maxSample));
@@ -94,7 +94,7 @@ export class ChannelAuditService {
     const channelKey = ChannelAuditJobTracker.normalizeKey(channelQuery) || qNorm;
     const cacheKey = `${channelKey}::${period}::${parsedLimit.key}`;
     const existing = this.getCachedReport(channelQuery, period, parsedLimit.key);
-    if (existing) return existing;
+    if (existing && (existing.mode || 'standard') === mode) return existing;
 
     this.abortAudit('superseded');
     const abortController = new AbortController();
@@ -177,7 +177,7 @@ export class ChannelAuditService {
           detail: 'Préparation du dossier consolidé pour le modèle'
         });
         accumulatedText = await this._streamAI({
-          systemPrompt: ChannelAuditPromptBuilder.buildSystemPrompt(lang),
+          systemPrompt: ChannelAuditPromptBuilder.buildSystemPrompt(lang, mode),
           userPrompt: ChannelAuditPromptBuilder.buildUserPrompt(channelData, sampledVideos, lang),
           state,
           totalVideos: sampledVideos.length,
@@ -197,6 +197,7 @@ export class ChannelAuditService {
         lang
       });
       report.channelTotalVideos = exactChannelTotal;
+      report.mode = mode;
 
       this._storeReport(cacheKey, qNorm, channelKey, period, parsedLimit.key, channelData.handle, report);
 

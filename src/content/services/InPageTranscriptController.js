@@ -4,7 +4,7 @@ import { YouTubeDOMContext } from './YouTubeDOMContext.js';
 import { CaptionTrackPrioritizer } from '../../parsers/CaptionTrackPrioritizer.js';
 import { TimedtextParser } from '../../parsers/TimedtextParser.js';
 import { TextCleaner } from '../../parsers/TextCleaner.js';
-import { getVideoId } from '../ui/NavigationObserver.js';
+import { getVideoId, isShortsPage } from '../ui/NavigationObserver.js';
 import { escapeHtml } from '../ui/MarkdownRenderer.js';
 import { I18N } from '../../locales/index.js';
 
@@ -91,6 +91,7 @@ export class InPageTranscriptController {
             title: data.title || '',
             author: data.author || '',
             channelId: data.channelId || '',
+            channelUrl: data.channelUrl || (data.channelId ? `/channel/${data.channelId}` : ''),
             subscribers: this.cachedVideoMetadata.subscribers || '',
             description: data.description || '',
             keywords: Array.isArray(data.keywords) ? data.keywords : [],
@@ -148,19 +149,25 @@ export class InPageTranscriptController {
     return null;
   }
 
+  _commitTranscript(videoId, segments, isChapterOnly = false) {
+    if (!Array.isArray(segments) || segments.length === 0) return null;
+    this.saveCachedTranscript(videoId, segments, isChapterOnly);
+    return this.cachedTranscript.videoId === videoId ? segments : null;
+  }
+
   async executeExtractionPipeline(currentVideoId, preferredLang, isUserInitiated) {
-    // STRATÉGIE 1 : Passive Active DOM
-    const domSegments = DOMTranscriptExtractor.extractTranscriptFromActiveDOM();
-    if (domSegments && domSegments.length > 0) {
-      this.saveCachedTranscript(currentVideoId, domSegments, false);
-      return domSegments;
+    const onShorts = isShortsPage();
+    // STRATÉGIE 1 : Passive Active DOM (skipped on Shorts feeds to prevent stale Watch DOM leakage)
+    if (!onShorts) {
+      const committed = this._commitTranscript(currentVideoId, DOMTranscriptExtractor.extractTranscriptFromActiveDOM(), false);
+      if (committed) return committed;
     }
 
     // STRATÉGIE 2 : Main World in-memory
     const playerData = await this.requestPlayerDataFromMainWorld(currentVideoId, preferredLang);
-    if (playerData?.videoId === currentVideoId && playerData?.segments?.length > 0) {
-      this.saveCachedTranscript(currentVideoId, playerData.segments, false);
-      return playerData.segments;
+    if (playerData?.videoId === currentVideoId) {
+      const committed = this._commitTranscript(currentVideoId, playerData.segments, false);
+      if (committed) return committed;
     }
 
     // STRATÉGIE 3 : Timedtext Direct Streams (All candidate tracks)
@@ -168,44 +175,36 @@ export class InPageTranscriptController {
       const ordered = CaptionTrackPrioritizer.prioritizeTracks(playerData.captions, preferredLang);
       for (const track of ordered) {
         if (track?.baseUrl) {
-          const segments = await this.fetchTimedtextSegments(track.baseUrl, preferredLang);
-          if (segments && segments.length > 0) {
-            this.saveCachedTranscript(currentVideoId, segments, false);
-            return segments;
-          }
+          const committed = this._commitTranscript(currentVideoId, await this.fetchTimedtextSegments(track.baseUrl, preferredLang), false);
+          if (committed) return committed;
         }
       }
     }
 
     // STRATÉGIE 4 : Stealth Native Panel (Full dialogue transcript in DOM)
-    const stealthSegments = await NativeTranscriptPanel.triggerStealthNativeTranscript();
-    if (stealthSegments && stealthSegments.length > 0) {
-      this.saveCachedTranscript(currentVideoId, stealthSegments, false);
-      return stealthSegments;
+    if (!onShorts) {
+      const committed = this._commitTranscript(currentVideoId, await NativeTranscriptPanel.triggerStealthNativeTranscript(), false);
+      if (committed) return committed;
     }
 
-    // STRATÉGIE 5 : Background Fetch via Service Worker
+    // STRATÉGIE 5 & 6 : Background Fetch via Service Worker & Description Chapters
     const bgResult = await this.fetchTranscriptFromBackground(currentVideoId, preferredLang);
-    if (bgResult?.segments?.length > 0 && !bgResult.isChapterOnly) {
-      this.saveCachedTranscript(currentVideoId, bgResult.segments, false);
-      return bgResult.segments;
+    const bgMatches = !bgResult?.videoId || bgResult.videoId === currentVideoId;
+    if (bgMatches) {
+      const committed = this._commitTranscript(currentVideoId, bgResult?.segments, !!bgResult?.isChapterOnly);
+      if (committed) return committed;
     }
 
-    // STRATÉGIE 6 : Description Chapters / Timestamps (Transparent fallback)
-    if (bgResult?.segments?.length > 0 && bgResult.isChapterOnly) {
-      this.saveCachedTranscript(currentVideoId, bgResult.segments, true);
-      return bgResult.segments;
-    }
-
-    const chapterSegments = YouTubeDOMContext.extractChaptersFromDescription();
+    const chapterSegments = !onShorts ? YouTubeDOMContext.extractChaptersFromDescription() : null;
     if (chapterSegments && chapterSegments.length > 1) {
-      this.saveCachedTranscript(currentVideoId, chapterSegments, true);
-      return chapterSegments;
+      return this._commitTranscript(currentVideoId, chapterSegments, true);
     }
     return null;
   }
 
   saveCachedTranscript(videoId, segments, isChapterOnly = false) {
+    const activeVideoId = getVideoId();
+    if (activeVideoId && videoId && activeVideoId !== videoId) return;
     this.cachedTranscript = {
       videoId,
       segments,

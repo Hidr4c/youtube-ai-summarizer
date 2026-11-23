@@ -108,6 +108,29 @@ export class LocalModelDiscovery {
   }
 
   /**
+   * Queries LM Studio or Ollama for the currently active/default context window length.
+   * @param {Object} ctx
+   * @param {Function} onDetected
+   */
+  static syncLocalContextDefault(ctx, onDetected) {
+    const prov = ctx?.currentProvider;
+    if ((prov !== 'lmstudio' && prov !== 'ollama') || typeof chrome === 'undefined' || !chrome.runtime?.sendMessage) return;
+    const model = typeof ctx.getActiveModel === 'function' ? ctx.getActiveModel() : (ctx.selectedModels?.[prov] || '');
+    chrome.runtime.sendMessage({
+      action: 'GET_LOCAL_CONTEXT_DEFAULT',
+      provider: prov,
+      serverUrl: ctx.serverUrls?.[prov] || '',
+      model,
+      apiKey: ctx.apiKeys?.[prov] || ''
+    }, (res) => {
+      if (chrome.runtime?.lastError || !res || (!res.contextLength && res.canModifyContext !== false)) return;
+      if (!ctx.serverDefaultContexts) ctx.serverDefaultContexts = {};
+      ctx.serverDefaultContexts[prov] = res;
+      if (typeof onDetected === 'function') onDetected(res);
+    });
+  }
+
+  /**
    * Populates the HTML select element with discovered models
    * @param {HTMLElement} select
    * @param {Array<Object>} models

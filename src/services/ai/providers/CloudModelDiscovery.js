@@ -186,14 +186,23 @@ export class CloudModelDiscovery {
    */
   static async fetchWithModelFallback({ endpoint, headers, payload, signal = null, provider, apiKey = '', fetchFn = fetch }) {
     const isLocal = provider === 'lmstudio' || provider === 'ollama';
-    const post = (bodyObj) => {
+    const post = async (bodyObj, urlOverride = endpoint) => {
       const opts = { method: 'POST', headers, body: JSON.stringify(bodyObj) };
       if (signal) opts.signal = signal;
-      return fetchFn(endpoint, opts);
+      return fetchFn(urlOverride, opts);
     };
 
     const tried = new Set([payload.model]);
-    let response = await post(payload);
+    let response;
+    try {
+      response = await post(payload);
+    } catch (err) {
+      const mirror = isLocal && !signal?.aborted
+        ? (endpoint.includes('localhost') ? endpoint.replace('localhost', '127.0.0.1') : (endpoint.includes('127.0.0.1') ? endpoint.replace('127.0.0.1', 'localhost') : null))
+        : null;
+      if (!mirror) throw err;
+      response = await post(payload, mirror);
+    }
     if (response.ok) return { response, resolvedModel: null, errorText: '' };
 
     let errorText = await response.text().catch(() => '');

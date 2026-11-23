@@ -34,7 +34,7 @@ export class ChannelCompanionRunController {
       const curKey = ChannelAuditJobTracker.normalizeKey(this.card.currentChannel);
       if (evtKey && curKey && evtKey !== curKey) return;
 
-      const lang = evt.job?.lang || document.getElementById?.('ytAiCompLangSelect')?.value || this.state.currentLang || 'fr';
+      const lang = evt.job?.lang || document.getElementById?.('ytAiLangSelect')?.value || document.getElementById?.('ytAiCompLangSelect')?.value || this.state.currentLang || 'fr';
       const isFr = lang.startsWith('fr');
       const progBox = document.getElementById('ytAiChannelProgress');
       const resultBox = document.getElementById('ytAiChannelResultContainer');

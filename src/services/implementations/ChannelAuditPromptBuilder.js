@@ -3,6 +3,7 @@
  * Bundles multi-video samples into a single round-trip prompt with temporal weighting
  */
 import { AuditPromptBuilder } from './AuditPromptBuilder.js';
+import { ChannelFormatAnalyzer } from '../../domain/services/ChannelFormatAnalyzer.js';
 
 export class ChannelAuditPromptBuilder {
   /**
@@ -10,7 +11,7 @@ export class ChannelAuditPromptBuilder {
    * @param {string} [lang='fr']
    * @returns {string}
    */
-  static buildSystemPrompt(lang = 'fr') {
+  static buildSystemPrompt(lang = 'fr', mode = 'standard') {
     const isFr = (lang || 'fr').toLowerCase().startsWith('fr');
     const targetLangName = AuditPromptBuilder.getLanguageLabel(lang);
     const now = new Date();
@@ -36,6 +37,7 @@ MÉTHODOLOGIE D'ÉCHANTILLONNAGE & CRITÈRES D'ANALYSE :
 5. TRANSPARENCE COMMERCIALE & DISCERNEMENT MARKETING : Il est normal et légitime qu'un créateur gagne sa vie (sponsors, partenariats, vente d'ouvrages ou de formations). L'exigence clé est la transparence envers le public et la préservation de son esprit critique : l'auteur développe-t-il des arguments réels, vérifiés et nuancés, ou répète-t-il un discours marketing préformaté sans recul ? ("Le mal n'est pas partout : une vidéo sponsorisée peut être rigoureuse si les arguments sont honnêtes").
 6. POSTURE DÉCLARATIVE VS PREUVE RÉELLE : Ne prends jamais l'auto-proclamation d'honnêteté (« je suis totalement indépendant », « je vous dis toute la vérité ») pour argent comptant. C'est à l'audit de juger de la sincérité et de la probité du propos en vérifiant les faits, la solidité des arguments et la cohérence des démonstrations.
 7. ZÉRO MALUS POUR CONTRAINTE TECHNIQUE : Il est strictement interdit de baisser la note d'une vidéo ou d'une chaîne sous prétexte que les sous-titres complets ne sont pas disponibles sur la plateforme. Juge la rigueur et l'honnêteté à 100% sur les éléments observables.
+8. DISTINCTION VIDÉOS LONGUES VS SHORTS : Chaque contenu est identifié explicitement par \`[VIDÉO]\` ou \`[SHORT]\`. Si l'échantillon comprend des Shorts (en plus ou à la place de vidéos longues), évalue chaque vidéo ET chaque Short dans \`[EVAL_VIDEOS]\`, et compare les deux formats dans une section dédiée \`### [⚡] Comparatif Vidéos longues vs Shorts\` (tonalité, sensationnalisme, recyclage d'extraits vs contenus dédiés, cohérence globale).
 
 FORMAT IMPÉRATIF DE RÉPONSE :
 Pour permettre le parsing automatique et l'affichage des graphiques statistiques, ta réponse DOIT inclure STRICTEMENT :
@@ -66,6 +68,9 @@ Numéro | Score | Sensationnalisme% | Verdict | Commentaire d'une phrase
 ### [📈] Évolution temporelle (Trajectoire d'année en année)
 - **Tendance observée :** Analyse synthétique comparant les productions passées et récentes avec périodes clés en **gras**.
 
+### [⚡] Comparatif Vidéos longues vs Shorts (si applicable)
+- **Équilibre des formats :** Analyse la cohérence, la qualité et le sensationnalisme entre les vidéos longues \`[VIDÉO]\` et les formats courts \`[SHORT]\` (ou indique si la chaîne se concentre sur un seul format).
+
 ### Synthèse & Recommandation Globale
 > **Verdict :** Recommandation finale claire et directe en 1-2 phrases pour un spectateur exigeant.
 
@@ -87,6 +92,8 @@ TEMPORAL & CONTEXTUAL METHODOLOGY:
 5. COMMERCIAL TRANSPARENCY: Differentiate legitimate author monetization from undisclosed sponsorship pressure.
 6. EVIDENCE OVER SELF-CLAIMS: Evaluate rigor objectively from observable facts; NEVER penalize missing transcripts caused by technical platform limits.
 
+7. LONG-FORM VIDEOS VS SHORTS COMPARISON: Every item is prefixed with \`[VIDEO]\` or \`[SHORT]\`. Score both formats inside \`[EVAL_VIDEOS]\`, and analyze both in \`### [⚡] Long-form Videos vs Shorts Comparison\` (depth, sensationalism gap, repurposed clips vs dedicated Shorts, editorial consistency).
+
 MANDATORY OUTPUT FORMAT:
 [EVAL_VIDEOS]
 Index | Score | Clickbait% | Verdict | One sentence note
@@ -105,10 +112,12 @@ Index | Score | Clickbait% | Verdict | One sentence note
 - **Verified Issue:** 1-3 direct bullets if clickbait or undisclosed marketing exists (or "No major red flags observed").
 ### [📈] Year-over-Year Trajectory
 - **Observed Trend:** Concise temporal comparison highlighting recent vs historic quality shifts in **bold**.
+### [⚡] Long-form Videos vs Shorts Comparison (if applicable)
+- **Format Consistency:** Contrast editorial rigor, sensationalism, and value between \`[VIDEO]\` long-form uploads and \`[SHORT]\` vertical clips (or note single-format focus).
 ### Executive Synthesis & Recommendation
 > **Verdict:** Crisp 1-2 sentence final guidance for discerning viewers.
 
-STRICT LANGUAGE & FORMATTING RULE: Write ALL prose, concise \`- **Label:** ...\` bullet items, Executive Synthesis, and per-video notes inside [EVAL_VIDEOS] exclusively in ${targetLangName}. Never produce dense walls of unformatted prose. Keep bracketed parser tags ([EVAL_VIDEOS], [SCORE_GLOBAL], [INDICE_CLICKBAIT], [DISTRIBUTION], [TRAJECTOIRE], ### [✓], ### [!], ### [X], ### [📈]) exact for machine parsing.`;
+STRICT LANGUAGE & FORMATTING RULE: Write ALL prose, concise \`- **Label:** ...\` bullet items, Executive Synthesis, and per-video notes inside [EVAL_VIDEOS] exclusively in ${targetLangName}. ${AuditPromptBuilder.buildDepthDirective(lang, mode)} Never produce dense walls of unformatted prose. Keep bracketed parser tags ([EVAL_VIDEOS], [SCORE_GLOBAL], [INDICE_CLICKBAIT], [DISTRIBUTION], [TRAJECTOIRE], ### [✓], ### [!], ### [X], ### [📈]) exact for machine parsing.`;
   }
 
   /**
@@ -130,12 +139,18 @@ STRICT LANGUAGE & FORMATTING RULE: Write ALL prose, concise \`- **Label:** ...\`
     const recent = sampledVideos.filter(v => v.era === 'recent');
     const mid = sampledVideos.filter(v => v.era === 'mid');
     const legacy = sampledVideos.filter(v => v.era === 'legacy');
+    const shortsCount = sampledVideos.filter(v => ChannelFormatAnalyzer.isShortItem(v)).length;
+    const videosCount = sampledVideos.length - shortsCount;
+    const formatSummary = shortsCount > 0
+      ? (isFr ? ` (${videosCount} Vidéos longues • ${shortsCount} Shorts)` : ` (${videosCount} Long-form Videos • ${shortsCount} Shorts)`)
+      : '';
 
     const formatCohort = (cohortList, headerLabel) => {
       if (!cohortList || cohortList.length === 0) return '';
       const lines = [`\n${headerLabel} :`];
       cohortList.forEach(v => {
-        lines.push(`  ${v.sampleIndex || '•'}. "${v.title}" (${v.meta || v.eraLabel || ''}) [ID: ${v.id}]`);
+        const typeTag = ChannelFormatAnalyzer.isShortItem(v) ? '[SHORT]' : (isFr ? '[VIDÉO]' : '[VIDEO]');
+        lines.push(`  ${v.sampleIndex || '•'}. ${typeTag} "${v.title}" (${v.meta || v.eraLabel || ''}) [ID: ${v.id}]`);
         if (Array.isArray(v.chapters) && v.chapters.length > 0) {
           lines.push(`     └ ${isFr ? 'Chapitres' : 'Chapters'} : ${v.chapters.slice(0, 5).join(' | ')}`);
         }
@@ -157,13 +172,13 @@ STRICT LANGUAGE & FORMATTING RULE: Write ALL prose, concise \`- **Label:** ...\`
 - Audience : ${subs} • Volume : ${videoCount}
 - Bio officielle : """${bio}"""
 
-ÉCHANTILLON REPRÉSENTATIF GROUPÉ (${sampledVideos.length} VIDÉOS SÉLECTIONNÉES) :`
+ÉCHANTILLON REPRÉSENTATIF GROUPÉ (${sampledVideos.length} CONTENUS SÉLECTIONNÉS${formatSummary}) :`
       : `CONSOLIDATED STATISTICAL CHANNEL AUDIT:
 - Name: ${title} (${handle})
 - Audience: ${subs} • Volume: ${videoCount}
 - Bio: """${bio}"""
 
-REPRESENTATIVE GROUP SAMPLE (${sampledVideos.length} SELECTED VIDEOS):`;
+REPRESENTATIVE GROUP SAMPLE (${sampledVideos.length} SELECTED ITEMS${formatSummary}):`;
 
     const cohort1 = formatCohort(recent, isFr ? '[COHORTE 1 : RÉCENT (Derniers mois - Poids fort ~65%)]' : '[COHORT 1: RECENT (Recent months - 65% weight)]');
     const cohort2 = formatCohort(mid, isFr ? '[COHORTE 2 : INTERMÉDIAIRE (~1 an - Poids moyen ~25%)]' : '[COHORT 2: MID-TERM (~1 year - 25% weight)]');

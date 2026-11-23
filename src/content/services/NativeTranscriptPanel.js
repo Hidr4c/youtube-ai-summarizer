@@ -1,4 +1,5 @@
 import { DOMTranscriptExtractor } from './DOMTranscriptExtractor.js';
+import { isActivePageElement } from '../ui/DomVisibilityHelper.js';
 
 export const CLOSE_BTN_LANG_REGEX = /fermer|close|schließen|cerrar|chiudi|fechar|закрыть|sluiten|stäng|luk|sulje|閉じる|닫기|关闭|關閉|إغلاق|बंद करें/i;
 export const TRANSCRIPT_LANG_REGEX = /transcription|transcript|transkript|transcripción|trascrizione|transcrição|транскрипция|文字起こし|자막|文字记录|文字記錄|نص|प्रतिलेख/i;
@@ -12,16 +13,16 @@ const ENGAGEMENT_SELECTORS = [
 ].join(', ');
 
 export function isNativeTranscriptPanelVisible() {
-  const segs = document.querySelectorAll(
+  const segs = Array.from(document.querySelectorAll(
     'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"], [class*="ytwTranscriptSegmentViewModelHost"]'
-  );
-  if (segs && segs.length > 3) {
+  )).filter(el => isActivePageElement(el));
+  if (segs.length > 3) {
     for (const seg of segs) {
       if (seg.offsetParent !== null) return true;
     }
   }
 
-  const panels = document.querySelectorAll(ENGAGEMENT_SELECTORS);
+  const panels = Array.from(document.querySelectorAll(ENGAGEMENT_SELECTORS)).filter(p => isActivePageElement(p));
   for (const panel of panels) {
     if (panel.style.display === 'none' || panel.hasAttribute('hidden')) continue;
     const vis = panel.getAttribute('visibility');
@@ -86,11 +87,12 @@ export function collapseDescription() {
 }
 
 function findTranscriptButtonInDOM() {
-  let btn = document.querySelector('ytd-video-description-transcript-section-renderer button, ytd-video-description-transcript-section-renderer [role="button"]');
-  if (btn) return btn;
-  const allBtns = document.querySelectorAll(
+  const direct = Array.from(document.querySelectorAll('ytd-video-description-transcript-section-renderer button, ytd-video-description-transcript-section-renderer [role="button"]'))
+    .find(el => isActivePageElement(el));
+  if (direct) return direct;
+  const allBtns = Array.from(document.querySelectorAll(
     '#description button, #description [role="button"], ytd-watch-metadata button, ytd-watch-metadata [role="button"], ytd-structured-description-content-renderer button, ytd-structured-description-content-renderer [role="button"]'
-  );
+  )).filter(el => isActivePageElement(el));
   for (const b of allBtns) {
     const aria = b.getAttribute('aria-label') || '';
     const text = b.textContent || '';
@@ -141,18 +143,20 @@ export async function ensureTranscriptTabActive(targetPanel) {
 }
 
 export async function triggerStealthNativeTranscript() {
-  if (!document.getElementById('movie_player') && !document.querySelector('video')) {
+  if (!document.getElementById('movie_player') && !document.getElementById('shorts-player') && !document.querySelector('video')) {
     return null;
   }
 
+  const activePanels = Array.from(document.querySelectorAll(ENGAGEMENT_SELECTORS)).filter(p => isActivePageElement(p));
   // Restore any previous display override so panels can render
-  for (const p of document.querySelectorAll(ENGAGEMENT_SELECTORS)) {
+  for (const p of activePanels) {
     p.style.removeProperty('display');
   }
 
   const wasPanelOpen = isNativeTranscriptPanelVisible();
   let didWeOpenPanel = false;
-  const expandDesc = document.querySelector('tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand');
+  const expandDesc = Array.from(document.querySelectorAll('tp-yt-paper-button#expand, #expand.ytd-text-inline-expander, #description-inline-expander #expand'))
+    .find(el => isActivePageElement(el)) || null;
   const wasDescExpanded = !expandDesc || expandDesc.offsetParent === null;
 
   if (wasPanelOpen) {
@@ -186,14 +190,16 @@ export async function triggerStealthNativeTranscript() {
       didWeOpenPanel = true;
       directBtn.click();
     } else {
-      const markersBtn = document.querySelector('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]');
+      const markersBtn = Array.from(document.querySelectorAll('ytd-macro-markers-list-renderer button, #structured-description ytd-macro-markers-list-renderer [role="button"]'))
+        .find(el => isActivePageElement(el));
       if (markersBtn) {
         didWeOpenPanel = true;
         markersBtn.click();
         await new Promise(r => setTimeout(r, 250));
         await ensureTranscriptTabActive();
       } else {
-        const hiddenPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]');
+        const hiddenPanel = Array.from(document.querySelectorAll('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ytd-engagement-panel-section-list-renderer[target-id*="transcript"]'))
+          .find(el => isActivePageElement(el));
         if (hiddenPanel) {
           didWeOpenPanel = true;
           hiddenPanel.setAttribute('visibility', 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED');

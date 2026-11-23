@@ -24,11 +24,35 @@ export class AuditPromptBuilder {
   }
 
   /**
-   * Builds the System Prompt for the Critical Audit & Logic Verification Assistant
+   * Builds verbosity directive for audit outputs ('quick', 'standard', 'detailed').
    * @param {string} [lang='fr']
+   * @param {string} [mode='standard']
    * @returns {string}
    */
-  static buildSystemPrompt(lang = 'fr') {
+  static buildDepthDirective(lang = 'fr', mode = 'standard') {
+    const isFr = String(lang || 'en').toLowerCase().startsWith('fr');
+    if (mode === 'quick' || mode === 'concise') {
+      return isFr
+        ? 'FORMAT DE RÉPONSE (CONCIS) : Verdict en 1 phrase nette ; points forts et limites en 1 ligne ultra-concise par point (~180 mots max, zéro remplissage).'
+        : 'RESPONSE FORMAT (CONCISE): Keep the verdict to 1 crisp sentence and every strength/watchpoint to a single ultra-short bullet (~180 words max, zero fluff).';
+    }
+    if (mode === 'detailed' || mode === 'deep') {
+      return isFr
+        ? 'FORMAT DE RÉPONSE (DÉTAILLÉ) : Développe chaque point fort, limite, citation et recoupement factuel avec nuance et précision approfondie.'
+        : 'RESPONSE FORMAT (DETAILED): Elaborate each strength, caveat, verbatim quote, and factual verification with thorough context and nuance.';
+    }
+    return isFr
+      ? 'FORMAT DE RÉPONSE (NATUREL & ÉQUILIBRÉ) : Points forts, nuances et verdict formulés de façon claire, directe et équilibrée (1 à 2 phrases par point).'
+      : 'RESPONSE FORMAT (NATURAL & BALANCED): Keep strengths, caveats, and verdict clear, direct, and well-proportioned (1-2 sentences per point).';
+  }
+
+  /**
+   * Builds the System Prompt for the Critical Audit & Logic Verification Assistant
+   * @param {string} [lang='fr']
+   * @param {string} [mode='standard']
+   * @returns {string}
+   */
+  static buildSystemPrompt(lang = 'fr', mode = 'standard') {
     const langInstructions = {
       fr: 'Tu es un expert en analyse critique du discours, épistémologie, logique formelle et vérification des faits. Tu rédiges exclusivement en FRANÇAIS.',
       en: 'You are a world-class expert in critical thinking, logic analysis, epistemology, and fact-checking. You respond exclusively in ENGLISH.',
@@ -80,6 +104,7 @@ MISE EN FORME SOIGNÉE & LISIBILITÉ (IMPÉRATIF — ZÉRO TEXTE BRUT) :
 - Ouvre le verdict par un encadré de synthèse (\`> **Verdict :** ...\`) et mets les citations marquantes en bloc citation (\`> « ... » [MM:SS]\`).
 - Utilise un tableau Markdown compact (\`| Affirmation / Critère | Preuves & Sources | Verdict |\`) pour synthétiser les recoupements factuels ou comparaisons dès que pertinent.
 - Chaque puce DOIT suivre le format lisible \`- **Point clé :** Explication claire et concise.\` (gras sur les chiffres/notions clés et horodatages \`[MM:SS]\`).
+${AuditPromptBuilder.buildDepthDirective(lang, mode)}
 Inclus toujours un indice global sur 100 uniquement sur la première ligne au format : [SCORE: XX/100].`;
     }
 
@@ -109,6 +134,7 @@ SCANNABLE & VISUAL PRESENTATION (NO RAW WALLS OF TEXT):
 - Open the verdict section with a highlighted summary callout (\`> **Verdict:** ...\`) and quote verbatim evidence cleanly (\`> "..." [MM:SS]\`).
 - Include a compact Markdown verification table (\`| Claim / Criterion | Evidence & Sources | Verdict |\`) when assessing multiple facts or comparisons.
 - Write crisp, single-line bullet points (\`- **Key Point:** Clear, direct explanation.\`), highlight metrics in **bold**, and cite clickable \`[MM:SS]\` timestamps.
+${AuditPromptBuilder.buildDepthDirective(lang, mode)}
 Always include an overall score out of 100 strictly on the first line using the exact tag format: [SCORE: XX/100].`;
   }
 

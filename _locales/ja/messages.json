@@ -1,10 +1,10 @@
 {
   "appName": {
-    "message": "YouTube Summarizer AI (LM Studio, Ollama & Cloud)",
-    "description": "拡張機能の名前"
+    "message": "ClarifAI — Web・YouTube要約、Q&A・信頼性監査",
+    "description": "Chrome Web Storeに表示される拡張機能名。"
   },
   "appDesc": {
-    "message": "YouTubeのAI要約、ファクトチェック＆チャンネル監査、Q&Aチャット。ローカル(LM Studio/Ollama)・クラウド・音声入力/TTS対応。",
-    "description": "拡張機能の簡単な説明"
+    "message": "あらゆるWebページやYouTube動画を要約し、対話型の質問応答やサイトの信頼性・詐欺リスク監査をローカルまたはクラウドAIで実行します。",
+    "description": "Chrome Web Storeに表示される短い説明。"
   }
 }

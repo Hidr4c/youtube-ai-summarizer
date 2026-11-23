@@ -141,18 +141,19 @@ describe('Regression Suite - Bug Prevention & Integration Contracts', () => {
     assert.ok(headerBarMatch, 'Header bar must exist in template');
     const headerBarHtml = headerBarMatch[1];
 
-    // Header bar MUST contain:
+    // Header bar MUST contain brand + 5 unified action tabs + settings + expand toggle:
     assert.match(headerBarHtml, /ytAiBrandToggle/, 'Brand/logo must be in header');
-    assert.match(headerBarHtml, /ytAiModeSelect/, 'Format selector must be directly in header bar before language');
-    assert.match(headerBarHtml, /ytAiLangSelect/, 'Language selector must be in header');
-    assert.match(headerBarHtml, /ytAiSummarizeBtn/, 'Summarize CTA button must be in header');
+    assert.match(headerBarHtml, /ytAiTabSummaryBtn/, 'Summary action tab must be in header');
+    assert.match(headerBarHtml, /ytAiTabAuditBtn/, 'Audit action tab must be in header');
+    assert.match(headerBarHtml, /ytAiTabChannelAuditBtn/, 'Channel/Site audit action tab must be in header');
+    assert.match(headerBarHtml, /ytAiTabChatBtn/, 'Questions action tab must be in header');
+    assert.match(headerBarHtml, /ytAiTabTranscriptBtn/, 'Source/Transcript action tab must be in header');
     assert.match(headerBarHtml, /ytAiSettingsToggleBtn/, 'Settings button must be in header');
     assert.match(headerBarHtml, /ytAiToggleBtn/, 'Expand/collapse button must be in header');
-    assert.match(headerBarHtml, /value="quick"/);
-    assert.match(headerBarHtml, /value="standard"/);
-    assert.match(headerBarHtml, /value="detailed"/);
 
-    // Header bar MUST NOT contain:
+    // Header bar MUST NOT contain format/language selectors or status badges:
+    assert.equal(headerBarHtml.includes('ytAiModeSelect'), false, 'Format selector must be moved into Settings drawer');
+    assert.equal(headerBarHtml.includes('ytAiLangSelect'), false, 'Language selector must be moved into Settings drawer');
     assert.equal(headerBarHtml.includes('id="ytAiFormatPills"'), false, 'Format pills must be removed from header bar');
     assert.equal(headerBarHtml.includes('id="ytAiBadge"'), false, 'Status badge must be removed from header bar');
     assert.equal(headerBarHtml.includes('id="ytAiHeaderModelPill"'), false, 'Active model pill must be removed from header bar');
@@ -163,9 +164,23 @@ describe('Regression Suite - Bug Prevention & Integration Contracts', () => {
     assert.ok(settingsDrawerMatch, 'Settings drawer must exist');
     const settingsDrawerHtml = settingsDrawerMatch[0];
 
-    // AI Badge and Model display in Settings Model subpane
+    // AI Badge, Model display & Language selector inside Settings drawer
     assert.match(settingsDrawerHtml, /id="ytAiBadge"/, 'Status badge must be inside Settings drawer');
     assert.match(settingsDrawerHtml, /id="ytAiHeaderModelText"/, 'Model display text must be inside Settings drawer');
+    assert.match(settingsDrawerHtml, /id="ytAiLangSelect"/, 'Language selector must be inside Settings drawer Params');
+    assert.equal(settingsDrawerHtml.includes('id="ytAiModeSelect"'), false, 'Format selector belongs in Summary pane right beside Summarize CTA');
+
+    // Summary pane MUST contain Format selector right before Summarize CTA
+    const summaryPaneMatch = contentSrc.match(/<div id="ytAiPaneSummary"[\s\S]*?<div id="ytAiPaneAudit"/);
+    assert.ok(summaryPaneMatch, 'Summary pane must exist');
+    const summaryPaneHtml = summaryPaneMatch[0];
+    const modeIdx = summaryPaneHtml.indexOf('id="ytAiModeSelect"');
+    const sumBtnIdx = summaryPaneHtml.indexOf('id="ytAiSummarizeBtn"');
+    assert.ok(modeIdx !== -1 && sumBtnIdx !== -1 && modeIdx < sumBtnIdx, 'Format selector must sit immediately to the left of Summarize CTA');
+    assert.match(summaryPaneHtml, /renderModeOptionsHtml/);
+    assert.match(contentSrc, /value:\s*'quick'/);
+    assert.match(contentSrc, /value:\s*'standard'/);
+    assert.match(contentSrc, /value:\s*'detailed'/);
 
     // Settings subtab buttons order: Model -> Params -> Audio
     const modelIdx = settingsDrawerHtml.indexOf('data-subtab="model"');

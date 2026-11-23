@@ -8,9 +8,14 @@ import { YouTubeDOMContext } from '../src/content/services/YouTubeDOMContext.js'
 
 // Minimal DOM Node factory with selector queries for YouTube layout testing
 function createMockNode(tag, attrs = {}, children = []) {
+  const classes = new Set((attrs.class || attrs.className || '').split(/\s+/).filter(Boolean));
   const node = {
     tagName: tag.toUpperCase(),
-    className: attrs.class || attrs.className || '',
+    get className() { return Array.from(classes).join(' '); },
+    set className(val) {
+      classes.clear();
+      String(val || '').split(/\s+/).filter(Boolean).forEach(c => classes.add(c));
+    },
     id: attrs.id || '',
     textContent: attrs.textContent || '',
     innerText: attrs.innerText || attrs.textContent || '',
@@ -22,10 +27,10 @@ function createMockNode(tag, attrs = {}, children = []) {
     offsetWidth: attrs.offsetWidth !== undefined ? attrs.offsetWidth : 300,
     isConnected: true,
     classList: {
-      classes: new Set((attrs.class || '').split(/\s+/).filter(Boolean)),
-      add(c) { this.classes.add(c); node.className = Array.from(this.classes).join(' '); },
-      remove(c) { this.classes.delete(c); node.className = Array.from(this.classes).join(' '); },
-      contains(c) { return this.classes.has(c); }
+      classes,
+      add(c) { classes.add(c); },
+      remove(c) { classes.delete(c); },
+      contains(c) { return classes.has(c); }
     },
     getAttribute(name) { return node.attributes.get(name) || null; },
     setAttribute(name, val) { node.attributes.set(name, String(val)); },
@@ -35,6 +40,9 @@ function createMockNode(tag, attrs = {}, children = []) {
       child.parentNode = node;
       node.children.push(child);
       return child;
+    },
+    get firstElementChild() {
+      return this.children[0] || null;
     },
     insertBefore(newChild, refChild) {
       newChild.parentNode = node;
@@ -204,7 +212,7 @@ describe('YouTube Page Models Specification & Regression Gate', () => {
   });
 
   it('Suite 2: DOM Layout Models - BannerView Injection Across YouTube Page Types', () => {
-    // Model 1: Classic Desktop Watch Flexy (ytd-watch-flexy)
+    // Model 1: Classic Desktop Watch Flexy (ytd-watch-flexy) -> unified top-of-page shell at document.body index 0
     {
       const columns = createMockNode('div', { id: 'columns' });
       const watchFlexy = createMockNode('ytd-watch-flexy', {}, [columns]);
@@ -214,9 +222,11 @@ describe('YouTube Page Models Specification & Regression Gate', () => {
       bannerView.tryInjectBanner();
 
       const injected = global.document.getElementById('yt-ai-summarizer-container');
-      assert.ok(injected, 'Banner must be injected into ytd-watch-flexy layout');
-      assert.equal(injected.parentNode, watchFlexy, 'Parent must be ytd-watch-flexy');
-      assert.equal(watchFlexy.children[0], injected, 'Banner must be placed before #columns');
+      assert.ok(injected, 'Banner must be injected at top of site on ytd-watch-flexy page');
+      assert.equal(injected.parentNode, global.document.body, 'Parent must be document.body');
+      assert.equal(global.document.body.children[0], injected, 'Banner must sit at document.body index 0');
+      assert.equal(global.document.body.children[1], watchFlexy, 'Watch container remains intact after banner');
+      assert.equal(injected.classList.contains('yt-ai-top-shell'), true);
     }
 
     // Model 2: Theater Mode (ytd-watch-flexy with #player-theater-container)
@@ -231,7 +241,7 @@ describe('YouTube Page Models Specification & Regression Gate', () => {
 
       const injected = global.document.getElementById('yt-ai-summarizer-container');
       assert.ok(injected, 'Banner must be injected in Theater mode');
-      assert.equal(watchFlexy.children[0], injected, 'Banner must be placed before #player-theater-container');
+      assert.equal(global.document.body.children[0], injected, 'Banner must precede app wrapper at document.body top');
     }
 
     // Model 3: Modern Redesign Grid (ytd-watch-grid)
@@ -244,8 +254,8 @@ describe('YouTube Page Models Specification & Regression Gate', () => {
       bannerView.tryInjectBanner();
 
       const injected = global.document.getElementById('yt-ai-summarizer-container');
-      assert.ok(injected, 'Banner must be injected into ytd-watch-grid layout');
-      assert.equal(watchGrid.children[0], injected, 'Banner must precede #columns in ytd-watch-grid');
+      assert.ok(injected, 'Banner must be injected on ytd-watch-grid page');
+      assert.equal(global.document.body.children[0], injected, 'Banner must precede ytd-watch-grid at document.body top');
     }
 
     // Model 4: Headless / Custom Layout with #primary fallback
@@ -258,11 +268,11 @@ describe('YouTube Page Models Specification & Regression Gate', () => {
       bannerView.tryInjectBanner();
 
       const injected = global.document.getElementById('yt-ai-summarizer-container');
-      assert.ok(injected, 'Banner must be injected via #primary fallback');
-      assert.equal(wrapper.children[0], injected, 'Banner must precede #primary');
+      assert.ok(injected, 'Banner must be injected above #page-wrapper');
+      assert.equal(global.document.body.children[0], injected, 'Banner must precede wrapper at document.body top');
     }
 
-    // Model 5: Non-Watch Pages (Search / Feed)
+    // Model 5: Non-Watch YouTube Pages (Home / Search -> Web Mode) & Restricted URLs
     {
       const searchBox = createMockNode('ytd-search', { id: 'search-content' });
       setupGlobalDom('https://www.youtube.com/results?search_query=tech', [searchBox]);
@@ -271,7 +281,13 @@ describe('YouTube Page Models Specification & Regression Gate', () => {
       bannerView.tryInjectBanner();
 
       const injected = global.document.getElementById('yt-ai-summarizer-container');
-      assert.equal(injected, null, 'Banner must NEVER be injected on non-watch pages');
+      assert.ok(injected, 'Non-watch YouTube pages must use universal Web Mode banner');
+      assert.equal(injected.classList.contains('yt-ai-webpage-mode'), true);
+      assert.equal(global.document.body.children[0], injected);
+
+      setupGlobalDom('chrome://extensions', [createMockNode('div')]);
+      bannerView.tryInjectBanner();
+      assert.equal(global.document.getElementById('yt-ai-summarizer-container'), null, 'Restricted browser schemes must abort');
     }
 
     // Model 6: Disabled Extension State

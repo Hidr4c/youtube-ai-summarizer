@@ -9,6 +9,7 @@ export class SettingsDrawerI18n {
    * @param {string} lang
    */
   static applyLanguage(lang) {
+    if (typeof document === 'undefined') return;
     const fb = I18N.en;
     const t = I18N[lang] || fb;
 
@@ -77,6 +78,9 @@ export class SettingsDrawerI18n {
     }
 
     // Parameters Subpane
+    const langLabel = document.getElementById('ytAiLangLabel');
+    if (langLabel) langLabel.textContent = t.langLabel || fb.langLabel;
+
     const tempLabel = document.getElementById('ytAiTempLabel');
     if (tempLabel) tempLabel.textContent = t.tempLabel || fb.tempLabel;
     const tempSelect = document.getElementById('ytAiTemperatureSelect');
@@ -108,6 +112,30 @@ export class SettingsDrawerI18n {
         const opt = tokensSelect.querySelector(`option[value="${val}"]`);
         if (opt) opt.textContent = label;
       });
+    }
+
+    const ctxLabel = document.getElementById('ytAiLocalContextLabel');
+    if (ctxLabel) ctxLabel.textContent = t.localContextLabel || fb.localContextLabel;
+    const ctxValEl = document.getElementById('ytAiLocalContextValue');
+    const ctxSliderEl = document.getElementById('ytAiLocalContextSlider');
+    const ctxNumEl = document.getElementById('ytAiLocalContextInput');
+    if (ctxValEl) {
+      const roReason = ctxContainerReason();
+      if (roReason) {
+        ctxValEl.textContent = SettingsDrawerI18n.formatReadOnlyContextLabel(roReason, lang);
+      } else {
+        const currentRaw = ctxSliderEl?.value ?? ctxNumEl?.value ?? '0';
+        const defaultProv = ctxSliderEl?.getAttribute?.('data-server-default') || '';
+        ctxValEl.textContent = SettingsDrawerI18n.formatLocalContextValue(currentRaw, lang, defaultProv, Boolean(defaultProv));
+      }
+    }
+    function ctxContainerReason() {
+      return document.getElementById('ytAiLocalContextContainer')?.getAttribute?.('data-readonly-reason') || '';
+    }
+    const applyCtxBtn = document.getElementById('ytAiApplyContextBtn');
+    if (applyCtxBtn) {
+      applyCtxBtn.textContent = t.applyContextBtn || fb.applyContextBtn;
+      applyCtxBtn.title = t.applyContextTooltip || fb.applyContextTooltip;
     }
 
     const autoSummarizeLabel = document.getElementById('ytAiAutoSummarizeLabel');
@@ -151,6 +179,67 @@ export class SettingsDrawerI18n {
     if (whisperUrlInput) whisperUrlInput.placeholder = t.whisperUrlPlaceholder || fb.whisperUrlPlaceholder;
     const testWhisperBtn = document.getElementById('ytAiTestWhisperBtn');
     if (testWhisperBtn) testWhisperBtn.textContent = t.testSttBtn || fb.testSttBtn;
+  }
+
+  /**
+   * Formats numeric, server-default, or 'auto' context window size cleanly for slider readout.
+   * @param {string|number|null} rawValue
+   * @param {string} [lang='en']
+   * @param {string} [provider='lmstudio']
+   * @param {boolean} [isServerDefault=false]
+   * @returns {string}
+   */
+  static formatLocalContextValue(rawValue, lang = 'en', provider = 'lmstudio', isServerDefault = false) {
+    const t = I18N[lang] || I18N.en;
+    const num = parseInt(String(rawValue ?? '0'), 10);
+    if (!Number.isFinite(num) || num <= 0 || rawValue === 'auto') {
+      return t.ctxAuto || I18N.en.ctxAuto;
+    }
+    const clamped = Math.min(Math.max(num, 0), 1048576);
+    const formatted = clamped.toLocaleString(lang?.startsWith('fr') ? 'fr-FR' : 'en-US').replace(/[\u00a0\u202f]/g, ' ');
+    const baseText = clamped >= 1048576 ? `${formatted} tokens (1M)` : `${formatted} tokens`;
+    if (!isServerDefault) return baseText;
+    const provLabel = provider === 'ollama' ? 'Ollama' : 'LM Studio';
+    return (t.ctxServerDefault || '{ctx} tokens ({provider} Default)')
+      .replace('{ctx}', formatted)
+      .replace('{provider}', provLabel);
+  }
+
+  static formatReadOnlyContextLabel(reason = 'cloud', lang = 'en') {
+    const t = I18N[lang] || I18N.en;
+    if (reason === 'server') return t.ctxFixedServer || I18N.en.ctxFixedServer;
+    return t.ctxFixedCloud || I18N.en.ctxFixedCloud;
+  }
+
+  /**
+   * Keeps Context Window visible but disables/greys out controls for non-modifiable models.
+   * @param {string} provider
+   * @param {Object} [opts]
+   */
+  static syncLocalContextVisibility(provider, opts = {}) {
+    if (typeof document === 'undefined') return;
+    const isLocalProv = provider === 'lmstudio' || provider === 'ollama';
+    const modelStr = String(opts.model || '').trim();
+    const isCloudOllama = provider === 'ollama' && (/(?:^|[:\-])cloud$/i.test(modelStr) || /ollama\.com/i.test(String(opts.serverUrl || '')));
+    const canModify = isLocalProv && !isCloudOllama && opts.canModifyContext !== false;
+    const reason = canModify ? '' : ((!isLocalProv || isCloudOllama) ? 'cloud' : (opts.readOnlyReason || 'server'));
+    const container = document.getElementById('ytAiLocalContextContainer');
+    const slider = document.getElementById('ytAiLocalContextSlider');
+    const input = document.getElementById('ytAiLocalContextInput');
+    const applyBtn = document.getElementById('ytAiApplyContextBtn');
+    const valEl = document.getElementById('ytAiLocalContextValue');
+
+    container?.classList?.remove('yt-ai-hidden');
+    container?.classList?.toggle('yt-ai-setting-disabled', !canModify);
+    container?.setAttribute?.('data-readonly-reason', reason);
+    if (slider) slider.disabled = !canModify;
+    if (input) input.disabled = !canModify;
+    if (applyBtn) applyBtn.disabled = !canModify;
+    if (!canModify && valEl) {
+      if (slider) slider.value = '0';
+      if (input) input.value = '0';
+      valEl.textContent = SettingsDrawerI18n.formatReadOnlyContextLabel(reason, opts.lang || 'en');
+    }
   }
 }
 

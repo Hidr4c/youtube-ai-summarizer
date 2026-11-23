@@ -1,6 +1,8 @@
 import { ChromeStorageService } from '../services/implementations/ChromeStorageService.js';
+import { isWatchPage } from '../content/ui/NavigationObserver.js';
 import { POPUP_I18N } from './PopupI18n.js';
 import { PopupCacheController } from './PopupCacheController.js';
+import { detectBrowserLang } from '../locales/index.js';
 
 /**
  * Controller for Extension Toolbar Action Popup Window
@@ -9,7 +11,7 @@ import { PopupCacheController } from './PopupCacheController.js';
 export class PopupController {
   constructor() {
     this.storage = new ChromeStorageService();
-    this.currentLang = 'en';
+    this.currentLang = detectBrowserLang();
     this.extensionEnabled = true;
     this.activeTab = null;
     this.inPageStatus = null;
@@ -30,7 +32,7 @@ export class PopupController {
   async loadSettings() {
     const data = await this.storage.getMultiple(['extensionEnabled', 'targetLang']);
     this.extensionEnabled = data.extensionEnabled !== undefined ? Boolean(data.extensionEnabled) : true;
-    this.currentLang = data.targetLang || (navigator.language.startsWith('fr') ? 'fr' : 'en');
+    this.currentLang = data.targetLang || detectBrowserLang();
 
     const toggle = document.getElementById('extensionToggle');
     if (toggle) toggle.checked = this.extensionEnabled;
@@ -91,6 +93,27 @@ export class PopupController {
       });
     }
 
+    // Analyze / Open ClarifAI Web Page Panel
+    const analyzeWebBtn = document.getElementById('analyzeWebPageBtn');
+    if (analyzeWebBtn) {
+      analyzeWebBtn.addEventListener('click', async () => {
+        if (!this.activeTab?.id) return;
+        try {
+          await chrome.tabs.sendMessage(this.activeTab.id, { action: 'OPEN_WEB_PANEL' });
+        } catch {
+          try {
+            await chrome.scripting.insertCSS({ target: { tabId: this.activeTab.id }, files: ['dist/content.css'] });
+            await chrome.scripting.executeScript({ target: { tabId: this.activeTab.id }, files: ['dist/content.js'] });
+            await new Promise((r) => setTimeout(r, 180));
+            await chrome.tabs.sendMessage(this.activeTab.id, { action: 'OPEN_WEB_PANEL' }).catch(() => {});
+          } catch (e) {
+            console.warn('Web page injection failed:', e);
+          }
+        }
+        window.close();
+      });
+    }
+
     // Open YouTube Button
     const openYoutubeBtn = document.getElementById('openYoutubeBtn');
     if (openYoutubeBtn) {
@@ -131,7 +154,15 @@ export class PopupController {
         return;
       }
 
-      const isYouTubeWatch = this.activeTab.url.includes('youtube.com/watch') && this.activeTab.url.includes('v=');
+      const isYouTubeWatch = (() => {
+        try {
+          const u = new URL(this.activeTab.url);
+          const isYouTubeHost = u.hostname === 'youtube.com' || u.hostname.endsWith('.youtube.com');
+          return isYouTubeHost && isWatchPage(this.activeTab.url);
+        } catch {
+          return false;
+        }
+      })();
 
       if (isYouTubeWatch) {
         // Query in-page companion status
@@ -175,7 +206,7 @@ export class PopupController {
 
     disabledCard?.classList.add('hidden');
 
-    if (this.inPageStatus?.isWatch) {
+    if (this.inPageStatus?.isWatch || this.inPageStatus?.isWatchPage) {
       idleCard?.classList.add('hidden');
       videoCard?.classList.remove('hidden');
 
@@ -198,6 +229,9 @@ export class PopupController {
     } else {
       videoCard?.classList.add('hidden');
       idleCard?.classList.remove('hidden');
+      const webBtn = document.getElementById('analyzeWebPageBtn');
+      const isHttpWeb = Boolean(this.activeTab?.url && /^https?:\/\//i.test(this.activeTab.url));
+      if (webBtn) webBtn.classList.toggle('hidden', !isHttpWeb);
     }
   }
 
@@ -232,37 +266,22 @@ export class PopupController {
 
   applyLocalization() {
     const t = POPUP_I18N[this.currentLang] || POPUP_I18N.en;
-
-    const switchTitle = document.getElementById('switchTitle');
-    if (switchTitle) switchTitle.textContent = t.switchTitle;
-
-    const switchDesc = document.getElementById('switchDesc');
-    if (switchDesc) switchDesc.textContent = t.switchDesc;
-
-    const idleTitle = document.getElementById('idleTitle');
-    if (idleTitle) idleTitle.textContent = t.idleTitle;
-
-    const idleDesc = document.getElementById('idleDesc');
-    if (idleDesc) idleDesc.textContent = t.idleDesc;
-
-    const disabledTitle = document.getElementById('disabledTitle');
-    if (disabledTitle) disabledTitle.textContent = t.disabledTitle;
-
-    const disabledDesc = document.getElementById('disabledDesc');
-    if (disabledDesc) disabledDesc.textContent = t.disabledDesc;
-
-    const summarizeBtnText = document.getElementById('summarizeBtnText');
-    if (summarizeBtnText) summarizeBtnText.textContent = t.summarize;
-
-    const currentVideoBadge = document.getElementById('currentVideoBadge');
-    if (currentVideoBadge) currentVideoBadge.textContent = t.currentVideo;
-
-    const openYoutubeBtnText = document.getElementById('openYoutubeBtnText');
-    if (openYoutubeBtnText) openYoutubeBtnText.textContent = t.goToYoutube;
+    const textMap = {
+      switchTitle: t.switchTitle, switchDesc: t.switchDesc,
+      idleTitle: t.idleTitle, idleDesc: t.idleDesc,
+      disabledTitle: t.disabledTitle, disabledDesc: t.disabledDesc,
+      summarizeBtnText: t.summarize, currentVideoBadge: t.currentVideo,
+      openYoutubeBtnText: t.goToYoutube,
+      analyzeWebPageBtnText: t.analyzeWebPage || '🛡️ Analyze this page'
+    };
+    Object.entries(textMap).forEach(([id, txt]) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = txt;
+    });
 
     const extVersion = (typeof chrome !== 'undefined' && chrome.runtime?.getManifest)
       ? `v${chrome.runtime.getManifest().version}`
-      : 'v1.5.1';
+      : 'v2.0.0';
     const versionEl = document.getElementById('brandVersion');
     if (versionEl) versionEl.textContent = `${extVersion} • ${t.privacyTagline}`;
 

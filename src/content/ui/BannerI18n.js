@@ -2,6 +2,7 @@ import { SettingsDrawerI18n } from './SettingsDrawerI18n.js';
 import { I18N } from '../../locales/index.js';
 import { escapeHtml } from './MarkdownRenderer.js';
 import { applyFooterLanguage, getExtensionVersionTag } from '../templates/BannerHeaderParts.js';
+import { PaneExportHelper } from './PaneExportHelper.js';
 import { WatchChannelAuditHelper } from './WatchChannelAuditHelper.js';
 
 /**
@@ -29,9 +30,10 @@ export class BannerI18n {
       if (langSelect.value !== lang) langSelect.value = lang;
     }
 
-    // Header Format Select
-    const modeSelect = document.getElementById('ytAiModeSelect');
-    if (modeSelect) {
+    // Format / Verbosity Selectors (Summary, Audit, Channel/Site Audit)
+    ['ytAiModeSelect', 'ytAiAuditModeSelect', 'ytAiChannelAuditModeSelect'].forEach((selId) => {
+      const modeSelect = document.getElementById(selId);
+      if (!modeSelect) return;
       modeSelect.title = t.formatLabel || 'Format:';
       const optQuick = modeSelect.querySelector('option[value="quick"]');
       if (optQuick) optQuick.textContent = t.formatQuick || '⚡ Quick';
@@ -39,11 +41,12 @@ export class BannerI18n {
       if (optStandard) optStandard.textContent = t.formatStandard || '📌 Standard';
       const optDetailed = modeSelect.querySelector('option[value="detailed"]');
       if (optDetailed) optDetailed.textContent = t.formatDetailed || '📝 Deep';
-    }
+    });
+    PaneExportHelper.localizeControls(document.getElementById('yt-ai-summarizer-container'), t);
 
     // Header Brand & Action Controls
     const brandTitle = document.getElementById('ytAiBrandTitle');
-    if (brandTitle) brandTitle.textContent = t.brandName || 'YT Summarizer AI';
+    if (brandTitle) brandTitle.textContent = t.brandName || 'ClarifAI';
 
     const summarizeBtn = document.getElementById('ytAiSummarizeBtn');
     if (summarizeBtn) {
@@ -55,11 +58,18 @@ export class BannerI18n {
     }
 
     const toggleBtn = document.getElementById('ytAiToggleBtn');
-    if (toggleBtn) toggleBtn.title = isExpanded ? (t.collapse || 'Collapse') : (t.expand || 'Expand');
+    const toggleTip = isExpanded ? (t.collapse || 'Collapse') : (t.expand || 'Expand');
+    if (toggleBtn) { toggleBtn.title = toggleTip; toggleBtn.setAttribute?.('aria-label', toggleTip); }
     const toggleText = document.getElementById('ytAiToggleText');
     if (toggleText) toggleText.textContent = isExpanded ? t.collapse : t.expand;
     const toggleIcon = document.getElementById('ytAiToggleIcon');
-    if (toggleIcon) toggleIcon.textContent = isExpanded ? '▲' : '▾';
+    if (toggleIcon && !toggleIcon.querySelector?.('svg')) toggleIcon.textContent = isExpanded ? '▲' : '▾';
+    const closeExtBtn = document.getElementById('ytAiCloseExtensionBtn');
+    if (closeExtBtn) {
+      const closeTip = t.closeExtensionBtn || 'Disable extension';
+      closeExtBtn.title = closeTip;
+      closeExtBtn.setAttribute?.('aria-label', closeTip);
+    }
 
     const stopSummaryBtn = document.getElementById('ytAiStopSummaryBtn');
     if (stopSummaryBtn) {
@@ -74,7 +84,7 @@ export class BannerI18n {
 
     // Tabs Navigation (ordered 1..5)
     const tabSummaryBtn = document.getElementById('ytAiTabSummaryBtn');
-    if (tabSummaryBtn) tabSummaryBtn.textContent = t.tabSummary || '📝 AI Summary';
+    if (tabSummaryBtn) tabSummaryBtn.textContent = t.tabSummary || '📄 Video Summary';
 
     const tabAuditBtn = document.getElementById('ytAiTabAuditBtn');
     if (tabAuditBtn) {
@@ -113,11 +123,13 @@ export class BannerI18n {
 
   static applySummaryLanguage(t, state, summaryViewController) {
     const title = document.getElementById('ytAiSummaryHeaderTitle');
-    if (title) title.textContent = t.summaryTitle || '📝 AI Summary';
+    if (title) title.textContent = t.summaryTitle || '📄 Video Summary';
     const speakBtn = document.getElementById('ytAiSpeakSummaryBtn');
     if (speakBtn) speakBtn.textContent = t.listenBtn || '🔊 Listen';
     const copyBtn = document.getElementById('ytAiCopyBtn');
     if (copyBtn) copyBtn.textContent = t.copyBtn || '📋 Copy';
+    const exportBtn = document.getElementById('ytAiExportBtn');
+    if (exportBtn) exportBtn.textContent = t.exportBtn || '💾 Export ▾';
     const dlBtn = document.getElementById('ytAiDownloadBtn');
     if (dlBtn) dlBtn.textContent = t.saveMdBtn || '💾 .md';
     const saveTxtBtn = document.getElementById('ytAiSaveTxtBtn');
@@ -172,6 +184,13 @@ export class BannerI18n {
     if (chatTitle) chatTitle.textContent = t.chatTitle || '💬 Video Q&A';
     const micBtn = document.getElementById('ytAiMicBtn');
     if (micBtn) micBtn.title = t.micTitle || 'Dictate question';
+    const attachBtn = document.getElementById('ytAiAttachBtn');
+    if (attachBtn) {
+      const visionSupported = attachBtn.getAttribute?.('data-vision-supported') !== 'false';
+      attachBtn.title = visionSupported
+        ? (t.attachTitle || 'Attach image or file (or paste Ctrl+V)')
+        : (t.attachTitleTextOnly || 'Attach text/code file (images require a multimodal model)');
+    }
     if (typeof chatViewController?.applyLanguage === 'function') chatViewController.applyLanguage(state?.currentLang || 'en');
   }
 
@@ -217,7 +236,7 @@ export class BannerI18n {
       const footerAuthor = document.getElementById('ytAiFooterAuthor');
       if (footerAuthor) {
         const extVer = getExtensionVersionTag();
-        footerAuthor.innerHTML = `YouTube Summarizer AI <strong>${extVer}</strong> <span id="ytAiFooterBy">${escapeHtml(t.footerBy || fb.footerBy)}</span> <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
+        footerAuthor.innerHTML = `ClarifAI <strong>${extVer}</strong> <span id="ytAiFooterBy">${escapeHtml(t.footerBy || fb.footerBy)}</span> <a href="https://github.com/Hidr4c" target="_blank" rel="noopener">@Hidr4c</a>`;
       }
       applyFooterLanguage(t, 'ytAiFooter');
     }

@@ -1,5 +1,6 @@
 import { parseChannelAuditLimit } from '../../config/ExtensionConstants.js';
 import { PROVIDER_CONFIGS } from '../../config/AIProviderPresets.js';
+import { detectBrowserLang } from '../../locales/index.js';
 
 const ALL_PERSISTED_PROVIDERS = [...Object.keys(PROVIDER_CONFIGS), 'lmstudio', 'ollama'];
 
@@ -18,9 +19,15 @@ export function createInPageState() {
     keyVerified: {},
     selectedModels: {},
     availableLocalModels: {},
-    currentLang: 'fr',
+    modelCapabilities: {},
+    serverDefaultContexts: {},
+    currentLang: detectBrowserLang(),
+    summaryMode: 'standard',
+    auditMode: 'standard',
+    channelAuditMode: 'standard',
     temperature: '0.3',
     maxTokens: 'auto',
+    localContextLength: 'auto',
     ttsSpeed: '1.0',
     localWhisperUrl: 'http://127.0.0.1:8000',
     autoSummarize: false,
@@ -50,8 +57,11 @@ export function loadPreferences(state, callback) {
     if (items.targetLang) state.currentLang = items.targetLang;
     if (items.selectedModel) state.setActiveModel(items.selectedModel);
     if (items.summaryMode) state.summaryMode = items.summaryMode;
+    if (items.auditMode) state.auditMode = items.auditMode;
+    if (items.channelAuditMode) state.channelAuditMode = items.channelAuditMode;
     if (items.temperature) state.temperature = items.temperature;
     if (items.maxTokens) state.maxTokens = items.maxTokens;
+    if (items.localContextLength) state.localContextLength = items.localContextLength;
     if (typeof items.autoSummarize === 'boolean') state.autoSummarize = items.autoSummarize;
     if (items.localWhisperUrl) state.localWhisperUrl = items.localWhisperUrl;
     if (items.channelAuditMaxVideos !== undefined) {

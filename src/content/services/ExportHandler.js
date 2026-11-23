@@ -16,7 +16,7 @@ export class ExportHandler {
       const orig = btn.textContent;
       btn.textContent = copiedText;
       setTimeout(() => { btn.textContent = orig; }, 2000);
-    });
+    }).catch(() => {});
   }
 
   /**

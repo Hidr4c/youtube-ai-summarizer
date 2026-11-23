@@ -3,6 +3,7 @@ import { CLOUD_MODELS, API_KEY_PORTALS, PROVIDER_NAMES, resolveDeprecatedModel }
 import { LocalModelDiscovery } from '../services/LocalModelDiscovery.js';
 import { ConnectionTester } from '../services/ConnectionTester.js';
 import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
+import { SettingsDrawerI18n } from './SettingsDrawerI18n.js';
 
 /**
  * Controller for Settings Drawer, provider options, model fetching, and connection testing
@@ -63,16 +64,11 @@ export class SettingsDrawerController {
     setTimeout(() => { if (el.textContent.includes(clean)) el.classList.add('yt-ai-hidden'); }, 7000);
   }
 
-  updateHeaderBadge() {
-    if (this.bannerView) {
-      this.bannerView.updateHeaderBadge();
-    }
-  }
+  updateHeaderBadge() { this.bannerView?.updateHeaderBadge?.(); }
 
   updateHeaderModelText() {
-    if (this.bannerView) {
-      this.bannerView.updateHeaderModelText();
-    }
+    this.bannerView?.updateHeaderModelText?.();
+    if (typeof window !== 'undefined' && typeof CustomEvent === 'function') window.dispatchEvent?.(new CustomEvent('yt-ai-model-changed'));
   }
 
   syncProviderUI() {
@@ -86,16 +82,17 @@ export class SettingsDrawerController {
 
     if (providerSelect) providerSelect.value = this.state.currentProvider;
     const isLocal = (this.state.currentProvider === 'lmstudio' || this.state.currentProvider === 'ollama');
+    SettingsDrawerI18n.syncLocalContextVisibility(this.state.currentProvider, {
+      model: this.state.getActiveModel?.(), serverUrl: this.state.serverUrls?.[this.state.currentProvider], lang: this.state.currentLang
+    });
 
     if (isLocal) {
       lmSettings?.classList.remove('yt-ai-hidden');
       cloudSettings?.classList.add('yt-ai-hidden');
-
       const name = this.state.currentProvider === 'ollama' ? 'Ollama' : 'LM Studio';
       const t = I18N[this.state.currentLang] || I18N.en;
       if (serverLabel) serverLabel.textContent = this.state.currentProvider === 'ollama' ? t.serverLabelOllama : t.serverLabelLm;
       if (summaryTitle) summaryTitle.textContent = `${t.summaryTitle} (${name})`;
-
       this.updateServerUrlUI();
       const localModels = this.state.availableLocalModels[this.state.currentProvider];
       if (localModels && localModels.length > 0) {
@@ -240,6 +237,7 @@ export class SettingsDrawerController {
   }
 
   populateModelDropdown(models) {
+    if (Array.isArray(models) && this.state?.modelCapabilities) models.forEach((m) => { if (m?.id) this.state.modelCapabilities[m.id] = m; });
     const activeVal = LocalModelDiscovery.populateModelSelect(
       document.getElementById('ytAiModelSelect'), models,
       this.state.currentProvider, this.state.getActiveModel(), this.state.currentLang

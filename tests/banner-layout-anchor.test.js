@@ -3,19 +3,24 @@ import assert from 'node:assert/strict';
 import { BannerView } from '../src/content/ui/BannerView.js';
 
 function createMockNode(tag, attrs = {}, children = []) {
+  const classes = new Set((attrs.class || attrs.className || '').split(/\s+/).filter(Boolean));
   const node = {
     tagName: tag.toUpperCase(),
-    className: attrs.class || attrs.className || '',
+    get className() { return Array.from(classes).join(' '); },
+    set className(val) {
+      classes.clear();
+      String(val || '').split(/\s+/).filter(Boolean).forEach(c => classes.add(c));
+    },
     id: attrs.id || '',
     attributes: new Map(Object.entries(attrs)),
     children: [],
     parentNode: null,
     isConnected: true,
     classList: {
-      classes: new Set((attrs.class || '').split(/\s+/).filter(Boolean)),
-      add(c) { this.classes.add(c); node.className = Array.from(this.classes).join(' '); },
-      remove(c) { this.classes.delete(c); node.className = Array.from(this.classes).join(' '); },
-      contains(c) { return this.classes.has(c); }
+      classes,
+      add(c) { classes.add(c); },
+      remove(c) { classes.delete(c); },
+      contains(c) { return classes.has(c); }
     },
     getAttribute(name) { return node.attributes.get(name) || null; },
     setAttribute(name, val) { node.attributes.set(name, String(val)); },
@@ -108,7 +113,7 @@ function setupGlobalDom(url, bodyChildren = []) {
 
 describe('Banner Layout Anchor & Top-of-Page Placement Specification', () => {
 
-  it('correctly anchors before #full-bleed-container when nested #player-theater-container exists', () => {
+  it('correctly anchors at top of document.body before YouTube watch app layout', () => {
     const theater = createMockNode('div', { id: 'player-theater-container' });
     const fullBleed = createMockNode('div', { id: 'full-bleed-container' }, [theater]);
     const columns = createMockNode('div', { id: 'columns' });
@@ -120,12 +125,13 @@ describe('Banner Layout Anchor & Top-of-Page Placement Specification', () => {
 
     const banner = global.document.getElementById('yt-ai-summarizer-container');
     assert.ok(banner, 'Banner must be injected');
-    assert.equal(banner.parentNode, watchFlexy, 'Banner parent must be ytd-watch-flexy');
-    assert.equal(watchFlexy.children[0], banner, 'Banner must be at index 0 (top of page)');
-    assert.equal(watchFlexy.children[1], fullBleed, '#full-bleed-container must be after banner');
+    assert.equal(banner.parentNode, global.document.body, 'Banner parent must be document.body in unified top shell');
+    assert.equal(global.document.body.children[0], banner, 'Banner must be at index 0 (top of site)');
+    assert.equal(global.document.body.children[1], watchFlexy, 'ytd-watch-flexy must remain after banner');
+    assert.equal(banner.classList.contains('yt-ai-top-shell'), true, 'Banner must carry yt-ai-top-shell class');
   });
 
-  it('skips non-visual elements (iron-media-query) to anchor at top', () => {
+  it('skips inner layout quirks and always anchors cleanly before body.firstElementChild', () => {
     const mediaQuery = createMockNode('iron-media-query', { id: 'two-column-query' });
     const columns = createMockNode('div', { id: 'columns' });
     const watchFlexy = createMockNode('ytd-watch-flexy', {}, [mediaQuery, columns]);
@@ -136,52 +142,52 @@ describe('Banner Layout Anchor & Top-of-Page Placement Specification', () => {
 
     const banner = global.document.getElementById('yt-ai-summarizer-container');
     assert.ok(banner);
-    assert.equal(watchFlexy.children[1], banner, 'Banner anchors before columns');
+    assert.equal(global.document.body.children[0], banner, 'Banner anchors cleanly at body index 0');
   });
 
   it('gracefully handles insertBefore error by calling parent.prepend', () => {
     const columns = createMockNode('div', { id: 'columns' });
     const watchFlexy = createMockNode('ytd-watch-flexy', {}, [columns]);
     setupGlobalDom('https://www.youtube.com/watch?v=TEST_TOP_3', [watchFlexy]);
+    global.document.body.insertBefore = () => {
+      throw new Error('NotFoundError: node mismatch');
+    };
 
     const bannerView = new BannerView({ extensionEnabled: true, currentLang: 'en' });
-    // Intentionally pass an alien ref child that throws
-    const alienNode = createMockNode('div', { id: 'alien' });
-    bannerView._resolveWatchAnchor = () => alienNode;
 
     assert.doesNotThrow(() => bannerView.tryInjectBanner());
     const banner = global.document.getElementById('yt-ai-summarizer-container');
     assert.ok(banner);
-    assert.equal(watchFlexy.children[0], banner, 'Banner prepended to parent after fallback');
+    assert.equal(global.document.body.children[0], banner, 'Banner prepended to document.body after insertBefore fallback');
   });
 
-  it('refuses to inject into document.body when only skeleton elements on body exist', () => {
+  it('aborts safely when document.body is unavailable', () => {
     const skeletonPlayer = createMockNode('div', { id: 'player' });
-    setupGlobalDom('https://www.youtube.com/watch?v=TEST_SKELETON', [skeletonPlayer]);
+    setupGlobalDom('https://www.youtube.com/watch?v=TEST_NO_BODY', [skeletonPlayer]);
+    global.document.body = null;
 
     const bannerView = new BannerView({ extensionEnabled: true, currentLang: 'en' });
     bannerView.tryInjectBanner();
 
     const banner = global.document.getElementById('yt-ai-summarizer-container');
-    assert.equal(banner, null, 'Must NEVER inject into document.body');
-    assert.equal(skeletonPlayer.parentNode.children.length, 1, 'Body must contain only skeleton player');
+    assert.equal(banner, null, 'Must abort gracefully when document.body is missing');
   });
 
-  it('relocates mislocated banner from document.body to ytd-watch-flexy', () => {
-    // 1. Initial state: banner was erroneously placed on body by legacy code
+  it('relocates mislocated banner from legacy inner ytd-watch-flexy up to document.body top shell', () => {
     const columns = createMockNode('div', { id: 'columns' });
-    const watchFlexy = createMockNode('ytd-watch-flexy', {}, [columns]);
     const oldBanner = createMockNode('div', { id: 'yt-ai-summarizer-container' });
+    const watchFlexy = createMockNode('ytd-watch-flexy', {}, [oldBanner, columns]);
 
-    setupGlobalDom('https://www.youtube.com/watch?v=TEST_RELOCATE', [oldBanner, watchFlexy]);
-    assert.equal(global.document.body.children[0], oldBanner, 'Initial banner on body');
+    setupGlobalDom('https://www.youtube.com/watch?v=TEST_RELOCATE', [watchFlexy]);
+    assert.equal(watchFlexy.children[0], oldBanner, 'Initial banner misplaced inside watchFlexy');
 
     const bannerView = new BannerView({ extensionEnabled: true, currentLang: 'en' });
     bannerView.tryInjectBanner();
 
     const currentBanner = global.document.getElementById('yt-ai-summarizer-container');
     assert.ok(currentBanner, 'Banner exists');
-    assert.equal(currentBanner.parentNode, watchFlexy, 'Banner parent must now be ytd-watch-flexy');
-    assert.equal(global.document.body.children.includes(oldBanner), false, 'Old banner must be removed from body');
+    assert.equal(currentBanner.parentNode, global.document.body, 'Banner parent must now be document.body');
+    assert.equal(global.document.body.children[0], currentBanner, 'Relocated banner sits at top of document.body');
+    assert.equal(watchFlexy.children.includes(oldBanner), false, 'Old banner must be removed from watchFlexy');
   });
 });

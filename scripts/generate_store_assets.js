@@ -3,10 +3,10 @@ import path from 'path';
 import os from 'os';
 import fs from 'fs';
 
-const artifactDir = 'C:\\Users\\rb\\.gemini\\antigravity\\brain\\600c919d-5748-41fa-9720-cf638c539b6b';
-const extPath = 'E:\\Dev\\Projets\\YouTube_AI_Summarizer';
-const bravePath = 'C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe';
-const storeAssetsDir = path.join(extPath, 'store-assets', 'v1.5.0');
+const extPath = process.env.EXT_PATH || path.resolve(process.cwd());
+const storeAssetsDir = path.join(extPath, 'store-assets', 'v2.0.0');
+const artifactDir = process.env.STORE_ASSETS_ARTIFACT_DIR || storeAssetsDir;
+const bravePath = process.env.CHROME_EXECUTABLE || 'C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe';
 const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yt-store-gen-en-'));
 
 (async () => {

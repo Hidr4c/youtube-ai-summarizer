@@ -1,14 +1,14 @@
-# 🎬 YouTube Summarizer AI (LM Studio, Ollama & Cloud)
+# 🎬 ClarifAI — Web & YouTube AI Assistant
 
 [![CI Build](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml/badge.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/actions/workflows/ci.yml)
 [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Available-blue?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/youtube-summarizer-ai-lm/pkjmoccofaflidcdmjelmbnlfeipadee)
-[![Version](https://img.shields.io/badge/version-1.5.3-blue.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/releases)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/Hidr4c/youtube-ai-summarizer/releases)
 [![Manifest](https://img.shields.io/badge/manifest-v3-success.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![GitHub](https://img.shields.io/badge/GitHub-Hidr4c-181717.svg?logo=github)](https://github.com/Hidr4c/youtube-ai-summarizer)
 [![Browsers](https://img.shields.io/badge/browsers-Chrome%20%7C%20Brave%20%7C%20Edge-red.svg)](https://github.com/Hidr4c/youtube-ai-summarizer)
 
-> **A powerful, modern, and privacy-first browser extension for Chrome, Brave, and Edge**, embedded directly below the YouTube video player. Summarize videos in seconds, engage in interactive Q&A chat based on real transcripts, perform rigorous fact-checking and fallacy audits, analyze entire channels with statistical companion cards, speak your questions with microphone speech-to-text (STT), and listen with text-to-speech (TTS).
+> **ClarifAI is a privacy-first browser extension for Chrome, Brave, and Edge** working across **all websites and YouTube** (Watch, Shorts & Channels). Summarize any webpage or video, verify trustworthiness against phishing and factual distortion, crawl sites for due-diligence transparency audits, inspect images with vision models, and ask questions in interactive Q&A chat.
 
 Works **100% locally and offline** with your own hardware (**LM Studio**, **Ollama**, local Whisper STT) or with your own Cloud API keys for extended reasoning.
 
@@ -16,22 +16,19 @@ Works **100% locally and offline** with your own hardware (**LM Studio**, **Olla
 
 ## 🚀 Key Features
 
-- 🏠 **100% Local & Private** : Full native support for **LM Studio** and **Ollama** — zero data leaves your machine.
-- 🔍 **Critical Logic & Fact-Checking Video Audit** :
-  - Rigorous logical analysis: detection of fallacies, hasty generalizations, and false causalities.
-  - Source verification and level-of-proof assessment.
-  - Nuanced commercial discernment: distinguishes legitimate author publishing/sponsorships from disguised marketing without bias.
-  - Dynamic contemporary temporal anchor preventing anachronisms.
-  - Community feedback synthesis incorporating top viewer reactions.
-  - Overall reliability score formatted as `[SCORE: XX/100]`.
-- 📊 **Global Channel Audit & In-Page Companion Card** :
-  - Seamless companion card injected directly under desktop and mobile (`m.youtube.com`) YouTube channel headers (`@handle`, `/channel/`, `/c/`), plus a dedicated Channel Audit tab on video watch pages.
-  - Stratified temporal sampling (recent ~65%, legacy ~35%) with dynamic sample caps adapted to the channel's real catalog (`10`, `30`, `50`, `100`, `500`, `1,000`, `All`) across 4 periods (*All*, *Current Year*, *Last 6 Months*, *Last Month*).
-  - Map-Reduce full-catalog analysis with graded 5% reliability spectrum colors, 5%-bucket integrity histogram, sensationalism index gauge, and multi-year editorial trajectory.
-  - Persistent background audit jobs that survive YouTube SPA navigation across pages/tabs, with instant **Stop** controls on summaries, video audits, and channel audits.
-- 📱 **Mobile & Fullscreen Ready** :
-  - Native support for mobile YouTube (`https://m.youtube.com/*`) alongside desktop `www.youtube.com/*`.
-  - Automatically hides injected overlays during fullscreen video playback.
+- 🏠 **100% Local & Private** : Full native support for **LM Studio** and **Ollama** with 0-to-1M dynamic context slider and MV3 connection keepalive — zero data leaves your machine.
+- 🌐 **Universal Web Summarizer, Anti-Phishing & Whole-Site Audit** :
+  - Works on any webpage (with one-click popup activation, automatic SPA hydration recovery, universal layout shifting, and compact square expand/close header controls).
+  - Client-side DOM threat detection (`WebThreatDetector`): catches unencrypted HTTP, raw IPs, Punycode/IDN homographs, visual typosquatting, brand impersonation, hidden iframes, ClickFix/clipboard hijacking, crypto seed phishing, deceptive links, executable downloads, and prompt injections.
+  - Multi-level read-only **Site Audit** (`1`, `2`, `3` levels) crawling legal pages, direct contacts, `robots.txt`, and `sitemap.xml` with deduplicated Map-Reduce synthesis.
+- 🔍 **Critical Logic & Fact-Checking Audits (Watch, Shorts & Web)** :
+  - Interactive hero gauge with WCAG 2.1 host-adaptive contrast, 4-axis SVG radar scorecard, 5%-stepped granularity, calibrated response style selector, and `.md`/`.txt`/`.json` export.
+- 📊 **Global Channel Audit & Videos vs Shorts Breakdown** :
+  - Companion cards on YouTube channel pages plus dedicated breakdown separating long-form Videos vs Shorts (`avgScore`, `avgClickbait`, reliability tiers, and quality gap).
+- 🖼️ **Multimodal Vision, Slicing & Tool-Use Q&A Protocol** :
+  - Drag/paste images or trigger autonomous `[TOOL_CALL]` diagnostics (`INSPECT_PAGE_IMAGES`, `AUDIT_EXTERNAL_SITE`, `AUDIT_CHANNEL`), including vertical & horizontal slicing of oversized web/webtoon images with full concurrent tab streaming.
+- 📱 **Mobile, YouTube Shorts & Host-Adaptive Theming** :
+  - Seamless dark/light/tinted host theme matching (`ThemeManager` + WCAG contrast solver) across desktop YouTube, YouTube Shorts (`/shorts/<id>`), mobile `m.youtube.com`, and external sites.
 - 💬 **Interactive Video & Channel Q&A Chat** :
   - Ask questions grounded in full video transcripts or enriched channel dossiers with rich Markdown formatting and instant localized prompt chips.
 - 🛡️ **Multi-Layer Resilient Subtitle Extraction Pipeline** :
@@ -62,7 +59,7 @@ Install directly from the official Google Chrome Web Store:
 👉 **[Install YouTube Summarizer AI on Chrome Web Store](https://chromewebstore.google.com/detail/youtube-summarizer-ai-lm/pkjmoccofaflidcdmjelmbnlfeipadee)**
 
 ### Option 2 : Developer Mode (Unpacked)
-1. Download the latest release package: [`youtube-summarizer-ai-v1.5.3.zip`](releases/youtube-summarizer-ai-v1.5.3.zip) or from the [GitHub Releases page](https://github.com/Hidr4c/youtube-ai-summarizer/releases).
+1. Download the latest release package: [`youtube-summarizer-ai-v2.0.0.zip`](releases/youtube-summarizer-ai-v2.0.0.zip) or from the [GitHub Releases page](https://github.com/Hidr4c/youtube-ai-summarizer/releases).
 2. Unzip the archive into a folder of your choice on your computer.
 3. Open your browser's extensions manager:
    - **Chrome**: `chrome://extensions/`

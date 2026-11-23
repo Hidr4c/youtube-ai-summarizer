@@ -1,4 +1,5 @@
 import { QuickOnboardingHelper } from './QuickOnboardingHelper.js';
+import { PortKeepaliveHelper } from './PortKeepaliveHelper.js';
 
 /**
  * Client for streaming AI chat messages through Chrome background runtime port
@@ -6,12 +7,20 @@ import { QuickOnboardingHelper } from './QuickOnboardingHelper.js';
 export class ChatStreamClient {
   constructor() {
     this.port = null;
+    this.keepalive = null;
+    this._intentionalDisconnect = false;
+    this._pendingCancel = null;
   }
 
   /**
    * Disconnects active stream port if connected
    */
   disconnect() {
+    this._intentionalDisconnect = true;
+    const cancel = this._pendingCancel;
+    this._pendingCancel = null;
+    this.keepalive?.stop?.();
+    this.keepalive = null;
     if (this.port) {
       try {
         this.port.disconnect();
@@ -20,6 +29,7 @@ export class ChatStreamClient {
       }
       this.port = null;
     }
+    if (typeof cancel === 'function') cancel();
   }
 
   /**
@@ -46,12 +56,16 @@ export class ChatStreamClient {
     messages,
     temperature = '0.3',
     maxTokens = 'auto',
+    localContextLength = 'auto',
     onChunk,
+    onReasoning,
     onDone,
-    onError
+    onError,
+    onCancel
   }) {
     this.disconnect();
 
+    this._intentionalDisconnect = false;
     try {
       this.port = chrome.runtime.connect({ name: 'ai-stream' });
     } catch (err) {
@@ -62,24 +76,45 @@ export class ChatStreamClient {
     }
 
     const port = this.port;
+    let settled = false;
+    let canceled = false;
+    this._pendingCancel = () => {
+      if (settled || canceled) return;
+      canceled = true;
+      if (typeof onCancel === 'function') onCancel();
+    };
+    this.keepalive = PortKeepaliveHelper.attach(port);
 
     if (port.onDisconnect?.addListener) {
       port.onDisconnect.addListener(() => {
+        const wasIntentional = this._intentionalDisconnect;
+        this._pendingCancel = null;
         this.disconnect();
-        if (typeof onDone === 'function') onDone();
+        if (!settled && !canceled && !wasIntentional) {
+          settled = true;
+          if (typeof onError === 'function') onError('Connection interrupted before model response.');
+        } else if (!canceled && settled && typeof onDone === 'function') {
+          onDone();
+        }
       });
     }
 
     if (port.onMessage?.addListener) {
       port.onMessage.addListener((msg) => {
-        if (msg.type === 'CHUNK' && msg.content) {
-          if (typeof onChunk === 'function') onChunk(msg.content);
+        if (canceled || settled) return;
+        if (msg.type === 'CHUNK') {
+          if (msg.content && typeof onChunk === 'function') onChunk(msg.content);
+          else if (msg.reasoning && typeof onReasoning === 'function') onReasoning(msg.reasoning);
         } else if (msg.type === 'MODEL_RESOLVED') {
           QuickOnboardingHelper.syncResolvedModel(null, msg.provider || provider, msg.model);
         } else if (msg.type === 'DONE') {
+          settled = true;
+          this._pendingCancel = null;
           this.disconnect();
           if (typeof onDone === 'function') onDone();
         } else if (msg.type === 'ERROR') {
+          settled = true;
+          this._pendingCancel = null;
           this.disconnect();
           if (typeof onError === 'function') onError(msg.error || 'Stream error');
         }
@@ -95,7 +130,8 @@ export class ChatStreamClient {
       systemPrompt,
       messages,
       temperature,
-      maxTokens
+      maxTokens,
+      localContextLength
     });
   }
 }

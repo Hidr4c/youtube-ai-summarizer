@@ -1,6 +1,6 @@
 import { SettingsDrawerTemplate } from './SettingsDrawerTemplate.js';
 import { renderChannelMaxOptionsHtml } from '../../config/ExtensionConstants.js';
-import { renderBrandLogoSvg, renderLangOptionsHtml, renderExtensionFooterHtml, getExtensionVersionTag, EXTENSION_BRAND_TITLE } from './BannerHeaderParts.js';
+import { renderBrandLogoSvg, renderModeOptionsHtml, renderExportDropdownHtml, renderExtensionFooterHtml, getExtensionVersionTag, EXTENSION_BRAND_TITLE } from './BannerHeaderParts.js';
 
 /**
  * Main In-Page Summarizer Banner HTML Template
@@ -16,6 +16,8 @@ export class BannerTemplate {
     const drawerHtml = SettingsDrawerTemplate.render(t, options);
     const version = getExtensionVersionTag(options.version);
     const currentMode = options.currentMode || 'standard';
+    const currentAuditMode = options.auditMode || 'standard';
+    const currentChannelAuditMode = options.channelAuditMode || 'standard';
     const currentLang = options.currentLang || 'fr';
     const isFr = currentLang.startsWith('fr');
     const suggestionsHtml = (Array.isArray(t.suggestions) && t.suggestions.length > 0)
@@ -33,29 +35,21 @@ export class BannerTemplate {
         </div>
 
         <div class="yt-ai-header-center">
-          <div class="yt-ai-action-cluster">
-            <!-- SÉLECTEUR DE FORMAT DU RÉSUMÉ -->
-            <div class="yt-ai-header-select-wrapper yt-ai-header-mode-wrapper">
-              <select id="ytAiModeSelect" class="yt-ai-select yt-ai-header-mode-select" title="${t.formatLabel || 'Format:'}">
-                <option value="quick" ${currentMode === 'quick' ? 'selected' : ''}>${t.formatQuick || '⚡ Quick'}</option>
-                <option value="standard" ${currentMode === 'standard' || !currentMode ? 'selected' : ''}>${t.formatStandard || '📌 Standard'}</option>
-                <option value="detailed" ${currentMode === 'detailed' ? 'selected' : ''}>${t.formatDetailed || '📝 Deep'}</option>
-              </select>
-            </div>
-
-            <!-- SÉLECTEUR DE LANGUE -->
-            <div class="yt-ai-header-select-wrapper yt-ai-header-lang-wrapper">
-              <select id="ytAiLangSelect" class="yt-ai-select yt-ai-header-lang-select" title="${t.langLabel || 'Language:'}">
-                ${renderLangOptionsHtml(currentLang)}
-              </select>
-            </div>
-
-            <!-- BOUTON D'ACTION PRINCIPAL -->
-            <button id="ytAiSummarizeBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-summarize-cta">
-              ${t.summarizeBtn || '✨ Summarize video'}
+          <div class="yt-ai-header-tabs" role="tablist">
+            <button id="ytAiTabSummaryBtn" class="yt-ai-tab-btn active" data-tab="summary" role="tab">
+              ${t.tabSummary || '📄 Video Summary'}
             </button>
-            <button id="ytAiStopSummaryBtn" type="button" class="yt-ai-btn yt-ai-btn-stop yt-ai-hidden" title="${t.stopListenBtn || '⏹️ Stop'}">
-              ${t.stopListenBtn || '⏹️ Stop'}
+            <button id="ytAiTabAuditBtn" class="yt-ai-tab-btn" data-tab="audit" role="tab">
+              ${t.tabAudit || '🛡️ Audit & Fact-Check'}
+            </button>
+            <button id="ytAiTabChannelAuditBtn" class="yt-ai-tab-btn" data-tab="channelAudit" role="tab">
+              ${t.tabChannelAudit || t.subtabAuditChannel || '📊 Channel Audit'}
+            </button>
+            <button id="ytAiTabChatBtn" class="yt-ai-tab-btn" data-tab="chat" role="tab">
+              ${t.tabChat || '💬 Ask questions'} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">0</span>
+            </button>
+            <button id="ytAiTabTranscriptBtn" class="yt-ai-tab-btn" data-tab="transcript" role="tab">
+              ${t.tabTranscript || '📜 Transcript'} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">0 ${t.wordsBadge || 'words'}</span>
             </button>
           </div>
         </div>
@@ -66,9 +60,11 @@ export class BannerTemplate {
             <span id="ytAiSettingsBtnText">${t.settingsBtn || 'Settings'}</span>
           </button>
 
-          <button id="ytAiToggleBtn" class="yt-ai-toggle-btn" title="${t.expand || 'Expand'}">
-            <span id="ytAiToggleText">${t.expand || 'Expand'}</span>
-            <span id="ytAiToggleIcon">▾</span>
+          <button id="ytAiToggleBtn" class="yt-ai-icon-square-btn yt-ai-toggle-btn yt-ai-square-toggle" title="${t.expand || 'Expand'}" aria-label="${t.expand || 'Expand'}">
+            <span id="ytAiToggleIcon" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+          </button>
+          <button id="ytAiCloseExtensionBtn" class="yt-ai-icon-square-btn yt-ai-close-ext-btn" title="${t.closeExtensionBtn || 'Disable extension (re-enable from popup)'}" aria-label="${t.closeExtensionBtn || 'Disable extension'}">
+            <span aria-hidden="true"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>
           </button>
         </div>
       </div>
@@ -80,36 +76,24 @@ export class BannerTemplate {
         <!-- BANNIÈRE DE STATUT / MESSAGES INFORMATIFS -->
         <div id="ytAiStatusBanner" class="yt-ai-reasoning yt-ai-hidden"></div>
 
-        <!-- NAVIGATION PAR ONGLETS (SYNTHÈSE / AUDIT VIDÉO / AUDIT CHAÎNE / CHAT / TRANSCRIPTION) -->
-        <div class="yt-ai-tabs-nav">
-          <button id="ytAiTabSummaryBtn" class="yt-ai-tab-btn active" data-tab="summary">
-            ${t.tabSummary || '📝 AI Summary'}
-          </button>
-          <button id="ytAiTabAuditBtn" class="yt-ai-tab-btn" data-tab="audit">
-            ${t.tabAudit || '🛡️ Audit & Fact-Check'}
-          </button>
-          <button id="ytAiTabChannelAuditBtn" class="yt-ai-tab-btn" data-tab="channelAudit">
-            ${t.tabChannelAudit || t.subtabAuditChannel || '📊 Channel Audit'}
-          </button>
-          <button id="ytAiTabChatBtn" class="yt-ai-tab-btn" data-tab="chat">
-            ${t.tabChat || '💬 Ask questions'} <span id="ytAiChatCount" class="yt-ai-tab-count-badge">0</span>
-          </button>
-          <button id="ytAiTabTranscriptBtn" class="yt-ai-tab-btn" data-tab="transcript">
-            ${t.tabTranscript || '📜 Transcript'} <span id="ytAiWordCountTab" class="yt-ai-tab-count-badge">0 ${t.wordsBadge || 'words'}</span>
-          </button>
-        </div>
-
         <!-- ONGLET 1 : SYNTHÈSE IA -->
         <div id="ytAiPaneSummary" class="yt-ai-tab-pane active">
-          <div class="yt-ai-summary-pane" style="max-height: 480px;">
+          <div class="yt-ai-summary-pane" style="max-height: none; overflow: visible;">
             <div class="yt-ai-pane-title">
-              <span id="ytAiSummaryHeaderTitle">${t.summaryTitle || '📝 AI Summary'}</span>
-              <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
+              <span id="ytAiSummaryHeaderTitle">${t.summaryTitle || '📄 Video Summary'}</span>
+              <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+                <select id="ytAiModeSelect" class="yt-ai-select yt-ai-pane-mode-select" title="${t.formatLabel || 'Format:'}">
+                  ${renderModeOptionsHtml(t, currentMode)}
+                </select>
+                <button id="ytAiSummarizeBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-summarize-cta" style="padding: 4px 12px; font-size: 11px;">
+                  ${t.summarizeBtn || '✨ Summarize video'}
+                </button>
+                <button id="ytAiStopSummaryBtn" type="button" class="yt-ai-btn yt-ai-btn-stop yt-ai-hidden" style="padding: 4px 10px; font-size: 11px;" title="${t.stopListenBtn || '⏹️ Stop'}">
+                  ${t.stopListenBtn || '⏹️ Stop'}
+                </button>
                 <button id="ytAiSpeakSummaryBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.listenBtn || '🔊 Listen'}</button>
-                <button id="ytAiCopyBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.copyBtn || '📋 Copy'}</button>
-                <button id="ytAiDownloadBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.saveMdBtn || '💾 .md'}</button>
-                <button id="ytAiSaveTxtBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.saveTxtBtn || '📄 .txt'}</button>
-                <button id="ytAiSaveJsonBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.saveJsonBtn || '📦 .json'}</button>
+                <button id="ytAiCopyBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-copy-btn" style="padding: 3px 8px; font-size: 11px;">${t.copyBtn || '📋 Copy'}</button>
+                ${renderExportDropdownHtml(t, 'ytAi')}
               </div>
             </div>
 
@@ -119,7 +103,7 @@ export class BannerTemplate {
               <div id="ytAiReasoningText" class="yt-ai-reasoning-body"></div>
             </details>
 
-            <div id="ytAiSummaryBody" class="yt-ai-markdown">
+            <div id="ytAiSummaryBody" class="yt-ai-markdown" style="max-height: 430px; overflow-y: auto; padding-right: 4px;">
               <p class="yt-ai-placeholder-text" style="color: var(--yt-ai-text-muted); font-style: italic;">${t.summaryPlaceholder || 'Click "✨ Summarize video" to generate the summary.'}</p>
             </div>
           </div>
@@ -130,9 +114,13 @@ export class BannerTemplate {
           <div class="yt-ai-summary-pane" style="max-height: 480px;">
             <div class="yt-ai-pane-title">
               <span id="ytAiAuditHeaderTitle">${t.auditTitle || '🛡️ Critical Logic & Fact-Checking Audit'}</span>
-              <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
+              <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+                <select id="ytAiAuditModeSelect" class="yt-ai-select yt-ai-pane-mode-select" title="${t.formatLabel || 'Format:'}">
+                  ${renderModeOptionsHtml(t, currentAuditMode)}
+                </select>
                 <button id="ytAiRunAuditBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 4px 12px; font-size: 11px;">${t.runAuditBtn || '⚡ Run Audit'}</button>
-                <button id="ytAiCopyAuditBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-hidden" style="padding: 4px 10px; font-size: 11px;">${t.copyBtn || '📋 Copy'}</button>
+                <button id="ytAiCopyAuditBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-copy-btn" style="padding: 3px 8px; font-size: 11px;">${t.copyBtn || '📋 Copy'}</button>
+                ${renderExportDropdownHtml(t, 'ytAiAudit')}
               </div>
             </div>
 
@@ -153,8 +141,13 @@ export class BannerTemplate {
                 <span id="ytAiWatchChannelTitle" style="font-weight: 700;">${t.channelAuditTitle || '📊 Global Channel Audit'}</span>
                 <span id="ytAiWatchChannelHandle" class="yt-ai-card-handle" style="margin-left: 8px; font-size: 12px; color: var(--yt-ai-text-secondary);"></span>
               </div>
-              <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap;">
+              <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+                <select id="ytAiChannelAuditModeSelect" class="yt-ai-select yt-ai-pane-mode-select" title="${t.formatLabel || 'Format:'}">
+                  ${renderModeOptionsHtml(t, currentChannelAuditMode)}
+                </select>
                 <button id="ytAiRunWatchChannelAuditBtn" class="yt-ai-btn yt-ai-btn-primary" style="padding: 4px 12px; font-size: 11px;">${t.runChannelAuditBtn || '⚡ Run Channel Audit'}</button>
+                <button id="ytAiCopyChannelAuditBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-copy-btn" style="padding: 3px 8px; font-size: 11px;">${t.copyBtn || '📋 Copy'}</button>
+                ${renderExportDropdownHtml(t, 'ytAiChannelAudit')}
               </div>
             </div>
 
@@ -201,8 +194,15 @@ export class BannerTemplate {
                 </div>
               </div>
 
-              <!-- Ligne de saisie avec bouton micro -->
+              <!-- Pièces jointes en attente -->
+              <div id="ytAiChatAttachments" class="yt-ai-chat-attachments yt-ai-hidden"></div>
+
+              <!-- Ligne de saisie avec pièces jointes et bouton micro -->
               <div class="yt-ai-chat-input-row">
+                <input id="ytAiAttachInput" type="file" multiple accept="image/*,.txt,.md,.markdown,.csv,.tsv,.json,.xml,.yaml,.yml,.log,.js,.ts,.tsx,.jsx,.py,.rs,.go,.java,.c,.cpp,.h,.html,.css,.sql,.srt,.vtt" class="yt-ai-hidden">
+                <button id="ytAiAttachBtn" type="button" class="yt-ai-btn yt-ai-btn-secondary yt-ai-attach-btn" title="${t.attachTitle || 'Attach image or file (or paste Ctrl+V)'}">
+                  <span>📎</span>
+                </button>
                 <textarea id="ytAiChatInput" class="yt-ai-chat-input" rows="1" placeholder="${t.chatPlaceholder || 'Ask a question or dictate with mic...'}"></textarea>
                 <button id="ytAiMicBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-mic-btn" title="${t.micTitle || 'Dictate your question with microphone'}">
                   <span class="yt-ai-mic-icon">🎤</span>

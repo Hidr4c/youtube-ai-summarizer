@@ -1,3 +1,5 @@
+import { isActivePageElement } from '../ui/DomVisibilityHelper.js';
+
 /**
  * Extracts transcript segments directly from active YouTube DOM nodes
  */
@@ -11,11 +13,11 @@ export class DOMTranscriptExtractor {
     const seen = new Set();
 
     // 1. Targeted search strictly on modern YouTube transcript segment elements (NEVER chapter macro-markers)
-    const modernNodes = document.querySelectorAll(
+    const modernNodes = Array.from(document.querySelectorAll(
       'transcript-segment-view-model, ytd-transcript-segment-renderer, [class*="ytTranscriptSegmentViewModelHost"]:not(transcript-segment-view-model *), [class*="ytwTranscriptSegmentViewModelHost"]:not(transcript-segment-view-model *)'
-    );
+    )).filter(el => isActivePageElement(el));
 
-    if (modernNodes && modernNodes.length > 0) {
+    if (modernNodes.length > 0) {
       modernNodes.forEach(node => {
         const timeEl = node.querySelector(
           '.ytwTranscriptSegmentViewModelTimestamp, .ytTranscriptSegmentViewModelTimestamp, .segment-timestamp, #time, [class*="Timestamp"], [class*="timestamp"]'
@@ -58,7 +60,7 @@ export class DOMTranscriptExtractor {
       'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"], ' +
       'ytd-engagement-panel-section-list-renderer[target-id="modern_transcript_fe"], ' +
       'ytd-engagement-panel-section-list-renderer[target-id*="transcript"]:not([target-id*="macro-markers"])'
-    ));
+    )).filter(p => isActivePageElement(p));
 
     let panel = candidatePanels.find(p => {
       const vis = p.getAttribute('visibility');
@@ -67,7 +69,8 @@ export class DOMTranscriptExtractor {
 
     // Modern unified panel (Chapters & Transcript): only if Transcription tab is actively selected
     if (!panel) {
-      const macroPanel = document.querySelector('ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]');
+      const macroPanel = Array.from(document.querySelectorAll('ytd-engagement-panel-section-list-renderer[target-id*="macro-markers"]'))
+        .find(p => isActivePageElement(p));
       if (macroPanel) {
         const tab = macroPanel.querySelector('[role="tab"][aria-selected="true"], yt-chip-cloud-chip-renderer.selected, button[aria-selected="true"]');
         const tabText = (tab?.textContent || '').toLowerCase();

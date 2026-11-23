@@ -442,19 +442,26 @@
       }
       return null;
     }
+    static _matchesRequestedVideo(data, requestedVideoId, el = null) {
+      if (!data) return false;
+      if (!requestedVideoId) return true;
+      const foundId = data?.videoDetails?.videoId || data?.playerResponse?.videoDetails?.videoId || data?.currentVideoEndpoint?.watchEndpoint?.videoId || data?.currentVideoEndpoint?.reelWatchEndpoint?.videoId || data?.endpoint?.reelWatchEndpoint?.videoId || data?.endpoint?.watchEndpoint?.videoId || el?.getAttribute?.("video-id") || "";
+      return Boolean(foundId && foundId === requestedVideoId);
+    }
     static findTranscriptParams(requestedVideoId) {
       try {
-        const watchEl = document.querySelector("ytd-watch-flexy, ytd-watch-grid, ytm-watch");
+        const isShorts = typeof window !== "undefined" && (window.location?.pathname || "").startsWith("/shorts/");
+        const watchEl = document.querySelector("ytd-reel-video-renderer[is-active], ytm-reel-video-renderer[is-active]") || document.querySelector("ytd-shorts:not([hidden]), ytm-shorts:not([hidden])") || (!isShorts ? document.querySelector("ytd-watch-flexy:not([hidden]), ytd-watch-grid:not([hidden]), ytm-watch:not([hidden])") : null);
         const watchData = watchEl?.data || watchEl?.playerData;
-        if (watchData) {
+        if (watchData && _InnerTubeBridge._matchesRequestedVideo(watchData, requestedVideoId, watchEl)) {
           const p = _InnerTubeBridge.searchParamsInObject(watchData);
           if (p) return p;
         }
-        if (window.ytInitialData) {
+        if (window.ytInitialData && _InnerTubeBridge._matchesRequestedVideo(window.ytInitialData, requestedVideoId)) {
           const p = _InnerTubeBridge.searchParamsInObject(window.ytInitialData);
           if (p) return p;
         }
-        if (window.ytInitialPlayerResponse) {
+        if (window.ytInitialPlayerResponse && _InnerTubeBridge._matchesRequestedVideo(window.ytInitialPlayerResponse, requestedVideoId)) {
           const p = _InnerTubeBridge.searchParamsInObject(window.ytInitialPlayerResponse);
           if (p) return p;
         }
@@ -504,7 +511,9 @@
           credentials: "include"
         }).catch(() => null);
         if (!res || !res.ok) return null;
-        return await res.json().catch(() => null);
+        const json = await res.json().catch(() => null);
+        if (videoId && json?.videoDetails?.videoId && json.videoDetails.videoId !== videoId) return null;
+        return json;
       } catch (_) {
         return null;
       }
@@ -626,11 +635,15 @@
   // src/injected/BrowseContinuationFetcher.js
   var BrowseContinuationFetcher = class {
     /**
-     * Fetches one continuation page of videos from YouTube InnerTube browse endpoint.
+     * Dispatches Main World InnerTube continuation or same-origin channel HTML requests.
      * @param {Object} params
-     * @returns {Promise<{ok: boolean, status: number, items: Array<Object>}>}
+     * @returns {Promise<{ok: boolean, status: number, items: Array<Object>, html?: string, url?: string}>}
      */
-    static async fetchPage({ apiKey, clientVersion, continuation, visitorData } = {}) {
+    static async fetchPage(params = {}) {
+      if (params?.mode === "html") {
+        return this.fetchHtmlPage(params);
+      }
+      const { apiKey, clientVersion, continuation, visitorData } = params || {};
       try {
         const cfgKey = apiKey || window.ytcfg?.get?.("INNERTUBE_API_KEY") || "";
         if (!cfgKey || !continuation) {
@@ -670,6 +683,27 @@
         return { ok: true, status: 200, items };
       } catch (_) {
         return { ok: false, status: 0, items: [] };
+      }
+    }
+    /**
+     * Fetches same-origin YouTube channel or search HTML directly in Main World.
+     * @param {Object} params
+     * @returns {Promise<{ok: boolean, status: number, url: string, html: string, items: Array<Object>}>}
+     */
+    static async fetchHtmlPage({ url } = {}) {
+      try {
+        const origin = typeof window !== "undefined" && window.location?.origin?.includes("youtube.com") ? window.location.origin : "https://www.youtube.com";
+        const parsed = new URL(String(url || ""), origin);
+        if (!/(^|\.)youtube\.com$/i.test(parsed.hostname)) {
+          return { ok: false, status: 400, url: "", html: "", items: [] };
+        }
+        const res = await fetch(`${origin}${parsed.pathname}${parsed.search}`, { credentials: "include" });
+        const finalUrl = res.url || "";
+        const isConsent = finalUrl.includes("consent.youtube.");
+        const html = res.ok && !isConsent ? await res.text() : "";
+        return { ok: Boolean(res.ok && !isConsent && html), status: res.status || 0, url: finalUrl, html, items: [] };
+      } catch (_) {
+        return { ok: false, status: 0, url: "", html: "", items: [] };
       }
     }
   };
@@ -715,6 +749,94 @@
     }
   };
 
+  // src/injected/PlayerElementHelper.js
+  var PlayerElementHelper = class _PlayerElementHelper {
+    /**
+     * Checks whether an element or any ancestor page container is hidden or of the wrong page type
+     * @param {HTMLElement|null} el
+     * @returns {boolean}
+     */
+    static _isElementActive(el) {
+      if (!el) return false;
+      const isShorts = typeof window !== "undefined" && (window.location?.pathname || "").startsWith("/shorts/");
+      let cur = el;
+      while (cur) {
+        const tag = cur.tagName?.toUpperCase?.() || "";
+        if (tag === "YTD-WATCH-FLEXY" || tag === "YTD-WATCH-GRID" || tag === "YTM-WATCH" || tag === "YTD-SHORTS" || tag === "YTM-SHORTS") {
+          if (cur.hasAttribute?.("hidden") || cur.style?.display === "none") return false;
+          if (isShorts && (tag === "YTD-WATCH-FLEXY" || tag === "YTD-WATCH-GRID" || tag === "YTM-WATCH")) return false;
+          if (!isShorts && (tag === "YTD-SHORTS" || tag === "YTM-SHORTS")) return false;
+        }
+        cur = cur.parentNode;
+      }
+      return true;
+    }
+    /**
+     * Extracts video ID from a Polymer container/response payload object
+     * @param {Object|null} data
+     * @param {HTMLElement|null} [el]
+     * @returns {string}
+     */
+    static extractContainerVideoId(data, el = null) {
+      return data?.videoDetails?.videoId || data?.playerResponse?.videoDetails?.videoId || data?.currentVideoEndpoint?.watchEndpoint?.videoId || data?.currentVideoEndpoint?.reelWatchEndpoint?.videoId || data?.endpoint?.reelWatchEndpoint?.videoId || data?.endpoint?.watchEndpoint?.videoId || el?.getAttribute?.("video-id") || "";
+    }
+    /**
+     * Resolves the currently active YouTube player API element strictly matching requestedVideoId when given
+     * @param {string} [requestedVideoId]
+     * @returns {HTMLElement|null}
+     */
+    static resolvePlayerElement(requestedVideoId) {
+      if (typeof document === "undefined") return null;
+      const candidates = [
+        document.getElementById("shorts-player"),
+        document.querySelector?.("ytd-reel-video-renderer[is-active] #shorts-player, ytd-reel-video-renderer[is-active] .html5-video-player, ytm-shorts .html5-video-player"),
+        document.getElementById("movie_player")
+      ].filter((p) => p && _PlayerElementHelper._isElementActive(p));
+      if (candidates.length === 0) return null;
+      if (!requestedVideoId) return candidates[0];
+      return candidates.find((player) => {
+        const pid = player.getVideoData?.()?.video_id || player.getPlayerResponse?.()?.videoDetails?.videoId;
+        return pid === requestedVideoId;
+      }) || null;
+    }
+    /**
+     * Resolves Polymer playerData/data from the active visible Watch or Shorts container strictly matching requestedVideoId
+     * @param {string} [requestedVideoId]
+     * @returns {Object|null}
+     */
+    static resolveContainerPlayerData(requestedVideoId) {
+      if (typeof document === "undefined" || typeof document.querySelectorAll !== "function") return null;
+      const prioritySelectors = [
+        "ytd-reel-video-renderer[is-active], ytm-reel-video-renderer[is-active]",
+        "ytd-shorts:not([hidden]), ytm-shorts:not([hidden])",
+        "ytd-watch-flexy:not([hidden]), ytd-watch-grid:not([hidden]), ytm-watch:not([hidden])"
+      ];
+      for (const sel of prioritySelectors) {
+        const containers = Array.from(document.querySelectorAll(sel) || []);
+        for (const el of containers) {
+          if (!_PlayerElementHelper._isElementActive(el)) continue;
+          const data = el?.playerData || el?.data;
+          if (!data) continue;
+          const vid = _PlayerElementHelper.extractContainerVideoId(data, el);
+          if (requestedVideoId) {
+            if (vid === requestedVideoId) return data?.playerResponse || data;
+          } else {
+            return data?.playerResponse || data;
+          }
+        }
+      }
+      return null;
+    }
+    /**
+     * Extracts video ID embedded inside window.ytInitialData across watch and reel endpoints
+     * @param {Object} [initialData]
+     * @returns {string}
+     */
+    static extractInitialDataVideoId(initialData) {
+      return initialData?.currentVideoEndpoint?.watchEndpoint?.videoId || initialData?.currentVideoEndpoint?.reelWatchEndpoint?.videoId || "";
+    }
+  };
+
   // src/injected/YouTubeContextExtractor.js
   var YouTubeContextExtractor = class {
     constructor() {
@@ -752,7 +874,8 @@
             requestId: event.data.requestId,
             ok: result.ok,
             status: result.status,
-            items: result.items
+            items: result.items || [],
+            ...result.html !== void 0 ? { html: result.html, url: result.url || "" } : {}
           }, "*");
           return;
         }
@@ -796,7 +919,10 @@
           directSegments = await InnerTubeBridge.fetchTranscriptDirect(requestedVideoId, preferredLang);
         }
         if (!directSegments || directSegments.length === 0) {
-          directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
+          const initialVideoId = PlayerElementHelper.extractInitialDataVideoId(window.ytInitialData);
+          if (!requestedVideoId || !initialVideoId || initialVideoId === requestedVideoId) {
+            directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
+          }
         }
         if (directSegments && directSegments.length > 0) {
           return {
@@ -810,39 +936,39 @@
       }
     }
     resolvePlayerResponse(requestedVideoId) {
-      let player = document.getElementById("movie_player");
+      const player = PlayerElementHelper.resolvePlayerElement(requestedVideoId);
       try {
         player?.loadModule?.("captions");
       } catch (_) {
       }
       if (player && typeof player.getPlayerResponse === "function") {
         const resp = player.getPlayerResponse();
-        const activeId = player.getVideoData?.()?.video_id || resp?.videoDetails?.videoId;
-        if (!requestedVideoId || activeId === requestedVideoId) return resp;
+        const respId = resp?.videoDetails?.videoId;
+        const dataId = player.getVideoData?.()?.video_id;
+        if (!requestedVideoId) return resp;
+        if (respId === requestedVideoId && (!dataId || dataId === requestedVideoId)) return resp;
+        if (!respId && dataId === requestedVideoId && resp) return resp;
       }
       if (window.ytInitialPlayerResponse) {
         const initId = window.ytInitialPlayerResponse?.videoDetails?.videoId;
-        if (!requestedVideoId || initId === requestedVideoId) return window.ytInitialPlayerResponse;
+        if (!requestedVideoId || initId && initId === requestedVideoId) return window.ytInitialPlayerResponse;
       }
-      const flexy = document.querySelector("ytd-watch-flexy, ytd-watch-grid, ytm-watch");
-      const flexyData = flexy?.playerData || flexy?.data;
-      if (flexyData) {
-        const fId = flexyData?.videoDetails?.videoId;
-        if (!requestedVideoId || fId === requestedVideoId) return flexyData;
-      }
+      const containerData = PlayerElementHelper.resolveContainerPlayerData(requestedVideoId);
+      if (containerData) return containerData;
       if (this.lastNavResponse?.videoDetails?.videoId === requestedVideoId) return this.lastNavResponse;
       return requestedVideoId ? null : window.ytInitialPlayerResponse || null;
     }
     resolveCaptionTracks(playerResponse, requestedVideoId) {
       let captions = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
       if (!captions || captions.length === 0) {
-        const player = document.getElementById("movie_player");
+        const player = PlayerElementHelper.resolvePlayerElement(requestedVideoId);
         try {
           player?.loadModule?.("captions");
         } catch (_) {
         }
         const activeId = player?.getVideoData?.()?.video_id;
-        if (!requestedVideoId || !activeId || activeId === requestedVideoId) {
+        const respId = player?.getPlayerResponse?.()?.videoDetails?.videoId;
+        if (!requestedVideoId || activeId === requestedVideoId && (!respId || respId === requestedVideoId)) {
           if (player && typeof player.getOption === "function") {
             try {
               const pt = player.getOption("captions", "tracklist");
@@ -854,7 +980,7 @@
       }
       if ((!captions || captions.length === 0) && window.ytInitialPlayerResponse) {
         const initId = window.ytInitialPlayerResponse?.videoDetails?.videoId;
-        if (!requestedVideoId || initId === requestedVideoId) {
+        if (!requestedVideoId || initId && initId === requestedVideoId) {
           captions = window.ytInitialPlayerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
         }
       }
@@ -875,9 +1001,17 @@
           playerResponse = this.resolvePlayerResponse(requestedVideoId);
           captions = this.resolveCaptionTracks(playerResponse, requestedVideoId);
           if (captions && captions.length > 0) break;
+          if (attempt === 2 && !playerResponse && requestedVideoId) {
+            const fetched = await InnerTubeBridge.fetchPlayerResponse(requestedVideoId);
+            if (fetched) {
+              playerResponse = fetched;
+              captions = this.resolveCaptionTracks(playerResponse, requestedVideoId);
+              if (captions && captions.length > 0 || playerResponse?.videoDetails?.videoId === requestedVideoId) break;
+            }
+          }
           await new Promise((r) => setTimeout(r, 120));
         }
-        const player = document.getElementById("movie_player");
+        const player = PlayerElementHelper.resolvePlayerElement(requestedVideoId);
         const activeId = player?.getVideoData?.()?.video_id || "";
         if (requestedVideoId && activeId && activeId !== requestedVideoId && !playerResponse) {
           window.postMessage({
@@ -913,7 +1047,7 @@
           directSegments = await InnerTubeBridge.fetchTranscriptDirect(targetId, preferredLang);
         }
         if (!directSegments || directSegments.length === 0) {
-          const initialVideoId = window.ytInitialData?.currentVideoEndpoint?.watchEndpoint?.videoId;
+          const initialVideoId = PlayerElementHelper.extractInitialDataVideoId(window.ytInitialData);
           if (!requestedVideoId || initialVideoId === requestedVideoId) {
             directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
           }
@@ -925,6 +1059,7 @@
         const publishDate = microformat.publishDate || microformat.uploadDate || "";
         const viewCount = videoDetails.viewCount || microformat.viewCount || "";
         const channelId = videoDetails.channelId || microformat.externalChannelId || "";
+        const channelUrl = microformat.ownerProfileUrl || (channelId ? `https://www.youtube.com/channel/${channelId}` : "");
         window.postMessage({
           type: "YT_AI_RES_PLAYER_DATA",
           success: true,
@@ -935,6 +1070,7 @@
           author: videoDetails.author || microformat.ownerChannelName || "",
           videoId: requestedVideoId || videoDetails.videoId || activeId,
           channelId,
+          channelUrl,
           description,
           keywords,
           category,
@@ -945,6 +1081,7 @@
         window.postMessage({
           type: "YT_AI_RES_PLAYER_DATA",
           success: false,
+          videoId: requestedVideoId || "",
           error: err.message,
           captions: [],
           segments: null

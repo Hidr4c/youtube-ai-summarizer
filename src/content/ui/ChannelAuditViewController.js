@@ -2,6 +2,8 @@ import { escapeHtml, safeSetInnerHTML, renderMarkdown, formatInline } from './Ma
 import { I18N } from '../../locales/index.js';
 import { ScoreTierScale } from '../../domain/services/ScoreTierScale.js';
 import { SensationalismScale } from '../../domain/services/SensationalismScale.js';
+import { ChannelFormatStatsRenderer } from './ChannelFormatStatsRenderer.js';
+import { ChannelFormatAnalyzer } from '../../domain/services/ChannelFormatAnalyzer.js';
 
 /**
  * View Controller for Rendering YouTube Channel Global Audit
@@ -57,19 +59,23 @@ export class ChannelAuditViewController {
       ? (isFr ? ` sur ${report.totalAvailable} disponibles` : ` of ${report.totalAvailable} available`)
       : '';
 
+    const fb = report.formatBreakdown || ChannelFormatAnalyzer.computeFormatBreakdown(report.evaluatedVideos || []);
+    const formatMixSuffix = ChannelFormatStatsRenderer.formatSampleCountsSuffix(fb, t);
+    const formatCompareCardHtml = ChannelFormatStatsRenderer.renderFormatComparisonCard(report, t, lang);
+
     const html = `
       <div class="yt-ai-channel-audit-wrapper">
         <!-- Hero Header & Graded Score Gauge -->
-        <div class="yt-ai-audit-hero-card ${scoreClass}" style="background: linear-gradient(135deg, ${tier.hexColor}1f 0%, var(--yt-ai-bg-card) 75%); border-color: ${tier.hexColor}55;">
+        <div class="yt-ai-audit-hero-card ${scoreClass}" style="${tier.cssVars || ''}background: linear-gradient(135deg, ${tier.hexColor}1f 0%, var(--yt-ai-bg-card) 75%); border-color: color-mix(in srgb, var(--yt-ai-tier-ink, ${tier.hexColor}) 45%, transparent);">
           <div class="yt-ai-audit-hero-main">
             <div class="yt-ai-gauge-wrapper">
-              <div class="yt-ai-gauge-circle ${scoreClass}" style="border-color: ${tier.hexColor}; color: ${tier.hexColor}; background: radial-gradient(circle, ${tier.hexColor}22 0%, var(--yt-ai-bg-secondary) 72%); box-shadow: 0 0 14px ${tier.hexColor}33;">
+              <div class="yt-ai-gauge-circle ${scoreClass}" style="border-color: var(--yt-ai-tier-ink, ${tier.hexColor}); color: var(--yt-ai-tier-ink, ${tier.hexColor}); background: radial-gradient(circle, ${tier.hexColor}22 0%, var(--yt-ai-bg-secondary) 72%); box-shadow: 0 0 14px ${tier.hexColor}33;">
                 <span class="yt-ai-gauge-num">${report.globalScore}</span>
                 <span class="yt-ai-gauge-unit">/100</span>
               </div>
             </div>
             <div class="yt-ai-audit-meta">
-              <div class="yt-ai-audit-status-badge ${scoreClass}" style="background: ${tier.hexColor}1a; border: 1px solid ${tier.hexColor}66; color: ${tier.hexColor};">
+              <div class="yt-ai-audit-status-badge ${scoreClass}" style="background: color-mix(in srgb, var(--yt-ai-tier, ${tier.hexColor}) 16%, var(--yt-ai-bg)); border: 1px solid color-mix(in srgb, var(--yt-ai-tier-ink, ${tier.hexColor}) 45%, transparent); color: var(--yt-ai-tier-ink, ${tier.hexColor});">
                 <span class="yt-ai-badge-icon">${escapeHtml(report.badge?.symbol || '✓')}</span>
                 <span>${escapeHtml(tierBadgeLabel)}</span>
               </div>
@@ -79,7 +85,7 @@ export class ChannelAuditViewController {
                 ${report.subscribers ? `<span class="yt-ai-sub-pill">${escapeHtml(report.subscribers)}</span>` : ''}
               </div>
               <div class="yt-ai-sample-info-pill">
-                <span>${escapeHtml(t.channelSampleBadge || 'Sample:')} <strong>${report.sampleSize} ${escapeHtml(t.channelVideosUnit || 'videos')}${escapeHtml(availSuffix)}</strong> · ${escapeHtml(t.channelRecentHistoricMix || '')}</span>
+                <span>${escapeHtml(t.channelSampleBadge || 'Sample:')} <strong>${report.sampleSize} ${escapeHtml(t.channelVideosUnit || 'videos')}${escapeHtml(formatMixSuffix)}${escapeHtml(availSuffix)}</strong> · ${escapeHtml(t.channelRecentHistoricMix || '')}</span>
               </div>
             </div>
           </div>
@@ -99,6 +105,9 @@ export class ChannelAuditViewController {
           </div>
           ${report.temporalEvolution ? `<div class="yt-ai-traj-desc yt-ai-markdown">${renderMarkdown(report.temporalEvolution)}</div>` : ''}
         </div>
+
+        <!-- Long-form Videos vs Shorts Comparison Card -->
+        ${formatCompareCardHtml}
 
         <!-- The 3 Pillars: Good / Less good / Bad -->
         <div class="yt-ai-pillars-grid">
@@ -135,9 +144,10 @@ export class ChannelAuditViewController {
               <div class="yt-ai-sample-item">
                 <div class="yt-ai-sample-item-top">
                   <span class="yt-ai-sample-num">#${i + 1}</span>
+                  ${ChannelFormatStatsRenderer.renderItemTypeBadge(v, t)}
                   <span class="yt-ai-era-badge yt-ai-era-${v.era}">${escapeHtml(v.eraLabel || v.era)}</span>
                   <a href="${escapeHtml(v.url || `https://youtu.be/${v.id}`)}" target="_blank" class="yt-ai-sample-title">${escapeHtml(v.title)}</a>
-                  <span class="yt-ai-sample-score ${vt.scoreClass}" style="color:${vt.hexColor};border-color:${vt.hexColor}55;">${v.score}/100</span>
+                  <span class="yt-ai-sample-score ${vt.scoreClass}" style="${vt.cssVars || ''}color:var(--yt-ai-tier-ink, ${vt.hexColor});border-color:color-mix(in srgb, var(--yt-ai-tier-ink, ${vt.hexColor}) 45%, transparent);">${v.score}/100</span>
                 </div>
                 ${v.comment ? `<div class="yt-ai-sample-comment">${formatInline(v.comment)}</div>` : ''}
               </div>
@@ -208,15 +218,15 @@ export class ChannelAuditViewController {
           </div>
         </div>
 
-        <div class="yt-ai-stat-card yt-ai-sensation-card" style="border-color:${sens.hexColor}44;">
+        <div class="yt-ai-stat-card yt-ai-sensation-card" style="${sens.cssVars || ''}border-color:color-mix(in srgb, var(--yt-ai-tier-ink, ${sens.hexColor}) 35%, transparent);">
           <div class="yt-ai-stat-header">
             <span><strong>${escapeHtml(t.channelSensationalismLabel || 'Sensationalism Index')}</strong></span>
-            <span class="yt-ai-sensation-badge" style="color:${sens.hexColor};background:${sens.hexColor}1a;border-color:${sens.hexColor}55;">${escapeHtml(sens.label)}</span>
+            <span class="yt-ai-sensation-badge" style="color:var(--yt-ai-tier-ink, ${sens.hexColor});background:color-mix(in srgb, var(--yt-ai-tier, ${sens.hexColor}) 16%, var(--yt-ai-bg));border-color:color-mix(in srgb, var(--yt-ai-tier-ink, ${sens.hexColor}) 45%, transparent);">${escapeHtml(sens.label)}</span>
           </div>
           <div class="yt-ai-sensation-hero">
             <div class="yt-ai-sensation-donut" style="background:${sens.ringBackground};box-shadow:0 0 12px ${sens.hexColor}2a;">
               <div class="yt-ai-sensation-donut-inner">
-                <span class="yt-ai-sensation-val" style="color:${sens.hexColor};">${sens.index}%</span>
+                <span class="yt-ai-sensation-val" style="color:var(--yt-ai-tier-ink, ${sens.hexColor});">${sens.index}%</span>
               </div>
             </div>
             <div class="yt-ai-sensation-context">
@@ -238,12 +248,18 @@ export class ChannelAuditViewController {
   handleCopyReport(report, lang = 'en') {
     if (!report) return;
     const t = I18N[lang] || I18N.en;
+    const fb = report.formatBreakdown || ChannelFormatAnalyzer.computeFormatBreakdown(report.evaluatedVideos || []);
+    const formatLine = fb.hasMixedFormats
+      ? `- ${t.channelFormatMixTitle || 'Videos vs Shorts'}: ${fb.videos.count} ${t.channelFormatVideosLabel || 'Videos'} (${fb.videos.avgScore}/100) • ${fb.shorts.count} ${t.channelFormatShortsLabel || 'Shorts'} (${fb.shorts.avgScore}/100)`
+      : '';
     const text = [
       `### ${t.channelAuditTitle || '📊 Global Channel Audit'} : ${report.channelTitle} (${report.channelHandle})`,
       `- Score: ${report.globalScore}/100 (${report.badge?.label || ''})`,
       `- ${t.channelSensationalismLabel || 'Sensationalism Index'}: ${report.clickbaitIndex}%`,
       `- ${t.channelIntegrityProportion || 'Distribution'}: ${report.proportions?.reliablePct}% ${t.channelBucketReliable || 'Reliable'}, ${report.proportions?.cautionPct}% ${t.channelBucketModerate || 'Moderate'}, ${report.proportions?.clickbaitPct}% ${t.channelBucketRisk || 'Risk'}`,
+      formatLine,
       `- ${t.channelEvolutionTitle || 'Evolution'}: ${report.trajectoryLabel}`,
+      report.formatComparison ? `\n#### ${t.channelFormatMixTitle || 'Videos vs Shorts'}:\n${report.formatComparison}` : '',
       `\n#### ${t.channelStrengthsTitle || 'Strengths'}:`,
       ...report.strengths.map(s => `  * ${s}`),
       `\n#### ${t.channelWeaknessesTitle || 'Weaknesses'}:`,
@@ -252,7 +268,7 @@ export class ChannelAuditViewController {
       ...report.drawbacks.map(d => `  * ${d}`),
       `\n#### ${t.channelSynthesisTitle || 'Synthesis'}:`,
       report.executiveSummary || ''
-    ].join('\n');
+    ].filter(Boolean).join('\n');
 
     if (navigator.clipboard?.writeText) {
       navigator.clipboard.writeText(text).then(() => {

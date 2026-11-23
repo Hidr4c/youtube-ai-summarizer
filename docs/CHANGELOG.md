@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-11-23
+
+### Added
+- **ClarifAI Rebrand & Universal Web Mode**: Expanded beyond YouTube to summarize, audit, and chat on any HTTPS/HTTP webpage (`https://*/*`, `http://*/*`) with 8 updated Store localizations, new extension icons, SVG branding, 1-click unified top navigation tabs, and browser language auto-detection.
+- **Anti-Phishing Page Audit & Multi-Level Site Due-Diligence Crawl**:
+  - Added `WebThreatDetector` to spot unencrypted HTTP, raw IPs, Punycode/IDN homographs, visual typosquatting, brand impersonation, credit card / crypto seed phishing, deceptive links, executable downloads, hidden iframes, ClickFix/clipboard hijacking, and hidden prompt-injection text.
+  - Added read-only multi-depth **Site Audit** (`DomainAuditFetcher`) scanning legal pages, direct contacts, `robots.txt`, and `sitemap.xml` with deduplicated Map-Reduce analysis.
+- **YouTube Shorts & Videos vs Shorts Channel Comparison**: Added native `/shorts/<id>` watch banner integration (with zero scroll/flex interference) and comparative Videos vs Shorts quality/sensationalism analytics inside Channel Audits.
+- **Multimodal Vision, Oversized Image Slicing & Diagnostic `[TOOL_CALL]` Protocol**: Added image paste/drag-drop, `INSPECT_PAGE_IMAGES` with vertical and horizontal tile slicing (`PageImageExtractor`), `AUDIT_EXTERNAL_SITE` (including parallel site lookup), `AUDIT_CHANNEL`, and embedded YouTube detection on web pages.
+- **Dynamic Host-Adaptive WCAG Contrast & Theming (`ThemeManager` + `ColorContrastHelper`)**: Live host background, font, and accent sampling paired with automatic WCAG 2.1 contrast adaptation (`>= 5.0:1`) for score badges, 5% tier pills, axis readouts, and charts across light, dark, and tinted websites.
+- **Response Calibration, Export & Local LLM Controls**: Added response style selectors, Copy/Export (`.md`, `.txt`, `.json`) on audit panes, a 0-to-1M local context window slider, throttled streaming (`StreamRenderScheduler`), and MV3 Service Worker keepalive.
+
+### Changed
+- **Unified Top-of-Page Shell & Generic Layout Shifting (`WebPageLayoutShifter`)**: Displaces fixed/sticky headers, `100vh` overlays, and full-viewport app shells cleanly below the banner while ignoring offscreen traps and recovering automatically from SPA body hydration wipes.
+- **Compact Header Actions & Non-Blocking Tab Concurrency**: Replaced the text collapse toggle with compact 16 px square chevron and close/disable icon buttons, and isolated per-tab Chrome runtime stream clients (`summary`, `audit`, `domain`, `chat`) so switching tabs never drops an active analysis.
+
+### Fixed
+- Hardened copy/`selectstart` text selection against aggressive host blockers, bypassed EU YouTube consent redirects during background transcript fetches, isolated active `videoId` & channel handle state across SPA transitions, and blocked mutating links during read-only site crawls (`415` automated tests passing across `84` suites, `0` failures).
+
+---
+
 ## [1.5.3] - 2026-11-18
 
 ### Added

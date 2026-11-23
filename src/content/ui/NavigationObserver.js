@@ -2,90 +2,75 @@
  * YouTube Single Page Application Navigation, Watch & Channel Page Observer
  */
 export class NavigationObserver {
-  /**
-   * Checks if current URL is a YouTube watch page
-   * @param {string} [url]
-   * @returns {boolean}
-   */
+  /** Parses an optional URL string against current window origin safely. */
+  static _parseUrl(url) {
+    try {
+      const base = (typeof window !== 'undefined' && window.location?.origin) ? window.location.origin : 'https://www.youtube.com';
+      return url ? new URL(url, base) : (typeof window !== 'undefined' ? window.location : null);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /** Checks if URL is a YouTube Shorts player page (/shorts/<id>). */
+  static isShortsPage(url) {
+    const u = NavigationObserver._parseUrl(url);
+    const path = typeof u?.pathname === 'string' ? u.pathname : '';
+    return path.startsWith('/shorts/') && path.length > 8;
+  }
+
+  /** Checks if current URL is a YouTube watch page (watch, live, shorts). */
   static isWatchPage(url) {
-    try {
-      const base = (typeof window !== 'undefined' && window.location?.origin) ? window.location.origin : 'https://www.youtube.com';
-      const u = url ? new URL(url, base) : (typeof window !== 'undefined' ? window.location : null);
-      if (!u) return false;
-      if (u.pathname === '/watch' && new URLSearchParams(u.search).has('v')) return true;
-      if (u.pathname.startsWith('/live/') && u.pathname.length > 6) return true;
-      if (u.pathname.startsWith('/shorts/') && u.pathname.length > 8) return true;
-      return false;
-    } catch (_) {
-      return false;
-    }
+    const u = NavigationObserver._parseUrl(url);
+    if (!u || typeof u.pathname !== 'string') return false;
+    if (u.pathname === '/watch' && new URLSearchParams(u.search || '').has('v')) return true;
+    if (u.pathname.startsWith('/live/') && u.pathname.length > 6) return true;
+    return NavigationObserver.isShortsPage(url);
   }
 
-  /**
-   * Checks if current URL is a YouTube channel page (@handle, /channel/, /c/, /user/)
-   * @param {string} [url]
-   * @returns {boolean}
-   */
+  /** Checks if current URL is a YouTube channel page (@handle, /channel/, /c/, /user/). */
   static isChannelPage(url) {
-    try {
-      const base = (typeof window !== 'undefined' && window.location?.origin) ? window.location.origin : 'https://www.youtube.com';
-      const u = url ? new URL(url, base) : (typeof window !== 'undefined' ? window.location : null);
-      if (!u) return false;
-      const path = u.pathname;
-      if (path.startsWith('/@') && path.length > 2) return true;
-      if (path.startsWith('/channel/') && path.length > 9) return true;
-      if (path.startsWith('/c/') && path.length > 3) return true;
-      if (path.startsWith('/user/') && path.length > 6) return true;
-      return false;
-    } catch (_) {
-      return false;
-    }
+    const u = NavigationObserver._parseUrl(url);
+    const path = typeof u?.pathname === 'string' ? u.pathname : '';
+    if (!path) return false;
+    if (path.startsWith('/@') && path.length > 2) return true;
+    if (path.startsWith('/channel/') && path.length > 9) return true;
+    if (path.startsWith('/c/') && path.length > 3) return true;
+    return path.startsWith('/user/') && path.length > 6;
   }
 
-  /**
-   * Extracts YouTube channel handle or ID from URL
-   * @param {string} [url]
-   * @returns {string}
-   */
+  /** Extracts YouTube channel handle or ID from URL. */
   static getChannelIdentifier(url) {
-    try {
-      const base = (typeof window !== 'undefined' && window.location?.origin) ? window.location.origin : 'https://www.youtube.com';
-      const u = url ? new URL(url, base) : (typeof window !== 'undefined' ? window.location : null);
-      if (!u) return '';
-      const path = u.pathname;
-      if (path.startsWith('/@')) {
-        return path.split('/')[1] || '';
-      }
-      const match = path.match(/^\/(channel|c|user)\/([^\/?#]+)/);
-      if (match) return match[2];
-      return '';
-    } catch (_) {
-      return '';
-    }
+    const u = NavigationObserver._parseUrl(url);
+    const path = typeof u?.pathname === 'string' ? u.pathname : '';
+    if (!path) return '';
+    if (path.startsWith('/@')) return path.split('/')[1] || '';
+    const match = path.match(/^\/(channel|c|user)\/([^\/?#]+)/);
+    return match ? match[2] : '';
+  }
+
+  /** Extracts YouTube video ID from URL (watch, live, shorts, embed). */
+  static getVideoId(url) {
+    const u = NavigationObserver._parseUrl(url);
+    if (!u) return '';
+    const v = new URLSearchParams(u.search || '').get('v');
+    if (v) return v;
+    if (typeof u.pathname !== 'string') return '';
+    const match = u.pathname.match(/^\/(?:live|shorts|embed)\/([^/?#]+)/);
+    return match ? match[1] : '';
   }
 
   /**
-   * Extracts YouTube video ID from URL (watch, live, shorts, embed)
-   * @param {string} [url]
-   * @returns {string}
+   * Resolves the currently active HTMLVideoElement across Watch and Shorts feeds
+   * @returns {HTMLVideoElement|null}
    */
-  static getVideoId(url) {
-    try {
-      const base = (typeof window !== 'undefined' && window.location?.origin) ? window.location.origin : 'https://www.youtube.com';
-      const u = url ? new URL(url, base) : (typeof window !== 'undefined' ? window.location : null);
-      if (!u) return '';
-      const v = new URLSearchParams(u.search).get('v');
-      if (v) return v;
-      const liveMatch = u.pathname.match(/^\/live\/([^/?#]+)/);
-      if (liveMatch) return liveMatch[1];
-      const shortsMatch = u.pathname.match(/^\/shorts\/([^/?#]+)/);
-      if (shortsMatch) return shortsMatch[1];
-      const embedMatch = u.pathname.match(/^\/embed\/([^/?#]+)/);
-      if (embedMatch) return embedMatch[1];
-      return '';
-    } catch (_) {
-      return '';
-    }
+  static getActiveVideoElement() {
+    if (typeof document === 'undefined' || typeof document.querySelector !== 'function') return null;
+    return document.querySelector('ytd-reel-video-renderer[is-active] video')
+      || document.querySelector('#shorts-player video')
+      || document.querySelector('#movie_player video')
+      || document.querySelector('video')
+      || null;
   }
 
   /**
@@ -211,7 +196,7 @@ export class NavigationObserver {
     if (typeof document === 'undefined') return false;
     if (document.fullscreenElement || document.webkitFullscreenElement) return true;
     if (typeof document.querySelector === 'function') {
-      return Boolean(document.querySelector('ytd-watch-flexy[fullscreen], ytd-watch-grid[fullscreen], ytd-app[fullscreen], ytm-watch[fullscreen], ytm-app[fullscreen], .html5-video-player.ytp-fullscreen'));
+      return Boolean(document.querySelector('ytd-watch-flexy[fullscreen], ytd-watch-grid[fullscreen], ytd-shorts[fullscreen], ytm-shorts[fullscreen], ytd-app[fullscreen], ytm-watch[fullscreen], ytm-app[fullscreen], .html5-video-player.ytp-fullscreen'));
     }
     return false;
   }
@@ -226,6 +211,7 @@ export class NavigationObserver {
       ['yt-ai-summarizer-container', 'yt-ai-channel-companion'].forEach(id => {
         const el = document.getElementById?.(id);
         if (!el?.classList) return;
+        if (typeof el.classList.contains === 'function' && el.classList.contains('yt-ai-fullscreen-hidden') === fs) return;
         if (typeof el.classList.toggle === 'function') {
           el.classList.toggle('yt-ai-fullscreen-hidden', fs);
         } else if (fs) {
@@ -264,12 +250,30 @@ export class NavigationObserver {
       attrObserver?.disconnect();
     };
   }
+  static isYouTubeHost(url) {
+    const u = NavigationObserver._parseUrl(url);
+    let h = String(u?.hostname || '').toLowerCase();
+    if (!h && typeof u?.origin === 'string') {
+      try { h = new URL(u.origin).hostname.toLowerCase(); } catch {}
+    }
+    return h === 'youtu.be' || h === 'youtube.com' || h.endsWith('.youtube.com');
+  }
+  static isWebPageMode(url) {
+    const u = NavigationObserver._parseUrl(url);
+    const proto = u?.protocol || (typeof u?.origin === 'string' && u.origin.includes(':') ? `${u.origin.split(':')[0]}:` : '');
+    if (!u || !/^https?:$/i.test(proto)) return false;
+    return !NavigationObserver.isYouTubeHost(url) || (!NavigationObserver.isWatchPage(url) && !NavigationObserver.isChannelPage(url));
+  }
 }
 
+export const isYouTubeHost = NavigationObserver.isYouTubeHost;
+export const isWebPageMode = NavigationObserver.isWebPageMode;
+export const isShortsPage = NavigationObserver.isShortsPage;
 export const isWatchPage = NavigationObserver.isWatchPage;
 export const isChannelPage = NavigationObserver.isChannelPage;
 export const getChannelIdentifier = NavigationObserver.getChannelIdentifier;
 export const getVideoId = NavigationObserver.getVideoId;
+export const getActiveVideoElement = NavigationObserver.getActiveVideoElement;
 export const extractVideoIdFromText = NavigationObserver.extractVideoIdFromText;
 export const extractAllVideoIdsFromText = NavigationObserver.extractAllVideoIdsFromText;
 export const isFullscreen = NavigationObserver.isFullscreen;

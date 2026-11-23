@@ -1,3 +1,5 @@
+import { renderLangOptionsHtml } from './BannerHeaderParts.js';
+
 /**
  * Settings Drawer HTML Template
  * Renders the 3 modern subtabs: Model & Server, Parameters & Prompt, Voice & Audio
@@ -12,6 +14,7 @@ export class SettingsDrawerTemplate {
   static render(t, options = {}) {
     const initialOptionHtml = options.initialOptionHtml || '<option value="">Loading...</option>';
     const initialModelLabel = options.initialModelLabel || 'Model: Loading...';
+    const currentLang = options.currentLang || 'en';
 
     return `
       <div id="ytAiSettingsDrawer" class="yt-ai-settings-drawer yt-ai-hidden">
@@ -116,6 +119,13 @@ export class SettingsDrawerTemplate {
             <div id="ytAiSettingsSubpaneParams" class="yt-ai-settings-subpane">
               <div class="yt-ai-settings-grid">
                 <div class="yt-ai-setting-item">
+                  <label id="ytAiLangLabel" for="ytAiLangSelect">${t.langLabel || 'Language:'}</label>
+                  <select id="ytAiLangSelect" class="yt-ai-select" title="${t.langLabel || 'Language:'}">
+                    ${renderLangOptionsHtml(currentLang)}
+                  </select>
+                </div>
+
+                <div class="yt-ai-setting-item">
                   <label id="ytAiTempLabel">${t.tempLabel || 'AI Creativity (Temperature):'}</label>
                   <select id="ytAiTemperatureSelect" class="yt-ai-select">
                     <option value="0.0">${t.tempStrict || '0.0 - Strict & Precise'}</option>
@@ -136,6 +146,18 @@ export class SettingsDrawerTemplate {
                   </select>
                 </div>
 
+                <div class="yt-ai-setting-item" id="ytAiLocalContextContainer" style="grid-column: span 2;">
+                  <div class="yt-ai-range-header">
+                    <label id="ytAiLocalContextLabel" for="ytAiLocalContextSlider">${t.localContextLabel || 'Local Context Window (0 = Auto .. 1M):'}</label>
+                    <span id="ytAiLocalContextValue" class="yt-ai-range-badge">${t.ctxAuto || 'Default (LM Studio / Ollama)'}</span>
+                  </div>
+                  <div class="yt-ai-input-with-btn">
+                    <input type="range" id="ytAiLocalContextSlider" class="yt-ai-range-slider" min="0" max="1048576" step="1024" value="0" style="flex: 1;">
+                    <input type="number" id="ytAiLocalContextInput" class="yt-ai-input yt-ai-range-number" min="0" max="1048576" step="1024" value="0" aria-label="Local context tokens">
+                    <button id="ytAiApplyContextBtn" type="button" class="yt-ai-btn yt-ai-btn-secondary" title="${t.applyContextTooltip || 'Reload model with this context window size'}">${t.applyContextBtn || '⚡ Apply'}</button>
+                  </div>
+                </div>
+
                 <div class="yt-ai-setting-item yt-ai-checkbox-field" style="grid-column: span 2;">
                   <label>
                     <input type="checkbox" id="ytAiAutoSummarizeCheck">
@@ -143,7 +165,7 @@ export class SettingsDrawerTemplate {
                   </label>
                 </div>
 
-                <div class="yt-ai-setting-item" style="grid-column: span 2;">
+                <div class="yt-ai-setting-item" style="grid-column: 1 / -1;">
                   <label id="ytAiCustomPromptLabel">${t.customPromptLabel || 'Custom AI Instructions (optional):'}</label>
                   <input type="text" id="ytAiCustomPromptInput" class="yt-ai-input" placeholder="${t.customPromptPlaceholder || 'e.g. Focus on technical details, explain with analogies...'}" style="width: 100%;">
                 </div>

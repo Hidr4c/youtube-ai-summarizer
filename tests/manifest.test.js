@@ -94,6 +94,9 @@ describe('Manifest V3 Structure & Integrity', () => {
       assert.ok(cs.matches.includes('https://www.youtube.com/*'));
       assert.ok(cs.matches.includes('https://m.youtube.com/*'));
     }
+    const contentEntry = manifest.content_scripts.find((cs) => cs.js?.includes('dist/content.js'));
+    assert.ok(contentEntry?.matches?.includes('https://*/*'));
+    assert.ok(contentEntry?.matches?.includes('http://*/*'));
     assert.ok(manifest.web_accessible_resources[0].matches.includes('https://m.youtube.com/*'));
   });
 

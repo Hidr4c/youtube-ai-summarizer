@@ -4,6 +4,7 @@ import { InnerTubeBridge } from './InnerTubeBridge.js';
 import { BrowseContinuationFetcher } from './BrowseContinuationFetcher.js';
 import { TimedtextTrackFetcher } from './TimedtextTrackFetcher.js';
 import { CaptionTrackPrioritizer } from '../parsers/CaptionTrackPrioritizer.js';
+import { PlayerElementHelper } from './PlayerElementHelper.js';
 
 /**
  * YouTube Main World context extractor
@@ -51,7 +52,8 @@ export class YouTubeContextExtractor {
           requestId: event.data.requestId,
           ok: result.ok,
           status: result.status,
-          items: result.items
+          items: result.items || [],
+          ...(result.html !== undefined ? { html: result.html, url: result.url || '' } : {})
         }, '*');
         return;
       }
@@ -101,7 +103,10 @@ export class YouTubeContextExtractor {
       }
 
       if (!directSegments || directSegments.length === 0) {
-        directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
+        const initialVideoId = PlayerElementHelper.extractInitialDataVideoId(window.ytInitialData);
+        if (!requestedVideoId || !initialVideoId || initialVideoId === requestedVideoId) {
+          directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
+        }
       }
 
       if (directSegments && directSegments.length > 0) {
@@ -117,23 +122,22 @@ export class YouTubeContextExtractor {
   }
 
   resolvePlayerResponse(requestedVideoId) {
-    let player = document.getElementById('movie_player');
+    const player = PlayerElementHelper.resolvePlayerElement(requestedVideoId);
     try { player?.loadModule?.('captions'); } catch (_) {}
     if (player && typeof player.getPlayerResponse === 'function') {
       const resp = player.getPlayerResponse();
-      const activeId = player.getVideoData?.()?.video_id || resp?.videoDetails?.videoId;
-      if (!requestedVideoId || activeId === requestedVideoId) return resp;
+      const respId = resp?.videoDetails?.videoId;
+      const dataId = player.getVideoData?.()?.video_id;
+      if (!requestedVideoId) return resp;
+      if (respId === requestedVideoId && (!dataId || dataId === requestedVideoId)) return resp;
+      if (!respId && dataId === requestedVideoId && resp) return resp;
     }
     if (window.ytInitialPlayerResponse) {
       const initId = window.ytInitialPlayerResponse?.videoDetails?.videoId;
-      if (!requestedVideoId || initId === requestedVideoId) return window.ytInitialPlayerResponse;
+      if (!requestedVideoId || (initId && initId === requestedVideoId)) return window.ytInitialPlayerResponse;
     }
-    const flexy = document.querySelector('ytd-watch-flexy, ytd-watch-grid, ytm-watch');
-    const flexyData = flexy?.playerData || flexy?.data;
-    if (flexyData) {
-      const fId = flexyData?.videoDetails?.videoId;
-      if (!requestedVideoId || fId === requestedVideoId) return flexyData;
-    }
+    const containerData = PlayerElementHelper.resolveContainerPlayerData(requestedVideoId);
+    if (containerData) return containerData;
     if (this.lastNavResponse?.videoDetails?.videoId === requestedVideoId) return this.lastNavResponse;
     return requestedVideoId ? null : (window.ytInitialPlayerResponse || null);
   }
@@ -141,10 +145,11 @@ export class YouTubeContextExtractor {
   resolveCaptionTracks(playerResponse, requestedVideoId) {
     let captions = playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
     if (!captions || captions.length === 0) {
-      const player = document.getElementById('movie_player');
+      const player = PlayerElementHelper.resolvePlayerElement(requestedVideoId);
       try { player?.loadModule?.('captions'); } catch (_) {}
       const activeId = player?.getVideoData?.()?.video_id;
-      if (!requestedVideoId || !activeId || activeId === requestedVideoId) {
+      const respId = player?.getPlayerResponse?.()?.videoDetails?.videoId;
+      if (!requestedVideoId || (activeId === requestedVideoId && (!respId || respId === requestedVideoId))) {
         if (player && typeof player.getOption === 'function') {
           try {
             const pt = player.getOption('captions', 'tracklist');
@@ -155,7 +160,7 @@ export class YouTubeContextExtractor {
     }
     if ((!captions || captions.length === 0) && window.ytInitialPlayerResponse) {
       const initId = window.ytInitialPlayerResponse?.videoDetails?.videoId;
-      if (!requestedVideoId || initId === requestedVideoId) {
+      if (!requestedVideoId || (initId && initId === requestedVideoId)) {
         captions = window.ytInitialPlayerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
       }
     }
@@ -178,10 +183,18 @@ export class YouTubeContextExtractor {
         playerResponse = this.resolvePlayerResponse(requestedVideoId);
         captions = this.resolveCaptionTracks(playerResponse, requestedVideoId);
         if (captions && captions.length > 0) break;
+        if (attempt === 2 && !playerResponse && requestedVideoId) {
+          const fetched = await InnerTubeBridge.fetchPlayerResponse(requestedVideoId);
+          if (fetched) {
+            playerResponse = fetched;
+            captions = this.resolveCaptionTracks(playerResponse, requestedVideoId);
+            if ((captions && captions.length > 0) || playerResponse?.videoDetails?.videoId === requestedVideoId) break;
+          }
+        }
         await new Promise(r => setTimeout(r, 120));
       }
 
-      const player = document.getElementById('movie_player');
+      const player = PlayerElementHelper.resolvePlayerElement(requestedVideoId);
       const activeId = player?.getVideoData?.()?.video_id || '';
       if (requestedVideoId && activeId && activeId !== requestedVideoId && !playerResponse) {
         window.postMessage({
@@ -221,7 +234,7 @@ export class YouTubeContextExtractor {
       }
 
       if (!directSegments || directSegments.length === 0) {
-        const initialVideoId = window.ytInitialData?.currentVideoEndpoint?.watchEndpoint?.videoId;
+        const initialVideoId = PlayerElementHelper.extractInitialDataVideoId(window.ytInitialData);
         if (!requestedVideoId || initialVideoId === requestedVideoId) {
           directSegments = InnerTubeParser.extractSegmentsFromInnerTubeJson(window.ytInitialData, { allowChapters: false });
         }
@@ -236,6 +249,7 @@ export class YouTubeContextExtractor {
       const publishDate = microformat.publishDate || microformat.uploadDate || '';
       const viewCount = videoDetails.viewCount || microformat.viewCount || '';
       const channelId = videoDetails.channelId || microformat.externalChannelId || '';
+      const channelUrl = microformat.ownerProfileUrl || (channelId ? `https://www.youtube.com/channel/${channelId}` : '');
 
       window.postMessage({
         type: 'YT_AI_RES_PLAYER_DATA',
@@ -247,6 +261,7 @@ export class YouTubeContextExtractor {
         author: videoDetails.author || microformat.ownerChannelName || '',
         videoId: requestedVideoId || videoDetails.videoId || activeId,
         channelId,
+        channelUrl,
         description,
         keywords,
         category,
@@ -257,6 +272,7 @@ export class YouTubeContextExtractor {
       window.postMessage({
         type: 'YT_AI_RES_PLAYER_DATA',
         success: false,
+        videoId: requestedVideoId || '',
         error: err.message,
         captions: [],
         segments: null

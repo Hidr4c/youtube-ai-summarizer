@@ -3,6 +3,7 @@ import { escapeHtml } from './MarkdownRenderer.js';
 import { SettingsDrawerI18n } from './SettingsDrawerI18n.js';
 import { syncChannelMaxSelectElement } from '../../config/ExtensionConstants.js';
 import { applyFooterLanguage, EXTENSION_BRAND_TITLE } from '../templates/BannerHeaderParts.js';
+import { PaneExportHelper } from './PaneExportHelper.js';
 
 /**
  * In-Place Internationalization Coordinator for the Channel Companion Card.
@@ -30,11 +31,23 @@ export class ChannelCompanionI18n {
     const brandWrap = root.querySelector('#ytAiBrandToggle') || document.getElementById('ytAiBrandToggle');
     if (brandWrap) brandWrap.title = t.brandName || EXTENSION_BRAND_TITLE;
 
-    const langSelect = root.querySelector('#ytAiCompLangSelect') || document.getElementById('ytAiCompLangSelect');
+    const langSelect = root.querySelector('#ytAiLangSelect') || root.querySelector('#ytAiCompLangSelect') || document.getElementById('ytAiLangSelect');
     if (langSelect) {
       langSelect.title = t.langLabel || 'Language:';
       if (langSelect.value !== resolvedLang) langSelect.value = resolvedLang;
     }
+
+    const modeSelect = root.querySelector('#ytAiChannelAuditModeSelect') || document.getElementById('ytAiChannelAuditModeSelect');
+    if (modeSelect) {
+      modeSelect.title = t.formatLabel || 'Format:';
+      const optQuick = modeSelect.querySelector('option[value="quick"]');
+      if (optQuick) optQuick.textContent = t.formatQuick || '⚡ Quick';
+      const optStandard = modeSelect.querySelector('option[value="standard"]');
+      if (optStandard) optStandard.textContent = t.formatStandard || '📌 Standard';
+      const optDetailed = modeSelect.querySelector('option[value="detailed"]');
+      if (optDetailed) optDetailed.textContent = t.formatDetailed || '📝 Deep';
+    }
+    PaneExportHelper.localizeControls(root, t);
 
     const isRunning = !!(card?.currentChannel && card?.service?.isAuditRunning?.(card.currentChannel));
     const runBtn = root.querySelector('#ytAiRunChannelAuditBtn') || document.getElementById('ytAiRunChannelAuditBtn');

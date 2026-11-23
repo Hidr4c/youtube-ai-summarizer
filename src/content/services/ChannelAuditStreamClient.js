@@ -1,5 +1,6 @@
 import { ChannelAuditJobTracker } from './ChannelAuditJobTracker.js';
 import { QuickOnboardingHelper } from './QuickOnboardingHelper.js';
+import { PortKeepaliveHelper } from './PortKeepaliveHelper.js';
 
 /**
  * Runtime Streaming Client for Channel Audits via Chrome MV3 Port (`ai-stream`)
@@ -28,6 +29,7 @@ export class ChannelAuditStreamClient {
       }
 
       const port = chrome.runtime.connect({ name: 'ai-stream' });
+      const keepalive = PortKeepaliveHelper.attach(port);
       onPortCreated?.(port);
 
       let accumulated = '';
@@ -36,6 +38,7 @@ export class ChannelAuditStreamClient {
       let settled = false;
 
       const cleanup = () => {
+        keepalive.stop();
         signal?.removeEventListener('abort', onAbort);
         onPortCreated?.(null);
       };
@@ -59,7 +62,9 @@ export class ChannelAuditStreamClient {
 
       port.onMessage.addListener((msg) => {
         if (settled || signal?.aborted) return;
-        if (msg.type === 'CHUNK') {
+        if (msg.type === 'KEEPALIVE' && msg.waitingForModel && !accumulated) {
+          onProgress?.({ step: 'loading', percent: 26, message: `Chargement du modèle / préparation (${msg.elapsedSec || 0}s)...`, detail: 'Initialisation du modèle et préparation de l’analyse' });
+        } else if (msg.type === 'CHUNK') {
           if (msg.reasoning) {
             onProgress?.({
               step: 'thinking',
@@ -126,6 +131,7 @@ export class ChannelAuditStreamClient {
         serverUrls: state?.serverUrls,
         apiKey,
         apiKeys: state?.apiKeys,
+        localContextLength: state?.localContextLength || 'auto',
         messages: [{ role: 'user', content: userPrompt }]
       });
     });

@@ -1,5 +1,6 @@
 import { SettingsDrawerController } from './SettingsDrawerController.js';
 import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
+import { LocalContextUiHelper } from './LocalContextUiHelper.js';
 
 /**
  * Reusable event binder for Settings Drawer across Watch and Channel views
@@ -138,23 +139,34 @@ export class SettingsDrawerEventHandler {
       refreshModelText();
     });
 
-    // 5. Parameters & Prompt
-    rootContainer.querySelector('#ytAiTemperatureSelect')?.addEventListener('change', (e) => {
+    // 5. Parameters & Prompt (hydrate persisted preferences & bind updates)
+    const tempEl = rootContainer.querySelector('#ytAiTemperatureSelect');
+    if (tempEl && state.temperature) tempEl.value = state.temperature;
+    const maxTokEl = rootContainer.querySelector('#ytAiMaxTokensSelect');
+    if (maxTokEl && state.maxTokens) maxTokEl.value = state.maxTokens;
+    const autoCheckEl = rootContainer.querySelector('#ytAiAutoSummarizeCheck');
+    if (autoCheckEl) autoCheckEl.checked = Boolean(state.autoSummarize);
+    const customPromptEl = rootContainer.querySelector('#ytAiCustomPromptInput');
+    if (customPromptEl && state.customPrompt) customPromptEl.value = state.customPrompt;
+
+    LocalContextUiHelper.bind({ rootContainer, state, showStatus });
+
+    tempEl?.addEventListener('change', (e) => {
       state.temperature = e.target.value;
       state.savePreference('temperature', e.target.value);
     });
 
-    rootContainer.querySelector('#ytAiMaxTokensSelect')?.addEventListener('change', (e) => {
+    maxTokEl?.addEventListener('change', (e) => {
       state.maxTokens = e.target.value;
       state.savePreference('maxTokens', e.target.value);
     });
 
-    rootContainer.querySelector('#ytAiAutoSummarizeCheck')?.addEventListener('change', (e) => {
+    autoCheckEl?.addEventListener('change', (e) => {
       state.autoSummarize = e.target.checked;
       state.savePreference('autoSummarize', e.target.checked);
     });
 
-    rootContainer.querySelector('#ytAiCustomPromptInput')?.addEventListener('input', (e) => {
+    customPromptEl?.addEventListener('input', (e) => {
       state.customPrompt = e.target.value;
       state.savePreference('customPrompt', e.target.value);
     });

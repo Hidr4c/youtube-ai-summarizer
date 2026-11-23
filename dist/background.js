@@ -447,13 +447,20 @@
      */
     static async fetchWithModelFallback({ endpoint, headers, payload, signal = null, provider, apiKey = "", fetchFn = fetch }) {
       const isLocal = provider === "lmstudio" || provider === "ollama";
-      const post = (bodyObj) => {
+      const post = async (bodyObj, urlOverride = endpoint) => {
         const opts = { method: "POST", headers, body: JSON.stringify(bodyObj) };
         if (signal) opts.signal = signal;
-        return fetchFn(endpoint, opts);
+        return fetchFn(urlOverride, opts);
       };
       const tried = /* @__PURE__ */ new Set([payload.model]);
-      let response = await post(payload);
+      let response;
+      try {
+        response = await post(payload);
+      } catch (err) {
+        const mirror = isLocal && !signal?.aborted ? endpoint.includes("localhost") ? endpoint.replace("localhost", "127.0.0.1") : endpoint.includes("127.0.0.1") ? endpoint.replace("127.0.0.1", "localhost") : null : null;
+        if (!mirror) throw err;
+        response = await post(payload, mirror);
+      }
       if (response.ok) return { response, resolvedModel: null, errorText: "" };
       let errorText = await response.text().catch(() => "");
       let currentModel = payload.model;
@@ -469,6 +476,395 @@
         errorText = await response.text().catch(() => "");
       }
       return { response, resolvedModel: tried.size > 1 ? currentModel : null, errorText };
+    }
+  };
+
+  // src/background/StreamKeepalive.js
+  var StreamKeepalive = class {
+    /**
+     * Starts periodic Service Worker wakeups + port keepalive heartbeats.
+     * @param {Object} options
+     * @param {Function} options.postMessageSafe
+     * @param {Function} options.isAborted
+     * @param {number} [options.intervalMs=10000]
+     * @returns {{ emit: (msg: Object) => void, stop: () => void }}
+     */
+    static start({ postMessageSafe, isAborted, intervalMs = 1e4 }) {
+      let hasStreamData = false;
+      const startMs = Date.now();
+      const timer = setInterval(() => {
+        if (isAborted()) return;
+        try {
+          if (typeof chrome !== "undefined" && chrome.runtime?.getPlatformInfo) {
+            chrome.runtime.getPlatformInfo(() => {
+            });
+          }
+        } catch (_) {
+        }
+        postMessageSafe({
+          type: "KEEPALIVE",
+          elapsedSec: Math.max(1, Math.round((Date.now() - startMs) / 1e3)),
+          waitingForModel: !hasStreamData
+        });
+      }, intervalMs);
+      if (typeof timer?.unref === "function") timer.unref();
+      return {
+        emit(msg) {
+          if (msg?.type === "CHUNK") hasStreamData = true;
+          postMessageSafe(msg);
+        },
+        stop() {
+          clearInterval(timer);
+        }
+      };
+    }
+  };
+
+  // src/background/MultimodalMessageFormatter.js
+  var MultimodalMessageFormatter = class {
+    /**
+     * Parses a base64 data URL into media type and raw base64 payload.
+     * @param {string} dataUrl
+     * @returns {{ mimeType: string, base64: string } | null}
+     */
+    static parseDataUrl(dataUrl) {
+      if (typeof dataUrl !== "string") return null;
+      const match = /^data:([^;]+);base64,(.+)$/s.exec(dataUrl.trim());
+      if (!match) return null;
+      return { mimeType: match[1], base64: match[2] };
+    }
+    /**
+     * Appends attached text file contents cleanly to a message's text prompt.
+     * @param {Object} msg
+     * @returns {string}
+     */
+    static buildCombinedText(msg) {
+      const baseText = typeof msg?.content === "string" ? msg.content : "";
+      const files = Array.isArray(msg?.files) ? msg.files : [];
+      if (files.length === 0) return baseText;
+      const fileBlocks = files.filter((f) => f && f.name && typeof f.textContent === "string").map((f) => `[Attached file: ${f.name}]
+\`\`\`
+${f.textContent}
+\`\`\``);
+      if (fileBlocks.length === 0) return baseText;
+      return [baseText, ...fileBlocks].filter(Boolean).join("\n\n");
+    }
+    /**
+     * Formats messages for OpenAI-compatible, Claude, or native Ollama /api/chat.
+     * @param {Array<Object>} messages
+     * @param {'openai'|'claude'|'ollama'} [format='openai']
+     * @returns {Array<Object>}
+     */
+    static formatMessages(messages = [], format = "openai") {
+      if (!Array.isArray(messages)) return [];
+      return messages.map((msg) => this._formatSingle(msg, format));
+    }
+    /**
+     * @param {Object} msg
+     * @param {'openai'|'claude'|'ollama'} format
+     * @returns {Object}
+     */
+    static _formatSingle(msg, format) {
+      if (!msg || typeof msg !== "object") return msg;
+      const text = this.buildCombinedText(msg);
+      const images = Array.isArray(msg.images) ? msg.images.filter((i) => i?.dataUrl) : [];
+      if (images.length === 0) {
+        return { role: msg.role, content: text };
+      }
+      if (format === "ollama") {
+        const rawImages = images.map((img) => this.parseDataUrl(img.dataUrl)?.base64).filter(Boolean);
+        return rawImages.length > 0 ? { role: msg.role, content: text, images: rawImages } : { role: msg.role, content: text };
+      }
+      if (format === "claude") {
+        const blocks = [];
+        for (const img of images) {
+          const parsed = this.parseDataUrl(img.dataUrl);
+          if (parsed) {
+            blocks.push({
+              type: "image",
+              source: { type: "base64", media_type: parsed.mimeType, data: parsed.base64 }
+            });
+          }
+        }
+        if (text) blocks.push({ type: "text", text });
+        return { role: msg.role, content: blocks };
+      }
+      const parts = [];
+      if (text) parts.push({ type: "text", text });
+      for (const img of images) {
+        parts.push({ type: "image_url", image_url: { url: img.dataUrl } });
+      }
+      return { role: msg.role, content: parts };
+    }
+  };
+
+  // src/background/LocalContextManager.js
+  var LocalContextManager = class _LocalContextManager {
+    static isCloudHosted(provider = "", model = "", serverUrl = "") {
+      const prov = String(provider || "").toLowerCase();
+      if (prov !== "lmstudio" && prov !== "ollama") return true;
+      const cleanModel = String(model || "").trim();
+      const cleanUrl = String(serverUrl || "").trim();
+      return /(?:^|[:\-])cloud$/i.test(cleanModel) || /ollama\.com/i.test(cleanUrl);
+    }
+    /**
+     * Parses a user context length preference ('auto' or positive token count).
+     * @param {string|number|null} rawValue
+     * @returns {number|null}
+     */
+    static parseContextLength(rawValue) {
+      if (!rawValue || rawValue === "auto") return null;
+      const num = parseInt(String(rawValue), 10);
+      if (!Number.isFinite(num) || num < 1024) return null;
+      return Math.min(num, 1048576);
+    }
+    /**
+     * Normalizes a local provider base URL and computes its loopback mirror (localhost <-> 127.0.0.1).
+     * @param {string} serverUrl
+     * @param {string} [provider='lmstudio']
+     * @returns {{ base: string, mirror: string|null }}
+     */
+    static resolveBaseAndMirror(serverUrl, provider = "lmstudio") {
+      const def = provider === "ollama" ? "http://localhost:11434" : "http://127.0.0.1:1234";
+      let base = String(serverUrl || def).trim().replace(/\/+$/, "");
+      if (!/^https?:\/\//i.test(base)) base = `http://${base}`;
+      const mirror = base.includes("localhost") ? base.replace("localhost", "127.0.0.1") : base.includes("127.0.0.1") ? base.replace("127.0.0.1", "localhost") : null;
+      return { base, mirror };
+    }
+    /**
+     * Executes a fetch call with optional timeout, external abort signal, and loopback fallback.
+     * @private
+     */
+    static async _fetchWithLoopback(path, options, { base, mirror, timeoutMs = 0, signal = null, fetchFn = fetch }) {
+      const run = async (urlBase) => {
+        const controller = new AbortController();
+        const onExtAbort = () => controller.abort();
+        if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+        signal?.addEventListener?.("abort", onExtAbort, { once: true });
+        const timer = timeoutMs > 0 ? setTimeout(() => controller.abort(), timeoutMs) : null;
+        if (typeof timer?.unref === "function") timer.unref();
+        try {
+          return await fetchFn(`${urlBase}${path}`, { ...options, signal: controller.signal });
+        } finally {
+          if (timer !== null) clearTimeout(timer);
+          signal?.removeEventListener?.("abort", onExtAbort);
+        }
+      };
+      try {
+        const res = await run(base);
+        return { res, activeBase: base };
+      } catch (err) {
+        if (signal?.aborted || !mirror) throw err;
+        const res = await run(mirror);
+        return { res, activeBase: mirror };
+      }
+    }
+    /**
+     * Ensures an LM Studio model is loaded at the requested context_length via v1 REST API.
+     * Tolerates +/-512 token alignment rounding from llama.cpp and degrades gracefully on older builds.
+     * @param {Object} params
+     * @returns {Promise<Object>}
+     */
+    static async ensureLmStudioContext({
+      serverUrl,
+      model,
+      apiKey = "",
+      contextLength,
+      fetchFn = fetch,
+      signal = null,
+      postProgress = null
+    }) {
+      const targetCtx = _LocalContextManager.parseContextLength(contextLength);
+      if (!targetCtx || !model) return { applied: false, skipped: true };
+      const { base, mirror } = _LocalContextManager.resolveBaseAndMirror(serverUrl, "lmstudio");
+      const headers = { "Content-Type": "application/json", "Accept": "application/json" };
+      if (apiKey) headers["Authorization"] = `Bearer ${String(apiKey).trim()}`;
+      let catalogRes;
+      let activeBase = base;
+      try {
+        const out = await _LocalContextManager._fetchWithLoopback(
+          "/api/v1/models",
+          { method: "GET", headers },
+          { base, mirror, timeoutMs: 3e3, signal, fetchFn }
+        );
+        catalogRes = out.res;
+        activeBase = out.activeBase;
+      } catch (err) {
+        if (signal?.aborted) throw err;
+        return { applied: false, unsupported: true, reason: err.message };
+      }
+      if (!catalogRes?.ok) return { applied: false, unsupported: true, status: catalogRes?.status || 0 };
+      const catalog = await catalogRes.json().catch(() => null);
+      const list = Array.isArray(catalog?.models) ? catalog.models : [];
+      const modelEntry = list.find((m) => m.key === model || m.id === model || m.loaded_instances?.some((i) => i.id === model));
+      if (!modelEntry) return { applied: false, unsupported: true, reason: "Model not listed in /api/v1/models" };
+      const clampedCtx = modelEntry.max_context_length ? Math.min(targetCtx, modelEntry.max_context_length) : targetCtx;
+      const instances = Array.isArray(modelEntry.loaded_instances) ? modelEntry.loaded_instances : [];
+      const matching = instances.find((inst) => Math.abs((inst.config?.context_length || 0) - clampedCtx) <= 512);
+      if (matching) {
+        return { applied: true, alreadyMatched: true, contextLength: matching.config.context_length };
+      }
+      postProgress?.({ type: "KEEPALIVE", elapsedSec: 1, waitingForModel: true });
+      for (const inst of instances) {
+        if (!inst?.id) continue;
+        await _LocalContextManager._fetchWithLoopback(
+          "/api/v1/models/unload",
+          { method: "POST", headers, body: JSON.stringify({ instance_id: inst.id }) },
+          { base: activeBase, mirror: null, timeoutMs: 5e3, signal, fetchFn }
+        ).catch(() => null);
+      }
+      const loadPayload = {
+        model: modelEntry.key || model,
+        context_length: clampedCtx,
+        flash_attention: true,
+        offload_kv_cache_to_gpu: true,
+        echo_load_config: true
+      };
+      const { res: loadRes } = await _LocalContextManager._fetchWithLoopback(
+        "/api/v1/models/load",
+        { method: "POST", headers, body: JSON.stringify(loadPayload) },
+        { base: activeBase, mirror: null, timeoutMs: 0, signal, fetchFn }
+      );
+      if (!loadRes?.ok) {
+        const errTxt = await loadRes?.text?.().catch(() => "") || "";
+        return { applied: false, status: loadRes?.status || 0, error: errTxt };
+      }
+      const loadJson = await loadRes.json().catch(() => ({}));
+      return {
+        applied: true,
+        reloaded: true,
+        contextLength: loadJson?.load_config?.context_length || clampedCtx,
+        loadTimeSeconds: loadJson?.load_time_seconds ?? null
+      };
+    }
+    /**
+     * Streams Ollama native /api/chat with explicit options.num_ctx and consumes NDJSON chunks.
+     * @param {Object} params
+     */
+    static async streamOllamaChat({
+      serverUrl,
+      apiKey = "",
+      model,
+      messages,
+      temperature = 0.3,
+      maxTokens = "auto",
+      contextLength,
+      signal = null,
+      safePost = null,
+      port = null,
+      fetchFn = fetch
+    }) {
+      const targetCtx = _LocalContextManager.parseContextLength(contextLength);
+      const { base, mirror } = _LocalContextManager.resolveBaseAndMirror(serverUrl, "ollama");
+      const headers = { "Content-Type": "application/json" };
+      if (apiKey) headers["Authorization"] = `Bearer ${String(apiKey).trim()}`;
+      const parsedTemp = parseFloat(temperature);
+      const options = { temperature: !isNaN(parsedTemp) ? parsedTemp : 0.3 };
+      if (targetCtx) options.num_ctx = targetCtx;
+      const parsedMax = maxTokens && maxTokens !== "auto" ? parseInt(maxTokens, 10) : NaN;
+      if (!isNaN(parsedMax) && parsedMax > 0) options.num_predict = parsedMax;
+      const ollamaMessages = MultimodalMessageFormatter.formatMessages(messages, "ollama");
+      const { res } = await _LocalContextManager._fetchWithLoopback(
+        "/api/chat",
+        { method: "POST", headers, body: JSON.stringify({ model, messages: ollamaMessages, stream: true, options }) },
+        { base, mirror, timeoutMs: 0, signal, fetchFn }
+      );
+      if (!res.ok) {
+        const errText = await res.text().catch(() => "");
+        throw new Error(`Erreur OLLAMA (${res.status}) : ${errText || res.statusText}`);
+      }
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      const emit = safePost || ((m) => port?.postMessage?.(m));
+      let buffer = "";
+      const processLine = (line) => {
+        const trimmed = line.trim();
+        if (!trimmed) return;
+        try {
+          const parsed = JSON.parse(trimmed);
+          const content = parsed?.message?.content || "";
+          const reasoning = parsed?.message?.thinking || "";
+          if (content || reasoning) emit({ type: "CHUNK", content, reasoning, text: content });
+        } catch (_) {
+        }
+      };
+      while (true) {
+        if (signal?.aborted) {
+          try {
+            await reader.cancel();
+          } catch (_) {
+          }
+          break;
+        }
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop();
+        lines.forEach(processLine);
+      }
+      if (buffer.trim()) processLine(buffer);
+    }
+    /**
+     * Detects active or server-default context length from local LM Studio (/api/v1/models)
+     * or Ollama (/api/ps & /api/show) instances without mutating state.
+     * @param {Object} params
+     * @returns {Promise<{ contextLength: number, maxContextLength?: number|null, isLoaded: boolean, provider: string }>}
+     */
+    static async detectLocalContextDefault({ provider = "lmstudio", serverUrl = "", model = "", apiKey = "", fetchFn = fetch }) {
+      const prov = String(provider || "lmstudio").toLowerCase();
+      if (_LocalContextManager.isCloudHosted(prov, model, serverUrl)) {
+        return { contextLength: null, maxContextLength: null, isLoaded: false, canModifyContext: false, readOnlyReason: "cloud", provider: prov };
+      }
+      const fallbackCtx = prov === "ollama" ? 4096 : 8192;
+      const { base, mirror } = _LocalContextManager.resolveBaseAndMirror(serverUrl, prov);
+      const headers = { "Accept": "application/json", "Content-Type": "application/json" };
+      if (apiKey) headers["Authorization"] = `Bearer ${String(apiKey).trim()}`;
+      try {
+        if (prov === "ollama") {
+          const psOut = await _LocalContextManager._fetchWithLoopback("/api/ps", { method: "GET", headers }, { base, mirror, timeoutMs: 2500, fetchFn }).catch(() => null);
+          const psJson = psOut?.res?.ok ? await psOut.res.json().catch(() => null) : null;
+          const running = Array.isArray(psJson?.models) ? psJson.models : [];
+          const activeRun = running.find((m) => m.name === model || m.model === model) || running[0];
+          if (activeRun?.context_length > 0) {
+            return { contextLength: activeRun.context_length, isLoaded: true, canModifyContext: true, readOnlyReason: null, provider: prov };
+          }
+          if (model) {
+            const showOut = await _LocalContextManager._fetchWithLoopback(
+              "/api/show",
+              { method: "POST", headers, body: JSON.stringify({ model }) },
+              { base: psOut?.activeBase || base, mirror: psOut ? null : mirror, timeoutMs: 2500, fetchFn }
+            ).catch(() => null);
+            const showJson = showOut?.res?.ok ? await showOut.res.json().catch(() => null) : null;
+            const ctxMatch = String(showJson?.parameters || "").match(/num_ctx\s+(\d+)/i);
+            const maxInfo = Object.entries(showJson?.model_info || {}).find(([k, v]) => k.endsWith(".context_length") && Number.isFinite(v));
+            return {
+              contextLength: ctxMatch ? parseInt(ctxMatch[1], 10) : fallbackCtx,
+              maxContextLength: maxInfo ? maxInfo[1] : null,
+              isLoaded: false,
+              canModifyContext: true,
+              readOnlyReason: null,
+              provider: prov
+            };
+          }
+          return { contextLength: fallbackCtx, isLoaded: false, canModifyContext: true, readOnlyReason: null, provider: prov };
+        }
+        const out = await _LocalContextManager._fetchWithLoopback("/api/v1/models", { method: "GET", headers }, { base, mirror, timeoutMs: 2500, fetchFn });
+        if (!out?.res?.ok) {
+          const unsupported = Boolean(out?.res && out.res.status >= 400);
+          return { contextLength: fallbackCtx, isLoaded: false, canModifyContext: !unsupported, readOnlyReason: unsupported ? "server" : null, provider: prov };
+        }
+        const json = await out.res.json().catch(() => null);
+        const list = Array.isArray(json?.models) ? json.models : [];
+        const match = list.find((m) => m.key === model || m.id === model) || list.find((m) => m.type !== "embedding" && m.loaded_instances?.length > 0);
+        const loadedCtx = match?.loaded_instances?.[0]?.config?.context_length;
+        const maxCtx = match?.max_context_length || null;
+        const editable = match?.type !== "embedding";
+        const ctxVal = loadedCtx > 0 ? loadedCtx : maxCtx ? Math.min(fallbackCtx, maxCtx) : fallbackCtx;
+        return { contextLength: ctxVal, maxContextLength: maxCtx, isLoaded: loadedCtx > 0, canModifyContext: editable, readOnlyReason: editable ? null : "server", provider: prov };
+      } catch (_) {
+        return { contextLength: fallbackCtx, isLoaded: false, canModifyContext: true, readOnlyReason: null, provider: prov };
+      }
     }
   };
 
@@ -489,19 +885,11 @@
         userPrompt,
         messages = null,
         temperature = 0.3,
-        maxTokens
+        maxTokens,
+        localContextLength = "auto"
       } = request;
       let isDisconnected = false;
       const abortController = new AbortController();
-      if (port?.onDisconnect?.addListener) {
-        port.onDisconnect.addListener(() => {
-          isDisconnected = true;
-          try {
-            abortController.abort();
-          } catch (_) {
-          }
-        });
-      }
       const safePost = (msg) => {
         if (isDisconnected) return;
         try {
@@ -510,6 +898,21 @@
           isDisconnected = true;
         }
       };
+      const keepalive = StreamKeepalive.start({
+        postMessageSafe: safePost,
+        isAborted: () => isDisconnected || abortController.signal.aborted,
+        intervalMs: request.heartbeatIntervalMs || 1e4
+      });
+      if (port?.onDisconnect?.addListener) {
+        port.onDisconnect.addListener(() => {
+          isDisconnected = true;
+          keepalive.stop();
+          try {
+            abortController.abort();
+          } catch (_) {
+          }
+        });
+      }
       let chatMessages = messages;
       if (!chatMessages) {
         chatMessages = [
@@ -521,39 +924,38 @@
       }
       try {
         if (provider === "claude") {
-          await this.streamClaude(port, apiKey, model, systemPrompt, chatMessages, temperature, maxTokens, abortController.signal, safePost);
+          await this.streamClaude(port, apiKey, model, systemPrompt, chatMessages, temperature, maxTokens, abortController.signal, keepalive.emit);
         } else {
-          await this.streamOpenAICompatible(port, provider, serverUrl, apiKey, model, chatMessages, temperature, maxTokens, abortController.signal, safePost);
+          await this.streamOpenAICompatible(port, provider, serverUrl, apiKey, model, chatMessages, temperature, maxTokens, abortController.signal, keepalive.emit, localContextLength);
         }
         if (provider !== "lmstudio" && provider !== "ollama") {
           chrome?.storage?.local?.set?.({ [`keyVerified_${provider}`]: true });
         }
-        safePost({ type: "DONE" });
+        keepalive.emit({ type: "DONE" });
       } catch (err) {
         if (isDisconnected || abortController.signal.aborted) return;
         const userFriendlyError = this.formatContextError(err.message || String(err), provider);
-        safePost({ type: "ERROR", error: userFriendlyError });
+        keepalive.emit({ type: "ERROR", error: userFriendlyError });
+      } finally {
+        keepalive.stop();
       }
     }
     /**
      * Formats token context limit errors with actionable user hints
      */
     static formatContextError(rawError, provider) {
-      const lower = (rawError || "").toLowerCase();
-      if (lower.includes("context") || lower.includes("token") || lower.includes("maximum context length") || lower.includes("num_ctx") || lower.includes("too long")) {
-        if (provider === "lmstudio" || provider === "ollama") {
-          const toolName = provider === "ollama" ? "Ollama" : "LM Studio";
-          const hint = provider === "ollama" ? "r\xE9glez num_ctx \xE0 8192" : "augmentez 'Context Length' \xE0 8192 ou 16384";
-          return `D\xE9passement de contexte ${toolName} : La transcription d\xE9passe la m\xE9moire allou\xE9e au mod\xE8le. Dans ${toolName}, ${hint}, ou utilisez Google Gemini (1 million de tokens gratuit). D\xE9tail: ${rawError}`;
-        }
-        return `D\xE9passement de contexte : Le texte est trop long pour la fen\xEAtre du mod\xE8le (${rawError}).`;
+      if (!/(?:context|token|maximum context length|num_ctx|too long)/i.test(rawError || "")) return rawError;
+      if (provider === "lmstudio" || provider === "ollama") {
+        const toolName = provider === "ollama" ? "Ollama" : "LM Studio";
+        const hint = provider === "ollama" ? "r\xE9glez num_ctx \xE0 8192" : "augmentez 'Context Length' \xE0 8192 ou 16384";
+        return `D\xE9passement de contexte ${toolName} : La transcription d\xE9passe la m\xE9moire allou\xE9e au mod\xE8le. Dans ${toolName}, ${hint}, ou utilisez Google Gemini (1 million de tokens gratuit). D\xE9tail: ${rawError}`;
       }
-      return rawError;
+      return `D\xE9passement de contexte : Le texte est trop long pour la fen\xEAtre du mod\xE8le (${rawError}).`;
     }
     /**
      * Streams from OpenAI-compatible endpoints (LM Studio, Ollama, Groq, Gemini, DeepSeek, etc.)
      */
-    static async streamOpenAICompatible(port, provider, serverUrl, apiKey, model, messages, temperature, maxTokens, signal = null, safePost = null) {
+    static async streamOpenAICompatible(port, provider, serverUrl, apiKey, model, messages, temperature, maxTokens, signal = null, safePost = null, localContextLength = "auto") {
       let endpoint = "";
       const headers = { "Content-Type": "application/json" };
       if (provider === "lmstudio") {
@@ -604,9 +1006,14 @@
         throw new Error(`Aucun mod\xE8le s\xE9lectionn\xE9 pour ${provider.toUpperCase()}.`);
       }
       effectiveModel = resolveDeprecatedModel(provider, effectiveModel);
+      if (provider === "lmstudio") {
+        await LocalContextManager.ensureLmStudioContext({ serverUrl, model: effectiveModel, apiKey, contextLength: localContextLength, signal, postProgress: safePost });
+      } else if (provider === "ollama" && !LocalContextManager.isCloudHosted(provider, effectiveModel, serverUrl) && LocalContextManager.parseContextLength(localContextLength)) {
+        return LocalContextManager.streamOllamaChat({ serverUrl, apiKey, model: effectiveModel, messages, temperature, maxTokens, contextLength: localContextLength, signal, safePost, port });
+      }
       const bodyPayload = {
         model: effectiveModel,
-        messages,
+        messages: MultimodalMessageFormatter.formatMessages(messages, "openai"),
         temperature: !isNaN(parsedTemp) ? parsedTemp : 0.3,
         stream: true
       };
@@ -647,7 +1054,10 @@
      */
     static async streamClaude(port, apiKey, model, systemPrompt, messages, temperature, maxTokens, signal = null, safePost = null) {
       if (!apiKey) throw new Error("Cl\xE9 API Claude requise");
-      const claudeMessages = messages.filter((m) => m.role !== "system");
+      const claudeMessages = MultimodalMessageFormatter.formatMessages(
+        messages.filter((m) => m.role !== "system"),
+        "claude"
+      );
       const systemContent = systemPrompt || (messages.find((m) => m.role === "system")?.content || "");
       const parsedTemp = parseFloat(temperature);
       const parsedMax = parseInt(maxTokens, 10);
@@ -905,6 +1315,94 @@
     return !Number.isNaN(intVal) && intVal > 0 ? intVal : null;
   }
 
+  // src/config/ModelCapabilities.js
+  var TEXT_ONLY_RE = /(?:embed|whisper|tts|codellama|starcoder|qwen[\d.]*-coder|deepseek-(?:r1|chat|coder|v2|v3)|sqlcoder)/i;
+  var MULTIMODAL_MODEL_RE = new RegExp([
+    "vision",
+    "-vl(?:$|[-_:\\s])",
+    "multimodal",
+    "llava",
+    "bakllava",
+    "moondream",
+    "minicpm-?v",
+    "internvl",
+    "molmo",
+    "smolvlm",
+    "pixtral",
+    "paligemma",
+    "phi-?3\\.5-?vision",
+    "phi-?4-?multimodal",
+    "kimi-?vl",
+    "glm-?4v",
+    // Natively multimodal families without "vision" in their model ID
+    "qwen3\\.[589]",
+    "qwen3-?vl",
+    "qwen2\\.5-?vl",
+    "qwen2-?vl",
+    "qwen-?vl",
+    "gemma-?3(?!n)",
+    "gemma3",
+    "llama-?4",
+    "llama4",
+    "gpt-?4o",
+    "gpt-?4\\.1",
+    "gpt-?4\\.5",
+    "gpt-?5",
+    "(?:^|[/:_-])o[134](?:$|[-_:\\s])",
+    "claude-?3",
+    "claude-?(?:sonnet|opus|haiku)-?4",
+    "gemini-?1\\.5",
+    "gemini-?2",
+    "gemini-?3",
+    "mistral-?small-?3",
+    "magistral",
+    "grok-?3",
+    "grok-?4"
+  ].join("|"), "i");
+  var ModelCapabilities = class {
+    /**
+     * Determines whether the model accepts image attachments.
+     * @param {string} provider
+     * @param {string} modelId
+     * @param {Object|null} [meta=null] Optional server-reported metadata ({ type, capabilities, architecture, supportsImages })
+     * @returns {boolean}
+     */
+    static supportsImages(provider, modelId, meta = null) {
+      if (meta && typeof meta === "object") {
+        if (typeof meta.supportsImages === "boolean") return meta.supportsImages;
+        if (String(meta.type || "").toLowerCase() === "vlm") return true;
+        if (Array.isArray(meta.capabilities)) {
+          const caps = meta.capabilities.map((c) => String(c).toLowerCase());
+          if (caps.includes("vision") || caps.includes("image") || caps.includes("multimodal")) return true;
+        }
+        const modality = String(meta.architecture?.modality || meta.modality || "").toLowerCase();
+        if (modality.includes("image")) return true;
+      }
+      const id = String(modelId || "").trim();
+      if (!id) return false;
+      if (TEXT_ONLY_RE.test(id)) return false;
+      return MULTIMODAL_MODEL_RE.test(id);
+    }
+    /**
+     * Extracts normalized capability metadata from a raw LM Studio / Ollama / OpenRouter model entry.
+     * @param {Object} rawModel
+     * @returns {{ supportsImages: boolean } | null}
+     */
+    static extractMeta(rawModel) {
+      if (!rawModel || typeof rawModel !== "object") return null;
+      const type = String(rawModel.type || "").toLowerCase();
+      const caps = Array.isArray(rawModel.capabilities) ? rawModel.capabilities.map((c) => String(c).toLowerCase()) : [];
+      const modality = String(rawModel.architecture?.modality || rawModel.modality || "").toLowerCase();
+      if (type === "vlm" || caps.includes("vision") || caps.includes("image") || caps.includes("multimodal") || modality.includes("image")) {
+        return { supportsImages: true };
+      }
+      if (type === "llm" && caps.length > 0 && !caps.includes("vision")) {
+        return { supportsImages: false };
+      }
+      return null;
+    }
+  };
+
   // src/services/ai/providers/LMStudioProvider.js
   var LMStudioProvider = class extends BaseAIProvider {
     constructor() {
@@ -915,22 +1413,37 @@
      * @param {string} [serverUrl]
      * @returns {Promise<Array<{ id: string, name?: string }>>}
      */
+    async _fetchModelsAtBase(base) {
+      const res = await this.fetchWithTimeout(`${base}/v1/models`, {}, 2e3);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      return (json.data || []).map((m) => ({ id: m.id, name: m.id }));
+    }
+    async enrichCapabilities(models, serverUrl = DEFAULT_URLS.LMSTUDIO) {
+      if (!Array.isArray(models) || models.length === 0) return models;
+      const cleanUrl = this.normalizeUrl(serverUrl, DEFAULT_URLS.LMSTUDIO);
+      try {
+        const v0 = await this.fetchWithTimeout(`${cleanUrl}/api/v0/models`, {}, 1e3);
+        if (v0?.ok) {
+          const j0 = await v0.json();
+          if (Array.isArray(j0?.data)) {
+            const metaById = new Map(j0.data.map((m) => [m.id, ModelCapabilities.extractMeta(m)]));
+            return models.map((m) => ({ ...m, ...metaById.get(m.id) || {} }));
+          }
+        }
+      } catch (_) {
+      }
+      return models;
+    }
     async fetchModels(serverUrl = DEFAULT_URLS.LMSTUDIO) {
       const cleanUrl = this.normalizeUrl(serverUrl, DEFAULT_URLS.LMSTUDIO);
       try {
-        const res = await this.fetchWithTimeout(`${cleanUrl}/v1/models`, {}, 2e3);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = await res.json();
-        return (json.data || []).map((m) => ({ id: m.id, name: m.id }));
+        return await this._fetchModelsAtBase(cleanUrl);
       } catch (primaryErr) {
         const altUrl = cleanUrl.includes("127.0.0.1") ? cleanUrl.replace("127.0.0.1", "localhost") : cleanUrl.includes("localhost") ? cleanUrl.replace("localhost", "127.0.0.1") : null;
         if (altUrl) {
           try {
-            const res2 = await this.fetchWithTimeout(`${altUrl}/v1/models`, {}, 2e3);
-            if (res2.ok) {
-              const json2 = await res2.json();
-              return (json2.data || []).map((m) => ({ id: m.id, name: m.id }));
-            }
+            return await this._fetchModelsAtBase(altUrl);
           } catch (_) {
           }
         }
@@ -1139,7 +1652,7 @@
         const fastResult = await _BackgroundTranscriptFetcher.fetchDirect(videoId, lang);
         if (fastResult?.segments?.length > 0) {
           if (!fastResult.isChapterOnly) {
-            return { success: true, segments: fastResult.segments, title: fastResult.title, isChapterOnly: false };
+            return { success: true, videoId, segments: fastResult.segments, title: fastResult.title, isChapterOnly: false };
           }
           chapterFallback = fastResult;
         }
@@ -1149,13 +1662,13 @@
         try {
           const tabResult = await _BackgroundTranscriptFetcher.fetchViaBackgroundTab(videoId, lang);
           if (tabResult?.segments?.length > 0) {
-            return { success: true, segments: tabResult.segments, title: tabResult.title, isChapterOnly: !!tabResult.isChapterOnly };
+            return { success: true, videoId, segments: tabResult.segments, title: tabResult.title, isChapterOnly: !!tabResult.isChapterOnly };
           }
         } catch (_) {
         }
       }
       if (chapterFallback?.segments?.length > 0) {
-        return { success: true, segments: chapterFallback.segments, title: chapterFallback.title, isChapterOnly: true };
+        return { success: true, videoId, segments: chapterFallback.segments, title: chapterFallback.title, isChapterOnly: true };
       }
       return { success: false, error: "Unable to extract transcript for video " + videoId };
     }
@@ -1390,110 +1903,129 @@
     }
   };
 
-  // src/background/ChannelIntelligenceFetcher.js
-  var ChannelIntelligenceFetcher = class {
+  // src/parsers/ChannelPageParser.js
+  var CHANNEL_SUBPATHS_RE = /\/(?:videos|shorts|streams|live|playlists|community|posts|channels|about|featured|search|content|editing|analytics|monetization)(?:\/.*)?$/i;
+  var ChannelPageParser = class _ChannelPageParser {
     /**
-     * Fetches official channel dossier by creator handle, URL or search query
-     * @param {string} query Handle (@JulienChieze), URL or search query
-     * @param {number} [limit=30]
-     * @returns {Promise<{success: boolean, channel?: Object, error?: string}>}
+     * Normalizes any YouTube / Studio URL or relative path to a canonical channel path
+     * (/@handle, /channel/UC..., /c/Name, /user/Name), stripping tab/studio suffixes.
+     * @param {string} rawHref
+     * @returns {string}
      */
-    static async fetchChannelDossier(query, limit = 30, options = {}) {
-      try {
-        if (!query || typeof query !== "string") {
-          throw new Error("Query string is required");
-        }
-        const cleanQuery = query.trim();
-        let canonicalPath = await this.resolveChannelPath(cleanQuery);
-        if (!canonicalPath) {
-          throw new Error(`Impossible de trouver la cha\xEEne YouTube pour : "${cleanQuery}"`);
-        }
-        if (!canonicalPath.endsWith("/videos")) {
-          canonicalPath = canonicalPath.replace(/\/+$/, "") + "/videos";
-        }
-        const channelUrl = `https://www.youtube.com${canonicalPath}`;
-        const response = await fetch(channelUrl, {
-          headers: {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Accept-Language": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7"
-          }
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status} lors de l'acc\xE8s \xE0 la cha\xEEne`);
-        }
-        const html = await response.text();
-        const ytDataMatch = html.match(/ytInitialData\s*=\s*({.+?});<\/script>/);
-        if (!ytDataMatch) {
-          throw new Error("Impossible d'extraire ytInitialData de la page cha\xEEne");
-        }
-        const apiKey = html.match(/"INNERTUBE_API_KEY"\s*:\s*"([^"]+)"/)?.[1] || "";
-        const clientVersion = html.match(/"INNERTUBE_CLIENT_VERSION"\s*:\s*"([^"]+)"/)?.[1] || "2.20260101.00.00";
-        const visitorData = html.match(/"VISITOR_DATA"\s*:\s*"([^"]+)"/)?.[1] || "";
-        const data = JSON.parse(ytDataMatch[1]);
-        const dossier = await this.parseChannelDataWithPagination(data, canonicalPath, limit, {
-          apiKey,
-          clientVersion,
-          visitorData: visitorData || data?.responseContext?.visitorData || "",
-          browseFetcher: options.browseFetcher || null
-        });
-        return { success: true, channel: dossier };
-      } catch (err) {
-        return { success: false, error: err.message || String(err) };
+    static sanitizeChannelPath(rawHref = "") {
+      if (!rawHref || typeof rawHref !== "string") return "";
+      const trimmed = rawHref.trim();
+      if (!trimmed) return "";
+      if (trimmed.startsWith("@")) {
+        const handle = trimmed.split(/[/?#]/)[0];
+        return handle.length > 1 ? `/${handle}` : "";
       }
+      let pathname = "";
+      try {
+        if (/^https?:\/\//i.test(trimmed)) {
+          const u = new URL(trimmed);
+          if (!u.hostname.endsWith("youtube.com")) return "";
+          pathname = u.pathname || "";
+        } else if (trimmed.startsWith("/")) {
+          pathname = new URL(trimmed, "https://www.youtube.com").pathname || "";
+        }
+      } catch (_) {
+        return "";
+      }
+      if (!pathname) return "";
+      const handleMatch = pathname.match(/^\/(@[^/?#]+)/);
+      if (handleMatch) return `/${handleMatch[1]}`;
+      const idMatch = pathname.match(/^\/(channel|c|user)\/([^/?#]+)/i);
+      if (idMatch) {
+        const cleaned = pathname.replace(CHANNEL_SUBPATHS_RE, "").replace(/\/+$/, "");
+        const canonicalMatch = cleaned.match(/^\/(channel|c|user)\/([^/?#]+)/i);
+        return canonicalMatch ? `/${canonicalMatch[1].toLowerCase()}/${canonicalMatch[2]}` : `/${idMatch[1].toLowerCase()}/${idMatch[2]}`;
+      }
+      return "";
     }
     /**
-     * Resolves search query or handle to canonical YouTube channel path
-     * @param {string} rawQuery
-     * @returns {Promise<string|null>}
+     * Extracts balanced JSON object for ytInitialData from channel HTML across script formats
+     * @param {string} html
+     * @returns {Object|null}
      */
-    static async resolveChannelPath(rawQuery) {
-      if (rawQuery.startsWith("http://") || rawQuery.startsWith("https://")) {
+    static extractBalancedInitialData(html) {
+      if (!html || typeof html !== "string") return null;
+      const markers = ["var ytInitialData =", 'window["ytInitialData"] =', "ytInitialData ="];
+      for (const marker of markers) {
+        let idx = html.indexOf(marker);
+        while (idx !== -1) {
+          const braceStart = html.indexOf("{", idx + marker.length);
+          if (braceStart !== -1 && braceStart - (idx + marker.length) < 32) {
+            const parsed = _ChannelPageParser._parseBalancedJsonAt(html, braceStart);
+            if (parsed) return parsed;
+          }
+          idx = html.indexOf(marker, idx + marker.length);
+        }
+      }
+      const regexMatch = html.match(/ytInitialData\s*=\s*({.+?});\s*<\/script>/s);
+      if (regexMatch) {
         try {
-          const parsed = new URL(rawQuery);
-          return parsed.pathname;
+          return JSON.parse(regexMatch[1]);
         } catch (_) {
         }
       }
-      if (rawQuery.startsWith("@")) {
-        return `/${rawQuery}`;
-      }
-      if (rawQuery.startsWith("/@") || rawQuery.startsWith("/channel/") || rawQuery.startsWith("/c/")) {
-        return rawQuery;
-      }
-      const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(rawQuery)}&sp=EgIQAg%253D%253D`;
-      const searchRes = await fetch(searchUrl, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-          "Accept-Language": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7"
+      return null;
+    }
+    static _parseBalancedJsonAt(str, start) {
+      let depth = 0;
+      let inStr = false;
+      let esc = false;
+      for (let i = start; i < str.length; i++) {
+        const c = str[i];
+        if (esc) {
+          esc = false;
+          continue;
         }
-      });
-      if (!searchRes.ok) return null;
-      const html = await searchRes.text();
-      const match = html.match(/ytInitialData\s*=\s*({.+?});<\/script>/);
-      if (!match) return null;
-      try {
-        const data = JSON.parse(match[1]);
-        const contents = data.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents;
-        const itemSection = contents?.[0]?.itemSectionRenderer?.contents;
-        const channelRenderer = itemSection?.find((c) => c.channelRenderer)?.channelRenderer;
-        if (channelRenderer?.navigationEndpoint?.browseEndpoint?.canonicalBaseUrl) {
-          return channelRenderer.navigationEndpoint.browseEndpoint.canonicalBaseUrl;
+        if (c === "\\") {
+          esc = true;
+          continue;
         }
-      } catch (_) {
+        if (c === '"') {
+          inStr = !inStr;
+          continue;
+        }
+        if (!inStr) {
+          if (c === "{") depth++;
+          else if (c === "}") {
+            depth--;
+            if (depth === 0) {
+              try {
+                return JSON.parse(str.slice(start, i + 1));
+              } catch (_) {
+                return null;
+              }
+            }
+          }
+        }
       }
       return null;
     }
     /**
-     * Parses channel header, subscriber count, bio, and latest videos from ytInitialData
+     * Parses channel header metadata across pageHeaderRenderer, c4TabbedHeaderRenderer, and channelMetadataRenderer
+     * @param {Object} data
+     * @param {string} canonicalPath
+     * @returns {{ title: string, handle: string, subscribers: string, videoCount: string, bio: string }}
      */
-    static parseChannelData(data, canonicalPath, limit = 30) {
-      const header = data.header?.pageHeaderRenderer;
-      const title = header?.pageTitle || "";
-      const bio = header?.content?.pageHeaderViewModel?.description?.descriptionPreviewViewModel?.description?.content || "";
-      let handle = canonicalPath.replace(/^\//, "").replace(/\/videos$/, "");
-      let subscribers = "";
-      let videoCount = "";
-      const metadataRows = header?.content?.pageHeaderViewModel?.metadata?.contentMetadataViewModel?.metadataRows || [];
+    static parseHeader(data, canonicalPath = "") {
+      const pageHeader = data?.header?.pageHeaderRenderer;
+      const c4Header = data?.header?.c4TabbedHeaderRenderer;
+      const metaRenderer = data?.metadata?.channelMetadataRenderer;
+      const micro = data?.microformat?.microformatDataRenderer;
+      let title = pageHeader?.pageTitle || c4Header?.title || metaRenderer?.title || micro?.title || "";
+      let bio = pageHeader?.content?.pageHeaderViewModel?.description?.descriptionPreviewViewModel?.description?.content || metaRenderer?.description || micro?.description || "";
+      let handle = canonicalPath.replace(/^\//, "").replace(CHANNEL_SUBPATHS_RE, "");
+      if (metaRenderer?.vanityChannelUrl) {
+        const vanityPath = _ChannelPageParser.sanitizeChannelPath(metaRenderer.vanityChannelUrl);
+        if (vanityPath.startsWith("/@")) handle = vanityPath.slice(1);
+      }
+      let subscribers = c4Header?.subscriberCountText?.simpleText || "";
+      let videoCount = c4Header?.videosCountText?.runs?.map((r) => r.text).join("") || c4Header?.videosCountText?.simpleText || "";
+      const metadataRows = pageHeader?.content?.pageHeaderViewModel?.metadata?.contentMetadataViewModel?.metadataRows || [];
       for (const row of metadataRows) {
         for (const part of row.metadataParts || []) {
           const text = part.text?.content || "";
@@ -1502,26 +2034,578 @@
           else if (/vid[ée]o/i.test(text)) videoCount = text;
         }
       }
-      const contents = this._findGridContents(data);
-      const { videos: recentVideos } = this._extractGridVideos(contents, /* @__PURE__ */ new Set(), limit);
-      const markdownDossier = this.formatMarkdownDossier({
-        title,
-        handle,
-        subscribers,
-        videoCount,
-        bio,
-        recentVideos
+      return { title, handle, subscribers, videoCount, bio };
+    }
+    /**
+     * Locates grid items array across richGridRenderer, sectionListRenderer, mobile singleColumn, and reel/grid tabs
+     * @param {Object} data
+     * @returns {Array<Object>}
+     */
+    static findGridContents(data) {
+      const twoColTabs = data?.contents?.twoColumnBrowseResultsRenderer?.tabs || [];
+      const oneColTabs = data?.contents?.singleColumnBrowseResultsRenderer?.tabs || [];
+      const tabs = [...twoColTabs, ...oneColTabs];
+      for (const t of tabs) {
+        const rich = t.tabRenderer?.content?.richGridRenderer?.contents;
+        if (Array.isArray(rich) && rich.length > 0) return rich;
+      }
+      for (const t of tabs) {
+        const secList = t.tabRenderer?.content?.sectionListRenderer?.contents || [];
+        const flattened = [];
+        for (const sec of secList) {
+          for (const item of sec?.itemSectionRenderer?.contents || []) {
+            if (item?.gridRenderer?.items) flattened.push(...item.gridRenderer.items);
+            else if (item?.shelfRenderer?.content?.expandedShelfContentsRenderer?.items) flattened.push(...item.shelfRenderer.content.expandedShelfContentsRenderer.items);
+            else if (item?.shelfRenderer?.content?.horizontalListRenderer?.items) flattened.push(...item.shelfRenderer.content.horizontalListRenderer.items);
+            else if (item?.reelShelfRenderer?.items) flattened.push(...item.reelShelfRenderer.items);
+            else flattened.push(item);
+          }
+          if (sec?.continuationItemRenderer) flattened.push(sec);
+        }
+        if (flattened.length > 0) return flattened;
+      }
+      return [];
+    }
+    /**
+     * Verifies that parsed ytInitialData actually depicts a channel Shorts tab rather than a Home fallback redirect.
+     * @param {Object} data
+     * @returns {boolean}
+     */
+    static isShortsTabData(data) {
+      const twoColTabs = data?.contents?.twoColumnBrowseResultsRenderer?.tabs || [];
+      const oneColTabs = data?.contents?.singleColumnBrowseResultsRenderer?.tabs || [];
+      const selectedTab = [...twoColTabs, ...oneColTabs].find((t) => t?.tabRenderer?.selected)?.tabRenderer;
+      const tabUrl = selectedTab?.endpoint?.commandMetadata?.webCommandMetadata?.url || "";
+      const tabTitle = selectedTab?.title || "";
+      if (tabUrl.endsWith("/shorts") || /^shorts$/i.test(tabTitle)) return true;
+      const items = this.findGridContents(data);
+      return items.some((it) => Boolean(
+        it?.richItemRenderer?.content?.shortsLockupViewModel || it?.shortsLockupViewModel || it?.richItemRenderer?.content?.reelItemRenderer || it?.reelItemRenderer
+      ));
+    }
+    /**
+     * Normalizes modern and legacy YouTube video/short grid renderers into uniform metadata
+     * @param {Object} item
+     * @param {Object} [options]
+     * @returns {{ id: string, title: string, url: string, meta: string, isShort: boolean, contentType: 'short'|'video' }|null}
+     */
+    static parseGridVideoItem(item, options = {}) {
+      const forceShort = Boolean(options.forceShort);
+      const lockup = item?.richItemRenderer?.content?.lockupViewModel || item?.lockupViewModel;
+      if (lockup) {
+        const vId2 = lockup.contentId || "";
+        const vTitle2 = lockup.metadata?.lockupMetadataViewModel?.title?.content || "";
+        const metaRows = lockup.metadata?.lockupMetadataViewModel?.metadata?.contentMetadataViewModel?.metadataRows || [];
+        const parts2 = metaRows.flatMap((r) => (r.metadataParts || []).map((p) => p.text?.content).filter(Boolean));
+        const tapCmd = lockup.rendererContext?.commandContext?.onTap?.innertubeCommand;
+        const isShort2 = Boolean(forceShort || tapCmd?.reelWatchEndpoint || tapCmd?.commandMetadata?.webCommandMetadata?.url?.startsWith?.("/shorts/"));
+        const url2 = vId2 ? isShort2 ? `https://www.youtube.com/shorts/${vId2}` : `https://www.youtube.com/watch?v=${vId2}` : "";
+        return { id: vId2, title: vTitle2, url: url2, meta: parts2.join(" \u2022 "), isShort: isShort2, contentType: isShort2 ? "short" : "video" };
+      }
+      const shortsLockup = item?.richItemRenderer?.content?.shortsLockupViewModel || item?.shortsLockupViewModel;
+      if (shortsLockup) {
+        const vId2 = shortsLockup.onTap?.innertubeCommand?.reelWatchEndpoint?.videoId || String(shortsLockup.entityId || "").replace(/^shorts-lockup-/, "") || "";
+        const vTitle2 = shortsLockup.overlayMetadata?.primaryText?.content || shortsLockup.accessibilityText || "";
+        const views = shortsLockup.overlayMetadata?.secondaryText?.content || "";
+        if (!vId2) return null;
+        return { id: vId2, title: vTitle2, url: `https://www.youtube.com/shorts/${vId2}`, meta: views, isShort: true, contentType: "short" };
+      }
+      const reel = item?.richItemRenderer?.content?.reelItemRenderer || item?.reelItemRenderer;
+      if (reel) {
+        const vId2 = reel.videoId || reel.navigationEndpoint?.reelWatchEndpoint?.videoId || "";
+        const vTitle2 = reel.headline?.simpleText || reel.headline?.runs?.map((r) => r.text).join("") || "";
+        const views = reel.viewCountText?.simpleText || "";
+        if (!vId2) return null;
+        return { id: vId2, title: vTitle2, url: `https://www.youtube.com/shorts/${vId2}`, meta: views, isShort: true, contentType: "short" };
+      }
+      const vr = item?.richItemRenderer?.content?.videoRenderer || item?.gridVideoRenderer || item?.videoRenderer || item?.compactVideoRenderer || item?.playlistVideoRenderer;
+      if (!vr) return null;
+      const vId = vr.videoId || "";
+      const vTitle = vr.title?.runs?.map((r) => r.text).join("") || vr.title?.simpleText || "";
+      const parts = [vr.viewCountText?.simpleText, vr.publishedTimeText?.simpleText].filter(Boolean);
+      const isShort = Boolean(forceShort || vr.navigationEndpoint?.reelWatchEndpoint || vr.navigationEndpoint?.commandMetadata?.webCommandMetadata?.url?.startsWith?.("/shorts/"));
+      const url = vId ? isShort ? `https://www.youtube.com/shorts/${vId}` : `https://www.youtube.com/watch?v=${vId}` : "";
+      return { id: vId, title: vTitle, url, meta: parts.join(" \u2022 "), isShort, contentType: isShort ? "short" : "video" };
+    }
+    static computeTotalVideos(videoCountStr, fallbackCount) {
+      return parseChannelVideoCount(videoCountStr) || fallbackCount || null;
+    }
+  };
+
+  // src/domain/services/ChannelFormatAnalyzer.js
+  var ChannelFormatAnalyzer = class {
+    /**
+     * Determines whether a normalized catalog or report item represents a YouTube Short.
+     * @param {Object} item
+     * @returns {boolean}
+     */
+    static isShortItem(item = {}) {
+      if (!item || typeof item !== "object") return false;
+      if (item.isShort === true || item.contentType === "short") return true;
+      const url = String(item.url || "");
+      return url.includes("/shorts/");
+    }
+    /**
+     * Tags an item consistently with explicit format metadata and normalized URL.
+     * @param {Object} item
+     * @param {boolean} [forceShort=false]
+     * @returns {Object}
+     */
+    static tagItem(item = {}, forceShort = false) {
+      const isShort = Boolean(forceShort || this.isShortItem(item));
+      const id = item.id || "";
+      const defaultUrl = id ? isShort ? `https://www.youtube.com/shorts/${id}` : `https://www.youtube.com/watch?v=${id}` : item.url || "";
+      return {
+        ...item,
+        isShort,
+        contentType: isShort ? "short" : "video",
+        url: isShort && id ? `https://www.youtube.com/shorts/${id}` : item.url || defaultUrl
+      };
+    }
+    /**
+     * Merges primary (/videos or root) and Shorts (/shorts) channel catalogs into one balanced list.
+     * Preserves format tags, deduplicates IDs (keeping isShort=true if present in /shorts),
+     * and interleaves both formats cleanly up to the requested catalog cap.
+     * @param {Array<Object>} primaryItems
+     * @param {Array<Object>} shortItems
+     * @param {number|'all'} [limit=30]
+     * @returns {{ videos: Array<Object>, longVideoCount: number, shortsCount: number, hasMixedFormats: boolean }}
+     */
+    static mergeVideoAndShortCatalogs(primaryItems = [], shortItems = [], limit = 30) {
+      const targetLimit = limit === "all" ? 5e3 : Math.max(1, parseInt(limit, 10) || 30);
+      const shortsIdSet = new Set((shortItems || []).map((s) => s?.id).filter(Boolean));
+      const byId = /* @__PURE__ */ new Map();
+      const longPool = [];
+      const shortPool = [];
+      for (const raw of primaryItems || []) {
+        if (!raw) continue;
+        const tagged = this.tagItem(raw, shortsIdSet.has(raw.id));
+        if (tagged.id && byId.has(tagged.id)) continue;
+        if (tagged.id) byId.set(tagged.id, tagged);
+        if (tagged.isShort) shortPool.push(tagged);
+        else longPool.push(tagged);
+      }
+      for (const raw of shortItems || []) {
+        if (!raw) continue;
+        const tagged = this.tagItem(raw, true);
+        if (tagged.id && byId.has(tagged.id)) continue;
+        if (tagged.id) byId.set(tagged.id, tagged);
+        shortPool.push(tagged);
+      }
+      let merged;
+      if (longPool.length > 0 && shortPool.length > 0) {
+        const idealShortShare = Math.min(shortPool.length, Math.max(2, Math.round(targetLimit * 0.4)));
+        const longShare = Math.min(longPool.length, targetLimit - idealShortShare);
+        const shortShare = Math.min(shortPool.length, targetLimit - longShare);
+        const selectedLong = longPool.slice(0, longShare);
+        const selectedShort = shortPool.slice(0, shortShare);
+        merged = [...selectedLong, ...selectedShort];
+      } else {
+        merged = [...longPool, ...shortPool].slice(0, targetLimit);
+      }
+      const longVideoCount = merged.filter((v) => !v.isShort).length;
+      const shortsCount = merged.filter((v) => v.isShort).length;
+      return {
+        videos: merged,
+        longVideoCount,
+        shortsCount,
+        hasMixedFormats: longVideoCount > 0 && shortsCount > 0
+      };
+    }
+    /**
+     * Combines /videos and /shorts fetched dossiers into one unified channel dossier with format counts.
+     * @param {Object|null} primaryDossier
+     * @param {Object|null} shortsDossier
+     * @param {number|'all'} limit
+     * @param {Function} [formatMarkdownFn]
+     * @returns {Object|null}
+     */
+    static mergeDossiers(primaryDossier, shortsDossier, limit = 30, formatMarkdownFn = null) {
+      const base = primaryDossier || shortsDossier;
+      if (!base) return null;
+      const alt = primaryDossier && shortsDossier ? shortsDossier : null;
+      const mergedMeta = this.mergeVideoAndShortCatalogs(
+        primaryDossier?.recentVideos || [],
+        shortsDossier?.recentVideos || [],
+        limit
+      );
+      const mergedDossier = {
+        ...base,
+        title: base.title || alt?.title || "",
+        handle: base.handle || alt?.handle || "",
+        subscribers: base.subscribers || alt?.subscribers || "",
+        videoCount: base.videoCount || alt?.videoCount || "",
+        totalChannelVideos: base.totalChannelVideos || alt?.totalChannelVideos || null,
+        bio: base.bio || alt?.bio || "",
+        recentVideos: mergedMeta.videos,
+        longVideoCount: mergedMeta.longVideoCount,
+        shortsCount: mergedMeta.shortsCount,
+        hasMixedFormats: mergedMeta.hasMixedFormats,
+        hasMore: Boolean(primaryDossier?.hasMore || shortsDossier?.hasMore),
+        totalFetched: mergedMeta.videos.length
+      };
+      if (typeof formatMarkdownFn === "function") {
+        mergedDossier.markdownDossier = formatMarkdownFn(mergedDossier);
+      }
+      return mergedDossier;
+    }
+    /**
+     * Balances stratified temporal sampling across long-form videos and Shorts when both exist.
+     * @param {Array<Object>} allVideos
+     * @param {number} maxSample
+     * @param {Function} temporalSelectFn
+     * @returns {Array<Object>}
+     */
+    static sampleMixedFormats(allVideos = [], maxSample = 12, temporalSelectFn) {
+      const tagged = (allVideos || []).map((v) => this.tagItem(v));
+      if (tagged.length <= maxSample) {
+        return temporalSelectFn(tagged, maxSample);
+      }
+      const videosPool = tagged.filter((v) => !v.isShort);
+      const shortsPool = tagged.filter((v) => v.isShort);
+      if (videosPool.length === 0 || shortsPool.length === 0) {
+        return temporalSelectFn(tagged, maxSample);
+      }
+      const shortsShare = Math.min(
+        shortsPool.length,
+        Math.max(shortsPool.length >= 2 ? 2 : 1, Math.round(maxSample * 0.35))
+      );
+      const videosShare = Math.min(videosPool.length, maxSample - shortsShare);
+      const finalShortQuota = Math.min(shortsPool.length, maxSample - videosShare);
+      const pickedVideos = temporalSelectFn(videosPool, videosShare);
+      const pickedShorts = temporalSelectFn(shortsPool, finalShortQuota);
+      return [...pickedVideos, ...pickedShorts].map((v, idx) => ({ ...v, sampleIndex: idx + 1 }));
+    }
+    /**
+     * Computes separate editorial reliability and clickbait averages for Videos vs Shorts.
+     * @param {Array<Object>} evaluatedVideos
+     * @returns {Object}
+     */
+    static computeFormatBreakdown(evaluatedVideos = []) {
+      const videosList = [];
+      const shortsList = [];
+      for (const v of evaluatedVideos || []) {
+        if (this.isShortItem(v)) shortsList.push(v);
+        else videosList.push(v);
+      }
+      const totalCount = videosList.length + shortsList.length;
+      const summarize = (list, sharePct) => {
+        if (list.length === 0) {
+          return {
+            count: 0,
+            sharePct: 0,
+            avgScore: null,
+            avgClickbait: null,
+            reliableCount: 0,
+            cautionCount: 0,
+            riskCount: 0,
+            reliablePct: 0,
+            cautionPct: 0,
+            riskPct: 0
+          };
+        }
+        const scoreSum = list.reduce((acc, v) => acc + (typeof v.score === "number" ? v.score : 50), 0);
+        const cbSum = list.reduce((acc, v) => acc + (typeof v.clickbait === "number" ? v.clickbait : 20), 0);
+        const reliableCount = list.filter((v) => (typeof v.score === "number" ? v.score : 50) >= 75).length;
+        const cautionCount = list.filter((v) => {
+          const s = typeof v.score === "number" ? v.score : 50;
+          return s >= 50 && s < 75;
+        }).length;
+        const riskCount = Math.max(0, list.length - reliableCount - cautionCount);
+        const reliablePct = Math.round(reliableCount / list.length * 100);
+        const cautionPct = Math.round(cautionCount / list.length * 100);
+        const riskPct = Math.max(0, 100 - reliablePct - cautionPct);
+        return {
+          count: list.length,
+          sharePct,
+          avgScore: Math.round(scoreSum / list.length),
+          avgClickbait: Math.round(cbSum / list.length),
+          reliableCount,
+          cautionCount,
+          riskCount,
+          reliablePct,
+          cautionPct,
+          riskPct
+        };
+      };
+      const videoShare = totalCount > 0 ? Math.round(videosList.length / totalCount * 100) : 0;
+      const shortShare = totalCount > 0 ? shortsList.length > 0 ? Math.max(0, 100 - videoShare) : 0 : 0;
+      const videos = summarize(videosList, videoShare);
+      const shorts = summarize(shortsList, shortShare);
+      const hasMixedFormats = videos.count > 0 && shorts.count > 0;
+      return {
+        videos,
+        shorts,
+        hasMixedFormats,
+        scoreGap: hasMixedFormats ? videos.avgScore - shorts.avgScore : 0,
+        clickbaitGap: hasMixedFormats ? shorts.avgClickbait - videos.avgClickbait : 0
+      };
+    }
+    /**
+     * Formats a merged channel dossier with explicit [Video] / [Short] tags into markdown.
+     * @param {Object} dossier
+     * @returns {string}
+     */
+    static formatMarkdownDossier(dossier = {}) {
+      const { title, handle, subscribers, videoCount, bio, recentVideos = [] } = dossier;
+      const longsCount = recentVideos.filter((v) => !this.isShortItem(v)).length;
+      const shortsCount = recentVideos.length - longsCount;
+      const mixNote = shortsCount > 0 ? ` (${longsCount} Vid\xE9os \u2022 ${shortsCount} Shorts)` : "";
+      const lines = [
+        `### \u{1F4FA} DOSSIER OFFICIEL DE LA CHA\xCENE : ${title || "Cr\xE9ateur YouTube"} (${handle || ""})`,
+        `- **Audience & Volume** : ${subscribers || "Non communiqu\xE9"} \u2022 ${videoCount || `${recentVideos.length} vid\xE9os r\xE9centes`}${mixNote}`
+      ];
+      if (bio) lines.push(`- **Bio Officielle** :
+"""
+${bio.trim()}
+"""`);
+      if (recentVideos.length > 0) {
+        const cap = 40;
+        lines.push(`- **Derniers contenus publi\xE9s (${recentVideos.length})** :`);
+        recentVideos.slice(0, cap).forEach((v, idx) => {
+          const isS = this.isShortItem(v);
+          const tag = isS ? "[Short]" : "[Vid\xE9o]";
+          const vUrl = v.url || (isS ? `https://www.youtube.com/shorts/${v.id}` : `https://youtu.be/${v.id}`);
+          lines.push(`  ${idx + 1}. ${tag} **${v.title}** ${v.meta ? `(${v.meta})` : ""} - ${vUrl}`);
+        });
+        if (recentVideos.length > cap) {
+          lines.push(`  ... (+${recentVideos.length - cap} autres contenus index\xE9s dans le catalogue)`);
+        }
+      }
+      return lines.join("\n");
+    }
+  };
+
+  // src/background/ChannelHttpClient.js
+  var CHANNEL_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept-Language": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7"
+  };
+  var ChannelHttpClient = class {
+    /**
+     * Fetches channel/search HTML bypassing EU consent redirects when possible.
+     * @param {string} url
+     * @param {Object} [options]
+     * @returns {Promise<{ ok: boolean, status: number, html: string, url: string }>}
+     */
+    static async fetchHtmlPage(url, options = {}) {
+      let lastStatus = 0;
+      let lastHtml = "";
+      let directError = null;
+      try {
+        const response = await fetch(url, { headers: CHANNEL_HEADERS, credentials: "omit" });
+        lastStatus = response?.status || 0;
+        const isConsent = Boolean(response?.url && response.url.includes("consent.youtube."));
+        if (response?.ok && !isConsent) {
+          lastHtml = await response.text();
+          if (lastHtml && (ChannelPageParser.extractBalancedInitialData(lastHtml) || typeof options.pageFetcher !== "function")) {
+            return { ok: true, status: lastStatus || 200, html: lastHtml, url: response.url || url };
+          }
+        }
+      } catch (err) {
+        directError = err;
+      }
+      if (typeof options.pageFetcher === "function") {
+        try {
+          const tabRes = await options.pageFetcher(url);
+          if (tabRes?.ok && typeof tabRes.html === "string" && tabRes.html.length > 0) {
+            return { ok: true, status: tabRes.status || 200, html: tabRes.html, url: tabRes.url || url };
+          }
+        } catch (_) {
+        }
+      }
+      if (!lastHtml && !String(url).includes("ucbcb=")) {
+        try {
+          const sep = String(url).includes("?") ? "&" : "?";
+          const retry = await fetch(`${url}${sep}ucbcb=1`, { headers: CHANNEL_HEADERS, credentials: "omit" });
+          if (retry?.ok && !retry.url?.includes("consent.youtube.")) {
+            const retryHtml = await retry.text();
+            if (retryHtml && ChannelPageParser.extractBalancedInitialData(retryHtml)) {
+              return { ok: true, status: retry.status || 200, html: retryHtml, url: retry.url || url };
+            }
+          }
+        } catch (_) {
+        }
+      }
+      if (lastStatus >= 400) return { ok: false, status: lastStatus, html: "", url };
+      if (directError && !lastHtml) throw directError;
+      return { ok: Boolean(lastHtml), status: lastStatus || 200, html: lastHtml, url };
+    }
+    /**
+     * Fetches one continuation batch directly from InnerTube browse API.
+     * @returns {Promise<{ ok: boolean, status: number, items: Array<Object> }>}
+     */
+    static async fetchBrowseContinuationResult(apiKey, clientVersion, continuation, visitorData = "") {
+      try {
+        const client = { clientName: "WEB", clientVersion: clientVersion || "2.20260101.00.00", hl: "fr", gl: "FR" };
+        if (visitorData) client.visitorData = visitorData;
+        const headers = { "Content-Type": "application/json" };
+        if (visitorData) headers["X-Goog-Visitor-Id"] = visitorData;
+        const res = await fetch(`https://www.youtube.com/youtubei/v1/browse?key=${encodeURIComponent(apiKey)}`, {
+          method: "POST",
+          credentials: "omit",
+          headers,
+          body: JSON.stringify({ context: { client }, continuation })
+        });
+        if (!res.ok) return { ok: false, status: res.status, items: [] };
+        const json = await res.json();
+        const items = [];
+        for (const action of json.onResponseReceivedActions || []) {
+          const batch = action.appendContinuationItemsAction?.continuationItems || action.reloadContinuationItemsCommand?.continuationItems;
+          if (Array.isArray(batch)) items.push(...batch);
+        }
+        return { ok: true, status: 200, items };
+      } catch (_) {
+        return { ok: false, status: 0, items: [] };
+      }
+    }
+  };
+
+  // src/background/ChannelIntelligenceFetcher.js
+  var ChannelIntelligenceFetcher = class {
+    /**
+     * Fetches official channel dossier by creator handle, URL or search query
+     * @param {string} query Handle (@JulienChieze), URL or search query
+     * @param {number} [limit=30]
+     * @param {Object} [options]
+     * @returns {Promise<{success: boolean, channel?: Object, error?: string}>}
+     */
+    static async fetchChannelDossier(query, limit = 30, options = {}) {
+      try {
+        if (!query || typeof query !== "string") {
+          throw new Error("Query string is required");
+        }
+        const cleanQuery = query.trim();
+        const canonicalRoot = await this.resolveChannelPath(cleanQuery, options);
+        if (!canonicalRoot) {
+          throw new Error(`Impossible de trouver la cha\xEEne YouTube pour : "${cleanQuery}"`);
+        }
+        const normalizedRoot = ChannelPageParser.sanitizeChannelPath(canonicalRoot) || canonicalRoot.replace(/\/+$/, "");
+        const tabLimit = limit === "all" ? "all" : Math.max(8, Math.ceil((parseInt(limit, 10) || 30) * 0.75));
+        let videosDossier = null;
+        let shortsDossier = null;
+        let lastError = null;
+        try {
+          videosDossier = await this._fetchTabDossier(`${normalizedRoot}/videos`, normalizedRoot, tabLimit, options);
+        } catch (err) {
+          lastError = err;
+        }
+        try {
+          shortsDossier = await this._fetchTabDossier(`${normalizedRoot}/shorts`, normalizedRoot, tabLimit, options);
+        } catch (err) {
+          lastError = lastError || err;
+        }
+        const combined = ChannelFormatAnalyzer.mergeDossiers(
+          videosDossier,
+          shortsDossier,
+          limit,
+          (d) => this.formatMarkdownDossier(d)
+        );
+        if (combined && combined.recentVideos.length > 0) {
+          return { success: true, channel: combined };
+        }
+        let lastDossier = combined;
+        for (const tabPath of [`${normalizedRoot}/streams`, normalizedRoot]) {
+          if (tabPath === `${normalizedRoot}/videos` || tabPath === `${normalizedRoot}/shorts`) continue;
+          try {
+            const dossier = await this._fetchTabDossier(tabPath, normalizedRoot, limit, options);
+            if (dossier) {
+              lastDossier = dossier;
+              if (Array.isArray(dossier.recentVideos) && dossier.recentVideos.length > 0) {
+                const formatted = ChannelFormatAnalyzer.mergeDossiers(dossier, null, limit, (d) => this.formatMarkdownDossier(d));
+                return { success: true, channel: formatted };
+              }
+            }
+          } catch (err) {
+            lastError = err;
+          }
+        }
+        if (lastDossier) return { success: true, channel: lastDossier };
+        throw lastError || new Error("Impossible d'extraire ytInitialData de la page cha\xEEne");
+      } catch (err) {
+        return { success: false, error: err.message || String(err) };
+      }
+    }
+    static async _fetchHtmlPage(url, options = {}) {
+      return ChannelHttpClient.fetchHtmlPage(url, options);
+    }
+    static async _fetchTabDossier(tabPath, canonicalRoot, limit, options = {}) {
+      const channelUrl = `https://www.youtube.com${tabPath}`;
+      const page = await this._fetchHtmlPage(channelUrl, options);
+      if (!page.ok && page.status >= 400) {
+        throw new Error(`HTTP ${page.status} lors de l'acc\xE8s \xE0 la cha\xEEne`);
+      }
+      const data = ChannelPageParser.extractBalancedInitialData(page.html);
+      if (!data) {
+        throw new Error("Impossible d'extraire ytInitialData de la page cha\xEEne");
+      }
+      const isShortsTabRequest = tabPath.endsWith("/shorts");
+      const isGenuineShortsTab = isShortsTabRequest && ChannelPageParser.isShortsTabData(data);
+      const apiKey = page.html.match(/"INNERTUBE_API_KEY"\s*:\s*"([^"]+)"/)?.[1] || "";
+      const clientVersion = page.html.match(/"INNERTUBE_CLIENT_VERSION"\s*:\s*"([^"]+)"/)?.[1] || "2.20260101.00.00";
+      const visitorData = page.html.match(/"VISITOR_DATA"\s*:\s*"([^"]+)"/)?.[1] || "";
+      const dossier = await this.parseChannelDataWithPagination(data, `${canonicalRoot}/videos`, limit, {
+        apiKey,
+        clientVersion,
+        visitorData: visitorData || data?.responseContext?.visitorData || "",
+        browseFetcher: options.browseFetcher || null,
+        forceShort: isGenuineShortsTab
       });
+      if (isShortsTabRequest && !isGenuineShortsTab && Array.isArray(dossier?.recentVideos)) {
+        dossier.recentVideos = dossier.recentVideos.filter((v) => v.isShort);
+        dossier.totalFetched = dossier.recentVideos.length;
+      }
+      return dossier;
+    }
+    /**
+     * Resolves search query, handle, Studio link or channel URL to canonical YouTube channel root path
+     * @param {string} rawQuery
+     * @param {Object} [options]
+     * @returns {Promise<string|null>}
+     */
+    static async resolveChannelPath(rawQuery, options = {}) {
+      const clean = String(rawQuery || "").trim();
+      const directPath = ChannelPageParser.sanitizeChannelPath(clean);
+      if (directPath) return directPath;
+      if (/^UC[A-Za-z0-9_-]{20,}$/.test(clean)) return `/channel/${clean}`;
+      if (clean.startsWith("/@") || clean.startsWith("/channel/") || clean.startsWith("/c/") || clean.startsWith("/user/")) {
+        return clean;
+      }
+      const searchUrls = [
+        `https://www.youtube.com/results?search_query=${encodeURIComponent(clean)}&sp=EgIQAg%3D%3D`,
+        `https://www.youtube.com/results?search_query=${encodeURIComponent(clean)}`
+      ];
+      for (const searchUrl of searchUrls) {
+        const searchRes = await this._fetchHtmlPage(searchUrl, options);
+        if (!searchRes.ok || !searchRes.html) continue;
+        const data = ChannelPageParser.extractBalancedInitialData(searchRes.html);
+        const sections = data?.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents || [];
+        const items = sections.flatMap((s) => s?.itemSectionRenderer?.contents || []);
+        const channelRenderer = items.find((c) => c.channelRenderer)?.channelRenderer;
+        const endpoint = channelRenderer?.navigationEndpoint?.browseEndpoint || items.find((c) => c.videoRenderer)?.videoRenderer?.ownerText?.runs?.[0]?.navigationEndpoint?.browseEndpoint;
+        const base = endpoint?.canonicalBaseUrl || (channelRenderer?.channelId ? `/channel/${channelRenderer.channelId}` : "");
+        const resolved = base ? ChannelPageParser.sanitizeChannelPath(base) || base : "";
+        if (resolved) return resolved;
+      }
+      return null;
+    }
+    /** Parses channel header, subscriber count, bio, and latest videos from ytInitialData */
+    static parseChannelData(data, canonicalPath, limit = 30, parseOptions = {}) {
+      const { title, handle, subscribers, videoCount, bio } = ChannelPageParser.parseHeader(data, canonicalPath);
+      const contents = this._findGridContents(data);
+      const { videos: recentVideos } = this._extractGridVideos(contents, /* @__PURE__ */ new Set(), limit, parseOptions);
       const totalChannelVideos = parseChannelVideoCount(videoCount);
-      return { title, handle, subscribers, videoCount, totalChannelVideos, bio, recentVideos, markdownDossier };
+      const baseDossier = { title, handle, subscribers, videoCount, totalChannelVideos, bio, recentVideos };
+      return ChannelFormatAnalyzer.mergeDossiers(baseDossier, null, limit, (d) => this.formatMarkdownDossier(d));
     }
     /** Parses channel data and paginates InnerTube continuations up to limit. */
     static async parseChannelDataWithPagination(data, fallbackPath, limit = 30, innerTube = {}) {
       const targetLimit = limit === "all" ? 5e3 : Math.max(1, parseInt(limit, 10) || 30);
-      const dossier = this.parseChannelData(data, fallbackPath, targetLimit);
+      const parseOpts = { forceShort: Boolean(innerTube?.forceShort) };
+      const dossier = this.parseChannelData(data, fallbackPath, targetLimit, parseOpts);
       const contents = this._findGridContents(data);
       const seenIds = new Set(dossier.recentVideos.map((v) => v.id).filter(Boolean));
-      let { continuationToken: nextToken, truncatedOnPage } = this._extractGridVideos(contents, /* @__PURE__ */ new Set(), targetLimit);
+      let { continuationToken: nextToken, truncatedOnPage } = this._extractGridVideos(contents, /* @__PURE__ */ new Set(), targetLimit, parseOpts);
       let pageCount = 0;
       const maxPages = 200;
       let paginationFailed = false;
@@ -1549,7 +2633,7 @@
           nextToken = null;
           break;
         }
-        const extracted = this._extractGridVideos(pageItems, seenIds, targetLimit - dossier.recentVideos.length);
+        const extracted = this._extractGridVideos(pageItems, seenIds, targetLimit - dossier.recentVideos.length, parseOpts);
         dossier.recentVideos.push(...extracted.videos);
         nextToken = extracted.continuationToken;
         truncatedOnPage = extracted.truncatedOnPage;
@@ -1558,50 +2642,25 @@
           break;
         }
       }
-      dossier.hasMore = Boolean(nextToken || truncatedOnPage || paginationFailed);
-      dossier.totalFetched = dossier.recentVideos.length;
-      if (!dossier.hasMore && !paginationFailed && dossier.recentVideos.length > 0) {
-        dossier.totalChannelVideos = dossier.recentVideos.length;
+      const updated = ChannelFormatAnalyzer.mergeDossiers(dossier, null, targetLimit, (d) => this.formatMarkdownDossier(d));
+      updated.hasMore = Boolean(nextToken || truncatedOnPage || paginationFailed);
+      updated.totalFetched = updated.recentVideos.length;
+      if (!updated.hasMore && !paginationFailed && updated.recentVideos.length > 0 && !parseOpts.forceShort) {
+        updated.totalChannelVideos = updated.recentVideos.length;
       }
-      dossier.markdownDossier = this.formatMarkdownDossier(dossier);
-      return dossier;
+      return updated;
     }
-    /** Calls InnerTube browse continuation endpoint and returns flattened continuation items. */
     static async _fetchBrowseContinuation(apiKey, clientVersion, continuation, visitorData = "") {
       const res = await this._fetchBrowseContinuationResult(apiKey, clientVersion, continuation, visitorData);
       return res.items || [];
     }
-    /** Calls InnerTube browse continuation endpoint and reports HTTP status + items. */
     static async _fetchBrowseContinuationResult(apiKey, clientVersion, continuation, visitorData = "") {
-      try {
-        const client = { clientName: "WEB", clientVersion: clientVersion || "2.20260101.00.00", hl: "fr", gl: "FR" };
-        if (visitorData) client.visitorData = visitorData;
-        const headers = { "Content-Type": "application/json" };
-        if (visitorData) headers["X-Goog-Visitor-Id"] = visitorData;
-        const res = await fetch(`https://www.youtube.com/youtubei/v1/browse?key=${encodeURIComponent(apiKey)}`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ context: { client }, continuation })
-        });
-        if (!res.ok) return { ok: false, status: res.status, items: [] };
-        const json = await res.json();
-        const items = [];
-        for (const action of json.onResponseReceivedActions || []) {
-          const batch = action.appendContinuationItemsAction?.continuationItems || action.reloadContinuationItemsCommand?.continuationItems;
-          if (Array.isArray(batch)) items.push(...batch);
-        }
-        return { ok: true, status: 200, items };
-      } catch (_) {
-        return { ok: false, status: 0, items: [] };
-      }
+      return ChannelHttpClient.fetchBrowseContinuationResult(apiKey, clientVersion, continuation, visitorData);
     }
-    /** Locates grid items array inside ytInitialData channel tabs. */
     static _findGridContents(data) {
-      const tabs = data?.contents?.twoColumnBrowseResultsRenderer?.tabs || [];
-      return tabs.find((t) => t.tabRenderer?.content?.richGridRenderer)?.tabRenderer?.content?.richGridRenderer?.contents || [];
+      return ChannelPageParser.findGridContents(data);
     }
-    /** Extracts deduplicated video items and trailing continuation token from grid contents. */
-    static _extractGridVideos(contents = [], seenIds = /* @__PURE__ */ new Set(), maxNew = 30) {
+    static _extractGridVideos(contents = [], seenIds = /* @__PURE__ */ new Set(), maxNew = 30, parseOptions = {}) {
       const videos = [];
       let continuationToken = null;
       let truncatedOnPage = false;
@@ -1611,7 +2670,7 @@
           continuationToken = token;
           continue;
         }
-        const parsed = this._parseGridVideoItem(item);
+        const parsed = this._parseGridVideoItem(item, parseOptions);
         if (!parsed || parsed.id && seenIds.has(parsed.id)) continue;
         if (videos.length >= maxNew) {
           truncatedOnPage = true;
@@ -1622,45 +2681,11 @@
       }
       return { videos, continuationToken, truncatedOnPage };
     }
-    /** Parses lockupViewModel or videoRenderer grid item into normalized metadata. */
-    static _parseGridVideoItem(item) {
-      const lockup = item?.richItemRenderer?.content?.lockupViewModel;
-      if (lockup) {
-        const vId2 = lockup.contentId || "";
-        const vTitle2 = lockup.metadata?.lockupMetadataViewModel?.title?.content || "";
-        const metaRows = lockup.metadata?.lockupMetadataViewModel?.metadata?.contentMetadataViewModel?.metadataRows || [];
-        const parts2 = metaRows.flatMap((r) => (r.metadataParts || []).map((p) => p.text?.content).filter(Boolean));
-        return { id: vId2, title: vTitle2, url: vId2 ? `https://www.youtube.com/watch?v=${vId2}` : "", meta: parts2.join(" \u2022 ") };
-      }
-      const vr = item?.richItemRenderer?.content?.videoRenderer || item?.gridVideoRenderer;
-      if (!vr) return null;
-      const vId = vr.videoId || "";
-      const vTitle = vr.title?.runs?.map((r) => r.text).join("") || vr.title?.simpleText || "";
-      const parts = [vr.viewCountText?.simpleText, vr.publishedTimeText?.simpleText].filter(Boolean);
-      return { id: vId, title: vTitle, url: vId ? `https://www.youtube.com/watch?v=${vId}` : "", meta: parts.join(" \u2022 ") };
+    static _parseGridVideoItem(item, parseOptions = {}) {
+      return ChannelPageParser.parseGridVideoItem(item, parseOptions);
     }
-    /** Formats structured dossier into concise Markdown block for prompt context */
     static formatMarkdownDossier(dossier) {
-      const { title, handle, subscribers, videoCount, bio, recentVideos = [] } = dossier;
-      const lines = [
-        `### \u{1F4FA} DOSSIER OFFICIEL DE LA CHA\xCENE : ${title || "Cr\xE9ateur YouTube"} (${handle || ""})`,
-        `- **Audience & Volume** : ${subscribers || "Non communiqu\xE9"} \u2022 ${videoCount || `${recentVideos.length} vid\xE9os r\xE9centes`}`
-      ];
-      if (bio) lines.push(`- **Bio Officielle** :
-"""
-${bio.trim()}
-"""`);
-      if (recentVideos.length > 0) {
-        const cap = 40;
-        lines.push(`- **Derni\xE8res vid\xE9os publi\xE9es (${recentVideos.length})** :`);
-        recentVideos.slice(0, cap).forEach((v, idx) => {
-          lines.push(`  ${idx + 1}. **${v.title}** ${v.meta ? `(${v.meta})` : ""} - https://youtu.be/${v.id}`);
-        });
-        if (recentVideos.length > cap) {
-          lines.push(`  ... (+${recentVideos.length - cap} autres vid\xE9os index\xE9es dans le catalogue)`);
-        }
-      }
-      return lines.join("\n");
+      return ChannelFormatAnalyzer.formatMarkdownDossier(dossier);
     }
   };
 
@@ -1897,12 +2922,267 @@ ${bio.trim()}
     }
   };
 
+  // src/background/DomainAuditFetcher.js
+  var ASSET_EXT_RE = /\.(?:png|jpe?g|gif|webp|svg|ico|pdf|zip|tar|gz|mp[34]|webm|wav|css|js|mjs|woff2?|ttf|eot|xml|json)$/i;
+  var MAX_EXCERPT_CHARS = 2e3;
+  var DomainAuditFetcher = class _DomainAuditFetcher {
+    static normalizeUrlKey(rawUrl, cleanOrigin) {
+      try {
+        const u = new URL(rawUrl, cleanOrigin);
+        if (u.origin !== cleanOrigin || !/^https?:$/i.test(u.protocol)) return "";
+        if (u.search) return "";
+        if (ASSET_EXT_RE.test(u.pathname)) return "";
+        const path = u.pathname.replace(/\/+$/, "") || "/";
+        return `${u.origin}${path}`;
+      } catch (_) {
+        return "";
+      }
+    }
+    static async fetchTextSafe(url, fetchFn = fetch, timeoutMs = 3500) {
+      const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+      const timer = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
+      try {
+        const res = await fetchFn(url, {
+          method: "GET",
+          credentials: "omit",
+          redirect: "follow",
+          signal: controller?.signal
+        });
+        if (!res?.ok) return { ok: false, status: res?.status || 0, url: res?.url || url, text: "" };
+        const ctype = res.headers?.get?.("content-type") || "";
+        if (ctype && !/(?:text\/|application\/(?:xhtml\+xml|xml))/i.test(ctype)) {
+          return { ok: false, status: res.status, url: res?.url || url, text: "" };
+        }
+        const rawText = await res.text();
+        return { ok: true, status: res.status, url: res?.url || url, text: rawText.slice(0, 262144) };
+      } catch (_) {
+        return { ok: false, status: 0, url, text: "" };
+      } finally {
+        if (timer) clearTimeout(timer);
+      }
+    }
+    static _htmlToCleanText(html = "") {
+      return String(html || "").replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<noscript[\s\S]*?<\/noscript>/gi, " ").replace(/<svg[\s\S]*?<\/svg>/gi, " ").replace(/<(?:br|p|div|li|tr|h[1-6]|section|article)\b[^>]*>/gi, "\n").replace(/<[^>]+>/g, " ").replace(/&nbsp;/gi, " ").replace(/&amp;/gi, "&").replace(/[ \t]+/g, " ").replace(/\n{2,}/g, "\n").trim();
+    }
+    static extractStructuredHtml(html = "") {
+      const raw = String(html || "");
+      const titleMatch = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(raw);
+      const title = titleMatch ? titleMatch[1].replace(/\s+/g, " ").trim() : "";
+      const headerParts = (raw.match(/<(?:header|nav)\b[\s\S]*?<\/(?:header|nav)>/gi) || []).map((b) => _DomainAuditFetcher._htmlToCleanText(b)).filter(Boolean);
+      const footerParts = (raw.match(/<footer\b[\s\S]*?<\/footer>/gi) || []).map((b) => _DomainAuditFetcher._htmlToCleanText(b)).filter(Boolean);
+      const withoutChrome = raw.replace(/<(?:header|nav|footer)\b[\s\S]*?<\/(?:header|nav|footer)>/gi, " ");
+      const mainMatch = /<(?:main|article)\b[\s\S]*?<\/(?:main|article)>/i.exec(withoutChrome);
+      const mainText = _DomainAuditFetcher._htmlToCleanText(mainMatch ? mainMatch[0] : withoutChrome);
+      return {
+        title,
+        header: headerParts.join(" | ").slice(0, 700),
+        footer: footerParts.join(" | ").slice(0, 700),
+        mainText
+      };
+    }
+    static deduplicateText(text = "", seenBlocks = /* @__PURE__ */ new Set()) {
+      const lines = String(text || "").split(/\n+/).map((l) => l.trim()).filter(Boolean);
+      const kept = [];
+      for (const line of lines) {
+        const norm = line.toLowerCase().replace(/\s+/g, " ");
+        if (norm.length >= 35) {
+          if (seenBlocks.has(norm)) continue;
+          seenBlocks.add(norm);
+        }
+        kept.push(line);
+      }
+      return kept.join("\n").slice(0, MAX_EXCERPT_CHARS);
+    }
+    static stripHtmlToText(html = "") {
+      const structured = _DomainAuditFetcher.extractStructuredHtml(html);
+      return { title: structured.title, excerpt: structured.mainText.slice(0, MAX_EXCERPT_CHARS) };
+    }
+    static extractSignalsFromHtml(html = "", cleanOrigin = "") {
+      const navUrls = [];
+      const contacts = /* @__PURE__ */ new Set();
+      const semanticBlocks = html.match(/<(?:footer|nav|header)\b[\s\S]*?<\/(?:footer|nav|header)>/gi);
+      const targetHtml = semanticBlocks && semanticBlocks.length > 0 ? semanticBlocks.join("\n") : html;
+      const linkRe = /<a\b[^>]*href\s*=\s*["']([^"'#]+)["'][^>]*>/gi;
+      let m;
+      while ((m = linkRe.exec(targetHtml)) !== null) {
+        const raw = m[1].trim();
+        if (/^(mailto:|tel:)/i.test(raw)) {
+          contacts.add(raw.slice(0, 80));
+          continue;
+        }
+        const key = _DomainAuditFetcher.normalizeUrlKey(raw, cleanOrigin);
+        if (key && !navUrls.includes(key)) navUrls.push(key);
+        if (navUrls.length >= 12 && contacts.size >= 5) break;
+      }
+      if (targetHtml !== html && contacts.size < 5) {
+        const contactRe = /href\s*=\s*["']((?:mailto:|tel:)[^"']+)["']/gi;
+        while ((m = contactRe.exec(html)) !== null) {
+          contacts.add(m[1].trim().slice(0, 80));
+          if (contacts.size >= 5) break;
+        }
+      }
+      return { legalUrls: navUrls, contacts: Array.from(contacts).slice(0, 5) };
+    }
+    static extractSitemapUrls(sitemapXml = "", cleanOrigin = "") {
+      const urls = [];
+      const locRe = /<loc>\s*([^<\s]+)\s*<\/loc>/gi;
+      let m;
+      while ((m = locRe.exec(sitemapXml)) !== null) {
+        const key = _DomainAuditFetcher.normalizeUrlKey(m[1], cleanOrigin);
+        if (key && !urls.includes(key)) urls.push(key);
+        if (urls.length >= 10) break;
+      }
+      return urls;
+    }
+    /**
+     * Collects root homepage, robots.txt, sitemap.xml, and deduplicated multi-level structural pages.
+     * Never re-fetches or re-analyzes an already visited URL.
+     * @param {Object} params
+     */
+    static async collectDomainDossier({ origin, hostname = "", currentUrl = "", knownLegalLinks = [], maxDepth = 2, fetchFn = fetch }) {
+      if (!origin || !/^https?:\/\//i.test(origin)) {
+        return { origin: "", hostname, maxDepth: 1, hasRobotsTxt: false, sitemapUrlCount: 0, contacts: [], home: null, legalPages: [] };
+      }
+      const depthLimit = Math.max(1, Math.min(4, parseInt(maxDepth, 10) || 2));
+      const maxPagesTotal = depthLimit * 4;
+      const cleanOrigin = origin.replace(/\/+$/, "");
+      const visited = /* @__PURE__ */ new Set();
+      const currentKey = currentUrl ? _DomainAuditFetcher.normalizeUrlKey(currentUrl, cleanOrigin) : "";
+      if (currentKey) visited.add(currentKey);
+      const homeKey = _DomainAuditFetcher.normalizeUrlKey(`${cleanOrigin}/`, cleanOrigin);
+      if (homeKey) visited.add(homeKey);
+      const [homeRes, robotsRes, sitemapRes] = await Promise.all([
+        _DomainAuditFetcher.fetchTextSafe(`${cleanOrigin}/`, fetchFn),
+        _DomainAuditFetcher.fetchTextSafe(`${cleanOrigin}/robots.txt`, fetchFn),
+        _DomainAuditFetcher.fetchTextSafe(`${cleanOrigin}/sitemap.xml`, fetchFn)
+      ]);
+      const allContacts = /* @__PURE__ */ new Set();
+      const enqueueUnique = (rawUrls, queue) => {
+        for (const raw of rawUrls) {
+          const key = _DomainAuditFetcher.normalizeUrlKey(raw, cleanOrigin);
+          if (key && !visited.has(key)) {
+            visited.add(key);
+            queue.push(key);
+          }
+        }
+      };
+      let frontier = [];
+      enqueueUnique((knownLegalLinks || []).map((l) => l?.url).filter(Boolean), frontier);
+      if (homeRes.ok && homeRes.text) {
+        const hs = _DomainAuditFetcher.extractSignalsFromHtml(homeRes.text, cleanOrigin);
+        hs.contacts.forEach((c) => allContacts.add(c));
+        enqueueUnique(hs.legalUrls, frontier);
+      }
+      if (sitemapRes.ok && sitemapRes.text) {
+        enqueueUnique(_DomainAuditFetcher.extractSitemapUrls(sitemapRes.text, cleanOrigin), frontier);
+      }
+      const seenBlocks = /* @__PURE__ */ new Set();
+      const homeParsed = homeRes.ok && homeRes.text ? _DomainAuditFetcher.extractStructuredHtml(homeRes.text) : null;
+      const siteChrome = homeParsed ? { header: homeParsed.header, footer: homeParsed.footer } : { header: "", footer: "" };
+      const home = homeParsed ? { url: homeRes.url, title: homeParsed.title, excerpt: _DomainAuditFetcher.deduplicateText(homeParsed.mainText, seenBlocks) } : null;
+      const legalPages = [];
+      for (let depth = 1; depth <= depthLimit && frontier.length > 0 && legalPages.length < maxPagesTotal; depth += 1) {
+        const batch = frontier.slice(0, Math.min(4, maxPagesTotal - legalPages.length));
+        const results = await Promise.all(batch.map((u) => _DomainAuditFetcher.fetchTextSafe(u, fetchFn)));
+        const nextFrontier = [];
+        for (const r of results) {
+          if (!r.ok || !r.text) continue;
+          const parsed = _DomainAuditFetcher.extractStructuredHtml(r.text);
+          const dedupedMain = _DomainAuditFetcher.deduplicateText(parsed.mainText, seenBlocks);
+          const diffNotes = [];
+          if (parsed.header && parsed.header !== siteChrome.header) diffNotes.push(`[Changed Header]: ${parsed.header}`);
+          if (parsed.footer && parsed.footer !== siteChrome.footer) diffNotes.push(`[Changed Footer]: ${parsed.footer}`);
+          const excerpt = [dedupedMain, ...diffNotes].filter(Boolean).join("\n").slice(0, MAX_EXCERPT_CHARS);
+          legalPages.push({ url: r.url, depth, title: parsed.title, excerpt });
+          if (depth < depthLimit) {
+            const sig = _DomainAuditFetcher.extractSignalsFromHtml(r.text, cleanOrigin);
+            sig.contacts.forEach((c) => allContacts.add(c));
+            enqueueUnique(sig.legalUrls, nextFrontier);
+          }
+        }
+        frontier = nextFrontier;
+      }
+      const sitemapUrlCount = sitemapRes.ok && sitemapRes.text ? (sitemapRes.text.match(/<loc>/gi) || []).length : 0;
+      return {
+        origin: cleanOrigin,
+        hostname: hostname || new URL(cleanOrigin).hostname,
+        maxDepth: depthLimit,
+        visitedCount: visited.size,
+        hasRobotsTxt: Boolean(robotsRes.ok && robotsRes.text?.trim()),
+        sitemapUrlCount,
+        contacts: Array.from(allContacts).slice(0, 6),
+        siteChrome,
+        home,
+        legalPages
+      };
+    }
+  };
+
+  // src/background/BackgroundImageFetcher.js
+  var MAX_IMAGE_BYTES = 15 * 1024 * 1024;
+  var FETCH_TIMEOUT_MS = 6e3;
+  function arrayBufferToBase64(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let binary = "";
+    const chunk = 32768;
+    for (let i = 0; i < bytes.length; i += chunk) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+    }
+    return btoa(binary);
+  }
+  var BackgroundImageFetcher = class {
+    static async fetchSafeJpeg(rawUrl) {
+      let parsed;
+      try {
+        parsed = new URL(String(rawUrl || ""));
+      } catch (_) {
+        return { success: false, error: "Invalid image URL" };
+      }
+      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+        return { success: false, error: "Unsupported protocol" };
+      }
+      const ctrl = typeof AbortController === "function" ? new AbortController() : null;
+      const timer = ctrl ? setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS) : null;
+      try {
+        const resp = await fetch(parsed.href, { credentials: "omit", signal: ctrl?.signal });
+        if (!resp.ok) return { success: false, error: `HTTP ${resp.status}` };
+        const ctype = (resp.headers?.get?.("content-type") || "").toLowerCase();
+        if (!ctype.startsWith("image/") || ctype.includes("svg")) {
+          return { success: false, error: "Unsupported image MIME type" };
+        }
+        const blob = await resp.blob();
+        if (!blob || blob.size === 0 || blob.size > MAX_IMAGE_BYTES) {
+          return { success: false, error: "Image size out of bounds" };
+        }
+        if (typeof createImageBitmap !== "function" || typeof OffscreenCanvas !== "function") {
+          return { success: false, error: "OffscreenCanvas unavailable" };
+        }
+        const bmp = await createImageBitmap(blob);
+        try {
+          const canvas = new OffscreenCanvas(Math.max(1, bmp.width), Math.max(1, bmp.height));
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(bmp, 0, 0);
+          const jpegBlob = await canvas.convertToBlob({ type: "image/jpeg", quality: 0.85 });
+          const b64 = arrayBufferToBase64(await jpegBlob.arrayBuffer());
+          return { success: true, dataUrl: `data:image/jpeg;base64,${b64}`, width: bmp.width, height: bmp.height };
+        } finally {
+          bmp.close?.();
+        }
+      } catch (err) {
+        return { success: false, error: err?.message || "Fetch failed" };
+      } finally {
+        if (timer) clearTimeout(timer);
+      }
+    }
+  };
+
   // src/background/MessageRouter.js
   var MessageRouter = class {
     static init() {
       chrome.runtime.onConnect.addListener((port) => {
         if (port.name === "ai-stream" || port.name === "ai_stream" || port.name === "lm-studio-stream" || port.name === "YT_AI_STREAM") {
           port.onMessage.addListener((msg) => {
+            if (msg?.action === "KEEPALIVE" || msg?.type === "KEEPALIVE") return;
             if (msg.action === "START_STREAM" || msg.action === "CHAT_STREAM" || msg.action === "STREAM_CHAT" || msg.action === "GENERATE_STREAM" || msg.action === "AUDIT_STREAM") {
               StreamRelay.handleStream(msg, port);
             }
@@ -1912,12 +3192,13 @@ ${bio.trim()}
       chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.action === "FETCH_MODELS") {
           const provider = AIProviderFactory.getProvider(request.provider || "lmstudio");
-          provider.fetchModels(request.serverUrl, request.apiKey).then((models) => {
+          provider.fetchModels(request.serverUrl, request.apiKey).then(async (models) => {
+            const enriched = typeof provider.enrichCapabilities === "function" ? await provider.enrichCapabilities(models, request.serverUrl) : models;
             sendResponse({
               success: true,
               ok: true,
-              data: { data: models, models },
-              models
+              data: { data: enriched, models: enriched },
+              models: enriched
             });
           }).catch((err) => {
             sendResponse({
@@ -1949,6 +3230,34 @@ ${bio.trim()}
               message: `Failed: ${err.message}`
             });
           });
+          return true;
+        }
+        if (request.action === "GET_LOCAL_CONTEXT_DEFAULT") {
+          LocalContextManager.detectLocalContextDefault({
+            provider: request.provider || "lmstudio",
+            serverUrl: request.serverUrl,
+            model: request.model || "",
+            apiKey: request.apiKey || ""
+          }).then((res) => sendResponse({ success: true, ...res })).catch((err) => sendResponse({ success: false, contextLength: request.provider === "ollama" ? 4096 : 8192, error: err.message }));
+          return true;
+        }
+        if (request.action === "APPLY_LOCAL_CONTEXT") {
+          const prov = request.provider || "lmstudio";
+          const parsed = LocalContextManager.parseContextLength(request.contextLength);
+          if (prov === "ollama") {
+            sendResponse({ success: true, provider: "ollama", contextLength: parsed || "auto", appliedOnNextRequest: true });
+            return false;
+          }
+          if (!parsed) {
+            sendResponse({ success: true, provider: prov, contextLength: "auto", skipped: true });
+            return false;
+          }
+          LocalContextManager.ensureLmStudioContext({
+            serverUrl: request.serverUrl,
+            model: request.model,
+            apiKey: request.apiKey,
+            contextLength: parsed
+          }).then((res) => sendResponse({ success: Boolean(res?.applied), ...res })).catch((err) => sendResponse({ success: false, error: err.message }));
           return true;
         }
         if (request.action === "FETCH_TIMEDTEXT") {
@@ -1996,6 +3305,10 @@ ${bio.trim()}
           VideoCommentsFetcher.fetchVideoComments(videoId, limit).then((res) => sendResponse(res)).catch((err) => sendResponse({ success: false, error: err.message }));
           return true;
         }
+        if (request.action === "FETCH_DOMAIN_AUDIT") {
+          DomainAuditFetcher.collectDomainDossier(request).then((dossier) => sendResponse({ success: true, dossier })).catch((err) => sendResponse({ success: false, error: err.message }));
+          return true;
+        }
         if (request.action === "FETCH_CHANNEL_DOSSIER") {
           const { query, limit = 30 } = request;
           const resolveBrowseTabId = () => new Promise((resolve) => {
@@ -2007,13 +3320,16 @@ ${bio.trim()}
             });
           });
           resolveBrowseTabId().then((tabId) => {
-            const browseFetcher = tabId && chrome.tabs?.sendMessage ? (params) => new Promise((resolve) => {
-              chrome.tabs.sendMessage(tabId, { action: "PROXY_INNERTUBE_BROWSE", ...params }, (res) => {
+            const sendProxy = (payload) => new Promise((resolve) => {
+              chrome.tabs.sendMessage(tabId, { action: "PROXY_INNERTUBE_BROWSE", ...payload }, (res) => {
                 if (chrome.runtime?.lastError || !res) return resolve({ ok: false, items: [] });
                 resolve(res);
               });
-            }) : null;
-            return ChannelIntelligenceFetcher.fetchChannelDossier(query, limit, { browseFetcher });
+            });
+            const hasTabProxy = Boolean(tabId && chrome.tabs?.sendMessage);
+            const browseFetcher = hasTabProxy ? (params) => sendProxy(params) : null;
+            const pageFetcher = hasTabProxy ? (url) => sendProxy({ mode: "html", url }) : null;
+            return ChannelIntelligenceFetcher.fetchChannelDossier(query, limit, { browseFetcher, pageFetcher });
           }).then((res) => sendResponse(res)).catch((err) => sendResponse({ success: false, error: err.message }));
           return true;
         }
@@ -2029,6 +3345,10 @@ ${bio.trim()}
             for (const [k, v] of map.entries()) obj[k] = v;
             sendResponse({ success: true, dossiers: obj });
           }).catch((err) => sendResponse({ success: false, error: err.message }));
+          return true;
+        }
+        if (request.action === "FETCH_SAFE_IMAGE") {
+          BackgroundImageFetcher.fetchSafeJpeg(request.url).then((res) => sendResponse(res)).catch((err) => sendResponse({ success: false, error: err?.message || "Image fetch failed" }));
           return true;
         }
       });

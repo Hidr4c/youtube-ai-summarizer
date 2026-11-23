@@ -5,7 +5,9 @@ import { PROVIDER_NAMES } from '../../config/AIProviderPresets.js';
 import { BannerTemplate } from '../templates/BannerTemplate.js';
 import { ThemeManager } from './ThemeManager.js';
 import { safeSetInnerHTML, escapeHtml } from './MarkdownRenderer.js';
-import { isWatchPage, isFullscreen, syncFullscreenVisibility } from './NavigationObserver.js';
+import { isWatchPage, isShortsPage, isWebPageMode, isFullscreen, syncFullscreenVisibility } from './NavigationObserver.js';
+import { resolveInjectionTarget, resolveWatchAnchor } from './BannerAnchorHelper.js';
+import { WebPageLayoutShifter } from './WebPageLayoutShifter.js';
 
 /**
  * Controller & DOM View for In-Page Summarizer Banner (Header, Tabs, State)
@@ -15,113 +17,86 @@ export class BannerView {
     this.state = state;
     this.isExpanded = false;
     this.currentMode = 'standard';
+    this._webLayoutShifter = new WebPageLayoutShifter();
   }
 
-  /**
-   * Resolves the direct child node within watchContainer before which the banner should be inserted.
-   * Ensures the banner is positioned at the very top, flush below the search bar and above video elements.
-   * @param {HTMLElement} watchContainer
-   * @returns {Node|null}
-   */
   _resolveWatchAnchor(watchContainer) {
-    if (!watchContainer) return null;
-    const isMobileWatch = watchContainer.tagName?.toUpperCase() === 'YTM-WATCH';
-    if (isMobileWatch) {
-      return watchContainer.querySelector?.('ytm-single-column-watch-next-results-renderer, .watch-below-the-player')
-        || watchContainer.firstElementChild || null;
-    }
+    return resolveWatchAnchor(watchContainer);
+  }
 
-    const directChildren = Array.from(watchContainer.children || []);
-
-    const directAnchor = directChildren.find(c =>
-      c.id === 'full-bleed-container' ||
-      c.id === 'player-full-bleed-container' ||
-      c.id === 'player-theater-container' ||
-      c.id === 'columns'
-    );
-    if (directAnchor) return directAnchor;
-
-    const candidateIds = ['full-bleed-container', 'player-full-bleed-container', 'player-theater-container', 'columns'];
-    for (const id of candidateIds) {
-      const node = watchContainer.querySelector?.(`#${id}`);
-      if (node && node.parentNode === watchContainer) {
-        return node;
-      }
-    }
-
-    const firstVisual = directChildren.find(c =>
-      c.tagName && !['IRON-MEDIA-QUERY', 'DOM-IF', 'TEMPLATE'].includes(c.tagName.toUpperCase())
-    );
-    if (firstVisual) return firstVisual;
-
-    return watchContainer.firstElementChild || null;
+  _notifyShortsResize() {
+    if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') return;
+    const triggerResize = () => window.dispatchEvent(new Event('resize'));
+    if (typeof requestAnimationFrame === 'function') requestAnimationFrame(triggerResize);
+    else triggerResize();
   }
 
   tryInjectBanner(onInit = null) {
     if (!this.state.extensionEnabled) {
       const existing = document.getElementById('yt-ai-summarizer-container');
-      if (existing) existing.remove();
+      if (existing) {
+        const wasShorts = existing.classList?.contains?.('yt-ai-shorts-mode') || isShortsPage();
+        this._webLayoutShifter?.detach();
+        existing.remove();
+        if (wasShorts) this._notifyShortsResize();
+      }
       return;
     }
-    if (!isWatchPage()) return;
+    const webMode = isWebPageMode();
+    if (!isWatchPage() && !webMode) return;
 
-    const watchContainer = document.querySelector?.('ytd-watch-flexy, ytd-watch-grid, ytm-watch');
-    let parent = null;
-    let refChild = null;
+    const { parent, refChild, isShorts, isWebPage } = resolveInjectionTarget();
 
-    if (watchContainer && watchContainer.isConnected) {
-      if (watchContainer.tagName?.toUpperCase() === 'YTM-WATCH') {
-        const below = watchContainer.querySelector?.('.watch-below-the-player');
-        parent = below || watchContainer;
-        refChild = below ? below.firstElementChild : this._resolveWatchAnchor(watchContainer);
-      } else {
-        parent = watchContainer;
-        refChild = this._resolveWatchAnchor(watchContainer);
-      }
-    } else {
-      // In headless / test mock environments where ytd-watch-* custom elements are omitted,
-      // allow a designated test container wrapper, but NEVER inject directly into <body> or <html>
-      const candidate = document.querySelector?.('#columns, #primary, ytm-single-column-watch-next-results-renderer');
-      const candidateParent = candidate?.parentNode;
-      if (candidateParent && candidateParent !== document.body && candidateParent !== document.documentElement) {
-        parent = candidateParent;
-        refChild = candidate;
-      }
-    }
-
-    // STRICT DOM GUARD: Never inject directly into <body> or <html>.
-    // On YouTube watch pages, must wait for watchContainer (ytd-watch-flexy/grid) to mount.
-    if (!parent || parent === document.body || parent === document.documentElement) {
+    if (!parent || parent === document.documentElement) {
       setTimeout(() => this.tryInjectBanner(onInit), 150);
       return;
     }
 
     const existing = document.getElementById('yt-ai-summarizer-container');
     if (existing && existing.isConnected) {
-      if (existing.parentNode === parent) {
+      const wasWebPage = Boolean(existing.classList?.contains?.('yt-ai-webpage-mode'));
+      if (existing.parentNode === parent && wasWebPage === Boolean(isWebPage)) {
+        if (isWebPage && parent.firstElementChild && parent.firstElementChild !== existing) {
+          parent.insertBefore(existing, parent.firstElementChild);
+        }
+        if (existing.classList) {
+          if (typeof existing.classList.toggle === 'function') {
+            existing.classList.toggle('yt-ai-shorts-mode', isShorts);
+          } else if (isShorts) {
+            existing.classList.add?.('yt-ai-shorts-mode');
+          } else {
+            existing.classList.remove?.('yt-ai-shorts-mode');
+          }
+        }
+        this._webLayoutShifter?.attach?.(existing);
         return; // Correctly positioned in the expected parent container
       }
-      // If stuck in body or an obsolete/wrong container, remove it so it moves to parent
+      this.isExpanded = false;
       existing.remove();
     }
 
     const banner = document.createElement('div');
     banner.id = 'yt-ai-summarizer-container';
-    banner.className = 'is-collapsed';
-    ThemeManager.syncThemeWithYouTube(banner);
+    banner.className = isWebPage ? 'is-collapsed yt-ai-webpage-mode' : (isShorts ? 'is-collapsed yt-ai-top-shell yt-ai-shorts-mode' : 'is-collapsed yt-ai-top-shell');
+    try { ThemeManager.syncThemeWithYouTube(banner); } catch (_) {}
 
     const lang = this.state.currentLang || 'en';
     const t = I18N[lang] || I18N.en;
     safeSetInnerHTML(banner, BannerTemplate.render(t, {
       version: getExtensionVersionTag(),
       currentMode: this.currentMode || this.state.summaryMode || 'standard',
+      auditMode: this.state.auditMode || 'standard',
+      channelAuditMode: this.state.channelAuditMode || 'standard',
       currentLang: lang,
       maxVideos: this.state.channelAuditMaxVideos || 30,
       channelTotalVideos: this.state.currentChannelTotalVideos || null
     }));
 
     try {
-      if (refChild && refChild.parentNode === parent) {
+      if (isWebPage) {
+        if (parent.firstElementChild) parent.insertBefore(banner, parent.firstElementChild);
+        else parent.appendChild(banner);
+      } else if (refChild && refChild.parentNode === parent) {
         parent.insertBefore(banner, refChild);
       } else if (parent.firstElementChild) {
         parent.insertBefore(banner, parent.firstElementChild);
@@ -137,24 +112,34 @@ export class BannerView {
     }
 
     syncFullscreenVisibility?.();
+    this._webLayoutShifter?.attach(banner);
+    if (isShorts) {
+      this._notifyShortsResize();
+      if (typeof window !== 'undefined' && window.scrollY > 0) window.scrollTo?.(0, 0);
+    }
     if (typeof onInit === 'function') onInit(banner);
   }
 
   setExpanded(expand) {
     this.isExpanded = expand;
     const container = document.getElementById('yt-ai-summarizer-container');
+    const toggleBtn = document.getElementById('ytAiToggleBtn');
     const toggleText = document.getElementById('ytAiToggleText');
     const toggleIcon = document.getElementById('ytAiToggleIcon');
     const lang = document.getElementById('ytAiLangSelect')?.value || this.state.currentLang || 'en';
     const t = I18N[lang] || I18N.en;
     if (!container) return;
 
+    const shortsActive = isShortsPage() || container.classList?.contains?.('yt-ai-shorts-mode');
+
     if (this.isExpanded) {
       container.classList.remove('is-collapsed');
-      if (toggleText) toggleText.textContent = t.collapse || 'Collapse';
-      if (toggleIcon) toggleIcon.textContent = '▲';
+      const collapseTip = t.collapse || 'Collapse';
+      if (toggleBtn) { toggleBtn.title = collapseTip; toggleBtn.setAttribute?.('aria-label', collapseTip); }
+      if (toggleText) toggleText.textContent = collapseTip;
+      if (toggleIcon && !toggleIcon.querySelector?.('svg')) toggleIcon.textContent = '▲';
 
-      if (!isFullscreen?.() && typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+      if (!shortsActive && !isFullscreen?.() && typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
         const masthead = document.getElementById('masthead-container');
         const mastheadHeight = masthead ? (masthead.offsetHeight || 56) : 56;
         const bRect = container.getBoundingClientRect ? container.getBoundingClientRect() : { top: 0 };
@@ -164,11 +149,38 @@ export class BannerView {
       }
     } else {
       container.classList.add('is-collapsed');
-      if (toggleText) toggleText.textContent = t.expand || 'Expand';
-      if (toggleIcon) toggleIcon.textContent = '▾';
+      const expandTip = t.expand || 'Expand';
+      if (toggleBtn) { toggleBtn.title = expandTip; toggleBtn.setAttribute?.('aria-label', expandTip); }
+      if (toggleText) toggleText.textContent = expandTip;
+      if (toggleIcon && !toggleIcon.querySelector?.('svg')) toggleIcon.textContent = '▾';
       const drawer = document.getElementById('ytAiSettingsDrawer');
       drawer?.classList.add('yt-ai-hidden');
       document.getElementById('ytAiSettingsToggleBtn')?.classList.remove('active');
+    }
+
+    if (container.classList?.contains?.('yt-ai-webpage-mode') || container.classList?.contains?.('yt-ai-top-shell')) {
+      this._webLayoutShifter?.sync();
+    }
+
+    if (shortsActive) {
+      const pmEl = document.querySelector?.('ytd-page-manager');
+      const scrollTargets = [container.parentNode, pmEl, document.documentElement].filter((el, i, a) => el && a.indexOf(el) === i);
+      const resetShortsScroll = () => {
+        scrollTargets.forEach((el) => {
+          if (typeof el.scrollTop === 'number' && el.scrollTop !== 0) el.scrollTop = 0;
+        });
+        if (typeof window !== 'undefined' && window.scrollY > 0) window.scrollTo?.(0, 0);
+      };
+      resetShortsScroll();
+      // Guard briefly against YouTube Shorts automatic scrollIntoView() during toggle layout transitions
+      const guardWin = typeof window !== 'undefined' ? window : null;
+      [...scrollTargets, guardWin].forEach((t) => {
+        if (!t || typeof t.addEventListener !== 'function') return;
+        const onTransitionScroll = () => resetShortsScroll();
+        t.addEventListener('scroll', onTransitionScroll, { passive: true });
+        setTimeout(() => t.removeEventListener?.('scroll', onTransitionScroll), 450);
+      });
+      if (typeof requestAnimationFrame === 'function') requestAnimationFrame(() => resetShortsScroll());
     }
   }
 
@@ -252,33 +264,22 @@ export class BannerView {
 
     const hasKey = !!this.state.apiKeys[this.state.currentProvider];
     const name = PROVIDER_NAMES[this.state.currentProvider] || this.state.currentProvider;
-    const isVerified = this.state.keyVerified ? this.state.keyVerified[this.state.currentProvider] : null;
-
-    if (!hasKey) {
-      badge.className = 'yt-ai-badge offline';
-      badgeText.textContent = `${name} (${t.keyRequired || 'Key required'})`;
-    } else if (isVerified === true) {
-      badge.className = 'yt-ai-badge online';
-      badgeText.textContent = `${name} (${t.keyOk || 'Key OK'})`;
-    } else if (isVerified === 'busy') {
-      badge.className = 'yt-ai-badge';
-      badgeText.textContent = `${name} (${t.serverBusy || 'Server busy'})`;
-    } else if (isVerified === false) {
-      badge.className = 'yt-ai-badge offline';
-      badgeText.textContent = `${name} (${t.invalidKey || 'Invalid key'})`;
-    } else {
-      badge.className = 'yt-ai-badge';
-      badgeText.textContent = `${name} (${t.keySaved || 'Key saved'})`;
-    }
+    const verified = this.state.keyVerified?.[this.state.currentProvider];
+    const [cls, msg] = !hasKey
+      ? ['yt-ai-badge offline', t.keyRequired || 'Key required']
+      : verified === true ? ['yt-ai-badge online', t.keyOk || 'Key OK']
+      : verified === 'busy' ? ['yt-ai-badge', t.serverBusy || 'Server busy']
+      : verified === false ? ['yt-ai-badge offline', t.invalidKey || 'Invalid key']
+      : ['yt-ai-badge', t.keySaved || 'Key saved'];
+    badge.className = cls;
+    badgeText.textContent = `${name} (${msg})`;
   }
 
   updateHeaderModelText() {
     const el = document.getElementById('ytAiHeaderModelText');
     const t = I18N[this.state.currentLang] || I18N.en;
     const activeM = this.state.getActiveModel();
-    if (el) {
-      el.textContent = activeM ? `${t.modelPrefix || 'Model: '}${activeM}` : (t.noModelSelected || 'No model');
-    }
+    if (el) el.textContent = activeM ? `${t.modelPrefix || 'Model: '}${activeM}` : (t.noModelSelected || 'No model');
   }
 
   applyLanguage(lang, summaryViewController = null, chatViewController = null, auditViewController = null) {

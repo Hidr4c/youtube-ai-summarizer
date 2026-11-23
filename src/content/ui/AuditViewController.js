@@ -5,6 +5,8 @@ import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
 import { AuditProgressBar } from './AuditProgressBar.js';
 import { ChannelAuditJobTracker } from '../services/ChannelAuditJobTracker.js';
 import { WatchChannelAuditHelper } from './WatchChannelAuditHelper.js';
+import { StreamRenderScheduler } from './StreamRenderScheduler.js';
+import { getActiveVideoElement } from './NavigationObserver.js';
 
 /**
  * Controller for In-Page Critical Audit & Logic Verification Tab
@@ -47,13 +49,13 @@ export class AuditViewController {
       : isMed
         ? (lang === 'fr' ? 'Analyse nuancée, affirmations à vérifier avec recul' : 'Mixed rigor, claims require caution')
         : (lang === 'fr' ? 'Rigueur et cohérence logique élevées' : 'High logical rigor & consistency'));
-    const tierPill = tier ? `<span class="yt-ai-tier-pill" style="border-color:${tier.hexColor}66;color:${tier.hexColor};">${escapeHtml(tier.rangeLabel)} · ${escapeHtml(tier.shortLabel)}</span>` : '';
+    const tierPill = tier ? `<span class="yt-ai-tier-pill">${escapeHtml(tier.rangeLabel)} · ${escapeHtml(tier.shortLabel)}</span>` : '';
     const genrePill = resolvedMetrics?.genre ? `<span class="yt-ai-genre-pill">🏷️ ${escapeHtml(resolvedMetrics.genre)}</span>` : '';
 
     return `
-      <div class="yt-ai-audit-hero-card ${levelClass}">
+      <div class="yt-ai-audit-hero-card ${levelClass}" ${tier?.cssVars ? `style="${tier.cssVars}"` : ''}>
         <div class="yt-ai-audit-hero-main">
-          <div class="yt-ai-audit-gauge-circle" ${tier ? `style="border-color:${tier.hexColor};color:${tier.hexColor};"` : ''}><span class="yt-ai-audit-gauge-val">${score}</span><span class="yt-ai-audit-gauge-max">/100</span></div>
+          <div class="yt-ai-audit-gauge-circle"><span class="yt-ai-audit-gauge-val">${score}</span><span class="yt-ai-audit-gauge-max">/100</span></div>
           <div class="yt-ai-audit-hero-meta">
             <div class="yt-ai-audit-status-badge">${escapeHtml(badge.label)} ${tierPill} ${genrePill}</div>
             <div class="yt-ai-audit-hero-desc">${escapeHtml(verdictDesc)}</div>
@@ -144,6 +146,12 @@ export class AuditViewController {
     }
 
     let hasStreamedChunks = false;
+    const auditRenderScheduler = StreamRenderScheduler.create((accMd) => {
+      if (bodyBox) {
+        renderMarkdown(stripScoreTags(accMd), bodyBox, { sectionCards: true });
+        this.bindTimestampLinks(bodyBox);
+      }
+    }, 75);
     try {
       const report = await this.auditService.executeAudit({
         lang,
@@ -159,12 +167,10 @@ export class AuditViewController {
         },
         onChunk: (chunk, acc) => {
           hasStreamedChunks = true;
-          if (bodyBox) {
-            renderMarkdown(stripScoreTags(acc), bodyBox, { sectionCards: true });
-            this.bindTimestampLinks(bodyBox);
-          }
+          auditRenderScheduler.schedule(acc);
         }
       });
+      auditRenderScheduler.cancel();
 
       this.lastReport = report;
       stateObj.cachedAuditReport = report;
@@ -208,6 +214,7 @@ export class AuditViewController {
         bodyBox.innerHTML = `<p style="color: #f85149;">[!] ${escapeHtml(err.message || t.connectionError || I18N.en.connectionError)}</p>`;
       }
     } finally {
+      auditRenderScheduler.cancel();
       if (runBtn) {
         runBtn.disabled = false;
         runBtn.classList?.remove('yt-ai-btn-stop');
@@ -253,7 +260,7 @@ export class AuditViewController {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const sec = parseFloat(link.getAttribute('data-time') || link.getAttribute('data-seek') || link.getAttribute('href')?.replace('#t=', '') || 0);
-        const video = document.querySelector('video');
+        const video = getActiveVideoElement();
         if (video && !isNaN(sec)) { video.currentTime = sec; video.play().catch(() => {}); }
       });
     });

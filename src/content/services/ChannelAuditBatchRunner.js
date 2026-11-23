@@ -1,6 +1,7 @@
 import { BatchPacker } from '../../services/implementations/BatchPacker.js';
 import { ChannelAuditPromptBuilder } from '../../services/implementations/ChannelAuditPromptBuilder.js';
 import { AuditPromptBuilder } from '../../services/implementations/AuditPromptBuilder.js';
+import { ChannelFormatAnalyzer } from '../../domain/services/ChannelFormatAnalyzer.js';
 import { ChannelAuditJobTracker } from './ChannelAuditJobTracker.js';
 
 /**
@@ -59,7 +60,7 @@ export class ChannelAuditBatchRunner {
       const block = this._extractEvalBlock(rawBatch);
       if (block) {
         evalBlocks.push(`[EVAL_VIDEOS]\n${block}\n[/EVAL_VIDEOS]`);
-        parsedEntries.push(...this._parseQuickEntries(block));
+        parsedEntries.push(...this._parseQuickEntries(block, batch));
       }
     }
 
@@ -73,7 +74,7 @@ export class ChannelAuditBatchRunner {
       detail: isFr ? 'Consolidation statistique finale' : 'Final statistical consolidation'
     });
 
-    const reducePrompt = this._buildReducePrompt(channel, sampledVideos.length, parsedEntries, lang);
+    const reducePrompt = this._buildReducePrompt(channel, sampledVideos, parsedEntries, lang);
     const reduceRaw = await streamFn({
       systemPrompt,
       userPrompt: reducePrompt,
@@ -99,9 +100,16 @@ export class ChannelAuditBatchRunner {
     return `${basePrompt}${suffix}`;
   }
 
-  static _buildReducePrompt(channel, totalSampled, entries, lang) {
+  static _buildReducePrompt(channel, sampledVideosOrCount, entries, lang) {
     const isFr = (lang || 'fr').toLowerCase().startsWith('fr');
     const targetLangName = AuditPromptBuilder.getLanguageLabel(lang);
+    const totalSampled = Array.isArray(sampledVideosOrCount) ? sampledVideosOrCount.length : sampledVideosOrCount;
+    const fmtStats = ChannelFormatAnalyzer.computeFormatBreakdown(entries);
+    const mixInfo = fmtStats.hasMixedFormats
+      ? (isFr
+        ? `\n- Répartition Vidéos vs Shorts : Vidéos longues ${fmtStats.videos.count} (moy. ${fmtStats.videos.avgScore}/100, sens. ${fmtStats.videos.avgClickbait}%) • Shorts ${fmtStats.shorts.count} (moy. ${fmtStats.shorts.avgScore}/100, sens. ${fmtStats.shorts.avgClickbait}%)`
+        : `\n- Format Breakdown: Long-form Videos ${fmtStats.videos.count} (avg ${fmtStats.videos.avgScore}/100, clickbait ${fmtStats.videos.avgClickbait}%) • Shorts ${fmtStats.shorts.count} (avg ${fmtStats.shorts.avgScore}/100, clickbait ${fmtStats.shorts.avgClickbait}%)`)
+      : '';
     const scores = entries.map((e) => e.score);
     const clickbaits = entries.map((e) => e.clickbait);
     const avgScore = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 50;
@@ -116,10 +124,10 @@ export class ChannelAuditBatchRunner {
     const digestLines = uniqueDigest.slice(0, 45).join('\n');
     return isFr
       ? `SYNTHÈSE FINALE D'AUDIT DE CHAÎNE (${channel.title || ''} ${channel.handle || ''}) :
-- Volume total évalué : ${entries.length} / ${totalSampled} vidéos analysées par lots
-- Moyenne brute observée : ${avgScore}/100 • Sensationnalisme moyen : ${avgCb}%
+- Volume total évalué : ${entries.length} / ${totalSampled} contenus analysés par lots
+- Moyenne brute observée : ${avgScore}/100 • Sensationnalisme moyen : ${avgCb}%${mixInfo}
 
-EXTRAIT REPRÉSENTATIF DES NOTATIONS PAR VIDÉO (Pires, Meilleures & Récentes) :
+EXTRAIT REPRÉSENTATIF DES NOTATIONS PAR CONTENU (Pires, Meilleures & Récentes) :
 ${digestLines}
 
 CONSIGNE FINALE :
@@ -128,21 +136,21 @@ CONSIGNE FINALE :
 [INDICE_CLICKBAIT: ${avgCb}%]
 [DISTRIBUTION: Fiable=A%, Modere=B%, Risque=C%]
 [TRAJECTOIRE: PROGRESSION | STABLE | DECLIN]
-Suivi exactement des 5 sections qualitatives rédigées en FRANÇAIS : ### [✓], ### [!], ### [X], ### [📈], ### Synthèse & Recommandation Globale. Ne répète pas [EVAL_VIDEOS].`
+Suivi exactement des sections qualitatives rédigées en FRANÇAIS : ### [✓], ### [!], ### [X], ### [📈], ### [⚡] Comparatif Vidéos longues vs Shorts, ### Synthèse & Recommandation Globale. Ne répète pas [EVAL_VIDEOS].`
       : `FINAL CHANNEL AUDIT SYNTHESIS (${channel.title || ''} ${channel.handle || ''}):
-- Total videos scored across batches: ${entries.length} / ${totalSampled}
-- Observed raw mean score: ${avgScore}/100 • Mean sensationalism: ${avgCb}%
+- Total items scored across batches: ${entries.length} / ${totalSampled}
+- Observed raw mean score: ${avgScore}/100 • Mean sensationalism: ${avgCb}%${mixInfo}
 
-REPRESENTATIVE VIDEO SCORE DIGEST (Lowest, Highest & Recent):
+REPRESENTATIVE CONTENT SCORE DIGEST (Lowest, Highest & Recent):
 ${digestLines}
 
 FINAL INSTRUCTION:
-Based on these ${entries.length} evaluated videos, output ONLY:
+Based on these ${entries.length} evaluated items, output ONLY:
 [SCORE_GLOBAL: ${avgScore}/100]
 [INDICE_CLICKBAIT: ${avgCb}%]
 [DISTRIBUTION: Fiable=A%, Modere=B%, Risque=C%]
 [TRAJECTOIRE: PROGRESSION | STABLE | DECLIN]
-Followed by the 5 qualitative sections written 100% in ${targetLangName}: ### [✓], ### [!], ### [X], ### [📈], ### Executive Synthesis & Recommendation. Do not repeat [EVAL_VIDEOS].`;
+Followed by the qualitative sections written 100% in ${targetLangName}: ### [✓], ### [!], ### [X], ### [📈], ### [⚡] Long-form Videos vs Shorts Comparison, ### Executive Synthesis & Recommendation. Do not repeat [EVAL_VIDEOS].`;
   }
 
   static _extractEvalBlock(raw = '') {
@@ -155,16 +163,21 @@ Followed by the 5 qualitative sections written 100% in ${targetLangName}: ### [�
     return pipeLines.join('\n');
   }
 
-  static _parseQuickEntries(block = '') {
+  static _parseQuickEntries(block = '', batch = []) {
+    const byIndex = new Map((batch || []).map((v, i) => [v.sampleIndex || (i + 1), v]));
     const entries = [];
     for (const line of String(block).split('\n')) {
       const m = line.trim().match(/^(\d+)\s*\|\s*(\d{1,3})\s*(?:%|\/100)?\s*\|\s*(\d{1,3})%?\s*\|\s*([^|]+)\|\s*(.+)$/);
       if (m) {
+        const index = parseInt(m[1], 10);
+        const source = byIndex.get(index);
+        const isShort = ChannelFormatAnalyzer.isShortItem(source);
         entries.push({
-          index: parseInt(m[1], 10),
+          index,
+          isShort,
           score: Math.max(0, Math.min(100, parseInt(m[2], 10))),
           clickbait: Math.max(0, Math.min(100, parseInt(m[3], 10))),
-          raw: line.trim()
+          raw: `${isShort ? '[SHORT]' : '[VIDEO]'} ${line.trim()}`
         });
       }
     }

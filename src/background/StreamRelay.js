@@ -1,5 +1,8 @@
 import { PROVIDER_CONFIGS, resolveDeprecatedModel } from '../config/AIProviderPresets.js';
 import { CloudModelDiscovery } from '../services/ai/providers/CloudModelDiscovery.js';
+import { StreamKeepalive } from './StreamKeepalive.js';
+import { LocalContextManager } from './LocalContextManager.js';
+import { MultimodalMessageFormatter } from './MultimodalMessageFormatter.js';
 
 /**
  * Handles streaming HTTP inference and dispatches chunks over Chrome Runtime Port
@@ -15,23 +18,12 @@ export class StreamRelay {
     const serverUrl = request.serverUrl || request.serverUrls?.[provider] || '';
     const apiKey = request.apiKey || request.apiKeys?.[provider] || '';
     const {
-      model,
-      systemPrompt,
-      userPrompt,
-      messages = null,
-      temperature = 0.3,
-      maxTokens
+      model, systemPrompt, userPrompt,
+      messages = null, temperature = 0.3, maxTokens, localContextLength = 'auto'
     } = request;
 
     let isDisconnected = false;
     const abortController = new AbortController();
-
-    if (port?.onDisconnect?.addListener) {
-      port.onDisconnect.addListener(() => {
-        isDisconnected = true;
-        try { abortController.abort(); } catch (_) {}
-      });
-    }
 
     const safePost = (msg) => {
       if (isDisconnected) return;
@@ -41,6 +33,20 @@ export class StreamRelay {
         isDisconnected = true;
       }
     };
+
+    const keepalive = StreamKeepalive.start({
+      postMessageSafe: safePost,
+      isAborted: () => isDisconnected || abortController.signal.aborted,
+      intervalMs: request.heartbeatIntervalMs || 10000
+    });
+
+    if (port?.onDisconnect?.addListener) {
+      port.onDisconnect.addListener(() => {
+        isDisconnected = true;
+        keepalive.stop();
+        try { abortController.abort(); } catch (_) {}
+      });
+    }
 
     // Build chat message sequence from system/user prompts or chat history
     let chatMessages = messages;
@@ -55,18 +61,20 @@ export class StreamRelay {
 
     try {
       if (provider === 'claude') {
-        await this.streamClaude(port, apiKey, model, systemPrompt, chatMessages, temperature, maxTokens, abortController.signal, safePost);
+        await this.streamClaude(port, apiKey, model, systemPrompt, chatMessages, temperature, maxTokens, abortController.signal, keepalive.emit);
       } else {
-        await this.streamOpenAICompatible(port, provider, serverUrl, apiKey, model, chatMessages, temperature, maxTokens, abortController.signal, safePost);
+        await this.streamOpenAICompatible(port, provider, serverUrl, apiKey, model, chatMessages, temperature, maxTokens, abortController.signal, keepalive.emit, localContextLength);
       }
       if (provider !== 'lmstudio' && provider !== 'ollama') {
         chrome?.storage?.local?.set?.({ [`keyVerified_${provider}`]: true });
       }
-      safePost({ type: 'DONE' });
+      keepalive.emit({ type: 'DONE' });
     } catch (err) {
       if (isDisconnected || abortController.signal.aborted) return;
       const userFriendlyError = this.formatContextError(err.message || String(err), provider);
-      safePost({ type: 'ERROR', error: userFriendlyError });
+      keepalive.emit({ type: 'ERROR', error: userFriendlyError });
+    } finally {
+      keepalive.stop();
     }
   }
 
@@ -74,28 +82,19 @@ export class StreamRelay {
    * Formats token context limit errors with actionable user hints
    */
   static formatContextError(rawError, provider) {
-    const lower = (rawError || '').toLowerCase();
-    if (
-      lower.includes('context') ||
-      lower.includes('token') ||
-      lower.includes('maximum context length') ||
-      lower.includes('num_ctx') ||
-      lower.includes('too long')
-    ) {
-      if (provider === 'lmstudio' || provider === 'ollama') {
-        const toolName = provider === 'ollama' ? 'Ollama' : 'LM Studio';
-        const hint = provider === 'ollama' ? 'réglez num_ctx à 8192' : "augmentez 'Context Length' à 8192 ou 16384";
-        return `Dépassement de contexte ${toolName} : La transcription dépasse la mémoire allouée au modèle. Dans ${toolName}, ${hint}, ou utilisez Google Gemini (1 million de tokens gratuit). Détail: ${rawError}`;
-      }
-      return `Dépassement de contexte : Le texte est trop long pour la fenêtre du modèle (${rawError}).`;
+    if (!/(?:context|token|maximum context length|num_ctx|too long)/i.test(rawError || '')) return rawError;
+    if (provider === 'lmstudio' || provider === 'ollama') {
+      const toolName = provider === 'ollama' ? 'Ollama' : 'LM Studio';
+      const hint = provider === 'ollama' ? 'réglez num_ctx à 8192' : "augmentez 'Context Length' à 8192 ou 16384";
+      return `Dépassement de contexte ${toolName} : La transcription dépasse la mémoire allouée au modèle. Dans ${toolName}, ${hint}, ou utilisez Google Gemini (1 million de tokens gratuit). Détail: ${rawError}`;
     }
-    return rawError;
+    return `Dépassement de contexte : Le texte est trop long pour la fenêtre du modèle (${rawError}).`;
   }
 
   /**
    * Streams from OpenAI-compatible endpoints (LM Studio, Ollama, Groq, Gemini, DeepSeek, etc.)
    */
-  static async streamOpenAICompatible(port, provider, serverUrl, apiKey, model, messages, temperature, maxTokens, signal = null, safePost = null) {
+  static async streamOpenAICompatible(port, provider, serverUrl, apiKey, model, messages, temperature, maxTokens, signal = null, safePost = null, localContextLength = 'auto') {
     let endpoint = '';
     const headers = { 'Content-Type': 'application/json' };
 
@@ -148,10 +147,15 @@ export class StreamRelay {
       throw new Error(`Aucun modèle sélectionné pour ${provider.toUpperCase()}.`);
     }
     effectiveModel = resolveDeprecatedModel(provider, effectiveModel);
+    if (provider === 'lmstudio') {
+      await LocalContextManager.ensureLmStudioContext({ serverUrl, model: effectiveModel, apiKey, contextLength: localContextLength, signal, postProgress: safePost });
+    } else if (provider === 'ollama' && !LocalContextManager.isCloudHosted(provider, effectiveModel, serverUrl) && LocalContextManager.parseContextLength(localContextLength)) {
+      return LocalContextManager.streamOllamaChat({ serverUrl, apiKey, model: effectiveModel, messages, temperature, maxTokens, contextLength: localContextLength, signal, safePost, port });
+    }
 
     const bodyPayload = {
       model: effectiveModel,
-      messages,
+      messages: MultimodalMessageFormatter.formatMessages(messages, 'openai'),
       temperature: !isNaN(parsedTemp) ? parsedTemp : 0.3,
       stream: true
     };
@@ -200,7 +204,10 @@ export class StreamRelay {
   static async streamClaude(port, apiKey, model, systemPrompt, messages, temperature, maxTokens, signal = null, safePost = null) {
     if (!apiKey) throw new Error('Clé API Claude requise');
 
-    const claudeMessages = messages.filter(m => m.role !== 'system');
+    const claudeMessages = MultimodalMessageFormatter.formatMessages(
+      messages.filter(m => m.role !== 'system'),
+      'claude'
+    );
     const systemContent = systemPrompt || (messages.find(m => m.role === 'system')?.content || '');
 
     const parsedTemp = parseFloat(temperature);

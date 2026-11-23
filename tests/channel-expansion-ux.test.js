@@ -483,7 +483,9 @@ describe('Watch & Channel UX, Pagination, Batching, and Fullscreen Regression Su
       firstElementChild: { id: 'mobile-feed' },
       querySelector: () => null
     };
+    const mobileBody = { firstElementChild: mobileBrowse };
     global.document = {
+      body: mobileBody,
       querySelector: (sel) => {
         if (sel === 'ytm-browse') return mobileBrowse;
         if (sel.includes('ytm-watch[fullscreen]')) return ytmWatch;
@@ -493,7 +495,8 @@ describe('Watch & Channel UX, Pagination, Batching, and Fullscreen Regression Su
     try {
       const card = new ChannelCompanionCard({ state: {} });
       const anchor = card._findChannelAnchor();
-      assert.equal(anchor.parent, mobileBrowse);
+      assert.equal(anchor.parent, mobileBody);
+      assert.equal(anchor.reference, mobileBrowse);
       assert.equal(NavigationObserver.isFullscreen(), true);
     } finally {
       global.window = prevWin;

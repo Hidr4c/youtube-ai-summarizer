@@ -4,6 +4,7 @@ import { YouTubeDOMContext } from './YouTubeDOMContext.js';
 import { getVideoId } from '../ui/NavigationObserver.js';
 import { ChannelAuditJobTracker } from './ChannelAuditJobTracker.js';
 import { QuickOnboardingHelper } from './QuickOnboardingHelper.js';
+import { PortKeepaliveHelper } from './PortKeepaliveHelper.js';
 
 /**
  * Service for orchestrating critical fact-checking & logic consistency audits
@@ -136,7 +137,8 @@ export class AuditService {
       const videoMeta = YouTubeDOMContext.getVideoMetadata(this.transcriptController?.cachedVideoMetadata || {});
 
       // 4. Formulate audit prompts
-      const systemPrompt = AuditPromptBuilder.buildSystemPrompt(lang);
+      const mode = options.mode || (typeof document !== 'undefined' ? document.getElementById?.('ytAiAuditModeSelect')?.value : null) || state.auditMode || 'standard';
+      const systemPrompt = AuditPromptBuilder.buildSystemPrompt(lang, mode);
       const userPrompt = AuditPromptBuilder.buildAuditUserPrompt({
         transcriptText,
         videoMeta,
@@ -170,11 +172,13 @@ export class AuditService {
         let reasoningChars = 0;
         let settled = false;
         const port = chrome.runtime.connect({ name: 'ai-stream' });
+        const keepalive = PortKeepaliveHelper.attach(port);
         this.currentPort = port;
 
         const onAbort = () => {
           if (settled) return;
           settled = true;
+          keepalive.stop();
           signal?.removeEventListener('abort', onAbort);
           this.isAuditing = false;
           if (this.currentPort === port) this.currentPort = null;
@@ -186,6 +190,7 @@ export class AuditService {
         const finishResolve = (rep) => {
           if (settled) return;
           settled = true;
+          keepalive.stop();
           signal?.removeEventListener('abort', onAbort);
           this.isAuditing = false;
           this.currentPort = null;
@@ -196,6 +201,7 @@ export class AuditService {
         const finishReject = (err) => {
           if (settled) return;
           settled = true;
+          keepalive.stop();
           signal?.removeEventListener('abort', onAbort);
           this.isAuditing = false;
           this.currentPort = null;
@@ -205,7 +211,9 @@ export class AuditService {
 
         port.onMessage.addListener((msg) => {
           if (settled) return;
-          if (msg.type === 'CHUNK') {
+          if (msg.type === 'KEEPALIVE' && msg.waitingForModel && reasoningChars === 0 && !accumulatedMarkdown) {
+            options.onProgress?.({ step: 'loading', percent: 28, message: `Chargement du modèle / préparation (${msg.elapsedSec || 0}s)...`, detail: 'Initialisation du modèle et lecture du contexte vidéo' });
+          } else if (msg.type === 'CHUNK') {
             if (msg.reasoning) {
               reasoningChars += msg.reasoning.length;
               const approxTokens = Math.round(reasoningChars / 4);
@@ -271,8 +279,7 @@ export class AuditService {
           model: activeModel,
           systemPrompt,
           messages: [{ role: 'user', content: userPrompt }],
-          temperature: '0.2',
-          maxTokens: 'auto'
+          temperature: '0.2', maxTokens: 'auto', localContextLength: state.localContextLength || 'auto'
         });
       });
 

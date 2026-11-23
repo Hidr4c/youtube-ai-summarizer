@@ -1,3 +1,5 @@
+import { ChannelFormatAnalyzer } from '../../domain/services/ChannelFormatAnalyzer.js';
+
 /**
  * Stratified Statistical Sampler for YouTube Channel Audits
  * Samples videos across temporal cohorts with recency weighting to evaluate channel evolution
@@ -117,6 +119,11 @@ export class ChannelStatisticalSampler {
    */
   static selectStratifiedSample(allVideos = [], options = {}) {
     const { maxSample = 12 } = options;
+    if (!Array.isArray(allVideos) || allVideos.length === 0) return [];
+    return ChannelFormatAnalyzer.sampleMixedFormats(allVideos, maxSample, (pool, quota) => this._selectTemporalSample(pool, quota));
+  }
+
+  static _selectTemporalSample(allVideos = [], maxSample = 12) {
     if (!Array.isArray(allVideos) || allVideos.length === 0) return [];
 
     if (allVideos.length <= maxSample) {
@@ -243,6 +250,7 @@ export class ChannelStatisticalSampler {
       }
     }
 
+    const formatBreakdown = ChannelFormatAnalyzer.computeFormatBreakdown(evaluatedVideos);
     return {
       weightedScore: finalScore,
       weightedClickbait: finalClickbait,
@@ -258,7 +266,8 @@ export class ChannelStatisticalSampler {
       },
       trajectory,
       trajectoryLabel,
-      eraScores
+      eraScores,
+      formatBreakdown
     };
   }
 }

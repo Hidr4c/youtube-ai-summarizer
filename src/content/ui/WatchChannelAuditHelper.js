@@ -3,16 +3,19 @@ import { YouTubeDOMContext } from '../services/YouTubeDOMContext.js';
 import { ChannelAuditJobTracker } from '../services/ChannelAuditJobTracker.js';
 import { AuditProgressBar } from './AuditProgressBar.js';
 import { parseChannelAuditLimit, syncChannelMaxSelectElement } from '../../config/ExtensionConstants.js';
+import { ChannelPageParser } from '../../parsers/ChannelPageParser.js';
+import { getVideoId } from './NavigationObserver.js';
 import { I18N } from '../../locales/index.js';
 
 /**
  * Coordinates Watch-page Channel Audit execution, Stop controls, and live SPA job sync.
  */
 export class WatchChannelAuditHelper {
-  static getCurrentQuery() {
+  static getCurrentQuery(cachedMeta = null) {
     try {
-      const meta = YouTubeDOMContext.getVideoMetadata();
-      return meta?.channelUrl || meta?.author || '';
+      const meta = YouTubeDOMContext.getVideoMetadata(cachedMeta || {});
+      const raw = meta?.channelUrl || meta?.author || '';
+      return ChannelPageParser.sanitizeChannelPath(raw) || raw;
     } catch {
       return '';
     }
@@ -142,8 +145,18 @@ export class WatchChannelAuditHelper {
     if (!container) return;
     if (document.getElementById('ytAiAuditVideoView')) controller.switchAuditSubtab('channel');
 
-    const meta = YouTubeDOMContext.getVideoMetadata();
-    const query = meta.channelUrl || meta.author || '';
+    const tc = controller?.auditService?.transcriptController || controller?.chatViewController?.transcriptController;
+    let cachedMeta = tc?.cachedVideoMetadata || {};
+    let meta = YouTubeDOMContext.getVideoMetadata(cachedMeta);
+    if (!meta.channelUrl && tc?.requestPlayerDataFromMainWorld) {
+      const vid = getVideoId();
+      if (vid) {
+        await tc.requestPlayerDataFromMainWorld(vid, lang).catch(() => {});
+        meta = YouTubeDOMContext.getVideoMetadata(tc.cachedVideoMetadata || {});
+      }
+    }
+    const rawQuery = meta.channelUrl || meta.author || '';
+    const query = ChannelPageParser.sanitizeChannelPath(rawQuery) || rawQuery;
     if (!query) {
       container.innerHTML = `<p style="color: #ff7b72;">[!] Impossible d'identifier la chaîne du créateur.</p>`;
       return;
@@ -172,6 +185,7 @@ export class WatchChannelAuditHelper {
         period,
         maxVideos,
         lang,
+        mode: ctx.mode || (typeof document !== 'undefined' ? document.getElementById?.('ytAiChannelAuditModeSelect')?.value : null) || stateObj.channelAuditMode || 'standard',
         state: stateObj,
         onProgress: (status) => {
           if (!hasSub) WatchChannelAuditHelper.renderProgress(progBox, status, lang, () => controller.stopChannelAudit(lang));

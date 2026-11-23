@@ -5,11 +5,15 @@
  */
 export class BrowseContinuationFetcher {
   /**
-   * Fetches one continuation page of videos from YouTube InnerTube browse endpoint.
+   * Dispatches Main World InnerTube continuation or same-origin channel HTML requests.
    * @param {Object} params
-   * @returns {Promise<{ok: boolean, status: number, items: Array<Object>}>}
+   * @returns {Promise<{ok: boolean, status: number, items: Array<Object>, html?: string, url?: string}>}
    */
-  static async fetchPage({ apiKey, clientVersion, continuation, visitorData } = {}) {
+  static async fetchPage(params = {}) {
+    if (params?.mode === 'html') {
+      return this.fetchHtmlPage(params);
+    }
+    const { apiKey, clientVersion, continuation, visitorData } = params || {};
     try {
       const cfgKey = apiKey || window.ytcfg?.get?.('INNERTUBE_API_KEY') || '';
       if (!cfgKey || !continuation) {
@@ -57,6 +61,30 @@ export class BrowseContinuationFetcher {
       return { ok: true, status: 200, items };
     } catch (_) {
       return { ok: false, status: 0, items: [] };
+    }
+  }
+
+  /**
+   * Fetches same-origin YouTube channel or search HTML directly in Main World.
+   * @param {Object} params
+   * @returns {Promise<{ok: boolean, status: number, url: string, html: string, items: Array<Object>}>}
+   */
+  static async fetchHtmlPage({ url } = {}) {
+    try {
+      const origin = (typeof window !== 'undefined' && window.location?.origin?.includes('youtube.com'))
+        ? window.location.origin
+        : 'https://www.youtube.com';
+      const parsed = new URL(String(url || ''), origin);
+      if (!/(^|\.)youtube\.com$/i.test(parsed.hostname)) {
+        return { ok: false, status: 400, url: '', html: '', items: [] };
+      }
+      const res = await fetch(`${origin}${parsed.pathname}${parsed.search}`, { credentials: 'include' });
+      const finalUrl = res.url || '';
+      const isConsent = finalUrl.includes('consent.youtube.');
+      const html = (res.ok && !isConsent) ? await res.text() : '';
+      return { ok: Boolean(res.ok && !isConsent && html), status: res.status || 0, url: finalUrl, html, items: [] };
+    } catch (_) {
+      return { ok: false, status: 0, url: '', html: '', items: [] };
     }
   }
 }

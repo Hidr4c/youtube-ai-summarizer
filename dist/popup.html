@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube AI Summarizer</title>
+  <title>ClarifAI</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -12,13 +12,24 @@
     <header class="popup-header">
       <div class="brand">
         <div class="brand-icon">
-          <svg viewBox="0 0 24 24" width="22" height="22">
-            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000"/>
-            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#FFFFFF"/>
+          <svg viewBox="0 0 128 128" width="24" height="24" fill="none">
+            <defs>
+              <linearGradient id="clarifPopGrad" x1="8" y1="8" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#4338CA"/>
+                <stop offset="52%" stop-color="#2563EB"/>
+                <stop offset="100%" stop-color="#06B6D4"/>
+              </linearGradient>
+            </defs>
+            <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#clarifPopGrad)"/>
+            <circle cx="58" cy="60" r="28" fill="#FFFFFF" fill-opacity="0.16" stroke="#FFFFFF" stroke-width="8"/>
+            <path d="M78 80L99 101" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round"/>
+            <path d="M46 54H70M46 65H57" stroke="#BAE6FD" stroke-width="6.5" stroke-linecap="round"/>
+            <path d="M62 67L67 72L76 60" stroke="#34D399" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M98 16L101.6 25.4L111 29L101.6 32.6L98 42L94.4 32.6L85 29L94.4 25.4L98 16Z" fill="#FDE047"/>
           </svg>
         </div>
         <div class="brand-text">
-          <div class="brand-title">YT Summarizer AI</div>
+          <div class="brand-title">ClarifAI</div>
           <div class="brand-version" id="brandVersion">v1.5.1 • Privacy-First</div>
         </div>
       </div>
@@ -98,9 +109,14 @@
       <div class="idle-content">
         <div class="idle-title" id="idleTitle">Ready for YouTube</div>
         <div class="idle-desc" id="idleDesc">Open any YouTube video to summarize with local or cloud AI models.</div>
-        <button id="openYoutubeBtn" class="btn btn-secondary btn-sm mt-8">
-          <span id="openYoutubeBtnText">Go to YouTube ↗</span>
-        </button>
+        <div class="actions-row mt-8" style="gap: 6px; flex-wrap: wrap;">
+          <button id="analyzeWebPageBtn" class="btn btn-primary btn-sm hidden">
+            <span id="analyzeWebPageBtnText">🛡️ Analyze this page</span>
+          </button>
+          <button id="openYoutubeBtn" class="btn btn-secondary btn-sm">
+            <span id="openYoutubeBtnText">Go to YouTube ↗</span>
+          </button>
+        </div>
       </div>
     </div>
 

@@ -63,7 +63,10 @@ export class AuditVisualDashboard {
       { key: 'sources', icon: '🔬', label: labels.sources, value: sources ?? 75 },
       { key: 'transparency', icon: '💼', label: labels.transparency, value: transparency ?? 75 },
       { key: 'facts', icon: '🔍', label: labels.facts, value: facts ?? 75 }
-    ].map(item => ({ ...item, hexColor: ScoreTierScale.getTier(item.value, lang).hexColor }));
+    ].map(item => {
+      const tier = ScoreTierScale.getTier(item.value, lang);
+      return { ...item, hexColor: tier.hexColor, cssVars: tier.cssVars };
+    });
 
     return { genre, axes: specs };
   }
@@ -79,7 +82,8 @@ export class AuditVisualDashboard {
     const cx = 110;
     const cy = 82;
     const maxR = 46;
-    const tierColor = ScoreTierScale.getTier(overallScore).hexColor;
+    const tier = ScoreTierScale.getTier(overallScore);
+    const tierColor = tier.hexColor;
 
     const dirs = [
       { dx: 0, dy: -1, anchor: 'middle', tx: 0, ty: -10 },
@@ -106,17 +110,17 @@ export class AuditVisualDashboard {
       const lx = (cx + d.dx * maxR + d.tx).toFixed(1);
       const ly = (cy + d.dy * maxR + d.ty).toFixed(1);
       return `
-        <circle cx="${px}" cy="${py}" r="3.5" fill="${a.hexColor}" stroke="var(--yt-ai-bg)" stroke-width="1.2" />
+        <circle cx="${px}" cy="${py}" r="3.5" style="${a.cssVars || ''}" fill="var(--yt-ai-tier-ink, ${a.hexColor})" stroke="var(--yt-ai-bg)" stroke-width="1.2" />
         <text x="${lx}" y="${ly}" text-anchor="${d.anchor}" class="yt-ai-radar-svg-label">${a.icon} ${a.value}%</text>
       `;
     }).join('');
 
     return `
-      <svg viewBox="0 0 220 164" class="yt-ai-audit-radar-svg" aria-hidden="true">
+      <svg viewBox="0 0 220 164" class="yt-ai-audit-radar-svg" style="${tier.cssVars}" aria-hidden="true">
         ${ringPolys}
         <line x1="${cx}" y1="${cy - maxR}" x2="${cx}" y2="${cy + maxR}" stroke="var(--yt-ai-border-subtle)" stroke-width="1" />
         <line x1="${cx - maxR}" y1="${cy}" x2="${cx + maxR}" y2="${cy}" stroke="var(--yt-ai-border-subtle)" stroke-width="1" />
-        <polygon points="${dataPoints}" fill="${tierColor}33" stroke="${tierColor}" stroke-width="2" stroke-linejoin="round" />
+        <polygon points="${dataPoints}" fill="color-mix(in srgb, var(--yt-ai-tier-ink, ${tierColor}) 22%, transparent)" stroke="var(--yt-ai-tier-ink, ${tierColor})" stroke-width="2" stroke-linejoin="round" />
         ${dotsAndLabels}
       </svg>
     `;
@@ -138,7 +142,7 @@ export class AuditVisualDashboard {
       <div class="yt-ai-axis-row">
         <div class="yt-ai-axis-header">
           <span class="yt-ai-axis-name">${a.icon} ${escapeHtml(a.label)}</span>
-          <span class="yt-ai-axis-val" style="color:${a.hexColor};">${a.value}/100</span>
+          <span class="yt-ai-axis-val" style="${a.cssVars || ''}">${a.value}/100</span>
         </div>
         <div class="yt-ai-axis-track">
           <div class="yt-ai-axis-fill" style="width:${Math.max(4, a.value)}%;background:linear-gradient(90deg, ${a.hexColor}aa, ${a.hexColor});"></div>

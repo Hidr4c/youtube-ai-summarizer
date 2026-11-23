@@ -132,12 +132,12 @@ describe('Prompt Generation & Context Compression', () => {
   it('PromptService.buildChatSystemPrompt enforces Italian, Spanish and Chrome Extension identity', () => {
     const meta = { title: 'Cosmology Today', author: 'Dr. Astra' };
     const itPrompt = PromptService.buildChatSystemPrompt(meta, 'Transcript audio', 'it', 'standard');
-    assert.ok(itPrompt.includes('YouTube Summarizer AI'), 'Must establish identity as YouTube Summarizer AI');
+    assert.ok(itPrompt.includes('ClarifAI'), 'Must establish identity as ClarifAI');
     assert.ok(itPrompt.includes('estensione intelligente per Chrome') || itPrompt.includes('Chrome'), 'Must acknowledge Chrome extension persona');
     assert.ok(itPrompt.includes('ITALIANO'), 'Must enforce strict Italian language rule');
 
     const esPrompt = PromptService.buildChatSystemPrompt(meta, 'Transcript audio', 'es', 'quick');
-    assert.ok(esPrompt.includes('YouTube Summarizer AI'), 'Must establish identity in Spanish');
+    assert.ok(esPrompt.includes('ClarifAI'), 'Must establish identity in Spanish');
     assert.ok(esPrompt.includes('ESPAÑOL'), 'Must enforce strict Spanish language rule');
   });
 

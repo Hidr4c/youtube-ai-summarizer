@@ -60,7 +60,7 @@ describe('End-to-End (E2E) Live Extension Verification in Real Chromium Browser'
       await popupPage.goto(`chrome-extension://${extId}/dist/popup.html`, { waitUntil: 'domcontentloaded' });
 
       const brandTitle = await popupPage.$eval('.brand-title', el => el.textContent.trim());
-      assert.equal(brandTitle, 'YT Summarizer AI', 'Popup title must match extension brand');
+      assert.equal(brandTitle, 'ClarifAI', 'Popup title must match extension brand');
 
       const isMasterToggleChecked = await popupPage.$eval('#extensionToggle', el => el.checked);
       assert.equal(isMasterToggleChecked, true, 'Master extension toggle must be checked by default');

@@ -70,7 +70,7 @@ function createFullMockDom() {
 function populateBannerDom(dom) {
   const ids = [
     'ytAiLangSelect', 'ytAiModeSelect', 'ytAiBrandTitle', 'ytAiSummarizeBtn',
-    'ytAiToggleBtn', 'ytAiToggleText', 'ytAiToggleIcon', 'ytAiStopSummaryBtn',
+    'ytAiToggleBtn', 'ytAiToggleIcon', 'ytAiCloseExtensionBtn', 'ytAiStopSummaryBtn',
     'ytAiSettingsToggleBtn', 'ytAiSettingsBtnText', 'ytAiTabSummaryBtn', 'ytAiTabAuditBtn',
     'ytAiTabChannelAuditBtn', 'ytAiTabChatBtn', 'ytAiChatCount', 'ytAiTabTranscriptBtn',
     'ytAiWordCount', 'ytAiSummaryHeaderTitle', 'ytAiSpeakSummaryBtn', 'ytAiCopyBtn',

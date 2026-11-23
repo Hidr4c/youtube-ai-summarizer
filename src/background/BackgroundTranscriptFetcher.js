@@ -19,7 +19,7 @@ export class BackgroundTranscriptFetcher {
       const fastResult = await BackgroundTranscriptFetcher.fetchDirect(videoId, lang);
       if (fastResult?.segments?.length > 0) {
         if (!fastResult.isChapterOnly) {
-          return { success: true, segments: fastResult.segments, title: fastResult.title, isChapterOnly: false };
+          return { success: true, videoId, segments: fastResult.segments, title: fastResult.title, isChapterOnly: false };
         }
         chapterFallback = fastResult;
       }
@@ -30,14 +30,14 @@ export class BackgroundTranscriptFetcher {
       try {
         const tabResult = await BackgroundTranscriptFetcher.fetchViaBackgroundTab(videoId, lang);
         if (tabResult?.segments?.length > 0) {
-          return { success: true, segments: tabResult.segments, title: tabResult.title, isChapterOnly: !!tabResult.isChapterOnly };
+          return { success: true, videoId, segments: tabResult.segments, title: tabResult.title, isChapterOnly: !!tabResult.isChapterOnly };
         }
       } catch (_) {}
     }
 
     // 3. Fallback to description chapters if dialogue subtitles were completely unserved
     if (chapterFallback?.segments?.length > 0) {
-      return { success: true, segments: chapterFallback.segments, title: chapterFallback.title, isChapterOnly: true };
+      return { success: true, videoId, segments: chapterFallback.segments, title: chapterFallback.title, isChapterOnly: true };
     }
 
     return { success: false, error: 'Unable to extract transcript for video ' + videoId };

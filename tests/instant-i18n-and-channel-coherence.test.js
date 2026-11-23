@@ -346,7 +346,8 @@ describe('Instant UI Language Switching, Channel Coherence & Prompt Language Int
 
     // Header & tabs switched to English
     assert.ok(document.getElementById('ytAiSummarizeBtn').textContent.includes('Summarize'));
-    assert.equal(document.getElementById('ytAiToggleText').textContent.trim(), I18N.en.collapse);
+    assert.equal(document.getElementById('ytAiToggleBtn').title.trim(), I18N.en.collapse);
+    assert.equal(document.getElementById('ytAiCloseExtensionBtn').title.trim(), I18N.en.closeExtensionBtn);
     assert.equal(document.getElementById('ytAiSettingsBtnText').textContent.trim(), I18N.en.settingsBtn);
     assert.ok(document.getElementById('ytAiTabChannelAuditBtn').textContent.includes('Channel Audit'));
 
@@ -423,15 +424,23 @@ describe('Instant UI Language Switching, Channel Coherence & Prompt Language Int
     const companion = document.getElementById('yt-ai-channel-companion');
     assert.ok(companion);
 
-    // Header coherence check
+    // Unified single-row header coherence check (mirrors Watch & Web top shell)
     assert.ok(companion.querySelector('.yt-ai-header-left .yt-ai-brand-logo-svg'));
-    assert.equal(companion.querySelector('#ytAiCompBrandTitle').textContent.trim(), 'YT Summarizer AI');
+    assert.equal(companion.querySelector('#ytAiCompBrandTitle').textContent.trim(), 'ClarifAI');
     assert.ok(companion.querySelector('.yt-ai-header-left .yt-ai-card-handle').textContent.includes('@hugolisoiryoutube'));
-    assert.ok(companion.querySelector('.yt-ai-header-center .yt-ai-action-cluster #ytAiCompLangSelect'));
-    assert.ok(companion.querySelector('.yt-ai-header-center .yt-ai-action-cluster #ytAiRunChannelAuditBtn'));
+    assert.ok(companion.querySelector('.yt-ai-header-center .yt-ai-header-tabs #ytAiChanTabAuditBtn'));
+    assert.ok(companion.querySelector('.yt-ai-header-center .yt-ai-header-tabs #ytAiChanTabChatBtn'));
+    assert.ok(companion.querySelector('#ytAiSettingsDrawer #ytAiLangSelect'));
+    assert.ok(companion.querySelector('#ytAiChanPaneAudit #ytAiChannelAuditModeSelect'));
+    assert.ok(companion.querySelector('#ytAiChanPaneAudit #ytAiRunChannelAuditBtn'));
     assert.ok(companion.querySelector('.yt-ai-header-right #ytAiCompanionSettingsBtn #ytAiCompSettingsBtnText'));
     assert.ok(companion.querySelector('.yt-ai-header-right #ytAiCompanionToggleBtn #ytAiCompToggleText'));
     assert.ok(companion.querySelector('.yt-ai-footer-info #ytAiCompFooterAuthor').textContent.includes('@Hidr4c'));
+
+    // Starts collapsed cleanly at top bar height, expands on click
+    assert.equal(card.isExpanded, false);
+    document.getElementById('ytAiCompanionToggleBtn').click();
+    assert.equal(card.isExpanded, true);
 
     // Simulate rendered audit report + active chat history + switched tab
     const report = new ChannelAuditReport({
@@ -454,8 +463,8 @@ describe('Instant UI Language Switching, Channel Coherence & Prompt Language Int
     const msgBox = document.getElementById('ytAiChannelChatMessages');
     msgBox.innerHTML = '<div class="yt-ai-chat-bubble ai">Réponse IA existante</div>';
 
-    // Switch #ytAiCompLangSelect -> 'en'
-    const compLang = document.getElementById('ytAiCompLangSelect');
+    // Switch #ytAiLangSelect -> 'en' inside Settings Drawer
+    const compLang = document.getElementById('ytAiLangSelect');
     compLang.value = 'en';
     compLang.dispatchEvent({ type: 'change', target: compLang });
 

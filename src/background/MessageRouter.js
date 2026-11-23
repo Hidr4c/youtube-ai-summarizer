@@ -1,9 +1,12 @@
 import { StreamRelay } from './StreamRelay.js';
+import { LocalContextManager } from './LocalContextManager.js';
 import { AIProviderFactory } from '../services/ai/providers/AIProviderFactory.js';
 import { BackgroundTranscriptFetcher } from './BackgroundTranscriptFetcher.js';
 import { ChannelIntelligenceFetcher } from './ChannelIntelligenceFetcher.js';
 import { VideoCommentsFetcher } from './VideoCommentsFetcher.js';
 import { VideoDossierFetcher } from './VideoDossierFetcher.js';
+import { DomainAuditFetcher } from './DomainAuditFetcher.js';
+import { BackgroundImageFetcher } from './BackgroundImageFetcher.js';
 
 /**
  * Message routing controller for background service worker
@@ -14,6 +17,7 @@ export class MessageRouter {
     chrome.runtime.onConnect.addListener((port) => {
       if (port.name === 'ai-stream' || port.name === 'ai_stream' || port.name === 'lm-studio-stream' || port.name === 'YT_AI_STREAM') {
         port.onMessage.addListener((msg) => {
+          if (msg?.action === 'KEEPALIVE' || msg?.type === 'KEEPALIVE') return;
           if (msg.action === 'START_STREAM' || msg.action === 'CHAT_STREAM' || msg.action === 'STREAM_CHAT' || msg.action === 'GENERATE_STREAM' || msg.action === 'AUDIT_STREAM') {
             StreamRelay.handleStream(msg, port);
           }
@@ -26,12 +30,15 @@ export class MessageRouter {
       if (request.action === 'FETCH_MODELS') {
         const provider = AIProviderFactory.getProvider(request.provider || 'lmstudio');
         provider.fetchModels(request.serverUrl, request.apiKey)
-          .then(models => {
+          .then(async (models) => {
+            const enriched = typeof provider.enrichCapabilities === 'function'
+              ? await provider.enrichCapabilities(models, request.serverUrl)
+              : models;
             sendResponse({
               success: true,
               ok: true,
-              data: { data: models, models: models },
-              models: models
+              data: { data: enriched, models: enriched },
+              models: enriched
             });
           })
           .catch(err => {
@@ -67,6 +74,40 @@ export class MessageRouter {
               message: `Failed: ${err.message}`
             });
           });
+        return true;
+      }
+
+      if (request.action === 'GET_LOCAL_CONTEXT_DEFAULT') {
+        LocalContextManager.detectLocalContextDefault({
+          provider: request.provider || 'lmstudio',
+          serverUrl: request.serverUrl,
+          model: request.model || '',
+          apiKey: request.apiKey || ''
+        })
+          .then((res) => sendResponse({ success: true, ...res }))
+          .catch((err) => sendResponse({ success: false, contextLength: request.provider === 'ollama' ? 4096 : 8192, error: err.message }));
+        return true;
+      }
+
+      if (request.action === 'APPLY_LOCAL_CONTEXT') {
+        const prov = request.provider || 'lmstudio';
+        const parsed = LocalContextManager.parseContextLength(request.contextLength);
+        if (prov === 'ollama') {
+          sendResponse({ success: true, provider: 'ollama', contextLength: parsed || 'auto', appliedOnNextRequest: true });
+          return false;
+        }
+        if (!parsed) {
+          sendResponse({ success: true, provider: prov, contextLength: 'auto', skipped: true });
+          return false;
+        }
+        LocalContextManager.ensureLmStudioContext({
+          serverUrl: request.serverUrl,
+          model: request.model,
+          apiKey: request.apiKey,
+          contextLength: parsed
+        })
+          .then((res) => sendResponse({ success: Boolean(res?.applied), ...res }))
+          .catch((err) => sendResponse({ success: false, error: err.message }));
         return true;
       }
 
@@ -123,6 +164,13 @@ export class MessageRouter {
         return true;
       }
 
+      if (request.action === 'FETCH_DOMAIN_AUDIT') {
+        DomainAuditFetcher.collectDomainDossier(request)
+          .then(dossier => sendResponse({ success: true, dossier }))
+          .catch(err => sendResponse({ success: false, error: err.message }));
+        return true;
+      }
+
       if (request.action === 'FETCH_CHANNEL_DOSSIER') {
         const { query, limit = 30 } = request;
         const resolveBrowseTabId = () => new Promise((resolve) => {
@@ -134,15 +182,16 @@ export class MessageRouter {
           });
         });
         resolveBrowseTabId().then((tabId) => {
-          const browseFetcher = tabId && chrome.tabs?.sendMessage
-            ? (params) => new Promise((resolve) => {
-                chrome.tabs.sendMessage(tabId, { action: 'PROXY_INNERTUBE_BROWSE', ...params }, (res) => {
-                  if (chrome.runtime?.lastError || !res) return resolve({ ok: false, items: [] });
-                  resolve(res);
-                });
-              })
-            : null;
-          return ChannelIntelligenceFetcher.fetchChannelDossier(query, limit, { browseFetcher });
+          const sendProxy = (payload) => new Promise((resolve) => {
+            chrome.tabs.sendMessage(tabId, { action: 'PROXY_INNERTUBE_BROWSE', ...payload }, (res) => {
+              if (chrome.runtime?.lastError || !res) return resolve({ ok: false, items: [] });
+              resolve(res);
+            });
+          });
+          const hasTabProxy = Boolean(tabId && chrome.tabs?.sendMessage);
+          const browseFetcher = hasTabProxy ? (params) => sendProxy(params) : null;
+          const pageFetcher = hasTabProxy ? (url) => sendProxy({ mode: 'html', url }) : null;
+          return ChannelIntelligenceFetcher.fetchChannelDossier(query, limit, { browseFetcher, pageFetcher });
         })
           .then(res => sendResponse(res))
           .catch(err => sendResponse({ success: false, error: err.message }));
@@ -166,6 +215,13 @@ export class MessageRouter {
             sendResponse({ success: true, dossiers: obj });
           })
           .catch(err => sendResponse({ success: false, error: err.message }));
+        return true;
+      }
+
+      if (request.action === 'FETCH_SAFE_IMAGE') {
+        BackgroundImageFetcher.fetchSafeJpeg(request.url)
+          .then(res => sendResponse(res))
+          .catch(err => sendResponse({ success: false, error: err?.message || 'Image fetch failed' }));
         return true;
       }
     });

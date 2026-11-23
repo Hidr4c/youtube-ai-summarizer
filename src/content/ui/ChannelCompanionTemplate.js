@@ -3,7 +3,8 @@ import { I18N } from '../../locales/index.js';
 import { renderChannelMaxOptionsHtml } from '../../config/ExtensionConstants.js';
 import {
   renderBrandLogoSvg,
-  renderLangOptionsHtml,
+  renderModeOptionsHtml,
+  renderExportDropdownHtml,
   renderExtensionFooterHtml,
   getExtensionVersionTag,
   EXTENSION_BRAND_TITLE
@@ -27,7 +28,7 @@ export class ChannelCompanionTemplate {
    * @param {string} [options.version]
    * @returns {string}
    */
-  static render({ channelIdentifier, isFr, lang = null, maxVideos = 30, totalVideos = null, isExpanded = true, drawerHtml = '', version = '' }) {
+  static render({ channelIdentifier, isFr, lang = null, maxVideos = 30, totalVideos = null, isExpanded = false, channelAuditMode = 'standard', drawerHtml = '', version = '' }) {
     const resolvedLang = lang || (isFr ? 'fr' : 'en');
     const t = I18N[resolvedLang] || (isFr ? I18N.fr : I18N.en) || I18N.en;
     const extVer = getExtensionVersionTag(version);
@@ -52,14 +53,12 @@ export class ChannelCompanionTemplate {
           </div>
 
           <div class="yt-ai-header-center">
-            <div class="yt-ai-action-cluster">
-              <div class="yt-ai-header-select-wrapper yt-ai-header-lang-wrapper">
-                <select id="ytAiCompLangSelect" class="yt-ai-select yt-ai-header-lang-select" title="${t.langLabel || 'Language:'}">
-                  ${renderLangOptionsHtml(resolvedLang)}
-                </select>
-              </div>
-              <button id="ytAiRunChannelAuditBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-summarize-cta">
-                ${t.runChannelAuditBtn || '⚡ Run Channel Audit'}
+            <div class="yt-ai-header-tabs" role="tablist">
+              <button type="button" id="ytAiChanTabAuditBtn" class="yt-ai-tab-btn active" data-tab="channelAudit" role="tab">
+                ${t.tabChannelAudit || '📊 Channel Audit'}
+              </button>
+              <button type="button" id="ytAiChanTabChatBtn" class="yt-ai-tab-btn" data-tab="channelChat" role="tab">
+                ${t.tabChat || '💬 Ask questions'} <span id="ytAiChannelChatCount" class="yt-ai-tab-count-badge">0</span>
               </button>
             </div>
           </div>
@@ -80,23 +79,26 @@ export class ChannelCompanionTemplate {
 
         <div id="ytAiCompanionStatusBanner" class="yt-ai-reasoning yt-ai-hidden" style="margin: 0 16px;"></div>
 
-        <div id="ytAiCompanionBody" class="yt-ai-card-body" style="padding: 0 20px 14px 20px; background: var(--yt-ai-bg-expanded); border-bottom: 1px solid var(--yt-ai-border-subtle);">
-          <div class="yt-ai-tabs-nav yt-ai-channel-tabs-bar" style="margin: 0 -20px 14px -20px;">
-            <button type="button" id="ytAiChanTabAuditBtn" class="yt-ai-tab-btn active" data-tab="channelAudit">
-              ${t.tabChannelAudit || '📊 Channel Audit'}
-            </button>
-            <button type="button" id="ytAiChanTabChatBtn" class="yt-ai-tab-btn" data-tab="channelChat">
-              ${t.tabChat || '💬 Ask questions'} <span id="ytAiChannelChatCount" class="yt-ai-tab-count-badge">0</span>
-            </button>
-          </div>
-
+        <div id="ytAiCompanionBody" class="yt-ai-card-body" style="padding: 12px 20px 14px 20px; background: var(--yt-ai-bg-expanded); border-bottom: 1px solid var(--yt-ai-border-subtle);">
           <div id="ytAiChanPaneAudit" class="yt-ai-tab-pane active">
-            <div class="yt-ai-onboarding-box" style="padding: 0; text-align: left;">
-              <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 10px;">
-                <p id="ytAiCompDesc" class="yt-ai-onboarding-desc" style="font-size: 13px; color: var(--yt-ai-text-secondary); margin: 0; line-height: 1.5; max-width: 750px;">
+            <div class="yt-ai-summary-pane" style="max-height: 520px; overflow-y: auto;">
+              <div class="yt-ai-pane-title">
+                <span style="font-weight: 700;">${t.channelAuditTitle || '📊 Global Channel Audit'}</span>
+                <div class="yt-ai-bottom-actions" style="margin: 0; display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+                  <select id="ytAiChannelAuditModeSelect" class="yt-ai-select yt-ai-pane-mode-select" title="${t.formatLabel || 'Format:'}">
+                    ${renderModeOptionsHtml(t, channelAuditMode)}
+                  </select>
+                  <button id="ytAiRunChannelAuditBtn" class="yt-ai-btn yt-ai-btn-primary yt-ai-summarize-cta" style="padding: 4px 12px; font-size: 11px;">
+                    ${t.runChannelAuditBtn || '⚡ Run Channel Audit'}
+                  </button>
+                  <button id="ytAiCopyCompanionAuditBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-copy-btn" style="padding: 3px 8px; font-size: 11px;">${t.copyBtn || '📋 Copy'}</button>
+                  ${renderExportDropdownHtml(t, 'ytAiCompanionAudit')}
+                </div>
+              </div>
+              <div class="yt-ai-onboarding-box" style="padding: 0; text-align: left;">
+                <p id="ytAiCompDesc" class="yt-ai-onboarding-desc" style="font-size: 12.5px; color: var(--yt-ai-text-secondary); margin: 0 0 10px 0; line-height: 1.5; max-width: 750px;">
                   ${t.channelCompanionDesc || ''}
                 </p>
-              </div>
 
               <div class="yt-ai-period-selector" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                 <span class="yt-ai-period-label" style="font-size: 11px; color: var(--yt-ai-text-muted); font-weight: 600;">
@@ -114,9 +116,10 @@ export class ChannelCompanionTemplate {
               </div>
 
               <div id="ytAiChannelProgress" class="yt-ai-progress-box yt-ai-hidden" style="margin-top: 14px;"></div>
-            </div>
+              </div>
 
-            <div id="ytAiChannelResultContainer" class="yt-ai-result-box yt-ai-hidden" style="margin-top: 14px;"></div>
+              <div id="ytAiChannelResultContainer" class="yt-ai-result-box yt-ai-hidden" style="margin-top: 14px;"></div>
+            </div>
           </div>
 
           <div id="ytAiChanPaneChat" class="yt-ai-tab-pane">

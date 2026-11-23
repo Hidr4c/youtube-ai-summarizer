@@ -1,5 +1,5 @@
 import { I18N } from '../../locales/index.js';
-import { CONTEXT_LIMITS } from '../../config/AIProviderPresets.js';
+import { resolveContextCharLimit } from '../../config/AIProviderPresets.js';
 import { parseChannelAuditLimit } from '../../config/ExtensionConstants.js';
 import { renderMarkdown, escapeHtml, safeSetInnerHTML } from './MarkdownRenderer.js';
 import { extractAllVideoIdsFromText } from './NavigationObserver.js';
@@ -9,6 +9,7 @@ import { ChatStreamClient } from '../services/ChatStreamClient.js';
 import { ChatBubbleView } from './ChatBubbleView.js';
 import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
 import { PromptService } from '../services/PromptService.js';
+import { StreamRenderScheduler } from './StreamRenderScheduler.js';
 
 /**
  * Controller for Interactive Channel Q&A Tab on YouTube Channel pages.
@@ -162,7 +163,7 @@ export class ChannelChatController {
     if (externalIds.length > 0 && this.transcriptController) {
       const { loaded } = await this.transcriptManager.ensureTranscriptsLoaded(externalIds, this.transcriptController, lang);
       if (loaded.length > 0) {
-        const maxChars = CONTEXT_LIMITS[currentProvider] || 20000;
+        const maxChars = resolveContextCharLimit(currentProvider, stateObj.localContextLength);
         const { safeTranscript } = this.transcriptManager.buildMultiVideoContext('', channelMeta, '', maxChars, PromptService.condenseTranscriptForContext);
         safeContextTranscript = safeTranscript;
       }
@@ -188,6 +189,11 @@ export class ChannelChatController {
     const historyPayload = this.chatHistory.slice(-8);
     historyPayload.push({ role: 'user', content: text });
     let fullAnswer = '';
+    const localCtx = stateObj.localContextLength || 'auto';
+    const chatRenderScheduler = StreamRenderScheduler.create((md) => {
+      if (aiBubble) renderMarkdown(md, aiBubble);
+      ChatBubbleView.scrollToBottom(msgContainer);
+    }, 75);
 
     this.streamClient.startStream({
       provider: currentProvider,
@@ -198,12 +204,13 @@ export class ChannelChatController {
       messages: historyPayload,
       temperature: stateObj.temperature || '0.3',
       maxTokens: stateObj.maxTokens || 'auto',
+      localContextLength: localCtx,
       onChunk: (chunk) => {
         fullAnswer += chunk;
-        if (aiBubble) renderMarkdown(fullAnswer, aiBubble);
-        ChatBubbleView.scrollToBottom(msgContainer);
+        chatRenderScheduler.schedule(fullAnswer);
       },
       onDone: () => {
+        chatRenderScheduler.flush();
         aiBubble?.classList?.remove('yt-ai-typing');
         if (!fullAnswer.trim()) {
           if (aiBubble) aiBubble.innerHTML = `<span style="color:#ff7b72;">[!] ${escapeHtml(t.connectionError || 'No response received from AI model.')}</span>`;
@@ -215,6 +222,7 @@ export class ChannelChatController {
         ChatBubbleView.attachAudioButton(aiBubble, fullAnswer, this.audioController, lang);
       },
       onError: (errMsg) => {
+        chatRenderScheduler.cancel();
         aiBubble?.classList?.remove('yt-ai-typing');
         if (aiBubble) aiBubble.innerHTML = `<span style="color:#ff7b72;">[x] ${escapeHtml(errMsg)}</span>`;
       }

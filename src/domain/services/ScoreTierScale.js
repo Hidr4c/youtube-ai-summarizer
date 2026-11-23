@@ -1,3 +1,5 @@
+import { buildTierCssVars } from './ColorContrastHelper.js';
+
 /**
  * Granular 5%-Stepped Audit Scoring Scale & Fine Distribution Calculator
  * Eliminates coarse 3-tier conflation (e.g. distinguishing 76% from 95%)
@@ -52,6 +54,7 @@ export class ScoreTierScale {
       label: `[${rangeLabel}] ${baseLabel}`,
       shortLabel: baseLabel,
       hexColor: tierDef.hex,
+      ...buildTierCssVars(tierDef.hex),
       gradient: ScoreTierScale.buildScoreGradient(score, tierDef.hex),
       macroColor: tierDef.macro,
       scoreClass: tierDef.macro === 'success' ? 'yt-ai-score-high' : tierDef.macro === 'warning' ? 'yt-ai-score-med' : 'yt-ai-score-low'

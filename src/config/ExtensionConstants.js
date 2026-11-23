@@ -29,10 +29,13 @@ export const DEFAULT_SETTINGS = {
   serverUrl_ollama: 'http://localhost:11434',
   temperature: '0.3',
   maxTokens: 'auto',
+  localContextLength: 'auto',
   ttsSpeed: '1.0',
   autoSummarize: false,
   customPrompt: ''
 };
+
+export const LOCAL_CONTEXT_RANGE = { min: 0, max: 1048576, step: 1024 };
 
 export const CHANNEL_AUDIT_LIMIT_OPTIONS = ['10', '15', '20', '30', '50', '100', '500', '1000', 'all'];
 export const CHANNEL_AUDIT_NUMERIC_PRESETS = [10, 15, 20, 30, 50, 100, 500, 1000];

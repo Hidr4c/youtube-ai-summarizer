@@ -10,11 +10,13 @@ import { parseChannelAuditLimit, resolveEffectiveChannelLimit, syncChannelMaxSel
 import { SettingsDrawerTemplate } from '../templates/SettingsDrawerTemplate.js';
 import { SettingsDrawerController } from './SettingsDrawerController.js';
 import { SettingsDrawerEventHandler } from './SettingsDrawerEventHandler.js';
+import { PaneExportHelper } from './PaneExportHelper.js';
+import { WebPageLayoutShifter } from './WebPageLayoutShifter.js';
 import { I18N } from '../../locales/index.js';
 
 /**
  * Official Top-of-Page Channel Companion Banner (@handle, /channel/, /c/).
- * Exposes channel-only tabs and delegates execution/recovery to ChannelCompanionRunController.
+ * Anchors cleanly above YouTube masthead with unified 1-line 1-click header tabs.
  */
 export class ChannelCompanionCard {
   constructor(options = {}) {
@@ -24,8 +26,9 @@ export class ChannelCompanionCard {
     this.audioController = options.audioController || null;
     this.state = options.state || {};
     this.currentChannel = '';
-    this.isExpanded = true;
+    this.isExpanded = false;
     this.activeTab = 'channelAudit';
+    this._webLayoutShifter = new WebPageLayoutShifter();
     this.runController = new ChannelCompanionRunController(this);
     this.channelChat = new ChannelChatController({
       channelAuditService: this.service,
@@ -36,30 +39,13 @@ export class ChannelCompanionCard {
   }
 
   _findChannelAnchor() {
-    const phc = document.querySelector('#page-header-container');
-    if (phc) {
-      const ref = phc.querySelector('#page-header-banner') || phc.querySelector('#page-header') || phc.firstElementChild;
-      return { parent: phc, reference: ref };
-    }
-    const cc = document.querySelector('tp-yt-app-header #contentContainer');
-    if (cc) {
-      const phcIn = cc.querySelector('#page-header-container');
-      if (phcIn) {
-        const ref = phcIn.querySelector('#page-header-banner') || phcIn.querySelector('#page-header') || phcIn.firstElementChild;
-        return { parent: phcIn, reference: ref };
-      }
-      return { parent: cc, reference: cc.firstElementChild };
-    }
-    const mobileBrowse = document.querySelector('ytm-browse');
-    if (mobileBrowse) {
-      const ref = mobileBrowse.querySelector('ytm-section-list-renderer, ytm-single-column-browse-results-renderer') || mobileBrowse.firstElementChild;
-      return { parent: mobileBrowse, reference: ref };
-    }
-    return null;
+    if (typeof document === 'undefined' || !document.body) return null;
+    return { parent: document.body, reference: document.body.firstElementChild || null };
   }
 
   tryInjectCompanion(forceReinject = false) {
     if (!this.state.extensionEnabled || !isChannelPage()) {
+      this._webLayoutShifter?.detach();
       document.getElementById('yt-ai-channel-companion')?.remove();
       return;
     }
@@ -76,6 +62,7 @@ export class ChannelCompanionCard {
     const existing = document.getElementById('yt-ai-channel-companion');
     if (existing && existing.parentNode === anchor.parent && this.currentChannel === channelIdentifier && !forceReinject) {
       syncFullscreenVisibility();
+      this._webLayoutShifter?.attach?.(existing);
       this.runController.syncActiveJobUI(channelIdentifier, this.state.currentLang || 'fr');
       return;
     }
@@ -92,17 +79,18 @@ export class ChannelCompanionCard {
 
     const banner = document.createElement('div');
     banner.id = 'yt-ai-channel-companion';
-    banner.className = 'yt-ai-channel-card';
+    banner.className = 'yt-ai-channel-card yt-ai-top-shell is-collapsed';
     if (banner.style) {
-      banner.style.cssText = 'width:100%;max-width:100%;margin:0;background:var(--yt-ai-bg);border-bottom:1px solid var(--yt-ai-border-subtle);color:var(--yt-ai-text);box-sizing:border-box;display:block;position:relative;z-index:999;';
+      banner.style.cssText = 'width:100%;max-width:100%;margin:0;background:var(--yt-ai-bg);border-bottom:1px solid var(--yt-ai-border-subtle);color:var(--yt-ai-text);box-sizing:border-box;display:block;position:relative;z-index:2147483647;';
     }
     ThemeManager.syncThemeWithYouTube(banner);
 
     const lang = this.state.currentLang || 'fr';
     const isFr = lang.startsWith('fr');
     const t = I18N[lang] || I18N.en;
-    const drawerHtml = SettingsDrawerTemplate.render(t, { showCloseBtn: true });
+    const drawerHtml = SettingsDrawerTemplate.render(t, { showCloseBtn: true, currentLang: lang, currentMode: this.state.summaryMode || 'standard' });
     const activeJob = this.service?.getActiveJob?.(channelIdentifier) || null;
+    if (activeJob) this.isExpanded = true;
     const maxVideos = resolveEffectiveChannelLimit(activeJob?.maxVideos || this.state.channelAuditMaxVideos || 30, this.knownTotalVideos);
     const html = ChannelCompanionTemplate.render({
       channelIdentifier,
@@ -111,6 +99,7 @@ export class ChannelCompanionCard {
       maxVideos,
       totalVideos: this.knownTotalVideos,
       isExpanded: this.isExpanded,
+      channelAuditMode: this.state.channelAuditMode || 'standard',
       drawerHtml
     });
 
@@ -122,7 +111,10 @@ export class ChannelCompanionCard {
       const body = banner.querySelector('#ytAiCompanionBody');
       body?.classList?.add('yt-ai-hidden');
       if (body?.style) body.style.display = 'none';
+    } else {
+      banner.classList?.remove('is-collapsed');
     }
+    this._webLayoutShifter?.attach(banner);
     if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') window.dispatchEvent(new Event('resize'));
 
     syncFullscreenVisibility();
@@ -192,9 +184,10 @@ export class ChannelCompanionCard {
     const toggleBtn = banner.querySelector('#ytAiCompanionToggleBtn');
     const brandToggle = banner.querySelector('#ytAiBrandToggle');
     const body = banner.querySelector('#ytAiCompanionBody');
-    const handleToggle = () => {
+    const setExpanded = (expand) => {
       if (!body) return;
-      this.isExpanded = !this.isExpanded;
+      this.isExpanded = Boolean(expand);
+      banner.classList?.toggle?.('is-collapsed', !this.isExpanded);
       body.classList?.toggle('yt-ai-hidden', !this.isExpanded);
       if (body.style) body.style.display = this.isExpanded ? 'block' : 'none';
       const t = I18N[this.state.currentLang || 'fr'] || I18N.en;
@@ -208,44 +201,64 @@ export class ChannelCompanionCard {
         toggleBtn.textContent = `${toggleLabel} ${this.isExpanded ? '▲' : '▾'}`;
       }
       if (toggleBtn) toggleBtn.title = toggleLabel;
+      this._webLayoutShifter?.sync();
       if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') window.dispatchEvent(new Event('resize'));
     };
-    if (toggleBtn && body) {
-      toggleBtn.addEventListener('click', handleToggle);
-    }
-    if (brandToggle && body) {
-      brandToggle.addEventListener('click', handleToggle);
-    }
+    const handleToggle = () => setExpanded(!this.isExpanded);
+    if (toggleBtn && body) toggleBtn.addEventListener('click', handleToggle);
+    if (brandToggle && body) brandToggle.addEventListener('click', handleToggle);
 
-    banner.querySelector('#ytAiCompLangSelect')?.addEventListener('change', (e) => {
+    const onLangChange = (e) => {
       const newLang = e.target.value;
       if (!newLang) return;
       this.state.currentLang = newLang;
       this.state.savePreference?.('targetLang', newLang);
       this.refreshLanguage(newLang);
       this.audioController?.populateVoiceDropdown?.(newLang);
+    };
+    banner.querySelector('#ytAiLangSelect')?.addEventListener('change', onLangChange);
+    banner.querySelector('#ytAiCompLangSelect')?.addEventListener('change', onLangChange);
+
+    banner.querySelector('#ytAiChannelAuditModeSelect')?.addEventListener('change', (e) => {
+      this.state.channelAuditMode = e.target.value;
+      this.state.savePreference?.('channelAuditMode', e.target.value);
     });
 
     banner.querySelector('#ytAiCompanionSettingsBtn')?.addEventListener('click', () => {
       SettingsDrawerController.toggleSettingsDrawer();
       const drawer = banner.querySelector('#ytAiSettingsDrawer');
       if (drawer && !drawer.classList.contains('yt-ai-hidden')) this.settingsDrawer?.syncProviderUI();
+      this._webLayoutShifter?.sync();
     });
 
     if (this.settingsDrawer) SettingsDrawerEventHandler.bind(banner, this.settingsDrawer, this.state, null);
 
-    banner.querySelector('#ytAiChanTabAuditBtn')?.addEventListener('click', () => this.switchTab('channelAudit'));
-    banner.querySelector('#ytAiChanTabChatBtn')?.addEventListener('click', () => this.switchTab('channelChat'));
+    banner.querySelector('#ytAiChanTabAuditBtn')?.addEventListener('click', () => {
+      setExpanded(true);
+      this.switchTab('channelAudit');
+      const resultBox = banner.querySelector('#ytAiChannelResultContainer');
+      const hasResult = Boolean(resultBox && !resultBox.classList?.contains?.('yt-ai-hidden') && resultBox.innerHTML?.trim());
+      if (!hasResult && !this.service?.isAuditRunning?.(this.currentChannel)) {
+        this.handleRunAudit();
+      }
+    });
+    banner.querySelector('#ytAiChanTabChatBtn')?.addEventListener('click', () => {
+      setExpanded(true);
+      this.switchTab('channelChat');
+      setTimeout(() => banner.querySelector('#ytAiChannelChatInput')?.focus?.(), 80);
+    });
 
     banner.querySelector('#ytAiRunChannelAuditBtn')?.addEventListener('click', () => {
       if (this.service?.isAuditRunning?.(this.currentChannel)) {
         this.handleStopAudit();
         return;
       }
+      setExpanded(true);
       this.switchTab('channelAudit');
-      if (!this.isExpanded && toggleBtn) toggleBtn.click();
       this.handleRunAudit();
     });
+
+    ['selectstart', 'copy'].forEach((evt) => banner.addEventListener?.(evt, (e) => e.stopPropagation?.()));
 
     banner.querySelectorAll('.yt-ai-period-pill').forEach((pill) => {
       pill.addEventListener('click', (e) => {
@@ -267,23 +280,19 @@ export class ChannelCompanionCard {
     }
 
     this.channelChat.bindEvents(banner, this.state);
+    PaneExportHelper.bind({
+      root: banner,
+      prefix: 'ytAiCompanionAudit',
+      copyBtnId: 'ytAiCopyCompanionAuditBtn',
+      getLang: () => this.state.currentLang,
+      getPayload: () => ({ markdown: banner.querySelector('#ytAiChannelResultContainer')?.innerText || '', title: this.currentChannel })
+    });
   }
 
-  handleStopAudit() {
-    this.runController.stop();
-  }
-
-  handleRunAudit() {
-    return this.runController.run();
-  }
-
-  _renderReport(report, resultBox, lang) {
-    this.runController.renderReport(report, resultBox, lang);
-  }
-
-  _restoreCachedReport(channelId) {
-    return this.runController.restoreCachedReport(channelId);
-  }
+  handleStopAudit() { this.runController.stop(); }
+  handleRunAudit() { return this.runController.run(); }
+  _renderReport(report, resultBox, lang) { this.runController.renderReport(report, resultBox, lang); }
+  _restoreCachedReport(channelId) { return this.runController.restoreCachedReport(channelId); }
 }
 
 export default ChannelCompanionCard;

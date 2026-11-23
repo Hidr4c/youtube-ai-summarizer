@@ -1,10 +1,10 @@
 {
   "appName": {
-    "message": "YouTube Summarizer AI (LM Studio, Ollama & Cloud)",
-    "description": "扩展名称"
+    "message": "ClarifAI — 网页与 YouTube 总结、问答及可信度审计",
+    "description": "Chrome Web Store 中显示的扩展程序名称。"
   },
   "appDesc": {
-    "message": "YouTube AI 视频总结、事实核查与频道审计及 Q&A 问答。支持本地(LM Studio/Ollama)与云端模型、语音输入及 TTS 朗读。",
-    "description": "扩展简要说明"
+    "message": "智能总结任意网页或 YouTube 视频，支持互动问答与网站可信度及防骗审计，兼容本地与云端大模型。",
+    "description": "Chrome Web Store 中显示的简短描述。"
   }
 }

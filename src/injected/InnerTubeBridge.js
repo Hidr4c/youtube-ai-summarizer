@@ -56,21 +56,38 @@ export class InnerTubeBridge {
     return null;
   }
 
+  static _matchesRequestedVideo(data, requestedVideoId, el = null) {
+    if (!data) return false;
+    if (!requestedVideoId) return true;
+    const foundId = data?.videoDetails?.videoId
+      || data?.playerResponse?.videoDetails?.videoId
+      || data?.currentVideoEndpoint?.watchEndpoint?.videoId
+      || data?.currentVideoEndpoint?.reelWatchEndpoint?.videoId
+      || data?.endpoint?.reelWatchEndpoint?.videoId
+      || data?.endpoint?.watchEndpoint?.videoId
+      || el?.getAttribute?.('video-id')
+      || '';
+    return Boolean(foundId && foundId === requestedVideoId);
+  }
+
   static findTranscriptParams(requestedVideoId) {
     try {
-      const watchEl = document.querySelector('ytd-watch-flexy, ytd-watch-grid, ytm-watch');
+      const isShorts = typeof window !== 'undefined' && (window.location?.pathname || '').startsWith('/shorts/');
+      const watchEl = document.querySelector('ytd-reel-video-renderer[is-active], ytm-reel-video-renderer[is-active]')
+        || document.querySelector('ytd-shorts:not([hidden]), ytm-shorts:not([hidden])')
+        || (!isShorts ? document.querySelector('ytd-watch-flexy:not([hidden]), ytd-watch-grid:not([hidden]), ytm-watch:not([hidden])') : null);
       const watchData = watchEl?.data || watchEl?.playerData;
-      if (watchData) {
+      if (watchData && InnerTubeBridge._matchesRequestedVideo(watchData, requestedVideoId, watchEl)) {
         const p = InnerTubeBridge.searchParamsInObject(watchData);
         if (p) return p;
       }
 
-      if (window.ytInitialData) {
+      if (window.ytInitialData && InnerTubeBridge._matchesRequestedVideo(window.ytInitialData, requestedVideoId)) {
         const p = InnerTubeBridge.searchParamsInObject(window.ytInitialData);
         if (p) return p;
       }
 
-      if (window.ytInitialPlayerResponse) {
+      if (window.ytInitialPlayerResponse && InnerTubeBridge._matchesRequestedVideo(window.ytInitialPlayerResponse, requestedVideoId)) {
         const p = InnerTubeBridge.searchParamsInObject(window.ytInitialPlayerResponse);
         if (p) return p;
       }
@@ -125,7 +142,9 @@ export class InnerTubeBridge {
       }).catch(() => null);
 
       if (!res || !res.ok) return null;
-      return await res.json().catch(() => null);
+      const json = await res.json().catch(() => null);
+      if (videoId && json?.videoDetails?.videoId && json.videoDetails.videoId !== videoId) return null;
+      return json;
     } catch (_) {
       return null;
     }

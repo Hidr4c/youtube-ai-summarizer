@@ -32,81 +32,51 @@ function createMockElement(tagName, id = '') {
 }
 
 describe('ChannelCompanionCard Anchor Resolution', () => {
-  let docElements;
-
   beforeEach(() => {
-    docElements = new Map();
+    const body = createMockElement('body');
     globalThis.document = {
-      querySelector(sel) {
-        if (sel === '#page-header-container') return docElements.get('phc') || null;
-        if (sel === 'tp-yt-app-header #contentContainer') return docElements.get('contentContainer') || null;
-        if (sel === 'ytd-tabbed-page-header') return docElements.get('tabbedHeader') || null;
-        if (sel.includes('ytd-browse')) return docElements.get('browse') || null;
+      body,
+      querySelector() {
         return null;
       }
     };
   });
 
-  it('anchors before page-header-banner inside page-header-container when banner image exists', () => {
-    const phc = createMockElement('div', 'page-header-container');
-    const phb = createMockElement('div', 'page-header-banner');
-    const ph = createMockElement('div', 'page-header');
-    phc.appendChild(phb);
-    phc.appendChild(ph);
-    docElements.set('phc', phc);
+  it('anchors cleanly at top of document.body before ytd-app when channel page has body children', () => {
+    const ytdApp = createMockElement('ytd-app');
+    globalThis.document.body.appendChild(ytdApp);
 
     const card = new ChannelCompanionCard();
     const anchor = card._findChannelAnchor();
 
     assert.ok(anchor, 'Anchor should be found');
-    assert.strictEqual(anchor.parent, phc);
-    assert.strictEqual(anchor.reference, phb);
+    assert.strictEqual(anchor.parent, globalThis.document.body);
+    assert.strictEqual(anchor.reference, ytdApp);
   });
 
-  it('anchors before page-header inside page-header-container when no channel banner image exists', () => {
-    const phc = createMockElement('div', 'page-header-container');
-    const ph = createMockElement('div', 'page-header');
-    phc.appendChild(ph);
-    docElements.set('phc', phc);
+  it('anchors with null reference when document.body is empty', () => {
+    const card = new ChannelCompanionCard();
+    const anchor = card._findChannelAnchor();
+
+    assert.ok(anchor, 'Anchor should be found');
+    assert.strictEqual(anchor.parent, globalThis.document.body);
+    assert.strictEqual(anchor.reference, null);
+  });
+
+  it('anchors above mobile YouTube browse shells consistently via document.body', () => {
+    const ytmBrowse = createMockElement('ytm-browse');
+    globalThis.document.body.appendChild(ytmBrowse);
 
     const card = new ChannelCompanionCard();
     const anchor = card._findChannelAnchor();
 
     assert.ok(anchor, 'Anchor should be found');
-    assert.strictEqual(anchor.parent, phc);
-    assert.strictEqual(anchor.reference, ph);
+    assert.strictEqual(anchor.parent, globalThis.document.body);
+    assert.strictEqual(anchor.reference, ytmBrowse);
   });
 
-  it('falls back to tp-yt-app-header #contentContainer when page-header-container is absent', () => {
-    const cc = createMockElement('div', 'contentContainer');
-    const child = createMockElement('div', 'some-child');
-    cc.appendChild(child);
-    docElements.set('contentContainer', cc);
-
-    const card = new ChannelCompanionCard();
-    const anchor = card._findChannelAnchor();
-
-    assert.ok(anchor, 'Anchor should be found');
-    assert.strictEqual(anchor.parent, cc);
-    assert.strictEqual(anchor.reference, child);
-  });
-
-  it('strictly returns null when only outer containers exist to prevent crushing channel banner image', () => {
-    const parent = createMockElement('div', 'header');
-    const tabbedHeader = createMockElement('ytd-tabbed-page-header');
-    parent.appendChild(tabbedHeader);
-    docElements.set('tabbedHeader', tabbedHeader);
-
-    const browse = createMockElement('ytd-browse');
-    docElements.set('browse', browse);
-
-    const card = new ChannelCompanionCard();
-    const anchor = card._findChannelAnchor();
-
-    assert.strictEqual(anchor, null, 'Must return null so tryInjectCompanion waits for #page-header-container');
-  });
-
-  it('returns null when no YouTube page containers exist', () => {
+  it('returns null when document.body is absent', () => {
+    globalThis.document = { body: null, querySelector: () => null };
     const card = new ChannelCompanionCard();
     const anchor = card._findChannelAnchor();
     assert.strictEqual(anchor, null);

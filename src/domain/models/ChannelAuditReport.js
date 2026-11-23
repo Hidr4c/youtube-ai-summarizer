@@ -1,4 +1,5 @@
 import { ChannelStatisticalSampler } from '../../services/implementations/ChannelStatisticalSampler.js';
+import { ChannelFormatAnalyzer } from '../services/ChannelFormatAnalyzer.js';
 import { ScoreTierScale } from '../services/ScoreTierScale.js';
 
 /**
@@ -29,12 +30,14 @@ export class ChannelAuditReport {
     this.drawbacks = Array.isArray(data.drawbacks) ? data.drawbacks : [];
 
     this.temporalEvolution = data.temporalEvolution || '';
+    this.formatComparison = data.formatComparison || '';
     this.executiveSummary = data.executiveSummary || '';
     this.rawText = data.rawText || '';
     this.timestamp = data.timestamp || Date.now();
 
     this.tier = ScoreTierScale.getTier(this.globalScore, this.lang);
     this.fineDistribution = data.fineDistribution || ScoreTierScale.computeDistributionMetrics(this.evaluatedVideos, this.lang);
+    this.formatBreakdown = data.formatBreakdown || ChannelFormatAnalyzer.computeFormatBreakdown(this.evaluatedVideos);
     this.badge = this._computeBadge();
   }
 
@@ -117,10 +120,15 @@ export class ChannelAuditReport {
       /###\s*Year-over-Year/i
     ]);
 
+    const formatComparison = this._extractSectionContent(rawText, [
+      /###\s*\[?⚡?\]?\s*Comparatif Vidéos longues vs Shorts/i,
+      /###\s*\[?⚡?\]?\s*Long-form Videos vs Shorts Comparison/i
+    ]);
+
     const executiveSummary = this._extractSectionContent(rawText, [
       /###\s*Synthèse & Recommandation/i,
       /###\s*Verdict global/i,
-      /###\s*Executive Summary/i
+      /###\s*Executive (?:Summary|Synthesis)/i
     ]);
 
     return new ChannelAuditReport({
@@ -143,6 +151,8 @@ export class ChannelAuditReport {
       weaknesses,
       drawbacks,
       temporalEvolution,
+      formatComparison,
+      formatBreakdown: stats.formatBreakdown,
       executiveSummary,
       rawText
     });
@@ -184,10 +194,13 @@ export class ChannelAuditReport {
         comment: ''
       };
 
+      const isShort = ChannelFormatAnalyzer.isShortItem(v);
       result.push({
         id: v.id,
+        isShort,
+        contentType: isShort ? 'short' : 'video',
         title: v.title || `Vidéo ${idx}`,
-        url: v.url || `https://youtu.be/${v.id}`,
+        url: v.url || (isShort ? `https://www.youtube.com/shorts/${v.id}` : `https://youtu.be/${v.id}`),
         meta: v.meta,
         era: v.era || 'recent',
         eraLabel: v.eraLabel || 'Récent',

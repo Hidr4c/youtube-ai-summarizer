@@ -1,3 +1,5 @@
+import { buildTierCssVars } from './ColorContrastHelper.js';
+
 /**
  * Inverted Sensationalism & Clickbait Severity Scale (0% = Sober/Factual, 100% = Clickbait)
  * Computes semantic rating, radial gauge sweep, continuous spectrum position, and per-video bracket breakdown.
@@ -103,6 +105,7 @@ export class SensationalismScale {
       level: levelDef.level,
       macroColor: levelDef.macro,
       hexColor: levelDef.hex,
+      ...buildTierCssVars(levelDef.hex),
       label: isFr ? levelDef.frLabel : levelDef.enLabel,
       description: isFr ? levelDef.frDesc : levelDef.enDesc,
       sweepDeg,

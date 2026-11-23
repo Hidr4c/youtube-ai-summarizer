@@ -1,14 +1,19 @@
 import { parseChannelVideoCount } from '../config/ExtensionConstants.js';
+import { ChannelPageParser } from '../parsers/ChannelPageParser.js';
+import { ChannelFormatAnalyzer } from '../domain/services/ChannelFormatAnalyzer.js';
+import { ChannelHttpClient } from './ChannelHttpClient.js';
 
 /**
- * Service for fetching and compiling comprehensive YouTube channel dossiers
- * Extracts creator bio, subscriber count, total uploads, and 30 latest video releases
+ * Service for fetching and compiling comprehensive YouTube channel dossiers.
+ * Supports modern ViewModels, classic Polymer renderers, Studio/subpath URLs,
+ * dual /videos + /shorts collection, and fallback across /streams and channel root tabs.
  */
 export class ChannelIntelligenceFetcher {
   /**
    * Fetches official channel dossier by creator handle, URL or search query
    * @param {string} query Handle (@JulienChieze), URL or search query
    * @param {number} [limit=30]
+   * @param {Object} [options]
    * @returns {Promise<{success: boolean, channel?: Object, error?: string}>}
    */
   static async fetchChannelDossier(query, limit = 30, options = {}) {
@@ -18,135 +23,153 @@ export class ChannelIntelligenceFetcher {
       }
 
       const cleanQuery = query.trim();
-      let canonicalPath = await this.resolveChannelPath(cleanQuery);
-      if (!canonicalPath) {
+      const canonicalRoot = await this.resolveChannelPath(cleanQuery, options);
+      if (!canonicalRoot) {
         throw new Error(`Impossible de trouver la chaîne YouTube pour : "${cleanQuery}"`);
       }
 
-      if (!canonicalPath.endsWith('/videos')) {
-        canonicalPath = canonicalPath.replace(/\/+$/, '') + '/videos';
+      const normalizedRoot = ChannelPageParser.sanitizeChannelPath(canonicalRoot) || canonicalRoot.replace(/\/+$/, '');
+      const tabLimit = limit === 'all' ? 'all' : Math.max(8, Math.ceil((parseInt(limit, 10) || 30) * 0.75));
+      let videosDossier = null;
+      let shortsDossier = null;
+      let lastError = null;
+
+      try {
+        videosDossier = await this._fetchTabDossier(`${normalizedRoot}/videos`, normalizedRoot, tabLimit, options);
+      } catch (err) {
+        lastError = err;
+      }
+      try {
+        shortsDossier = await this._fetchTabDossier(`${normalizedRoot}/shorts`, normalizedRoot, tabLimit, options);
+      } catch (err) {
+        lastError = lastError || err;
       }
 
-      const channelUrl = `https://www.youtube.com${canonicalPath}`;
-      const response = await fetch(channelUrl, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7'
+      const combined = ChannelFormatAnalyzer.mergeDossiers(
+        videosDossier,
+        shortsDossier,
+        limit,
+        (d) => this.formatMarkdownDossier(d)
+      );
+      if (combined && combined.recentVideos.length > 0) {
+        return { success: true, channel: combined };
+      }
+
+      let lastDossier = combined;
+      for (const tabPath of [`${normalizedRoot}/streams`, normalizedRoot]) {
+        if (tabPath === `${normalizedRoot}/videos` || tabPath === `${normalizedRoot}/shorts`) continue;
+        try {
+          const dossier = await this._fetchTabDossier(tabPath, normalizedRoot, limit, options);
+          if (dossier) {
+            lastDossier = dossier;
+            if (Array.isArray(dossier.recentVideos) && dossier.recentVideos.length > 0) {
+              const formatted = ChannelFormatAnalyzer.mergeDossiers(dossier, null, limit, (d) => this.formatMarkdownDossier(d));
+              return { success: true, channel: formatted };
+            }
+          }
+        } catch (err) {
+          lastError = err;
         }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status} lors de l'accès à la chaîne`);
       }
 
-      const html = await response.text();
-      const ytDataMatch = html.match(/ytInitialData\s*=\s*({.+?});<\/script>/);
-      if (!ytDataMatch) {
-        throw new Error('Impossible d\'extraire ytInitialData de la page chaîne');
-      }
-
-      const apiKey = html.match(/"INNERTUBE_API_KEY"\s*:\s*"([^"]+)"/)?.[1] || '';
-      const clientVersion = html.match(/"INNERTUBE_CLIENT_VERSION"\s*:\s*"([^"]+)"/)?.[1] || '2.20260101.00.00';
-      const visitorData = html.match(/"VISITOR_DATA"\s*:\s*"([^"]+)"/)?.[1] || '';
-      const data = JSON.parse(ytDataMatch[1]);
-      const dossier = await this.parseChannelDataWithPagination(data, canonicalPath, limit, {
-        apiKey,
-        clientVersion,
-        visitorData: visitorData || data?.responseContext?.visitorData || '',
-        browseFetcher: options.browseFetcher || null
-      });
-      return { success: true, channel: dossier };
+      if (lastDossier) return { success: true, channel: lastDossier };
+      throw lastError || new Error('Impossible d\'extraire ytInitialData de la page chaîne');
     } catch (err) {
       return { success: false, error: err.message || String(err) };
     }
   }
 
-  /**
-   * Resolves search query or handle to canonical YouTube channel path
-   * @param {string} rawQuery
-   * @returns {Promise<string|null>}
-   */
-  static async resolveChannelPath(rawQuery) {
-    if (rawQuery.startsWith('http://') || rawQuery.startsWith('https://')) {
-      try {
-        const parsed = new URL(rawQuery);
-        return parsed.pathname;
-      } catch (_) {}
+  static async _fetchHtmlPage(url, options = {}) {
+    return ChannelHttpClient.fetchHtmlPage(url, options);
+  }
+
+  static async _fetchTabDossier(tabPath, canonicalRoot, limit, options = {}) {
+    const channelUrl = `https://www.youtube.com${tabPath}`;
+    const page = await this._fetchHtmlPage(channelUrl, options);
+    if (!page.ok && page.status >= 400) {
+      throw new Error(`HTTP ${page.status} lors de l'accès à la chaîne`);
     }
 
-    if (rawQuery.startsWith('@')) {
-      return `/${rawQuery}`;
+    const data = ChannelPageParser.extractBalancedInitialData(page.html);
+    if (!data) {
+      throw new Error('Impossible d\'extraire ytInitialData de la page chaîne');
     }
 
-    if (rawQuery.startsWith('/@') || rawQuery.startsWith('/channel/') || rawQuery.startsWith('/c/')) {
-      return rawQuery;
-    }
-
-    // Search YouTube specifically for channels (sp=EgIQAg%253D%253D is YouTube channel filter)
-    const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(rawQuery)}&sp=EgIQAg%253D%253D`;
-    const searchRes = await fetch(searchUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7'
-      }
+    const isShortsTabRequest = tabPath.endsWith('/shorts');
+    const isGenuineShortsTab = isShortsTabRequest && ChannelPageParser.isShortsTabData(data);
+    const apiKey = page.html.match(/"INNERTUBE_API_KEY"\s*:\s*"([^"]+)"/)?.[1] || '';
+    const clientVersion = page.html.match(/"INNERTUBE_CLIENT_VERSION"\s*:\s*"([^"]+)"/)?.[1] || '2.20260101.00.00';
+    const visitorData = page.html.match(/"VISITOR_DATA"\s*:\s*"([^"]+)"/)?.[1] || '';
+    const dossier = await this.parseChannelDataWithPagination(data, `${canonicalRoot}/videos`, limit, {
+      apiKey,
+      clientVersion,
+      visitorData: visitorData || data?.responseContext?.visitorData || '',
+      browseFetcher: options.browseFetcher || null,
+      forceShort: isGenuineShortsTab
     });
-
-    if (!searchRes.ok) return null;
-    const html = await searchRes.text();
-    const match = html.match(/ytInitialData\s*=\s*({.+?});<\/script>/);
-    if (!match) return null;
-
-    try {
-      const data = JSON.parse(match[1]);
-      const contents = data.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents;
-      const itemSection = contents?.[0]?.itemSectionRenderer?.contents;
-      const channelRenderer = itemSection?.find(c => c.channelRenderer)?.channelRenderer;
-      if (channelRenderer?.navigationEndpoint?.browseEndpoint?.canonicalBaseUrl) {
-        return channelRenderer.navigationEndpoint.browseEndpoint.canonicalBaseUrl;
-      }
-    } catch (_) {}
-
-    return null;
+    if (isShortsTabRequest && !isGenuineShortsTab && Array.isArray(dossier?.recentVideos)) {
+      dossier.recentVideos = dossier.recentVideos.filter((v) => v.isShort);
+      dossier.totalFetched = dossier.recentVideos.length;
+    }
+    return dossier;
   }
 
   /**
-   * Parses channel header, subscriber count, bio, and latest videos from ytInitialData
+   * Resolves search query, handle, Studio link or channel URL to canonical YouTube channel root path
+   * @param {string} rawQuery
+   * @param {Object} [options]
+   * @returns {Promise<string|null>}
    */
-  static parseChannelData(data, canonicalPath, limit = 30) {
-    const header = data.header?.pageHeaderRenderer;
-    const title = header?.pageTitle || '';
-    const bio = header?.content?.pageHeaderViewModel?.description?.descriptionPreviewViewModel?.description?.content || '';
+  static async resolveChannelPath(rawQuery, options = {}) {
+    const clean = String(rawQuery || '').trim();
+    const directPath = ChannelPageParser.sanitizeChannelPath(clean);
+    if (directPath) return directPath;
+    if (/^UC[A-Za-z0-9_-]{20,}$/.test(clean)) return `/channel/${clean}`;
 
-    let handle = canonicalPath.replace(/^\//, '').replace(/\/videos$/, '');
-    let subscribers = '';
-    let videoCount = '';
-
-    const metadataRows = header?.content?.pageHeaderViewModel?.metadata?.contentMetadataViewModel?.metadataRows || [];
-    for (const row of metadataRows) {
-      for (const part of (row.metadataParts || [])) {
-        const text = part.text?.content || '';
-        if (text.startsWith('@')) handle = text;
-        else if (/abonn[ée]|subscriber/i.test(text)) subscribers = text;
-        else if (/vid[ée]o/i.test(text)) videoCount = text;
-      }
+    if (clean.startsWith('/@') || clean.startsWith('/channel/') || clean.startsWith('/c/') || clean.startsWith('/user/')) {
+      return clean;
     }
 
+    // Search YouTube specifically for channels (sp=EgIQAg%3D%3D is YouTube channel filter), then unfiltered fallback
+    const searchUrls = [
+      `https://www.youtube.com/results?search_query=${encodeURIComponent(clean)}&sp=EgIQAg%3D%3D`,
+      `https://www.youtube.com/results?search_query=${encodeURIComponent(clean)}`
+    ];
+    for (const searchUrl of searchUrls) {
+      const searchRes = await this._fetchHtmlPage(searchUrl, options);
+      if (!searchRes.ok || !searchRes.html) continue;
+
+      const data = ChannelPageParser.extractBalancedInitialData(searchRes.html);
+      const sections = data?.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents || [];
+      const items = sections.flatMap((s) => s?.itemSectionRenderer?.contents || []);
+      const channelRenderer = items.find((c) => c.channelRenderer)?.channelRenderer;
+      const endpoint = channelRenderer?.navigationEndpoint?.browseEndpoint
+        || items.find((c) => c.videoRenderer)?.videoRenderer?.ownerText?.runs?.[0]?.navigationEndpoint?.browseEndpoint;
+      const base = endpoint?.canonicalBaseUrl || (channelRenderer?.channelId ? `/channel/${channelRenderer.channelId}` : '');
+      const resolved = base ? (ChannelPageParser.sanitizeChannelPath(base) || base) : '';
+      if (resolved) return resolved;
+    }
+    return null;
+  }
+
+  /** Parses channel header, subscriber count, bio, and latest videos from ytInitialData */
+  static parseChannelData(data, canonicalPath, limit = 30, parseOptions = {}) {
+    const { title, handle, subscribers, videoCount, bio } = ChannelPageParser.parseHeader(data, canonicalPath);
     const contents = this._findGridContents(data);
-    const { videos: recentVideos } = this._extractGridVideos(contents, new Set(), limit);
-    const markdownDossier = this.formatMarkdownDossier({
-      title, handle, subscribers, videoCount, bio, recentVideos
-    });
+    const { videos: recentVideos } = this._extractGridVideos(contents, new Set(), limit, parseOptions);
     const totalChannelVideos = parseChannelVideoCount(videoCount);
-    return { title, handle, subscribers, videoCount, totalChannelVideos, bio, recentVideos, markdownDossier };
+    const baseDossier = { title, handle, subscribers, videoCount, totalChannelVideos, bio, recentVideos };
+    return ChannelFormatAnalyzer.mergeDossiers(baseDossier, null, limit, (d) => this.formatMarkdownDossier(d));
   }
 
   /** Parses channel data and paginates InnerTube continuations up to limit. */
   static async parseChannelDataWithPagination(data, fallbackPath, limit = 30, innerTube = {}) {
     const targetLimit = limit === 'all' ? 5000 : Math.max(1, parseInt(limit, 10) || 30);
-    const dossier = this.parseChannelData(data, fallbackPath, targetLimit);
+    const parseOpts = { forceShort: Boolean(innerTube?.forceShort) };
+    const dossier = this.parseChannelData(data, fallbackPath, targetLimit, parseOpts);
     const contents = this._findGridContents(data);
     const seenIds = new Set(dossier.recentVideos.map((v) => v.id).filter(Boolean));
-    let { continuationToken: nextToken, truncatedOnPage } = this._extractGridVideos(contents, new Set(), targetLimit);
+    let { continuationToken: nextToken, truncatedOnPage } = this._extractGridVideos(contents, new Set(), targetLimit, parseOpts);
 
     let pageCount = 0;
     const maxPages = 200;
@@ -170,7 +193,7 @@ export class ChannelIntelligenceFetcher {
       const pageItems = pageRes.items || [];
       if (pageItems.length === 0) { nextToken = null; break; }
 
-      const extracted = this._extractGridVideos(pageItems, seenIds, targetLimit - dossier.recentVideos.length);
+      const extracted = this._extractGridVideos(pageItems, seenIds, targetLimit - dossier.recentVideos.length, parseOpts);
       dossier.recentVideos.push(...extracted.videos);
       nextToken = extracted.continuationToken;
       truncatedOnPage = extracted.truncatedOnPage;
@@ -180,52 +203,29 @@ export class ChannelIntelligenceFetcher {
       }
     }
 
-    dossier.hasMore = Boolean(nextToken || truncatedOnPage || paginationFailed);
-    dossier.totalFetched = dossier.recentVideos.length;
-    if (!dossier.hasMore && !paginationFailed && dossier.recentVideos.length > 0) {
-      dossier.totalChannelVideos = dossier.recentVideos.length;
+    const updated = ChannelFormatAnalyzer.mergeDossiers(dossier, null, targetLimit, (d) => this.formatMarkdownDossier(d));
+    updated.hasMore = Boolean(nextToken || truncatedOnPage || paginationFailed);
+    updated.totalFetched = updated.recentVideos.length;
+    if (!updated.hasMore && !paginationFailed && updated.recentVideos.length > 0 && !parseOpts.forceShort) {
+      updated.totalChannelVideos = updated.recentVideos.length;
     }
-    dossier.markdownDossier = this.formatMarkdownDossier(dossier);
-    return dossier;
+    return updated;
   }
 
-  /** Calls InnerTube browse continuation endpoint and returns flattened continuation items. */
   static async _fetchBrowseContinuation(apiKey, clientVersion, continuation, visitorData = '') {
     const res = await this._fetchBrowseContinuationResult(apiKey, clientVersion, continuation, visitorData);
     return res.items || [];
   }
 
-  /** Calls InnerTube browse continuation endpoint and reports HTTP status + items. */
   static async _fetchBrowseContinuationResult(apiKey, clientVersion, continuation, visitorData = '') {
-    try {
-      const client = { clientName: 'WEB', clientVersion: clientVersion || '2.20260101.00.00', hl: 'fr', gl: 'FR' };
-      if (visitorData) client.visitorData = visitorData;
-      const headers = { 'Content-Type': 'application/json' };
-      if (visitorData) headers['X-Goog-Visitor-Id'] = visitorData;
-      const res = await fetch(`https://www.youtube.com/youtubei/v1/browse?key=${encodeURIComponent(apiKey)}`, {
-        method: 'POST', headers, body: JSON.stringify({ context: { client }, continuation })
-      });
-      if (!res.ok) return { ok: false, status: res.status, items: [] };
-      const json = await res.json();
-      const items = [];
-      for (const action of (json.onResponseReceivedActions || [])) {
-        const batch = action.appendContinuationItemsAction?.continuationItems || action.reloadContinuationItemsCommand?.continuationItems;
-        if (Array.isArray(batch)) items.push(...batch);
-      }
-      return { ok: true, status: 200, items };
-    } catch (_) {
-      return { ok: false, status: 0, items: [] };
-    }
+    return ChannelHttpClient.fetchBrowseContinuationResult(apiKey, clientVersion, continuation, visitorData);
   }
 
-  /** Locates grid items array inside ytInitialData channel tabs. */
   static _findGridContents(data) {
-    const tabs = data?.contents?.twoColumnBrowseResultsRenderer?.tabs || [];
-    return tabs.find((t) => t.tabRenderer?.content?.richGridRenderer)?.tabRenderer?.content?.richGridRenderer?.contents || [];
+    return ChannelPageParser.findGridContents(data);
   }
 
-  /** Extracts deduplicated video items and trailing continuation token from grid contents. */
-  static _extractGridVideos(contents = [], seenIds = new Set(), maxNew = 30) {
+  static _extractGridVideos(contents = [], seenIds = new Set(), maxNew = 30, parseOptions = {}) {
     const videos = [];
     let continuationToken = null;
     let truncatedOnPage = false;
@@ -233,7 +233,7 @@ export class ChannelIntelligenceFetcher {
     for (const item of contents) {
       const token = item?.continuationItemRenderer?.continuationEndpoint?.continuationCommand?.token;
       if (token) { continuationToken = token; continue; }
-      const parsed = this._parseGridVideoItem(item);
+      const parsed = this._parseGridVideoItem(item, parseOptions);
       if (!parsed || (parsed.id && seenIds.has(parsed.id))) continue;
       if (videos.length >= maxNew) { truncatedOnPage = true; continue; }
       if (parsed.id) seenIds.add(parsed.id);
@@ -242,43 +242,12 @@ export class ChannelIntelligenceFetcher {
     return { videos, continuationToken, truncatedOnPage };
   }
 
-  /** Parses lockupViewModel or videoRenderer grid item into normalized metadata. */
-  static _parseGridVideoItem(item) {
-    const lockup = item?.richItemRenderer?.content?.lockupViewModel;
-    if (lockup) {
-      const vId = lockup.contentId || '';
-      const vTitle = lockup.metadata?.lockupMetadataViewModel?.title?.content || '';
-      const metaRows = lockup.metadata?.lockupMetadataViewModel?.metadata?.contentMetadataViewModel?.metadataRows || [];
-      const parts = metaRows.flatMap((r) => (r.metadataParts || []).map((p) => p.text?.content).filter(Boolean));
-      return { id: vId, title: vTitle, url: vId ? `https://www.youtube.com/watch?v=${vId}` : '', meta: parts.join(' • ') };
-    }
-    const vr = item?.richItemRenderer?.content?.videoRenderer || item?.gridVideoRenderer;
-    if (!vr) return null;
-    const vId = vr.videoId || '';
-    const vTitle = vr.title?.runs?.map((r) => r.text).join('') || vr.title?.simpleText || '';
-    const parts = [vr.viewCountText?.simpleText, vr.publishedTimeText?.simpleText].filter(Boolean);
-    return { id: vId, title: vTitle, url: vId ? `https://www.youtube.com/watch?v=${vId}` : '', meta: parts.join(' • ') };
+  static _parseGridVideoItem(item, parseOptions = {}) {
+    return ChannelPageParser.parseGridVideoItem(item, parseOptions);
   }
 
-  /** Formats structured dossier into concise Markdown block for prompt context */
   static formatMarkdownDossier(dossier) {
-    const { title, handle, subscribers, videoCount, bio, recentVideos = [] } = dossier;
-    const lines = [
-      `### 📺 DOSSIER OFFICIEL DE LA CHAÎNE : ${title || 'Créateur YouTube'} (${handle || ''})`,
-      `- **Audience & Volume** : ${subscribers || 'Non communiqué'} • ${videoCount || `${recentVideos.length} vidéos récentes`}`
-    ];
-    if (bio) lines.push(`- **Bio Officielle** :\n"""\n${bio.trim()}\n"""`);
-    if (recentVideos.length > 0) {
-      const cap = 40;
-      lines.push(`- **Dernières vidéos publiées (${recentVideos.length})** :`);
-      recentVideos.slice(0, cap).forEach((v, idx) => {
-        lines.push(`  ${idx + 1}. **${v.title}** ${v.meta ? `(${v.meta})` : ''} - https://youtu.be/${v.id}`);
-      });
-      if (recentVideos.length > cap) {
-        lines.push(`  ... (+${recentVideos.length - cap} autres vidéos indexées dans le catalogue)`);
-      }
-    }
-    return lines.join('\n');
+    return ChannelFormatAnalyzer.formatMarkdownDossier(dossier);
   }
 }
 
