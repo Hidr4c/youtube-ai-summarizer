@@ -917,7 +917,7 @@ ${f.textContent}
       if (!chatMessages) {
         chatMessages = [
           { role: "system", content: systemPrompt || "" },
-          { role: "user", content: userPrompt || "" }
+          { role: "user", content: userPrompt || "", ...Array.isArray(request.images) && request.images.length > 0 ? { images: request.images } : {} }
         ];
       } else if (systemPrompt && (!chatMessages[0] || chatMessages[0].role !== "system")) {
         chatMessages = [{ role: "system", content: systemPrompt }, ...chatMessages];
@@ -3174,6 +3174,18 @@ ${bio.trim()}
         if (timer) clearTimeout(timer);
       }
     }
+    static captureVisibleTab(windowId = null) {
+      if (typeof chrome === "undefined" || !chrome.tabs?.captureVisibleTab) {
+        return Promise.resolve({ success: false, error: "captureVisibleTab unavailable" });
+      }
+      return new Promise((resolve) => {
+        chrome.tabs.captureVisibleTab(windowId ?? null, { format: "jpeg", quality: 82 }, (dataUrl) => {
+          const err = chrome.runtime?.lastError?.message;
+          if (err || !dataUrl) resolve({ success: false, error: err || "Empty tab capture" });
+          else resolve({ success: true, dataUrl });
+        });
+      });
+    }
   };
 
   // src/background/MessageRouter.js
@@ -3349,6 +3361,10 @@ ${bio.trim()}
         }
         if (request.action === "FETCH_SAFE_IMAGE") {
           BackgroundImageFetcher.fetchSafeJpeg(request.url).then((res) => sendResponse(res)).catch((err) => sendResponse({ success: false, error: err?.message || "Image fetch failed" }));
+          return true;
+        }
+        if (request.action === "CAPTURE_VISIBLE_TAB") {
+          BackgroundImageFetcher.captureVisibleTab(sender?.tab?.windowId ?? null).then((res) => sendResponse(res)).catch((err) => sendResponse({ success: false, error: err?.message || "Tab capture failed" }));
           return true;
         }
       });

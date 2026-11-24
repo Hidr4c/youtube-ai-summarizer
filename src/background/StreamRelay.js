@@ -53,7 +53,7 @@ export class StreamRelay {
     if (!chatMessages) {
       chatMessages = [
         { role: 'system', content: systemPrompt || '' },
-        { role: 'user', content: userPrompt || '' }
+        { role: 'user', content: userPrompt || '', ...(Array.isArray(request.images) && request.images.length > 0 ? { images: request.images } : {}) }
       ];
     } else if (systemPrompt && (!chatMessages[0] || chatMessages[0].role !== 'system')) {
       chatMessages = [{ role: 'system', content: systemPrompt }, ...chatMessages];

@@ -129,6 +129,7 @@ export class ChannelCompanionTemplate {
                 <div id="ytAiChannelChatMessages" class="yt-ai-chat-messages">
                   <div class="yt-ai-chat-bubble ai yt-ai-markdown yt-ai-welcome-bubble">${t.channelChatWelcome || ''}</div>
                 </div>
+                <div id="ytAiChannelChatQueue" class="yt-ai-chat-queue yt-ai-hidden"></div>
                 <div class="yt-ai-chat-input-row">
                   <textarea id="ytAiChannelChatInput" class="yt-ai-chat-input" rows="1" placeholder="${escapeHtml(t.channelChatPlaceholder || '')}"></textarea>
                   <button type="button" id="ytAiChannelMicBtn" class="yt-ai-btn yt-ai-btn-secondary yt-ai-mic-btn" title="${escapeHtml(t.micTitle || 'Microphone')}"><span class="yt-ai-mic-icon">🎤</span></button>

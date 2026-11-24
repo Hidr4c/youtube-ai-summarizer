@@ -181,11 +181,15 @@ export class PromptService {
         : '\nMULTI-VIDEO CONTEXT: This discussion involves multiple YouTube videos provided in the transcript section ([VIDÉO ACTUELLE] and [VIDÉO EXTERNE ...]). Maintain continuous awareness of all referenced videos across the discussion. Accurately compare them and never claim you lack access to the provided external videos.\n')
       : '';
 
+    const visualDirective = cleanLang === 'fr'
+      ? '\nVIGNETTES & VISUELS : Lorsque la vignette officielle de la vidéo, des captures clés du lecteur ou une planche numérotée des vignettes de la chaîne sont jointes au message, analyse attentivement tout texte incrusté, mise en scène, flèche, promesse choc ou détail visuel pour répondre avec précision.'
+      : '\nTHUMBNAILS & VISUALS: When the official video thumbnail, player keyframes, or a numbered channel thumbnail sheet are attached, examine all overlaid text, visual cues, arrows, and clickbait framing closely when answering.';
+
     return `${cfg.persona}
 ${cfg.role}
 ${cfg.identity}
 
-${cfg.rule}${multiVideoDirective}${channelDirective}${commentsDirective}${auditDirective}
+${cfg.rule}${visualDirective}${multiVideoDirective}${channelDirective}${commentsDirective}${auditDirective}
 
 Title: "${meta?.title || ''}"
 Channel: "${meta?.author || ''}"${subStr}

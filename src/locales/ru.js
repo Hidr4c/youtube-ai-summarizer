@@ -66,22 +66,10 @@ export const ru = {
   "chatTitle": "💬 Вопросы и ответы по видео",
   "clearChatBtn": "🗑️ Очистить диалог",
   "suggestions": [
-    {
-      "label": "💡 Главные мысли",
-      "question": "Каковы ключевые выводы и идеи из этого видео?"
-    },
-    {
-      "label": "⏱️ Таймкоды",
-      "question": "В какой момент видео автор говорит о главной теме?"
-    },
-    {
-      "label": "📊 Факты и цифры",
-      "question": "Какие конкретные примеры, цифры или аргументы приводятся?"
-    },
-    {
-      "label": "🎯 Вывод и советы",
-      "question": "К какому выводу приходит автор и что советует в конце?"
-    }
+    { "label": "💡 Главные мысли", "question": "Каковы ключевые выводы и идеи из этого видео?" },
+    { "label": "⏱️ Таймкоды", "question": "В какой момент видео автор говорит о главной теме?" },
+    { "label": "📊 Факты и цифры", "question": "Какие конкретные примеры, цифры или аргументы приводятся?" },
+    { "label": "🎯 Вывод и советы", "question": "К какому выводу приходит автор и что советует в конце?" }
   ],
   "chatWelcome": "Здравствуйте! Задайте мне любой вопрос о содержании этого видео. Я опираюсь исключительно на его полную транскрипцию.",
   "chatPlaceholder": "Задайте вопрос или продиктуйте в микрофон... (Enter для отправки)",
@@ -108,14 +96,17 @@ export const ru = {
   "webTileForms": "Формы и поля",
   "webTileDom": "Целостность DOM",
   "webTileSite": "Анализируемый сайт",
-  "webTileCrawl": "Охват проверки",
-  "webTileContacts": "Прямые контакты",
+  "webTileLegal": "Официальные страницы",
+  "webTileContacts": "Официальные контакты",
   "webValHttp": "Нешифрованный HTTP",
   "webValFormsWarn": "Обнаружены важные поля",
   "webValFormsOk": "Ловушек не найдено",
   "webValDomWarn": "Подозрительные сигналы",
   "webValDomOk": "Чистый DOM",
-  "webValNoneFound": "Не найдено",
+  "webValNoneFound": "Контакты не найдены",
+  "webTileStructure": "Структура сайта", "webPagesFound": "Найдено страниц: {n}", "webNoLegalPages": "Не обнаружены",
+  "webValStructComplete": "Полная структура", "webValStructPartial": "Неполная структура", "webValStructMinimal": "Минимальный сайт",
+  "webBarLegal": "Юридические страницы", "webBarContacts": "Способы связи", "webBarStructure": "Навигация и разделы", "webBarHomeInfo": "Понятность главной",
   "attachUnsupported": "Неподдерживаемый тип файла. Прикрепите изображения или текстовые/кодовые файлы.",
   "micStopTitle": "Остановить диктовку",
   "sendBtn": "Отправить ➤",
@@ -281,6 +272,24 @@ export const ru = {
   "webBusyBtn": "⏳ Анализ...",
   "webReasoningWait": "💭 Модель рассуждает...",
   "webEmptyAiResponse": "Модель ИИ не вернула текст анализа (пустой ответ или прерванное рассуждение). Проверьте модель, длину контекста или Max Tokens в Настройках.",
-  "closeExtensionBtn": "Закрыть и отключить ClarifAI (можно снова включить в окне расширения)"
+  "closeExtensionBtn": "Закрыть и отключить ClarifAI (можно снова включить в окне расширения)",
+  "webCancelBtn": "⏹ Отмена",
+  "chatQueueTitle": "В очереди ({count})",
+  "chatInProgressLabel": "Выполняется:",
+  "chatEditRecallBtn": "Изменить / Отменить",
+  "chatRevertBtn": "Откатить",
+  "chatRevertTitle": "Вернуться к этому сообщению и изменить текст",
+  "chatSendNowBtn": "Отправить",
+  "chatRemoveQueueBtn": "Удалить из очереди",
+  "describeAccessibleBtn": "👁️ Описать (Для слабовидящих)",
+  "describeAccessibleTitle": "Подробно описать страницу и изображения для слабовидящих и автоматически озвучить текст",
+  "describeAccessibleQuestion": "👁️ Подробно опиши эту страницу и изображения для незрячего или слабовидящего человека (аудиодескрипция).",
+  "speechBarAriaLabel": "Управление воспроизведением речи",
+  "speechRestartBtn": "⏮ В начало",
+  "speechRestartTitle": "Начать чтение с начала",
+  "speechPauseBtn": "⏸ Пауза",
+  "speechResumeBtn": "▶ Продолжить",
+  "speechStopBtn": "⏹ Стоп",
+  "speechSeekLabel": "Переместить позицию чтения в тексте"
 };
 export default ru;

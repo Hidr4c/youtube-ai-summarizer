@@ -6,6 +6,7 @@ import { ChatStreamClient } from './ChatStreamClient.js';
 import { escapeHtml, safeSetInnerHTML } from '../ui/MarkdownRenderer.js';
 import { WebPageChatHelper } from './WebPageChatHelper.js';
 import { WebPageActionRunner } from './WebPageActionRunner.js';
+import { ChatQueueHelper } from '../ui/ChatQueueHelper.js';
 
 /**
  * Orchestrates Summary, Anti-Scam/URL/Logic Audit, Domain Audit, and Q&A
@@ -41,6 +42,9 @@ export class WebPageController {
   }
 
   abortAll() {
+    for (const c of Object.values(this._actionAborters || {})) c?.abort?.('stopped');
+    this._actionAborters = {};
+    ChatQueueHelper.clearAll(this, { queueContainerId: 'ytAiChatQueue' });
     this._defaultStreamClient?.disconnect?.();
     if (this.streamClient !== this._defaultStreamClient) this.streamClient?.disconnect?.();
     for (const c of this._streamClients.values()) c?.disconnect?.();
@@ -62,16 +66,17 @@ export class WebPageController {
   applyWebPageUiLabels(lang) {
     const t = I18N[lang] || I18N.en;
     const pageData = this.getPageData();
+    const cancelLabel = t.webCancelBtn || t.stopListenBtn || '⏹️ Stop';
     const pairs = [
       ['#ytAiTabSummaryBtn', t.webTabSummary || '📄 Page Summary'],
       ['#ytAiTabAuditBtn', t.webTabAudit || '🛡️ Page Reliability'],
-      ['#ytAiRunAuditBtn', t.webRunAuditBtn || '⚡ Audit Page'],
+      ['#ytAiRunAuditBtn', this.isAuditing ? cancelLabel : (t.webRunAuditBtn || '⚡ Audit Page')],
       ['#ytAiTabChannelAuditBtn', t.webTabDomain || '🌐 Site Audit'],
       ['#ytAiWatchChannelTitle', t.webDomainAuditTitle || '🌐 Website & Trust Audit'],
       ['#ytAiWatchChannelHandle', pageData.hostname || ''],
-      ['#ytAiRunWatchChannelAuditBtn', t.webRunDomainAuditBtn || '⚡ Audit Site'],
+      ['#ytAiRunWatchChannelAuditBtn', this.isDomainAuditing ? cancelLabel : (t.webRunDomainAuditBtn || '⚡ Audit Site')],
       ['#ytAiTranscriptHeaderTitle', t.webExtractedTitle || '📜 Extracted Page & URL Signals'],
-      ['#ytAiSummarizeBtn', t.webSummarizeBtn || '✨ Summarize Page'],
+      ['#ytAiSummarizeBtn', this.isSummarizing ? cancelLabel : (t.webSummarizeBtn || '✨ Summarize Page')],
       ['#ytAiPaneChat .yt-ai-pane-title span', t.tabChat || '💬 Ask questions'],
       ['#ytAiAuditBody .yt-ai-placeholder-text', t.webRunAuditBtn || '⚡ Audit Page'],
       ['#ytAiWatchChannelResultContainer .yt-ai-placeholder-text', t.webRunDomainAuditBtn || '⚡ Audit Site'],
@@ -162,27 +167,33 @@ export class WebPageController {
     return Math.max(4000, resolveContextCharLimit(cfg.provider, cfg.localContextLength) - 2500);
   }
 
-  _runBufferedRequest({ systemPrompt, messages }) {
+  _runBufferedRequest({ systemPrompt, messages, signal = null }) {
     const cfg = this._resolveInferenceConfig();
     return new Promise((resolve, reject) => {
+      if (signal?.aborted) { reject(new Error('Aborted')); return; }
       let out = '';
-      new ChatStreamClient().startStream({
+      const client = new ChatStreamClient();
+      const onAbort = () => { client.disconnect(); reject(new Error('Aborted')); };
+      signal?.addEventListener?.('abort', onAbort, { once: true });
+      client.startStream({
         ...cfg, systemPrompt, messages,
         onChunk: (c) => { out += c; },
-        onDone: () => resolve(out),
-        onError: (err) => reject(new Error(err || 'Stream failed'))
+        onCancel: () => { signal?.removeEventListener?.('abort', onAbort); reject(new Error('Aborted')); },
+        onDone: () => { signal?.removeEventListener?.('abort', onAbort); resolve(out); },
+        onError: (err) => { signal?.removeEventListener?.('abort', onAbort); reject(new Error(err || 'Stream failed')); }
       });
     });
   }
 
-  async _prepareOversizedPageData(pageData, kindLabel, lang) {
+  async _prepareOversizedPageData(pageData, kindLabel, lang, signal = null) {
     const budget = this._getSafeContextBudget();
     if (!pageData?.text || pageData.text.length <= budget) return pageData;
     const chunks = WebPageController.splitTextChunks(pageData.text, budget);
     const digests = [];
     for (let i = 0; i < chunks.length; i += 1) {
+      if (signal?.aborted) throw new Error('Aborted');
       const { systemPrompt, userPrompt } = WebPagePromptBuilder.buildChunkDigestPrompts(chunks[i], `${kindLabel} (${i + 1}/${chunks.length})`, lang);
-      const d = await this._runBufferedRequest({ systemPrompt, messages: [{ role: 'user', content: userPrompt }] }).catch(() => chunks[i].slice(0, Math.floor(budget / chunks.length)));
+      const d = await this._runBufferedRequest({ systemPrompt, messages: [{ role: 'user', content: userPrompt }], signal }).catch(() => chunks[i].slice(0, Math.floor(budget / chunks.length)));
       digests.push(d);
     }
     return { ...pageData, text: digests.join('\n\n') };
@@ -208,12 +219,18 @@ export class WebPageController {
     return WebPageActionRunner.runDomainAudit(this, WebPageController.packDomainBatches);
   }
 
-  sendChatMessage(text, attachments = []) {
+  sendChatMessage(text, attachments = [], opts = {}) {
     const cleanText = String(text || '').trim();
     if (!cleanText && attachments.length === 0) return;
     this.bannerView?.setExpanded?.(true);
     this.bannerView?.switchTab?.('chat');
-    WebPageChatHelper.sendChat(this, cleanText, attachments);
+    return WebPageChatHelper.sendChat(this, cleanText, attachments, opts);
+  }
+
+  clearChat() {
+    ChatQueueHelper.clearAll(this, { queueContainerId: 'ytAiChatQueue' });
+    this.chatHistory = [];
+    this.getStreamClient('chat')?.disconnect?.();
   }
 }
 

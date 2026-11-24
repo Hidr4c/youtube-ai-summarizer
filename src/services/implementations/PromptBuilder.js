@@ -33,6 +33,8 @@ export class PromptBuilder extends IPromptBuilder {
     const subscribers = extraContext.subscribers || '';
     const category = extraContext.category || '';
     const publishDate = extraContext.publishDate || '';
+    const viewCount = extraContext.viewCount || '';
+    const chapters = Array.isArray(extraContext.chapters) ? extraContext.chapters : [];
     const rawKeywords = extraContext.keywords || [];
     const keywords = Array.isArray(rawKeywords)
       ? rawKeywords.slice(0, 10).join(', ')
@@ -47,7 +49,12 @@ export class PromptBuilder extends IPromptBuilder {
     if (subscribers) lines.push(isFr ? `- Abonnés chaîne : ${subscribers}` : `- Channel subscribers: ${subscribers}`);
     if (category) lines.push(isFr ? `- Catégorie : ${category}` : `- Category: ${category}`);
     if (publishDate) lines.push(isFr ? `- Date de publication : ${publishDate}` : `- Published date: ${publishDate}`);
+    if (viewCount) lines.push(isFr ? `- Vues : ${viewCount}` : `- Views: ${viewCount}`);
     if (keywords) lines.push(isFr ? `- Mots-clés : ${keywords}` : `- Keywords: ${keywords}`);
+    if (chapters.length > 0) {
+      const chapStr = chapters.slice(0, 20).map((c) => `[${c.timestamp}] ${c.text}`).join(' | ');
+      lines.push(isFr ? `- Chapitres : ${chapStr}` : `- Chapters: ${chapStr}`);
+    }
     if (description) lines.push(isFr ? `- Description officielle :\n"""\n${description}\n"""` : `- Official Description:\n"""\n${description}\n"""`);
     if (extraContext.channelDossier) {
       lines.push('\n' + extraContext.channelDossier);

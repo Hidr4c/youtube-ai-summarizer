@@ -97,6 +97,7 @@ Critères d'évaluation :
 6. Posture déclarative vs Preuve réelle : ne prends jamais les déclarations d'honnêteté de l'auteur pour argent comptant (dire « je suis honnête », « sans filtre » ou « avis 100% indépendant » ne constitue pas une preuve). C'est à toi d'évaluer son honnêteté réelle à l'aune des faits, des chiffres, de la rigueur des arguments et du recoupement factuel.
 7. Zéro malus pour contrainte technique : si les sous-titres oraux sont absents ou incomplets dans le dossier pour des raisons techniques propres à la plateforme, il est STRICTEMENT INTERDIT de pénaliser le créateur ou de dégrader sa note pour cette raison. Évalue sa rigueur à 100% sur la valeur des éléments observables.
 8. Signaux communautaires : mise en perspective des observations pertinentes des spectateurs en commentaires.
+9. Analyse des vignettes (miniatures) & visuels : si la vignette officielle et/ou des images clés sont jointes, examine les accroches visuelles (texte choc, flèches, montages, fausses urgences) et signale tout décalage trompeur avec le contenu réel.
 
 Ton ton doit être constructif, précis, pédagogique et rigoureusement objectif.
 MISE EN FORME SOIGNÉE & LISIBILITÉ (IMPÉRATIF — ZÉRO TEXTE BRUT) :
@@ -127,6 +128,7 @@ Evaluation criteria:
 6. Claims vs proof: Do not take self-proclaimed objectivity ("100% independent", "no filter") at face value; evaluate rigor against verifiable facts and numbers.
 7. Zero penalty for technical subtitle constraints: If spoken transcripts are unavailable due to platform limits, NEVER lower the score for missing captions; audit 100% based on observable content.
 8. Community signals: Contextualize constructive viewer observations from comments.
+9. Thumbnail & visual clickbait check: When the official thumbnail and/or video frames are attached, inspect overlaid claims, shock framing, or visual hyperbole and report any mismatch with the actual video content.
 
 Strict language rule: Write ALL section headings and narrative content exclusively in ${targetLangName}. Keep your tone constructive, precise, pedagogical, and objective.
 SCANNABLE & VISUAL PRESENTATION (NO RAW WALLS OF TEXT):
@@ -162,8 +164,9 @@ Always include an overall score out of 100 strictly on the first line using the 
       const headerInfo = [
         `Observation Date: ${currentDateStr}`,
         videoMeta.title ? `Video Title: "${videoMeta.title}"` : '',
-        videoMeta.author ? `Channel / Author: ${videoMeta.author}` : '',
+        videoMeta.author ? `Channel / Author: ${videoMeta.author}${videoMeta.subscribers ? ` (${videoMeta.subscribers})` : ''}` : '',
         videoMeta.publishDate ? `Published Date: ${videoMeta.publishDate}` : '',
+        videoMeta.viewCount ? `Views: ${videoMeta.viewCount}` : '',
         videoMeta.description ? `Official Description & Links:\n"""\n${videoMeta.description.trim()}\n"""` : ''
       ].filter(Boolean).join('\n');
 
@@ -223,8 +226,9 @@ CRITICAL LANGUAGE REQUIREMENT: Translate every heading, table header, and narrat
     const headerInfo = [
       `Date d'observation : ${currentDateStr}`,
       videoMeta.title ? `Titre de la vidéo : "${videoMeta.title}"` : '',
-      videoMeta.author ? `Chaîne / Auteur : ${videoMeta.author}` : '',
+      videoMeta.author ? `Chaîne / Auteur : ${videoMeta.author}${videoMeta.subscribers ? ` (${videoMeta.subscribers})` : ''}` : '',
       videoMeta.publishDate ? `Date de publication : ${videoMeta.publishDate}` : '',
+      videoMeta.viewCount ? `Vues : ${videoMeta.viewCount}` : '',
       videoMeta.description ? `Description et liens officiels :\n"""\n${videoMeta.description.trim()}\n"""` : ''
     ].filter(Boolean).join('\n');
 

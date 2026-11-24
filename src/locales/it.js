@@ -66,22 +66,10 @@ export const it = {
   "chatTitle": "💬 Domande & Risposte sul video",
   "clearChatBtn": "🗑️ Cancella conversazione",
   "suggestions": [
-    {
-      "label": "💡 Punti chiave",
-      "question": "Quali sono i punti chiave essenziali da ricordare?"
-    },
-    {
-      "label": "⏱️ Momenti salienti",
-      "question": "In quale momento del video si parla dell'argomento principale?"
-    },
-    {
-      "label": "📊 Dati ed Esempi",
-      "question": "Quali esempi, dati o argomenti specifici vengono citati?"
-    },
-    {
-      "label": "🎯 Conclusione e Consigli",
-      "question": "Cosa consiglia o conclude l'autore alla fine?"
-    }
+    { "label": "💡 Punti chiave", "question": "Quali sono i punti chiave essenziali da ricordare?" },
+    { "label": "⏱️ Momenti salienti", "question": "In quale momento del video si parla dell'argomento principale?" },
+    { "label": "📊 Dati ed Esempi", "question": "Quali esempi, dati o argomenti specifici vengono citati?" },
+    { "label": "🎯 Conclusione e Consigli", "question": "Cosa consiglia o conclude l'autore alla fine?" }
   ],
   "chatWelcome": "Ciao! Fammi qualsiasi domanda sui contenuti di questo video. Mi baso direttamente sulla sua trascrizione integrale.",
   "chatPlaceholder": "Fai una domanda o detta al microfono... (Invio per inviare)",
@@ -108,14 +96,17 @@ export const it = {
   "webTileForms": "Moduli",
   "webTileDom": "Integrità DOM",
   "webTileSite": "Sito analizzato",
-  "webTileCrawl": "Copertura",
-  "webTileContacts": "Contatti diretti",
+  "webTileLegal": "Pagine ufficiali",
+  "webTileContacts": "Contatti ufficiali",
   "webValHttp": "HTTP non crittografato",
   "webValFormsWarn": "Campi sensibili rilevati",
   "webValFormsOk": "Nessuna trappola rilevata",
   "webValDomWarn": "Segnali sospetti",
   "webValDomOk": "DOM pulito",
-  "webValNoneFound": "Nessuno trovato",
+  "webValNoneFound": "Nessun contatto visibile",
+  "webTileStructure": "Struttura del sito", "webPagesFound": "{n} pagina/e trovata/e", "webNoLegalPages": "Nessuna rilevata",
+  "webValStructComplete": "Ben strutturato", "webValStructPartial": "Struttura parziale", "webValStructMinimal": "Pagina isolata / minima",
+  "webBarLegal": "Note legali e info", "webBarContacts": "Canali di contatto", "webBarStructure": "Navigazione e menu", "webBarHomeInfo": "Chiarezza homepage",
   "attachUnsupported": "Tipo di file non supportato. Allega immagini o file di testo/codice.",
   "micStopTitle": "Interrompi dettatura",
   "sendBtn": "Invia ➤",
@@ -281,6 +272,24 @@ export const it = {
   "webBusyBtn": "⏳ Analisi in corso...",
   "webReasoningWait": "💭 Il modello sta ragionando...",
   "webEmptyAiResponse": "Il modello IA non ha restituito alcun testo di analisi (risposta vuota o ragionamento troncato). Verificare modello, lunghezza contesto o Max Tokens nelle Impostazioni.",
-  "closeExtensionBtn": "Chiudi e disattiva ClarifAI (riattiva dal popup dell’estensione)"
+  "closeExtensionBtn": "Chiudi e disattiva ClarifAI (riattiva dal popup dell’estensione)",
+  "webCancelBtn": "⏹ Annulla",
+  "chatQueueTitle": "In coda ({count})",
+  "chatInProgressLabel": "In corso:",
+  "chatEditRecallBtn": "Modifica / Annulla",
+  "chatRevertBtn": "Torna qui",
+  "chatRevertTitle": "Torna a questo messaggio e modifica il testo",
+  "chatSendNowBtn": "Invia ora",
+  "chatRemoveQueueBtn": "Rimuovi dalla coda",
+  "describeAccessibleBtn": "👁️ Descrivi (Ipovedenti)",
+  "describeAccessibleTitle": "Descrivi in dettaglio la pagina e le immagini per persone ipovedenti con lettura automatica",
+  "describeAccessibleQuestion": "👁️ Descrivi questa pagina e le sue immagini in dettaglio per una persona ipovedente o non vedente (audiodescrizione).",
+  "speechBarAriaLabel": "Controlli di riproduzione audio",
+  "speechRestartBtn": "⏮ Inizio",
+  "speechRestartTitle": "Ricomincia la lettura dall'inizio",
+  "speechPauseBtn": "⏸ Pausa",
+  "speechResumeBtn": "▶ Riprendi",
+  "speechStopBtn": "⏹ Ferma",
+  "speechSeekLabel": "Sposta la posizione di lettura nel testo"
 };
 export default it;

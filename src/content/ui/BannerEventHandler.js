@@ -3,6 +3,8 @@ import { SettingsDrawerController } from './SettingsDrawerController.js';
 import { SettingsDrawerEventHandler } from './SettingsDrawerEventHandler.js';
 import { HeaderTabHandler } from './HeaderTabHandler.js';
 import { PaneExportHelper } from './PaneExportHelper.js';
+import { SpeechPlayerBar } from './SpeechPlayerBar.js';
+import { AccessiblePageDescriber } from './AccessiblePageDescriber.js';
 import { parseChannelAuditLimit, resolveEffectiveChannelLimit } from '../../config/ExtensionConstants.js';
 import { I18N } from '../../locales/index.js';
 
@@ -99,6 +101,7 @@ export class BannerEventHandler {
 
     // 8. Audio
     audioController.init();
+    SpeechPlayerBar.bind(audioController, () => state.currentLang);
     document.getElementById('ytAiSpeakSummaryBtn')?.addEventListener('click', (e) => {
       const text = summaryViewController.fullSummaryMarkdown || document.getElementById('ytAiSummaryBody')?.innerText || '';
       if (text.trim()) {
@@ -116,7 +119,7 @@ export class BannerEventHandler {
         const atts = customText ? [] : (chatViewController?.attachmentHelper?.consume?.() || []);
         if (!txt && atts.length === 0) return;
         if (inputEl) { inputEl.value = ''; if (inputEl.style) inputEl.style.height = 'auto'; }
-        webPageController.sendChatMessage(txt, atts);
+        webPageController.sendChatMessage(txt, atts, { attachmentHelper: chatViewController?.attachmentHelper, audioController });
         return;
       }
       chatViewController.handleSendChatMessage(customText, {
@@ -177,7 +180,13 @@ export class BannerEventHandler {
         chatViewController.attachmentHelper?.handleFiles(e.dataTransfer.files);
       }
     });
+    document.getElementById('ytAiDescribeAccessibleBtn')?.addEventListener('click', () => {
+      AccessiblePageDescriber.trigger({
+        isWebMode: isWebPageMode(), webPageController, chatViewController, bannerView, audioController, state
+      });
+    });
     document.getElementById('ytAiClearChatBtn')?.addEventListener('click', () => {
+      if (isWebPageMode() && webPageController) webPageController.clearChat?.();
       chatViewController.handleClearChat(state.currentLang);
     });
 

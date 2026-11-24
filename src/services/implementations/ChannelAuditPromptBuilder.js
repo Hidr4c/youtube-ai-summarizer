@@ -33,7 +33,7 @@ MÉTHODOLOGIE D'ÉCHANTILLONNAGE & CRITÈRES D'ANALYSE :
 1. CONTEXTE ÉDITORIAL & TYPOLOGIE DE CHAÎNE : Identifie la vocation première de la chaîne et son public cible (Jeunesse / Enfants, Vulgarisation scientifique, Journalisme / Actualité, Humour / Fiction, Gaming). Adapte impérativement les critères d'exigence au genre : pour une chaîne jeunesse ou familiale, évalue l'éthique envers les jeunes spectateurs (absence de manipulation, de surconsommation forcée ou de conditionnement commercial insidieux ciblant la naïveté des enfants).
 2. PONDÉRATION FORTE SUR LE RÉCENT (~65% du poids) : Les vidéos récentes reflètent l'état actuel de la chaîne, sa maturité, ses progrès éditoriaux ou au contraire une dérive sensationnaliste.
 3. PERSPECTIVE TEMPORELLE (~35% du poids) : Compare les vidéos récentes aux vidéos intermédiaires (~1 an) et plus anciennes pour mesurer l'évolution d'année en année (professionnalisation, nuance, transparence).
-4. SENSATIONNALISME & ACCROCHES TROMPEUSES : Mesure le décalage éventuel entre les promesses des titres et le contenu réel. Reste toujours neutre et factuel : si la chaîne est sobre et honnête, reconnais-le sans forcer la critique. Ne mentionne le sensationnalisme que s'il est réellement présent.
+4. SENSATIONNALISME, VIGNETTES & ACCROCHES TROMPEUSES : Mesure le décalage éventuel entre les promesses des titres/vignettes (textes chocs, visages exagérés, fausses urgences) et le contenu réel. Lorsqu'une planche de vignettes numérotées (#1, #2…) est jointe, croise impérativement chaque miniature avec son numéro de vidéo dans l'indice de sensationnalisme. Reste toujours neutre et factuel : si la chaîne est sobre et honnête, reconnais-le sans forcer la critique. Ne mentionne le sensationnalisme que s'il est réellement présent.
 5. TRANSPARENCE COMMERCIALE & DISCERNEMENT MARKETING : Il est normal et légitime qu'un créateur gagne sa vie (sponsors, partenariats, vente d'ouvrages ou de formations). L'exigence clé est la transparence envers le public et la préservation de son esprit critique : l'auteur développe-t-il des arguments réels, vérifiés et nuancés, ou répète-t-il un discours marketing préformaté sans recul ? ("Le mal n'est pas partout : une vidéo sponsorisée peut être rigoureuse si les arguments sont honnêtes").
 6. POSTURE DÉCLARATIVE VS PREUVE RÉELLE : Ne prends jamais l'auto-proclamation d'honnêteté (« je suis totalement indépendant », « je vous dis toute la vérité ») pour argent comptant. C'est à l'audit de juger de la sincérité et de la probité du propos en vérifiant les faits, la solidité des arguments et la cohérence des démonstrations.
 7. ZÉRO MALUS POUR CONTRAINTE TECHNIQUE : Il est strictement interdit de baisser la note d'une vidéo ou d'une chaîne sous prétexte que les sous-titres complets ne sont pas disponibles sur la plateforme. Juge la rigueur et l'honnêteté à 100% sur les éléments observables.
@@ -88,7 +88,7 @@ TEMPORAL & CONTEXTUAL METHODOLOGY:
 1. CONTEXT & EDITORIAL GENRE: Identify channel purpose and target audience (Kids/Family, Science, Journalism, Fiction, Gaming). Adapt scrutiny: for children content, actively verify ethical safeguards against commercial manipulation or psychological habit conditioning.
 2. RECENCY WEIGHT (~65% of weight): Recent videos best reflect current maturity or recent changes.
 3. HISTORICAL PERSPECTIVE (~35% of weight): Compare recent videos against earlier ones to evaluate Year-over-Year evolution.
-4. SENSATIONALISM SENSITIVITY: Evaluate title exaggeration vs informative substance.
+4. SENSATIONALISM & THUMBNAIL CLICKBAIT CHECK: Evaluate exaggeration across BOTH titles and attached video thumbnails (numbered #1, #2… on contact sheets—inspect shocking overlay text, false claims, or hyperbolic visuals against actual video substance). Stay factual and credit restrained channels cleanly.
 5. COMMERCIAL TRANSPARENCY: Differentiate legitimate author monetization from undisclosed sponsorship pressure.
 6. EVIDENCE OVER SELF-CLAIMS: Evaluate rigor objectively from observable facts; NEVER penalize missing transcripts caused by technical platform limits.
 
@@ -127,7 +127,7 @@ STRICT LANGUAGE & FORMATTING RULE: Write ALL prose, concise \`- **Label:** ...\`
    * @param {string} [lang='fr']
    * @returns {string}
    */
-  static buildUserPrompt(channel = {}, sampledVideos = [], lang = 'fr') {
+  static buildUserPrompt(channel = {}, sampledVideos = [], lang = 'fr', hasThumbnailSheets = false) {
     const isFr = (lang || 'fr').toLowerCase().startsWith('fr');
     const targetLangName = AuditPromptBuilder.getLanguageLabel(lang);
     const title = channel.title || (isFr ? 'Créateur YouTube' : 'YouTube Creator');
@@ -184,13 +184,16 @@ REPRESENTATIVE GROUP SAMPLE (${sampledVideos.length} SELECTED ITEMS${formatSumma
     const cohort2 = formatCohort(mid, isFr ? '[COHORTE 2 : INTERMÉDIAIRE (~1 an - Poids moyen ~25%)]' : '[COHORT 2: MID-TERM (~1 year - 25% weight)]');
     const cohort3 = formatCohort(legacy, isFr ? '[COHORTE 3 : HISTORIQUE / PILIERS - Poids ~10%)]' : '[COHORT 3: HISTORICAL / PILLARS - 10% weight)]');
 
+    const thumbNote = hasThumbnailSheets
+      ? (isFr ? '\n- Vignettes jointes : Des planches numérotées (#1, #2…) montrent les miniatures réelles des vidéos ci-dessous. Évalue leurs accroches visuelles et textes incrustés !' : '\n- Attached Thumbnails: Numbered contact sheets (#1, #2…) display actual thumbnails for the videos below. Inspect their visual promises and overlay text!')
+      : '';
     const instruction = isFr
-      ? `\nCONSIGNE D'ANALYSE GROUPÉE :
+      ? `\nCONSIGNE D'ANALYSE GROUPÉE :${thumbNote}
 Procède en UNE SEULE ÉVALUATION CONSOLIDÉE :
 1. Note chaque vidéo dans le bloc [EVAL_VIDEOS] ... [/EVAL_VIDEOS] avec son taux de sensationnalisme et une justification d'une phrase en FRANÇAIS.
 2. Établis la note globale [SCORE_GLOBAL], le taux de sensationnalisme [INDICE_SENSATIONNALISME], la proportion [DISTRIBUTION] et la [TRAJECTOIRE].
 3. Rédige les sections qualitatives [✓], [!], [X], [📈] et la synthèse finale exclusivement en FRANÇAIS.`
-      : `\nINSTRUCTION: Perform a single consolidated evaluation with [EVAL_VIDEOS], global tags, and the qualitative sections. Write ALL commentary, video notes, bullets, and synthesis exclusively in ${targetLangName}.`;
+      : `${thumbNote}\nINSTRUCTION: Perform a single consolidated evaluation with [EVAL_VIDEOS], global tags, and the qualitative sections. Write ALL commentary, video notes, bullets, and synthesis exclusively in ${targetLangName}.`;
 
     return `${header}${cohort1}${cohort2}${cohort3}\n${instruction}`;
   }

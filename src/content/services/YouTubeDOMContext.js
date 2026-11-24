@@ -111,11 +111,13 @@ export class YouTubeDOMContext {
         || (hasDoc ? document.querySelector('#structured-description ytd-expandable-video-description-body-renderer, ytd-engagement-panel-section-list-renderer[visibility*="EXPANDED"] #description-inline-expander') : null))
       : (domScope ? domScope.querySelector('#description-inline-expander yt-attributed-string, #description, #description-inline-expander, ytm-expandable-video-description-body-renderer') : null);
     const dateEl = (!shortsMode && domScope) ? domScope.querySelector('#info-container #info span:nth-child(3), ytd-watch-metadata #info-strings yt-formatted-string, ytd-video-primary-info-renderer #date') : null;
+    const viewsEl = (!shortsMode && domScope) ? domScope.querySelector('#info-container #info span:first-child, ytd-watch-metadata #info span:first-child, ytd-video-primary-info-renderer .view-count') : null;
     const tagEls = domScope ? domScope.querySelectorAll('#description a[href*="/hashtag/"], #super-title a, a[href*="/hashtag/"]') : [];
 
     const domSubscribers = subEl?.textContent?.trim() || '';
     const domDescription = descEl?.innerText?.trim() || descEl?.textContent?.trim() || '';
     const domDate = dateEl?.textContent?.trim() || '';
+    const domViews = viewsEl?.textContent?.trim() || '';
     const domKeywords = Array.from(tagEls).map(el => el.textContent.trim().replace(/^#/, '')).filter(Boolean);
     const itempropHref = (hasDoc && !ownerDomUrl && !safeMeta.channelUrl && !safeMeta.channelId)
       ? (document.querySelector('[itemprop="author"] link[itemprop="url"]')?.getAttribute?.('href') || '')
@@ -131,7 +133,7 @@ export class YouTubeDOMContext {
       : domKeywords;
     const category = safeMeta.category || '';
     const publishDate = safeMeta.publishDate || domDate || '';
-    const viewCount = safeMeta.viewCount || '';
+    const viewCount = safeMeta.viewCount || domViews || '';
     const channelId = safeMeta.channelId || '';
     const safeMetaUrl = ChannelPageParser.sanitizeChannelPath(safeMeta.channelUrl || '') || safeMeta.channelUrl || '';
     const channelUrl = ownerDomUrl || safeMetaUrl || (channelId ? `/channel/${channelId}` : '') || domChannelUrl;

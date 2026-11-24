@@ -85,13 +85,14 @@ describe('Unified Smart Header & Browser Language Auto-Detection', () => {
     assert.match(detailedChanAuditSys, /DETAILED/);
   });
 
-  it('1-click header tabs expand + switch + launch only when uncached and idle across Watch & Web modes', async () => {
+  it('header tabs expand and switch pane only without auto-launching AI inference across Watch & Web modes', async () => {
     let expanded = [];
     let switched = [];
     let sumCalls = 0;
     let auditCalls = 0;
     let channelCalls = 0;
     let txCalls = 0;
+    let channelSyncCalls = 0;
 
     globalThis.document = {
       title: 'Sample Video - YouTube',
@@ -108,7 +109,7 @@ describe('Unified Smart Header & Browser Language Auto-Detection', () => {
         switchTab: (t) => switched.push(t)
       },
       summaryViewController: { fullSummaryMarkdown: '', isGenerating: false },
-      auditViewController: { lastReport: null, auditService: { isAuditing: false }, syncChannelAuditUI: async () => {} },
+      auditViewController: { lastReport: null, auditService: { isAuditing: false }, syncChannelAuditUI: async () => { channelSyncCalls += 1; } },
       transcriptController: { cachedTranscript: {}, extractYouTubeTranscript: () => { txCalls += 1; } },
       webPageController: null,
       triggerSummarize: () => { sumCalls += 1; },
@@ -116,33 +117,28 @@ describe('Unified Smart Header & Browser Language Auto-Detection', () => {
       triggerChannelAudit: () => { channelCalls += 1; }
     };
 
-    // Uncached clicks launch once
     HeaderTabHandler.handleTabSelection(makeBtn('summary'), ctx);
     HeaderTabHandler.handleTabSelection(makeBtn('audit'), ctx);
+    HeaderTabHandler.handleTabSelection(makeBtn('channelAudit'), ctx);
     HeaderTabHandler.handleTabSelection(makeBtn('transcript'), ctx);
-    assert.deepEqual(expanded, [true, true, true]);
-    assert.deepEqual(switched, ['summary', 'audit', 'transcript']);
-    assert.equal(sumCalls, 1);
-    assert.equal(auditCalls, 1);
+    await Promise.resolve();
+    assert.deepEqual(expanded, [true, true, true, true]);
+    assert.deepEqual(switched, ['summary', 'audit', 'channelAudit', 'transcript']);
+    assert.equal(sumCalls, 0);
+    assert.equal(auditCalls, 0);
+    assert.equal(channelCalls, 0);
+    assert.equal(channelSyncCalls, 1);
     assert.equal(txCalls, 1);
 
-    // Cached results prevent redundant relaunch
-    ctx.summaryViewController.fullSummaryMarkdown = 'Cached summary';
-    ctx.auditViewController.lastReport = { reliabilityScore: 90 };
-    HeaderTabHandler.handleTabSelection(makeBtn('summary'), ctx);
-    HeaderTabHandler.handleTabSelection(makeBtn('audit'), ctx);
-    assert.equal(sumCalls, 1);
-    assert.equal(auditCalls, 1);
-
-    // Universal Web Page mode 1-click site audit launch vs cached switch
+    // Universal Web Page mode switches cleanly without triggering summary, page audit, or site audit
     globalThis.window = { location: new URL('https://example.com/article') };
     ctx.webPageController = { summaryMarkdown: '', auditReport: null, domainAuditMarkdown: '' };
+    HeaderTabHandler.handleTabSelection(makeBtn('summary'), ctx);
+    HeaderTabHandler.handleTabSelection(makeBtn('audit'), ctx);
     HeaderTabHandler.handleTabSelection(makeBtn('channelAudit'), ctx);
-    assert.equal(channelCalls, 1);
-
-    ctx.webPageController.domainAuditMarkdown = 'Cached domain audit';
-    HeaderTabHandler.handleTabSelection(makeBtn('channelAudit'), ctx);
-    assert.equal(channelCalls, 1);
+    assert.equal(sumCalls, 0);
+    assert.equal(auditCalls, 0);
+    assert.equal(channelCalls, 0);
   });
 
   it('hides the transcript tab and pane in Universal Web Page mode (YouTube videos only)', () => {

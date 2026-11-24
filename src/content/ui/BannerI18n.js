@@ -51,8 +51,10 @@ export class BannerI18n {
     const summarizeBtn = document.getElementById('ytAiSummarizeBtn');
     if (summarizeBtn) {
       if (summaryViewController?.isGenerating) {
-        summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || 'Generating summary...'}`;
+        summarizeBtn.classList?.add('yt-ai-btn-stop');
+        summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ⏹️ ${t.generatingSummary || 'Generating summary...'}`;
       } else {
+        summarizeBtn.classList?.remove('yt-ai-btn-stop');
         summarizeBtn.textContent = t.summarizeBtn || '✨ Summarize video';
       }
     }
@@ -180,6 +182,13 @@ export class BannerI18n {
     if (sendBtn) sendBtn.textContent = t.sendBtn || 'Send ➤';
     const clearBtn = document.getElementById('ytAiClearChatBtn');
     if (clearBtn) clearBtn.textContent = t.clearChatBtn || '🗑️ Clear';
+    const descBtn = document.getElementById('ytAiDescribeAccessibleBtn');
+    if (descBtn) {
+      descBtn.textContent = t.describeAccessibleBtn || '👁️ Describe (Low-Vision)';
+      const tip = t.describeAccessibleTitle || 'Describe this page aloud for blind or low-vision users';
+      descBtn.title = tip;
+      descBtn.setAttribute?.('aria-label', tip);
+    }
     const chatTitle = document.querySelector?.('#ytAiPaneChat .yt-ai-pane-title span');
     if (chatTitle) chatTitle.textContent = t.chatTitle || '💬 Video Q&A';
     const micBtn = document.getElementById('ytAiMicBtn');

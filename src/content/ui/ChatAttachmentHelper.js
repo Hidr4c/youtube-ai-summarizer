@@ -60,6 +60,17 @@ export class ChatAttachmentHelper {
     this.renderPreview();
   }
 
+  restore(items = []) {
+    if (!Array.isArray(items) || items.length === 0) return;
+    const next = [...this.attachments];
+    for (const item of items) {
+      if (next.length >= MAX_ATTACHMENTS) break;
+      if (item && (item.kind === 'image' || item.kind === 'text')) next.push({ ...item });
+    }
+    this.attachments = next;
+    this.renderPreview();
+  }
+
   consume() {
     const taken = this.attachments.slice();
     this.clear();

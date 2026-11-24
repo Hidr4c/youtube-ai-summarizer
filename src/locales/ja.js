@@ -66,22 +66,10 @@ export const ja = {
   "chatTitle": "💬 動画についてのQ&A",
   "clearChatBtn": "🗑️ チャット履歴を消去",
   "suggestions": [
-    {
-      "label": "💡 要点まとめ",
-      "question": "この動画の最も重要なキーポイントは何ですか？"
-    },
-    {
-      "label": "⏱️ タイムスタンプ",
-      "question": "動画のどの部分でメインテーマについて話していますか？"
-    },
-    {
-      "label": "📊 データと具体例",
-      "question": "具体的にどのようなデータ、事例、論拠が挙げられていますか？"
-    },
-    {
-      "label": "🎯 結論とアドバイス",
-      "question": "動画の最後で著者はどのような結論やアドバイスを述べていますか？"
-    }
+    { "label": "💡 要点まとめ", "question": "この動画の最も重要なキーポイントは何ですか？" },
+    { "label": "⏱️ タイムスタンプ", "question": "動画のどの部分でメインテーマについて話していますか？" },
+    { "label": "📊 データと具体例", "question": "具体的にどのようなデータ、事例、論拠が挙げられていますか？" },
+    { "label": "🎯 結論とアドバイス", "question": "動画の最後で著者はどのような結論やアドバイスを述べていますか？" }
   ],
   "chatWelcome": "こんにちは！この動画の内容について何でも質問してください。動画全体の文字起こしに基づいて回答します。",
   "chatPlaceholder": "質問を入力するかマイクで音声入力... (Enterで送信)",
@@ -108,14 +96,17 @@ export const ja = {
   "webTileForms": "フォーム",
   "webTileDom": "DOMの整合性",
   "webTileSite": "分析対象サイト",
-  "webTileCrawl": "調査範囲",
-  "webTileContacts": "直接連絡先",
+  "webTileLegal": "公式・法的ページ",
+  "webTileContacts": "公式連絡先",
   "webValHttp": "非暗号化HTTP",
   "webValFormsWarn": "機密入力を検出",
   "webValFormsOk": "罠は未検出",
   "webValDomWarn": "不審な兆候",
   "webValDomOk": "安全なDOM",
-  "webValNoneFound": "見つかりません",
+  "webValNoneFound": "連絡先の記載なし",
+  "webTileStructure": "サイト構成", "webPagesFound": "{n} 件検出", "webNoLegalPages": "未検出",
+  "webValStructComplete": "構成が充実", "webValStructPartial": "一部のみ構成", "webValStructMinimal": "単一ページ / 最小構成",
+  "webBarLegal": "法的情報・概要ページ", "webBarContacts": "問い合わせ手段", "webBarStructure": "サイト構成と案内", "webBarHomeInfo": "トップページの明確さ",
   "attachUnsupported": "未対応のファイル形式です。画像またはテキスト/コードファイルを添付してください。",
   "micStopTitle": "音声入力を停止",
   "sendBtn": "送信 ➤",
@@ -281,6 +272,24 @@ export const ja = {
   "webBusyBtn": "⏳ 分析中...",
   "webReasoningWait": "💭 モデルが推論中...",
   "webEmptyAiResponse": "AIモデルから分析テキストが返されませんでした（空の応答または推論の中断）。設定でモデル・コンテキスト長・Max Tokensを確認してください。",
-  "closeExtensionBtn": "ClarifAI を閉じて無効化（拡張機能のポップアップから再有効化できます）"
+  "closeExtensionBtn": "ClarifAI を閉じて無効化（拡張機能のポップアップから再有効化できます）",
+  "webCancelBtn": "⏹ キャンセル",
+  "chatQueueTitle": "送信待ち ({count})",
+  "chatInProgressLabel": "生成中:",
+  "chatEditRecallBtn": "編集 / キャンセル",
+  "chatRevertBtn": "ここまで戻す",
+  "chatRevertTitle": "このメッセージまで戻して編集する",
+  "chatSendNowBtn": "今すぐ送信",
+  "chatRemoveQueueBtn": "キューから削除",
+  "describeAccessibleBtn": "👁️ 視覚障害者向け解説",
+  "describeAccessibleTitle": "ページと画像を視覚障害者向けに詳しく解説し、自動で音声読み上げを開始します",
+  "describeAccessibleQuestion": "👁️ 視覚に障害のある方向けに、このページと画像の内容を音声解説として詳しく説明してください。",
+  "speechBarAriaLabel": "音声読み上げコントロール",
+  "speechRestartBtn": "⏮ 最初から",
+  "speechRestartTitle": "最初から読み上げを再開",
+  "speechPauseBtn": "⏸ 一時停止",
+  "speechResumeBtn": "▶ 再開",
+  "speechStopBtn": "⏹ 停止",
+  "speechSeekLabel": "テキスト内の読み上げ位置を移動"
 };
 export default ja;

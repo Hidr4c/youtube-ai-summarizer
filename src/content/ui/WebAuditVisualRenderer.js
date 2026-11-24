@@ -106,19 +106,40 @@ export class WebAuditVisualRenderer {
     const t = I18N[lang] || I18N.en;
     const pagesCount = Array.isArray(dossier?.legalPages) ? dossier.legalPages.length : 0;
     const contacts = Array.isArray(dossier?.contacts) ? dossier.contacts : [];
-    const unit = t.webDepthLevelUnit || 'level(s)';
+    const hasSitemap = (dossier?.sitemapUrlCount ?? 0) > 0;
+    const hasNavOrChrome = Boolean(dossier?.siteChrome?.header || dossier?.siteChrome?.footer || hasSitemap);
+
+    const legalVal = pagesCount > 0
+      ? (t.webPagesFound || '{n} page(s) found').replace('{n}', String(pagesCount))
+      : (t.webNoLegalPages || 'None detected');
+    const [structVal, structTone] = hasSitemap && pagesCount > 0
+      ? [t.webValStructComplete || 'Well structured', 'ok']
+      : (pagesCount > 0 || (dossier?.hasRobotsTxt && hasNavOrChrome) || hasSitemap)
+        ? [t.webValStructPartial || 'Partial structure', 'warn']
+        : [t.webValStructMinimal || 'Minimal / single page', 'warn'];
+
+    const firstContact = contacts[0] ? contacts[0].replace(/^(mailto:|tel:)/i, '').trim() : '';
+    const contactVal = firstContact
+      ? (contacts.length > 1 ? `${firstContact} (+${contacts.length - 1})` : firstContact)
+      : (t.webValNoneFound || 'No visible contact');
+    const siteTone = dossier?.origin && !dossier.origin.startsWith('https://') ? 'warn' : 'ok';
+
     const tiles = [
-      WebAuditVisualRenderer._tile('🌐', t.webTileSite || 'Target Site', dossier?.hostname || '-', 'ok'),
-      WebAuditVisualRenderer._tile('🗂️', t.webTileCrawl || 'Crawl Scope', `${dossier?.maxDepth ?? 2} ${unit} · ${pagesCount}`, pagesCount > 0 ? 'ok' : 'warn'),
-      WebAuditVisualRenderer._tile('🤖', 'Robots & Sitemap', `robots.txt: ${dossier?.hasRobotsTxt ? '✓' : '✗'} · sitemap: ${dossier?.sitemapUrlCount ?? 0}`, dossier?.hasRobotsTxt ? 'ok' : 'warn'),
-      WebAuditVisualRenderer._tile('✉️', t.webTileContacts || 'Direct Contacts', contacts[0] || (t.webValNoneFound || 'None found'), contacts.length > 0 ? 'ok' : 'warn')
+      WebAuditVisualRenderer._tile('🌐', t.webTileSite || 'Target Website', dossier?.hostname || '-', siteTone),
+      WebAuditVisualRenderer._tile('📜', t.webTileLegal || 'Legal & Info Pages', legalVal, pagesCount > 0 ? 'ok' : 'warn'),
+      WebAuditVisualRenderer._tile('🧭', t.webTileStructure || 'Site Structure', structVal, structTone),
+      WebAuditVisualRenderer._tile('✉️', t.webTileContacts || 'Official Contacts', contactVal, contacts.length > 0 ? 'ok' : 'warn')
     ].join('');
 
+    const structScore = Math.min(100, (hasSitemap ? 50 : 0) + (dossier?.hasRobotsTxt ? 20 : 0) + (hasNavOrChrome ? 30 : 0)) || 10;
+    const homeTitleLen = (dossier?.home?.title || '').trim().length;
+    const homeExcerptLen = (dossier?.home?.excerpt || '').trim().length;
+    const homeScore = Math.min(100, (homeTitleLen > 0 ? 50 : 0) + (homeExcerptLen > 60 ? 50 : homeExcerptLen > 0 ? 25 : 0)) || 10;
     const coverageItems = [
-      { label: lang === 'fr' ? 'Pages légales' : 'Legal pages', pct: Math.min(100, pagesCount * 25), hex: pagesCount > 0 ? '#2ea043' : '#d29922' },
-      { label: lang === 'fr' ? 'Contacts directs' : 'Direct contacts', pct: Math.min(100, contacts.length * 50), hex: contacts.length > 0 ? '#2ea043' : '#d29922' },
-      { label: 'robots.txt', pct: dossier?.hasRobotsTxt ? 100 : 10, hex: dossier?.hasRobotsTxt ? '#2ea043' : '#d29922' },
-      { label: 'sitemap.xml', pct: (dossier?.sitemapUrlCount ?? 0) > 0 ? 100 : 10, hex: (dossier?.sitemapUrlCount ?? 0) > 0 ? '#2ea043' : '#d29922' }
+      { label: t.webBarLegal || 'Legal & info pages', pct: Math.min(100, pagesCount * 25), hex: pagesCount > 0 ? '#2ea043' : '#d29922' },
+      { label: t.webBarContacts || 'Contact channels', pct: Math.min(100, contacts.length * 50), hex: contacts.length > 0 ? '#2ea043' : '#d29922' },
+      { label: t.webBarStructure || 'Navigation & menus', pct: structScore, hex: structScore >= 70 ? '#2ea043' : '#d29922' },
+      { label: t.webBarHomeInfo || 'Homepage clarity', pct: homeScore, hex: homeScore >= 75 ? '#2ea043' : '#d29922' }
     ];
     const barsHtml = coverageItems.map((c) => `
       <div class="yt-ai-axis-row">

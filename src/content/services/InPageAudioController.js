@@ -2,7 +2,7 @@ import { InPageTTSService } from './InPageTTSService.js';
 import { InPageSTTService } from './InPageSTTService.js';
 
 /**
- * Facade combining TTS and STT audio operations for YouTube in-page UI
+ * Facade combining TTS and STT audio operations for in-page UI
  */
 export class InPageAudioController {
   constructor() {
@@ -24,9 +24,14 @@ export class InPageAudioController {
     this.tts.speakText(text, buttonEl, options);
   }
 
-  stopSpeech() {
-    this.tts.stopSpeech();
-  }
+  pauseSpeech() { this.tts.pauseSpeech(); }
+  resumeSpeech() { this.tts.resumeSpeech(); }
+  togglePauseResume() { this.tts.togglePauseResume(); }
+  seekSpeechToChunk(index) { this.tts.seekToChunk(index); }
+  restartSpeech() { this.tts.restartSpeech(); }
+  getSpeechState() { return this.tts.getPlaybackState(); }
+  subscribeSpeechState(listener) { return this.tts.subscribeState(listener); }
+  stopSpeech() { this.tts.stopSpeech(); }
 
   toggleDictation(options) {
     return this.stt.toggleDictation(options);

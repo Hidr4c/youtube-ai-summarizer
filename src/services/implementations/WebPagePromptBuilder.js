@@ -41,14 +41,17 @@ export class WebPagePromptBuilder {
       detailRule,
       'CRITICAL RULES:',
       '- Summarize the ACTUAL CONTENT, FACTS, IDEAS, OFFERS, NEWS, or FEATURES on the page.',
+      '- If rendered page images or chronological Video Frames are attached, use every visual detail and readable on-screen text from them too.',
       '- FORBIDDEN: Do NOT write meta-commentary like "This page is the official homepage of...", "The extracted content shows...", or describe the HTML structure.',
       '- Start directly with the core substance of the page organized into clear Markdown headings and bullet points.'
     ].join('\n');
 
+    const imgInventory = PageImageExtractor.formatInventoryPrompt(pageData?.imageInventory, pageData?.safeImages || []);
     const userPrompt = [
       `Title: ${pageData?.title || 'Untitled'}`,
       `URL: ${pageData?.url || ''}`,
       pageData?.description ? `Description: ${pageData.description}` : '',
+      imgInventory ? `\n${imgInventory}` : '',
       '\n=== PAGE CONTENT ===',
       pageData?.text || '(Empty page text)',
       pageData?.embeddedVideoTranscripts ? `\n=== REFERENCED YOUTUBE VIDEO(S) TRANSCRIPT ===\n${pageData.embeddedVideoTranscripts}` : ''

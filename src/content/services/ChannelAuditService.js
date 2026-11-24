@@ -5,6 +5,7 @@ import { parseChannelAuditLimit } from '../../config/ExtensionConstants.js';
 import { ChannelAuditBatchRunner } from './ChannelAuditBatchRunner.js';
 import { ChannelAuditJobTracker } from './ChannelAuditJobTracker.js';
 import { ChannelAuditStreamClient } from './ChannelAuditStreamClient.js';
+import { YouTubeThumbnailCollector } from './YouTubeThumbnailCollector.js';
 
 /**
  * Orchestrates consolidated statistical channel audits with SPA navigation recovery,
@@ -156,12 +157,17 @@ export class ChannelAuditService {
 
       await this._enrichSampledVideos(sampledVideos, lang, emitProgress, signal);
       ChannelAuditJobTracker.throwIfAborted(signal, lang);
+      const thumbnailSheets = await ChannelAuditJobTracker.raceWithAbort(
+        YouTubeThumbnailCollector.collectForChannelAudit(state, sampledVideos, 12), signal, lang
+      ).catch(() => []);
+      ChannelAuditJobTracker.throwIfAborted(signal, lang);
 
       let accumulatedText = '';
       if (sampledVideos.length > 30) {
         accumulatedText = await ChannelAuditBatchRunner.run({
           channel: channelData,
           sampledVideos,
+          thumbnailSheets,
           lang,
           state,
           streamFn: (params) => this._streamAI(params),
@@ -178,7 +184,8 @@ export class ChannelAuditService {
         });
         accumulatedText = await this._streamAI({
           systemPrompt: ChannelAuditPromptBuilder.buildSystemPrompt(lang, mode),
-          userPrompt: ChannelAuditPromptBuilder.buildUserPrompt(channelData, sampledVideos, lang),
+          userPrompt: ChannelAuditPromptBuilder.buildUserPrompt(channelData, sampledVideos, lang, thumbnailSheets.length > 0),
+          images: thumbnailSheets,
           state,
           totalVideos: sampledVideos.length,
           onChunk: options.onChunk,

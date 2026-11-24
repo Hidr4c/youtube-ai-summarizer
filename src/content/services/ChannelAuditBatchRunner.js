@@ -22,7 +22,7 @@ export class ChannelAuditBatchRunner {
    * @param {Object} params
    * @returns {Promise<string>} Combined raw response with all [EVAL_VIDEOS] blocks + Reduce synthesis
    */
-  static async run({ channel, sampledVideos, lang = 'fr', state = {}, streamFn, onChunk, onProgress, signal = null }) {
+  static async run({ channel, sampledVideos, thumbnailSheets = [], lang = 'fr', state = {}, streamFn, onChunk, onProgress, signal = null }) {
     const isFr = (lang || 'fr').toLowerCase().startsWith('fr');
     const batches = BatchPacker.packGreedy(sampledVideos, (v) => this.estimateVideoWeight(v), 12000);
     const systemPrompt = ChannelAuditPromptBuilder.buildSystemPrompt(lang);
@@ -45,10 +45,12 @@ export class ChannelAuditBatchRunner {
           : `${batch.length} videos in this cohort (Map-Reduce)`
       });
 
-      const batchPrompt = this._buildMapPrompt(channel, batch, i + 1, batches.length, lang);
+      const attachSheets = i === 0 && Array.isArray(thumbnailSheets) && thumbnailSheets.length > 0 ? thumbnailSheets : [];
+      const batchPrompt = this._buildMapPrompt(channel, batch, i + 1, batches.length, lang, attachSheets.length > 0);
       const rawBatch = await streamFn({
         systemPrompt,
         userPrompt: batchPrompt,
+        images: attachSheets,
         state,
         totalVideos: batch.length,
         onChunk,
@@ -78,6 +80,7 @@ export class ChannelAuditBatchRunner {
     const reduceRaw = await streamFn({
       systemPrompt,
       userPrompt: reducePrompt,
+      images: Array.isArray(thumbnailSheets) && thumbnailSheets.length > 0 ? thumbnailSheets : [],
       state,
       totalVideos: sampledVideos.length,
       onChunk,
@@ -90,8 +93,8 @@ export class ChannelAuditBatchRunner {
     return `${evalBlocks.join('\n\n')}\n\n${cleanedReduce}`;
   }
 
-  static _buildMapPrompt(channel, batch, batchIndex, totalBatches, lang) {
-    const basePrompt = ChannelAuditPromptBuilder.buildUserPrompt(channel, batch, lang);
+  static _buildMapPrompt(channel, batch, batchIndex, totalBatches, lang, hasThumbnailSheets = false) {
+    const basePrompt = ChannelAuditPromptBuilder.buildUserPrompt(channel, batch, lang, hasThumbnailSheets);
     const isFr = (lang || 'fr').toLowerCase().startsWith('fr');
     const targetLangName = AuditPromptBuilder.getLanguageLabel(lang);
     const suffix = isFr

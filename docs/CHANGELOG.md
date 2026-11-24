@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2026-11-24
+
+### Added
+- **YouTube Thumbnails & Full Metadata Across All Analyses**: Added `YouTubeThumbnailCollector` to fetch official video thumbnails safely (`maxresdefault` with `hqdefault`/`mqdefault` fallback) for Watch Summary, Watch Audit, Watch Q&A, and numbered contact-sheet grids (`#1..#12`) for Global Channel Audit & Channel Q&A, alongside full view counts, subscribers, chapters, descriptions, and cached comments.
+- **Unified Webpage & Video Keyframe Vision Pipeline**: Added `PageVisionCollector` and `VideoFrameExtractor` to capture chronological HTML5 `<video>` frames (including Instagram Reels, YouTube Watch/Shorts, and web videos with `captureVisibleTab` CORS-taint fallback) alongside DOM images across Web Summary, Page Audit, Site Audit, and Q&A.
+- **Accessible Low-Vision Audio Description & Speech Player (`SpeechPlayerBar`)**: Added 1-click vivid audio-description generation (`👁️ Describe (Low-Vision)`) with automatic TTS start and interactive controls to pause, resume, seek/scrub reading position, restart from the beginning, or stop playback.
+- **Launch-to-Cancel Action Controls & Interactive Q&A Queue / Recall / Revert**: Primary launch buttons across Watch and Web views dynamically switch to clickable Cancel controls while streaming; Q&A chats queue chained messages FIFO, let users recall queued or active turns back into the editor with attachments intact, and revert conversations cleanly to any prior turn.
+
+### Changed
+- **Consumer-Friendly Site Audit Cards**: Redesigned the 4 Site Audit summary tiles and coverage bars across all 8 languages to display clear human signals (*Legal & Info Pages*, *Site Structure*, *Official Contacts*, *Homepage Clarity*) without technical crawl-depth or `robots.txt`/`sitemap` jargon, and stripped `mailto:`/`tel:` prefixes from contact labels.
+- **Non-Auto-Launching Header Tabs**: Clicking header tabs expands and switches views cleanly without prematurely triggering AI inference until the user launches an action (`428` automated tests passing across `87` suites, `0` failures).
+
+---
+
 ## [2.0.0] - 2026-11-23
 
 ### Added

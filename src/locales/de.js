@@ -66,22 +66,10 @@ export const de = {
   "chatTitle": "💬 Fragen & Antworten zum Video",
   "clearChatBtn": "🗑️ Verlauf löschen",
   "suggestions": [
-    {
-      "label": "💡 Kernaussagen",
-      "question": "Was sind die wichtigsten Kernaussagen dieses Videos?"
-    },
-    {
-      "label": "⏱️ Zeitstempel",
-      "question": "An welcher Stelle im Video wird das Hauptthema besprochen?"
-    },
-    {
-      "label": "📊 Zahlen & Beispiele",
-      "question": "Welche Beispiele, Zahlen oder Argumente werden genannt?"
-    },
-    {
-      "label": "🎯 Fazit & Ratschläge",
-      "question": "Welches Fazit oder welchen Rat gibt der Autor am Ende?"
-    }
+    { "label": "💡 Kernaussagen", "question": "Was sind die wichtigsten Kernaussagen dieses Videos?" },
+    { "label": "⏱️ Zeitstempel", "question": "An welcher Stelle im Video wird das Hauptthema besprochen?" },
+    { "label": "📊 Zahlen & Beispiele", "question": "Welche Beispiele, Zahlen oder Argumente werden genannt?" },
+    { "label": "🎯 Fazit & Ratschläge", "question": "Welches Fazit oder welchen Rat gibt der Autor am Ende?" }
   ],
   "chatWelcome": "Hallo! Stellen Sie mir eine Frage zum Inhalt dieses Videos. Ich beziehe mich direkt auf das vollständige Transkript.",
   "chatPlaceholder": "Frage stellen oder ins Mikro sprechen... (Enter zum Senden)",
@@ -108,14 +96,17 @@ export const de = {
   "webTileForms": "Formulare",
   "webTileDom": "DOM-Integrität",
   "webTileSite": "Analysierte Website",
-  "webTileCrawl": "Prüfumfang",
-  "webTileContacts": "Direkte Kontakte",
+  "webTileLegal": "Rechtliche Seiten",
+  "webTileContacts": "Offizielle Kontakte",
   "webValHttp": "Unverschlüsseltes HTTP",
   "webValFormsWarn": "Sensible Felder erkannt",
   "webValFormsOk": "Keine Fallen erkannt",
   "webValDomWarn": "Verdächtige Signale",
   "webValDomOk": "Sauberes DOM",
-  "webValNoneFound": "Keine gefunden",
+  "webValNoneFound": "Kein Kontakt sichtbar",
+  "webTileStructure": "Seitenstruktur", "webPagesFound": "{n} Seite(n) gefunden", "webNoLegalPages": "Keine erkannt",
+  "webValStructComplete": "Klar strukturiert", "webValStructPartial": "Teilweise strukturiert", "webValStructMinimal": "Einzelseite / minimal",
+  "webBarLegal": "Impressum & Rechtliches", "webBarContacts": "Kontaktmöglichkeiten", "webBarStructure": "Navigation & Aufbau", "webBarHomeInfo": "Startseiten-Klarheit",
   "attachUnsupported": "Nicht unterstützter Dateityp. Bilder oder Text-/Codedateien anhängen.",
   "micStopTitle": "Aufnahme beenden",
   "sendBtn": "Senden ➤",
@@ -281,6 +272,24 @@ export const de = {
   "webBusyBtn": "⏳ Analyse läuft...",
   "webReasoningWait": "💭 Modell denkt nach...",
   "webEmptyAiResponse": "Das KI-Modell hat keinen Analysetext zurückgegeben (leere Antwort oder abgebrochenes Reasoning). Prüfen Sie Modell, Kontextlänge oder Max Tokens in den Einstellungen.",
-  "closeExtensionBtn": "ClarifAI schließen und deaktivieren (jederzeit über das Popup reaktivieren)"
+  "closeExtensionBtn": "ClarifAI schließen und deaktivieren (jederzeit über das Popup reaktivieren)",
+  "webCancelBtn": "⏹ Abbrechen",
+  "chatQueueTitle": "Warteschlange ({count})",
+  "chatInProgressLabel": "Läuft:",
+  "chatEditRecallBtn": "Bearbeiten / Abbrechen",
+  "chatRevertBtn": "Zurücksetzen",
+  "chatRevertTitle": "Zu dieser Nachricht zurückkehren und Text bearbeiten",
+  "chatSendNowBtn": "Jetzt senden",
+  "chatRemoveQueueBtn": "Aus Warteschlange entfernen",
+  "describeAccessibleBtn": "👁️ Beschreiben (Sehbehinderte)",
+  "describeAccessibleTitle": "Seite und Bilder ausführlich für sehbehinderte Menschen beschreiben und automatisch vorlesen",
+  "describeAccessibleQuestion": "👁️ Beschreibe diese Seite und ihre Bilder ausführlich für eine sehbehinderte oder blinde Person (Audiodeskription).",
+  "speechBarAriaLabel": "Audiowiedergabe-Steuerung",
+  "speechRestartBtn": "⏮ Anfang",
+  "speechRestartTitle": "Wiedergabe von vorne starten",
+  "speechPauseBtn": "⏸ Pause",
+  "speechResumeBtn": "▶ Fortsetzen",
+  "speechStopBtn": "⏹ Stopp",
+  "speechSeekLabel": "Leseposition im Text verschieben"
 };
 export default de;

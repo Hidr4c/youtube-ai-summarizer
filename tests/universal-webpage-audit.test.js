@@ -568,10 +568,28 @@ describe('Universal Web Page Mode (Non-YouTube)', () => {
       legalPages: [{ url: 'https://example.org/about' }],
       hasRobotsTxt: true,
       sitemapUrlCount: 15,
-      contacts: ['mailto:info@example.org']
+      home: { title: 'Example Organization', excerpt: 'Official homepage with transparent mission and public company records.' },
+      contacts: ['mailto:info@example.org', 'tel:+33102030405']
     }, 'fr');
     assert.equal(domHtml.includes('example.org'), true);
-    assert.equal(domHtml.includes('mailto:info@example.org'), true);
+    assert.equal(domHtml.includes('info@example.org (+1)'), true);
+    assert.equal(domHtml.includes('mailto:'), false);
+    assert.equal(domHtml.includes('robots.txt'), false);
+    assert.equal(domHtml.includes('sitemap'), false);
+    assert.equal(domHtml.includes('niveau(x)'), false);
+    assert.equal(domHtml.includes('Site structuré'), true);
+
+    const sparseHtml = WebAuditVisualRenderer.renderDomainSignalsCard({
+      hostname: 'liccil.synology.me',
+      legalPages: [],
+      hasRobotsTxt: true,
+      sitemapUrlCount: 0,
+      contacts: []
+    }, 'fr');
+    assert.equal(sparseHtml.includes('Aucune détectée'), true);
+    assert.equal(sparseHtml.includes('Aucun contact visible'), true);
+    assert.equal(sparseHtml.includes('Page isolée / minimal'), true);
+    assert.equal(sparseHtml.includes('robots.txt'), false);
 
     const target = { innerHTML: '' };
     const score = WebAuditVisualRenderer.renderFinalAudit(target, '[SCORE: 92/100]\n## URL & Identity Check\nTout est coherent.', secHtml, 'fr');

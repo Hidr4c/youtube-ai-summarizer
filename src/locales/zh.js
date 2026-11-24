@@ -66,22 +66,10 @@ export const zh = {
   "chatTitle": "💬 视频问答互动",
   "clearChatBtn": "🗑️ 清空对话",
   "suggestions": [
-    {
-      "label": "💡 核心要点",
-      "question": "这个视频最核心的关键结论是什么？"
-    },
-    {
-      "label": "⏱️ 时间线定位",
-      "question": "视频在哪个时间点谈到了核心主题？"
-    },
-    {
-      "label": "📊 关键数据与案例",
-      "question": "作者提到了哪些具体数据、案例或论据？"
-    },
-    {
-      "label": "🎯 结论与建议",
-      "question": "作者在最后给出了什么总结或实用建议？"
-    }
+    { "label": "💡 核心要点", "question": "这个视频最核心的关键结论是什么？" },
+    { "label": "⏱️ 时间线定位", "question": "视频在哪个时间点谈到了核心主题？" },
+    { "label": "📊 关键数据与案例", "question": "作者提到了哪些具体数据、案例或论据？" },
+    { "label": "🎯 结论与建议", "question": "作者在最后给出了什么总结或实用建议？" }
   ],
   "chatWelcome": "您好！关于这个视频的任何内容，欢迎随时向我提问。我将完全根据视频的完整字幕逐字稿为您解答。",
   "chatPlaceholder": "输入问题或使用麦克风语音输入... (按 Enter 发送)",
@@ -108,14 +96,17 @@ export const zh = {
   "webTileForms": "表单与输入",
   "webTileDom": "DOM 完整性",
   "webTileSite": "已分析站点",
-  "webTileCrawl": "扫描范围",
-  "webTileContacts": "直接联系方式",
+  "webTileLegal": "法律与官方页面",
+  "webTileContacts": "官方联系方式",
   "webValHttp": "未加密 HTTP",
   "webValFormsWarn": "检测到敏感输入",
   "webValFormsOk": "未检测到陷阱",
   "webValDomWarn": "可疑信号",
   "webValDomOk": "DOM 正常",
-  "webValNoneFound": "未找到",
+  "webValNoneFound": "未发现可见联系方式",
+  "webTileStructure": "网站结构", "webPagesFound": "发现 {n} 个页面", "webNoLegalPages": "未检测到",
+  "webValStructComplete": "结构完整", "webValStructPartial": "结构不完整", "webValStructMinimal": "单一页面 / 极简",
+  "webBarLegal": "法律与信息页", "webBarContacts": "联系渠道", "webBarStructure": "导航与网站结构", "webBarHomeInfo": "首页身份清晰度",
   "attachUnsupported": "不支持的文件类型。请附加图片或文本/代码文件。",
   "micStopTitle": "停止语音输入",
   "sendBtn": "发送 ➤",
@@ -281,6 +272,24 @@ export const zh = {
   "webBusyBtn": "⏳ 分析中...",
   "webReasoningWait": "💭 模型正在推理...",
   "webEmptyAiResponse": "AI 模型未返回任何分析文本（空响应或推理被截断）。请在设置中检查所选模型、上下文长度或 Max Tokens。",
-  "closeExtensionBtn": "关闭并停用 ClarifAI（可随时在扩展弹窗中重新启用）"
+  "closeExtensionBtn": "关闭并停用 ClarifAI（可随时在扩展弹窗中重新启用）",
+  "webCancelBtn": "⏹ 取消",
+  "chatQueueTitle": "排队中 ({count})",
+  "chatInProgressLabel": "生成中：",
+  "chatEditRecallBtn": "修改 / 取消",
+  "chatRevertBtn": "回退至此",
+  "chatRevertTitle": "回退到此消息并编辑文本",
+  "chatSendNowBtn": "立即发送",
+  "chatRemoveQueueBtn": "移出队列",
+  "describeAccessibleBtn": "👁️ 无障碍页面描述",
+  "describeAccessibleTitle": "为视障人士详细描述页面和图片并自动开始语音朗读",
+  "describeAccessibleQuestion": "👁️ 请为视障人士详细描述此页面及其中的图片内容（语音口述形式）。",
+  "speechBarAriaLabel": "语音朗读控制",
+  "speechRestartBtn": "⏮ 从头开始",
+  "speechRestartTitle": "从头重新朗读",
+  "speechPauseBtn": "⏸ 暂停",
+  "speechResumeBtn": "▶ 继续",
+  "speechStopBtn": "⏹ 停止",
+  "speechSeekLabel": "在文本中移动朗读位置"
 };
 export default zh;

@@ -1,21 +1,13 @@
 import { AuditPromptBuilder } from '../../services/implementations/AuditPromptBuilder.js';
 import { AuditReport } from '../../domain/models/AuditReport.js';
 import { YouTubeDOMContext } from './YouTubeDOMContext.js';
-import { getVideoId } from '../ui/NavigationObserver.js';
+import { getVideoId, getActiveVideoElement } from '../ui/NavigationObserver.js';
 import { ChannelAuditJobTracker } from './ChannelAuditJobTracker.js';
 import { QuickOnboardingHelper } from './QuickOnboardingHelper.js';
 import { PortKeepaliveHelper } from './PortKeepaliveHelper.js';
+import { PageVisionCollector } from './PageVisionCollector.js';
 
-/**
- * Service for orchestrating critical fact-checking & logic consistency audits
- */
 export class AuditService {
-  /**
-   * @param {Object} dependencies
-   * @param {Object} dependencies.transcriptController
-   * @param {Object} dependencies.videoCommentsManager
-   * @param {Object} [dependencies.channelManager]
-   */
   constructor(dependencies = {}) {
     this.transcriptController = dependencies.transcriptController;
     this.commentsManager = dependencies.videoCommentsManager;
@@ -157,6 +149,11 @@ export class AuditService {
 
       const provider = state.currentProvider || 'lmstudio';
       const activeModel = typeof state.getActiveModel === 'function' ? state.getActiveModel() : (state.selectedModel || '');
+      const ytFrames = await ChannelAuditJobTracker.raceWithAbort(
+        PageVisionCollector.collectYouTubeFrames({ state, currentProvider: provider, getActiveModel: () => activeModel }, getActiveVideoElement(), 4, videoId),
+        signal, lang
+      ).catch(() => []);
+      ChannelAuditJobTracker.throwIfAborted(signal, lang);
       const serverUrls = state.serverUrls || {};
       const serverUrl = serverUrls[provider] || '';
       const apiKeys = state.apiKeys || {};
@@ -272,13 +269,8 @@ export class AuditService {
         });
 
         port.postMessage({
-          action: 'START_STREAM',
-          provider,
-          serverUrl,
-          apiKey,
-          model: activeModel,
-          systemPrompt,
-          messages: [{ role: 'user', content: userPrompt }],
+          action: 'START_STREAM', provider, serverUrl, apiKey, model: activeModel,
+          systemPrompt, messages: [{ role: 'user', content: userPrompt, ...(ytFrames.length > 0 ? { images: ytFrames } : {}) }],
           temperature: '0.2', maxTokens: 'auto', localContextLength: state.localContextLength || 'auto'
         });
       });

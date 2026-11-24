@@ -10,6 +10,9 @@ import { StreamRenderScheduler } from '../ui/StreamRenderScheduler.js';
 import { extractAllVideoIdsFromText } from '../ui/NavigationObserver.js';
 import { ChatToolProtocol } from './ChatToolProtocol.js';
 import { PageImageToolHandler } from './PageImageToolHandler.js';
+import { ChatQueueHelper } from '../ui/ChatQueueHelper.js';
+import { AccessiblePageDescriber } from '../ui/AccessiblePageDescriber.js';
+import { PageVisionCollector } from './PageVisionCollector.js';
 
 /**
  * Enriches web-page Q&A chat turns with sanitized page images and
@@ -20,31 +23,16 @@ export class WebPageChatHelper {
     const tools = [];
     const inv = pageData?.imageInventory || controller?.cachedPageData?.imageInventory || [];
     if (canSeeImages && inv.length > 0) {
-      tools.push({
-        name: 'INSPECT_PAGE_IMAGES',
-        description: 'Load lazy images, crop oversized vertical/wide images into crisp readable slices, and inspect additional page images (syntax: [TOOL_CALL:INSPECT_PAGE_IMAGES|next], [TOOL_CALL:INSPECT_PAGE_IMAGES|images=2-6], or [TOOL_CALL:INSPECT_PAGE_IMAGES|image=1,slices=9-16]).'
-      });
+      tools.push({ name: 'INSPECT_PAGE_IMAGES', description: 'Load lazy images, crop oversized vertical/wide images into crisp readable slices, and inspect additional page images (syntax: [TOOL_CALL:INSPECT_PAGE_IMAGES|next], [TOOL_CALL:INSPECT_PAGE_IMAGES|images=2-6], or [TOOL_CALL:INSPECT_PAGE_IMAGES|image=1,slices=9-16]).' });
     }
     if (!controller?.auditReport) {
-      tools.push({
-        name: 'AUDIT_PAGE',
-        description: 'Run a full security, anti-phishing, DOM-trap & credibility audit of the current page.'
-      });
+      tools.push({ name: 'AUDIT_PAGE', description: 'Run a full security, anti-phishing, DOM-trap & credibility audit of the current page.' });
     }
     if (!controller?.domainAuditMarkdown) {
-      tools.push({
-        name: 'AUDIT_SITE',
-        description: 'Crawl the current website homepage, legal/about/contact pages, robots.txt & sitemap to verify publisher identity and site legitimacy.'
-      });
+      tools.push({ name: 'AUDIT_SITE', description: 'Crawl the current website homepage, legal/about/contact pages, robots.txt & sitemap to verify publisher identity and site legitimacy.' });
     }
-    tools.push({
-      name: 'AUDIT_EXTERNAL_SITE',
-      description: 'Inspect external website URL(s) mentioned by the user (syntax: [TOOL_CALL:AUDIT_EXTERNAL_SITE|https://example.com] — emit one tag per URL if the user lists multiple sites) to read their homepage, legal/about/contact pages, and check links/ownership.'
-    });
-    tools.push({
-      name: 'AUDIT_YOUTUBE_VIDEO',
-      description: 'Fetch the full transcript of a YouTube video referenced on the page or by the user (syntax: [TOOL_CALL:AUDIT_YOUTUBE_VIDEO|<videoId_or_url>] — one tag per video if multiple) to summarize it, verify claims, or answer questions about the video.'
-    });
+    tools.push({ name: 'AUDIT_EXTERNAL_SITE', description: 'Inspect external website URL(s) mentioned by the user (syntax: [TOOL_CALL:AUDIT_EXTERNAL_SITE|https://example.com] — one tag per URL) to read their homepage, legal/about/contact pages, and check links/ownership.' });
+    tools.push({ name: 'AUDIT_YOUTUBE_VIDEO', description: 'Fetch the full transcript of a YouTube video referenced on the page or by the user (syntax: [TOOL_CALL:AUDIT_YOUTUBE_VIDEO|<videoId_or_url>] — one tag per video) to summarize it, verify claims, or answer questions about the video.' });
     return tools;
   }
 
@@ -198,12 +186,8 @@ export class WebPageChatHelper {
       if (typeof chrome === 'undefined' || !chrome.runtime?.sendMessage) return;
       const res = await new Promise((resolve) => {
         chrome.runtime.sendMessage({
-          action: 'FETCH_DOMAIN_AUDIT',
-          origin: pageData.origin,
-          hostname: pageData.hostname,
-          currentUrl: pageData.url,
-          knownLegalLinks: pageData.legalLinks,
-          maxDepth: 2
+          action: 'FETCH_DOMAIN_AUDIT', origin: pageData.origin, hostname: pageData.hostname,
+          currentUrl: pageData.url, knownLegalLinks: pageData.legalLinks, maxDepth: 2
         }, (r) => resolve(r || { success: false }));
       });
       const dossier = res?.dossier || { origin: pageData.origin, hostname: pageData.hostname, hasRobotsTxt: false, legalPages: [] };
@@ -223,75 +207,86 @@ export class WebPageChatHelper {
     } catch (_) {}
   }
 
-  static sendChat(controller, cleanText, attachments = []) {
-    const lang = controller.state?.currentLang || 'en';
-    const mode = document.getElementById('ytAiModeSelect')?.value || 'standard';
+  static _getQueueConfig(controller, opts = {}) {
+    return {
+      inputId: 'ytAiChatInput', messagesId: 'ytAiChatMessages', queueContainerId: 'ytAiChatQueue', countBadgeId: 'ytAiChatCount',
+      attachmentHelper: opts.attachmentHelper || controller.attachmentHelper || null,
+      getLang: () => document.getElementById?.('ytAiLangSelect')?.value || controller.state?.currentLang || 'en',
+      getStreamClient: (c) => c.getStreamClient?.('chat') || c.streamClient,
+      onExecuteTurn: (entry, turnObj) => WebPageChatHelper._executeChatTurn(controller, entry.text, entry.attachments, turnObj, entry.ctx)
+    };
+  }
+  static sendChat(controller, cleanText, attachments = [], opts = {}) {
+    return ChatQueueHelper.enqueueOrRun(controller, { text: cleanText, attachments, ctx: opts, clearInput: true }, WebPageChatHelper._getQueueConfig(controller, opts));
+  }
+  static _executeChatTurn(controller, cleanText, attachments = [], turnObj = null, opts = {}) {
+    const qCfg = WebPageChatHelper._getQueueConfig(controller, opts);
+    const lang = qCfg.getLang();
+    const mode = document.getElementById?.('ytAiModeSelect')?.value || 'standard';
     const pageData = controller.getPageData(true);
-    ChatBubbleView.appendChatBubble('user', ChatAttachmentHelper.buildUserBubbleHtml(cleanText, attachments));
+    const userBubble = ChatBubbleView.appendChatBubble('user', ChatAttachmentHelper.buildUserBubbleHtml(cleanText, attachments));
     const aiBubble = ChatBubbleView.appendChatBubble('ai', '');
     aiBubble?.classList?.add('yt-ai-typing');
+    ChatQueueHelper.bindTurnBubbles(controller, turnObj, userBubble, aiBubble, qCfg);
 
     const cfg = controller._resolveInferenceConfig();
     if (!cfg.model) {
-      const t = I18N[lang] || I18N.en;
-      if (aiBubble) aiBubble.innerHTML = `<p style="color:#ff7b72;">${escapeHtml(t.selectModelAlert || 'Please select an AI model in settings.')}</p>`;
-      return;
+      if (aiBubble) aiBubble.innerHTML = `<p style="color:#ff7b72;">${escapeHtml((I18N[lang] || I18N.en).selectModelAlert || 'Please select an AI model in settings.')}</p>`;
+      ChatQueueHelper.failOrEmptyTurn(controller, turnObj, qCfg); return;
     }
     const canSeeImages = ModelCapabilities.supportsImages(cfg.provider, cfg.model, controller.state?.modelCapabilities?.[cfg.model] || null);
-    const rawMsg = ChatAttachmentHelper.buildMessagePayload(cleanText, attachments);
-    const userMsg = WebPageChatHelper.attachPageImagesIfNeeded(rawMsg, pageData, canSeeImages, controller.chatHistory.length > 0);
-    controller.inspectedImages = null;
-    controller.inspectedNotes = [];
-    if (Array.isArray(userMsg.images) && userMsg.images.length > 0) {
-      controller.deliveredImageSlices = new Set(userMsg.images.map((f, idx) => `${f.imageIndex || idx + 1}:${f.sliceIndex || 1}`));
-    } else if (controller.chatHistory.length === 0) {
-      controller.deliveredImageSlices = new Set();
-    }
+    const launchStream = (preloaded = null) => {
+      if (turnObj?.aborted) return;
+      const rawMsg = ChatAttachmentHelper.buildMessagePayload(cleanText, attachments);
+      const userMsg = WebPageChatHelper.attachPageImagesIfNeeded(rawMsg, pageData, canSeeImages, controller.chatHistory.length > 0 && !opts.accessibleDescribe);
+      controller.inspectedImages = preloaded?.frames?.length ? preloaded : null;
+      controller.inspectedNotes = [];
+      if (Array.isArray(userMsg.images) && userMsg.images.length > 0) controller.deliveredImageSlices = new Set(userMsg.images.map((f, idx) => `${f.imageIndex || idx + 1}:${f.sliceIndex || 1}`));
+      else if (controller.chatHistory.length === 0) controller.deliveredImageSlices = new Set();
 
-    const buildPrompt = (withTools) => {
-      const auditBlock = controller.auditReport?.toChatContextBlock?.() || '';
-      const extBlock = (controller.externalSiteAudits || []).join('\n\n');
-      const ytBlock = (controller.externalVideoTranscripts || []).join('\n\n');
-      const activeFrames = controller.inspectedImages?.frames || userMsg.images || [];
-      const notes = controller.inspectedNotes?.length > 0 ? `\nPrior batch notes: ${controller.inspectedNotes.join(' | ')}` : '';
-      const inspectedSummary = `${controller.inspectedImages?.summary || ''}${notes}`.trim();
-      const base = WebPagePromptBuilder.buildChatSystemPrompt(
-        pageData, lang, mode, controller.summaryMarkdown, auditBlock, controller.domainAuditMarkdown, extBlock, ytBlock, activeFrames, inspectedSummary
-      );
-      return withTools ? `${base}${WebPageChatHelper.buildToolDirective(controller, pageData, canSeeImages)}` : base;
+      const buildPrompt = (withTools) => {
+        const frames = controller.inspectedImages?.frames || userMsg.images || [];
+        const notes = controller.inspectedNotes?.length > 0 ? `\nPrior batch notes: ${controller.inspectedNotes.join(' | ')}` : '';
+        const summaryStr = `${controller.inspectedImages?.summary || ''}${notes}`.trim();
+        const base = opts.accessibleDescribe
+          ? AccessiblePageDescriber.buildWebPrompt(pageData, lang, frames, summaryStr)
+          : WebPagePromptBuilder.buildChatSystemPrompt(pageData, lang, mode, controller.summaryMarkdown, controller.auditReport?.toChatContextBlock?.() || '', controller.domainAuditMarkdown, (controller.externalSiteAudits || []).join('\n\n'), (controller.externalVideoTranscripts || []).join('\n\n'), frames, summaryStr);
+        return withTools ? `${base}${WebPageChatHelper.buildToolDirective(controller, pageData, canSeeImages)}` : base;
+      };
+      const tools = WebPageChatHelper.getAvailableTools(controller, pageData, canSeeImages);
+      const scheduler = StreamRenderScheduler.create((md) => { if (!turnObj?.aborted && aiBubble) renderMarkdown(md, aiBubble); }, 75);
+      if (turnObj) turnObj.abortFn = () => scheduler.cancel();
+      const initMsg = controller.inspectedImages?.frames?.length > 0 ? { ...userMsg, images: controller.inspectedImages.frames } : userMsg;
+
+      ChatToolProtocol.runStream({
+        streamClient: controller.getStreamClient?.('chat') || controller.streamClient,
+        streamConfig: { ...cfg, systemPrompt: buildPrompt(true), messages: [...controller.chatHistory.slice(-8), initMsg] },
+        allowedTools: tools.map((t) => t.name), maxToolRounds: canSeeImages ? 4 : 1,
+        onToolStatus: () => { if (!turnObj?.aborted) { scheduler.cancel(); if (aiBubble) aiBubble.textContent = lang === 'fr' ? '⏳ Exécution des vérifications demandées par l\'IA...' : '⏳ Running AI-requested verification tools...'; } },
+        onExecuteTools: (requested, invocations, notes) => WebPageChatHelper.executeTools(controller, requested, pageData, lang, canSeeImages, invocations, notes),
+        rebuildSystemPrompt: (allowTools) => buildPrompt(allowTools),
+        rebuildMessages: () => [...controller.chatHistory.slice(-8), (controller.inspectedImages?.frames?.length > 0) ? { ...userMsg, images: controller.inspectedImages.frames } : userMsg],
+        onStreamChunk: (md) => { if (!turnObj?.aborted) scheduler.schedule(md); },
+        onComplete: (answer) => {
+          if (turnObj?.aborted) return;
+          scheduler.flush(); aiBubble?.classList?.remove('yt-ai-typing');
+          if (answer.trim()) {
+            controller.chatHistory.push({ role: 'user', content: userMsg.content, ...(userMsg.files ? { files: userMsg.files } : {}) }, { role: 'assistant', content: answer });
+            const badge = document.getElementById('ytAiChatCount'); if (badge) badge.textContent = String(Math.floor(controller.chatHistory.length / 2));
+            if (opts.audioController) ChatBubbleView.attachAudioButton(aiBubble, answer, opts.audioController, lang);
+            if (opts.autoRead) (opts.audioController || controller.audioController)?.speakText?.(answer, aiBubble?.querySelector?.('.yt-ai-tts-btn') || null, { lang });
+            ChatQueueHelper.completeTurn(controller, turnObj, qCfg);
+          } else ChatQueueHelper.failOrEmptyTurn(controller, turnObj, qCfg);
+        },
+        onError: (err) => { scheduler.cancel(); if (!turnObj?.aborted) { if (aiBubble) aiBubble.innerHTML = `<p style="color:#ff7b72;">[x] ${escapeHtml(err)}</p>`; ChatQueueHelper.failOrEmptyTurn(controller, turnObj, qCfg); } }
+      });
     };
-    const tools = WebPageChatHelper.getAvailableTools(controller, pageData, canSeeImages);
-    const scheduler = StreamRenderScheduler.create((md) => { if (aiBubble) renderMarkdown(md, aiBubble); }, 75);
-
-    ChatToolProtocol.runStream({
-      streamClient: controller.getStreamClient?.('chat') || controller.streamClient,
-      streamConfig: { ...cfg, systemPrompt: buildPrompt(true), messages: [...controller.chatHistory.slice(-8), userMsg] },
-      allowedTools: tools.map((t) => t.name),
-      maxToolRounds: canSeeImages ? 4 : 1,
-      onToolStatus: () => {
-        scheduler.cancel();
-        if (aiBubble) aiBubble.textContent = lang === 'fr' ? '⏳ Exécution des vérifications demandées par l\'IA...' : '⏳ Running AI-requested verification tools...';
-      },
-      onExecuteTools: (requested, invocations, notes) => WebPageChatHelper.executeTools(controller, requested, pageData, lang, canSeeImages, invocations, notes),
-      rebuildSystemPrompt: (allowTools) => buildPrompt(allowTools),
-      rebuildMessages: () => {
-        const frames = controller.inspectedImages?.frames;
-        const activeMsg = (frames && frames.length > 0) ? { ...userMsg, images: frames } : userMsg;
-        return [...controller.chatHistory.slice(-8), activeMsg];
-      },
-      onStreamChunk: (md) => scheduler.schedule(md),
-      onComplete: (answer) => {
-        scheduler.flush();
-        aiBubble?.classList?.remove('yt-ai-typing');
-        if (answer.trim()) {
-          controller.chatHistory.push({ role: 'user', content: userMsg.content, ...(userMsg.files ? { files: userMsg.files } : {}) });
-          controller.chatHistory.push({ role: 'assistant', content: answer });
-          const badge = document.getElementById('ytAiChatCount');
-          if (badge) badge.textContent = String(Math.floor(controller.chatHistory.length / 2));
-        }
-      },
-      onError: (err) => { scheduler.cancel(); if (aiBubble) aiBubble.innerHTML = `<p style="color:#ff7b72;">[x] ${escapeHtml(err)}</p>`; }
-    });
+    if (opts.accessibleDescribe) return AccessiblePageDescriber.prepareVisionContext(controller, pageData).then((pre) => launchStream(pre));
+    if (canSeeImages && controller.chatHistory.length === 0 && PageVisionCollector.hasUnloadedVisuals(pageData)) {
+      return PageVisionCollector.attachWebVisualFrames(controller, pageData, { role: 'user', content: cleanText }, { maxFrames: 6, maxVideoFrames: 4 })
+        .then((pre) => launchStream(pre.frames?.length ? pre : null));
+    }
+    return launchStream(null);
   }
 }
 

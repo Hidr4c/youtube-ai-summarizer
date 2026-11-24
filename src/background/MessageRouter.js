@@ -224,6 +224,13 @@ export class MessageRouter {
           .catch(err => sendResponse({ success: false, error: err?.message || 'Image fetch failed' }));
         return true;
       }
+
+      if (request.action === 'CAPTURE_VISIBLE_TAB') {
+        BackgroundImageFetcher.captureVisibleTab(sender?.tab?.windowId ?? null)
+          .then(res => sendResponse(res))
+          .catch(err => sendResponse({ success: false, error: err?.message || 'Tab capture failed' }));
+        return true;
+      }
     });
 
     // Auto-inject scripts on install/update into open YouTube tabs

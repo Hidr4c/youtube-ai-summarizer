@@ -75,6 +75,8 @@ export class BannerTemplate {
 
         <!-- BANNIÈRE DE STATUT / MESSAGES INFORMATIFS -->
         <div id="ytAiStatusBanner" class="yt-ai-reasoning yt-ai-hidden"></div>
+        <!-- LECTEUR AUDIO ACCESSIBLE (PAUSE / REPRISE / CURSEUR / DÉBUT / STOP) -->
+        <div id="ytAiSpeechPlayerBar" class="yt-ai-speech-bar yt-ai-hidden"></div>
 
         <!-- ONGLET 1 : SYNTHÈSE IA -->
         <div id="ytAiPaneSummary" class="yt-ai-tab-pane active">
@@ -178,7 +180,10 @@ export class BannerTemplate {
           <div class="yt-ai-chat-pane">
             <div class="yt-ai-pane-title">
               <span>${t.chatTitle || '💬 Video Q&A'}</span>
-              <button id="ytAiClearChatBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.clearChatBtn || '🗑️ Clear conversation'}</button>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+                <button id="ytAiDescribeAccessibleBtn" type="button" class="yt-ai-btn yt-ai-btn-secondary yt-ai-accessible-btn" style="padding: 3px 8px; font-size: 11px;" title="${t.describeAccessibleTitle || 'Describe this page aloud for blind or low-vision users'}" aria-label="${t.describeAccessibleTitle || 'Describe this page aloud for blind or low-vision users'}">${t.describeAccessibleBtn || '👁️ Describe (Low-Vision)'}</button>
+                <button id="ytAiClearChatBtn" class="yt-ai-btn yt-ai-btn-secondary" style="padding: 3px 8px; font-size: 11px;">${t.clearChatBtn || '🗑️ Clear conversation'}</button>
+              </div>
             </div>
 
             <div class="yt-ai-chat-container">
@@ -193,6 +198,9 @@ export class BannerTemplate {
                   ${t.chatWelcome || 'Hello! Ask me any question about the content of this video.'}
                 </div>
               </div>
+
+              <!-- File d'attente des messages enchaînés -->
+              <div id="ytAiChatQueue" class="yt-ai-chat-queue yt-ai-hidden"></div>
 
               <!-- Pièces jointes en attente -->
               <div id="ytAiChatAttachments" class="yt-ai-chat-attachments yt-ai-hidden"></div>

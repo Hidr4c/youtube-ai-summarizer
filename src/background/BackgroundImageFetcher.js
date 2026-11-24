@@ -60,6 +60,19 @@ export class BackgroundImageFetcher {
       if (timer) clearTimeout(timer);
     }
   }
+
+  static captureVisibleTab(windowId = null) {
+    if (typeof chrome === 'undefined' || !chrome.tabs?.captureVisibleTab) {
+      return Promise.resolve({ success: false, error: 'captureVisibleTab unavailable' });
+    }
+    return new Promise((resolve) => {
+      chrome.tabs.captureVisibleTab(windowId ?? null, { format: 'jpeg', quality: 82 }, (dataUrl) => {
+        const err = chrome.runtime?.lastError?.message;
+        if (err || !dataUrl) resolve({ success: false, error: err || 'Empty tab capture' });
+        else resolve({ success: true, dataUrl });
+      });
+    });
+  }
 }
 
 export default BackgroundImageFetcher;

@@ -4,7 +4,7 @@ import { YouTubeDOMContext } from '../services/YouTubeDOMContext.js';
 import { syncChannelMaxSelectElement } from '../../config/ExtensionConstants.js';
 
 /**
- * Handles unified header tab clicks: expand, switch pane, and launch analysis on first click when uncached.
+ * Handles unified header tab clicks: expands the banner and switches tabs without auto-launching AI inference.
  */
 export class HeaderTabHandler {
   /**
@@ -44,7 +44,8 @@ export class HeaderTabHandler {
 
   /**
    * Handles a click on any `.yt-ai-tab-btn` inside the unified header.
-   * Expands banner, selects pane, and triggers generation once if no cached result exists yet.
+   * Expands the banner and activates the requested tab pane without auto-launching AI analysis.
+   * Passive non-AI metadata/transcript hydration is preserved.
    * @param {HTMLElement} btn
    * @param {Object} ctx
    */
@@ -52,29 +53,14 @@ export class HeaderTabHandler {
     const tab = btn?.getAttribute?.('data-tab');
     if (!tab) return;
     const {
-      state, bannerView, summaryViewController, auditViewController,
-      transcriptController, webPageController,
-      triggerSummarize, triggerAudit, triggerChannelAudit
+      state, bannerView, auditViewController,
+      transcriptController, webPageController
     } = ctx;
 
     bannerView.setExpanded(true);
     bannerView.switchTab(tab);
 
     const webMode = isWebPageMode() && Boolean(webPageController);
-    if (tab === 'summary') {
-      const isBusy = Boolean((webMode ? webPageController.isSummarizing : summaryViewController?.isGenerating) || document.querySelector?.('#ytAiSummaryBody .yt-ai-spinner'));
-      const hasResult = webMode ? Boolean((webPageController.summaryMarkdown || '').trim()) : Boolean((summaryViewController?.fullSummaryMarkdown || '').trim());
-      if (!isBusy && !hasResult) triggerSummarize?.();
-      return;
-    }
-
-    if (tab === 'audit') {
-      const isBusy = Boolean((webMode ? webPageController.isAuditing : auditViewController?.auditService?.isAuditing) || document.querySelector?.('#ytAiAuditBody .yt-ai-spinner'));
-      const hasResult = webMode ? Boolean(webPageController.auditReport) : Boolean(auditViewController?.lastReport);
-      if (!isBusy && !hasResult) triggerAudit?.();
-      return;
-    }
-
     if (tab === 'transcript') {
       if (webMode) return;
       const vid = getVideoId();
@@ -85,19 +71,9 @@ export class HeaderTabHandler {
       return;
     }
 
-    if (tab === 'channelAudit') {
-      if (webMode) {
-        const isBusy = Boolean(webPageController.isDomainAuditing || document.querySelector?.('#ytAiWatchChannelResultContainer .yt-ai-spinner'));
-        if (!isBusy && !(webPageController.domainAuditMarkdown || '').trim()) triggerChannelAudit?.();
-        return;
-      }
+    if (tab === 'channelAudit' && !webMode) {
       HeaderTabHandler.syncWatchChannelMetadata(ctx);
-      Promise.resolve(auditViewController?.syncChannelAuditUI?.(state)).then(() => {
-        const container = document.getElementById?.('ytAiWatchChannelResultContainer');
-        const hasPlaceholder = !container || Boolean(container.querySelector?.('.yt-ai-placeholder-text'));
-        const isBusy = Boolean(document.getElementById?.('ytAiRunWatchChannelAuditBtn')?.disabled);
-        if (hasPlaceholder && !isBusy) triggerChannelAudit?.();
-      }).catch(() => {});
+      Promise.resolve(auditViewController?.syncChannelAuditUI?.(state)).catch(() => {});
     }
   }
 }

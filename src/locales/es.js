@@ -66,22 +66,10 @@ export const es = {
   "chatTitle": "💬 Preguntas y Respuestas sobre el vídeo",
   "clearChatBtn": "🗑️ Borrar conversación",
   "suggestions": [
-    {
-      "label": "💡 Puntos clave",
-      "question": "¿Cuáles son los puntos clave esenciales a recordar?"
-    },
-    {
-      "label": "⏱️ Marcas de tiempo",
-      "question": "¿En qué momento del vídeo se habla del tema principal?"
-    },
-    {
-      "label": "📊 Cifras y Ejemplos",
-      "question": "¿Qué ejemplos, cifras o argumentos se mencionan?"
-    },
-    {
-      "label": "🎯 Conclusión y Consejos",
-      "question": "¿Qué concluye o aconseja el autor al final?"
-    }
+    { "label": "💡 Puntos clave", "question": "¿Cuáles son los puntos clave esenciales a recordar?" },
+    { "label": "⏱️ Marcas de tiempo", "question": "¿En qué momento del vídeo se habla del tema principal?" },
+    { "label": "📊 Cifras y Ejemplos", "question": "¿Qué ejemplos, cifras o argumentos se mencionan?" },
+    { "label": "🎯 Conclusión y Consejos", "question": "¿Qué concluye o aconseja el autor al final?" }
   ],
   "chatWelcome": "¡Hola! Hazme cualquier pregunta sobre el contenido de este vídeo. Me baso directamente en la transcripción completa.",
   "chatPlaceholder": "Haz una pregunta o dicta con el micro... (Intro para enviar)",
@@ -108,14 +96,17 @@ export const es = {
   "webTileForms": "Formularios",
   "webTileDom": "Integridad del DOM",
   "webTileSite": "Sitio analizado",
-  "webTileCrawl": "Alcance",
-  "webTileContacts": "Contactos directos",
+  "webTileLegal": "Páginas legales",
+  "webTileContacts": "Contactos oficiales",
   "webValHttp": "HTTP sin cifrar",
   "webValFormsWarn": "Campos sensibles detectados",
   "webValFormsOk": "Sin trampas detectadas",
   "webValDomWarn": "Señales sospechosas",
   "webValDomOk": "DOM limpio",
-  "webValNoneFound": "Ninguno encontrado",
+  "webValNoneFound": "Sin contacto visible",
+  "webTileStructure": "Estructura del sitio", "webPagesFound": "{n} página(s) encontrada(s)", "webNoLegalPages": "Ninguna detectada",
+  "webValStructComplete": "Sitio estructurado", "webValStructPartial": "Estructura parcial", "webValStructMinimal": "Página aislada / mínima",
+  "webBarLegal": "Páginas legales y avisos", "webBarContacts": "Medios de contacto", "webBarStructure": "Navegación y menús", "webBarHomeInfo": "Claridad de portada",
   "attachUnsupported": "Tipo de archivo no compatible. Adjunte imágenes o archivos de texto/código.",
   "micStopTitle": "Detener la dictación",
   "sendBtn": "Enviar ➤",
@@ -281,6 +272,24 @@ export const es = {
   "webBusyBtn": "⏳ Analizando...",
   "webReasoningWait": "💭 El modelo está razonando...",
   "webEmptyAiResponse": "El modelo de IA no devolvió texto de análisis (respuesta vacía o razonamiento truncado). Compruebe el modelo, la longitud de contexto o Max Tokens en Ajustes.",
-  "closeExtensionBtn": "Cerrar y desactivar ClarifAI (reactivar desde el popup de la extensión)"
+  "closeExtensionBtn": "Cerrar y desactivar ClarifAI (reactivar desde el popup de la extensión)",
+  "webCancelBtn": "⏹ Cancelar",
+  "chatQueueTitle": "En cola ({count})",
+  "chatInProgressLabel": "En curso:",
+  "chatEditRecallBtn": "Editar / Cancelar",
+  "chatRevertBtn": "Volver aquí",
+  "chatRevertTitle": "Volver a este mensaje y editar el texto",
+  "chatSendNowBtn": "Enviar ahora",
+  "chatRemoveQueueBtn": "Quitar de la cola",
+  "describeAccessibleBtn": "👁️ Describir (Baja visión)",
+  "describeAccessibleTitle": "Describir en detalle la página y sus imágenes para personas con baja visión y reproducir el audio automáticamente",
+  "describeAccessibleQuestion": "👁️ Describe esta página y sus imágenes en detalle para una persona con discapacidad visual (audiodescripción).",
+  "speechBarAriaLabel": "Controles de reproducción de audio",
+  "speechRestartBtn": "⏮ Inicio",
+  "speechRestartTitle": "Reiniciar la lectura desde el principio",
+  "speechPauseBtn": "⏸ Pausa",
+  "speechResumeBtn": "▶ Reanudar",
+  "speechStopBtn": "⏹ Detener",
+  "speechSeekLabel": "Mover la posición de lectura en el texto"
 };
 export default es;

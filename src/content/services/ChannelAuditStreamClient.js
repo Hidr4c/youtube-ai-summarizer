@@ -12,7 +12,7 @@ export class ChannelAuditStreamClient {
    * @param {Object} params
    * @returns {Promise<string>}
    */
-  static stream({ systemPrompt, userPrompt, state, totalVideos = 10, onChunk, onProgress, signal = null, onPortCreated = null }) {
+  static stream({ systemPrompt, userPrompt, images = [], state, totalVideos = 10, onChunk, onProgress, signal = null, onPortCreated = null }) {
     const lang = state?.currentLang || 'fr';
     if (signal?.aborted) return Promise.reject(ChannelAuditJobTracker.createAbortError(lang));
 
@@ -132,7 +132,7 @@ export class ChannelAuditStreamClient {
         apiKey,
         apiKeys: state?.apiKeys,
         localContextLength: state?.localContextLength || 'auto',
-        messages: [{ role: 'user', content: userPrompt }]
+        messages: [{ role: 'user', content: userPrompt, ...(Array.isArray(images) && images.length > 0 ? { images } : {}) }]
       });
     });
   }

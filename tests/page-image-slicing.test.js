@@ -271,16 +271,15 @@ describe('PageImageExtractor & Multi-Image Slicing Tool', () => {
 
       const p1 = ctrl.triggerPageAudit();
       assert.equal(ctrl.isAuditing, true);
-      assert.equal(runBtn.disabled, true);
-      assert.equal(runBtn.textContent.includes('⏳'), true);
+      assert.equal(runBtn.disabled, false);
+      assert.equal(runBtn.textContent.includes('Annuler'), true);
 
-      // Re-entrant click / tab selection while auditing must NOT spawn a second stream
+      // Tab selection while auditing must NOT spawn a second stream or cancel the running one
       let secondTriggered = false;
       HeaderTabHandler.handleTabSelection(
         { getAttribute: () => 'audit' },
         { state: ctrl.state, bannerView: ctrl.bannerView, webPageController: ctrl, triggerAudit: () => { secondTriggered = true; } }
       );
-      await ctrl.triggerPageAudit();
       await new Promise((r) => setTimeout(r, 0));
       assert.equal(secondTriggered, false);
       assert.equal(sentImgCounts.length, 1);
@@ -293,6 +292,13 @@ describe('PageImageExtractor & Multi-Image Slicing Tool', () => {
       assert.equal(runBtn.textContent, '⚡ Auditer la page');
       assert.equal(auditBody.innerHTML.includes('yt-ai-web-empty-warn'), true);
       assert.equal(auditBody.innerHTML.includes('yt-ai-web-grid'), true);
+
+      // Re-clicking launch button while auditing cancels the active run cleanly
+      await ctrl.triggerPageAudit();
+      assert.equal(ctrl.isAuditing, true);
+      await ctrl.triggerPageAudit();
+      assert.equal(ctrl.isAuditing, false);
+      assert.equal(runBtn.textContent, '⚡ Auditer la page');
 
       // Concurrent per-tab stream channels isolate Page Audit vs Site Audit vs Summary vs Chat without disconnecting each other
       const isoCtrl = new WebPageController({ state: ctrl.state, bannerView: ctrl.bannerView });

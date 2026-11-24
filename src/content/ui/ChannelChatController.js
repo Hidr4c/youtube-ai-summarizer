@@ -10,6 +10,9 @@ import { ChatBubbleView } from './ChatBubbleView.js';
 import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
 import { PromptService } from '../services/PromptService.js';
 import { StreamRenderScheduler } from './StreamRenderScheduler.js';
+import { ChatQueueHelper } from './ChatQueueHelper.js';
+import { YouTubeThumbnailCollector } from '../services/YouTubeThumbnailCollector.js';
+import { AccessiblePageDescriber } from './AccessiblePageDescriber.js';
 
 /**
  * Controller for Interactive Channel Q&A Tab on YouTube Channel pages.
@@ -28,10 +31,23 @@ export class ChannelChatController {
     this.currentChannel = '';
   }
 
+  _getQueueConfig(ctx = {}) {
+    return {
+      inputId: 'ytAiChannelChatInput',
+      messagesId: 'ytAiChannelChatMessages',
+      queueContainerId: 'ytAiChannelChatQueue',
+      countBadgeId: 'ytAiChannelChatCount',
+      getLang: () => document.getElementById?.('ytAiCompLangSelect')?.value || ctx.state?.currentLang || 'fr',
+      getStreamClient: (c) => c.streamClient,
+      onExecuteTurn: (entry, turnObj) => this._executeMessage(entry.text, entry.ctx, turnObj)
+    };
+  }
+
   /**
    * Resets conversation state when clearing or switching channels.
    */
   resetChat(lang = 'fr', showNotice = false) {
+    ChatQueueHelper.clearAll(this, this._getQueueConfig());
     this.chatHistory = [];
     this.transcriptManager.reset();
     this.streamClient.disconnect();
@@ -104,11 +120,15 @@ export class ChannelChatController {
   /**
    * Sends a user question about the active YouTube channel and streams AI reply.
    */
-  async sendMessage(customText = null, ctx = {}) {
+  sendMessage(customText = null, ctx = {}) {
     const inputEl = document.getElementById('ytAiChannelChatInput');
     const text = (customText !== null ? customText : inputEl?.value || '').trim();
     if (!text) return;
+    return ChatQueueHelper.enqueueOrRun(this, { text, attachments: [], ctx, clearInput: customText === null }, this._getQueueConfig(ctx));
+  }
 
+  async _executeMessage(text, ctx = {}, turnObj = null) {
+    const qCfg = this._getQueueConfig(ctx);
     const stateObj = ctx.state || {};
     const channelQuery = ctx.channelIdentifier || this.currentChannel;
     const lang = document.getElementById?.('ytAiCompLangSelect')?.value || stateObj.currentLang || 'fr';
@@ -120,22 +140,21 @@ export class ChannelChatController {
 
     if (!activeModel) {
       ChatBubbleView.appendChatBubble('ai', `<span style="color:#ff7b72;">[!] ${escapeHtml(t.selectModelAlert || 'Please select an AI model.')}</span>`, 'ytAiChannelChatMessages');
+      ChatQueueHelper.failOrEmptyTurn(this, turnObj, qCfg);
       return;
     }
     if (!isLocal && !key) {
       ChatBubbleView.appendChatBubble('ai', QuickOnboardingHelper.formatMissingKeyNotice(currentProvider, lang), 'ytAiChannelChatMessages');
+      ChatQueueHelper.failOrEmptyTurn(this, turnObj, qCfg);
       return;
     }
 
-    if (inputEl && customText === null) {
-      inputEl.value = '';
-      inputEl.style.height = 'auto';
-    }
-
     const msgContainer = document.getElementById('ytAiChannelChatMessages');
-    ChatBubbleView.appendChatBubble('user', escapeHtml(text).replace(/\n/g, '<br>'), 'ytAiChannelChatMessages');
+    const userBubble = ChatBubbleView.appendChatBubble('user', escapeHtml(text).replace(/\n/g, '<br>'), 'ytAiChannelChatMessages');
+    ChatQueueHelper.bindTurnBubbles(this, turnObj, userBubble, null, qCfg);
 
     let channelDossierBlock = '';
+    let channelVideos = [];
     let channelMeta = { title: channelQuery, author: channelQuery, channelUrl: channelQuery };
     if (channelQuery) {
       const waitNotice = (t.analyzingChannelNotice || 'Analyse du dossier de la chaîne ({query})...').replace('{query}', channelQuery);
@@ -144,7 +163,9 @@ export class ChannelChatController {
       const limit = Math.max(30, parseChannelAuditLimit(stateObj.channelAuditMaxVideos || 30).fetchCap);
       const res = await this.channelManager.getOrFetchChannelDossier(channelQuery, Math.min(limit, 100));
       waitBubble?.remove?.();
+      if (turnObj?.aborted) return;
       if (res?.success && res.channel) {
+        channelVideos = res.channel.recentVideos || [];
         channelMeta = {
           title: res.channel.title || channelQuery,
           author: res.channel.title || channelQuery,
@@ -162,6 +183,7 @@ export class ChannelChatController {
 
     if (externalIds.length > 0 && this.transcriptController) {
       const { loaded } = await this.transcriptManager.ensureTranscriptsLoaded(externalIds, this.transcriptController, lang);
+      if (turnObj?.aborted) return;
       if (loaded.length > 0) {
         const maxChars = resolveContextCharLimit(currentProvider, stateObj.localContextLength);
         const { safeTranscript } = this.transcriptManager.buildMultiVideoContext('', channelMeta, '', maxChars, PromptService.condenseTranscriptForContext);
@@ -171,29 +193,30 @@ export class ChannelChatController {
 
     const cachedAudit = this.channelAuditService?.getCachedReport?.(channelQuery) || null;
     const auditBlock = this._formatChannelAuditBlock(cachedAudit, lang);
-
     const systemPrompt = PromptService.buildChatSystemPrompt(
-      channelMeta,
-      safeContextTranscript,
-      lang,
-      'standard',
-      '',
-      channelDossierBlock,
-      '',
-      auditBlock
+      channelMeta, safeContextTranscript, lang, 'standard', '', channelDossierBlock, '', auditBlock
     );
 
     const aiBubble = ChatBubbleView.appendChatBubble('ai', '', 'ytAiChannelChatMessages');
     aiBubble?.classList?.add('yt-ai-typing');
+    ChatQueueHelper.bindTurnBubbles(this, turnObj, userBubble, aiBubble, qCfg);
 
-    const historyPayload = this.chatHistory.slice(-8);
-    historyPayload.push({ role: 'user', content: text });
+    const wantsThumbSheets = channelVideos.length > 0 && (this.chatHistory.length === 0 || AccessiblePageDescriber.wantsYouTubeVisuals(text));
+    const channelSheets = wantsThumbSheets
+      ? await YouTubeThumbnailCollector.collectForChannelAudit(stateObj, channelVideos, 6).catch(() => [])
+      : [];
+    if (turnObj?.aborted) return;
+
+    const userMsg = { role: 'user', content: text, ...(channelSheets.length > 0 ? { images: channelSheets } : {}) };
+    const historyPayload = [...this.chatHistory.slice(-8), userMsg];
     let fullAnswer = '';
     const localCtx = stateObj.localContextLength || 'auto';
     const chatRenderScheduler = StreamRenderScheduler.create((md) => {
+      if (turnObj?.aborted) return;
       if (aiBubble) renderMarkdown(md, aiBubble);
       ChatBubbleView.scrollToBottom(msgContainer);
     }, 75);
+    if (turnObj) turnObj.abortFn = () => chatRenderScheduler.cancel();
 
     this.streamClient.startStream({
       provider: currentProvider,
@@ -206,25 +229,31 @@ export class ChannelChatController {
       maxTokens: stateObj.maxTokens || 'auto',
       localContextLength: localCtx,
       onChunk: (chunk) => {
+        if (turnObj?.aborted) return;
         fullAnswer += chunk;
         chatRenderScheduler.schedule(fullAnswer);
       },
       onDone: () => {
+        if (turnObj?.aborted) return;
         chatRenderScheduler.flush();
         aiBubble?.classList?.remove('yt-ai-typing');
         if (!fullAnswer.trim()) {
           if (aiBubble) aiBubble.innerHTML = `<span style="color:#ff7b72;">[!] ${escapeHtml(t.connectionError || 'No response received from AI model.')}</span>`;
+          ChatQueueHelper.failOrEmptyTurn(this, turnObj, qCfg);
           return;
         }
         this.chatHistory.push({ role: 'user', content: text }, { role: 'assistant', content: fullAnswer });
         const badge = document.getElementById('ytAiChannelChatCount');
         if (badge) badge.textContent = String(Math.floor(this.chatHistory.length / 2));
         ChatBubbleView.attachAudioButton(aiBubble, fullAnswer, this.audioController, lang);
+        ChatQueueHelper.completeTurn(this, turnObj, qCfg);
       },
       onError: (errMsg) => {
         chatRenderScheduler.cancel();
+        if (turnObj?.aborted) return;
         aiBubble?.classList?.remove('yt-ai-typing');
         if (aiBubble) aiBubble.innerHTML = `<span style="color:#ff7b72;">[x] ${escapeHtml(errMsg)}</span>`;
+        ChatQueueHelper.failOrEmptyTurn(this, turnObj, qCfg);
       }
     });
   }

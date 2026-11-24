@@ -281,7 +281,7 @@ export class PopupController {
 
     const extVersion = (typeof chrome !== 'undefined' && chrome.runtime?.getManifest)
       ? `v${chrome.runtime.getManifest().version}`
-      : 'v2.0.0';
+      : 'v2.0.1';
     const versionEl = document.getElementById('brandVersion');
     if (versionEl) versionEl.textContent = `${extVersion} • ${t.privacyTagline}`;
 

@@ -66,22 +66,10 @@ export const en = {
   "chatTitle": "💬 Video Q&A",
   "clearChatBtn": "🗑️ Clear conversation",
   "suggestions": [
-    {
-      "label": "💡 Key takeaways",
-      "question": "What are the core key takeaways from this video?"
-    },
-    {
-      "label": "⏱️ Timestamps",
-      "question": "At what point in the video is the main topic discussed?"
-    },
-    {
-      "label": "📊 Data & Figures",
-      "question": "What specific figures, examples, or arguments are presented?"
-    },
-    {
-      "label": "🎯 Conclusion & Advice",
-      "question": "What is the author's final conclusion or actionable advice?"
-    }
+    { "label": "💡 Key takeaways", "question": "What are the core key takeaways from this video?" },
+    { "label": "⏱️ Timestamps", "question": "At what point in the video is the main topic discussed?" },
+    { "label": "📊 Data & Figures", "question": "What specific figures, examples, or arguments are presented?" },
+    { "label": "🎯 Conclusion & Advice", "question": "What is the author's final conclusion or actionable advice?" }
   ],
   "chatWelcome": "Hello! Ask me any question about the content of this video. I base my answers directly on its full transcript.",
   "chatPlaceholder": "Ask a question or dictate with mic... (Press Enter to send)",
@@ -107,15 +95,18 @@ export const en = {
   "webTileBrand": "Claimed Identity",
   "webTileForms": "Forms & Inputs",
   "webTileDom": "DOM Integrity",
-  "webTileSite": "Target Site",
-  "webTileCrawl": "Crawl Scope",
-  "webTileContacts": "Direct Contacts",
+  "webTileSite": "Target Website",
+  "webTileLegal": "Legal & Info Pages",
+  "webTileContacts": "Official Contacts",
   "webValHttp": "Unencrypted HTTP",
   "webValFormsWarn": "Sensitive inputs found",
   "webValFormsOk": "No traps detected",
   "webValDomWarn": "Suspicious signals",
   "webValDomOk": "Clean DOM",
-  "webValNoneFound": "None found",
+  "webValNoneFound": "No visible contact",
+  "webTileStructure": "Site Structure", "webPagesFound": "{n} page(s) found", "webNoLegalPages": "None detected",
+  "webValStructComplete": "Well structured", "webValStructPartial": "Partial structure", "webValStructMinimal": "Minimal / single page",
+  "webBarLegal": "Legal & info pages", "webBarContacts": "Contact channels", "webBarStructure": "Navigation & menus", "webBarHomeInfo": "Homepage clarity",
   "attachUnsupported": "Unsupported file type. Attach images or text/code files.",
   "micStopTitle": "Stop dictation",
   "sendBtn": "Send ➤",
@@ -281,6 +272,24 @@ export const en = {
   "webBusyBtn": "⏳ Analyzing...",
   "webReasoningWait": "💭 Model is reasoning...",
   "webEmptyAiResponse": "The AI model returned no analysis text (empty response or truncated reasoning). Check your selected model, Context Length, or Max Tokens in Settings.",
-  "closeExtensionBtn": "Disable ClarifAI on pages (re-enable anytime from the extension popup)"
+  "closeExtensionBtn": "Disable ClarifAI on pages (re-enable anytime from the extension popup)",
+  "webCancelBtn": "⏹ Cancel",
+  "chatQueueTitle": "Queued ({count})",
+  "chatInProgressLabel": "Generating:",
+  "chatEditRecallBtn": "Edit / Cancel",
+  "chatRevertBtn": "Revert",
+  "chatRevertTitle": "Revert conversation to this message and edit it",
+  "chatSendNowBtn": "Send now",
+  "chatRemoveQueueBtn": "Remove from queue",
+  "describeAccessibleBtn": "👁️ Describe (Low-Vision)",
+  "describeAccessibleTitle": "Generate a vivid spoken description of this page (Instagram, photos, layout) and start automatic playback",
+  "describeAccessibleQuestion": "👁️ Describe this page in detail for a blind or low-vision person (audio description).",
+  "speechBarAriaLabel": "Audio playback controls",
+  "speechRestartBtn": "⏮ Start",
+  "speechRestartTitle": "Restart audio from the beginning",
+  "speechPauseBtn": "⏸ Pause",
+  "speechResumeBtn": "▶ Resume",
+  "speechStopBtn": "⏹ Stop",
+  "speechSeekLabel": "Move reading position in text"
 };
 export default en;

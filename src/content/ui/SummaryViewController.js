@@ -1,10 +1,11 @@
 import { I18N } from '../../locales/index.js';
 import { resolveContextCharLimit } from '../../config/AIProviderPresets.js';
 import { renderMarkdown, escapeHtml, safeSetInnerHTML } from './MarkdownRenderer.js';
-import { getVideoId } from './NavigationObserver.js';
+import { getVideoId, getActiveVideoElement } from './NavigationObserver.js';
 import { ChannelAuditJobTracker } from '../services/ChannelAuditJobTracker.js';
 import { QuickOnboardingHelper } from '../services/QuickOnboardingHelper.js';
 import { PortKeepaliveHelper } from '../services/PortKeepaliveHelper.js';
+import { PageVisionCollector } from '../services/PageVisionCollector.js';
 import { StreamRenderScheduler } from './StreamRenderScheduler.js';
 
 /**
@@ -61,9 +62,11 @@ export class SummaryViewController {
   }
 
   async startSummarization(ctx = {}) {
-    if (this.isGenerating) return;
-
     const lang = document.getElementById('ytAiLangSelect')?.value || ctx.currentLang || 'en';
+    if (this.isGenerating) {
+      this.stopGeneration(lang);
+      return;
+    }
     const t = I18N[lang] || I18N.en;
     const stateObj = ctx.state || ctx;
     const activeModel = ctx.getActiveModel ? ctx.getActiveModel() : (ctx.selectedModel || stateObj.getActiveModel?.() || stateObj.selectedModel || '');
@@ -104,14 +107,8 @@ export class SummaryViewController {
     this.activeAbortController = abortController;
     const signal = abortController?.signal || null;
 
-    if (summarizeBtn) {
-      summarizeBtn.disabled = true;
-      summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || 'Extracting transcript...'}`;
-    }
-    if (stopBtn) {
-      stopBtn.disabled = false;
-      stopBtn.classList?.remove('yt-ai-hidden');
-    }
+    if (summarizeBtn) { summarizeBtn.disabled = false; summarizeBtn.classList?.add('yt-ai-btn-stop'); summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ⏹️ ${t.generatingSummary || 'Extracting transcript...'}`; }
+    if (stopBtn) { stopBtn.disabled = false; stopBtn.classList?.remove('yt-ai-hidden'); }
     if (summaryBody) {
       summaryBody.innerHTML = `<div class="yt-ai-loading"><span class="yt-ai-spinner"></span> ${escapeHtml(t.generatingSummary || 'Extracting transcript...')}</div>`;
       summaryBody.classList.remove('yt-ai-typing');
@@ -128,7 +125,7 @@ export class SummaryViewController {
       const shortModel = modelDisplayName.length > 14 ? modelDisplayName.slice(0, 14) + '…' : modelDisplayName;
 
       if (summarizeBtn) {
-        summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${shortModel} (${wordsCount.toLocaleString()} ${t.wordsBadge || 'words'})...`;
+        summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ⏹️ ${shortModel} (${wordsCount.toLocaleString()} ${t.wordsBadge || 'words'})...`;
         summarizeBtn.title = `${modelDisplayName} (${wordsCount.toLocaleString()} words)`;
       }
       if (summaryBody) {
@@ -151,6 +148,8 @@ export class SummaryViewController {
       const maxAllowedChars = resolveContextCharLimit(currentProvider, localCtx);
       const safeTranscript = this.promptService.constructor.condenseTranscriptForContext(fullText, maxAllowedChars);
       const { systemPrompt, userPrompt } = this.promptService.constructor.buildPrompts(meta.title, meta.author, safeTranscript, lang, mode, meta);
+      const ytFrames = await ChannelAuditJobTracker.raceWithAbort(PageVisionCollector.collectYouTubeFrames(ctx, getActiveVideoElement(), 4, currentVideoId), signal, lang).catch(() => []);
+      ChannelAuditJobTracker.throwIfAborted(signal, lang);
 
       const serverUrls = ctx.serverUrls || stateObj.serverUrls || {};
       const serverUrl = serverUrls[currentProvider] || (stateObj.serverUrl || '');
@@ -171,6 +170,7 @@ export class SummaryViewController {
         model: activeModel,
         systemPrompt,
         userPrompt,
+        ...(ytFrames.length > 0 ? { images: ytFrames } : {}),
         temperature: ctx.temperature || stateObj.temperature || '0.3',
         maxTokens: ctx.maxTokens || stateObj.maxTokens || 'auto',
         localContextLength: localCtx
@@ -261,7 +261,7 @@ export class SummaryViewController {
     const stopBtn = document.getElementById('ytAiStopSummaryBtn');
     const t = I18N[currentLang] || I18N.en;
     summaryBody?.classList?.remove('yt-ai-typing');
-    if (summarizeBtn) { summarizeBtn.disabled = false; summarizeBtn.innerHTML = t.summarizeBtn || '✨ Summarize video'; }
+    if (summarizeBtn) { summarizeBtn.disabled = false; summarizeBtn.classList?.remove('yt-ai-btn-stop'); summarizeBtn.innerHTML = t.summarizeBtn || '✨ Summarize video'; }
     stopBtn?.classList?.add('yt-ai-hidden');
     if (this.activePort) { try { this.activePort.disconnect(); } catch (_) {} this.activePort = null; }
   }
@@ -273,12 +273,12 @@ export class SummaryViewController {
     if (stopBtn) { stopBtn.textContent = t.stopListenBtn || '⏹️ Stop'; stopBtn.title = stopBtn.textContent; }
 
     if (this.isGenerating) {
-      if (summarizeBtn) summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ${t.generatingSummary || 'Generating summary...'}`;
+      if (summarizeBtn) { summarizeBtn.classList?.add('yt-ai-btn-stop'); summarizeBtn.innerHTML = `<span class="yt-ai-spinner"></span> ⏹️ ${t.generatingSummary || 'Generating summary...'}`; }
       const loadingEl = document.querySelector('#ytAiSummaryBody .yt-ai-loading');
       if (loadingEl) loadingEl.innerHTML = `<span class="yt-ai-spinner"></span> ${escapeHtml(t.generatingSummary || 'Generating summary...')}`;
       return;
     }
-    if (summarizeBtn) summarizeBtn.textContent = t.summarizeBtn || '✨ Summarize video';
+    if (summarizeBtn) { summarizeBtn.classList?.remove('yt-ai-btn-stop'); summarizeBtn.textContent = t.summarizeBtn || '✨ Summarize video'; }
     const retryBtn = document.getElementById('ytAiRetrySummarizeBtn');
     if (retryBtn) retryBtn.textContent = t.retryBtn || '🔄 Retry';
     const errTitle = document.querySelector('#ytAiSummaryBody .yt-ai-error-title strong');

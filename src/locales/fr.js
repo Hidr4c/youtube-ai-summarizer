@@ -66,22 +66,10 @@ export const fr = {
   "chatTitle": "💬 Questions & Réponses sur la vidéo",
   "clearChatBtn": "🗑️ Effacer la discussion",
   "suggestions": [
-    {
-      "label": "💡 Points clés",
-      "question": "Quels sont les points clés essentiels à retenir ?"
-    },
-    {
-      "label": "⏱️ Quand parle-t-il du sujet ?",
-      "question": "À quel moment de la vidéo parle-t-il du sujet principal ?"
-    },
-    {
-      "label": "📊 Chiffres & Exemples",
-      "question": "Quels sont les exemples, chiffres ou arguments cités ?"
-    },
-    {
-      "label": "🎯 Conclusion & Conseils",
-      "question": "Que conseille ou conclut l'auteur à la fin ?"
-    }
+    { "label": "💡 Points clés", "question": "Quels sont les points clés essentiels à retenir ?" },
+    { "label": "⏱️ Quand parle-t-il du sujet ?", "question": "À quel moment de la vidéo parle-t-il du sujet principal ?" },
+    { "label": "📊 Chiffres & Exemples", "question": "Quels sont les exemples, chiffres ou arguments cités ?" },
+    { "label": "🎯 Conclusion & Conseils", "question": "Que conseille ou conclut l'auteur à la fin ?" }
   ],
   "chatWelcome": "Bonjour ! Posez-moi n'importe quelle question sur le contenu de cette vidéo. Je m'appuie directement sur sa transcription intégrale.",
   "chatPlaceholder": "Posez une question ou dictez au micro... (Entrée pour envoyer)",
@@ -108,14 +96,17 @@ export const fr = {
   "webTileForms": "Formulaires",
   "webTileDom": "Intégrité DOM",
   "webTileSite": "Site analysé",
-  "webTileCrawl": "Exploration",
-  "webTileContacts": "Contacts directs",
+  "webTileLegal": "Pages officielles",
+  "webTileContacts": "Contacts officiels",
   "webValHttp": "HTTP non chiffré",
   "webValFormsWarn": "Champs sensibles détectés",
   "webValFormsOk": "Aucun piège détecté",
   "webValDomWarn": "Signaux suspects",
   "webValDomOk": "DOM sain",
-  "webValNoneFound": "Aucun trouvé",
+  "webValNoneFound": "Aucun contact visible",
+  "webTileStructure": "Sérieux & structure", "webPagesFound": "{n} page(s) trouvée(s)", "webNoLegalPages": "Aucune détectée",
+  "webValStructComplete": "Site structuré", "webValStructPartial": "Structure incomplète", "webValStructMinimal": "Page isolée / minimal",
+  "webBarLegal": "Mentions légales & infos", "webBarContacts": "Moyens de contact", "webBarStructure": "Organisation & menus", "webBarHomeInfo": "Clarté de l’accueil",
   "attachUnsupported": "Type de fichier non pris en charge. Joignez des images ou fichiers texte/code.",
   "micStopTitle": "Arrêter la dictée",
   "sendBtn": "Envoyer ➤",
@@ -281,6 +272,24 @@ export const fr = {
   "webBusyBtn": "⏳ Analyse en cours...",
   "webReasoningWait": "💭 Réflexion du modèle en cours...",
   "webEmptyAiResponse": "Le modèle IA n'a renvoyé aucun texte d'analyse (réponse vide ou réflexion interrompue). Vérifiez le modèle sélectionné, la fenêtre de contexte ou Max Tokens dans les Réglages.",
-  "closeExtensionBtn": "Fermer et désactiver ClarifAI (réactiver depuis la popup de l’extension)"
+  "closeExtensionBtn": "Fermer et désactiver ClarifAI (réactiver depuis la popup de l’extension)",
+  "webCancelBtn": "⏹ Annuler",
+  "chatQueueTitle": "File d'attente ({count})",
+  "chatInProgressLabel": "En cours :",
+  "chatEditRecallBtn": "Modifier / Annuler",
+  "chatRevertBtn": "Revenir ici",
+  "chatRevertTitle": "Revenir à ce message et modifier le texte",
+  "chatSendNowBtn": "Envoyer",
+  "chatRemoveQueueBtn": "Retirer de la file",
+  "describeAccessibleBtn": "👁️ Décrire (Malvoyants)",
+  "describeAccessibleTitle": "Décrire en détail la page et ses images pour une personne malvoyante avec lecture audio automatique",
+  "describeAccessibleQuestion": "👁️ Décris cette page et ses images en détail pour une personne malvoyante (audio-description).",
+  "speechBarAriaLabel": "Contrôles de lecture audio",
+  "speechRestartBtn": "⏮ Début",
+  "speechRestartTitle": "Reprendre la lecture au début",
+  "speechPauseBtn": "⏸ Pause",
+  "speechResumeBtn": "▶ Reprendre",
+  "speechStopBtn": "⏹ Arrêter",
+  "speechSeekLabel": "Déplacer la tête de lecture dans le texte"
 };
 export default fr;

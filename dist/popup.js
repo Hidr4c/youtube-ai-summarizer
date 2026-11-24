@@ -1023,22 +1023,10 @@
     "chatTitle": "\u{1F4AC} Questions & R\xE9ponses sur la vid\xE9o",
     "clearChatBtn": "\u{1F5D1}\uFE0F Effacer la discussion",
     "suggestions": [
-      {
-        "label": "\u{1F4A1} Points cl\xE9s",
-        "question": "Quels sont les points cl\xE9s essentiels \xE0 retenir ?"
-      },
-      {
-        "label": "\u23F1\uFE0F Quand parle-t-il du sujet ?",
-        "question": "\xC0 quel moment de la vid\xE9o parle-t-il du sujet principal ?"
-      },
-      {
-        "label": "\u{1F4CA} Chiffres & Exemples",
-        "question": "Quels sont les exemples, chiffres ou arguments cit\xE9s ?"
-      },
-      {
-        "label": "\u{1F3AF} Conclusion & Conseils",
-        "question": "Que conseille ou conclut l'auteur \xE0 la fin ?"
-      }
+      { "label": "\u{1F4A1} Points cl\xE9s", "question": "Quels sont les points cl\xE9s essentiels \xE0 retenir ?" },
+      { "label": "\u23F1\uFE0F Quand parle-t-il du sujet ?", "question": "\xC0 quel moment de la vid\xE9o parle-t-il du sujet principal ?" },
+      { "label": "\u{1F4CA} Chiffres & Exemples", "question": "Quels sont les exemples, chiffres ou arguments cit\xE9s ?" },
+      { "label": "\u{1F3AF} Conclusion & Conseils", "question": "Que conseille ou conclut l'auteur \xE0 la fin ?" }
     ],
     "chatWelcome": "Bonjour ! Posez-moi n'importe quelle question sur le contenu de cette vid\xE9o. Je m'appuie directement sur sa transcription int\xE9grale.",
     "chatPlaceholder": "Posez une question ou dictez au micro... (Entr\xE9e pour envoyer)",
@@ -1065,14 +1053,24 @@
     "webTileForms": "Formulaires",
     "webTileDom": "Int\xE9grit\xE9 DOM",
     "webTileSite": "Site analys\xE9",
-    "webTileCrawl": "Exploration",
-    "webTileContacts": "Contacts directs",
+    "webTileLegal": "Pages officielles",
+    "webTileContacts": "Contacts officiels",
     "webValHttp": "HTTP non chiffr\xE9",
     "webValFormsWarn": "Champs sensibles d\xE9tect\xE9s",
     "webValFormsOk": "Aucun pi\xE8ge d\xE9tect\xE9",
     "webValDomWarn": "Signaux suspects",
     "webValDomOk": "DOM sain",
-    "webValNoneFound": "Aucun trouv\xE9",
+    "webValNoneFound": "Aucun contact visible",
+    "webTileStructure": "S\xE9rieux & structure",
+    "webPagesFound": "{n} page(s) trouv\xE9e(s)",
+    "webNoLegalPages": "Aucune d\xE9tect\xE9e",
+    "webValStructComplete": "Site structur\xE9",
+    "webValStructPartial": "Structure incompl\xE8te",
+    "webValStructMinimal": "Page isol\xE9e / minimal",
+    "webBarLegal": "Mentions l\xE9gales & infos",
+    "webBarContacts": "Moyens de contact",
+    "webBarStructure": "Organisation & menus",
+    "webBarHomeInfo": "Clart\xE9 de l\u2019accueil",
     "attachUnsupported": "Type de fichier non pris en charge. Joignez des images ou fichiers texte/code.",
     "micStopTitle": "Arr\xEAter la dict\xE9e",
     "sendBtn": "Envoyer \u27A4",
@@ -1238,7 +1236,25 @@
     "webBusyBtn": "\u23F3 Analyse en cours...",
     "webReasoningWait": "\u{1F4AD} R\xE9flexion du mod\xE8le en cours...",
     "webEmptyAiResponse": "Le mod\xE8le IA n'a renvoy\xE9 aucun texte d'analyse (r\xE9ponse vide ou r\xE9flexion interrompue). V\xE9rifiez le mod\xE8le s\xE9lectionn\xE9, la fen\xEAtre de contexte ou Max Tokens dans les R\xE9glages.",
-    "closeExtensionBtn": "Fermer et d\xE9sactiver ClarifAI (r\xE9activer depuis la popup de l\u2019extension)"
+    "closeExtensionBtn": "Fermer et d\xE9sactiver ClarifAI (r\xE9activer depuis la popup de l\u2019extension)",
+    "webCancelBtn": "\u23F9 Annuler",
+    "chatQueueTitle": "File d'attente ({count})",
+    "chatInProgressLabel": "En cours :",
+    "chatEditRecallBtn": "Modifier / Annuler",
+    "chatRevertBtn": "Revenir ici",
+    "chatRevertTitle": "Revenir \xE0 ce message et modifier le texte",
+    "chatSendNowBtn": "Envoyer",
+    "chatRemoveQueueBtn": "Retirer de la file",
+    "describeAccessibleBtn": "\u{1F441}\uFE0F D\xE9crire (Malvoyants)",
+    "describeAccessibleTitle": "D\xE9crire en d\xE9tail la page et ses images pour une personne malvoyante avec lecture audio automatique",
+    "describeAccessibleQuestion": "\u{1F441}\uFE0F D\xE9cris cette page et ses images en d\xE9tail pour une personne malvoyante (audio-description).",
+    "speechBarAriaLabel": "Contr\xF4les de lecture audio",
+    "speechRestartBtn": "\u23EE D\xE9but",
+    "speechRestartTitle": "Reprendre la lecture au d\xE9but",
+    "speechPauseBtn": "\u23F8 Pause",
+    "speechResumeBtn": "\u25B6 Reprendre",
+    "speechStopBtn": "\u23F9 Arr\xEAter",
+    "speechSeekLabel": "D\xE9placer la t\xEAte de lecture dans le texte"
   };
   var fr_default = fr;
 
@@ -1308,22 +1324,10 @@
     "chatTitle": "\u{1F4AC} Video Q&A",
     "clearChatBtn": "\u{1F5D1}\uFE0F Clear conversation",
     "suggestions": [
-      {
-        "label": "\u{1F4A1} Key takeaways",
-        "question": "What are the core key takeaways from this video?"
-      },
-      {
-        "label": "\u23F1\uFE0F Timestamps",
-        "question": "At what point in the video is the main topic discussed?"
-      },
-      {
-        "label": "\u{1F4CA} Data & Figures",
-        "question": "What specific figures, examples, or arguments are presented?"
-      },
-      {
-        "label": "\u{1F3AF} Conclusion & Advice",
-        "question": "What is the author's final conclusion or actionable advice?"
-      }
+      { "label": "\u{1F4A1} Key takeaways", "question": "What are the core key takeaways from this video?" },
+      { "label": "\u23F1\uFE0F Timestamps", "question": "At what point in the video is the main topic discussed?" },
+      { "label": "\u{1F4CA} Data & Figures", "question": "What specific figures, examples, or arguments are presented?" },
+      { "label": "\u{1F3AF} Conclusion & Advice", "question": "What is the author's final conclusion or actionable advice?" }
     ],
     "chatWelcome": "Hello! Ask me any question about the content of this video. I base my answers directly on its full transcript.",
     "chatPlaceholder": "Ask a question or dictate with mic... (Press Enter to send)",
@@ -1349,15 +1353,25 @@
     "webTileBrand": "Claimed Identity",
     "webTileForms": "Forms & Inputs",
     "webTileDom": "DOM Integrity",
-    "webTileSite": "Target Site",
-    "webTileCrawl": "Crawl Scope",
-    "webTileContacts": "Direct Contacts",
+    "webTileSite": "Target Website",
+    "webTileLegal": "Legal & Info Pages",
+    "webTileContacts": "Official Contacts",
     "webValHttp": "Unencrypted HTTP",
     "webValFormsWarn": "Sensitive inputs found",
     "webValFormsOk": "No traps detected",
     "webValDomWarn": "Suspicious signals",
     "webValDomOk": "Clean DOM",
-    "webValNoneFound": "None found",
+    "webValNoneFound": "No visible contact",
+    "webTileStructure": "Site Structure",
+    "webPagesFound": "{n} page(s) found",
+    "webNoLegalPages": "None detected",
+    "webValStructComplete": "Well structured",
+    "webValStructPartial": "Partial structure",
+    "webValStructMinimal": "Minimal / single page",
+    "webBarLegal": "Legal & info pages",
+    "webBarContacts": "Contact channels",
+    "webBarStructure": "Navigation & menus",
+    "webBarHomeInfo": "Homepage clarity",
     "attachUnsupported": "Unsupported file type. Attach images or text/code files.",
     "micStopTitle": "Stop dictation",
     "sendBtn": "Send \u27A4",
@@ -1523,7 +1537,25 @@
     "webBusyBtn": "\u23F3 Analyzing...",
     "webReasoningWait": "\u{1F4AD} Model is reasoning...",
     "webEmptyAiResponse": "The AI model returned no analysis text (empty response or truncated reasoning). Check your selected model, Context Length, or Max Tokens in Settings.",
-    "closeExtensionBtn": "Disable ClarifAI on pages (re-enable anytime from the extension popup)"
+    "closeExtensionBtn": "Disable ClarifAI on pages (re-enable anytime from the extension popup)",
+    "webCancelBtn": "\u23F9 Cancel",
+    "chatQueueTitle": "Queued ({count})",
+    "chatInProgressLabel": "Generating:",
+    "chatEditRecallBtn": "Edit / Cancel",
+    "chatRevertBtn": "Revert",
+    "chatRevertTitle": "Revert conversation to this message and edit it",
+    "chatSendNowBtn": "Send now",
+    "chatRemoveQueueBtn": "Remove from queue",
+    "describeAccessibleBtn": "\u{1F441}\uFE0F Describe (Low-Vision)",
+    "describeAccessibleTitle": "Generate a vivid spoken description of this page (Instagram, photos, layout) and start automatic playback",
+    "describeAccessibleQuestion": "\u{1F441}\uFE0F Describe this page in detail for a blind or low-vision person (audio description).",
+    "speechBarAriaLabel": "Audio playback controls",
+    "speechRestartBtn": "\u23EE Start",
+    "speechRestartTitle": "Restart audio from the beginning",
+    "speechPauseBtn": "\u23F8 Pause",
+    "speechResumeBtn": "\u25B6 Resume",
+    "speechStopBtn": "\u23F9 Stop",
+    "speechSeekLabel": "Move reading position in text"
   };
   var en_default = en;
 
@@ -1593,22 +1625,10 @@
     "chatTitle": "\u{1F4AC} Preguntas y Respuestas sobre el v\xEDdeo",
     "clearChatBtn": "\u{1F5D1}\uFE0F Borrar conversaci\xF3n",
     "suggestions": [
-      {
-        "label": "\u{1F4A1} Puntos clave",
-        "question": "\xBFCu\xE1les son los puntos clave esenciales a recordar?"
-      },
-      {
-        "label": "\u23F1\uFE0F Marcas de tiempo",
-        "question": "\xBFEn qu\xE9 momento del v\xEDdeo se habla del tema principal?"
-      },
-      {
-        "label": "\u{1F4CA} Cifras y Ejemplos",
-        "question": "\xBFQu\xE9 ejemplos, cifras o argumentos se mencionan?"
-      },
-      {
-        "label": "\u{1F3AF} Conclusi\xF3n y Consejos",
-        "question": "\xBFQu\xE9 concluye o aconseja el autor al final?"
-      }
+      { "label": "\u{1F4A1} Puntos clave", "question": "\xBFCu\xE1les son los puntos clave esenciales a recordar?" },
+      { "label": "\u23F1\uFE0F Marcas de tiempo", "question": "\xBFEn qu\xE9 momento del v\xEDdeo se habla del tema principal?" },
+      { "label": "\u{1F4CA} Cifras y Ejemplos", "question": "\xBFQu\xE9 ejemplos, cifras o argumentos se mencionan?" },
+      { "label": "\u{1F3AF} Conclusi\xF3n y Consejos", "question": "\xBFQu\xE9 concluye o aconseja el autor al final?" }
     ],
     "chatWelcome": "\xA1Hola! Hazme cualquier pregunta sobre el contenido de este v\xEDdeo. Me baso directamente en la transcripci\xF3n completa.",
     "chatPlaceholder": "Haz una pregunta o dicta con el micro... (Intro para enviar)",
@@ -1635,14 +1655,24 @@
     "webTileForms": "Formularios",
     "webTileDom": "Integridad del DOM",
     "webTileSite": "Sitio analizado",
-    "webTileCrawl": "Alcance",
-    "webTileContacts": "Contactos directos",
+    "webTileLegal": "P\xE1ginas legales",
+    "webTileContacts": "Contactos oficiales",
     "webValHttp": "HTTP sin cifrar",
     "webValFormsWarn": "Campos sensibles detectados",
     "webValFormsOk": "Sin trampas detectadas",
     "webValDomWarn": "Se\xF1ales sospechosas",
     "webValDomOk": "DOM limpio",
-    "webValNoneFound": "Ninguno encontrado",
+    "webValNoneFound": "Sin contacto visible",
+    "webTileStructure": "Estructura del sitio",
+    "webPagesFound": "{n} p\xE1gina(s) encontrada(s)",
+    "webNoLegalPages": "Ninguna detectada",
+    "webValStructComplete": "Sitio estructurado",
+    "webValStructPartial": "Estructura parcial",
+    "webValStructMinimal": "P\xE1gina aislada / m\xEDnima",
+    "webBarLegal": "P\xE1ginas legales y avisos",
+    "webBarContacts": "Medios de contacto",
+    "webBarStructure": "Navegaci\xF3n y men\xFAs",
+    "webBarHomeInfo": "Claridad de portada",
     "attachUnsupported": "Tipo de archivo no compatible. Adjunte im\xE1genes o archivos de texto/c\xF3digo.",
     "micStopTitle": "Detener la dictaci\xF3n",
     "sendBtn": "Enviar \u27A4",
@@ -1808,7 +1838,25 @@
     "webBusyBtn": "\u23F3 Analizando...",
     "webReasoningWait": "\u{1F4AD} El modelo est\xE1 razonando...",
     "webEmptyAiResponse": "El modelo de IA no devolvi\xF3 texto de an\xE1lisis (respuesta vac\xEDa o razonamiento truncado). Compruebe el modelo, la longitud de contexto o Max Tokens en Ajustes.",
-    "closeExtensionBtn": "Cerrar y desactivar ClarifAI (reactivar desde el popup de la extensi\xF3n)"
+    "closeExtensionBtn": "Cerrar y desactivar ClarifAI (reactivar desde el popup de la extensi\xF3n)",
+    "webCancelBtn": "\u23F9 Cancelar",
+    "chatQueueTitle": "En cola ({count})",
+    "chatInProgressLabel": "En curso:",
+    "chatEditRecallBtn": "Editar / Cancelar",
+    "chatRevertBtn": "Volver aqu\xED",
+    "chatRevertTitle": "Volver a este mensaje y editar el texto",
+    "chatSendNowBtn": "Enviar ahora",
+    "chatRemoveQueueBtn": "Quitar de la cola",
+    "describeAccessibleBtn": "\u{1F441}\uFE0F Describir (Baja visi\xF3n)",
+    "describeAccessibleTitle": "Describir en detalle la p\xE1gina y sus im\xE1genes para personas con baja visi\xF3n y reproducir el audio autom\xE1ticamente",
+    "describeAccessibleQuestion": "\u{1F441}\uFE0F Describe esta p\xE1gina y sus im\xE1genes en detalle para una persona con discapacidad visual (audiodescripci\xF3n).",
+    "speechBarAriaLabel": "Controles de reproducci\xF3n de audio",
+    "speechRestartBtn": "\u23EE Inicio",
+    "speechRestartTitle": "Reiniciar la lectura desde el principio",
+    "speechPauseBtn": "\u23F8 Pausa",
+    "speechResumeBtn": "\u25B6 Reanudar",
+    "speechStopBtn": "\u23F9 Detener",
+    "speechSeekLabel": "Mover la posici\xF3n de lectura en el texto"
   };
   var es_default = es;
 
@@ -1878,22 +1926,10 @@
     "chatTitle": "\u{1F4AC} Fragen & Antworten zum Video",
     "clearChatBtn": "\u{1F5D1}\uFE0F Verlauf l\xF6schen",
     "suggestions": [
-      {
-        "label": "\u{1F4A1} Kernaussagen",
-        "question": "Was sind die wichtigsten Kernaussagen dieses Videos?"
-      },
-      {
-        "label": "\u23F1\uFE0F Zeitstempel",
-        "question": "An welcher Stelle im Video wird das Hauptthema besprochen?"
-      },
-      {
-        "label": "\u{1F4CA} Zahlen & Beispiele",
-        "question": "Welche Beispiele, Zahlen oder Argumente werden genannt?"
-      },
-      {
-        "label": "\u{1F3AF} Fazit & Ratschl\xE4ge",
-        "question": "Welches Fazit oder welchen Rat gibt der Autor am Ende?"
-      }
+      { "label": "\u{1F4A1} Kernaussagen", "question": "Was sind die wichtigsten Kernaussagen dieses Videos?" },
+      { "label": "\u23F1\uFE0F Zeitstempel", "question": "An welcher Stelle im Video wird das Hauptthema besprochen?" },
+      { "label": "\u{1F4CA} Zahlen & Beispiele", "question": "Welche Beispiele, Zahlen oder Argumente werden genannt?" },
+      { "label": "\u{1F3AF} Fazit & Ratschl\xE4ge", "question": "Welches Fazit oder welchen Rat gibt der Autor am Ende?" }
     ],
     "chatWelcome": "Hallo! Stellen Sie mir eine Frage zum Inhalt dieses Videos. Ich beziehe mich direkt auf das vollst\xE4ndige Transkript.",
     "chatPlaceholder": "Frage stellen oder ins Mikro sprechen... (Enter zum Senden)",
@@ -1920,14 +1956,24 @@
     "webTileForms": "Formulare",
     "webTileDom": "DOM-Integrit\xE4t",
     "webTileSite": "Analysierte Website",
-    "webTileCrawl": "Pr\xFCfumfang",
-    "webTileContacts": "Direkte Kontakte",
+    "webTileLegal": "Rechtliche Seiten",
+    "webTileContacts": "Offizielle Kontakte",
     "webValHttp": "Unverschl\xFCsseltes HTTP",
     "webValFormsWarn": "Sensible Felder erkannt",
     "webValFormsOk": "Keine Fallen erkannt",
     "webValDomWarn": "Verd\xE4chtige Signale",
     "webValDomOk": "Sauberes DOM",
-    "webValNoneFound": "Keine gefunden",
+    "webValNoneFound": "Kein Kontakt sichtbar",
+    "webTileStructure": "Seitenstruktur",
+    "webPagesFound": "{n} Seite(n) gefunden",
+    "webNoLegalPages": "Keine erkannt",
+    "webValStructComplete": "Klar strukturiert",
+    "webValStructPartial": "Teilweise strukturiert",
+    "webValStructMinimal": "Einzelseite / minimal",
+    "webBarLegal": "Impressum & Rechtliches",
+    "webBarContacts": "Kontaktm\xF6glichkeiten",
+    "webBarStructure": "Navigation & Aufbau",
+    "webBarHomeInfo": "Startseiten-Klarheit",
     "attachUnsupported": "Nicht unterst\xFCtzter Dateityp. Bilder oder Text-/Codedateien anh\xE4ngen.",
     "micStopTitle": "Aufnahme beenden",
     "sendBtn": "Senden \u27A4",
@@ -2093,7 +2139,25 @@
     "webBusyBtn": "\u23F3 Analyse l\xE4uft...",
     "webReasoningWait": "\u{1F4AD} Modell denkt nach...",
     "webEmptyAiResponse": "Das KI-Modell hat keinen Analysetext zur\xFCckgegeben (leere Antwort oder abgebrochenes Reasoning). Pr\xFCfen Sie Modell, Kontextl\xE4nge oder Max Tokens in den Einstellungen.",
-    "closeExtensionBtn": "ClarifAI schlie\xDFen und deaktivieren (jederzeit \xFCber das Popup reaktivieren)"
+    "closeExtensionBtn": "ClarifAI schlie\xDFen und deaktivieren (jederzeit \xFCber das Popup reaktivieren)",
+    "webCancelBtn": "\u23F9 Abbrechen",
+    "chatQueueTitle": "Warteschlange ({count})",
+    "chatInProgressLabel": "L\xE4uft:",
+    "chatEditRecallBtn": "Bearbeiten / Abbrechen",
+    "chatRevertBtn": "Zur\xFCcksetzen",
+    "chatRevertTitle": "Zu dieser Nachricht zur\xFCckkehren und Text bearbeiten",
+    "chatSendNowBtn": "Jetzt senden",
+    "chatRemoveQueueBtn": "Aus Warteschlange entfernen",
+    "describeAccessibleBtn": "\u{1F441}\uFE0F Beschreiben (Sehbehinderte)",
+    "describeAccessibleTitle": "Seite und Bilder ausf\xFChrlich f\xFCr sehbehinderte Menschen beschreiben und automatisch vorlesen",
+    "describeAccessibleQuestion": "\u{1F441}\uFE0F Beschreibe diese Seite und ihre Bilder ausf\xFChrlich f\xFCr eine sehbehinderte oder blinde Person (Audiodeskription).",
+    "speechBarAriaLabel": "Audiowiedergabe-Steuerung",
+    "speechRestartBtn": "\u23EE Anfang",
+    "speechRestartTitle": "Wiedergabe von vorne starten",
+    "speechPauseBtn": "\u23F8 Pause",
+    "speechResumeBtn": "\u25B6 Fortsetzen",
+    "speechStopBtn": "\u23F9 Stopp",
+    "speechSeekLabel": "Leseposition im Text verschieben"
   };
   var de_default = de;
 
@@ -2163,22 +2227,10 @@
     "chatTitle": "\u{1F4AC} Domande & Risposte sul video",
     "clearChatBtn": "\u{1F5D1}\uFE0F Cancella conversazione",
     "suggestions": [
-      {
-        "label": "\u{1F4A1} Punti chiave",
-        "question": "Quali sono i punti chiave essenziali da ricordare?"
-      },
-      {
-        "label": "\u23F1\uFE0F Momenti salienti",
-        "question": "In quale momento del video si parla dell'argomento principale?"
-      },
-      {
-        "label": "\u{1F4CA} Dati ed Esempi",
-        "question": "Quali esempi, dati o argomenti specifici vengono citati?"
-      },
-      {
-        "label": "\u{1F3AF} Conclusione e Consigli",
-        "question": "Cosa consiglia o conclude l'autore alla fine?"
-      }
+      { "label": "\u{1F4A1} Punti chiave", "question": "Quali sono i punti chiave essenziali da ricordare?" },
+      { "label": "\u23F1\uFE0F Momenti salienti", "question": "In quale momento del video si parla dell'argomento principale?" },
+      { "label": "\u{1F4CA} Dati ed Esempi", "question": "Quali esempi, dati o argomenti specifici vengono citati?" },
+      { "label": "\u{1F3AF} Conclusione e Consigli", "question": "Cosa consiglia o conclude l'autore alla fine?" }
     ],
     "chatWelcome": "Ciao! Fammi qualsiasi domanda sui contenuti di questo video. Mi baso direttamente sulla sua trascrizione integrale.",
     "chatPlaceholder": "Fai una domanda o detta al microfono... (Invio per inviare)",
@@ -2205,14 +2257,24 @@
     "webTileForms": "Moduli",
     "webTileDom": "Integrit\xE0 DOM",
     "webTileSite": "Sito analizzato",
-    "webTileCrawl": "Copertura",
-    "webTileContacts": "Contatti diretti",
+    "webTileLegal": "Pagine ufficiali",
+    "webTileContacts": "Contatti ufficiali",
     "webValHttp": "HTTP non crittografato",
     "webValFormsWarn": "Campi sensibili rilevati",
     "webValFormsOk": "Nessuna trappola rilevata",
     "webValDomWarn": "Segnali sospetti",
     "webValDomOk": "DOM pulito",
-    "webValNoneFound": "Nessuno trovato",
+    "webValNoneFound": "Nessun contatto visibile",
+    "webTileStructure": "Struttura del sito",
+    "webPagesFound": "{n} pagina/e trovata/e",
+    "webNoLegalPages": "Nessuna rilevata",
+    "webValStructComplete": "Ben strutturato",
+    "webValStructPartial": "Struttura parziale",
+    "webValStructMinimal": "Pagina isolata / minima",
+    "webBarLegal": "Note legali e info",
+    "webBarContacts": "Canali di contatto",
+    "webBarStructure": "Navigazione e menu",
+    "webBarHomeInfo": "Chiarezza homepage",
     "attachUnsupported": "Tipo di file non supportato. Allega immagini o file di testo/codice.",
     "micStopTitle": "Interrompi dettatura",
     "sendBtn": "Invia \u27A4",
@@ -2378,7 +2440,25 @@
     "webBusyBtn": "\u23F3 Analisi in corso...",
     "webReasoningWait": "\u{1F4AD} Il modello sta ragionando...",
     "webEmptyAiResponse": "Il modello IA non ha restituito alcun testo di analisi (risposta vuota o ragionamento troncato). Verificare modello, lunghezza contesto o Max Tokens nelle Impostazioni.",
-    "closeExtensionBtn": "Chiudi e disattiva ClarifAI (riattiva dal popup dell\u2019estensione)"
+    "closeExtensionBtn": "Chiudi e disattiva ClarifAI (riattiva dal popup dell\u2019estensione)",
+    "webCancelBtn": "\u23F9 Annulla",
+    "chatQueueTitle": "In coda ({count})",
+    "chatInProgressLabel": "In corso:",
+    "chatEditRecallBtn": "Modifica / Annulla",
+    "chatRevertBtn": "Torna qui",
+    "chatRevertTitle": "Torna a questo messaggio e modifica il testo",
+    "chatSendNowBtn": "Invia ora",
+    "chatRemoveQueueBtn": "Rimuovi dalla coda",
+    "describeAccessibleBtn": "\u{1F441}\uFE0F Descrivi (Ipovedenti)",
+    "describeAccessibleTitle": "Descrivi in dettaglio la pagina e le immagini per persone ipovedenti con lettura automatica",
+    "describeAccessibleQuestion": "\u{1F441}\uFE0F Descrivi questa pagina e le sue immagini in dettaglio per una persona ipovedente o non vedente (audiodescrizione).",
+    "speechBarAriaLabel": "Controlli di riproduzione audio",
+    "speechRestartBtn": "\u23EE Inizio",
+    "speechRestartTitle": "Ricomincia la lettura dall'inizio",
+    "speechPauseBtn": "\u23F8 Pausa",
+    "speechResumeBtn": "\u25B6 Riprendi",
+    "speechStopBtn": "\u23F9 Ferma",
+    "speechSeekLabel": "Sposta la posizione di lettura nel testo"
   };
   var it_default = it;
 
@@ -2448,22 +2528,10 @@
     "chatTitle": "\u{1F4AC} \u0412\u043E\u043F\u0440\u043E\u0441\u044B \u0438 \u043E\u0442\u0432\u0435\u0442\u044B \u043F\u043E \u0432\u0438\u0434\u0435\u043E",
     "clearChatBtn": "\u{1F5D1}\uFE0F \u041E\u0447\u0438\u0441\u0442\u0438\u0442\u044C \u0434\u0438\u0430\u043B\u043E\u0433",
     "suggestions": [
-      {
-        "label": "\u{1F4A1} \u0413\u043B\u0430\u0432\u043D\u044B\u0435 \u043C\u044B\u0441\u043B\u0438",
-        "question": "\u041A\u0430\u043A\u043E\u0432\u044B \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0432\u044B\u0432\u043E\u0434\u044B \u0438 \u0438\u0434\u0435\u0438 \u0438\u0437 \u044D\u0442\u043E\u0433\u043E \u0432\u0438\u0434\u0435\u043E?"
-      },
-      {
-        "label": "\u23F1\uFE0F \u0422\u0430\u0439\u043C\u043A\u043E\u0434\u044B",
-        "question": "\u0412 \u043A\u0430\u043A\u043E\u0439 \u043C\u043E\u043C\u0435\u043D\u0442 \u0432\u0438\u0434\u0435\u043E \u0430\u0432\u0442\u043E\u0440 \u0433\u043E\u0432\u043E\u0440\u0438\u0442 \u043E \u0433\u043B\u0430\u0432\u043D\u043E\u0439 \u0442\u0435\u043C\u0435?"
-      },
-      {
-        "label": "\u{1F4CA} \u0424\u0430\u043A\u0442\u044B \u0438 \u0446\u0438\u0444\u0440\u044B",
-        "question": "\u041A\u0430\u043A\u0438\u0435 \u043A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u044B\u0435 \u043F\u0440\u0438\u043C\u0435\u0440\u044B, \u0446\u0438\u0444\u0440\u044B \u0438\u043B\u0438 \u0430\u0440\u0433\u0443\u043C\u0435\u043D\u0442\u044B \u043F\u0440\u0438\u0432\u043E\u0434\u044F\u0442\u0441\u044F?"
-      },
-      {
-        "label": "\u{1F3AF} \u0412\u044B\u0432\u043E\u0434 \u0438 \u0441\u043E\u0432\u0435\u0442\u044B",
-        "question": "\u041A \u043A\u0430\u043A\u043E\u043C\u0443 \u0432\u044B\u0432\u043E\u0434\u0443 \u043F\u0440\u0438\u0445\u043E\u0434\u0438\u0442 \u0430\u0432\u0442\u043E\u0440 \u0438 \u0447\u0442\u043E \u0441\u043E\u0432\u0435\u0442\u0443\u0435\u0442 \u0432 \u043A\u043E\u043D\u0446\u0435?"
-      }
+      { "label": "\u{1F4A1} \u0413\u043B\u0430\u0432\u043D\u044B\u0435 \u043C\u044B\u0441\u043B\u0438", "question": "\u041A\u0430\u043A\u043E\u0432\u044B \u043A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0432\u044B\u0432\u043E\u0434\u044B \u0438 \u0438\u0434\u0435\u0438 \u0438\u0437 \u044D\u0442\u043E\u0433\u043E \u0432\u0438\u0434\u0435\u043E?" },
+      { "label": "\u23F1\uFE0F \u0422\u0430\u0439\u043C\u043A\u043E\u0434\u044B", "question": "\u0412 \u043A\u0430\u043A\u043E\u0439 \u043C\u043E\u043C\u0435\u043D\u0442 \u0432\u0438\u0434\u0435\u043E \u0430\u0432\u0442\u043E\u0440 \u0433\u043E\u0432\u043E\u0440\u0438\u0442 \u043E \u0433\u043B\u0430\u0432\u043D\u043E\u0439 \u0442\u0435\u043C\u0435?" },
+      { "label": "\u{1F4CA} \u0424\u0430\u043A\u0442\u044B \u0438 \u0446\u0438\u0444\u0440\u044B", "question": "\u041A\u0430\u043A\u0438\u0435 \u043A\u043E\u043D\u043A\u0440\u0435\u0442\u043D\u044B\u0435 \u043F\u0440\u0438\u043C\u0435\u0440\u044B, \u0446\u0438\u0444\u0440\u044B \u0438\u043B\u0438 \u0430\u0440\u0433\u0443\u043C\u0435\u043D\u0442\u044B \u043F\u0440\u0438\u0432\u043E\u0434\u044F\u0442\u0441\u044F?" },
+      { "label": "\u{1F3AF} \u0412\u044B\u0432\u043E\u0434 \u0438 \u0441\u043E\u0432\u0435\u0442\u044B", "question": "\u041A \u043A\u0430\u043A\u043E\u043C\u0443 \u0432\u044B\u0432\u043E\u0434\u0443 \u043F\u0440\u0438\u0445\u043E\u0434\u0438\u0442 \u0430\u0432\u0442\u043E\u0440 \u0438 \u0447\u0442\u043E \u0441\u043E\u0432\u0435\u0442\u0443\u0435\u0442 \u0432 \u043A\u043E\u043D\u0446\u0435?" }
     ],
     "chatWelcome": "\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439\u0442\u0435! \u0417\u0430\u0434\u0430\u0439\u0442\u0435 \u043C\u043D\u0435 \u043B\u044E\u0431\u043E\u0439 \u0432\u043E\u043F\u0440\u043E\u0441 \u043E \u0441\u043E\u0434\u0435\u0440\u0436\u0430\u043D\u0438\u0438 \u044D\u0442\u043E\u0433\u043E \u0432\u0438\u0434\u0435\u043E. \u042F \u043E\u043F\u0438\u0440\u0430\u044E\u0441\u044C \u0438\u0441\u043A\u043B\u044E\u0447\u0438\u0442\u0435\u043B\u044C\u043D\u043E \u043D\u0430 \u0435\u0433\u043E \u043F\u043E\u043B\u043D\u0443\u044E \u0442\u0440\u0430\u043D\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u044E.",
     "chatPlaceholder": "\u0417\u0430\u0434\u0430\u0439\u0442\u0435 \u0432\u043E\u043F\u0440\u043E\u0441 \u0438\u043B\u0438 \u043F\u0440\u043E\u0434\u0438\u043A\u0442\u0443\u0439\u0442\u0435 \u0432 \u043C\u0438\u043A\u0440\u043E\u0444\u043E\u043D... (Enter \u0434\u043B\u044F \u043E\u0442\u043F\u0440\u0430\u0432\u043A\u0438)",
@@ -2490,14 +2558,24 @@
     "webTileForms": "\u0424\u043E\u0440\u043C\u044B \u0438 \u043F\u043E\u043B\u044F",
     "webTileDom": "\u0426\u0435\u043B\u043E\u0441\u0442\u043D\u043E\u0441\u0442\u044C DOM",
     "webTileSite": "\u0410\u043D\u0430\u043B\u0438\u0437\u0438\u0440\u0443\u0435\u043C\u044B\u0439 \u0441\u0430\u0439\u0442",
-    "webTileCrawl": "\u041E\u0445\u0432\u0430\u0442 \u043F\u0440\u043E\u0432\u0435\u0440\u043A\u0438",
-    "webTileContacts": "\u041F\u0440\u044F\u043C\u044B\u0435 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u044B",
+    "webTileLegal": "\u041E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u044B\u0435 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B",
+    "webTileContacts": "\u041E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u044B\u0435 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u044B",
     "webValHttp": "\u041D\u0435\u0448\u0438\u0444\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0439 HTTP",
     "webValFormsWarn": "\u041E\u0431\u043D\u0430\u0440\u0443\u0436\u0435\u043D\u044B \u0432\u0430\u0436\u043D\u044B\u0435 \u043F\u043E\u043B\u044F",
     "webValFormsOk": "\u041B\u043E\u0432\u0443\u0448\u0435\u043A \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E",
     "webValDomWarn": "\u041F\u043E\u0434\u043E\u0437\u0440\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0435 \u0441\u0438\u0433\u043D\u0430\u043B\u044B",
     "webValDomOk": "\u0427\u0438\u0441\u0442\u044B\u0439 DOM",
-    "webValNoneFound": "\u041D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E",
+    "webValNoneFound": "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u044B",
+    "webTileStructure": "\u0421\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0430 \u0441\u0430\u0439\u0442\u0430",
+    "webPagesFound": "\u041D\u0430\u0439\u0434\u0435\u043D\u043E \u0441\u0442\u0440\u0430\u043D\u0438\u0446: {n}",
+    "webNoLegalPages": "\u041D\u0435 \u043E\u0431\u043D\u0430\u0440\u0443\u0436\u0435\u043D\u044B",
+    "webValStructComplete": "\u041F\u043E\u043B\u043D\u0430\u044F \u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0430",
+    "webValStructPartial": "\u041D\u0435\u043F\u043E\u043B\u043D\u0430\u044F \u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0430",
+    "webValStructMinimal": "\u041C\u0438\u043D\u0438\u043C\u0430\u043B\u044C\u043D\u044B\u0439 \u0441\u0430\u0439\u0442",
+    "webBarLegal": "\u042E\u0440\u0438\u0434\u0438\u0447\u0435\u0441\u043A\u0438\u0435 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B",
+    "webBarContacts": "\u0421\u043F\u043E\u0441\u043E\u0431\u044B \u0441\u0432\u044F\u0437\u0438",
+    "webBarStructure": "\u041D\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u044F \u0438 \u0440\u0430\u0437\u0434\u0435\u043B\u044B",
+    "webBarHomeInfo": "\u041F\u043E\u043D\u044F\u0442\u043D\u043E\u0441\u0442\u044C \u0433\u043B\u0430\u0432\u043D\u043E\u0439",
     "attachUnsupported": "\u041D\u0435\u043F\u043E\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043C\u044B\u0439 \u0442\u0438\u043F \u0444\u0430\u0439\u043B\u0430. \u041F\u0440\u0438\u043A\u0440\u0435\u043F\u0438\u0442\u0435 \u0438\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u044F \u0438\u043B\u0438 \u0442\u0435\u043A\u0441\u0442\u043E\u0432\u044B\u0435/\u043A\u043E\u0434\u043E\u0432\u044B\u0435 \u0444\u0430\u0439\u043B\u044B.",
     "micStopTitle": "\u041E\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C \u0434\u0438\u043A\u0442\u043E\u0432\u043A\u0443",
     "sendBtn": "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u27A4",
@@ -2663,7 +2741,25 @@
     "webBusyBtn": "\u23F3 \u0410\u043D\u0430\u043B\u0438\u0437...",
     "webReasoningWait": "\u{1F4AD} \u041C\u043E\u0434\u0435\u043B\u044C \u0440\u0430\u0441\u0441\u0443\u0436\u0434\u0430\u0435\u0442...",
     "webEmptyAiResponse": "\u041C\u043E\u0434\u0435\u043B\u044C \u0418\u0418 \u043D\u0435 \u0432\u0435\u0440\u043D\u0443\u043B\u0430 \u0442\u0435\u043A\u0441\u0442 \u0430\u043D\u0430\u043B\u0438\u0437\u0430 (\u043F\u0443\u0441\u0442\u043E\u0439 \u043E\u0442\u0432\u0435\u0442 \u0438\u043B\u0438 \u043F\u0440\u0435\u0440\u0432\u0430\u043D\u043D\u043E\u0435 \u0440\u0430\u0441\u0441\u0443\u0436\u0434\u0435\u043D\u0438\u0435). \u041F\u0440\u043E\u0432\u0435\u0440\u044C\u0442\u0435 \u043C\u043E\u0434\u0435\u043B\u044C, \u0434\u043B\u0438\u043D\u0443 \u043A\u043E\u043D\u0442\u0435\u043A\u0441\u0442\u0430 \u0438\u043B\u0438 Max Tokens \u0432 \u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0430\u0445.",
-    "closeExtensionBtn": "\u0417\u0430\u043A\u0440\u044B\u0442\u044C \u0438 \u043E\u0442\u043A\u043B\u044E\u0447\u0438\u0442\u044C ClarifAI (\u043C\u043E\u0436\u043D\u043E \u0441\u043D\u043E\u0432\u0430 \u0432\u043A\u043B\u044E\u0447\u0438\u0442\u044C \u0432 \u043E\u043A\u043D\u0435 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u044F)"
+    "closeExtensionBtn": "\u0417\u0430\u043A\u0440\u044B\u0442\u044C \u0438 \u043E\u0442\u043A\u043B\u044E\u0447\u0438\u0442\u044C ClarifAI (\u043C\u043E\u0436\u043D\u043E \u0441\u043D\u043E\u0432\u0430 \u0432\u043A\u043B\u044E\u0447\u0438\u0442\u044C \u0432 \u043E\u043A\u043D\u0435 \u0440\u0430\u0441\u0448\u0438\u0440\u0435\u043D\u0438\u044F)",
+    "webCancelBtn": "\u23F9 \u041E\u0442\u043C\u0435\u043D\u0430",
+    "chatQueueTitle": "\u0412 \u043E\u0447\u0435\u0440\u0435\u0434\u0438 ({count})",
+    "chatInProgressLabel": "\u0412\u044B\u043F\u043E\u043B\u043D\u044F\u0435\u0442\u0441\u044F:",
+    "chatEditRecallBtn": "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C / \u041E\u0442\u043C\u0435\u043D\u0438\u0442\u044C",
+    "chatRevertBtn": "\u041E\u0442\u043A\u0430\u0442\u0438\u0442\u044C",
+    "chatRevertTitle": "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u043A \u044D\u0442\u043E\u043C\u0443 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044E \u0438 \u0438\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0442\u0435\u043A\u0441\u0442",
+    "chatSendNowBtn": "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C",
+    "chatRemoveQueueBtn": "\u0423\u0434\u0430\u043B\u0438\u0442\u044C \u0438\u0437 \u043E\u0447\u0435\u0440\u0435\u0434\u0438",
+    "describeAccessibleBtn": "\u{1F441}\uFE0F \u041E\u043F\u0438\u0441\u0430\u0442\u044C (\u0414\u043B\u044F \u0441\u043B\u0430\u0431\u043E\u0432\u0438\u0434\u044F\u0449\u0438\u0445)",
+    "describeAccessibleTitle": "\u041F\u043E\u0434\u0440\u043E\u0431\u043D\u043E \u043E\u043F\u0438\u0441\u0430\u0442\u044C \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0443 \u0438 \u0438\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u044F \u0434\u043B\u044F \u0441\u043B\u0430\u0431\u043E\u0432\u0438\u0434\u044F\u0449\u0438\u0445 \u0438 \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438 \u043E\u0437\u0432\u0443\u0447\u0438\u0442\u044C \u0442\u0435\u043A\u0441\u0442",
+    "describeAccessibleQuestion": "\u{1F441}\uFE0F \u041F\u043E\u0434\u0440\u043E\u0431\u043D\u043E \u043E\u043F\u0438\u0448\u0438 \u044D\u0442\u0443 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0443 \u0438 \u0438\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u044F \u0434\u043B\u044F \u043D\u0435\u0437\u0440\u044F\u0447\u0435\u0433\u043E \u0438\u043B\u0438 \u0441\u043B\u0430\u0431\u043E\u0432\u0438\u0434\u044F\u0449\u0435\u0433\u043E \u0447\u0435\u043B\u043E\u0432\u0435\u043A\u0430 (\u0430\u0443\u0434\u0438\u043E\u0434\u0435\u0441\u043A\u0440\u0438\u043F\u0446\u0438\u044F).",
+    "speechBarAriaLabel": "\u0423\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435 \u0432\u043E\u0441\u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u043D\u0438\u0435\u043C \u0440\u0435\u0447\u0438",
+    "speechRestartBtn": "\u23EE \u0412 \u043D\u0430\u0447\u0430\u043B\u043E",
+    "speechRestartTitle": "\u041D\u0430\u0447\u0430\u0442\u044C \u0447\u0442\u0435\u043D\u0438\u0435 \u0441 \u043D\u0430\u0447\u0430\u043B\u0430",
+    "speechPauseBtn": "\u23F8 \u041F\u0430\u0443\u0437\u0430",
+    "speechResumeBtn": "\u25B6 \u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C",
+    "speechStopBtn": "\u23F9 \u0421\u0442\u043E\u043F",
+    "speechSeekLabel": "\u041F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u044C \u043F\u043E\u0437\u0438\u0446\u0438\u044E \u0447\u0442\u0435\u043D\u0438\u044F \u0432 \u0442\u0435\u043A\u0441\u0442\u0435"
   };
   var ru_default = ru;
 
@@ -2733,22 +2829,10 @@
     "chatTitle": "\u{1F4AC} \u52D5\u753B\u306B\u3064\u3044\u3066\u306EQ&A",
     "clearChatBtn": "\u{1F5D1}\uFE0F \u30C1\u30E3\u30C3\u30C8\u5C65\u6B74\u3092\u6D88\u53BB",
     "suggestions": [
-      {
-        "label": "\u{1F4A1} \u8981\u70B9\u307E\u3068\u3081",
-        "question": "\u3053\u306E\u52D5\u753B\u306E\u6700\u3082\u91CD\u8981\u306A\u30AD\u30FC\u30DD\u30A4\u30F3\u30C8\u306F\u4F55\u3067\u3059\u304B\uFF1F"
-      },
-      {
-        "label": "\u23F1\uFE0F \u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7",
-        "question": "\u52D5\u753B\u306E\u3069\u306E\u90E8\u5206\u3067\u30E1\u30A4\u30F3\u30C6\u30FC\u30DE\u306B\u3064\u3044\u3066\u8A71\u3057\u3066\u3044\u307E\u3059\u304B\uFF1F"
-      },
-      {
-        "label": "\u{1F4CA} \u30C7\u30FC\u30BF\u3068\u5177\u4F53\u4F8B",
-        "question": "\u5177\u4F53\u7684\u306B\u3069\u306E\u3088\u3046\u306A\u30C7\u30FC\u30BF\u3001\u4E8B\u4F8B\u3001\u8AD6\u62E0\u304C\u6319\u3052\u3089\u308C\u3066\u3044\u307E\u3059\u304B\uFF1F"
-      },
-      {
-        "label": "\u{1F3AF} \u7D50\u8AD6\u3068\u30A2\u30C9\u30D0\u30A4\u30B9",
-        "question": "\u52D5\u753B\u306E\u6700\u5F8C\u3067\u8457\u8005\u306F\u3069\u306E\u3088\u3046\u306A\u7D50\u8AD6\u3084\u30A2\u30C9\u30D0\u30A4\u30B9\u3092\u8FF0\u3079\u3066\u3044\u307E\u3059\u304B\uFF1F"
-      }
+      { "label": "\u{1F4A1} \u8981\u70B9\u307E\u3068\u3081", "question": "\u3053\u306E\u52D5\u753B\u306E\u6700\u3082\u91CD\u8981\u306A\u30AD\u30FC\u30DD\u30A4\u30F3\u30C8\u306F\u4F55\u3067\u3059\u304B\uFF1F" },
+      { "label": "\u23F1\uFE0F \u30BF\u30A4\u30E0\u30B9\u30BF\u30F3\u30D7", "question": "\u52D5\u753B\u306E\u3069\u306E\u90E8\u5206\u3067\u30E1\u30A4\u30F3\u30C6\u30FC\u30DE\u306B\u3064\u3044\u3066\u8A71\u3057\u3066\u3044\u307E\u3059\u304B\uFF1F" },
+      { "label": "\u{1F4CA} \u30C7\u30FC\u30BF\u3068\u5177\u4F53\u4F8B", "question": "\u5177\u4F53\u7684\u306B\u3069\u306E\u3088\u3046\u306A\u30C7\u30FC\u30BF\u3001\u4E8B\u4F8B\u3001\u8AD6\u62E0\u304C\u6319\u3052\u3089\u308C\u3066\u3044\u307E\u3059\u304B\uFF1F" },
+      { "label": "\u{1F3AF} \u7D50\u8AD6\u3068\u30A2\u30C9\u30D0\u30A4\u30B9", "question": "\u52D5\u753B\u306E\u6700\u5F8C\u3067\u8457\u8005\u306F\u3069\u306E\u3088\u3046\u306A\u7D50\u8AD6\u3084\u30A2\u30C9\u30D0\u30A4\u30B9\u3092\u8FF0\u3079\u3066\u3044\u307E\u3059\u304B\uFF1F" }
     ],
     "chatWelcome": "\u3053\u3093\u306B\u3061\u306F\uFF01\u3053\u306E\u52D5\u753B\u306E\u5185\u5BB9\u306B\u3064\u3044\u3066\u4F55\u3067\u3082\u8CEA\u554F\u3057\u3066\u304F\u3060\u3055\u3044\u3002\u52D5\u753B\u5168\u4F53\u306E\u6587\u5B57\u8D77\u3053\u3057\u306B\u57FA\u3065\u3044\u3066\u56DE\u7B54\u3057\u307E\u3059\u3002",
     "chatPlaceholder": "\u8CEA\u554F\u3092\u5165\u529B\u3059\u308B\u304B\u30DE\u30A4\u30AF\u3067\u97F3\u58F0\u5165\u529B... (Enter\u3067\u9001\u4FE1)",
@@ -2775,14 +2859,24 @@
     "webTileForms": "\u30D5\u30A9\u30FC\u30E0",
     "webTileDom": "DOM\u306E\u6574\u5408\u6027",
     "webTileSite": "\u5206\u6790\u5BFE\u8C61\u30B5\u30A4\u30C8",
-    "webTileCrawl": "\u8ABF\u67FB\u7BC4\u56F2",
-    "webTileContacts": "\u76F4\u63A5\u9023\u7D61\u5148",
+    "webTileLegal": "\u516C\u5F0F\u30FB\u6CD5\u7684\u30DA\u30FC\u30B8",
+    "webTileContacts": "\u516C\u5F0F\u9023\u7D61\u5148",
     "webValHttp": "\u975E\u6697\u53F7\u5316HTTP",
     "webValFormsWarn": "\u6A5F\u5BC6\u5165\u529B\u3092\u691C\u51FA",
     "webValFormsOk": "\u7F60\u306F\u672A\u691C\u51FA",
     "webValDomWarn": "\u4E0D\u5BE9\u306A\u5146\u5019",
     "webValDomOk": "\u5B89\u5168\u306ADOM",
-    "webValNoneFound": "\u898B\u3064\u304B\u308A\u307E\u305B\u3093",
+    "webValNoneFound": "\u9023\u7D61\u5148\u306E\u8A18\u8F09\u306A\u3057",
+    "webTileStructure": "\u30B5\u30A4\u30C8\u69CB\u6210",
+    "webPagesFound": "{n} \u4EF6\u691C\u51FA",
+    "webNoLegalPages": "\u672A\u691C\u51FA",
+    "webValStructComplete": "\u69CB\u6210\u304C\u5145\u5B9F",
+    "webValStructPartial": "\u4E00\u90E8\u306E\u307F\u69CB\u6210",
+    "webValStructMinimal": "\u5358\u4E00\u30DA\u30FC\u30B8 / \u6700\u5C0F\u69CB\u6210",
+    "webBarLegal": "\u6CD5\u7684\u60C5\u5831\u30FB\u6982\u8981\u30DA\u30FC\u30B8",
+    "webBarContacts": "\u554F\u3044\u5408\u308F\u305B\u624B\u6BB5",
+    "webBarStructure": "\u30B5\u30A4\u30C8\u69CB\u6210\u3068\u6848\u5185",
+    "webBarHomeInfo": "\u30C8\u30C3\u30D7\u30DA\u30FC\u30B8\u306E\u660E\u78BA\u3055",
     "attachUnsupported": "\u672A\u5BFE\u5FDC\u306E\u30D5\u30A1\u30A4\u30EB\u5F62\u5F0F\u3067\u3059\u3002\u753B\u50CF\u307E\u305F\u306F\u30C6\u30AD\u30B9\u30C8/\u30B3\u30FC\u30C9\u30D5\u30A1\u30A4\u30EB\u3092\u6DFB\u4ED8\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
     "micStopTitle": "\u97F3\u58F0\u5165\u529B\u3092\u505C\u6B62",
     "sendBtn": "\u9001\u4FE1 \u27A4",
@@ -2948,7 +3042,25 @@
     "webBusyBtn": "\u23F3 \u5206\u6790\u4E2D...",
     "webReasoningWait": "\u{1F4AD} \u30E2\u30C7\u30EB\u304C\u63A8\u8AD6\u4E2D...",
     "webEmptyAiResponse": "AI\u30E2\u30C7\u30EB\u304B\u3089\u5206\u6790\u30C6\u30AD\u30B9\u30C8\u304C\u8FD4\u3055\u308C\u307E\u305B\u3093\u3067\u3057\u305F\uFF08\u7A7A\u306E\u5FDC\u7B54\u307E\u305F\u306F\u63A8\u8AD6\u306E\u4E2D\u65AD\uFF09\u3002\u8A2D\u5B9A\u3067\u30E2\u30C7\u30EB\u30FB\u30B3\u30F3\u30C6\u30AD\u30B9\u30C8\u9577\u30FBMax Tokens\u3092\u78BA\u8A8D\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
-    "closeExtensionBtn": "ClarifAI \u3092\u9589\u3058\u3066\u7121\u52B9\u5316\uFF08\u62E1\u5F35\u6A5F\u80FD\u306E\u30DD\u30C3\u30D7\u30A2\u30C3\u30D7\u304B\u3089\u518D\u6709\u52B9\u5316\u3067\u304D\u307E\u3059\uFF09"
+    "closeExtensionBtn": "ClarifAI \u3092\u9589\u3058\u3066\u7121\u52B9\u5316\uFF08\u62E1\u5F35\u6A5F\u80FD\u306E\u30DD\u30C3\u30D7\u30A2\u30C3\u30D7\u304B\u3089\u518D\u6709\u52B9\u5316\u3067\u304D\u307E\u3059\uFF09",
+    "webCancelBtn": "\u23F9 \u30AD\u30E3\u30F3\u30BB\u30EB",
+    "chatQueueTitle": "\u9001\u4FE1\u5F85\u3061 ({count})",
+    "chatInProgressLabel": "\u751F\u6210\u4E2D:",
+    "chatEditRecallBtn": "\u7DE8\u96C6 / \u30AD\u30E3\u30F3\u30BB\u30EB",
+    "chatRevertBtn": "\u3053\u3053\u307E\u3067\u623B\u3059",
+    "chatRevertTitle": "\u3053\u306E\u30E1\u30C3\u30BB\u30FC\u30B8\u307E\u3067\u623B\u3057\u3066\u7DE8\u96C6\u3059\u308B",
+    "chatSendNowBtn": "\u4ECA\u3059\u3050\u9001\u4FE1",
+    "chatRemoveQueueBtn": "\u30AD\u30E5\u30FC\u304B\u3089\u524A\u9664",
+    "describeAccessibleBtn": "\u{1F441}\uFE0F \u8996\u899A\u969C\u5BB3\u8005\u5411\u3051\u89E3\u8AAC",
+    "describeAccessibleTitle": "\u30DA\u30FC\u30B8\u3068\u753B\u50CF\u3092\u8996\u899A\u969C\u5BB3\u8005\u5411\u3051\u306B\u8A73\u3057\u304F\u89E3\u8AAC\u3057\u3001\u81EA\u52D5\u3067\u97F3\u58F0\u8AAD\u307F\u4E0A\u3052\u3092\u958B\u59CB\u3057\u307E\u3059",
+    "describeAccessibleQuestion": "\u{1F441}\uFE0F \u8996\u899A\u306B\u969C\u5BB3\u306E\u3042\u308B\u65B9\u5411\u3051\u306B\u3001\u3053\u306E\u30DA\u30FC\u30B8\u3068\u753B\u50CF\u306E\u5185\u5BB9\u3092\u97F3\u58F0\u89E3\u8AAC\u3068\u3057\u3066\u8A73\u3057\u304F\u8AAC\u660E\u3057\u3066\u304F\u3060\u3055\u3044\u3002",
+    "speechBarAriaLabel": "\u97F3\u58F0\u8AAD\u307F\u4E0A\u3052\u30B3\u30F3\u30C8\u30ED\u30FC\u30EB",
+    "speechRestartBtn": "\u23EE \u6700\u521D\u304B\u3089",
+    "speechRestartTitle": "\u6700\u521D\u304B\u3089\u8AAD\u307F\u4E0A\u3052\u3092\u518D\u958B",
+    "speechPauseBtn": "\u23F8 \u4E00\u6642\u505C\u6B62",
+    "speechResumeBtn": "\u25B6 \u518D\u958B",
+    "speechStopBtn": "\u23F9 \u505C\u6B62",
+    "speechSeekLabel": "\u30C6\u30AD\u30B9\u30C8\u5185\u306E\u8AAD\u307F\u4E0A\u3052\u4F4D\u7F6E\u3092\u79FB\u52D5"
   };
   var ja_default = ja;
 
@@ -3018,22 +3130,10 @@
     "chatTitle": "\u{1F4AC} \u89C6\u9891\u95EE\u7B54\u4E92\u52A8",
     "clearChatBtn": "\u{1F5D1}\uFE0F \u6E05\u7A7A\u5BF9\u8BDD",
     "suggestions": [
-      {
-        "label": "\u{1F4A1} \u6838\u5FC3\u8981\u70B9",
-        "question": "\u8FD9\u4E2A\u89C6\u9891\u6700\u6838\u5FC3\u7684\u5173\u952E\u7ED3\u8BBA\u662F\u4EC0\u4E48\uFF1F"
-      },
-      {
-        "label": "\u23F1\uFE0F \u65F6\u95F4\u7EBF\u5B9A\u4F4D",
-        "question": "\u89C6\u9891\u5728\u54EA\u4E2A\u65F6\u95F4\u70B9\u8C08\u5230\u4E86\u6838\u5FC3\u4E3B\u9898\uFF1F"
-      },
-      {
-        "label": "\u{1F4CA} \u5173\u952E\u6570\u636E\u4E0E\u6848\u4F8B",
-        "question": "\u4F5C\u8005\u63D0\u5230\u4E86\u54EA\u4E9B\u5177\u4F53\u6570\u636E\u3001\u6848\u4F8B\u6216\u8BBA\u636E\uFF1F"
-      },
-      {
-        "label": "\u{1F3AF} \u7ED3\u8BBA\u4E0E\u5EFA\u8BAE",
-        "question": "\u4F5C\u8005\u5728\u6700\u540E\u7ED9\u51FA\u4E86\u4EC0\u4E48\u603B\u7ED3\u6216\u5B9E\u7528\u5EFA\u8BAE\uFF1F"
-      }
+      { "label": "\u{1F4A1} \u6838\u5FC3\u8981\u70B9", "question": "\u8FD9\u4E2A\u89C6\u9891\u6700\u6838\u5FC3\u7684\u5173\u952E\u7ED3\u8BBA\u662F\u4EC0\u4E48\uFF1F" },
+      { "label": "\u23F1\uFE0F \u65F6\u95F4\u7EBF\u5B9A\u4F4D", "question": "\u89C6\u9891\u5728\u54EA\u4E2A\u65F6\u95F4\u70B9\u8C08\u5230\u4E86\u6838\u5FC3\u4E3B\u9898\uFF1F" },
+      { "label": "\u{1F4CA} \u5173\u952E\u6570\u636E\u4E0E\u6848\u4F8B", "question": "\u4F5C\u8005\u63D0\u5230\u4E86\u54EA\u4E9B\u5177\u4F53\u6570\u636E\u3001\u6848\u4F8B\u6216\u8BBA\u636E\uFF1F" },
+      { "label": "\u{1F3AF} \u7ED3\u8BBA\u4E0E\u5EFA\u8BAE", "question": "\u4F5C\u8005\u5728\u6700\u540E\u7ED9\u51FA\u4E86\u4EC0\u4E48\u603B\u7ED3\u6216\u5B9E\u7528\u5EFA\u8BAE\uFF1F" }
     ],
     "chatWelcome": "\u60A8\u597D\uFF01\u5173\u4E8E\u8FD9\u4E2A\u89C6\u9891\u7684\u4EFB\u4F55\u5185\u5BB9\uFF0C\u6B22\u8FCE\u968F\u65F6\u5411\u6211\u63D0\u95EE\u3002\u6211\u5C06\u5B8C\u5168\u6839\u636E\u89C6\u9891\u7684\u5B8C\u6574\u5B57\u5E55\u9010\u5B57\u7A3F\u4E3A\u60A8\u89E3\u7B54\u3002",
     "chatPlaceholder": "\u8F93\u5165\u95EE\u9898\u6216\u4F7F\u7528\u9EA6\u514B\u98CE\u8BED\u97F3\u8F93\u5165... (\u6309 Enter \u53D1\u9001)",
@@ -3060,14 +3160,24 @@
     "webTileForms": "\u8868\u5355\u4E0E\u8F93\u5165",
     "webTileDom": "DOM \u5B8C\u6574\u6027",
     "webTileSite": "\u5DF2\u5206\u6790\u7AD9\u70B9",
-    "webTileCrawl": "\u626B\u63CF\u8303\u56F4",
-    "webTileContacts": "\u76F4\u63A5\u8054\u7CFB\u65B9\u5F0F",
+    "webTileLegal": "\u6CD5\u5F8B\u4E0E\u5B98\u65B9\u9875\u9762",
+    "webTileContacts": "\u5B98\u65B9\u8054\u7CFB\u65B9\u5F0F",
     "webValHttp": "\u672A\u52A0\u5BC6 HTTP",
     "webValFormsWarn": "\u68C0\u6D4B\u5230\u654F\u611F\u8F93\u5165",
     "webValFormsOk": "\u672A\u68C0\u6D4B\u5230\u9677\u9631",
     "webValDomWarn": "\u53EF\u7591\u4FE1\u53F7",
     "webValDomOk": "DOM \u6B63\u5E38",
-    "webValNoneFound": "\u672A\u627E\u5230",
+    "webValNoneFound": "\u672A\u53D1\u73B0\u53EF\u89C1\u8054\u7CFB\u65B9\u5F0F",
+    "webTileStructure": "\u7F51\u7AD9\u7ED3\u6784",
+    "webPagesFound": "\u53D1\u73B0 {n} \u4E2A\u9875\u9762",
+    "webNoLegalPages": "\u672A\u68C0\u6D4B\u5230",
+    "webValStructComplete": "\u7ED3\u6784\u5B8C\u6574",
+    "webValStructPartial": "\u7ED3\u6784\u4E0D\u5B8C\u6574",
+    "webValStructMinimal": "\u5355\u4E00\u9875\u9762 / \u6781\u7B80",
+    "webBarLegal": "\u6CD5\u5F8B\u4E0E\u4FE1\u606F\u9875",
+    "webBarContacts": "\u8054\u7CFB\u6E20\u9053",
+    "webBarStructure": "\u5BFC\u822A\u4E0E\u7F51\u7AD9\u7ED3\u6784",
+    "webBarHomeInfo": "\u9996\u9875\u8EAB\u4EFD\u6E05\u6670\u5EA6",
     "attachUnsupported": "\u4E0D\u652F\u6301\u7684\u6587\u4EF6\u7C7B\u578B\u3002\u8BF7\u9644\u52A0\u56FE\u7247\u6216\u6587\u672C/\u4EE3\u7801\u6587\u4EF6\u3002",
     "micStopTitle": "\u505C\u6B62\u8BED\u97F3\u8F93\u5165",
     "sendBtn": "\u53D1\u9001 \u27A4",
@@ -3233,7 +3343,25 @@
     "webBusyBtn": "\u23F3 \u5206\u6790\u4E2D...",
     "webReasoningWait": "\u{1F4AD} \u6A21\u578B\u6B63\u5728\u63A8\u7406...",
     "webEmptyAiResponse": "AI \u6A21\u578B\u672A\u8FD4\u56DE\u4EFB\u4F55\u5206\u6790\u6587\u672C\uFF08\u7A7A\u54CD\u5E94\u6216\u63A8\u7406\u88AB\u622A\u65AD\uFF09\u3002\u8BF7\u5728\u8BBE\u7F6E\u4E2D\u68C0\u67E5\u6240\u9009\u6A21\u578B\u3001\u4E0A\u4E0B\u6587\u957F\u5EA6\u6216 Max Tokens\u3002",
-    "closeExtensionBtn": "\u5173\u95ED\u5E76\u505C\u7528 ClarifAI\uFF08\u53EF\u968F\u65F6\u5728\u6269\u5C55\u5F39\u7A97\u4E2D\u91CD\u65B0\u542F\u7528\uFF09"
+    "closeExtensionBtn": "\u5173\u95ED\u5E76\u505C\u7528 ClarifAI\uFF08\u53EF\u968F\u65F6\u5728\u6269\u5C55\u5F39\u7A97\u4E2D\u91CD\u65B0\u542F\u7528\uFF09",
+    "webCancelBtn": "\u23F9 \u53D6\u6D88",
+    "chatQueueTitle": "\u6392\u961F\u4E2D ({count})",
+    "chatInProgressLabel": "\u751F\u6210\u4E2D\uFF1A",
+    "chatEditRecallBtn": "\u4FEE\u6539 / \u53D6\u6D88",
+    "chatRevertBtn": "\u56DE\u9000\u81F3\u6B64",
+    "chatRevertTitle": "\u56DE\u9000\u5230\u6B64\u6D88\u606F\u5E76\u7F16\u8F91\u6587\u672C",
+    "chatSendNowBtn": "\u7ACB\u5373\u53D1\u9001",
+    "chatRemoveQueueBtn": "\u79FB\u51FA\u961F\u5217",
+    "describeAccessibleBtn": "\u{1F441}\uFE0F \u65E0\u969C\u788D\u9875\u9762\u63CF\u8FF0",
+    "describeAccessibleTitle": "\u4E3A\u89C6\u969C\u4EBA\u58EB\u8BE6\u7EC6\u63CF\u8FF0\u9875\u9762\u548C\u56FE\u7247\u5E76\u81EA\u52A8\u5F00\u59CB\u8BED\u97F3\u6717\u8BFB",
+    "describeAccessibleQuestion": "\u{1F441}\uFE0F \u8BF7\u4E3A\u89C6\u969C\u4EBA\u58EB\u8BE6\u7EC6\u63CF\u8FF0\u6B64\u9875\u9762\u53CA\u5176\u4E2D\u7684\u56FE\u7247\u5185\u5BB9\uFF08\u8BED\u97F3\u53E3\u8FF0\u5F62\u5F0F\uFF09\u3002",
+    "speechBarAriaLabel": "\u8BED\u97F3\u6717\u8BFB\u63A7\u5236",
+    "speechRestartBtn": "\u23EE \u4ECE\u5934\u5F00\u59CB",
+    "speechRestartTitle": "\u4ECE\u5934\u91CD\u65B0\u6717\u8BFB",
+    "speechPauseBtn": "\u23F8 \u6682\u505C",
+    "speechResumeBtn": "\u25B6 \u7EE7\u7EED",
+    "speechStopBtn": "\u23F9 \u505C\u6B62",
+    "speechSeekLabel": "\u5728\u6587\u672C\u4E2D\u79FB\u52A8\u6717\u8BFB\u4F4D\u7F6E"
   };
   var zh_default = zh;
 
@@ -3502,7 +3630,7 @@
         const el = document.getElementById(id);
         if (el) el.textContent = txt;
       });
-      const extVersion = typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v2.0.0";
+      const extVersion = typeof chrome !== "undefined" && chrome.runtime?.getManifest ? `v${chrome.runtime.getManifest().version}` : "v2.0.1";
       const versionEl = document.getElementById("brandVersion");
       if (versionEl) versionEl.textContent = `${extVersion} \u2022 ${t.privacyTagline}`;
       this.updateStatusPill(this.extensionEnabled);
